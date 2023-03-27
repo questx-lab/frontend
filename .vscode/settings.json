@@ -13,5 +13,9 @@
     "source.fixAll.stylelint": true,
     "source.organizeImports": false,
   },
-  "prettier.singleQuote": true
+  "prettier.singleQuote": true,
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "prettier.jsxSingleQuote": true,
+  "editor.formatOnSave": true
 }
