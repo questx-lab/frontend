@@ -1,7 +1,14 @@
-import {Description, LeaderBoardBox, FilterBox, Title, Wrap, WrapProjects, ProjectBox} from "@/styles/explore.style"
-import {Gap} from "@/styles/common.style"
-import DefaultBtnCpn from "@/components/buttons/default-btn.cpn";
-import {FullWidthBtn} from "@/components/buttons/custom-btn.cpn";
+import { FullWidthBtn } from '@/components/buttons/custom-btn.cpn';
+import { Gap } from '@/styles/common.style';
+import {
+  Description,
+  FilterBox,
+  LeaderBoardBox,
+  ProjectBox,
+  Title,
+  Wrap,
+  WrapProjects,
+} from '@/styles/explore.style';
 
 export default function ExploreMod() {
 
