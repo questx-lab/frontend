@@ -4,11 +4,14 @@
   "files.trimFinalNewlines": true,
   "files.autoSave": "afterDelay",
   "files.insertFinalNewline": true,
-  "editor.rulers": [100],
+  "editor.rulers": [
+    100
+  ],
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true,
     "source.organizeImports": false,
   },
+  "prettier.singleQuote": true
 }

@@ -1,4 +1,4 @@
 export enum RouterConst {
-  LOGIN = "/login",
-  HOME = "/",
+  LOGIN = '/login',
+  HOME = '/',
 }
