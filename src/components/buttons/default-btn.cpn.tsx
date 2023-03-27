@@ -1,4 +1,4 @@
-import {MouseEventHandler} from "react";
+import { MouseEventHandler } from 'react';
 
 export default function DefaultBtnCpn ({text,onClick}:{text:string,onClick:MouseEventHandler}){
   return (
@@ -7,4 +7,3 @@ export default function DefaultBtnCpn ({text,onClick}:{text:string,onClick:Mouse
     </button>
   )
 }
-

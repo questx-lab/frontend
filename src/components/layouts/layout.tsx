@@ -1,7 +1,7 @@
-import {ReactNode} from "react";
-import HeaderCpn from "@/components/headers/header";
-import {Main} from "@/styles/layout.style";
-import {SessionProvider} from "next-auth/react";
+import { ReactNode } from 'react';
+
+import HeaderCpn from '@/components/headers/header';
+import { Main } from '@/styles/layout.style';
 
 const LayoutCpn = ({children}: {
   children: ReactNode

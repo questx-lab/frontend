@@ -1,5 +1,6 @@
-import './globals.css'
-import {ReactNode} from "react";
+import './globals.css';
+
+import { ReactNode } from 'react';
 
 export const metadata = {
   title: 'Create Next App',

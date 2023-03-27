@@ -1,6 +1,6 @@
-import tw from "twin.macro";
-import styled from "styled-components";
-import Link from "next/link";
+import Link from 'next/link';
+import styled from 'styled-components';
+import tw from 'twin.macro';
 
 export const Wrap = tw.nav`
   w-screen

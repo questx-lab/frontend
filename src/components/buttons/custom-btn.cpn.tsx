@@ -1,4 +1,4 @@
-import {MouseEventHandler} from "react";
+import { MouseEventHandler } from 'react';
 
 export const FullWidthBtn = ({text,onClick}:{text:string,onClick:MouseEventHandler})=>{
   return (

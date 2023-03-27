@@ -1,9 +1,16 @@
-import {Wrap, LeftSession, RightSession, BoxLink, LinkText} from "@/styles/header.style";
-import Image from "next/image";
-import {StorageConst} from "@/constants/storage.const";
-import DefaultBtnCpn from "@/components/buttons/default-btn.cpn";
-import {RouterConst} from "@/constants/router.const";
-import {useRouter} from "next/navigation";
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
+import DefaultBtnCpn from '@/components/buttons/default-btn.cpn';
+import { RouterConst } from '@/constants/router.const';
+import { StorageConst } from '@/constants/storage.const';
+import {
+  BoxLink,
+  LeftSession,
+  LinkText,
+  RightSession,
+  Wrap,
+} from '@/styles/header.style';
 
 const HeaderCpn = () => {
   const router = useRouter()

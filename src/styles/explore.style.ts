@@ -1,4 +1,4 @@
-import tw from "twin.macro";
+import tw from 'twin.macro';
 
 export const Wrap = tw.div`
   flex

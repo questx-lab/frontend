@@ -1,22 +1,24 @@
 "use client"
 
+import React from 'react';
+
+import { signIn } from 'next-auth/react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
+import { RouterConst } from '@/constants/router.const';
+import { StorageConst } from '@/constants/storage.const';
 import {
   Box,
+  Description,
   LeftSession,
+  ListLogos,
   Main,
   RightSession,
+  SkipText,
   Title,
-  Description,
-  ListLogos,
   Wrap,
-  SkipText
-} from "@/styles/login.style";
-import Image from "next/image";
-import {StorageConst} from "@/constants/storage.const";
-import {RouterConst} from "@/constants/router.const";
-import {useRouter} from "next/navigation";
-import {signIn, useSession} from "next-auth/react";
-import React, {MouseEventHandler} from "react";
+} from '@/styles/login.style';
 
 const LoginPage = () => {
   const router = useRouter()
