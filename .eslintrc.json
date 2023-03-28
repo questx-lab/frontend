@@ -1,0 +1,28 @@
+{
+  "extends": "next/core-web-vitals",
+  "root": true,
+  "env": {
+    "node": true,
+    "jest": true,
+  },
+  "ignorePatterns": [
+    ".eslintrc.js"
+  ],
+  "rules": {
+    "@typescript-eslint/array-type": "error",
+    "@typescript-eslint/explicit-member-accessibility": [
+      "error",
+      {
+        "accessibility": "no-public"
+      }
+    ],
+    "@typescript-eslint/interface-name-prefix": "off",
+    "no-inferrable-types": [
+      0,
+      {
+        "ignoreParameters": true,
+        "ignoreProperties": true
+      }
+    ]
+  }
+}
