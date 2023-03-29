@@ -2,11 +2,16 @@ import tw from 'twin.macro'
 
 export const Wrap = tw.div`
   flex
-  flex-col
+  flex-row
   min-h-screen
-  mt-[60px]
-  px-[80px]
-  py-[30px]
+  pt-[80px]
+`
+
+export const Main = tw.div`
+  flex
+  flex-col
+  mx-[80px]
+  py-2
 `
 
 export const Title = tw.p`
@@ -21,19 +26,6 @@ export const Description = tw.p`
   font-light
 `
 
-export const LeaderBoardBox = tw.div`
-  px-3
-  py-2
-  bg-gray-100
-  rounded-md
-  text-lg
-  text-black
-  font-bold
-  border
-  border-dashed
-  border-2 border-gray-400
-`
-
 export const FilterBox = tw.div`
   px-3
   py-2
@@ -43,18 +35,17 @@ export const FilterBox = tw.div`
   font-bold
   border
   border-dashed
-  border-2
-  border-gray-400
+  border-2 border-gray-400
 `
 
-export const WrapProjects = tw.div`
+export const WrapQuestboard = tw.div`
   flex
   flex-wrap
   justify-between
   items-center
 `
 
-export const ProjectBox = tw.div`
+export const QuestboardBox = tw.div`
   border
   rounded-lg
   border-solid

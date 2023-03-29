@@ -1,6 +1,6 @@
-import tw from "twin.macro";
-import styled from "styled-components";
-import Link from "next/link";
+import Link from 'next/link'
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
 export const Wrap = tw.nav`
   w-screen
@@ -8,7 +8,7 @@ export const Wrap = tw.nav`
   flex-row
   justify-between
   items-center
-  h-[60px]
+  h-[70px]
   px-[15px]
   shadow
   shadow-md
@@ -31,7 +31,6 @@ export const BoxLink = tw.div`
   w-full
   flex
   flex-row
-  space-x-16
   justify-center
   items-center
 `
@@ -39,11 +38,30 @@ export const BoxLink = tw.div`
 export const LinkText = styled(Link)(
   tw`
   text-black
-  text-lg
+  text-xl
   font-light
   cursor-pointer
+  flex
+  flex-col
+  justify-center
+  items-center
+  h-full
   `
 )
+
+export const TitleText = tw.div`
+  h-full
+  w-full
+  flex
+  justify-center
+  items-center
+`
+
+export const Underline = tw.div`
+  h-[4px]
+  bg-black
+  w-full
+`
 
 // ============= RIGHT SESSION =============
 
@@ -53,4 +71,21 @@ export const RightSession = tw.div`
   flex-row
   items-center
   justify-end
+`
+
+// ============= USER INFORMATION =============
+export const UserSession = tw.div`
+  flex
+  flex-row
+  justify-start
+  px-[20px]
+  cursor-pointer
+`
+
+export const UserInfo = tw.div`
+  flex
+  flex-col
+  justify-center
+  items-start
+  ml-4
 `
