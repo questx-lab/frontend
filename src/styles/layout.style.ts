@@ -5,4 +5,3 @@ export const Main = tw.main`
   flex
   flex-col
 `
-

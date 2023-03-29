@@ -7,4 +7,3 @@ export default function DefaultBtnCpn ({text,onClick}:{text:string,onClick:Mouse
     </button>
   )
 }
-

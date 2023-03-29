@@ -28,3 +28,4 @@ export const StorageConst = {
     alt: 'Avatar',
   },
 }
+
