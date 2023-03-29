@@ -2,7 +2,6 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "files.trimFinalNewlines": true,
-  "files.autoSave": "afterDelay",
   "files.insertFinalNewline": true,
   "editor.rulers": [
     100
@@ -13,12 +12,7 @@
     "source.fixAll.stylelint": true,
     "source.organizeImports": false,
   },
-  "prettier.singleQuote": true,
-  "javascript.preferences.quoteStyle": "single",
-  "typescript.preferences.quoteStyle": "single",
-  "prettier.jsxSingleQuote": true,
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

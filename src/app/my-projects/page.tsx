@@ -1,15 +1,14 @@
 'use client'
 
 import LayoutCpn from '@/components/layouts/layout'
-import ExploreMod from '@/modules/explores/explore.module'
 
-export default function Home() {
+export default function MyProjects() {
   return (
     <LayoutCpn>
       <header>
-        <title>{'Explore'}</title>
+        <title>{'My Projects'}</title>
       </header>
-      <ExploreMod />
+      <div>My project</div>
     </LayoutCpn>
   )
 }
