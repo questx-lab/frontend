@@ -3,7 +3,6 @@
 import React from 'react'
 
 import { signIn } from 'next-auth/react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
@@ -14,6 +13,7 @@ import { handleMetamask } from '@/handler/auth/metamask'
 import {
   Box,
   Description,
+  ImageBox,
   LeftSession,
   ListLogos,
   Main,
@@ -63,32 +63,28 @@ const LoginPage = () => {
             <Description>{'Lscelerisque sed ultricies at'}</Description>
             <Description>{'egestas quis dolor'}</Description>
             <ListLogos>
-              <Image
-                className={'cursor-pointer'}
+              <ImageBox
                 onClick={handleLoginGoogle}
                 width={50}
                 height={50}
                 src={StorageConst.GOOGLE_DIR.src}
                 alt={StorageConst.GOOGLE_DIR.alt}
               />
-              <Image
-                className={'cursor-pointer'}
+              <ImageBox
                 onClick={handleSignInTwitter}
                 width={50}
                 height={50}
                 src={StorageConst.TWITTER_DIR.src}
                 alt={StorageConst.TWITTER_DIR.alt}
               />
-              <Image
-                className={'cursor-pointer'}
+              <ImageBox
                 onClick={handleSignInDiscord}
                 width={50}
                 height={50}
                 src={StorageConst.DISCORD_DIR.src}
                 alt={StorageConst.DISCORD_DIR.alt}
               />
-              <Image
-                className={'cursor-pointer'}
+              <ImageBox
                 onClick={handleMetamask}
                 width={50}
                 height={50}

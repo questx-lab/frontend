@@ -10,13 +10,17 @@ import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { useStoreActions, useStoreState } from '@/store/store'
 import {
+  AvatarBox,
   BoxLink,
+  DesNameTxt,
+  ImageLogoBox,
   LeftSession,
   LinkText,
   RightSession,
   TitleText,
   Underline,
   UserInfo,
+  UserNameTxt,
   UserSession,
   Wrap,
 } from '@/styles/header.style'
@@ -60,28 +64,26 @@ const HeaderCpn = () => {
   return (
     <Wrap>
       <LeftSession>
-        <Image
-          className={'absolute h-full'}
+        <ImageLogoBox
           width={150}
           height={100}
           src={StorageConst.APP_LOGO_DIR.src}
           alt={StorageConst.APP_LOGO_DIR.alt}
         />
         <BoxLink>
-          <LinkText href={RouterConst.HOME} className='w-[120px]'>
+          <LinkText href={RouterConst.HOME}>
             <TitleText className={`${!navActive ? 'font-bold' : ''}`}>
               {'Explore'}
             </TitleText>
             {!navActive && <Underline />}
           </LinkText>
-          <LinkText href={RouterConst.QUESTBOARD} className='w-[150px]'>
+          <LinkText href={RouterConst.QUESTBOARD}>
             <TitleText className={`${navActive === 1 ? 'font-bold' : ''}`}>
-              {' '}
               {'Questboard'}
             </TitleText>
             {navActive === 1 && <Underline />}
           </LinkText>
-          <LinkText href={RouterConst.MY_PROJECTS} className='w-[120px]'>
+          <LinkText href={RouterConst.MY_PROJECTS}>
             <TitleText className={`${navActive === 2 ? 'font-bold' : ''}`}>
               {'My Projects'}
             </TitleText>
@@ -98,20 +100,15 @@ const HeaderCpn = () => {
               src={StorageConst.NOTIFICATION_ICON.src}
               alt={StorageConst.NOTIFICATION_ICON.alt}
             />
-            <Image
-              className='ml-4'
+            <AvatarBox
               width={40}
               height={40}
               src={StorageConst.AVATAR_DEFAUL.src}
               alt={StorageConst.AVATAR_DEFAUL.alt}
             />
             <UserInfo onClick={handleLogout}>
-              <p className='text-sm italic font-normal text-black'>
-                {'Explorer'}
-              </p>
-              <p className='text-sm font-bold text-black'>
-                {'Billy Pham'.toUpperCase()}
-              </p>
+              <DesNameTxt>{'Explorer'}</DesNameTxt>
+              <UserNameTxt>{'Billy Pham'.toUpperCase()}</UserNameTxt>
             </UserInfo>
           </UserSession>
         ) : (
