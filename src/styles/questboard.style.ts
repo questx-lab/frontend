@@ -61,6 +61,7 @@ export const QuestboardBox = tw.div`
 export const ImageQuestBox = tw.div`
   h-1/2 
   bg-gray-200
+  rounded-t-lg
 `
 
 export const ContentQuestBox = tw.div`
