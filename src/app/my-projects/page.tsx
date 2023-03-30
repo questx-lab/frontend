@@ -1,6 +1,7 @@
 'use client'
 
 import LayoutCpn from '@/components/layouts/layout'
+import MyProjectsMod from '@/modules/my-projects'
 
 export default function MyProjects() {
   return (
@@ -8,7 +9,7 @@ export default function MyProjects() {
       <header>
         <title>{'My Projects'}</title>
       </header>
-      <div>My project</div>
+      <MyProjectsMod />
     </LayoutCpn>
   )
 }

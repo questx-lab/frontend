@@ -38,7 +38,7 @@ export const BoxLink = tw.div`
 
 export const LinkText = styled(Link)(
   tw`
-  w-[120px]
+  w-[150px]
   text-black
   text-xl
   font-light

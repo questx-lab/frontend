@@ -70,6 +70,7 @@ export const ProjectBox = tw.div`
 export const ImageProjectBox = tw.div`
   h-1/2 
   bg-gray-200
+  rounded-t-lg
 `
 
 export const ContentProjectBox = tw.div`

@@ -27,5 +27,8 @@ export const StorageConst = {
     src: '/images/logos/avatar.svg',
     alt: 'Avatar',
   },
+  ADD_ICON: {
+    src: '/images/icons/add.svg',
+    alt: 'Add icon',
+  },
 }
-
