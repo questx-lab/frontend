@@ -33,7 +33,7 @@ export const TabSide = tw.div`
   justify-start
 `
 
-export const TabElement = styled.div<TabActive>(({ isActive }) =>
+export const Tab = styled.div<TabActive>(({ isActive }) =>
   isActive
     ? tw`
         h-full
@@ -55,7 +55,7 @@ export const TabElement = styled.div<TabActive>(({ isActive }) =>
       `
 )
 
-export const TextTabElement = styled.p<TabActive>(({ isActive }) =>
+export const Text = styled.p<TabActive>(({ isActive }) =>
   isActive ? tw`font-bold` : tw`font-light`
 )
 

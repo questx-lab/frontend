@@ -2,16 +2,11 @@
 
 import { useState } from 'react'
 
-import {
-  TabElement,
-  TabSide,
-  TextTabElement,
-  Wrap,
-} from '@/styles/myProjects.style'
+import { Tab, TabSide, Text, Wrap } from '@/styles/myProjects.style'
 
 import CreatedProjectModule from './createdProject'
 
-export default function MyProjectsModule() {
+export default function MyProjectsMod() {
   const [tabActive, setTabActive] = useState<number>(0)
 
   const onChanageTab = (tabNum: number) => {
@@ -23,16 +18,12 @@ export default function MyProjectsModule() {
   return (
     <Wrap>
       <TabSide>
-        <TabElement isActive={!tabActive} onClick={() => onChanageTab(0)}>
-          <TextTabElement isActive={!tabActive}>
-            {'Following Projects'}
-          </TextTabElement>
-        </TabElement>
-        <TabElement isActive={tabActive === 1} onClick={() => onChanageTab(1)}>
-          <TextTabElement isActive={tabActive === 1}>
-            {'Created Projects'}
-          </TextTabElement>
-        </TabElement>
+        <Tab isActive={!tabActive} onClick={() => onChanageTab(0)}>
+          <Text isActive={!tabActive}>{'Following Projects'}</Text>
+        </Tab>
+        <Tab isActive={tabActive === 1} onClick={() => onChanageTab(1)}>
+          <Text isActive={tabActive === 1}>{'Created Projects'}</Text>
+        </Tab>
       </TabSide>
       {tabActive === 1 && <CreatedProjectModule />}
     </Wrap>
