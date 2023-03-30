@@ -2,6 +2,7 @@ import { toast } from 'react-hot-toast'
 import Web3 from 'web3'
 import { provider } from 'web3-core'
 
+import { loginMetamask, verifyMetaMask } from '@/app/api/client/wallet'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { MetaMaskInpageProvider } from '@metamask/providers'
 
@@ -16,7 +17,6 @@ export const handleMetamask = async () => {
         await connectWallet(ethereum)
       } else {
         if ((accounts as string[]).length) {
-          console.log('alo xin')
           await connectToServer((accounts as string[])[0], ethereum)
           toast(accounts as string, {
             icon: '👏',
@@ -37,17 +37,13 @@ const connectToServer = async (
   ethereum: MetaMaskInpageProvider
 ) => {
   try {
-    // const data = await loginMetamask(account)
-    // console.log(data)
+    const data = await loginMetamask(account)
+
     const w3 = new Web3(ethereum as provider)
-    const signature = await w3.eth.personal.sign(
-      'i2yfgXP9jYUGtYy1tJl7a32v1hhBqzvXnfnMN7H6aWM=',
-      account,
-      ''
-    )
-    console.log(signature)
+    const signature = await w3.eth.personal.sign(data.data.nonce, account, '')
+
+    await verifyMetaMask(signature)
   } catch (error) {
-    console.log(error)
     toast.error('Error when login to server')
   }
 }
@@ -57,7 +53,7 @@ const connectWallet = async (ethereum: MetaMaskInpageProvider) => {
     const accounts = await ethereum.request({
       method: 'eth_requestAccounts',
     })
-    console.log('connectWallet', accounts)
+    await connectToServer((accounts as string[])[0], ethereum)
   } catch (err) {}
 }
 
