@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -37,6 +38,7 @@ export const BoxLink = tw.div`
 
 export const LinkText = styled(Link)(
   tw`
+  w-[120px]
   text-black
   text-xl
   font-light
@@ -89,3 +91,24 @@ export const UserInfo = tw.div`
   items-start
   ml-4
 `
+
+export const ImageLogoBox = styled(Image)(tw`absolute h-full`)
+
+export const AvatarBox = styled(Image)(tw`ml-4`)
+
+export const DesNameTxt = styled.p(
+  tw`
+    text-sm 
+    italic 
+    font-normal 
+    text-black
+  `
+)
+
+export const UserNameTxt = styled.p(
+  tw`
+    text-sm 
+    font-bold 
+    text-black
+  `
+)

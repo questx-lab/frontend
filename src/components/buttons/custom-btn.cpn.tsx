@@ -1,9 +1,13 @@
-import {MouseEventHandler} from "react";
+import { MouseEventHandler } from 'react'
 
-export const FullWidthBtn = ({text,onClick}:{text:string,onClick:MouseEventHandler})=>{
-  return (
-    <button onClick={onClick} className="w-full bg-primary hover:bg-blue-700 text-sm text-white font-medium py-2 px-4 rounded-lg">
-      {text}
-    </button>
-  )
+import { FullWidthBtnBox } from '@/styles/button.style'
+
+export const FullWidthBtn = ({
+  text,
+  onClick,
+}: {
+  text: string
+  onClick: MouseEventHandler
+}) => {
+  return <FullWidthBtnBox onClick={onClick}>{text}</FullWidthBtnBox>
 }

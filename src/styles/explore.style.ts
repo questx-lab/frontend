@@ -66,3 +66,36 @@ export const ProjectBox = tw.div`
   flex-col
   mt-[16px]
 `
+
+export const ImageProjectBox = tw.div`
+  h-1/2 
+  bg-gray-200
+`
+
+export const ContentProjectBox = tw.div`
+  p-5 
+  flex 
+  flex-col 
+  justify-between 
+  h-1/2
+`
+
+export const TitleProjectBox = tw.p`
+  text-black 
+  font-bold 
+  text-2xl
+`
+
+export const SkeletonFirst = tw.div`
+  h-[10px] 
+  w-1/2 
+  rounded-full 
+  bg-gray-200
+`
+
+export const SkeletonSecond = tw.div`
+  h-[10px] 
+  w-full 
+  rounded-full 
+  bg-gray-200
+`

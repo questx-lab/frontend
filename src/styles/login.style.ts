@@ -1,6 +1,7 @@
-import tw from 'twin.macro';
-import styled from "styled-components";
-import Link from "next/link";
+import Image from 'next/image'
+import Link from 'next/link'
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
 export const Main = tw.main`
   bg-white
@@ -53,6 +54,8 @@ export const Description = tw.p`
   font-light
   leading-[28px]
 `
+
+export const ImageBox = styled(Image)(tw`cursor-pointer`)
 
 export const ListLogos = tw.div`
   flex
