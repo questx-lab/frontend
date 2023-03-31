@@ -3,10 +3,14 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+type NavBarType = {
+  isActive: boolean
+}
+
 export const Wrap = tw.nav`
-  w-screen
-  flex
-  flex-row
+  w-full
+  xl:flex
+  xl:flex-row
   justify-between
   items-center
   h-[70px]
@@ -15,6 +19,7 @@ export const Wrap = tw.nav`
   shadow-md
   fixed
   bg-white
+  max-sm:h-[65px]
 `
 
 // ============= LEFT SESSION =============
@@ -24,6 +29,8 @@ export const LeftSession = tw.div`
   w-1/2
   relative
   object-center
+  max-xl:w-[calc(100%_-_45px)]
+  max-xl:absolute
 `
 
 export const BoxLink = tw.div`
@@ -34,6 +41,7 @@ export const BoxLink = tw.div`
   flex-row
   justify-center
   items-center
+  max-sm:hidden
 `
 
 export const LinkText = styled(Link)(
@@ -73,6 +81,11 @@ export const RightSession = tw.div`
   flex-row
   items-center
   justify-end
+  max-xl:absolute
+  max-xl:w-1/4
+  max-xl:right-0
+  max-xl:pr-3
+  max-xl:h-[70px]
 `
 
 // ============= USER INFORMATION =============
@@ -82,6 +95,7 @@ export const UserSession = tw.div`
   justify-start
   px-[20px]
   cursor-pointer
+  sm:hidden
 `
 
 export const UserInfo = tw.div`
@@ -92,7 +106,13 @@ export const UserInfo = tw.div`
   ml-4
 `
 
-export const ImageLogoBox = styled(Image)(tw`absolute h-full`)
+export const ImageLogoBox = styled(Image)(tw`
+  cursor-pointer
+  absolute
+  h-full
+  max-sm:w-[100px]
+  max-2xl:w-[120px]
+`)
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
 
@@ -112,3 +132,55 @@ export const UserNameTxt = styled.p(
     text-black
   `
 )
+
+export const NavBar = styled.div<NavBarType>(({ isActive = false }) => [
+  isActive
+    ? tw`
+    sm:hidden
+    bg-black
+    h-full
+    w-full
+    fixed
+    bg-[rgba(0, 0, 0, 0.8)]
+    backdrop-blur-sm
+    mt-[60px]
+  `
+    : tw`
+      h-0
+      w-0
+    `,
+])
+
+export const NavWrap = tw.div`
+  flex
+  flex-col
+  justify-start
+  w-full
+  h-full
+  p-4
+`
+export const NavLink = tw.div`
+  w-full
+  cursor-pointer
+  flex
+  flex-col
+  justify-center
+  items-center
+  py-3
+`
+
+export const NavTitle = tw.div`
+  flex
+  justify-center
+  items-center
+  text-xl
+  font-bold
+  text-white
+`
+
+export const NavUnderline = tw.div`
+  h-[1px]
+  bg-white
+  mt-1
+  w-[120px]
+`

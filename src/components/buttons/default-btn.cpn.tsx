@@ -1,13 +1,13 @@
 import { MouseEventHandler } from 'react'
 
-import { DefaultBtnBox } from '@/styles/button.style'
+import { LoginHeaderBtn } from '@/styles/button.style'
 
-export default function DefaultBtnCpn({
+export default function LoginBtn({
   text,
   onClick,
 }: {
   text: string
   onClick: MouseEventHandler
 }) {
-  return <DefaultBtnBox onClick={onClick}>{text}</DefaultBtnBox>
+  return <LoginHeaderBtn onClick={onClick}>{text}</LoginHeaderBtn>
 }

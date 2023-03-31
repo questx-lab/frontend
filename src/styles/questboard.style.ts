@@ -11,6 +11,8 @@ export const Main = tw.div`
   flex
   flex-col
   mx-[80px]
+  max-lg:mr-[15px]
+  max-xl:mr-[40px]
   py-2
 `
 
@@ -18,6 +20,7 @@ export const Title = tw.p`
   text-3xl
   text-black
   font-bold
+  max-sm:text-2xl
 `
 
 export const Description = tw.p`
@@ -52,10 +55,14 @@ export const QuestboardBox = tw.div`
   border-gray-300
   border-2
   h-[400px]
+  max-lg:h-[300px]
   w-[calc(33%_-_8px)]
   flex
   flex-col
   mt-[16px]
+  max-sm:w-full
+  max-xl:w-[calc(50%_-_8px)]
+  max-xl:mt-[16px]
 `
 
 export const ImageQuestBox = tw.div`
@@ -76,6 +83,7 @@ export const TitleQuestBox = tw.p`
   text-black 
   font-bold 
   text-2xl
+  max-lg:text-xl
 `
 
 export const SkeletonFirst = tw.div`

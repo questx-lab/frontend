@@ -21,6 +21,7 @@ export const Wrap = tw.div`
   px-[80px]
   pt-[80px]
   pb-[30px]
+  max-lg:px-[20px]
 `
 
 export const TabSide = tw.div`
@@ -71,6 +72,7 @@ export const TitleCreatedProject = tw.p`
   text-3xl
   text-black
   font-bold
+  max-sm:text-2xl
 `
 
 export const DescriptionCreatedProject = tw.p`
@@ -101,6 +103,9 @@ export const CreatedProjectBox = styled.div<CreatedProjectBoxType>(
         flex
         flex-col
         mt-[48px]
+        max-sm:w-full
+        max-xl:w-[calc(50%_-_8px)]
+        max-xl:mt-[16px]
       `
       : tw`
         border
@@ -113,6 +118,9 @@ export const CreatedProjectBox = styled.div<CreatedProjectBoxType>(
         flex
         flex-col
         mt-[48px]
+        max-sm:w-full
+        max-xl:w-[calc(50%_-_8px)]
+        max-xl:mt-[16px]
       `,
     isCenter ? tw`justify-center items-center` : tw``,
   ]
@@ -153,6 +161,7 @@ export const TitleCreatedProjectBox = tw.p`
   text-black 
   font-bold 
   text-2xl
+  max-lg:text-xl
 `
 
 export const SkeletonFirst = tw.div`
@@ -174,12 +183,14 @@ export const FormBox = styled.form(tw`
   w-full
   flex
   flex-row
+  max-sm:flex-col
 `)
 
 export const DivBox = styled.div(tw`
   w-full
   flex
   flex-row
+  max-sm:flex-col
 `)
 
 export const ElementBox = styled.div<DirectType>(({ position = 0 }) => [
@@ -190,6 +201,7 @@ export const ElementBox = styled.div<DirectType>(({ position = 0 }) => [
   flex-col
   justify-start
   items-end
+  max-sm:items-start
   `
     : tw`
   w-full
@@ -206,6 +218,8 @@ export const WrapElementBox = tw.div`
   flex-col
   justify-center
   items-start
+  max-sm:items-start
+  max-sm:w-full
 `
 
 export const LabelInput = tw.label`

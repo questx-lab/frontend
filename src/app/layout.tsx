@@ -5,13 +5,11 @@ import { ReactNode } from 'react'
 
 import { StoreProvider } from 'easy-peasy'
 import { Toaster } from 'react-hot-toast'
-import { ServerStyleSheet } from 'styled-components'
 
 import StyledComponentsRegistry from '@/components/styled-components'
 import store from '@/store/store'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  const sheet = new ServerStyleSheet()
   return (
     <html lang='en'>
       <body>
