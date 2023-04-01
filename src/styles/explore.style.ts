@@ -7,12 +7,15 @@ export const Wrap = tw.div`
   mt-[60px]
   px-[80px]
   py-[30px]
+  max-lg:px-[20px]
+  max-xl:px-[40px]
 `
 
 export const Title = tw.p`
   text-3xl
   text-black
   font-bold
+  max-sm:text-2xl
 `
 
 export const Description = tw.p`
@@ -65,6 +68,9 @@ export const ProjectBox = tw.div`
   flex
   flex-col
   mt-[16px]
+  max-sm:w-full
+  max-xl:w-[calc(50%_-_8px)]
+  max-xl:mt-[16px]
 `
 
 export const ImageProjectBox = tw.div`
@@ -85,6 +91,7 @@ export const TitleProjectBox = tw.p`
   text-black 
   font-bold 
   text-2xl
+  max-lg:text-xl
 `
 
 export const SkeletonFirst = tw.div`

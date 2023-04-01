@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -24,7 +25,7 @@ export const FullWidthBtnBox = styled.button(tw`
   rounded-lg
 `)
 
-export const DefaultBtnBox = styled.button(tw`
+export const LoginHeaderBtn = styled.button(tw`
   bg-primary 
   hover:bg-gray-400 
   text-sm 
@@ -33,6 +34,7 @@ export const DefaultBtnBox = styled.button(tw`
   py-2 
   px-4 
   rounded-lg
+  max-sm:hidden
 `)
 
 export const ConnectTwitterBtn = styled.button(tw`
@@ -50,6 +52,7 @@ export const ConnectTwitterBtn = styled.button(tw`
   shadow-inner
   shadow-lg
   w-full
+  max-xl:text-sm
 `)
 
 export const CreateProjectBtn = styled.button<CreateProjectType>(
@@ -86,3 +89,12 @@ export const CreateProjectBtn = styled.button<CreateProjectType>(
         `,
   ]
 )
+
+export const MenuBtn = styled.button(tw`
+  sm:hidden
+  max-sm:mr-2
+`)
+
+export const MenuIcon = styled(Image)(tw`
+
+`)

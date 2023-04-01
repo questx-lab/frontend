@@ -89,6 +89,7 @@ export default function NewProjectModule() {
                   <ConnectTwitterBtn onClick={() => {}}>
                     {'connect with twitter'.toUpperCase()}
                   </ConnectTwitterBtn>
+                  <Gap height={8} width={0} />
                 </WrapElementBox>
               </ElementBox>
               <ElementBox position={1}>

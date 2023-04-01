@@ -13,11 +13,13 @@ export const Main = tw.main`
 export const LeftSession = tw.div`
   bg-gray-200
   w-1/2
+  max-lg:hidden
 `
 
 export const RightSession = tw.div`
   bg-white
   w-1/2
+  max-lg:w-full
   text-center
   relative
   object-center
@@ -44,7 +46,8 @@ export const Title = tw.p`
   text-5xl
   text-black
   font-bold
-  mb-[40px]
+  pb-[40px]
+  max-sm:text-2xl
 `
 
 export const Description = tw.p`
@@ -53,17 +56,22 @@ export const Description = tw.p`
   text-center
   font-light
   leading-[28px]
+  max-sm:text-sm
 `
 
-export const ImageBox = styled(Image)(tw`cursor-pointer`)
+export const ImageBox = styled(Image)(tw`
+  cursor-pointer
+  max-sm:w-[30px]
+`)
 
 export const ListLogos = tw.div`
   flex
   flex-row
   justify-center
   space-x-12
+  max-sm:space-x-6
   items-center
-  mt-[50px]
+  pt-[50px]
   w-full
   px-[40px]
 `
@@ -82,5 +90,6 @@ export const SkipText = styled(Link)(
   justify-center
   items-center
   cursor-pointer
+  max-sm:text-lg
 `
 )
