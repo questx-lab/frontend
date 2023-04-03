@@ -20,7 +20,7 @@ export default function Home() {
     if (!isLogin) {
       router.push(RouterConst.EXPLORE)
     }
-  }, [isLogin])
+  }, [isLogin, router])
 
   return (
     <LayoutCpn>

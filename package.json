@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
-    "babel-plugin-twin": "^1.1.0"
+    "babel-plugin-twin": "^1.1.0",
+    "encoding": "^0.1.13"
   }
 }
