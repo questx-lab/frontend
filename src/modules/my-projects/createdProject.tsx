@@ -26,6 +26,7 @@ export default function CreatedProjectModule() {
   const AddNewBox = () => {
     return (
       <CreatedProjectBox
+        key={0}
         isCenter
         isDash
         onClick={() => router.push(RouterConst.CREATE_PROJECTS)}
@@ -49,7 +50,7 @@ export default function CreatedProjectModule() {
 
   const listProject = [
     ...[AddNewBox()],
-    ...[0, 1, 2, 3, 4, 5, 6, 7, 8].map((e) => (
+    ...[1, 2, 3, 4, 5, 6, 7, 8, 9].map((e) => (
       <CreatedProjectBox isCenter={false} isDash={false} key={e}>
         <ImageCreatedProjectBox />
         <ContentCreatedProjectBox>

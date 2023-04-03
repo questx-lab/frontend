@@ -1,25 +1,25 @@
 import { ReactNode } from 'react'
 
+import Head from 'next/head'
 import { Toaster } from 'react-hot-toast'
 
-import HeaderCpn from '@/components/headers/header'
 import { useStoreState } from '@/store/store'
-import { Html, Main } from '@/styles/layout.style'
+import { Html } from '@/styles/layout.style'
 
-const LayoutCpn = ({ children }: { children: ReactNode }) => {
+const LayoutDefaultCpn = ({ children }: { children: ReactNode }) => {
   const isNavBar = useStoreState((state) => state.navBar.isOpen)
 
   return (
     <Html lang='en' isOpen={isNavBar}>
       <body>
-        <Main>
-          {children}
-          <HeaderCpn />
-        </Main>
+        <Head>
+          <meta name='viewport' content='viewport-fit=cover' />
+        </Head>
+        {children}
         <Toaster position='top-center' reverseOrder={false} />
       </body>
     </Html>
   )
 }
 
-export default LayoutCpn
+export default LayoutDefaultCpn

@@ -3,7 +3,6 @@ import tw from 'twin.macro'
 export const Wrap = tw.div`
   flex
   flex-col
-  min-h-screen
   mt-[60px]
   px-[80px]
   py-[30px]

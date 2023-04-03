@@ -1,14 +1,11 @@
-import axios, { AxiosError } from 'axios';
-import { GetServerSidePropsContext } from 'next';
+import axios, { AxiosError } from 'axios'
+import { GetServerSidePropsContext } from 'next'
 
-import { RouterConst } from '@/constants/router.const';
-import {
-  delCookies,
-  getAccessToken,
-} from '@/utils/helper';
+import { RouterConst } from '@/constants/router.const'
+import { delCookies, getAccessToken } from '@/utils/helper'
 
 const isServer = () => {
-  return typeof window === "undefined"
+  return typeof window === 'undefined'
 }
 
 let context = <GetServerSidePropsContext>{}
@@ -17,10 +14,11 @@ const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL!
 export const api = axios.create({
   baseURL,
   headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    Origin: '*',
   },
-  withCredentials: false, // to send cookie
+  withCredentials: true, // to send cookie
 })
 
 api.interceptors.request.use((config) => {

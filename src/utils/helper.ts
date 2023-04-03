@@ -1,10 +1,6 @@
-import {
-  deleteCookie,
-  getCookie,
-  hasCookie,
-} from 'cookies-next';
+import { deleteCookie, getCookie, hasCookie, setCookie } from 'cookies-next'
 
-import { KeysEnum } from '@/constants/key.const';
+import { KeysEnum } from '@/constants/key.const'
 
 export const getAccessToken = (): string => {
   const exist = hasCookie(KeysEnum.QUESTX_TOKEN)
@@ -12,10 +8,14 @@ export const getAccessToken = (): string => {
     const rs = getCookie(KeysEnum.QUESTX_TOKEN)
     return rs!.toString()
   }
-  return ""
+  return ''
 }
 
 export const delCookies = () => {
   deleteCookie(KeysEnum.AUTH_SESSION)
   deleteCookie(KeysEnum.QUESTX_TOKEN)
+}
+
+export const setAccessToken = (cookie: string) => {
+  setCookie(KeysEnum.QUESTX_TOKEN, cookie)
 }
