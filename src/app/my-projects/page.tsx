@@ -1,15 +1,35 @@
 'use client'
 
-import LayoutCpn from '@/components/layouts/layout'
-import MyProjectsMod from '@/modules/my-projects'
+import { useState } from 'react'
+
+import Layout from '@/components/layouts/layout'
+import CreatedProject from '@/modules/my-projects/createdProject'
+import { Tab, TabSide, Text, Wrap } from '@/styles/myProjects.style'
 
 export default function MyProjects() {
+  const [tabActive, setTabActive] = useState<number>(0)
+
+  const onChanageTab = (tabNum: number) => {
+    if (tabActive !== tabNum) {
+      setTabActive(tabNum)
+    }
+  }
   return (
-    <LayoutCpn>
+    <Layout>
       <header>
         <title>{'My Projects'}</title>
       </header>
-      <MyProjectsMod />
-    </LayoutCpn>
+      <Wrap>
+        <TabSide>
+          <Tab isActive={!tabActive} onClick={() => onChanageTab(0)}>
+            <Text isActive={!tabActive}>{'Following Projects'}</Text>
+          </Tab>
+          <Tab isActive={tabActive === 1} onClick={() => onChanageTab(1)}>
+            <Text isActive={tabActive === 1}>{'Created Projects'}</Text>
+          </Tab>
+        </TabSide>
+        {tabActive === 1 && <CreatedProject />}
+      </Wrap>
+    </Layout>
   )
 }

@@ -95,7 +95,7 @@ export const UserSession = tw.div`
   justify-start
   px-[20px]
   cursor-pointer
-  sm:hidden
+  max-sm:hidden
 `
 
 export const UserInfo = tw.div`
@@ -141,7 +141,8 @@ export const NavBar = styled.div<NavBarType>(({ isActive = false }) => [
     h-full
     w-full
     fixed
-    bg-[rgba(0, 0, 0, 0.8)]
+    bg-black 
+    bg-opacity-80 
     backdrop-blur-sm
     mt-[60px]
   `

@@ -1,15 +1,34 @@
 'use client'
 
-import LayoutCpn from '@/components/layouts/layout'
-import ExploreMod from '@/modules/explores/explore.module'
+import { useEffect, useState } from 'react'
+
+import { useRouter } from 'next/navigation'
+
+import Layout from '@/components/layouts/layout'
+import { Spinner } from '@/components/spinner/spinner'
+import { RouterConst } from '@/constants/router.const'
+import HomeModule from '@/modules/home'
+import { useStoreState } from '@/store/store'
 
 export default function Home() {
+  const router = useRouter()
+  const isLogin = useStoreState((state) => state.userSession.isLogin)
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    setLoading(isLogin)
+    if (!isLogin) {
+      router.push(RouterConst.EXPLORE)
+    }
+  }, [isLogin, router])
+
   return (
-    <LayoutCpn>
+    <Layout>
       <header>
-        <title>{'Explore'}</title>
+        <title>{'Home Page'}</title>
       </header>
-      <ExploreMod />
-    </LayoutCpn>
+      {loading && <HomeModule />}
+      {!loading && <Spinner />}
+    </Layout>
   )
 }

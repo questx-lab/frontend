@@ -1,12 +1,15 @@
+import { ActionCreator } from 'easy-peasy'
 import { toast } from 'react-hot-toast'
 import Web3 from 'web3'
 import { provider } from 'web3-core'
 
 import { loginMetamask, verifyMetaMask } from '@/app/api/client/wallet'
+import { RouterConst } from '@/constants/router.const'
+import { setAccessToken } from '@/utils/helper'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { MetaMaskInpageProvider } from '@metamask/providers'
 
-export const handleMetamask = async () => {
+export const handleMetamask = async (action: ActionCreator<boolean>) => {
   const provider = await detectEthereumProvider()
   if (provider) {
     if (window && window.ethereum) {
@@ -18,14 +21,12 @@ export const handleMetamask = async () => {
       } else {
         if ((accounts as string[]).length) {
           await connectToServer((accounts as string[])[0], ethereum)
-          toast(accounts as string, {
-            icon: '👏',
-          })
         } else {
           connectWallet(ethereum)
         }
       }
       ethereum.removeListener('accountsChanged', getConnectedAccounts)
+      action(true)
     }
   } else {
     toast.error('Please Install MetaMask.')
@@ -38,11 +39,11 @@ const connectToServer = async (
 ) => {
   try {
     const data = await loginMetamask(account)
-
     const w3 = new Web3(ethereum as provider)
     const signature = await w3.eth.personal.sign(data.data.nonce, account, '')
-
-    await verifyMetaMask(signature)
+    const rs = await verifyMetaMask(signature)
+    setAccessToken(rs.data.access_token)
+    window.location.href = RouterConst.HOME
   } catch (error) {
     toast.error('Error when login to server')
   }

@@ -61,7 +61,7 @@ export const Description = tw.p`
 
 export const ImageBox = styled(Image)(tw`
   cursor-pointer
-  max-sm:w-[30px]
+  max-sm:w-[35px]
 `)
 
 export const ListLogos = tw.div`

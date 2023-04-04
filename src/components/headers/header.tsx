@@ -1,15 +1,15 @@
-'use client'
-
 import { useEffect, useState } from 'react'
 
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
-import LoginBtn from '@/components/buttons/default-btn.cpn'
+import { LoginBtn } from '@/components/buttons/default-btn.cpn'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
+import AuthType from '@/modules/login/auth-type'
 import { useStoreActions, useStoreState } from '@/store/store'
 import { MenuBtn, MenuIcon } from '@/styles/button.style'
+import { Divider, Gap } from '@/styles/common.style'
 import {
   AvatarBox,
   BoxLink,
@@ -32,12 +32,13 @@ import {
 } from '@/styles/header.style'
 import { delCookies, getAccessToken } from '@/utils/helper'
 
-const HeaderCpn = () => {
+const Header = () => {
   const isNavBar = useStoreState((state) => state.navBar.isOpen)
 
   const router = useRouter()
-  const loginState = useStoreState((state) => state.userSession)
+  const isLogin = useStoreState((state) => state.userSession.isLogin)
   const navBarState = useStoreState((state) => state.navBar.isOpen)
+  const [hydrated, setHydrated] = useState(false)
 
   const loginAction = useStoreActions(
     (action) => action.userSession.updateState
@@ -49,25 +50,35 @@ const HeaderCpn = () => {
   const [navActive, setNavActive] = useState<number>(0)
 
   useEffect(() => {
-    if (path && path.includes(RouterConst.QUESTBOARD)) {
+    if (path && path.includes(RouterConst.EXPLORE)) {
       setNavActive(1)
-    } else if (path && path.includes(RouterConst.MY_PROJECTS)) {
+    }
+    if (path && path.includes(RouterConst.QUESTBOARD)) {
       setNavActive(2)
-    } else {
-      setNavActive(0)
+    }
+
+    if (path && path.includes(RouterConst.MY_PROJECTS)) {
+      setNavActive(3)
     }
   }, [path])
 
   useEffect(() => {
+    setHydrated(true)
+  }, [])
+
+  useEffect(() => {
     const accessToken = getAccessToken()
-    if (accessToken && !loginState.isLogin) {
+    if (accessToken && !isLogin) {
       loginAction(true)
     }
-    if (!accessToken && loginState.isLogin) {
+    if (!accessToken && isLogin) {
       loginAction(false)
     }
   })
 
+  if (!hydrated) {
+    return null
+  }
   const handleLogout = () => {
     loginAction(false)
     delCookies()
@@ -83,23 +94,23 @@ const HeaderCpn = () => {
       <Wrap>
         <LeftSession>
           <BoxLink>
-            <LinkText href={RouterConst.HOME}>
-              <TitleText className={`${!navActive ? 'font-bold' : ''}`}>
-                {'Explore'}
-              </TitleText>
-              {!navActive && <Underline />}
-            </LinkText>
-            <LinkText href={RouterConst.QUESTBOARD}>
+            <LinkText href={RouterConst.EXPLORE}>
               <TitleText className={`${navActive === 1 ? 'font-bold' : ''}`}>
-                {'Questboard'}
+                {'Explore'}
               </TitleText>
               {navActive === 1 && <Underline />}
             </LinkText>
-            <LinkText href={RouterConst.MY_PROJECTS}>
+            <LinkText href={RouterConst.QUESTBOARD}>
               <TitleText className={`${navActive === 2 ? 'font-bold' : ''}`}>
-                {'My Projects'}
+                {'Questboard'}
               </TitleText>
               {navActive === 2 && <Underline />}
+            </LinkText>
+            <LinkText href={RouterConst.MY_PROJECTS}>
+              <TitleText className={`${navActive === 3 ? 'font-bold' : ''}`}>
+                {'My Projects'}
+              </TitleText>
+              {navActive === 3 && <Underline />}
             </LinkText>
           </BoxLink>
           <ImageLogoBox
@@ -111,7 +122,7 @@ const HeaderCpn = () => {
           />
         </LeftSession>
         <RightSession>
-          {loginState.isLogin ? (
+          {isLogin ? (
             <UserSession>
               <Image
                 width={35}
@@ -154,24 +165,29 @@ const HeaderCpn = () => {
           </MenuBtn>
         </RightSession>
       </Wrap>
-      <NavBar isActive={isNavBar}>
-        <NavWrap>
-          <NavLink onClick={() => handleClick(RouterConst.HOME)}>
-            <NavTitle>{'Explore'}</NavTitle>
-            {!navActive && <NavUnderline />}
-          </NavLink>
-          <NavLink onClick={() => handleClick(RouterConst.QUESTBOARD)}>
-            <NavTitle>{'Questboard'}</NavTitle>
-            {navActive === 1 && <NavUnderline />}
-          </NavLink>
-          <NavLink onClick={() => handleClick(RouterConst.MY_PROJECTS)}>
-            <NavTitle>{'My Projects'}</NavTitle>
-            {navActive === 2 && <NavUnderline />}
-          </NavLink>
-        </NavWrap>
-      </NavBar>
+      {isNavBar && (
+        <NavBar isActive={isNavBar}>
+          <NavWrap>
+            <NavLink onClick={() => handleClick(RouterConst.EXPLORE)}>
+              <NavTitle>{'Explore'}</NavTitle>
+              {navActive === 1 && <NavUnderline />}
+            </NavLink>
+            <NavLink onClick={() => handleClick(RouterConst.QUESTBOARD)}>
+              <NavTitle>{'Questboard'}</NavTitle>
+              {navActive === 2 && <NavUnderline />}
+            </NavLink>
+            <NavLink onClick={() => handleClick(RouterConst.MY_PROJECTS)}>
+              <NavTitle>{'My Projects'}</NavTitle>
+              {navActive === 3 && <NavUnderline />}
+            </NavLink>
+            <Gap height={9} />
+            <Divider />
+            <AuthType />
+          </NavWrap>
+        </NavBar>
+      )}
     </>
   )
 }
 
-export default HeaderCpn
+export default Header

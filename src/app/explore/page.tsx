@@ -1,4 +1,7 @@
+'use client'
+
 import { FullWidthBtn } from '@/components/buttons/custom-btn.cpn'
+import Layout from '@/components/layouts/layout'
 import { Gap } from '@/styles/common.style'
 import {
   ContentProjectBox,
@@ -15,7 +18,7 @@ import {
   WrapProjects,
 } from '@/styles/explore.style'
 
-export default function ExploreMod() {
+export default function ExplorePage() {
   const listProject = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((e) => (
     <ProjectBox key={e}>
       <ImageProjectBox />
@@ -29,20 +32,25 @@ export default function ExploreMod() {
   ))
 
   return (
-    <Wrap>
-      <Title>{'Explore (Show all Projects)'}</Title>
-      <Gap />
-      <Description>
-        {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sem eros, scelerisque' +
-          ' sed ultricies at, egestas quis dolor'}
-      </Description>
-      <Gap />
-      <LeaderBoardBox>{'Leaderboard (for Projects)'}</LeaderBoardBox>
-      <Gap />
-      <Gap />
-      <FilterBox>{'Filter / Sort'}</FilterBox>
-      <Gap />
-      <WrapProjects>{listProject}</WrapProjects>
-    </Wrap>
+    <Layout>
+      <header>
+        <title>{'Explore'}</title>
+      </header>
+      <Wrap>
+        <Title>{'Explore (Show all Projects)'}</Title>
+        <Gap />
+        <Description>
+          {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sem eros, scelerisque' +
+            ' sed ultricies at, egestas quis dolor'}
+        </Description>
+        <Gap />
+        <LeaderBoardBox>{'Leaderboard (for Projects)'}</LeaderBoardBox>
+        <Gap />
+        <Gap />
+        <FilterBox>{'Filter / Sort'}</FilterBox>
+        <Gap />
+        <WrapProjects>{listProject}</WrapProjects>
+      </Wrap>
+    </Layout>
   )
 }
