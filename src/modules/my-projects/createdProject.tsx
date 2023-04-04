@@ -20,7 +20,7 @@ import {
   WrapCreatedProjectBox,
 } from '@/styles/myProjects.style'
 
-export default function CreatedProjectModule() {
+export default function CreatedProject() {
   const router = useRouter()
 
   const AddNewBox = () => {

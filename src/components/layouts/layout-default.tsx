@@ -6,7 +6,7 @@ import { Toaster } from 'react-hot-toast'
 import { useStoreState } from '@/store/store'
 import { Html } from '@/styles/layout.style'
 
-const LayoutDefaultCpn = ({ children }: { children: ReactNode }) => {
+const LayoutDefault = ({ children }: { children: ReactNode }) => {
   const isNavBar = useStoreState((state) => state.navBar.isOpen)
 
   return (
@@ -22,4 +22,4 @@ const LayoutDefaultCpn = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export default LayoutDefaultCpn
+export default LayoutDefault

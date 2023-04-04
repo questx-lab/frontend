@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import LayoutCpn from '@/components/layouts/layout'
+import Layout from '@/components/layouts/layout'
 import { Spinner } from '@/components/spinner/spinner'
 import { RouterConst } from '@/constants/router.const'
 import HomeModule from '@/modules/home'
@@ -23,12 +23,12 @@ export default function Home() {
   }, [isLogin, router])
 
   return (
-    <LayoutCpn>
+    <Layout>
       <header>
         <title>{'Home Page'}</title>
       </header>
       {loading && <HomeModule />}
       {!loading && <Spinner />}
-    </LayoutCpn>
+    </Layout>
   )
 }

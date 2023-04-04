@@ -12,7 +12,7 @@ import {
 
 import AuthType from './auth-type'
 
-export default function LoginModule() {
+export default function LoginView() {
   return (
     <Main>
       <header>

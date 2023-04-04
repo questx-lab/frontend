@@ -32,7 +32,7 @@ import {
 } from '@/styles/header.style'
 import { delCookies, getAccessToken } from '@/utils/helper'
 
-const HeaderCpn = () => {
+const Header = () => {
   const isNavBar = useStoreState((state) => state.navBar.isOpen)
 
   const router = useRouter()
@@ -190,4 +190,4 @@ const HeaderCpn = () => {
   )
 }
 
-export default HeaderCpn
+export default Header
