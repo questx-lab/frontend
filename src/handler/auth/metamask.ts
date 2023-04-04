@@ -45,7 +45,6 @@ const connectToServer = async (
     setAccessToken(rs.data.access_token)
     window.location.href = RouterConst.HOME
   } catch (error) {
-    console.log(error)
     toast.error('Error when login to server')
   }
 }

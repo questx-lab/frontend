@@ -19,6 +19,5 @@ export const verifyMetaMask = async (
   const result = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL + `/wallet/verify?signature=${signature}`
   )
-  console.log('result', result)
   return result.data
 }
