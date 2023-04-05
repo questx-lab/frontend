@@ -1,4 +1,3 @@
-import styled from 'styled-components'
 import tw from 'twin.macro'
 
 export const Wrap = tw.div`
@@ -30,9 +29,9 @@ export const CircleRouded = tw.div`
   bg-gray-500
 `
 
-export const TitleText = styled.p(tw`
+export const TitleText = tw.p`
   text-xs 
   text-black 
   font-bold 
   mt-6
-`)
+`

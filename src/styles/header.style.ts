@@ -116,22 +116,18 @@ export const ImageLogoBox = styled(Image)(tw`
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
 
-export const DesNameTxt = styled.p(
-  tw`
-    text-sm 
-    italic 
-    font-normal 
-    text-black
-  `
-)
+export const DesNameTxt = tw.p`
+  text-sm 
+  italic 
+  font-normal 
+  text-black
+`
 
-export const UserNameTxt = styled.p(
-  tw`
-    text-sm 
-    font-bold 
-    text-black
-  `
-)
+export const UserNameTxt = tw.p`
+  text-sm 
+  font-bold 
+  text-black
+`
 
 export const NavBar = styled.div<NavBarType>(({ isActive = false }) => [
   isActive

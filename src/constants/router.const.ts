@@ -5,4 +5,5 @@ export enum RouterConst {
   EXPLORE = '/explore',
   MY_PROJECTS = '/my-projects',
   CREATE_PROJECTS = '/my-projects/new ',
+  PROJECT = '/projects/{id}',
 }

@@ -8,7 +8,7 @@ import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import AuthType from '@/modules/login/auth-type'
 import { useStoreActions, useStoreState } from '@/store/store'
-import { MenuBtn, MenuIcon } from '@/styles/button.style'
+import { MenuBtn } from '@/styles/button.style'
 import { Divider, Gap } from '@/styles/common.style'
 import {
   AvatarBox,
@@ -37,6 +37,7 @@ const Header = () => {
 
   const router = useRouter()
   const isLogin = useStoreState((state) => state.userSession.isLogin)
+  const userState = useStoreState((state) => state.userSession.user)
   const navBarState = useStoreState((state) => state.navBar.isOpen)
   const [hydrated, setHydrated] = useState(false)
 
@@ -138,7 +139,9 @@ const Header = () => {
               />
               <UserInfo onClick={handleLogout}>
                 <DesNameTxt>{'Explorer'}</DesNameTxt>
-                <UserNameTxt>{'Billy Pham'.toUpperCase()}</UserNameTxt>
+                <UserNameTxt>
+                  {(userState.name ?? '').split('@')[0].toUpperCase()}
+                </UserNameTxt>
               </UserInfo>
             </UserSession>
           ) : (
@@ -148,7 +151,7 @@ const Header = () => {
             />
           )}
           <MenuBtn onClick={() => navBarAction(!navBarState)}>
-            <MenuIcon
+            <Image
               width={40}
               height={40}
               src={
