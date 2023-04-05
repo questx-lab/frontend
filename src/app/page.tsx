@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import Layout from '@/components/layouts/layout'
 import { Spinner } from '@/components/spinner/spinner'
 import { RouterConst } from '@/constants/router.const'
-import HomeModule from '@/modules/home'
+import Project from '@/modules/project'
 import { useStoreActions, useStoreState } from '@/store/store'
 import { getAccessToken } from '@/utils/helper'
 
@@ -50,7 +50,7 @@ export default function Home() {
       <header>
         <title>{'Home Page'}</title>
       </header>
-      {!loading && <HomeModule />}
+      {!loading && <Project />}
       {loading && <Spinner />}
     </Layout>
   )

@@ -9,7 +9,7 @@ import ProjectSettingMod from './project-setting'
 import QuestMod from './quests'
 import ReviewSubMitMod from './review-submit'
 
-export default function HomeModule() {
+export default function Project() {
   const [tabActive, setTabActive] = useState<number>(0)
 
   const onChanageTab = (tabNum: number) => {

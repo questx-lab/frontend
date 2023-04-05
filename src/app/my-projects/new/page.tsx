@@ -66,12 +66,13 @@ export default function NewProject() {
 
   const [timeLeft, setTimeLeft] = useState(0)
   const [start, setStart] = useState<boolean>(false)
+  const [project, setProject] = useState<{ id: string }>({ id: '' })
 
   useEffect(() => {
     if (start) {
       if (timeLeft === 100) {
         setIsOpen(false)
-        router.push(RouterConst.HOME)
+        router.push(RouterConst.PROJECT.replace('{id}', project.id))
         return
       }
       const intervalId = setInterval(() => {
@@ -97,15 +98,12 @@ export default function NewProject() {
         telegram: telRef.current?.value ?? '',
         discord: discordRef.current?.value ?? '',
       }
-      await NewProjectApi(payload)
+      const data = await NewProjectApi(payload)
+      setProject(data.data)
     } catch (error) {
       setIsOpen(false)
       toast.error('Error while create project')
     }
-  }
-
-  function closeModal() {
-    setIsOpen(false)
   }
 
   return (
