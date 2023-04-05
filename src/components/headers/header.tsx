@@ -8,7 +8,7 @@ import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import AuthType from '@/modules/login/auth-type'
 import { useStoreActions, useStoreState } from '@/store/store'
-import { MenuBtn, MenuIcon } from '@/styles/button.style'
+import { MenuBtn } from '@/styles/button.style'
 import { Divider, Gap } from '@/styles/common.style'
 import {
   AvatarBox,
@@ -151,7 +151,7 @@ const Header = () => {
             />
           )}
           <MenuBtn onClick={() => navBarAction(!navBarState)}>
-            <MenuIcon
+            <Image
               width={40}
               height={40}
               src={
