@@ -179,19 +179,19 @@ export const SkeletonSecond = tw.div`
 `
 
 // ========== New project style ==========
-export const FormBox = styled.form(tw`
+export const FormBox = tw.form`
   w-full
   flex
   flex-row
   max-sm:flex-col
-`)
+`
 
-export const DivBox = styled.div(tw`
+export const DivBox = tw.div`
   w-full
   flex
   flex-row
   max-sm:flex-col
-`)
+`
 
 export const ElementBox = styled.div<DirectType>(({ position = 0 }) => [
   position

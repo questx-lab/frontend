@@ -1,14 +1,12 @@
 'use client'
 
-import 'react-circular-progressbar/dist/styles.css'
-
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
-import { buildStyles, CircularProgressbar } from 'react-circular-progressbar'
 import { toast } from 'react-hot-toast'
+import { DotLoader } from 'react-spinners'
 
-import { NewProjectApi } from '@/app/api/client/project'
+import { newProjectApi } from '@/app/api/client/project'
 import Layout from '@/components/layouts/layout'
 import { RouterConst } from '@/constants/router.const'
 import {
@@ -16,7 +14,7 @@ import {
   CreateProjectBtn,
   WrapBtn,
 } from '@/styles/button.style'
-import { Divider, Gap } from '@/styles/common.style'
+import { Divider, Gap, SpinnerStyle } from '@/styles/common.style'
 import { InputBox } from '@/styles/input.style'
 import {
   DesModal,
@@ -55,32 +53,14 @@ const categories = [
 ]
 
 export default function NewProject() {
+  const router = useRouter()
+
   const nameRef = useRef<HTMLInputElement>(null)
   const introRef = useRef<HTMLInputElement>(null)
   const telRef = useRef<HTMLInputElement>(null)
   const urlRef = useRef<HTMLInputElement>(null)
   const webRef = useRef<HTMLInputElement>(null)
   const discordRef = useRef<HTMLInputElement>(null)
-
-  const router = useRouter()
-
-  const [timeLeft, setTimeLeft] = useState(0)
-  const [start, setStart] = useState<boolean>(false)
-  const [project, setProject] = useState<{ id: string }>({ id: '' })
-
-  useEffect(() => {
-    if (start) {
-      if (timeLeft === 100) {
-        setIsOpen(false)
-        router.push(RouterConst.PROJECT.replace('{id}', project.id))
-        return
-      }
-      const intervalId = setInterval(() => {
-        setTimeLeft(timeLeft + 20)
-      }, 700)
-      return () => clearInterval(intervalId)
-    }
-  }, [start, timeLeft])
 
   const listCategory = categories.map((e, i) => (
     <CategoryItem key={i}>{e}</CategoryItem>
@@ -90,16 +70,17 @@ export default function NewProject() {
 
   const handleSubmit = async () => {
     setIsOpen(true)
-    setStart(true)
-    setTimeLeft(0)
     try {
       const payload: ReqNewProject = {
         name: nameRef.current?.value ?? '',
         telegram: telRef.current?.value ?? '',
         discord: discordRef.current?.value ?? '',
       }
-      const data = await NewProjectApi(payload)
-      setProject(data.data)
+      const data = await newProjectApi(payload)
+      setTimeout(() => {
+        setIsOpen(false)
+        router.push(RouterConst.PROJECT + data.data?.id)
+      }, 1000)
     } catch (error) {
       setIsOpen(false)
       toast.error('Error while create project')
@@ -223,25 +204,19 @@ export default function NewProject() {
               >
                 <DialogPannel>
                   <WrapProgressBar>
-                    <CircularProgressbar
-                      styles={buildStyles({
-                        rotation: 0.75,
-                        strokeLinecap: 'butt',
-                        textSize: '16px',
-                        pathTransitionDuration: 1,
-                        pathColor: `#000`,
-                        textColor: '#000',
-                        trailColor: '#d6d6d6',
-                        backgroundColor: '#3e98c7',
-                      })}
-                      text={`${timeLeft}%`}
-                      value={timeLeft}
+                    <DotLoader
+                      color={'#000'}
+                      loading={true}
+                      cssOverride={SpinnerStyle}
+                      size={150}
+                      aria-label='Loading Spinner'
+                      data-testid='loader'
                     />
                   </WrapProgressBar>
                   <Gap height={6} />
                   <TitleModal>{'Hang in there'}</TitleModal>
                   <Gap height={6} />
-                  <DesModal>{"We're creating [Project Name],"}</DesModal>
+                  <DesModal>{"We're creating project,"}</DesModal>
                   <DesModal>{'It might take some minutes.'}</DesModal>
                 </DialogPannel>
               </Transition.Child>

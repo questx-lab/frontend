@@ -32,6 +32,6 @@ export const CircleRouded = tw.div`
 export const TitleText = tw.p`
   text-xs 
   text-black 
-  font-bold 
+  font-normal 
   mt-6
 `

@@ -17,5 +17,7 @@ export const delCookies = () => {
 }
 
 export const setAccessToken = (cookie: string) => {
-  setCookie(KeysEnum.QUESTX_TOKEN, cookie)
+  setCookie(KeysEnum.QUESTX_TOKEN, cookie, {
+    maxAge: 600,
+  })
 }

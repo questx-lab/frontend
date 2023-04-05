@@ -1,16 +1,18 @@
 import { useState } from 'react'
 
 import SidebarCustom from '@/components/layouts/sidebar'
+import { useStoreState } from '@/store/store'
 import { Gap } from '@/styles/common.style'
 import { Main, Tab, TabSide, Text, Title, Wrap } from '@/styles/home.style'
 
 import PManageMod from './project-management'
-import ProjectSettingMod from './project-setting'
+import ProjectSetting from './project-setting'
 import QuestMod from './quests'
 import ReviewSubMitMod from './review-submit'
 
 export default function Project() {
   const [tabActive, setTabActive] = useState<number>(0)
+  const projectState = useStoreState((state) => state.project.curProject)
 
   const onChanageTab = (tabNum: number) => {
     if (tabActive !== tabNum) {
@@ -22,7 +24,7 @@ export default function Project() {
     <Wrap>
       <SidebarCustom />
       <Main>
-        <Title>{'Project Name'}</Title>
+        <Title>{projectState.name}</Title>
         <Gap />
         <TabSide>
           <Tab isActive={!tabActive} onClick={() => onChanageTab(0)}>
@@ -40,7 +42,7 @@ export default function Project() {
         </TabSide>
         {!tabActive && <QuestMod />}
         {tabActive === 1 && <ReviewSubMitMod />}
-        {tabActive === 2 && <ProjectSettingMod />}
+        {tabActive === 2 && <ProjectSetting />}
         {tabActive === 3 && <PManageMod />}
       </Main>
     </Wrap>

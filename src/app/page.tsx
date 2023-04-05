@@ -28,9 +28,7 @@ export default function Home() {
     const accessToken = getAccessToken()
     if (accessToken) {
       actionLogin(true)
-      if (!Object.keys(userState).length) {
-        getUserDatta()
-      }
+      getUserData()
     }
     if (!accessToken && !isLogin) {
       router.push(RouterConst.EXPLORE)
@@ -38,10 +36,10 @@ export default function Home() {
     setTimeout(() => setLoading(false), 1000)
   }, [isLogin])
 
-  const getUserDatta = async () => {
+  const getUserData = async () => {
     try {
       const user = await GetUserApi()
-      actionUser(user.data)
+      actionUser(user.data!)
     } catch (error) {}
   }
 
