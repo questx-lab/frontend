@@ -1,7 +1,6 @@
-import styled from 'styled-components'
 import tw from 'twin.macro'
 
-export const InputBox = styled.input(tw`
+export const InputBox = tw.input`
   w-full
   border
   border-2
@@ -9,9 +8,9 @@ export const InputBox = styled.input(tw`
   border-gray-300
   p-3
   rounded-lg
-`)
+`
 
-export const MulInputBox = styled.textarea(tw`
+export const MulInputBox = tw.textarea`
   w-full
   border
   border-2
@@ -20,4 +19,4 @@ export const MulInputBox = styled.textarea(tw`
   p-3
   rounded-lg
   h-full
-`)
+`

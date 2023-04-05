@@ -270,22 +270,20 @@ export const MWrapBtn = tw.div`
   items-center
 `
 
-export const MBtn = styled.button(
-  tw`
-    w-[calc(33%_-_8px)]
-    py-5
-    flex
-    justify-center
-    items-center
-    bg-gray-300
-    rounded-lg
-    text-xl
-    text-black
-    font-bold
-    max-lg:text-xs
-    max-lg:h-[100px]
-  `
-)
+export const MBtn = tw.button`
+  w-[calc(33%_-_8px)]
+  py-5
+  flex
+  justify-center
+  items-center
+  bg-gray-300
+  rounded-lg
+  text-xl
+  text-black
+  font-bold
+  max-lg:text-xs
+  max-lg:h-[100px]
+`
 
 export const PTableWrap = tw.div`
   w-full 
