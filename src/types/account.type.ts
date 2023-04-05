@@ -1,1 +1,5 @@
-export const UserType = {}
+export type UserType = {
+  id?: string
+  address?: string
+  name?: string
+}

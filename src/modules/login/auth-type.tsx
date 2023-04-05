@@ -16,7 +16,6 @@ export default function AuthType() {
 
   const handleLoginGoogle = () => {
     try {
-      actionLogin(true)
       router.push(
         EnvVariables.NEXT_PUBLIC_API_URL + '/oauth2/login?type=google'
       )
@@ -27,7 +26,7 @@ export default function AuthType() {
 
   const handleSignInTwitter = async (e: React.MouseEvent<HTMLImageElement>) => {
     e.preventDefault()
-    await signIn('discord')
+    await signIn('twitter')
   }
 
   const handleSignInDiscord = async (e: React.MouseEvent<HTMLImageElement>) => {

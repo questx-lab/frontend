@@ -11,7 +11,7 @@ export const InputBox = styled.input(tw`
   rounded-lg
 `)
 
-export const MulInputBox = styled.input(tw`
+export const MulInputBox = styled.textarea(tw`
   w-full
   border
   border-2

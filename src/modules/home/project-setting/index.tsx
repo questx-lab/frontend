@@ -63,6 +63,7 @@ export default function ProjectSettingMod() {
             <PInputBlock>{'QuestX.com/Quest001'}</PInputBlock>
           </PSessionLChild>
         </PSessionL>
+        <Gap width={0} height={8} />
         <PSessionR>
           <PLabel>{'Project Introduction*'}</PLabel>
           <Gap height={4} />
@@ -78,6 +79,7 @@ export default function ProjectSettingMod() {
               <Gap />
               <PCateWrap>{listCategory}</PCateWrap>
             </PHalfSession>
+            <Gap height={8} width={0} />
             <PHalfSession>
               <PLabel>{'Twitter'}</PLabel>
               <Gap height={4} />
@@ -86,10 +88,12 @@ export default function ProjectSettingMod() {
               </ConnectedTwitterBtn>
             </PHalfSession>
           </PHalfWrap>
+          <Gap height={8} width={0} />
           <PLabel>{'Telegram'}</PLabel>
           <Gap height={4} />
           <InputBox placeholder='Enter Telegram URL' />
         </PHalfSession>
+        <Gap height={8} width={0} />
         <PHalfSession postion>
           <PLabel>{'Website'}</PLabel>
           <Gap height={4} />

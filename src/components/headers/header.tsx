@@ -37,6 +37,7 @@ const Header = () => {
 
   const router = useRouter()
   const isLogin = useStoreState((state) => state.userSession.isLogin)
+  const userState = useStoreState((state) => state.userSession.user)
   const navBarState = useStoreState((state) => state.navBar.isOpen)
   const [hydrated, setHydrated] = useState(false)
 
@@ -138,7 +139,9 @@ const Header = () => {
               />
               <UserInfo onClick={handleLogout}>
                 <DesNameTxt>{'Explorer'}</DesNameTxt>
-                <UserNameTxt>{'Billy Pham'.toUpperCase()}</UserNameTxt>
+                <UserNameTxt>
+                  {(userState.name ?? '').split('@')[0].toUpperCase()}
+                </UserNameTxt>
               </UserInfo>
             </UserSession>
           ) : (

@@ -1,3 +1,9 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.CircularProgressbar-text {
+  text-anchor: middle;
+  alignment-baseline: middle;
+  font-weight: 700;
+}

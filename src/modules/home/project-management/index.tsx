@@ -5,6 +5,12 @@ import {
   MWrapBtn,
   NotifyBox,
   NotifyText,
+  PTable,
+  PTableWrap,
+  PTd,
+  PTh,
+  PThead,
+  PTr,
   QuestWrap,
 } from '@/styles/home.style'
 
@@ -25,66 +31,54 @@ export default function PManageMod() {
       <Gap height={8} />
       <AddRoleBtn>{'add new role'.toUpperCase()}</AddRoleBtn>
       <Gap height={8} />
-      <div className='w-full relative overflow-x-auto'>
-        <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-          <thead className='text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400'>
+      <PTableWrap>
+        <PTable>
+          <PThead>
             <tr>
-              <th scope='col' className='px-6 py-3 rounded-l-lg'>
-                Usernam
-              </th>
-              <th scope='col' className='px-6 py-3'>
-                Email
-              </th>
-              <th scope='col' className='px-6 py-3 rounded-r-lg'>
-                MetaMask
-              </th>
-              <th scope='col' className='px-6 py-3 rounded-r-lg'>
-                Discord
-              </th>
-              <th scope='col' className='px-6 py-3 rounded-r-lg'>
-                Telegram
-              </th>
-              <th scope='col' className='px-6 py-3 rounded-r-lg'>
-                Role
-              </th>
+              <PTh scope='col'>Usernam</PTh>
+              <PTh scope='col'>Email</PTh>
+              <PTh scope='col'>MetaMask</PTh>
+              <PTh scope='col'>Discord</PTh>
+              <PTh scope='col'>Telegram</PTh>
+              <PTh scope='col'>Role</PTh>
             </tr>
-          </thead>
+          </PThead>
           <tbody>
-            <tr className='bg-white  dark:bg-gray-800'>
-              <td className='px-6 py-4'>{'username'}</td>
-              <td className='px-6 py-4'>{'abc'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'admin'}</td>
-            </tr>
-            <tr className='bg-white  dark:bg-gray-800'>
-              <td className='px-6 py-4'>{'username'}</td>
-              <td className='px-6 py-4'>{'abc'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'admin'}</td>
-            </tr>
-            <tr className='bg-white  dark:bg-gray-800'>
-              <td className='px-6 py-4'>{'username'}</td>
-              <td className='px-6 py-4'>{'abc'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'admin'}</td>
-            </tr>
-            <tr className='bg-white  dark:bg-gray-800'>
-              <td className='px-6 py-4'>{'username'}</td>
-              <td className='px-6 py-4'>{'abc'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'from acc info'}</td>
-              <td className='px-6 py-4'>{'admin'}</td>
-            </tr>
+            <PTr>
+              <PTd>{'username'}</PTd>
+              <PTd>{'abc'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'admin'}</PTd>
+            </PTr>
+            <PTr>
+              <PTd>{'username'}</PTd>
+              <PTd>{'abc'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'admin'}</PTd>
+            </PTr>
+            <PTr>
+              <PTd>{'username'}</PTd>
+              <PTd>{'abc'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'admin'}</PTd>
+            </PTr>
+            <PTr>
+              <PTd>{'username'}</PTd>
+              <PTd>{'abc'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'from acc info'}</PTd>
+              <PTd>{'admin'}</PTd>
+            </PTr>
           </tbody>
-        </table>
-      </div>
+        </PTable>
+      </PTableWrap>
     </QuestWrap>
   )
 }

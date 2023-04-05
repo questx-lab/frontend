@@ -19,9 +19,10 @@ export const Wrap = tw.div`
 export const Main = tw.div`
   flex
   flex-col
-  ml-[120px]
-  mr-[40px]
-  max-lg:mr-[15px]
+  pl-[100px]
+  pr-[40px]
+  max-lg:pr-[10px]
+  max-lg:pl-[80px]
   py-2
   w-full
 `
@@ -54,6 +55,8 @@ export const Tab = styled.div<TabActive>(({ isActive }) =>
         justify-center
         items-center
         cursor-pointer
+        max-lg:px-2
+        max-lg:text-xs
       `
     : tw`
         h-full
@@ -62,6 +65,8 @@ export const Tab = styled.div<TabActive>(({ isActive }) =>
         justify-center
         items-center
         cursor-pointer
+        max-lg:px-2
+        max-lg:text-xs
       `
 )
 
@@ -99,6 +104,7 @@ export const QuestWrapCat = tw.div`
   flex
   flex-row
   w-full
+  max-lg:flex-col
 `
 
 export const CateTitle = tw.p`
@@ -122,6 +128,7 @@ export const SectionWrap = tw.div`
 export const SectionBox = tw.div`
   w-[325px]
   h-[325px]
+  max-lg:w-full
   border-dashed
   border
   border-dashed
@@ -135,6 +142,7 @@ export const SectionBox = tw.div`
   text-lg
   mr-6
   mb-6
+  max-lg:mr-0
 `
 
 // ================== PROJECT SETTING STYLE ==================
@@ -144,12 +152,17 @@ export const PWrap = tw.div`
   flex-row
   w-full
   h-[200px]
+  max-lg:flex-col
+  max-lg:h-full
 `
 
 export const PSessionL = tw.div`
   w-3/5
   flex
   flex-row
+  max-lg:flex-col
+  max-lg:w-full
+  max-lg:items-center
 `
 
 export const PSessionLogo = tw.div`
@@ -183,6 +196,8 @@ export const PSessionR = tw.div`
   pl-5
   flex
   flex-col
+  max-lg:w-full
+  max-lg:pl-0
 `
 
 export const PLabel = tw.div`
@@ -195,6 +210,7 @@ export const PHalfWrap = tw.div`
   w-full
   flex
   flex-row
+  max-lg:flex-col
 `
 
 export const PHalfSession = styled.div<SessionType>(({ postion = false }) => [
@@ -204,12 +220,16 @@ export const PHalfSession = styled.div<SessionType>(({ postion = false }) => [
         pl-6
         flex
         flex-col
+        max-lg:w-full
+        max-lg:pl-0
       `
     : tw`
         w-1/2
         pr-6
         flex
         flex-col
+        max-lg:w-full
+        max-lg:pl-0
       `,
 ])
 
@@ -262,5 +282,46 @@ export const MBtn = styled.button(
     text-xl
     text-black
     font-bold
+    max-lg:text-xs
+    max-lg:h-[100px]
   `
 )
+
+export const PTableWrap = tw.div`
+  w-full 
+  relative 
+  overflow-x-auto
+`
+
+export const PTable = tw.table`
+  w-full 
+  text-sm 
+  text-left 
+  text-gray-500 
+  dark:text-gray-400
+`
+
+export const PThead = tw.thead`
+  text-xs 
+  text-gray-700 
+  uppercase 
+  bg-gray-100 
+  dark:bg-gray-700 
+  dark:text-gray-400
+`
+
+export const PTh = tw.th`
+  px-6 
+  py-3 
+  rounded-l-lg
+`
+
+export const PTr = tw.tr`
+  bg-white  
+  dark:bg-gray-800
+`
+
+export const PTd = tw.td`
+  px-6 
+  py-4
+`

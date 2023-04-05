@@ -43,6 +43,7 @@ export default function QuestMod() {
       <Gap height={8} />
       <QuestWrapCat>
         <CateTitle>{'View Category'}</CateTitle>
+        <Gap height={2} width={0} />
         <CategoryBox>{listCategory}</CategoryBox>
       </QuestWrapCat>
       <Gap height={8} />

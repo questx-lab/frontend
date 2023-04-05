@@ -1,10 +1,16 @@
 'use client'
 
-import { Fragment, useState } from 'react'
+import 'react-circular-progressbar/dist/styles.css'
 
+import { Fragment, useEffect, useRef, useState } from 'react'
+
+import { useRouter } from 'next/navigation'
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar'
+import { toast } from 'react-hot-toast'
 
+import { NewProjectApi } from '@/app/api/client/project'
 import Layout from '@/components/layouts/layout'
+import { RouterConst } from '@/constants/router.const'
 import {
   ConnectTwitterBtn,
   CreateProjectBtn,
@@ -33,6 +39,7 @@ import {
   Wrap,
   WrapElementBox,
 } from '@/styles/myProjects.style'
+import { ReqNewProject } from '@/types/project.type'
 import { Dialog, Transition } from '@headlessui/react'
 
 const categories = [
@@ -48,18 +55,57 @@ const categories = [
 ]
 
 export default function NewProject() {
+  const nameRef = useRef<HTMLInputElement>(null)
+  const introRef = useRef<HTMLInputElement>(null)
+  const telRef = useRef<HTMLInputElement>(null)
+  const urlRef = useRef<HTMLInputElement>(null)
+  const webRef = useRef<HTMLInputElement>(null)
+  const discordRef = useRef<HTMLInputElement>(null)
+
+  const router = useRouter()
+
+  const [timeLeft, setTimeLeft] = useState(0)
+  const [start, setStart] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (start) {
+      if (timeLeft === 100) {
+        setIsOpen(false)
+        router.push(RouterConst.HOME)
+        return
+      }
+      const intervalId = setInterval(() => {
+        setTimeLeft(timeLeft + 20)
+      }, 700)
+      return () => clearInterval(intervalId)
+    }
+  }, [start, timeLeft])
+
   const listCategory = categories.map((e, i) => (
     <CategoryItem key={i}>{e}</CategoryItem>
   ))
 
   let [isOpen, setIsOpen] = useState<boolean>(false)
 
-  function closeModal() {
-    setIsOpen(false)
+  const handleSubmit = async () => {
+    setIsOpen(true)
+    setStart(true)
+    setTimeLeft(0)
+    try {
+      const payload: ReqNewProject = {
+        name: nameRef.current?.value ?? '',
+        telegram: telRef.current?.value ?? '',
+        discord: discordRef.current?.value ?? '',
+      }
+      await NewProjectApi(payload)
+    } catch (error) {
+      setIsOpen(false)
+      toast.error('Error while create project')
+    }
   }
 
-  function openModal() {
-    setIsOpen(true)
+  function closeModal() {
+    setIsOpen(false)
   }
 
   return (
@@ -83,19 +129,20 @@ export default function NewProject() {
                 {'Project Name* (You can change it later)'}
               </LabelInput>
               <Gap height={1} />
-              <InputBox placeholder='Enter Project Name' />
+              <InputBox ref={nameRef} placeholder='Enter Project Name' />
               <Gap height={9} />
               <LabelInput>
-                {'Project Name* (You can change it later)'}
+                {'Project Introduction (You can change it later)'}
               </LabelInput>
               <Gap height={1} />
-              <InputBox placeholder='Enter Project Name' />
+              <InputBox
+                ref={introRef}
+                placeholder='Enter Project Introduction'
+              />
               <Gap height={9} />
-              <LabelInput>
-                {'Project Name* (You can change it later)'}
-              </LabelInput>
+              <LabelInput>{'Telegram (You can change it later)'}</LabelInput>
               <Gap height={1} />
-              <InputBox placeholder='Enter Project Name' />
+              <InputBox ref={telRef} placeholder='Enter Telegram URL' />
               <Gap height={9} />
               <LabelInput>
                 {'Project Category* (It cannot be changed after creation)'}
@@ -104,25 +151,22 @@ export default function NewProject() {
               <CategoryBox>{listCategory}</CategoryBox>
             </WrapElementBox>
           </ElementBox>
+          <Gap height={9} width={0} />
           <ElementBox position={1}>
             <WrapElementBox>
               <LabelInput>
-                {'Project Name* (You can change it later)'}
+                {'Project URL* (It cannot be changed after creation)'}
               </LabelInput>
               <Gap height={1} />
-              <InputBox placeholder='Enter Project Name' />
+              <InputBox ref={urlRef} placeholder='Enter Project URL' />
               <Gap height={9} />
-              <LabelInput>
-                {'Project Name* (You can change it later)'}
-              </LabelInput>
+              <LabelInput>{'Website (You can change it later)'}</LabelInput>
               <Gap height={1} />
-              <InputBox placeholder='Enter Project Name' />
+              <InputBox ref={webRef} placeholder='Enter Website URL' />
               <Gap height={9} />
-              <LabelInput>
-                {'Project Name* (You can change it later)'}
-              </LabelInput>
+              <LabelInput>{'Discord (You can change it later)'}</LabelInput>
               <Gap height={1} />
-              <InputBox placeholder='Enter Project Name' />
+              <InputBox ref={discordRef} placeholder='Enter Discord URL' />
               <Gap height={9} />
               <DivBox>
                 <ElementBox>
@@ -150,13 +194,13 @@ export default function NewProject() {
         <Divider />
         <Gap height={9} />
         <WrapBtn>
-          <CreateProjectBtn isBlock={false} onClick={openModal}>
+          <CreateProjectBtn isBlock={false} onClick={handleSubmit}>
             {'create project'.toUpperCase()}
           </CreateProjectBtn>
         </WrapBtn>
       </Wrap>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={closeModal}>
+        <Dialog as='div' className='relative z-10' onClose={() => {}}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -168,7 +212,6 @@ export default function NewProject() {
           >
             <ModalBg />
           </Transition.Child>
-
           <ModalWrap>
             <ModalContent>
               <Transition.Child
@@ -187,14 +230,14 @@ export default function NewProject() {
                         rotation: 0.75,
                         strokeLinecap: 'butt',
                         textSize: '16px',
-                        pathTransitionDuration: 0.5,
+                        pathTransitionDuration: 1,
                         pathColor: `#000`,
                         textColor: '#000',
                         trailColor: '#d6d6d6',
                         backgroundColor: '#3e98c7',
                       })}
-                      text='30%'
-                      value={30}
+                      text={`${timeLeft}%`}
+                      value={timeLeft}
                     />
                   </WrapProgressBar>
                   <Gap height={6} />

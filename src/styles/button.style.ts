@@ -142,6 +142,7 @@ export const Pcancel = styled.button(
           rounded-lg
           p-[9px]
           w-80
+          max-lg:text-sm
         `
 )
 
@@ -162,6 +163,7 @@ export const PSave = styled.button<CreateProjectType>(({ isBlock = true }) => [
           shadow-inner
           shadow-lg
           w-80
+          max-lg:text-sm
         `
     : tw`
           bg-gray-700
@@ -175,6 +177,7 @@ export const PSave = styled.button<CreateProjectType>(({ isBlock = true }) => [
           shadow-inner
           shadow-lg
           w-80
+          max-lg:text-sm
         `,
 ])
 

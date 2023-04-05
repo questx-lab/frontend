@@ -16,7 +16,6 @@ export const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    Origin: '*',
   },
   withCredentials: true, // to send cookie
 })
