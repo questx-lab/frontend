@@ -41,7 +41,7 @@ export const BoxLink = tw.div`
   flex-row
   justify-center
   items-center
-  max-sm:hidden
+  max-lg:hidden
 `
 
 export const LinkText = styled(Link)(
@@ -95,7 +95,7 @@ export const UserSession = tw.div`
   justify-start
   px-[20px]
   cursor-pointer
-  max-sm:hidden
+  max-lg:hidden
 `
 
 export const UserInfo = tw.div`
@@ -127,12 +127,15 @@ export const UserNameTxt = tw.p`
   text-sm 
   font-bold 
   text-black
+  text-ellipsis 
+  overflow-hidden 
+  max-w-[150px]
 `
 
 export const NavBar = styled.div<NavBarType>(({ isActive = false }) => [
   isActive
     ? tw`
-    sm:hidden
+    lg:hidden
     bg-black
     h-full
     w-full

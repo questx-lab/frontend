@@ -33,7 +33,7 @@ export const LoginHeaderBtn = tw.button`
   py-2 
   px-4 
   rounded-lg
-  max-sm:hidden
+  max-lg:hidden
 `
 
 export const AddRoleBtn = tw.button`
@@ -179,6 +179,6 @@ export const PSave = styled.button<CreateProjectType>(({ isBlock = true }) => [
 ])
 
 export const MenuBtn = tw.button`
-  sm:hidden
-  max-sm:mr-2
+  lg:hidden
+  max-lg:mr-2
 `

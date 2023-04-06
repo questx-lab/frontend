@@ -1,7 +1,13 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-hot-toast'
+
 import { FullWidthBtn } from '@/components/buttons/custom-btn.cpn'
 import Layout from '@/components/layouts/layout'
+import { RouterConst } from '@/constants/router.const'
 import { Gap } from '@/styles/common.style'
 import {
   ContentProjectBox,
@@ -17,16 +23,42 @@ import {
   Wrap,
   WrapProjects,
 } from '@/styles/explore.style'
+import { ProjectType } from '@/types/project.type'
+
+import { listProjectsApi } from '../api/client/project'
 
 export default function ExplorePage() {
-  const listProject = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((e) => (
-    <ProjectBox key={e}>
+  const [projects, setProjects] = useState<ProjectType[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+
+  const router = useRouter()
+
+  useEffect(() => {
+    fetchListProjects()
+  }, [])
+
+  const fetchListProjects = async () => {
+    try {
+      const list = await listProjectsApi()
+      setProjects(list.data!.projects)
+      setLoading(false)
+    } catch (error) {
+      toast.error('Error while fetching projects')
+      setLoading(false)
+    }
+  }
+
+  const listProject = projects.map((e) => (
+    <ProjectBox key={e.id}>
       <ImageProjectBox />
       <ContentProjectBox>
-        <TitleProjectBox>{'project card'.toUpperCase()}</TitleProjectBox>
+        <TitleProjectBox>{e.name!.toUpperCase()}</TitleProjectBox>
         <SkeletonFirst />
         <SkeletonSecond />
-        <FullWidthBtn text={'button'.toUpperCase()} onClick={() => {}} />
+        <FullWidthBtn
+          text={'detail'.toUpperCase()}
+          onClick={() => router.push(RouterConst.PROJECT + e.id)}
+        />
       </ContentProjectBox>
     </ProjectBox>
   ))
@@ -49,7 +81,8 @@ export default function ExplorePage() {
         <Gap />
         <FilterBox>{'Filter / Sort'}</FilterBox>
         <Gap />
-        <WrapProjects>{listProject}</WrapProjects>
+
+        {!loading && <WrapProjects>{listProject}</WrapProjects>}
       </Wrap>
     </Layout>
   )

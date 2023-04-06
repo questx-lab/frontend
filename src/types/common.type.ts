@@ -1,4 +1,5 @@
 export type Rsp<T> = {
   code: number
-  data: T
+  data?: T
+  error?: string
 }
