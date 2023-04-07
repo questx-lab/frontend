@@ -46,13 +46,14 @@ api.interceptors.response.use(
     if (response.data.code === ErrorCodes.UNAUTHOR) {
       const originalRequest = response.config
       // 2. Lock request api
-      mutex.acquire()
+      await mutex.acquire()
       const refreshToken = getRefreshToken()
       const accessToken = getAccessToken()
 
       // 3. If exist refreshToken => renew access token, else logout
       if (refreshToken && !accessToken) {
         // 4. Call api refresh token
+
         const { data } = await api.post('/refresh', {
           refresh_token: refreshToken,
         })
@@ -72,6 +73,15 @@ api.interceptors.response.use(
           // 7. Unlock
           mutex.release()
         }
+      }
+
+      if (refreshToken && accessToken) {
+        // 8. Recall request
+        axios.request(originalRequest).then((data) => {
+          return data
+        })
+        // 9. Unlock
+        mutex.release()
       }
 
       if (!refreshToken && !accessToken) {

@@ -67,7 +67,9 @@ export default function NewProject() {
   ))
 
   let [isOpen, setIsOpen] = useState<boolean>(false)
-
+  const getProject = async (p: ReqNewProject) => {
+    await newProjectApi(p)
+  }
   const handleSubmit = async () => {
     setIsOpen(true)
     try {
@@ -76,11 +78,14 @@ export default function NewProject() {
         telegram: telRef.current?.value ?? '',
         discord: discordRef.current?.value ?? '',
       }
+      console.log('call api 1', getProject(payload))
+      console.log('call api 2', getProject(payload))
+      console.log('call api 3', getProject(payload))
+      console.log('call api 4', getProject(payload))
+
       const data = await newProjectApi(payload)
-      setTimeout(() => {
-        setIsOpen(false)
-        router.push(RouterConst.PROJECT + data.data?.id)
-      }, 1000)
+
+      router.push(RouterConst.PROJECT + data.data?.id)
     } catch (error) {
       setIsOpen(false)
       toast.error('Error while create project')
