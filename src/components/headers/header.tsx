@@ -9,7 +9,7 @@ import { StorageConst } from '@/constants/storage.const'
 import AuthType from '@/modules/login/auth-type'
 import { useStoreActions, useStoreState } from '@/store/store'
 import { MenuBtn } from '@/styles/button.style'
-import { Divider, Gap } from '@/styles/common.style'
+import { Divider, Gap, LightText, MediumText } from '@/styles/common.style'
 import {
   AvatarBox,
   BoxLink,
@@ -22,6 +22,9 @@ import {
   NavTitle,
   NavUnderline,
   NavWrap,
+  PopItem,
+  PopPanel,
+  PopWrap,
   RightSession,
   TitleText,
   Underline,
@@ -31,6 +34,7 @@ import {
   Wrap,
 } from '@/styles/header.style'
 import { delCookies, getAccessToken } from '@/utils/helper'
+import { Popover } from '@headlessui/react'
 
 const Header = () => {
   const isNavBar = useStoreState((state) => state.navBar.isOpen)
@@ -44,6 +48,8 @@ const Header = () => {
   const loginAction = useStoreActions(
     (action) => action.userSession.updateState
   )
+
+  const userAction = useStoreActions((action) => action.userSession.updateUser)
 
   const navBarAction = useStoreActions((action) => action.navBar.updateState)
 
@@ -61,21 +67,24 @@ const Header = () => {
     if (path && path.includes(RouterConst.MY_PROJECTS)) {
       setNavActive(3)
     }
-  }, [path])
 
-  useEffect(() => {
-    setHydrated(true)
-  }, [])
-
-  useEffect(() => {
     const accessToken = getAccessToken()
     if (accessToken && !isLogin) {
       loginAction(true)
     }
     if (!accessToken && isLogin) {
       loginAction(false)
+      userAction({})
     }
-  })
+
+    if (!accessToken && !isLogin && Object.keys(userState)) {
+      userAction({})
+    }
+  }, [path])
+
+  useEffect(() => {
+    setHydrated(true)
+  }, [])
 
   if (!hydrated) {
     return null
@@ -125,19 +134,53 @@ const Header = () => {
         <RightSession>
           {isLogin ? (
             <UserSession>
-              <Image
-                width={35}
-                height={35}
-                src={StorageConst.NOTIFICATION_ICON.src}
-                alt={StorageConst.NOTIFICATION_ICON.alt}
-              />
+              <PopWrap>
+                <Popover.Button className={'outline-0'}>
+                  <Image
+                    width={35}
+                    height={35}
+                    src={StorageConst.NOTIFICATION_ICON.src}
+                    alt={StorageConst.NOTIFICATION_ICON.alt}
+                  />
+                </Popover.Button>
+
+                <PopPanel>
+                  <PopItem>
+                    <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+                    <Gap height={2} />
+                    <MediumText>{'Headline'}</MediumText>
+                    <Gap height={2} />
+                    <LightText>{'Notification content'}</LightText>
+                    <Divider />
+                  </PopItem>
+                  <PopItem>
+                    <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+                    <Gap height={2} />
+                    <MediumText>{'Headline'}</MediumText>
+                    <Gap height={2} />
+                    <LightText>{'Notification content'}</LightText>
+                    <Divider />
+                  </PopItem>
+                  <PopItem>
+                    <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+                    <Gap height={2} />
+                    <MediumText>{'Headline'}</MediumText>
+                    <Gap height={2} />
+                    <LightText>{'Notification content'}</LightText>
+                    <Divider />
+                  </PopItem>
+                </PopPanel>
+              </PopWrap>
+
               <AvatarBox
                 width={40}
                 height={40}
                 src={StorageConst.AVATAR_DEFAUL.src}
                 alt={StorageConst.AVATAR_DEFAUL.alt}
               />
-              <UserInfo onClick={handleLogout}>
+              <UserInfo
+                onClick={() => router.push(RouterConst.USER + userState.id)}
+              >
                 <DesNameTxt>{'Explorer'}</DesNameTxt>
                 <UserNameTxt>
                   {(userState.name ?? '').split('@')[0].toUpperCase()}

@@ -1,5 +1,11 @@
-import { AddRoleBtn, SubmitBtn } from '@/styles/button.style'
-import { Gap } from '@/styles/common.style'
+import { Fragment, useRef, useState } from 'react'
+
+import { toast } from 'react-hot-toast'
+
+import { addRoleProjectApi } from '@/app/api/client/project'
+import { useStoreState } from '@/store/store'
+import { AddRoleBtn, FullWidthBtnBox, SubmitBtn } from '@/styles/button.style'
+import { CloseIcon, ColSWrap, EndWrap, Gap } from '@/styles/common.style'
 import {
   MBtn,
   MWrapBtn,
@@ -13,8 +19,61 @@ import {
   PTr,
   QuestWrap,
 } from '@/styles/home.style'
+import { InputBox } from '@/styles/input.style'
+import {
+  DialogPannel,
+  ModalBg,
+  ModalContent,
+  ModalWrap,
+  TitleModal,
+} from '@/styles/modal.style'
+import {
+  LabelInput,
+  ListBoxWrap,
+  ListOps,
+  SpanIcon,
+  SpanList,
+} from '@/styles/myProjects.style'
+import { ReqNewRoleProject } from '@/types/project.type'
+import { Dialog, Listbox, Transition } from '@headlessui/react'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+
+const Role = [{ name: 'reviewer' }, { name: 'editor' }]
 
 export default function PManageMod() {
+  let [isOpen, setIsOpen] = useState<boolean>(false)
+  const [selected, setSelected] = useState(Role[0])
+  const emailRef = useRef<HTMLInputElement>(null)
+  const metaRef = useRef<HTMLInputElement>(null)
+  const projectState = useStoreState((state) => state.project.curProject)
+
+  const onClose = () => setIsOpen(false)
+  const onOpen = () => {
+    setIsOpen(true)
+    setSelected(Role[0])
+  }
+
+  const handleAdRole = async () => {
+    try {
+      const payload: ReqNewRoleProject = {
+        project_id: projectState.id ?? '',
+        user_id: emailRef.current?.value ?? '',
+        name: selected.name,
+      }
+
+      const data = await addRoleProjectApi(payload)
+
+      if (data.error) {
+        toast.error(data.error)
+        return
+      }
+      toast.success('Add user success')
+      onClose()
+    } catch (error) {
+      toast.error('Error while adding')
+    }
+  }
+
   return (
     <QuestWrap>
       <Gap height={8} />
@@ -29,7 +88,7 @@ export default function PManageMod() {
         <MBtn>{'0 Quests'}</MBtn>
       </MWrapBtn>
       <Gap height={8} />
-      <AddRoleBtn>{'add new role'.toUpperCase()}</AddRoleBtn>
+      <AddRoleBtn onClick={onOpen}>{'add new role'.toUpperCase()}</AddRoleBtn>
       <Gap height={8} />
       <PTableWrap>
         <PTable>
@@ -79,6 +138,116 @@ export default function PManageMod() {
           </tbody>
         </PTable>
       </PTableWrap>
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as='div' className='relative z-10' onClose={() => {}}>
+          <Transition.Child
+            as={Fragment}
+            enter='ease-out duration-300'
+            enterFrom='opacity-0'
+            enterTo='opacity-100'
+            leave='ease-in duration-200'
+            leaveFrom='opacity-100'
+            leaveTo='opacity-0'
+          >
+            <ModalBg />
+          </Transition.Child>
+          <ModalWrap>
+            <ModalContent>
+              <Transition.Child
+                as={Fragment}
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
+              >
+                <DialogPannel>
+                  <EndWrap>
+                    <CloseIcon
+                      onClick={onClose}
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={1.5}
+                      stroke='currentColor'
+                      className='w-6 h-6'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M6 18L18 6M6 6l12 12'
+                      />
+                    </CloseIcon>
+                  </EndWrap>
+                  <TitleModal>{'Add New Role'}</TitleModal>
+                  <Gap height={6} />
+                  <ColSWrap>
+                    <LabelInput>{'Email Address*'}</LabelInput>
+                    <Gap height={2} />
+                    <InputBox ref={emailRef} placeholder='Enter' />
+                    <Gap height={6} />
+                    <LabelInput>{'MetaMask Wallet'}</LabelInput>
+                    <Gap height={2} />
+                    <InputBox ref={metaRef} placeholder='Enter' />
+                    <Gap height={6} />
+                    <LabelInput>{'Role'}</LabelInput>
+                    <Gap height={2} />
+                    <Listbox value={selected} onChange={setSelected}>
+                      <div className='relative w-full border-2 border-solid border-black rounded-lg'>
+                        <Listbox.Button className='relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
+                          <span className='block truncate'>
+                            {selected.name}
+                          </span>
+                          <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
+                            <ChevronUpDownIcon
+                              className='h-5 w-5 text-gray-400'
+                              aria-hidden='true'
+                            />
+                          </span>
+                        </Listbox.Button>
+                        <Transition
+                          as={Fragment}
+                          leave='transition ease-in duration-100'
+                          leaveFrom='opacity-100'
+                          leaveTo='opacity-0'
+                        >
+                          <ListBoxWrap>
+                            {Role.map((r, personIdx) => (
+                              <ListOps key={personIdx} value={r}>
+                                {({ selected }) => (
+                                  <>
+                                    <SpanList isSelect={selected}>
+                                      {r.name}
+                                    </SpanList>
+                                    {selected ? (
+                                      <SpanIcon>
+                                        <CheckIcon
+                                          className='h-5 w-5'
+                                          aria-hidden='true'
+                                        />
+                                      </SpanIcon>
+                                    ) : null}
+                                  </>
+                                )}
+                              </ListOps>
+                            ))}
+                          </ListBoxWrap>
+                        </Transition>
+                      </div>
+                      <Gap height={9} />
+                      <FullWidthBtnBox onClick={handleAdRole}>
+                        {'ADD ROLE'}
+                      </FullWidthBtnBox>
+                      <Gap height={4} />
+                    </Listbox>
+                  </ColSWrap>
+                </DialogPannel>
+              </Transition.Child>
+            </ModalContent>
+          </ModalWrap>
+        </Dialog>
+      </Transition>
     </QuestWrap>
   )
 }

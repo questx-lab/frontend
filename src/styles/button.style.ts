@@ -127,6 +127,14 @@ export const CreateProjectBtn = styled.button<CreateProjectType>(
   ]
 )
 
+export const PActionWrap = tw.div`
+  w-full
+  flex
+  flex-row
+  justify-center
+  items-center
+`
+
 export const Pcancel = tw.button`
   bg-white
   border
@@ -181,4 +189,12 @@ export const PSave = styled.button<CreateProjectType>(({ isBlock = true }) => [
 export const MenuBtn = tw.button`
   lg:hidden
   max-lg:mr-2
+`
+
+export const DelBtn = tw.button`
+  w-[120px]
+  bg-white
+  text-sm
+  font-normal
+  text-[#FD0505]
 `

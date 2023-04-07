@@ -11,7 +11,7 @@ import Project from '@/modules/project'
 import { useStoreActions, useStoreState } from '@/store/store'
 import { getAccessToken } from '@/utils/helper'
 
-import { GetUserApi } from './api/client/user'
+import { getUserApi } from './api/client/user'
 
 export default function Home() {
   const router = useRouter()
@@ -38,7 +38,7 @@ export default function Home() {
 
   const getUserData = async () => {
     try {
-      const user = await GetUserApi()
+      const user = await getUserApi()
       actionUser(user.data!)
     } catch (error) {}
   }

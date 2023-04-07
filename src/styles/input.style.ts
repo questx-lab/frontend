@@ -10,6 +10,13 @@ export const InputBox = tw.input`
   rounded-lg
 `
 
+export const InputBBox = tw.input`
+  w-full
+  border-0
+  p-3
+  rounded-lg
+`
+
 export const MulInputBox = tw.textarea`
   w-full
   border

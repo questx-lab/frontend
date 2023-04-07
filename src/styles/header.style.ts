@@ -3,6 +3,8 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { Popover } from '@headlessui/react'
+
 type NavBarType = {
   isActive: boolean
 }
@@ -183,4 +185,29 @@ export const NavUnderline = tw.div`
   bg-white
   mt-1
   w-[120px]
+`
+
+export const PopWrap = styled(Popover)(tw`
+  relative
+`)
+
+export const PopPanel = styled(Popover.Panel)(tw`
+  right-0 
+  rounded-lg 
+  p-6 
+  mt-5 
+  absolute z-10 
+  bg-white 
+  shadow-lg
+  w-[350px] 
+  h-[500px]
+  flex
+  flex-col
+`)
+
+export const PopItem = tw.div`
+  flex
+  flex-col
+  w-full
+  py-2
 `

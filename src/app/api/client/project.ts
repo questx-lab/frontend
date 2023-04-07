@@ -4,6 +4,7 @@ import {
   ListProjectsType,
   ProjectType,
   ReqNewProject,
+  ReqNewRoleProject,
   ReqUpdateProject,
 } from '@/types/project.type'
 
@@ -43,6 +44,16 @@ export const listProjectsApi = async (
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
       `/getListProject?offset=${offset}&limit=${limit}`
+  )
+  return rs.data
+}
+
+export const addRoleProjectApi = async (
+  data: ReqNewRoleProject
+): Promise<Rsp<{ id: string }>> => {
+  const rs = await api.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + '/createCollaborator',
+    data
   )
   return rs.data
 }

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 
-import { useSearchParams } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 
 import { getProjectApi } from '@/app/api/client/project'
@@ -13,7 +12,6 @@ import { useStoreActions } from '@/store/store'
 
 export default function ProjectPage(props: { params: { id: string } }) {
   const [loading, setLoading] = useState<boolean>(true)
-  const router = useSearchParams()
   const projectAction = useStoreActions((action) => action.project.upCurProject)
 
   useEffect(() => {

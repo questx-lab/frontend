@@ -254,13 +254,6 @@ export const PCategoryItem = tw.div`
   cursor-pointer
 `
 
-export const PActionWrap = tw.div`
-  w-full
-  flex
-  flex-row
-  justify-center
-  items-center
-`
 // ================== PROJECT MANAGEMENT STYLE ==================
 export const MWrapBtn = tw.div`
   w-full
