@@ -45,48 +45,54 @@ api.interceptors.response.use(
     // 1. Check code response
     if (response.data.code === ErrorCodes.UNAUTHOR) {
       const originalRequest = response.config
-      const refreshToken = getRefreshToken()
-
-      if (!refreshToken) {
-        window.location.href = RouterConst.LOGIN
-        return response
-      }
 
       // 2. Lock request api
       await mutex.acquire()
+      const refreshToken = getRefreshToken()
       const accessToken = getAccessToken()
+
+      if (!refreshToken) {
+        window.location.href = RouterConst.LOGIN
+        mutex.release()
+        return response
+      }
 
       // 3. If exist refreshToken => renew access token, else logout
       if (!accessToken) {
         // 4. Call api refresh token
-
-        const { data } = await api.post('/refresh', {
-          refresh_token: refreshToken,
-        })
-
-        if (!data.data.error) {
-          // 5. set header and cookies
-          originalRequest.headers['Authorization'] =
-            'Bearer ' + data.data.access_token
-          setAccessToken(data.data.access_token)
-          setRefreshToken(data.data.refresh_token)
-
-          // 6. Recall request
-          axios.request(originalRequest).then((data) => {
-            mutex.release()
-            return data
+        try {
+          const { data } = await api.post('/refresh', {
+            refresh_token: refreshToken,
           })
+
+          if (!data.data.error) {
+            // 5. set header and cookies
+            originalRequest.headers['Authorization'] =
+              'Bearer ' + data.data.access_token
+            setAccessToken(data.data.access_token)
+            setRefreshToken(data.data.refresh_token)
+
+            // 6. Recall request
+            axios.request(originalRequest).then((data) => {
+              mutex.release()
+              return data
+            })
+          } else {
+            mutex.release()
+          }
+        } catch (error) {
+          mutex.release()
+          Promise.reject(error)
         }
-      } else {
+      }
+
+      if (refreshToken && accessToken) {
         // 7. Recall request
         axios.request(originalRequest).then((data) => {
           mutex.release()
           return data
         })
       }
-
-      // 8. Unlock
-      mutex.release()
     }
 
     return response
