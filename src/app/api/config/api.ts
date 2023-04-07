@@ -45,13 +45,19 @@ api.interceptors.response.use(
     // 1. Check code response
     if (response.data.code === ErrorCodes.UNAUTHOR) {
       const originalRequest = response.config
+      const refreshToken = getRefreshToken()
+
+      if (!refreshToken) {
+        window.location.href = RouterConst.LOGIN
+        return response
+      }
+
       // 2. Lock request api
       await mutex.acquire()
-      const refreshToken = getRefreshToken()
       const accessToken = getAccessToken()
 
       // 3. If exist refreshToken => renew access token, else logout
-      if (refreshToken && !accessToken) {
+      if (!accessToken) {
         // 4. Call api refresh token
 
         const { data } = await api.post('/refresh', {
@@ -67,26 +73,20 @@ api.interceptors.response.use(
 
           // 6. Recall request
           axios.request(originalRequest).then((data) => {
+            mutex.release()
             return data
           })
-
-          // 7. Unlock
-          mutex.release()
         }
-      }
-
-      if (refreshToken && accessToken) {
-        // 8. Recall request
+      } else {
+        // 7. Recall request
         axios.request(originalRequest).then((data) => {
+          mutex.release()
           return data
         })
-        // 9. Unlock
-        mutex.release()
       }
 
-      if (!refreshToken && !accessToken) {
-        window.location.href = RouterConst.LOGIN
-      }
+      // 8. Unlock
+      mutex.release()
     }
 
     return response
