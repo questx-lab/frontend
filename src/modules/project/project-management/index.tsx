@@ -72,7 +72,7 @@ export default function PManageMod() {
         toast.error(data.error)
         return
       }
-      toast.success('Add user success')
+      toast.success('Use is added successfully')
       onClose()
     } catch (error) {
       toast.error('Error while adding')
