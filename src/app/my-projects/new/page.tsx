@@ -8,6 +8,7 @@ import { DotLoader } from 'react-spinners'
 
 import { newProjectApi } from '@/app/api/client/project'
 import Layout from '@/components/layouts/layout'
+import { RouterConst } from '@/constants/router.const'
 import {
   ConnectTwitterBtn,
   CreateProjectBtn,
@@ -67,9 +68,6 @@ export default function NewProject() {
 
   let [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const hihi = async (p: ReqNewProject) => {
-    await newProjectApi(p)
-  }
   const handleSubmit = async () => {
     setIsOpen(true)
     try {
@@ -78,12 +76,9 @@ export default function NewProject() {
         telegram: telRef.current?.value ?? '',
         discord: discordRef.current?.value ?? '',
       }
-      hihi(payload)
-      hihi(payload)
-      hihi(payload)
-      hihi(payload)
+      const data = await newProjectApi(payload)
 
-      // router.push(RouterConst.PROJECT + data.data?.id)
+      router.push(RouterConst.PROJECT + data.data?.id)
     } catch (error) {
       setIsOpen(false)
       toast.error('Error while create project')
