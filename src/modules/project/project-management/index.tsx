@@ -7,7 +7,12 @@ import { useStoreState } from '@/store/store'
 import { AddRoleBtn, FullWidthBtnBox, SubmitBtn } from '@/styles/button.style'
 import { CloseIcon, ColSWrap, EndWrap, Gap } from '@/styles/common.style'
 import {
+  MBoxBtn,
   MBtn,
+  MDialog,
+  MLbox,
+  MSpanIcon,
+  MSpanName,
   MWrapBtn,
   NotifyBox,
   NotifyText,
@@ -35,7 +40,7 @@ import {
   SpanList,
 } from '@/styles/myProjects.style'
 import { ReqNewRoleProject } from '@/types/project.type'
-import { Dialog, Listbox, Transition } from '@headlessui/react'
+import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 const Role = [{ name: 'reviewer' }, { name: 'editor' }]
@@ -139,7 +144,7 @@ export default function PManageMod() {
         </PTable>
       </PTableWrap>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={() => {}}>
+        <MDialog onClose={() => {}}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -194,18 +199,16 @@ export default function PManageMod() {
                     <LabelInput>{'Role'}</LabelInput>
                     <Gap height={2} />
                     <Listbox value={selected} onChange={setSelected}>
-                      <div className='relative w-full border-2 border-solid border-black rounded-lg'>
-                        <Listbox.Button className='relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
-                          <span className='block truncate'>
-                            {selected.name}
-                          </span>
-                          <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
+                      <MLbox>
+                        <MBoxBtn>
+                          <MSpanName>{selected.name}</MSpanName>
+                          <MSpanIcon>
                             <ChevronUpDownIcon
                               className='h-5 w-5 text-gray-400'
                               aria-hidden='true'
                             />
-                          </span>
-                        </Listbox.Button>
+                          </MSpanIcon>
+                        </MBoxBtn>
                         <Transition
                           as={Fragment}
                           leave='transition ease-in duration-100'
@@ -234,7 +237,7 @@ export default function PManageMod() {
                             ))}
                           </ListBoxWrap>
                         </Transition>
-                      </div>
+                      </MLbox>
                       <Gap height={9} />
                       <FullWidthBtnBox onClick={handleAdRole}>
                         {'ADD ROLE'}
@@ -246,7 +249,7 @@ export default function PManageMod() {
               </Transition.Child>
             </ModalContent>
           </ModalWrap>
-        </Dialog>
+        </MDialog>
       </Transition>
     </QuestWrap>
   )
