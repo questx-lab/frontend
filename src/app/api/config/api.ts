@@ -1,15 +1,23 @@
+import { Mutex } from 'async-mutex'
 import axios, { AxiosError } from 'axios'
 import { GetServerSidePropsContext } from 'next'
 
+import { ErrorCodes } from '@/constants/code.const'
 import { RouterConst } from '@/constants/router.const'
-import { delCookies, getAccessToken } from '@/utils/helper'
+import {
+  delCookies,
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from '@/utils/helper'
 
 const isServer = () => {
   return typeof window === 'undefined'
 }
-
+const mutex = new Mutex()
 let context = <GetServerSidePropsContext>{}
-const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL!
+const baseURL = process.env.NEXT_PUBLIC_API_URL!
 
 export const api = axios.create({
   baseURL,
@@ -33,7 +41,44 @@ api.interceptors.request.use((config) => {
 })
 
 api.interceptors.response.use(
-  (response: any) => {
+  async (response) => {
+    // 1. Check code response
+    if (response.data.code === ErrorCodes.UNAUTHOR) {
+      const originalRequest = response.config
+      // 2. Lock request api
+      mutex.acquire()
+      const refreshToken = getRefreshToken()
+      const accessToken = getAccessToken()
+
+      // 3. If exist refreshToken => renew access token, else logout
+      if (refreshToken && !accessToken) {
+        // 4. Call api refresh token
+        const { data } = await api.post('/refresh', {
+          refresh_token: refreshToken,
+        })
+
+        if (!data.data.error) {
+          // 5. set header and cookies
+          originalRequest.headers['Authorization'] =
+            'Bearer ' + data.data.access_token
+          setAccessToken(data.data.access_token)
+          setRefreshToken(data.data.refresh_token)
+
+          // 6. Recall request
+          axios.request(originalRequest).then((data) => {
+            return data
+          })
+
+          // 7. Unlock
+          mutex.release()
+        }
+      }
+
+      if (!refreshToken && !accessToken) {
+        window.location.href = RouterConst.LOGIN
+      }
+    }
+
     return response
   },
   (error: AxiosError) => {
