@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { Dialog, Listbox } from '@headlessui/react'
+
 type TabActive = {
   isActive: boolean
 }
@@ -254,13 +256,6 @@ export const PCategoryItem = tw.div`
   cursor-pointer
 `
 
-export const PActionWrap = tw.div`
-  w-full
-  flex
-  flex-row
-  justify-center
-  items-center
-`
 // ================== PROJECT MANAGEMENT STYLE ==================
 export const MWrapBtn = tw.div`
   w-full
@@ -323,3 +318,45 @@ export const PTd = tw.td`
   px-6 
   py-4
 `
+
+export const MLbox = tw.div`
+  relative 
+  w-full 
+  border-2 
+  border-solid 
+  border-black 
+  rounded-lg
+`
+
+export const MBoxBtn = styled(Listbox.Button)(tw`
+  relative 
+  w-full 
+  cursor-default 
+  rounded-lg 
+  bg-white 
+  py-2 
+  pl-3 
+  pr-10 
+  text-left 
+  shadow-md 
+  focus:outline-none 
+  sm:text-sm
+`)
+
+export const MSpanName = tw.span`
+block truncate
+`
+
+export const MSpanIcon = tw.span`
+  pointer-events-none 
+  absolute 
+  inset-y-0 
+  right-0 
+  flex 
+  items-center 
+  pr-2
+`
+
+export const MDialog = styled(Dialog)(tw`
+  relative z-10
+`)

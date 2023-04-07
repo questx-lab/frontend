@@ -29,3 +29,9 @@ export type ProjectType = {
 export type ListProjectsType = {
   projects: ProjectType[]
 }
+
+export type ReqNewRoleProject = {
+  project_id: string
+  user_id: string
+  name: string
+}

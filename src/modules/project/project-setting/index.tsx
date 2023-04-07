@@ -6,6 +6,7 @@ import { updateProjectApi } from '@/app/api/client/project'
 import { useStoreState } from '@/store/store'
 import {
   ConnectedTwitterBtn,
+  PActionWrap,
   Pcancel,
   PSave,
   SubmitBtn,
@@ -14,7 +15,6 @@ import { Divider, Gap } from '@/styles/common.style'
 import {
   NotifyBox,
   NotifyText,
-  PActionWrap,
   PCategoryItem,
   PCateWrap,
   PHalfSession,

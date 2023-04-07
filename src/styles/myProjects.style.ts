@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { Listbox } from '@headlessui/react'
+
 type TabActive = {
   isActive: boolean
 }
@@ -12,6 +14,14 @@ type CreatedProjectBoxType = {
 
 type DirectType = {
   position?: number
+}
+
+type ListOpsType = {
+  isActive?: boolean
+}
+
+type SpanSelect = {
+  isSelect: boolean
 }
 
 export const Wrap = tw.div`
@@ -255,4 +265,60 @@ export const CategoryItem = tw.div`
   cursor-pointer
   hover:bg-gray-700
   hover:text-white
+`
+
+export const ListBoxWrap = styled(Listbox.Options)(tw`
+  absolute 
+  mt-1 
+  max-h-80 
+  w-full 
+  overflow-auto 
+  rounded-md 
+  bg-white 
+  text-xl 
+  shadow-lg 
+  ring-1 
+  ring-black 
+  ring-opacity-5 
+  focus:outline-none 
+  sm:text-sm
+`)
+
+export const ListOps = styled(Listbox.Option)<ListOpsType>(
+  ({ isActive = true }) => [
+    isActive
+      ? tw`
+        relative 
+        cursor-default 
+        select-none 
+        py-2 
+        pl-10 
+        pr-4
+        bg-gray-100 
+        text-gray-900
+      `
+      : tw`
+        relative 
+        cursor-default 
+        select-none 
+        py-2 
+        pl-10 
+        pr-4
+        text-gray-900
+      `,
+  ]
+)
+
+export const SpanList = styled.span<SpanSelect>(({ isSelect }) => [
+  isSelect ? tw`block truncate font-bold` : tw`block truncate font-normal`,
+])
+
+export const SpanIcon = tw.span`
+  absolute 
+  inset-y-0 
+  left-0 
+  flex 
+  items-center 
+  pl-3 
+  text-gray-600
 `

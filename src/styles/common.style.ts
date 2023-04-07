@@ -26,6 +26,14 @@ const widthFormat = (num: number) => {
       return tw`w-8`
     case 9:
       return tw`w-9`
+    case 10:
+      return tw`w-[40px]`
+    case 11:
+      return tw`w-[50px]`
+    case 12:
+      return tw`w-[60px]`
+    case 13:
+      return tw`w-[70px]`
     default:
       return tw`w-0`
   }
@@ -51,6 +59,14 @@ const heightFormat = (num: number) => {
       return tw`h-8`
     case 9:
       return tw`h-9`
+    case 10:
+      return tw`h-[12px]`
+    case 11:
+      return tw`h-[18px]`
+    case 12:
+      return tw`h-[24px]`
+    case 13:
+      return tw`h-[32px]`
     default:
       return tw`h-0`
   }
@@ -73,3 +89,113 @@ export const SpinnerStyle: CSSProperties = {
   margin: '0 auto',
   borderColor: '#000',
 }
+
+export const ColSWrap = tw.div`
+  w-full
+  flex
+  flex-col
+  justify-start
+  items-start
+`
+
+export const RowSWrap = tw.div`
+  w-full
+  flex
+  flex-row
+  justify-start
+  items-start
+`
+
+export const RowBWrap = tw.div`
+  w-full
+  flex
+  flex-row
+  justify-between
+  items-center
+`
+
+export const ColCWrap = tw.div`
+  w-full
+  flex
+  flex-col
+  justify-center
+  items-center
+`
+
+export const RowCWrap = tw.div`
+  w-full
+  flex
+  flex-row
+  justify-center
+  items-center
+`
+
+export const EndWrap = tw.div`
+  w-full
+  flex
+  justify-end
+  items-center
+`
+
+export const CloseIcon = tw.svg`
+  w-6
+  h-6
+  cursor-pointer
+`
+
+export const ImgBox = tw.div`
+  w-[200px]
+  h-[180px]
+  border-2
+  border-gray-300
+  rounded-lg
+  bg-gray-50
+`
+export const LargeTitle = tw.p`
+  text-4xl
+  text-black
+  font-bold
+  max-sm:text-2xl
+`
+
+export const MediumTitle = tw.p`
+  text-3xl
+  text-black
+  font-bold
+  max-sm:text-2xl
+`
+
+export const SmallTitle = tw.p`
+  text-xl
+  text-black
+  font-bold
+  max-sm:text-2xl
+`
+
+export const LargeText = tw.p`
+  text-xl
+  text-black
+  font-bold
+  max-sm:text-2xl
+`
+
+export const MediumText = tw.p`
+  text-sm
+  text-black
+  font-bold
+  max-sm:text-2xl
+`
+
+export const NormalText = tw.p`
+  text-sm
+  text-black
+  font-normal
+  max-sm:text-2xl
+`
+
+export const LightText = tw.p`
+  text-sm
+  text-black
+  font-light
+  max-sm:text-2xl
+`
