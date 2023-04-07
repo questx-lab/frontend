@@ -46,52 +46,51 @@ api.interceptors.response.use(
     if (response.data.code === ErrorCodes.UNAUTHOR) {
       const originalRequest = response.config
 
-      // 2. Lock request api
-      await mutex.acquire()
-      const refreshToken = getRefreshToken()
-      const accessToken = getAccessToken()
+      try {
+        // 2. Lock request api
+        await mutex.acquire()
+        const refreshToken = getRefreshToken()
+        const accessToken = getAccessToken()
 
-      if (!refreshToken) {
-        window.location.href = RouterConst.LOGIN
-        mutex.release()
-        return response
-      }
-
-      // 3. If exist refreshToken => renew access token, else logout
-      if (!accessToken) {
-        // 4. Call api refresh token
-        try {
-          const { data } = await api.post('/refresh', {
-            refresh_token: refreshToken,
-          })
-
-          if (!data.data.error) {
-            // 5. set header and cookies
-            originalRequest.headers['Authorization'] =
-              'Bearer ' + data.data.access_token
-            setAccessToken(data.data.access_token)
-            setRefreshToken(data.data.refresh_token)
-
-            // 6. Recall request
-            axios.request(originalRequest).then((data) => {
-              mutex.release()
-              return data
-            })
-          } else {
-            mutex.release()
-          }
-        } catch (error) {
-          mutex.release()
-          Promise.reject(error)
+        if (!refreshToken) {
+          window.location.href = RouterConst.LOGIN
+          return response
         }
-      }
 
-      if (refreshToken && accessToken) {
-        // 7. Recall request
-        axios.request(originalRequest).then((data) => {
-          mutex.release()
-          return data
-        })
+        // 3. If exist refreshToken => renew access token, else logout
+        if (!accessToken) {
+          // 4. Call api refresh token
+          try {
+            const { data } = await api.post('/refresh', {
+              refresh_token: refreshToken,
+            })
+
+            if (!data.data.error) {
+              // 5. set header and cookies
+              originalRequest.headers['Authorization'] =
+                'Bearer ' + data.data.access_token
+              setAccessToken(data.data.access_token)
+              setRefreshToken(data.data.refresh_token)
+
+              // 6. Recall request
+              axios.request(originalRequest).then((data) => {
+                return data
+              })
+            }
+          } catch (error) {
+            Promise.reject(error)
+          }
+        }
+
+        if (refreshToken && accessToken) {
+          // 7. Recall request
+          axios.request(originalRequest).then((data) => {
+            return data
+          })
+        }
+      } finally {
+        // finally of mutex
+        mutex.release()
       }
     }
 
