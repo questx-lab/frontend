@@ -7,6 +7,7 @@ import FacebookProvider from 'next-auth/providers/facebook'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
+import DiscordProvider from "next-auth/providers/discord";
 
 import { verifyOAuth2 } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
@@ -31,6 +32,10 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         clientId: process.env.TWITTER_ID,
         clientSecret: process.env.TWITTER_SECRET,
         version: '2.0',
+      }),
+      DiscordProvider({
+        clientId: process.env.DISCORD_ID,
+        clientSecret: process.env.DISCORD_SECRET,
       }),
       Auth0Provider({
         clientId: process.env.AUTH0_ID,
