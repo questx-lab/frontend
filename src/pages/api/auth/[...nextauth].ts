@@ -8,6 +8,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
 
 import { verifyOAuth2 } from '@/app/api/client/oauth'
+import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum } from '@/constants/key.const'
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
@@ -22,8 +23,8 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         clientSecret: process.env.GITHUB_SECRET,
       }),
       GoogleProvider({
-        clientId: process.env.GOOGLE_ID,
-        clientSecret: process.env.GOOGLE_SECRET,
+        clientId: EnvVariables.GOOGLE_ID,
+        clientSecret: EnvVariables.GOOGLE_SECRET,
       }),
       TwitterProvider({
         clientId: process.env.TWITTER_ID,
@@ -36,9 +37,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         issuer: process.env.AUTH0_ISSUER,
       }),
     ],
-    theme: {
-      colorScheme: 'light',
-    },
     callbacks: {
       async jwt({ token, account }) {
         if (account?.provider == undefined) {
