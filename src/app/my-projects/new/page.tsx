@@ -77,10 +77,8 @@ export default function NewProject() {
         discord: discordRef.current?.value ?? '',
       }
       const data = await newProjectApi(payload)
-      setTimeout(() => {
-        setIsOpen(false)
-        router.push(RouterConst.PROJECT + data.data?.id)
-      }, 1000)
+
+      router.push(RouterConst.PROJECT + data.data?.id)
     } catch (error) {
       setIsOpen(false)
       toast.error('Error while create project')
