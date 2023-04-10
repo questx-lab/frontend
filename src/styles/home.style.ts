@@ -123,28 +123,36 @@ export const HeaderText = tw.h2`
 `
 
 export const SectionWrap = tw.div`
-  flex
-  flex-wrap
+  grid
+  grid-cols-4
+  max-2xl:grid-cols-3
+  max-xl:grid-cols-2
+  max-sm:grid-cols-1
+  gap-2
+  w-full
 `
 
 export const SectionBox = tw.div`
-  w-[325px]
-  h-[325px]
-  max-lg:w-full
-  border-dashed
-  border
-  border-dashed
-  border-2 border-gray-400
-  rounded-lg
-  flex
-  justify-center
-  items-center
-  text-black
-  font-bold
-  text-lg
-  mr-6
-  mb-6
-  max-lg:mr-0
+w-[325px]
+h-[325px]
+cursor-pointer
+max-lg:w-full
+border-dashed
+border
+border-dashed
+border-2 
+border-gray-400
+rounded-lg
+flex
+flex-col
+justify-center
+items-center
+text-black
+font-bold
+text-lg
+mr-6
+mb-6
+max-lg:mr-0
 `
 
 // ================== PROJECT SETTING STYLE ==================

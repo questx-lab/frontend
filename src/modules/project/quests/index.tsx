@@ -1,3 +1,12 @@
+import { useEffect, useState } from 'react'
+
+import Image from 'next/image'
+import { usePathname, useRouter } from 'next/navigation'
+import { toast } from 'react-hot-toast'
+
+import { listQuestApi } from '@/app/api/client/quest'
+import { Spinner } from '@/components/spinner/spinner'
+import { StorageConst } from '@/constants/storage.const'
 import { SubmitBtn } from '@/styles/button.style'
 import { Divider, Gap } from '@/styles/common.style'
 import {
@@ -11,6 +20,7 @@ import {
   SectionWrap,
 } from '@/styles/home.style'
 import { CategoryBox, CategoryItem } from '@/styles/myProjects.style'
+import { QuestType } from '@/types/project.type'
 
 const categories = [
   'NFT',
@@ -25,13 +35,64 @@ const categories = [
 ]
 
 export default function QuestMod() {
+  const pathName = usePathname()
+  const router = useRouter()
+  const [questTw, setQuestTw] = useState<QuestType[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    getQuests()
+  }, [pathName])
+
   const listCategory = categories.map((e, i) => (
     <CategoryItem key={i}>{e}</CategoryItem>
   ))
 
-  const listQuests = Array.from(Array(10).keys()).map((e) => (
-    <SectionBox key={e}>{`+ Quest Template ${e}`}</SectionBox>
-  ))
+  const listQuests = (
+    <SectionBox onClick={() => router.push(pathName + '/twitter-quest')}>
+      <Image
+        width={50}
+        height={50}
+        src={StorageConst.TWITTER_DIR.src}
+        alt={StorageConst.TWITTER_DIR.alt}
+      />
+      <Gap height={4} width={0} />
+      {`+ Create Twitter quest`}
+    </SectionBox>
+  )
+
+  const listTwQuests =
+    !loading &&
+    questTw.map((e, i) => (
+      <SectionBox key={i}>
+        <Image
+          width={50}
+          height={50}
+          src={StorageConst.TWITTER_DIR.src}
+          alt={StorageConst.TWITTER_DIR.alt}
+        />
+        <Gap height={4} width={0} />
+        {e.title ?? ''}
+      </SectionBox>
+    ))
+
+  const getQuests = async () => {
+    try {
+      const id = pathName?.split('/').at(-1)
+      if (id) {
+        const data = await listQuestApi(id)
+        if (data.error) {
+          toast.error(data.error)
+        }
+        if (data.data) {
+          setQuestTw(data.data?.quests ?? [])
+          setLoading(false)
+        }
+      }
+    } catch (error) {
+      toast.error('error')
+    }
+  }
 
   return (
     <QuestWrap>
@@ -47,9 +108,13 @@ export default function QuestMod() {
         <CategoryBox>{listCategory}</CategoryBox>
       </QuestWrapCat>
       <Gap height={8} />
-      <HeaderText>{'Section Title'}</HeaderText>
+      <HeaderText>{'Create New Quest'}</HeaderText>
       <Divider />
       <SectionWrap>{listQuests}</SectionWrap>
+      <HeaderText>{'Twitter Quests'}</HeaderText>
+      <Divider />
+      {!loading && <SectionWrap>{listTwQuests}</SectionWrap>}
+      {loading && <Spinner />}
     </QuestWrap>
   )
 }

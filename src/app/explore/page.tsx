@@ -81,7 +81,6 @@ export default function ExplorePage() {
         <Gap />
         <FilterBox>{'Filter / Sort'}</FilterBox>
         <Gap />
-
         {!loading && <WrapProjects>{listProject}</WrapProjects>}
       </Wrap>
     </Layout>

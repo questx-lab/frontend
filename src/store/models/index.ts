@@ -13,7 +13,7 @@ export interface StoreModel {
 const model: StoreModel = {
   userSession: persist(userSession),
   navBar,
-  project,
+  project: persist(project),
 }
 
 export default model

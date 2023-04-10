@@ -33,7 +33,6 @@ import {
   UserSession,
   Wrap,
 } from '@/styles/header.style'
-import { delCookies, getAccessToken } from '@/utils/helper'
 import { Popover } from '@headlessui/react'
 
 const Header = () => {
@@ -44,12 +43,6 @@ const Header = () => {
   const userState = useStoreState((state) => state.userSession.user)
   const navBarState = useStoreState((state) => state.navBar.isOpen)
   const [hydrated, setHydrated] = useState(false)
-
-  const loginAction = useStoreActions(
-    (action) => action.userSession.updateState
-  )
-
-  const userAction = useStoreActions((action) => action.userSession.updateUser)
 
   const navBarAction = useStoreActions((action) => action.navBar.updateState)
 
@@ -67,19 +60,6 @@ const Header = () => {
     if (path && path.includes(RouterConst.MY_PROJECTS)) {
       setNavActive(3)
     }
-
-    const accessToken = getAccessToken()
-    if (accessToken && !isLogin) {
-      loginAction(true)
-    }
-    if (!accessToken && isLogin) {
-      loginAction(false)
-      userAction({})
-    }
-
-    if (!accessToken && !isLogin && Object.keys(userState)) {
-      userAction({})
-    }
   }, [path])
 
   useEffect(() => {
@@ -88,10 +68,6 @@ const Header = () => {
 
   if (!hydrated) {
     return null
-  }
-  const handleLogout = () => {
-    loginAction(false)
-    delCookies()
   }
 
   const handleClick = (url: string) => {

@@ -12,6 +12,8 @@ import {
   setRefreshToken,
 } from '@/utils/helper'
 
+import { refreshTokenApi } from '../client/user'
+
 const isServer = () => {
   return typeof window === 'undefined'
 }
@@ -61,9 +63,7 @@ api.interceptors.response.use(
         if (!accessToken) {
           // 4. Call api refresh token
           try {
-            const { data } = await api.post('/refresh', {
-              refresh_token: refreshToken,
-            })
+            const data = await refreshTokenApi(refreshToken)
 
             if (!data.data.error) {
               // 5. set header and cookies

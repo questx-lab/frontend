@@ -20,7 +20,9 @@ export const newProjectApi = async (
   return rs.data
 }
 
-export const getProjectApi = async (id: string): Promise<Rsp<ProjectType>> => {
+export const getProjectApi = async (
+  id: string
+): Promise<Rsp<{ project: ProjectType }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL + `/getProjectByID?id=${id}`
   )
