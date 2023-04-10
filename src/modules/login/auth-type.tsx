@@ -1,27 +1,18 @@
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import toast from 'react-hot-toast'
 
-import { EnvVariables } from '@/constants/env.const'
 import { StorageConst } from '@/constants/storage.const'
 import { handleMetamask } from '@/handler/auth/metamask'
 import { useStoreActions } from '@/store/store'
 import { ImageBox, ListLogos } from '@/styles/login.style'
 
 export default function AuthType() {
-  const router = useRouter()
   const actionLogin = useStoreActions(
     (action) => action.userSession.updateState
   )
 
-  const handleLoginGoogle = () => {
-    try {
-      router.push(
-        EnvVariables.NEXT_PUBLIC_API_URL + '/oauth2/login?type=google'
-      )
-    } catch (error) {
-      toast.error('Error while login')
-    }
+  const handleLoginGoogle = async (e: React.MouseEvent<HTMLImageElement>) => {
+    e.preventDefault()
+    await signIn('google')
   }
 
   const handleSignInTwitter = async (e: React.MouseEvent<HTMLImageElement>) => {

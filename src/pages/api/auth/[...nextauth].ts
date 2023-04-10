@@ -1,49 +1,70 @@
-import NextAuth, { NextAuthOptions } from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
-import FacebookProvider from "next-auth/providers/facebook"
-import GithubProvider from "next-auth/providers/github"
-import TwitterProvider from "next-auth/providers/twitter"
-import Auth0Provider from "next-auth/providers/auth0"
-// import AppleProvider from "next-auth/providers/apple"
-// import EmailProvider from "next-auth/providers/email"
+import { serialize } from 'cookie'
+import { NextApiRequest, NextApiResponse } from 'next'
+import NextAuth from 'next-auth'
+import Auth0Provider from 'next-auth/providers/auth0'
+import FacebookProvider from 'next-auth/providers/facebook'
+import GithubProvider from 'next-auth/providers/github'
+import GoogleProvider from 'next-auth/providers/google'
+import TwitterProvider from 'next-auth/providers/twitter'
 
-// For more information on each option (and a full list of options) go to
-// https://next-auth.js.org/configuration/options
-export const authOptions: NextAuthOptions = {
-  // https://next-auth.js.org/configuration/providers/oauth
-  providers: [
+import { verifyOAuth2 } from '@/app/api/client/oauth'
+import { EnvVariables } from '@/constants/env.const'
+import { KeysEnum } from '@/constants/key.const'
 
-    FacebookProvider({
-      clientId: process.env.FACEBOOK_ID,
-      clientSecret: process.env.FACEBOOK_SECRET,
-    }),
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-    }),
-    TwitterProvider({
-      clientId: process.env.TWITTER_ID,
-      clientSecret: process.env.TWITTER_SECRET,
-    }),
-    Auth0Provider({
-      clientId: process.env.AUTH0_ID,
-      clientSecret: process.env.AUTH0_SECRET,
-      issuer: process.env.AUTH0_ISSUER,
-    }),
-  ],
-  theme: {
-    colorScheme: "light",
-  },
-  callbacks: {
-    async jwt({ token }) {
-      token.userRole = "admin"
-      return token
+export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+  return await NextAuth(req, res, {
+    providers: [
+      FacebookProvider({
+        clientId: process.env.FACEBOOK_ID,
+        clientSecret: process.env.FACEBOOK_SECRET,
+      }),
+      GithubProvider({
+        clientId: process.env.GITHUB_ID,
+        clientSecret: process.env.GITHUB_SECRET,
+      }),
+      GoogleProvider({
+        clientId: EnvVariables.GOOGLE_ID,
+        clientSecret: EnvVariables.GOOGLE_SECRET,
+      }),
+      TwitterProvider({
+        clientId: process.env.TWITTER_ID,
+        clientSecret: process.env.TWITTER_SECRET,
+        version: '2.0',
+      }),
+      Auth0Provider({
+        clientId: process.env.AUTH0_ID,
+        clientSecret: process.env.AUTH0_SECRET,
+        issuer: process.env.AUTH0_ISSUER,
+      }),
+    ],
+    callbacks: {
+      async jwt({ token, account }) {
+        if (account?.provider == undefined) {
+          return token
+        }
+
+        if (account?.access_token == undefined) {
+          return token
+        }
+
+        const resp = await verifyOAuth2(
+          account?.provider,
+          account?.access_token
+        )
+
+        res.setHeader('Set-Cookie', [
+          serialize(KeysEnum.QUESTX_TOKEN, resp.data.access_token, {
+            path: '/',
+            maxAge: 10 * 60,
+          }),
+          serialize(KeysEnum.REFRESH_TOKEN, resp.data.refresh_token, {
+            path: '/',
+            maxAge: 30 * 24 * 3600,
+          }),
+        ])
+
+        return token
+      },
     },
-  },
+  })
 }
-
-export default NextAuth(authOptions)
