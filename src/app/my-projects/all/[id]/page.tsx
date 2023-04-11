@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast'
 import { getProjectApi } from '@/app/api/client/project'
 import Layout from '@/components/layouts/layout'
 import { Spinner } from '@/components/spinner/spinner'
-import Leaderboard from '@/modules/project/leaderboard/page'
+import Project from '@/modules/project'
 import { useStoreActions } from '@/store/store'
 
 export default function ProjectPage(props: { params: { id: string } }) {
@@ -34,7 +34,7 @@ export default function ProjectPage(props: { params: { id: string } }) {
       <header>
         <title>{'Project'}</title>
       </header>
-      {!loading && <Leaderboard />}
+      {!loading && <Project />}
       {loading && <Spinner />}
     </Layout>
   )

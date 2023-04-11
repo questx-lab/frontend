@@ -46,6 +46,25 @@ export const DialogPannel = styled(Dialog.Panel)(
   `
 )
 
+export const LDDP = styled(Dialog.Panel)(
+  tw`
+  w-2/3 
+  h-[720px]
+  overflow-hidden 
+  rounded-2xl 
+  bg-white 
+  p-6
+  text-left 
+  align-middle 
+  shadow-xl 
+  transition-all
+  flex
+  flex-col
+  justify-start
+  items-center
+  `
+)
+
 export const TitleModal = tw.h2`
   text-black
   font-bold

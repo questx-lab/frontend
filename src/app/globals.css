@@ -7,3 +7,24 @@
   alignment-baseline: middle;
   font-weight: 700;
 }
+/* Firefox */
+* {
+  scrollbar-width: 5px;
+  scrollbar-color: #1f2937;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #d1d5db;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #1f2937;
+  border-radius: 15px;
+  border: 1px solid #d1d5db;
+}

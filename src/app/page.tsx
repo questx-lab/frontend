@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 
 import Layout from '@/components/layouts/layout'
 import { Spinner } from '@/components/spinner/spinner'
-import Project from '@/modules/project'
 import { useStoreState } from '@/store/store'
 
 export default function Home() {
@@ -21,7 +20,7 @@ export default function Home() {
       <header>
         <title>{'Home Page'}</title>
       </header>
-      {!loading && <Project />}
+      {/* {!loading && <Project />} */}
       {loading && <Spinner />}
     </Layout>
   )

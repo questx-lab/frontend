@@ -186,6 +186,21 @@ export const PSave = styled.button<CreateProjectType>(({ isBlock = true }) => [
         `,
 ])
 
+export const PFollow = tw.button`
+  w-40
+  bg-gray-700
+  border
+  hover:bg-gray-500
+  text-white
+  font-bold
+  text-sm
+  rounded-lg
+  p-[9px]
+  shadow-inner
+  shadow-lg
+  max-lg:text-sm
+`
+
 export const MenuBtn = tw.button`
   lg:hidden
   max-lg:mr-2
