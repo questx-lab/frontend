@@ -103,7 +103,7 @@ export const RowSWrap = tw.div`
   flex
   flex-row
   justify-start
-  items-start
+  items-center
 `
 
 export const RowBWrap = tw.div`
@@ -112,6 +112,15 @@ export const RowBWrap = tw.div`
   flex-row
   justify-between
   items-center
+`
+
+export const RowBSWrap = tw.div`
+  w-full
+  flex
+  flex-row
+  justify-between
+  items-start
+  max-lg:flex-col
 `
 
 export const ColCWrap = tw.div`

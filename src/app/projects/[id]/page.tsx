@@ -21,7 +21,7 @@ export default function ProjectPage(props: { params: { id: string } }) {
   const fetchProject = async () => {
     try {
       const rs = await getProjectApi(props.params.id)
-      projectAction(rs.data!)
+      projectAction(rs.data!.project)
       setLoading(false)
     } catch (error) {
       toast.error('Error while fetch project')

@@ -1,4 +1,5 @@
 import { serialize } from 'cookie'
+import jwt from 'jwt-decode'
 import { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth from 'next-auth'
 import Auth0Provider from 'next-auth/providers/auth0'
@@ -52,14 +53,19 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           account?.access_token
         )
 
+        const dAccessToken: any = jwt(resp.data.access_token)
+        const dRefreshToken: any = jwt(resp.data.refresh_token)
+
         res.setHeader('Set-Cookie', [
           serialize(KeysEnum.QUESTX_TOKEN, resp.data.access_token, {
             path: '/',
-            maxAge: 10 * 60,
+            maxAge:
+              dAccessToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
           }),
           serialize(KeysEnum.REFRESH_TOKEN, resp.data.refresh_token, {
             path: '/',
-            maxAge: 30 * 24 * 3600,
+            maxAge:
+              dRefreshToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
           }),
         ])
 

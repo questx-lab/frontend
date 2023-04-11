@@ -50,25 +50,25 @@ export const FilterBox = tw.div`
 `
 
 export const WrapProjects = tw.div`
-  flex
-  flex-wrap
-  justify-between
-  items-center
+  grid
+  grid-cols-4
+  gap-4
+  max-2xl:grid-cols-3
+  max-xl:grid-cols-2
+  max-sm:grid-cols-1
 `
 
 export const ProjectBox = tw.div`
+  h-[325px]
   border
   rounded-lg
   border-solid
   border-gray-300
   border-2
-  h-[400px]
-  w-[calc(33%_-_8px)]
   flex
   flex-col
   mt-[16px]
   max-sm:w-full
-  max-xl:w-[calc(50%_-_8px)]
   max-xl:mt-[16px]
 `
 

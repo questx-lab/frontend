@@ -1,4 +1,5 @@
 import { deleteCookie, getCookie, hasCookie, setCookie } from 'cookies-next'
+import jwt from 'jwt-decode'
 
 import { KeysEnum } from '@/constants/key.const'
 
@@ -23,16 +24,19 @@ export const getRefreshToken = (): string => {
 export const delCookies = () => {
   deleteCookie(KeysEnum.AUTH_SESSION)
   deleteCookie(KeysEnum.QUESTX_TOKEN)
+  deleteCookie(KeysEnum.REFRESH_TOKEN)
 }
 
 export const setAccessToken = (cookie: string) => {
+  const dToken: any = jwt(cookie)
   setCookie(KeysEnum.QUESTX_TOKEN, cookie, {
-    maxAge: 600,
+    maxAge: dToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
   })
 }
 
 export const setRefreshToken = (cookie: string) => {
+  const dToken: any = jwt(cookie)
   setCookie(KeysEnum.REFRESH_TOKEN, cookie, {
-    maxAge: 3600 * 24 * 30,
+    maxAge: dToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
   })
 }
