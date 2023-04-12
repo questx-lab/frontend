@@ -78,7 +78,7 @@ export default function NewProject() {
       }
       const data = await newProjectApi(payload)
       if (data.data) {
-        router.push(RouterConst.PROJECT + data.data?.id)
+        router.push(RouterConst.MY_PROJECTS + '/all/' + data.data?.id)
       }
       if (data.error) {
         setIsOpen(false)

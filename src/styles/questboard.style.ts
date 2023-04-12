@@ -10,10 +10,12 @@ export const Wrap = tw.div`
 export const Main = tw.div`
   flex
   flex-col
-  mx-[80px]
-  max-lg:mr-[15px]
-  max-xl:mr-[40px]
+  pl-[100px]
+  pr-[40px]
+  max-lg:pr-[10px]
+  max-lg:pl-[80px]
   py-2
+  w-full
 `
 
 export const Title = tw.p`
@@ -42,8 +44,11 @@ export const FilterBox = tw.div`
 `
 
 export const WrapQuestboard = tw.div`
-  flex
-  flex-wrap
+  grid
+  grid-cols-4
+  gap-4
+  max-xl:grid-cols-3
+  max-lg:grid-cols-2
   justify-between
   items-center
 `
@@ -56,13 +61,10 @@ export const QuestboardBox = tw.div`
   border-2
   h-[400px]
   max-lg:h-[300px]
-  w-[calc(33%_-_8px)]
+  w-full
   flex
   flex-col
-  mt-[16px]
-  max-sm:w-full
-  max-xl:w-[calc(50%_-_8px)]
-  max-xl:mt-[16px]
+  w-full
 `
 
 export const ImageQuestBox = tw.div`

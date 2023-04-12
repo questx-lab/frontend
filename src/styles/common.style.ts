@@ -84,6 +84,13 @@ export const Divider = tw.div`
   my-6
 `
 
+export const VDevider = tw.div`
+  bg-gray-500
+  w-[1.5px]
+  h-full
+  mx-6
+`
+
 export const SpinnerStyle: CSSProperties = {
   display: 'block',
   margin: '0 auto',
@@ -120,6 +127,23 @@ export const RowBSWrap = tw.div`
   flex-row
   justify-between
   items-start
+  max-lg:flex-col
+`
+
+export const RowHSWrap = tw.div`
+  w-1/2
+  flex
+  flex-row
+  justify-between
+  items-start
+  max-lg:flex-col
+`
+export const RowHEWrap = tw.div`
+  w-1/2
+  flex
+  flex-row
+  justify-between
+  items-end
   max-lg:flex-col
 `
 
@@ -175,36 +199,36 @@ export const MediumTitle = tw.p`
 `
 
 export const SmallTitle = tw.p`
-  text-xl
+  text-lg
   text-black
   font-bold
-  max-sm:text-2xl
+  max-sm:text-lg
 `
 
 export const LargeText = tw.p`
   text-xl
   text-black
   font-bold
-  max-sm:text-2xl
+  max-sm:text-lg
 `
 
 export const MediumText = tw.p`
-  text-sm
+  text-lg
   text-black
   font-bold
-  max-sm:text-2xl
+  max-sm:text-sm
 `
 
 export const NormalText = tw.p`
-  text-sm
+  text-lg
   text-black
   font-normal
-  max-sm:text-2xl
+  max-sm:text-xs
 `
 
 export const LightText = tw.p`
   text-sm
   text-black
   font-light
-  max-sm:text-2xl
+  max-sm:text-xl
 `

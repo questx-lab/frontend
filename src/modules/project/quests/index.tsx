@@ -8,7 +8,7 @@ import { listQuestApi } from '@/app/api/client/quest'
 import { Spinner } from '@/components/spinner/spinner'
 import { StorageConst } from '@/constants/storage.const'
 import { SubmitBtn } from '@/styles/button.style'
-import { Divider, Gap } from '@/styles/common.style'
+import { Divider, Gap, RowCWrap } from '@/styles/common.style'
 import {
   CateTitle,
   HeaderText,
@@ -114,7 +114,7 @@ export default function QuestMod() {
       <HeaderText>{'Twitter Quests'}</HeaderText>
       <Divider />
       {!loading && <SectionWrap>{listTwQuests}</SectionWrap>}
-      {loading && <Spinner />}
+      <RowCWrap>{loading && <Spinner />}</RowCWrap>
     </QuestWrap>
   )
 }
