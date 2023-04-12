@@ -59,7 +59,6 @@ export const WrapProjects = tw.div`
 `
 
 export const ProjectBox = tw.div`
-  h-[325px]
   border
   rounded-lg
   border-solid
@@ -73,7 +72,7 @@ export const ProjectBox = tw.div`
 `
 
 export const ImageProjectBox = tw.div`
-  h-1/2 
+  h-[200px] 
   bg-gray-200
   rounded-t-lg
 `
@@ -83,7 +82,6 @@ export const ContentProjectBox = tw.div`
   flex 
   flex-col 
   justify-between 
-  h-1/2
 `
 
 export const TitleProjectBox = tw.p`

@@ -1,23 +1,67 @@
 'use client'
 
-import { useState } from 'react'
+import Image from 'next/image'
 
+import { FullWidthBtn } from '@/components/buttons/custom-btn.cpn'
 import Layout from '@/components/layouts/layout'
-import UserProfileTab from '@/modules/users/user-profile'
-import { Tab, TabSide, Text, Wrap } from '@/styles/user.style'
+import { StorageConst } from '@/constants/storage.const'
+import {
+  ColSWrap,
+  Divider,
+  Gap,
+  ImgBox,
+  LightText,
+  MediumTitle,
+  NormalText,
+  RowBWrap,
+  RowSWrap,
+  SmallTitle,
+  VDevider,
+} from '@/styles/common.style'
+import {
+  ContentProjectBox,
+  ImageProjectBox,
+  ProjectBox,
+  TitleProjectBox,
+  WrapProjects,
+} from '@/styles/explore.style'
+import {
+  UAvt,
+  UBadge,
+  UBoxI,
+  UInfo,
+  UInfoL,
+  UInfoR,
+  UWrapI,
+  Wrap,
+} from '@/styles/user.style'
 
 export default function UserProfile({
   params,
 }: {
   params: { userId: string }
 }) {
-  const [tabActive, setTabActive] = useState<number>(0)
-
-  const onChanageTab = (tabNum: number) => {
-    if (tabActive !== tabNum) {
-      setTabActive(tabNum)
-    }
-  }
+  const listProject = [1, 2, 3, 4, 5, 6, 7, 8].map((e) => (
+    <ProjectBox key={e}>
+      <ImageProjectBox />
+      <ContentProjectBox>
+        <TitleProjectBox>{e}</TitleProjectBox>
+        <Gap height={3} />
+        <LightText>{'Intro-2 Lines'}</LightText>
+        <LightText>
+          {'Lorem ipsum dolor sit amet, consectetur adipisc'}
+        </LightText>
+        <Gap height={5} />
+        <RowBWrap>
+          <SmallTitle>{'46 Quests'}</SmallTitle>
+          <VDevider />
+          <SmallTitle>{'6.54K Followers'}</SmallTitle>
+        </RowBWrap>
+        <Gap height={5} />
+        <FullWidthBtn text={'detail'.toUpperCase()} onClick={() => {}} />
+      </ContentProjectBox>
+    </ProjectBox>
+  ))
 
   return (
     <Layout>
@@ -25,15 +69,105 @@ export default function UserProfile({
         <title>{'Profile'}</title>
       </header>
       <Wrap>
-        <TabSide>
-          <Tab isActive={!tabActive} onClick={() => onChanageTab(0)}>
-            <Text isActive={!tabActive}>{'User Profile'}</Text>
-          </Tab>
-          <Tab isActive={tabActive === 1} onClick={() => onChanageTab(1)}>
-            <Text isActive={tabActive === 1}>{'Account Settings'}</Text>
-          </Tab>
-        </TabSide>
-        {tabActive === 0 && <UserProfileTab userId={params.userId} />}
+        <Gap height={8} />
+        <UInfo>
+          <UInfoL>
+            <UAvt />
+            <Gap width={4} />
+            <ColSWrap>
+              <MediumTitle>{'Username 001'}</MediumTitle>
+              <Gap height={3} />
+              <RowSWrap>
+                <Image
+                  width={30}
+                  height={30}
+                  src={StorageConst.TWITTER_DIR.src}
+                  alt={StorageConst.TWITTER_DIR.alt}
+                />
+                <Gap width={2} />
+                <Image
+                  width={30}
+                  height={30}
+                  src={StorageConst.DISCORD_DIR.src}
+                  alt={StorageConst.DISCORD_DIR.alt}
+                />
+                <Gap width={2} />
+                <Image
+                  width={30}
+                  height={30}
+                  src={StorageConst.METAMASK_DIR.src}
+                  alt={StorageConst.METAMASK_DIR.alt}
+                />
+              </RowSWrap>
+              <Gap height={3} />
+              <NormalText>{'Joined on 24 Mar, 2022'}</NormalText>
+            </ColSWrap>
+          </UInfoL>
+          <UInfoR>
+            <UBadge>
+              <SmallTitle>{'Badges'}</SmallTitle>
+              <Gap width={4} />
+              <Image
+                width={30}
+                height={30}
+                src={StorageConst.RECOMEND_ICON.src}
+                alt={StorageConst.RECOMEND_ICON.alt}
+              />
+              <Gap width={2} />
+              <Image
+                width={30}
+                height={30}
+                src={StorageConst.FAVORITE_ICON.src}
+                alt={StorageConst.FAVORITE_ICON.alt}
+              />{' '}
+            </UBadge>
+          </UInfoR>
+        </UInfo>
+        <UWrapI>
+          <UBoxI>
+            <Image
+              width={30}
+              height={30}
+              src={StorageConst.DISCORD_DIR.src}
+              alt={StorageConst.DISCORD_DIR.alt}
+            />
+          </UBoxI>
+          <Gap width={2} />
+          <UBoxI>
+            <Image
+              width={30}
+              height={30}
+              src={StorageConst.TWITTER_DIR.src}
+              alt={StorageConst.TWITTER_DIR.alt}
+            />
+          </UBoxI>
+          <Gap width={2} />
+          <UBoxI>
+            <Image
+              width={30}
+              height={30}
+              src={StorageConst.METAMASK_DIR.src}
+              alt={StorageConst.METAMASK_DIR.alt}
+            />
+          </UBoxI>
+        </UWrapI>
+        <Gap height={9} />
+        <MediumTitle>{'NFT Collection'}</MediumTitle>
+        <Divider />
+        <RowSWrap>
+          <ImgBox />
+          <Gap />
+          <ImgBox />
+          <Gap />
+          <ImgBox />
+          <Gap />
+          <ImgBox />
+        </RowSWrap>
+
+        <Gap height={9} />
+        <MediumTitle>{'Creator for Projects'}</MediumTitle>
+        <Divider />
+        <WrapProjects>{listProject}</WrapProjects>
       </Wrap>
     </Layout>
   )
