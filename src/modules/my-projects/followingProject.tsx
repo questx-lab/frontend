@@ -1,12 +1,10 @@
-'use client'
-
 import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
-import { toast } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 
+import { listProjectsApi } from '@/app/api/client/project'
 import { FullWidthBtn } from '@/components/buttons/custom-btn.cpn'
-import Layout from '@/components/layouts/layout'
 import { RouterConst } from '@/constants/router.const'
 import {
   Gap,
@@ -17,24 +15,21 @@ import {
 } from '@/styles/common.style'
 import {
   ContentProjectBox,
-  Description,
-  FilterBox,
   ImageProjectBox,
-  LeaderBoardBox,
   ProjectBox,
-  Title,
   TitleProjectBox,
-  Wrap,
   WrapProjects,
 } from '@/styles/explore.style'
+import {
+  DescriptionCreatedProject,
+  TitleCreatedProject,
+  WrapCreatedProject,
+} from '@/styles/myProjects.style'
 import { ProjectType } from '@/types/project.type'
 
-import { listProjectsApi } from '../api/client/project'
-
-export default function ExplorePage() {
+export default function FollowingProject() {
   const [projects, setProjects] = useState<ProjectType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
-
   const router = useRouter()
 
   useEffect(() => {
@@ -51,7 +46,6 @@ export default function ExplorePage() {
       setLoading(false)
     }
   }
-
   const listProject = projects.map((e) => (
     <ProjectBox key={e.id}>
       <ImageProjectBox />
@@ -78,25 +72,14 @@ export default function ExplorePage() {
   ))
 
   return (
-    <Layout>
-      <header>
-        <title>{'Explore'}</title>
-      </header>
-      <Wrap>
-        <Title>{'Explore (Show all Projects)'}</Title>
-        <Gap />
-        <Description>
-          {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sem eros, scelerisque' +
-            ' sed ultricies at, egestas quis dolor'}
-        </Description>
-        <Gap />
-        <LeaderBoardBox>{'Leaderboard (for Projects)'}</LeaderBoardBox>
-        <Gap />
-        <Gap />
-        <FilterBox>{'Filter / Sort'}</FilterBox>
-        <Gap />
-        {!loading && <WrapProjects>{listProject}</WrapProjects>}
-      </Wrap>
-    </Layout>
+    <WrapCreatedProject>
+      <TitleCreatedProject>{'Following Projects'}</TitleCreatedProject>
+      <Gap />
+      <DescriptionCreatedProject>
+        {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sem eros, scelerisque' +
+          ' sed ultricies at, egestas quis dolor'}
+      </DescriptionCreatedProject>
+      {!loading && <WrapProjects>{listProject}</WrapProjects>}
+    </WrapCreatedProject>
   )
 }

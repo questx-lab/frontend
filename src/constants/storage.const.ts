@@ -39,4 +39,12 @@ export const StorageConst = {
     src: '/images/icons/close.svg',
     alt: 'Close icon',
   },
+  RECOMEND_ICON: {
+    src: '/images/icons/recommendation.svg',
+    alt: 'Recommendation icon',
+  },
+  FAVORITE_ICON: {
+    src: '/images/icons/favorite.svg',
+    alt: 'Favorite icon',
+  },
 }

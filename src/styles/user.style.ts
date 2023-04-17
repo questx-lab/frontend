@@ -15,6 +15,51 @@ export const Wrap = tw.div`
   max-lg:px-[20px]
 `
 
+export const UInfo = tw.div`
+  flex
+  flex-row
+  w-full
+`
+
+export const UInfoL = tw.div`
+  flex
+  flex-row
+  justify-start
+  items-center
+  w-1/2
+`
+
+export const UInfoR = tw.div`
+  flex
+  flex-col
+  justify-between
+  items-end
+  w-1/2
+`
+
+export const UBadge = tw.div`
+  bg-gray-200
+  rounded-full
+  py-3
+  px-6
+  flex
+  flex-row
+  justify-center
+  items-center
+`
+
+export const UAvt = tw.div`
+  w-[120px]
+  h-[120px]
+  border
+  border-solid
+  border-2
+  border-gray-200
+  bg-white
+  rounded-lg
+  bg-gray-100
+`
+
 export const TabSide = tw.div`
   w-full
   h-[60px]
@@ -59,4 +104,20 @@ export const UPWrap = tw.div`
   p-5
   flex
   flex-col
+`
+
+export const UWrapI = tw.div`
+  flex
+  flex-row
+  justify-end
+  items-center
+`
+
+export const UBoxI = tw.div`
+  p-2
+  border
+  border-[1px]
+  border-solid
+  border-black
+  rounded-lg
 `
