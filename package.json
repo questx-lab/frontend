@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.0.1",
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.17",
     "@metamask/detect-provider": "^2.0.0",
@@ -27,6 +28,8 @@
     "jwt-decode": "^3.1.2",
     "next": "13.2.4",
     "next-auth": "^4.20.1",
+    "phaser3spectorjs": "^0.0.8",
+    "phaser": "3.55.2",
     "postcss": "^8.4.21",
     "react": "18.2.0",
     "react-dom": "18.2.0",
