@@ -47,7 +47,6 @@ api.interceptors.response.use(
     // 1. Check code response
     if (response.data.code === ErrorCodes.UNAUTHOR) {
       const originalRequest = response.config
-
       try {
         // 2. Lock request api
         await mutex.acquire()
@@ -73,9 +72,7 @@ api.interceptors.response.use(
               setRefreshToken(data.data.refresh_token)
 
               // 6. Recall request
-              axios.request(originalRequest).then((data) => {
-                return data
-              })
+              return await axios.request(originalRequest)
             }
           } catch (error) {
             Promise.reject(error)
@@ -84,9 +81,8 @@ api.interceptors.response.use(
 
         if (refreshToken && accessToken) {
           // 7. Recall request
-          axios.request(originalRequest).then((data) => {
-            return data
-          })
+
+          return await axios.request(originalRequest)
         }
       } finally {
         // finally of mutex

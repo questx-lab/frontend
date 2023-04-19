@@ -154,14 +154,16 @@ const Header = () => {
                 src={StorageConst.AVATAR_DEFAUL.src}
                 alt={StorageConst.AVATAR_DEFAUL.alt}
               />
-              <UserInfo
-                onClick={() => router.push(RouterConst.USER + userState.id)}
-              >
-                <DesNameTxt>{'Explorer'}</DesNameTxt>
-                <UserNameTxt>
-                  {(userState.name ?? '').split('@')[0].toUpperCase()}
-                </UserNameTxt>
-              </UserInfo>
+              {userState && (
+                <UserInfo
+                  onClick={() => router.push(RouterConst.USER + userState.id)}
+                >
+                  <DesNameTxt>{'Explorer'}</DesNameTxt>
+                  <UserNameTxt>
+                    {(userState.name ?? '').split('@')[0].toUpperCase()}
+                  </UserNameTxt>
+                </UserInfo>
+              )}
             </UserSession>
           ) : (
             <LoginBtn
