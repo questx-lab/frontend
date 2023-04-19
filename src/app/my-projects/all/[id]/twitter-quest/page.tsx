@@ -221,45 +221,58 @@ export default function TwitterQuest({ params }: { params: { id: string } }) {
   const handleSubmit = async () => {
     setIsOpen(true)
     const validations: any = {}
-
+    let type = ''
+    let like = false,
+      reply = false,
+      retweet = false
     actionActive.forEach((e) => {
       switch (ActionList[e].name) {
         case 'Follow':
-          validations['follow'] = {
-            account_url: followRef.current?.value ?? '',
-          }
+          validations['twitter_handle'] = followRef.current?.value ?? ''
+          type = 'twitter_follow'
           break
         case 'Like':
-          validations['like'] = {
-            tweet_url: likeRef.current?.value ?? '',
+          if (ActionList[e].name === 'Like') {
+            like = true
           }
+          validations['tweet_url'] = likeRef.current?.value ?? ''
+          validations['like'] = like
+
+          type = 'twitter_reaction'
           break
         case 'Reply':
-          validations['reply'] = {
-            tweet_url: replyRef.current?.value ?? '',
+          if (ActionList[e].name === 'Reply') {
+            reply = true
           }
+          validations['tweet_url'] = replyRef.current?.value ?? ''
+          validations['reply'] = reply
+
+          type = 'twitter_reaction'
           break
         case 'Retweet':
-          validations['retweet'] = {
-            tweet_url: retweetRef.current?.value ?? '',
+          if (ActionList[e].name === 'Retweet') {
+            retweet = true
           }
+          validations['tweet_url'] = retweetRef.current?.value ?? ''
+          validations['retweet'] = retweet
+
+          type = 'twitter_reaction'
           break
         case 'Tweet':
-          validations['tweet'] = {
-            default_tweet: tweetRef.current?.value ?? '',
-          }
+          validations['included_words'] = []
+          validations['default_tweet'] = tweetRef.current?.value ?? ''
+          type = 'twitter_tweet'
           break
         case 'Join Space':
-          validations['join_space'] = {
-            space_url: joinSpaceRef.current?.value ?? '',
-          }
+          validations['space_url'] = joinSpaceRef.current?.value ?? ''
+          type = 'twitter_join_space'
           break
       }
     })
 
     const payload: ReqNewQuestType = {
       project_id: params.id,
-      type: 'twitter',
+      type,
       title: titleRef.current?.value ?? '',
       description: instructionRef.current?.value ?? '',
       categories: [],

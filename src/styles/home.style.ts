@@ -133,7 +133,6 @@ export const SectionWrap = tw.div`
 `
 
 export const SectionBox = tw.div`
-w-[325px]
 h-[325px]
 cursor-pointer
 max-lg:w-full

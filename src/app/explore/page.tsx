@@ -52,30 +52,32 @@ export default function ExplorePage() {
     }
   }
 
-  const listProject = projects.map((e) => (
-    <ProjectBox key={e.id}>
-      <ImageProjectBox />
-      <ContentProjectBox>
-        <TitleProjectBox>{e.name!.toUpperCase()}</TitleProjectBox>
-        <Gap height={3} />
-        <LightText>{'Intro-2 Lines'}</LightText>
-        <LightText>
-          {'Lorem ipsum dolor sit amet, consectetur adipisc'}
-        </LightText>
-        <Gap height={5} />
-        <RowBWrap>
-          <SmallTitle>{'46 Quests'}</SmallTitle>
-          <VDevider />
-          <SmallTitle>{'6.54K Followers'}</SmallTitle>
-        </RowBWrap>
-        <Gap height={5} />
-        <FullWidthBtn
-          text={'detail'.toUpperCase()}
-          onClick={() => router.push(RouterConst.PROJECT + e.id)}
-        />
-      </ContentProjectBox>
-    </ProjectBox>
-  ))
+  const listProject =
+    projects &&
+    projects.map((e) => (
+      <ProjectBox key={e.id}>
+        <ImageProjectBox />
+        <ContentProjectBox>
+          <TitleProjectBox>{e.name!.toUpperCase()}</TitleProjectBox>
+          <Gap height={3} />
+          <LightText>{'Intro-2 Lines'}</LightText>
+          <LightText>
+            {'Lorem ipsum dolor sit amet, consectetur adipisc'}
+          </LightText>
+          <Gap height={5} />
+          <RowBWrap>
+            <SmallTitle>{'46 Quests'}</SmallTitle>
+            <VDevider />
+            <SmallTitle>{'6.54K Followers'}</SmallTitle>
+          </RowBWrap>
+          <Gap height={5} />
+          <FullWidthBtn
+            text={'detail'.toUpperCase()}
+            onClick={() => router.push(RouterConst.PROJECT + e.id)}
+          />
+        </ContentProjectBox>
+      </ProjectBox>
+    ))
 
   return (
     <Layout>
