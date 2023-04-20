@@ -36,7 +36,9 @@
     "tailwindcss": "^3.2.7",
     "twin.macro": "^3.1.0",
     "typescript": "5.0.2",
-    "web3": "^1.9.0"
+    "web3": "^1.9.0",
+    "phaser3spectorjs": "^0.0.8",
+    "phaser": "3.55.2"
   },
   "babelMacros": {
     "twin": {
