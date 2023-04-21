@@ -114,7 +114,7 @@ export default function TwitterQuest({ params }: { params: { id: string } }) {
   const router = useRouter()
 
   useEffect(() => {
-    setProject(projectState)
+    projectState && setProject(projectState)
   }, [projectState])
 
   const listActions = ActionList.map((e, i) => {

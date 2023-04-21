@@ -82,70 +82,78 @@ export default function ProjectSetting() {
         <SubmitBtn>{'review submittions'.toUpperCase()}</SubmitBtn>
       </NotifyBox>
       <Gap height={8} />
-      <PWrap>
-        <PSessionL>
-          <PSessionLogo />
-          <Gap width={8} />
-          <PSessionLChild>
-            <PLabel>{'Project Name*'}</PLabel>
-            <Gap height={4} />
-            <InputBox disabled ref={nameRef} defaultValue={projectState.name} />
-            <Gap height={8} />
-            <PLabel>{'Project URL*'}</PLabel>
-            <Gap height={4} />
-            <PInputBlock>{'QuestX.com/Quest001'}</PInputBlock>
-          </PSessionLChild>
-        </PSessionL>
-        <Gap width={0} height={8} />
-        <PSessionR>
-          <PLabel>{'Project Introduction*'}</PLabel>
-          <Gap height={4} />
-          <MulInputBox ref={introRef} />
-        </PSessionR>
-      </PWrap>
-      <Gap height={8} />
-      <PHalfWrap>
-        <PHalfSession>
-          <PHalfWrap>
-            <PHalfSession>
-              <PLabel>{'Project Category'}</PLabel>
-              <Gap />
-              <PCateWrap>{listCategory}</PCateWrap>
-            </PHalfSession>
-            <Gap height={8} width={0} />
-            <PHalfSession>
-              <PLabel>{'Twitter'}</PLabel>
+      {projectState && (
+        <PWrap>
+          <PSessionL>
+            <PSessionLogo />
+            <Gap width={8} />
+            <PSessionLChild>
+              <PLabel>{'Project Name*'}</PLabel>
               <Gap height={4} />
-              <ConnectedTwitterBtn>
-                {'connected with twitter'.toUpperCase()}
-              </ConnectedTwitterBtn>
-            </PHalfSession>
-          </PHalfWrap>
+              <InputBox
+                disabled
+                ref={nameRef}
+                defaultValue={projectState.name}
+              />
+              <Gap height={8} />
+              <PLabel>{'Project URL*'}</PLabel>
+              <Gap height={4} />
+              <PInputBlock>{'QuestX.com/Quest001'}</PInputBlock>
+            </PSessionLChild>
+          </PSessionL>
+          <Gap width={0} height={8} />
+          <PSessionR>
+            <PLabel>{'Project Introduction*'}</PLabel>
+            <Gap height={4} />
+            <MulInputBox ref={introRef} />
+          </PSessionR>
+        </PWrap>
+      )}
+      <Gap height={8} />
+      {projectState && (
+        <PHalfWrap>
+          <PHalfSession>
+            <PHalfWrap>
+              <PHalfSession>
+                <PLabel>{'Project Category'}</PLabel>
+                <Gap />
+                <PCateWrap>{listCategory}</PCateWrap>
+              </PHalfSession>
+              <Gap height={8} width={0} />
+              <PHalfSession>
+                <PLabel>{'Twitter'}</PLabel>
+                <Gap height={4} />
+                <ConnectedTwitterBtn>
+                  {'connected with twitter'.toUpperCase()}
+                </ConnectedTwitterBtn>
+              </PHalfSession>
+            </PHalfWrap>
+            <Gap height={8} width={0} />
+            <PLabel>{'Telegram'}</PLabel>
+            <Gap height={4} />
+            <InputBox
+              ref={telRef}
+              defaultValue={projectState.telegram}
+              placeholder='Enter Telegram URL'
+            />
+          </PHalfSession>
           <Gap height={8} width={0} />
-          <PLabel>{'Telegram'}</PLabel>
-          <Gap height={4} />
-          <InputBox
-            ref={telRef}
-            defaultValue={projectState.telegram}
-            placeholder='Enter Telegram URL'
-          />
-        </PHalfSession>
-        <Gap height={8} width={0} />
-        <PHalfSession postion>
-          <PLabel>{'Website'}</PLabel>
-          <Gap height={4} />
-          <InputBox placeholder='Enter Website URL' />
-          <Gap height={8} />
+          <PHalfSession postion>
+            <PLabel>{'Website'}</PLabel>
+            <Gap height={4} />
+            <InputBox placeholder='Enter Website URL' />
+            <Gap height={8} />
 
-          <PLabel>{'Discord'}</PLabel>
-          <Gap height={4} />
-          <InputBox
-            ref={discordRef}
-            defaultValue={projectState.discord}
-            placeholder='Enter Discord URL'
-          />
-        </PHalfSession>
-      </PHalfWrap>
+            <PLabel>{'Discord'}</PLabel>
+            <Gap height={4} />
+            <InputBox
+              ref={discordRef}
+              defaultValue={projectState.discord}
+              placeholder='Enter Discord URL'
+            />
+          </PHalfSession>
+        </PHalfWrap>
+      )}
       <Gap height={8} />
       <Divider />
       <Gap height={8} />

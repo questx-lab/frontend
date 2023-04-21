@@ -23,28 +23,30 @@ export default function Project() {
   return (
     <Wrap>
       <SidebarCustom />
-      <Main>
-        <Title>{projectState.name}</Title>
-        <Gap />
-        <TabSide>
-          <Tab isActive={!tabActive} onClick={() => onChanageTab(0)}>
-            <Text isActive={!tabActive}>{'Quests'}</Text>
-          </Tab>
-          <Tab isActive={tabActive === 1} onClick={() => onChanageTab(1)}>
-            <Text isActive={tabActive === 1}>{'Review Submission'}</Text>
-          </Tab>
-          <Tab isActive={tabActive === 2} onClick={() => onChanageTab(2)}>
-            <Text isActive={tabActive === 2}>{'Project Settings'}</Text>
-          </Tab>
-          <Tab isActive={tabActive === 3} onClick={() => onChanageTab(3)}>
-            <Text isActive={tabActive === 3}>{'Project Management'}</Text>
-          </Tab>
-        </TabSide>
-        {!tabActive && <QuestMod />}
-        {tabActive === 1 && <ReviewSubMitMod />}
-        {tabActive === 2 && <ProjectSetting />}
-        {tabActive === 3 && <PManageMod />}
-      </Main>
+      {projectState && (
+        <Main>
+          <Title>{projectState.name}</Title>
+          <Gap />
+          <TabSide>
+            <Tab isActive={!tabActive} onClick={() => onChanageTab(0)}>
+              <Text isActive={!tabActive}>{'Quests'}</Text>
+            </Tab>
+            <Tab isActive={tabActive === 1} onClick={() => onChanageTab(1)}>
+              <Text isActive={tabActive === 1}>{'Review Submission'}</Text>
+            </Tab>
+            <Tab isActive={tabActive === 2} onClick={() => onChanageTab(2)}>
+              <Text isActive={tabActive === 2}>{'Project Settings'}</Text>
+            </Tab>
+            <Tab isActive={tabActive === 3} onClick={() => onChanageTab(3)}>
+              <Text isActive={tabActive === 3}>{'Project Management'}</Text>
+            </Tab>
+          </TabSide>
+          {!tabActive && <QuestMod />}
+          {tabActive === 1 && <ReviewSubMitMod />}
+          {tabActive === 2 && <ProjectSetting />}
+          {tabActive === 3 && <PManageMod />}
+        </Main>
+      )}
     </Wrap>
   )
 }

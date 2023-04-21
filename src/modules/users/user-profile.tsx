@@ -44,7 +44,10 @@ export default function UserProfileTab({ userId }: { userId: string }) {
           <ColSWrap>
             <LabelInput>{'Username'}</LabelInput>
             <Gap height={2} />
-            <InputBBox defaultValue={userState.name} placeholder='Username' />
+            <InputBBox
+              defaultValue={userState && userState.name}
+              placeholder='Username'
+            />
             <Gap height={6} />
             <LabelInput>{'Email'}</LabelInput>
             <Gap height={2} />
