@@ -1,3 +1,5 @@
+import '../interactive/fatory'
+
 import { BaseScene } from './base'
 
 export default class OverWorldScene extends BaseScene {
@@ -6,7 +8,6 @@ export default class OverWorldScene extends BaseScene {
   }
 
   preload() {
-    console.log('Loading overworld map')
     this.load.image('TilesetImage', '/assets/tilesets/tileset_extruded.png')
     this.load.tilemapTiledJSON('OverWorldMap', '/assets/maps/overworld_v.json')
     this.load.atlas(

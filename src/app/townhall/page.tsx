@@ -9,9 +9,9 @@ function Townhall() {
   async function initPhaser() {
     await import('@/game/PhaserGame')
   }
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      console.log('Call phaser')
       initPhaser()
     }
   }, [])

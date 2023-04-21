@@ -6,7 +6,6 @@ export default class SoftwareScene extends BaseScene {
   }
 
   preload() {
-    console.log('Loading software map')
     this.load.tilemapTiledJSON('SoftwareMap', 'assets/maps/software_v.json')
   }
 

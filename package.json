@@ -27,6 +27,8 @@
     "jwt-decode": "^3.1.2",
     "next": "13.2.4",
     "next-auth": "^4.20.1",
+    "phaser": "3.55.2",
+    "phaser3spectorjs": "^0.0.8",
     "postcss": "^8.4.21",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -37,8 +39,7 @@
     "twin.macro": "^3.1.0",
     "typescript": "5.0.2",
     "web3": "^1.9.0",
-    "phaser3spectorjs": "^0.0.8",
-    "phaser": "3.55.2"
+    "websocket": "^1.0.34"
   },
   "babelMacros": {
     "twin": {
@@ -48,6 +49,8 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
+    "@types/websocket": "^1.0.5",
+    "@types/ws": "^8.5.4",
     "babel-plugin-twin": "^1.1.0",
     "encoding": "^0.1.13"
   }
