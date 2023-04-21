@@ -1,110 +1,267 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 
 import Image from 'next/image'
 
 import SidebarCustom from '@/components/layouts/sidebar'
 import { StorageConst } from '@/constants/storage.const'
-import { PFollow } from '@/styles/button.style'
-import { Gap, SmallTitle } from '@/styles/common.style'
+import { useStoreState } from '@/store/store'
+import { PFollow, PSave } from '@/styles/button.style'
+import {
+  CloseIcon,
+  Divider,
+  EndWrap,
+  Gap,
+  LargeText,
+  MediumText,
+  NormalText,
+  RowBWrap,
+} from '@/styles/common.style'
+import { MDialog } from '@/styles/home.style'
 import {
   LHBox,
   LHDes,
   LHeader,
   LHImg,
   LHInfoA,
-  LHInfoB,
   LHInfoC,
   LHLogo,
   LHTitle,
   LHTitleBox,
-  LSBox,
-  LTabSide,
-  LTabWrap,
+  LLbox,
   LTInvite,
+  LUImg,
+  LUWrap2,
   Main,
+  QTCard,
+  QTWrapC,
+  TabBox,
+  TabList,
+  TabPannel,
+  TabWrap,
   Wrap,
 } from '@/styles/leaderboard.style'
+import {
+  LDDP,
+  ModalBg,
+  ModalContent,
+  ModalWrap,
+  TitleModal,
+} from '@/styles/modal.style'
+import { Tab, Transition } from '@headlessui/react'
 
 import QuestBoardTab from './questboard/page'
 
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
 export default function Leaderboard() {
-  const [tab, setTab] = useState<boolean>(true)
+  const [tab, setTab] = useState<number>(0)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const projectState = useStoreState((state) => state.project.curProject)
+
+  const onClose = () => setIsOpen(false)
+  const onOpen = () => {
+    setIsOpen(true)
+  }
+  const listLD = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((e) => (
+    <div key={e}>
+      <LUWrap2>
+        <div className='flex flex-row justify-center items-center'>
+          <LargeText>{e + 1}</LargeText>
+          <Gap width={2} />
+          <LUImg />
+          <Gap width={2} />
+          <NormalText>Username</NormalText>
+        </div>
+        <NormalText>56 Questx</NormalText>
+        <NormalText>75 XP</NormalText>
+      </LUWrap2>
+      <Divider />
+    </div>
+  ))
 
   return (
     <Wrap>
       <SidebarCustom />
       <Main>
-        <LHeader>
-          <LHInfoA>
-            <LHImg />
-            <Gap width={4} />
-            <LHBox>
-              <LHTitleBox>
-                <LHTitle>{'Project name'}</LHTitle>
-                <Gap height={4} />
-                <LHLogo>
-                  <Image
-                    width={30}
-                    height={30}
-                    src={StorageConst.TWITTER_DIR.src}
-                    alt={StorageConst.TWITTER_DIR.alt}
-                  />
-                  <Gap width={2} height={0} />
-                  <Image
-                    width={30}
-                    height={30}
-                    src={StorageConst.DISCORD_DIR.src}
-                    alt={StorageConst.DISCORD_DIR.alt}
-                  />
-                  <Gap width={2} height={0} />
-                  <Image
-                    width={30}
-                    height={30}
-                    src={StorageConst.METAMASK_DIR.src}
-                    alt={StorageConst.METAMASK_DIR.alt}
-                  />
-                </LHLogo>
-              </LHTitleBox>
-              <Gap height={4} />
-              <LHDes>{'Supendisse eros, scelerique sed iltri cies at,'}</LHDes>
-              <LHDes>{'egestas, quis dolor est dosit merta'}</LHDes>
-            </LHBox>
-          </LHInfoA>
-          <Gap height={4} />
-          <LHInfoB>
-            <LSBox>
-              <SmallTitle>{'32'}</SmallTitle>
-              <LHDes>{'Quests'}</LHDes>
-            </LSBox>
-            <Gap width={6} />
-            <LSBox>
-              <SmallTitle>{'7.2K'}</SmallTitle>
-              <LHDes>{'Follower'}</LHDes>
-            </LSBox>
-            <Gap width={6} />
-            <LSBox>
-              <SmallTitle>{'30 Mar, 23'}</SmallTitle>
-              <LHDes>{'Project created'}</LHDes>
-            </LSBox>
-          </LHInfoB>
-          <LHInfoC>
-            <PFollow>{'FOLLOW'}</PFollow>
-            <Gap height={8} />
-            <LTInvite>{'Invite Friends'}</LTInvite>
-          </LHInfoC>
-        </LHeader>
+        {projectState && (
+          <LHeader>
+            <LHInfoA>
+              <LHImg />
+              <Gap width={4} />
+              <LHBox>
+                <LHTitleBox>
+                  <LHTitle>{projectState.name}</LHTitle>
+                  <Gap width={9} />
+                  <LHLogo>
+                    <Image
+                      width={30}
+                      height={30}
+                      src={StorageConst.TWITTER_DIR.src}
+                      alt={StorageConst.TWITTER_DIR.alt}
+                    />
+                    <Gap width={4} height={0} />
+                    <Image
+                      width={30}
+                      height={30}
+                      src={StorageConst.DISCORD_DIR.src}
+                      alt={StorageConst.DISCORD_DIR.alt}
+                    />
+                    <Gap width={4} height={0} />
+                    <Image
+                      width={30}
+                      height={30}
+                      src={StorageConst.METAMASK_DIR.src}
+                      alt={StorageConst.METAMASK_DIR.alt}
+                    />
+                    <Gap width={4} height={0} />
+                    <Image
+                      width={30}
+                      height={30}
+                      src={StorageConst.METAMASK_DIR.src}
+                      alt={StorageConst.METAMASK_DIR.alt}
+                    />
+                  </LHLogo>
+                </LHTitleBox>
+                <Gap height={6} />
+                <LHDes>
+                  {'Supendisse eros, scelerique sed iltri cies at,'}
+                </LHDes>
+                <LHDes>{'egestas, quis dolor est dosit merta'}</LHDes>
+                <Gap height={6} />
+                <PSave isBlock={false}>{'JOIN TOWNHALL'}</PSave>
+              </LHBox>
+            </LHInfoA>
+            <Gap height={4} />
+            <LHInfoC>
+              <PFollow>{'FOLLOW'}</PFollow>
+              <Gap height={8} />
+              <LTInvite>{'Invite Friends'}</LTInvite>
+            </LHInfoC>
+          </LHeader>
+        )}
         <Gap height={8} />
-        <LTabWrap>
-          <LTabSide active={tab} onClick={() => setTab(true)}>
-            {'QUESTBOARD'}
-          </LTabSide>
-          <LTabSide active={!tab} onClick={() => setTab(false)}>
-            {'JOIN TOWHALL'}
-          </LTabSide>
-        </LTabWrap>
-        <Gap height={8} />
-        {tab && <QuestBoardTab />}
+        <QuestBoardTab />
       </Main>
+      <TabWrap>
+        <RowBWrap>
+          <MediumText>{'Leaderboard'}</MediumText>
+          <Image
+            onClick={onOpen}
+            src={StorageConst.ARROW_ICON.src}
+            alt={StorageConst.ARROW_ICON.alt}
+            width={28}
+            height={28}
+            className='cursor-pointer'
+          />
+        </RowBWrap>
+        <TabBox>
+          <Tab.Group>
+            <TabList>
+              {['This Week', 'This Month', 'All Time'].map((category) => (
+                <Tab
+                  key={category}
+                  className={({ selected }) =>
+                    classNames(
+                      'rounded-full w-full p-2 text-sm leading-5 text-black',
+                      selected
+                        ? 'bg-gray-200 shadow font-bold'
+                        : 'text-blue-100 font-medium hover:text-black'
+                    )
+                  }
+                >
+                  {category}
+                </Tab>
+              ))}
+            </TabList>
+            <Tab.Panels className='mt-2 '>
+              {[0, 1, 2].map((posts, idx) => (
+                <TabPannel key={idx}>
+                  <ul>
+                    {[0, 1, 2, 3, 4, 5].map((post) => (
+                      <li
+                        key={post}
+                        className='relative rounded-lg p-3 bg-gray-200 flex flex-row justify-between items-center my-4'
+                      >
+                        <div className='w-[50px] h-[50px] bg-gray-700 rounded-full'></div>
+                        <div className='w-36 bg-white rounded-full h-4' />
+                        <p className='font-bold text-md text-black'>
+                          {'267 quests'}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </TabPannel>
+              ))}
+            </Tab.Panels>
+          </Tab.Group>
+        </TabBox>
+      </TabWrap>
+      <Transition appear show={isOpen} as={Fragment}>
+        <MDialog onClose={() => {}}>
+          <Transition.Child
+            as={Fragment}
+            enter='ease-out duration-300'
+            enterFrom='opacity-0'
+            enterTo='opacity-100'
+            leave='ease-in duration-200'
+            leaveFrom='opacity-100'
+            leaveTo='opacity-0'
+          >
+            <ModalBg />
+          </Transition.Child>
+          <ModalWrap>
+            <ModalContent>
+              <Transition.Child
+                as={Fragment}
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
+              >
+                <LDDP>
+                  <EndWrap>
+                    <CloseIcon
+                      onClick={onClose}
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={1.5}
+                      stroke='currentColor'
+                      className='w-6 h-6'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M6 18L18 6M6 6l12 12'
+                      />
+                    </CloseIcon>
+                  </EndWrap>
+                  <TitleModal>{'Project Leaderboard'}</TitleModal>
+                  <Gap height={4} />
+                  <QTWrapC>
+                    <QTCard active={!tab} onClick={() => setTab(0)}>
+                      {'Weekly'}
+                    </QTCard>
+                    <Gap width={4} />
+                    <QTCard active={tab === 1} onClick={() => setTab(1)}>
+                      {'Montly'}
+                    </QTCard>
+                    <Gap width={4} />
+                    <QTCard active={tab === 2} onClick={() => setTab(2)}>
+                      {'All Time'}
+                    </QTCard>
+                  </QTWrapC>
+                  <Gap height={4} />
+                  <LLbox>{listLD}</LLbox>
+                </LDDP>
+              </Transition.Child>
+            </ModalContent>
+          </ModalWrap>
+        </MDialog>
+      </Transition>
     </Wrap>
   )
 }

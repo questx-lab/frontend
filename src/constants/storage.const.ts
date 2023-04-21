@@ -47,4 +47,8 @@ export const StorageConst = {
     src: '/images/icons/favorite.svg',
     alt: 'Favorite icon',
   },
+  ARROW_ICON: {
+    src: '/images/icons/arrow.svg',
+    alt: 'Arrow icon',
+  },
 }

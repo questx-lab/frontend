@@ -57,7 +57,7 @@ export const QuestboardBox = tw.div`
   border
   rounded-lg
   border-solid
-  border-gray-300
+  border-black
   border-2
   h-[400px]
   max-lg:h-[300px]
