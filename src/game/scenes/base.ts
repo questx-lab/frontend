@@ -1,4 +1,7 @@
 import Phaser from 'phaser'
+import { w3cwebsocket as W3CWebSocket } from 'websocket'
+
+import { getAccessToken } from '@/utils/helper'
 
 export class BaseScene extends Phaser.Scene {
   movable = true
@@ -9,7 +12,7 @@ export class BaseScene extends Phaser.Scene {
   wasd: any
   signs: any
   showingSign: any
-
+  playerGuess: any
   // --------------------------------------------------------------------------------------------------
   // CREATE
   create(tilemapKey: string) {
@@ -31,6 +34,35 @@ export class BaseScene extends Phaser.Scene {
     this.map.createLayer('Above', tileset, 0, 0).setDepth(10) // To have the "Above" layer sit on top of the player, we give it a depth.
     this.LayerToCollide = this.map.createLayer('CollisionLayer', tileset, 0, 0)
     this.LayerToCollide.setVisible(false) // Comment out this line if you wish to see which objects the player will collide with
+    const accessToken = getAccessToken()
+    document.cookie = `access_token=${accessToken}`
+    const client = new W3CWebSocket(
+      'ws://localhost:8081/game?room_id=6483e6e3-534c-4cde-8be9-2c25d576adf7'
+    )
+    client.onmessage = (message) => {
+      console.log('got reply! ', message.data)
+      const rs = JSON.parse(message.data.toString())
+      if (rs.type && rs.type === 'join') {
+        console.log('heree', rs.user_id)
+        this.playerGuess[rs.user_id] = (this.add as any).player(
+          Math.floor(Math.random() * 100),
+          Math.floor(Math.random() * 100),
+          'atlas',
+          'ariel-front'
+        )
+      }
+      if (rs.type && rs.type === 'exit') {
+        this.player.destroy()
+      }
+      console.log(this.playerGuess)
+    }
+    client.onerror = (error) => {
+      console.log(error)
+    }
+
+    client.onclose = (event) => {
+      console.log('event', event)
+    }
 
     // ----------------
     // PLAYER
