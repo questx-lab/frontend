@@ -34,7 +34,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
     if (accessToken) {
       !isLogin && loginAction(true)
-      if (!Object.keys(userState).length) {
+      if (userState && !Object.keys(userState).length) {
         getUserData()
       }
     } else {
