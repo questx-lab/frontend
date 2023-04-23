@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { Tab } from '@headlessui/react'
+
 export const Wrap = tw.div`
   flex
   flex-row
@@ -12,10 +14,10 @@ export const Main = tw.div`
   flex
   flex-col
   pl-[100px]
-  pr-[40px]
+  pr-[420px]
   max-lg:pr-[10px]
   max-lg:pl-[80px]
-  py-2
+  py-5
   w-full
 `
 
@@ -27,12 +29,16 @@ export const LHeader = tw.div`
   max-sm:justify-start
   max-sm:items-start
   justify-between
-  items-end
+  items-start
+  border-2
+  border-solid
+  border-black
+  p-3
+  rounded-lg
 `
 
 export const LHInfoA = tw.div`
-  px-2
-  w-1/3
+  w-2/3
   max-sm:w-full
   flex
   flex-row
@@ -65,14 +71,14 @@ export const LHInfoC = tw.div`
 `
 
 export const LHImg = tw.div`
-  w-[120px]
-  h-[100px]
+  w-[180px]
+  h-[180px]
   bg-gray-400
   rounded-lg
 `
 
 export const LHBox = tw.div`
-  w-full
+  w-[calc(100%_-_180px)]
   flex
   flex-col
   justify-center
@@ -84,7 +90,7 @@ export const LHTitleBox = tw.div`
   w-full
   flex
   flex-row
-  justify-between
+  justify-start
   items-center
   max-sm:flex-col
 `
@@ -283,3 +289,39 @@ export const LLbox = tw.div`
   w-full 
   overflow-y-scroll
 `
+
+export const TabWrap = tw.div`
+  w-[400px] 
+  px-[20px] 
+  py-5 
+  h-full 
+  right-0
+  fixed  
+  border-l-2 
+  border-solid 
+  bg-white 
+  border-black 
+  overflow-y-scroll
+`
+
+export const TabBox = tw.div`
+  w-full 
+  max-w-md 
+  pt-4 
+  sm:px-0
+`
+
+export const TabList = styled(Tab.List)(tw`
+  border-2  
+  border-black 
+  flex 
+  space-x-1 
+  rounded-full 
+  bg-white
+  p-1
+`)
+
+export const TabPannel = styled(Tab.Panel)(tw`
+  rounded-xl 
+  bg-white
+`)
