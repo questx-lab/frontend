@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-export class Player extends Phaser.GameObjects.Sprite {
+export class Playee extends Phaser.GameObjects.Sprite {
   speed: number
   constructor(
     scene: Phaser.Scene,
@@ -10,7 +10,6 @@ export class Player extends Phaser.GameObjects.Sprite {
     frame: string | number | undefined
   ) {
     super(scene, x, y, texture, frame)
-    console.log('create player')
     // Add the sprite and the physics body to the scene
     scene.add.existing(this)
     scene.physics.add.existing(this)
@@ -24,6 +23,10 @@ export class Player extends Phaser.GameObjects.Sprite {
 
     // Speed of movement
     this.speed = 175
+  }
+
+  removePlayee() {
+    this.destroy()
   }
 
   createAnims(scene: Phaser.Scene) {
@@ -86,46 +89,48 @@ export class Player extends Phaser.GameObjects.Sprite {
     })
   }
 
-  update(moveleft: any, moveright: any, moveup: any, movedown: any) {
-    const prevVelocity = (this.body as any).velocity.clone() // Stop any previous movement from the last frame
+  update(move: string, x: number, y: number) {
+    ;(this.body as any).setVelocity(0)
+    switch (move) {
+      case 'left':
+        ;(this.body as any).setVelocityX(-this.speed)
+        this.anims.play('ariel-left-walk', true)
+        break
+      case 'right':
+        ;(this.body as any).setVelocityX(-this.speed)
+        this.anims.play('ariel-right-walk', true)
+        break
+      case 'up':
+        ;(this.body as any).setVelocityX(-this.speed)
+        this.anims.play('ariel-back-walk', true)
+        break
+      case 'down':
+        ;(this.body as any).setVelocityX(-this.speed)
+        this.anims.play('ariel-front-walk', true)
+        break
+    }
+    this.setX(x)
+    this.setY(y)
+    // this.anims.play('ariel-wave', true)
+    ;(this.body as any).velocity.normalize().scale(this.speed)
     ;(this.body as any).setVelocity(0)
 
-    // Update the animation and give left/right animations precedence over up/down animations in diagonal movement
-    if (moveleft) {
-      ;(this.body as any).setVelocityX(-this.speed)
-      this.anims.play('ariel-left-walk', true)
-    } else if (moveright) {
-      ;(this.body as any).setVelocityX(this.speed)
-      this.anims.play('ariel-right-walk', true)
-    }
-    if (moveup) {
-      ;(this.body as any).setVelocityY(-this.speed)
-      if (!(moveleft || moveright)) {
-        // When moving diagonally display the left / right animation
-        this.anims.play('ariel-back-walk', true)
-      }
-    } else if (movedown) {
-      ;(this.body as any).setVelocityY(this.speed)
-      if (!(moveleft || moveright)) {
-        // When moving diagonally display the left / right animation
-        this.anims.play('ariel-front-walk', true)
-      }
-    }
-
-    ;(this.body as any).velocity.normalize().scale(this.speed)
-
-    if (
-      !(moveleft || moveright || moveup || movedown) &&
-      !(
-        this.anims.currentAnim == null ||
-        this.anims.currentAnim.key === 'ariel-wave'
-      )
-    ) {
+    setTimeout(() => {
       this.anims.stop()
-      if (prevVelocity.x < 0) this.setTexture('atlas', 'ariel-left')
-      else if (prevVelocity.x > 0) this.setTexture('atlas', 'ariel-right')
-      else if (prevVelocity.y < 0) this.setTexture('atlas', 'ariel-back')
-      else if (prevVelocity.y > 0) this.setTexture('atlas', 'ariel-front')
-    }
+      switch (move) {
+        case 'left':
+          this.setTexture('atlas', 'ariel-left')
+          break
+        case 'right':
+          this.setTexture('atlas', 'ariel-right')
+          break
+        case 'up':
+          this.setTexture('atlas', 'ariel-back')
+          break
+        case 'down':
+          this.setTexture('atlas', 'ariel-front')
+          break
+      }
+    }, 100)
   }
 }

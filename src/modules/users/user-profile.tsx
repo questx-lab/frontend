@@ -15,7 +15,7 @@ import {
 import { InputBBox } from '@/styles/input.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import { UPWrap } from '@/styles/user.style'
-import { delCookies } from '@/utils/helper'
+import { clearLocalStorage, delCookies } from '@/utils/helper'
 
 export default function UserProfileTab({ userId }: { userId: string }) {
   const userState = useStoreState((state) => state.userSession.user)
@@ -23,6 +23,8 @@ export default function UserProfileTab({ userId }: { userId: string }) {
   const loginAction = useStoreActions(
     (action) => action.userSession.updateState
   )
+
+  const userAction = useStoreActions((action) => action.userSession.updateUser)
 
   useEffect(() => {
     if (userState && userState.id === userId) {
@@ -32,7 +34,9 @@ export default function UserProfileTab({ userId }: { userId: string }) {
 
   const handleLogout = () => {
     loginAction(false)
+    userAction({})
     delCookies()
+    clearLocalStorage()
   }
 
   return (

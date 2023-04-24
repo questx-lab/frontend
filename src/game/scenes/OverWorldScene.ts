@@ -8,13 +8,11 @@ export default class OverWorldScene extends BaseScene {
   }
 
   preload() {
-    this.load.image('TilesetImage', '/assets/tilesets/tileset_extruded.png')
-    this.load.tilemapTiledJSON('OverWorldMap', '/assets/maps/overworld_v.json')
-    this.load.atlas(
-      'atlas',
-      '/assets/atlas/player.png',
-      '/assets/atlas/player.json'
-    )
+    this.load.image('TilesetImage', '/tileset_extruded.png')
+    this.load.baseURL = 'https://reeni-me.s3.us-west-004.backblazeb2.com'
+    // this.load.tilemapTiledJSON('OverWorldMap', '/assets/maps/overworld_v.json')
+    this.load.atlas('atlas', '/player.png', '/player.json')
+    this.load.tilemapTiledJSON('OverWorldMap', '/overworld_v.json')
   }
 
   create() {

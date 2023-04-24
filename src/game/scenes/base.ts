@@ -1,7 +1,10 @@
 import Phaser from 'phaser'
 import { w3cwebsocket as W3CWebSocket } from 'websocket'
 
+import { UserType } from '@/types/account.type'
 import { getAccessToken } from '@/utils/helper'
+
+import { Playee } from '../interactive/playee'
 
 export class BaseScene extends Phaser.Scene {
   movable = true
@@ -12,11 +15,14 @@ export class BaseScene extends Phaser.Scene {
   wasd: any
   signs: any
   showingSign: any
-  playerGuess: any
+  playee: any
+  players: any
+  client: W3CWebSocket | undefined
   // --------------------------------------------------------------------------------------------------
   // CREATE
   create(tilemapKey: string) {
-    console.log('hello create')
+    const user: UserType = JSON.parse(localStorage.getItem('user') ?? '{}')
+    this.players = this.physics.add.group()
     this.map = this.make.tilemap({ key: tilemapKey })
     const tileset = this.map.addTilesetImage(
       'tileset',
@@ -35,46 +41,79 @@ export class BaseScene extends Phaser.Scene {
     this.LayerToCollide = this.map.createLayer('CollisionLayer', tileset, 0, 0)
     this.LayerToCollide.setVisible(false) // Comment out this line if you wish to see which objects the player will collide with
     const accessToken = getAccessToken()
+
     document.cookie = `access_token=${accessToken}`
-    const client = new W3CWebSocket(
-      'ws://localhost:8081/game?room_id=6483e6e3-534c-4cde-8be9-2c25d576adf7'
+    this.client = new W3CWebSocket(
+      'ws://localhost:8081/game?room_id=15a2a74a-4ec3-43ce-bc2f-52cad18163fd'
     )
-    client.onmessage = (message) => {
-      console.log('got reply! ', message.data)
-      const rs = JSON.parse(message.data.toString())
-      if (rs.type && rs.type === 'join') {
-        console.log('heree', rs.user_id)
-        this.playerGuess[rs.user_id] = (this.add as any).player(
-          Math.floor(Math.random() * 100),
-          Math.floor(Math.random() * 100),
-          'atlas',
-          'ariel-front'
-        )
-      }
-      if (rs.type && rs.type === 'exit') {
-        this.player.destroy()
-      }
-      console.log(this.playerGuess)
+
+    const spawnPoint = this.map.findObject(
+      'Objects',
+      (obj: { name: string }) => obj.name === 'Spawn Point'
+    )
+    this.client.onmessage = (message) => {
+      try {
+        const rs = JSON.parse(message.data.toString())
+        if ('type' in rs && rs.type !== 'map') {
+          console.log('got reply! ', message.data)
+        }
+
+        if ('type' in rs && rs.type === 'init') {
+          if ('value' in rs && 'users' in rs.value) {
+            ;(rs.value.users as any[]).forEach((user) => {
+              this.players[user.user_id] = new Playee(
+                this,
+                931,
+                641,
+                'atlas',
+                'ariel-front'
+              )
+            })
+          }
+        }
+
+        if ('type' in rs && rs.type === 'join') {
+          if ('user_id' in rs && 'id' in user && rs.user_id !== user.id) {
+            this.players[rs.user_id] = new Playee(
+              this,
+              931,
+              641,
+              'atlas',
+              'ariel-front'
+            )
+          }
+        }
+
+        if ('type' in rs && rs.type === 'exit') {
+          this.players[rs.user_id].removePlayee()
+        }
+
+        if ('type' in rs && rs.type === 'move') {
+          this.players[rs.user_id].update(
+            rs.value.direction,
+            rs.value.x,
+            rs.value.y
+          )
+        }
+      } catch (error) {}
     }
-    client.onerror = (error) => {
+    this.client.onerror = (error) => {
       console.log(error)
     }
 
-    client.onclose = (event) => {
+    this.client.onclose = (event) => {
       console.log('event', event)
     }
 
     // ----------------
     // PLAYER
-    const spawnPoint = this.map.findObject(
-      'Objects',
-      (obj: { name: string }) => obj.name === 'Spawn Point'
-    )
 
     // Create the player and the player animations (see player.js)
     this.player = (this.add as any).player(
-      spawnPoint.x,
-      spawnPoint.y,
+      // spawnPoint.x,
+      // spawnPoint.y,
+      931,
+      641,
       'atlas',
       'ariel-front'
     )
@@ -176,14 +215,55 @@ export class BaseScene extends Phaser.Scene {
     // ----------------
     // KEYBOARD
     if (this.cursors.left.isDown || this.wasd.a.isDown) {
+      this.client?.send(
+        JSON.stringify({
+          type: 'move',
+          value: {
+            direction: 'left',
+            x: parseInt(this.player.x.toFixed(0), 10),
+            y: parseInt(this.player.y.toFixed(0), 10),
+          },
+        })
+      )
       moveleft = true
     } else if (this.cursors.right.isDown || this.wasd.d.isDown) {
+      this.client?.send(
+        JSON.stringify({
+          type: 'move',
+          value: {
+            direction: 'right',
+            x: parseInt(this.player.x.toFixed(0), 10),
+            y: parseInt(this.player.y.toFixed(0), 10),
+          },
+        })
+      )
+
       moveright = true
     }
 
     if (this.cursors.up.isDown || this.wasd.w.isDown) {
+      this.client?.send(
+        JSON.stringify({
+          type: 'move',
+          value: {
+            direction: 'up',
+            x: parseInt(this.player.x.toFixed(0), 10),
+            y: parseInt(this.player.y.toFixed(0), 10),
+          },
+        })
+      )
       moveup = true
     } else if (this.cursors.down.isDown || this.wasd.s.isDown) {
+      this.client?.send(
+        JSON.stringify({
+          type: 'move',
+          value: {
+            direction: 'down',
+            x: parseInt(this.player.x.toFixed(0), 10),
+            y: parseInt(this.player.y.toFixed(0), 10),
+          },
+        })
+      )
       movedown = true
     }
 
