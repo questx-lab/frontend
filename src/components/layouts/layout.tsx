@@ -12,6 +12,7 @@ import {
   getRefreshToken,
   setAccessToken,
   setRefreshToken,
+  setUserLocal,
 } from '@/utils/helper'
 
 const Layout = ({ children }: { children: ReactNode }) => {
@@ -58,6 +59,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const getUserData = async () => {
     try {
       const user = await getUserApi()
+      setUserLocal(user.data!)
       actionUser(user.data!)
     } catch (error) {}
   }

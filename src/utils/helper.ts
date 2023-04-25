@@ -2,6 +2,7 @@ import { deleteCookie, getCookie, hasCookie, setCookie } from 'cookies-next'
 import jwt from 'jwt-decode'
 
 import { KeysEnum } from '@/constants/key.const'
+import { UserType } from '@/types/account.type'
 
 export const getAccessToken = (): string => {
   const exist = hasCookie(KeysEnum.QUESTX_TOKEN)
@@ -39,4 +40,16 @@ export const setRefreshToken = (cookie: string) => {
   setCookie(KeysEnum.REFRESH_TOKEN, cookie, {
     maxAge: dToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
   })
+}
+
+export const setUserLocal = (data: UserType) => {
+  localStorage.setItem('user', JSON.stringify(data))
+}
+
+export const delUserLocal = () => {
+  localStorage.removeItem('user')
+}
+
+export const clearLocalStorage = () => {
+  localStorage.clear()
 }
