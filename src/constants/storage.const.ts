@@ -39,6 +39,14 @@ export const StorageConst = {
     src: '/images/icons/close.svg',
     alt: 'Close icon',
   },
+  CHECK_ICON: {
+    src: '/images/icons/check.svg',
+    alt: 'Check icon',
+  },
+  SHARE_ICON: {
+    src: '/images/icons/share.svg',
+    alt: 'Share icon',
+  },
   RECOMEND_ICON: {
     src: '/images/icons/recommendation.svg',
     alt: 'Recommendation icon',
@@ -50,5 +58,13 @@ export const StorageConst = {
   ARROW_ICON: {
     src: '/images/icons/arrow.svg',
     alt: 'Arrow icon',
+  },
+  POINT_ICON: {
+    src: '/images/icons/gem.svg',
+    alt: 'Point Icon',
+  },
+  MANTA_LOGO: {
+    src: '/images/dummy/manta.svg',
+    alt: 'Manta Logo',
   },
 }

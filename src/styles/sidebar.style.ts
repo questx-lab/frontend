@@ -2,18 +2,18 @@ import tw from 'twin.macro'
 
 export const Wrap = tw.div`
   fixed
-  w-[80px]
   flex
   flex-col
   justify-start
   items-center
   rounded-lg
-  px-2
+  px-4
+  bg-gray-100
+  h-screen
 `
 
 export const BoxContent = tw.div`
-  w-full
-  bg-gray-100
+  w-[40px]
   rounded-lg
   flex
   flex-col

@@ -48,6 +48,7 @@ export const BoxLink = tw.div`
 
 export const LinkText = styled(Link)(
   tw`
+  relative
   w-[150px]
   text-black
   text-xl
@@ -70,9 +71,12 @@ export const TitleText = tw.div`
 `
 
 export const Underline = tw.div`
-  h-[4px]
-  bg-black
+  h-[6px]
+  bg-primary-600
   w-full
+  rounded-t-full
+  absolute
+  bottom-0
 `
 
 // ============= RIGHT SESSION =============

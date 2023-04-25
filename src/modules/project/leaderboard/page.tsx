@@ -21,14 +21,12 @@ import {
   LHBox,
   LHDes,
   LHeader,
-  LHImg,
   LHInfoA,
-  LHInfoC,
   LHLogo,
   LHTitle,
   LHTitleBox,
   LLbox,
-  LTInvite,
+  LogoP,
   LUImg,
   LUWrap2,
   Main,
@@ -47,6 +45,7 @@ import {
   ModalWrap,
   TitleModal,
 } from '@/styles/modal.style'
+import { CardBox, QuestText, SCardBox } from '@/styles/questboard.style'
 import { Tab, Transition } from '@headlessui/react'
 
 import QuestBoardTab from './questboard/page'
@@ -86,61 +85,108 @@ export default function Leaderboard() {
       <Main>
         {projectState && (
           <LHeader>
+            <LogoP
+              width={250}
+              height={250}
+              src={StorageConst.MANTA_LOGO.src}
+              alt={StorageConst.MANTA_LOGO.alt}
+            />
+            <Gap width={8} />
             <LHInfoA>
-              <LHImg />
-              <Gap width={4} />
               <LHBox>
-                <LHTitleBox>
-                  <LHTitle>{projectState.name}</LHTitle>
-                  <Gap width={9} />
-                  <LHLogo>
-                    <Image
-                      width={30}
-                      height={30}
-                      src={StorageConst.TWITTER_DIR.src}
-                      alt={StorageConst.TWITTER_DIR.alt}
-                    />
-                    <Gap width={4} height={0} />
-                    <Image
-                      width={30}
-                      height={30}
-                      src={StorageConst.DISCORD_DIR.src}
-                      alt={StorageConst.DISCORD_DIR.alt}
-                    />
-                    <Gap width={4} height={0} />
-                    <Image
-                      width={30}
-                      height={30}
-                      src={StorageConst.METAMASK_DIR.src}
-                      alt={StorageConst.METAMASK_DIR.alt}
-                    />
-                    <Gap width={4} height={0} />
-                    <Image
-                      width={30}
-                      height={30}
-                      src={StorageConst.METAMASK_DIR.src}
-                      alt={StorageConst.METAMASK_DIR.alt}
-                    />
-                  </LHLogo>
-                </LHTitleBox>
-                <Gap height={6} />
+                <LHTitle>{projectState.name}</LHTitle>
+                <Gap height={1} />
                 <LHDes>
-                  {'Supendisse eros, scelerique sed iltri cies at,'}
+                  {
+                    'Manta Network is the zk layer 1 blockchain with the fastest prover speed and most decentralized trusted setup that brings programmable privacy to web3. Its suite of core products and technologies, including zkNFTs and MantaPay, offers user-friendly access to powerful ZK-enabled use cases.'
+                  }
                 </LHDes>
-                <LHDes>{'egestas, quis dolor est dosit merta'}</LHDes>
-                <Gap height={6} />
-                <PSave isBlock={false}>{'JOIN TOWNHALL'}</PSave>
+                <Gap height={3} />
+                <LHLogo>
+                  <Image
+                    width={30}
+                    height={30}
+                    src={StorageConst.TWITTER_DIR.src}
+                    alt={StorageConst.TWITTER_DIR.alt}
+                  />
+                  <Gap width={4} height={0} />
+                  <Image
+                    width={30}
+                    height={30}
+                    src={StorageConst.DISCORD_DIR.src}
+                    alt={StorageConst.DISCORD_DIR.alt}
+                  />
+                  <Gap width={4} height={0} />
+                  <Image
+                    width={30}
+                    height={30}
+                    src={StorageConst.METAMASK_DIR.src}
+                    alt={StorageConst.METAMASK_DIR.alt}
+                  />
+                  <Gap width={4} height={0} />
+                  <Image
+                    width={30}
+                    height={30}
+                    src={StorageConst.METAMASK_DIR.src}
+                    alt={StorageConst.METAMASK_DIR.alt}
+                  />
+                </LHLogo>
+                <Gap height={5} />
+                <LHTitleBox>
+                  <SCardBox>
+                    <PSave isBlock={false}>{'Join Townhall'}</PSave>
+                    <Gap width={4} height={0} />
+                    <QuestText>{'with 287.6K questers 👋'}</QuestText>
+                  </SCardBox>
+                  <CardBox>
+                    <PFollow>
+                      <Image
+                        width={20}
+                        height={20}
+                        src={StorageConst.CHECK_ICON.src}
+                        alt={StorageConst.CHECK_ICON.alt}
+                      />
+                      <Gap width={1} />
+                      {'Following'}
+                    </PFollow>
+                    <Gap height={8} />
+                    <PFollow>
+                      <Image
+                        width={20}
+                        height={20}
+                        src={StorageConst.SHARE_ICON.src}
+                        alt={StorageConst.SHARE_ICON.alt}
+                      />
+                    </PFollow>
+                  </CardBox>
+                </LHTitleBox>
               </LHBox>
             </LHInfoA>
-            <Gap height={4} />
+            {/* <Gap height={4} />
             <LHInfoC>
-              <PFollow>{'FOLLOW'}</PFollow>
+              <PFollow>
+                {' '}
+                <Image
+                  width={20}
+                  height={20}
+                  src={StorageConst.CHECK_ICON.src}
+                  alt={StorageConst.CHECK_ICON.alt}
+                />
+                {' Following'}
+              </PFollow>
               <Gap height={8} />
-              <LTInvite>{'Invite Friends'}</LTInvite>
-            </LHInfoC>
+              <PFollow>
+                <Image
+                  width={20}
+                  height={20}
+                  src={StorageConst.SHARE_ICON.src}
+                  alt={StorageConst.SHARE_ICON.alt}
+                />
+              </PFollow>
+            </LHInfoC> */}
           </LHeader>
         )}
-        <Gap height={8} />
+        <Divider />
         <QuestBoardTab />
       </Main>
       <TabWrap>

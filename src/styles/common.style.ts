@@ -78,7 +78,7 @@ export const Gap = styled.div<GapProps>(({ width = 4, height = 4 }) => [
 ])
 
 export const Divider = tw.div`
-  bg-gray-300
+  bg-gray-200
   h-[1.5px]
   w-full
   my-6
