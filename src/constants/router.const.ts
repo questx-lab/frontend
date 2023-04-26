@@ -3,8 +3,8 @@ export enum RouterConst {
   HOME = '/',
   QUESTBOARD = '/questercamp',
   EXPLORE = '/explore',
-  MY_PROJECTS = '/communities',
+  COMMUNITIES = '/communities',
   CREATE_PROJECTS = '/communities/new ',
-  PROJECT = '/projects/',
+  PROJECT = '/communities/projects/',
   USER = '/users/',
 }
