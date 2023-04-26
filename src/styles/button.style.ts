@@ -218,3 +218,55 @@ export const DelBtn = tw.button`
   font-normal
   text-[#FD0505]
 `
+
+export const BtnCreateQuest = styled.button<{ block?: boolean }>(
+  ({ block = false }) => [
+    !block
+      ? tw`
+          w-[calc(50%_-_8px)]
+          py-2
+          rounded-lg
+          bg-primary-500
+          flex
+          justify-center
+          items-center
+          text-lg
+          font-medium
+          text-white
+          cursor-pointer
+          hover:bg-primary-400
+        `
+      : tw`
+        py-2
+        w-[calc(50%_-_8px)]
+        rounded-lg
+        bg-primary-300
+        flex
+        justify-center
+        items-center
+        text-lg
+        font-medium
+        text-white
+        cursor-not-allowed
+        `,
+  ]
+)
+
+export const BtnDraft = tw.button`
+  w-[calc(50%_-_8px)]
+  py-2
+  rounded-lg
+  bg-white
+  flex
+  justify-center
+  items-center
+  text-lg
+  font-medium
+  text-black
+  cursor-pointer
+  hover:bg-gray-200
+  border
+  border-solid
+  border-[1ox]
+  border-gray-300
+`

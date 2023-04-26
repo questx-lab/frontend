@@ -6,7 +6,7 @@ export const Wrap = tw.div`
   flex
   flex-row
   min-h-screen
-  pt-[80px]
+  pt-[70px]
 `
 
 export const Main = tw.div`
@@ -19,6 +19,281 @@ export const Main = tw.div`
   py-2
   w-full
 `
+
+export const CMain = tw.div`
+  flex
+  flex-row
+  pl-[70px]
+  pr-[40px]
+  max-lg:pr-[10px]
+  max-lg:pl-[80px]
+  w-full
+`
+
+export const CSide = tw.div`
+  w-64
+  fixed
+  border-r-2
+  border-gray-200
+  h-full
+`
+
+export const CPBox = tw.div`
+  px-4
+`
+
+export const CBox = tw.div`
+  w-full
+  flex
+  flex-row
+  justify-center
+  items-start
+  ml-64
+`
+
+export const CCard = tw.div`
+  w-2/3
+  h-full
+  bg-white
+  py-8
+  pl-12
+`
+
+export const CSideCard = tw.div`
+  py-8
+  pl-6
+  w-1/3
+  h-full
+  right-0
+  flex
+  flex-col
+  justify-start
+  items-end
+`
+
+export const BtnUseT = tw.button`
+  border
+  border-solid
+  border-[1px]
+  border-gray-200
+  rounded-lg
+  px-6
+  py-2
+  font-medium
+  text-lg
+  text-black
+  hover:bg-gray-100
+`
+
+export const UnderText = tw.p`
+  text-primary-500
+  underline
+  underline-offset-4
+  text-sm
+  font-normal
+  cursor-pointer
+`
+
+export const ItemSide = styled.div<{ active?: boolean }>(
+  ({ active = false }) => [
+    active
+      ? tw`
+        bg-gray-100
+        px-3
+        py-2
+        flex
+        flex-row
+        justify-start
+        items-center
+        rounded-lg
+        hover:bg-gray-50
+        cursor-pointer
+        my-2
+        text-sm
+        font-medium
+        text-primary-500
+      `
+      : tw`
+        px-3
+        py-2
+        bg-white
+        flex
+        flex-row
+        justify-start
+        items-center
+        hover:bg-gray-50
+        cursor-pointer
+        my-2
+        text-sm
+        font-normal
+        text-black
+      `,
+  ]
+)
+
+export const CHeadling = tw.p`
+  text-2xl
+  font-normal
+  text-black
+`
+
+export const CTitle = tw.p`
+  text-sm
+  font-medium
+  text-gray-700
+`
+
+export const ICard = tw.div`
+  border-solid
+  border-[1px]
+  rounded-lg
+  border-gray-200
+  py-6
+`
+
+export const PICard = tw.div`
+  px-6
+`
+
+export const ITypeBox = tw.div`
+  flex
+  flex-wrap
+  justify-start
+  items-center
+  w-full
+`
+
+export const PersonWrap = tw.div`
+  flex 
+  flex-col 
+  justify-center 
+  items-center 
+  p-6 
+`
+
+export const LabelDes = tw.p`
+  text-sm
+  font-normal
+  text-gray-700
+`
+
+export const PersonInfoBox = tw.div`
+  flex
+  flex-row
+  justify-center
+  items-center
+`
+
+export const PersonName = tw.p`
+  text-lg
+  font-medium
+  text-black
+  text-center
+`
+
+export const LvBox = tw.div`
+  bg-[#14B8A6]
+  rounded-full
+  px-3
+  py-1
+  text-sm
+  font-normal
+  text-white
+`
+
+export const PersonDes = tw.p`
+  text-lg
+  font-normal
+  text-gray-700
+  text-center
+`
+
+export const TypeBox = styled.div<{ active?: boolean }>(
+  ({ active = false }) => [
+    active
+      ? tw`
+      py-2
+      px-3
+      bg-primary-100
+      border-solid
+      border-[1px]
+      border-primary-100
+      rounded-lg
+      cursor-pointer
+      mr-2
+      mt-2
+      text-sm
+      text-primary-500
+      font-medium
+    `
+      : tw`
+      py-2
+      px-3
+      border-solid
+      border-[1px]
+      border-gray-200
+      rounded-lg
+      bg-white
+      cursor-pointer
+      mr-2
+      mt-2
+      text-sm
+      text-black
+      font-medium
+    `,
+  ]
+)
+
+export const TwitterBox = styled.div<{ active?: number }>(({ active = 0 }) => [
+  active === 0 &&
+    tw`
+      py-1
+      px-3
+      border-solid
+      border-[1px]
+      border-gray-200
+      rounded-lg
+      bg-white
+      cursor-pointer
+      mr-2
+      mt-2
+      text-sm
+      text-black
+      font-normal
+    `,
+  active === 1 &&
+    tw`
+      py-1
+      px-3
+      bg-primary-100
+      border-solid
+      border-[1px]
+      border-primary-100
+      rounded-lg
+      cursor-pointer
+      mr-2
+      mt-2
+      text-sm
+      text-primary-500
+      font-normal
+    `,
+  active === 2 &&
+    tw`
+      py-1
+      px-3
+      border-solid
+      border-[1px]
+      border-gray-200
+      rounded-lg
+      bg-white
+      cursor-not-allowed
+      mr-2
+      mt-2
+      text-sm
+      text-gray-200
+      font-normal
+    `,
+])
 
 export const Title = tw.p`
   text-3xl
@@ -85,6 +360,13 @@ export const ContentQuestBox = tw.div`
 
 export const HeaderBox = tw.div`
   px-4
+  flex
+  flex-row
+  justify-start
+  items-center
+`
+
+export const TitleBox = tw.div`
   flex
   flex-row
   justify-start
@@ -207,3 +489,29 @@ export const Card = styled.div<{ type?: number }>(({ type = 0 }) => [
     bg-[#F3E8FF]
   `,
 ])
+
+export const BtnWrap = tw.div`
+  w-full
+  flex
+  flex-row
+  justify-between
+  items-center
+`
+
+export const PointBox = tw.div`
+  w-full
+  flex
+  flex-row
+  border
+  border-solid
+  border-gray-100
+  border-[1px]
+  rounded-lg
+  p-3
+`
+
+export const PointInput = tw.input`
+  w-full
+  outline-0
+  ring-0
+`
