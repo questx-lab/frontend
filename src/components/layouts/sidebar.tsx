@@ -1,16 +1,9 @@
-import { Gap } from '@/styles/common.style'
-import {
-  BoxContent,
-  CircleRouded,
-  TitleText,
-  Wrap,
-} from '@/styles/sidebar.style'
+import { Divider, Gap } from '@/styles/common.style'
+import { BoxContent, CircleRouded, Wrap } from '@/styles/sidebar.style'
 
 export default function SidebarCustom() {
   return (
     <Wrap>
-      <TitleText>{'following'}</TitleText>
-      <Gap />
       <BoxContent>
         <CircleRouded />
         <Gap />
@@ -20,7 +13,7 @@ export default function SidebarCustom() {
         <Gap />
         <CircleRouded />
       </BoxContent>
-      <Gap />
+      <Divider />
       <BoxContent>
         <CircleRouded />
         <Gap />

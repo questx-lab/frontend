@@ -53,11 +53,15 @@ const Header = () => {
     if (path && path.includes(RouterConst.EXPLORE)) {
       setNavActive(1)
     }
-    if (path && path.includes(RouterConst.QUESTBOARD)) {
+    if (
+      path &&
+      (path.includes(RouterConst.MY_PROJECTS) ||
+        path.includes(RouterConst.PROJECT))
+    ) {
       setNavActive(2)
     }
 
-    if (path && path.includes(RouterConst.MY_PROJECTS)) {
+    if (path && path.includes(RouterConst.QUESTBOARD)) {
       setNavActive(3)
     }
   }, [path])
@@ -81,21 +85,16 @@ const Header = () => {
         <LeftSession>
           <BoxLink>
             <LinkText href={RouterConst.EXPLORE}>
-              <TitleText className={`${navActive === 1 ? 'font-bold' : ''}`}>
-                {'Explore'}
-              </TitleText>
+              <TitleText>{'Explore'}</TitleText>
               {navActive === 1 && <Underline />}
             </LinkText>
-            <LinkText href={RouterConst.QUESTBOARD}>
-              <TitleText className={`${navActive === 2 ? 'font-bold' : ''}`}>
-                {'Questboard'}
-              </TitleText>
+
+            <LinkText href={RouterConst.MY_PROJECTS}>
+              <TitleText>{'Communities'}</TitleText>
               {navActive === 2 && <Underline />}
             </LinkText>
-            <LinkText href={RouterConst.MY_PROJECTS}>
-              <TitleText className={`${navActive === 3 ? 'font-bold' : ''}`}>
-                {'My Projects'}
-              </TitleText>
+            <LinkText href={RouterConst.QUESTBOARD}>
+              <TitleText>{'QuesterCamp'}</TitleText>
               {navActive === 3 && <Underline />}
             </LinkText>
           </BoxLink>
@@ -196,14 +195,15 @@ const Header = () => {
               <NavTitle>{'Explore'}</NavTitle>
               {navActive === 1 && <NavUnderline />}
             </NavLink>
-            <NavLink onClick={() => handleClick(RouterConst.QUESTBOARD)}>
-              <NavTitle>{'Questboard'}</NavTitle>
+            <NavLink onClick={() => handleClick(RouterConst.MY_PROJECTS)}>
+              <NavTitle>{'Communities'}</NavTitle>
               {navActive === 2 && <NavUnderline />}
             </NavLink>
-            <NavLink onClick={() => handleClick(RouterConst.MY_PROJECTS)}>
-              <NavTitle>{'My Projects'}</NavTitle>
+            <NavLink onClick={() => handleClick(RouterConst.QUESTBOARD)}>
+              <NavTitle>{'QuesterCamp'}</NavTitle>
               {navActive === 3 && <NavUnderline />}
             </NavLink>
+
             <Gap height={9} />
             <Divider />
             <AuthType />

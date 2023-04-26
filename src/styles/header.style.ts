@@ -17,8 +17,8 @@ export const Wrap = tw.nav`
   items-center
   h-[70px]
   px-[15px]
-  shadow
-  shadow-md
+  border-b-[1px]
+  border-gray-200
   fixed
   bg-white
   max-sm:h-[65px]
@@ -48,7 +48,7 @@ export const BoxLink = tw.div`
 
 export const LinkText = styled(Link)(
   tw`
-  w-[150px]
+  relative
   text-black
   text-xl
   font-light
@@ -58,6 +58,7 @@ export const LinkText = styled(Link)(
   justify-center
   items-center
   h-full
+  px-4
   `
 )
 
@@ -67,12 +68,17 @@ export const TitleText = tw.div`
   flex
   justify-center
   items-center
+  font-normal
+  text-lg
 `
 
 export const Underline = tw.div`
-  h-[4px]
-  bg-black
+  h-[5px]
+  bg-primary-600
   w-full
+  rounded-t-full
+  absolute
+  bottom-0
 `
 
 // ============= RIGHT SESSION =============

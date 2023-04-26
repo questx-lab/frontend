@@ -161,44 +161,49 @@ export const PSave = styled.button<CreateProjectType>(({ isBlock = true }) => [
           border-black
           hover:bg-gray-200
           text-gray-500
-          font-bold
+          font-medium
           text-lg
           rounded-lg
-          p-[9px]
+          px-8
+          py-2
           shadow-inner
           shadow-lg
-          w-80
           max-lg:text-sm
         `
     : tw`
-          bg-gray-700
+          bg-primary-500
           border
-          hover:bg-gray-500
+          hover:bg-primary-400
           text-white
-          font-bold
+          font-medium
           text-lg
           rounded-lg
-          p-[9px]
+          px-8
+          py-2
           shadow-inner
           shadow-lg
-          w-80
           max-lg:text-sm
         `,
 ])
 
 export const PFollow = tw.button`
-  w-40
-  bg-gray-700
+  px-4
+  py-2
+  bg-white
   border
-  hover:bg-gray-500
-  text-white
-  font-bold
+  border-solid
+  border-[1px]
+  border-gray-300
+  hover:bg-gray-200
+  text-gray-900
+  font-normal
   text-sm
   rounded-lg
-  p-[9px]
-  shadow-inner
-  shadow-lg
   max-lg:text-sm
+  flex
+  flex-row
+  justify-center
+  items-center
 `
 
 export const MenuBtn = tw.button`

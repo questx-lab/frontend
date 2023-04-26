@@ -1,9 +1,9 @@
 export enum RouterConst {
   LOGIN = '/login',
   HOME = '/',
-  QUESTBOARD = '/questboard',
+  QUESTBOARD = '/questercamp',
   EXPLORE = '/explore',
-  MY_PROJECTS = '/my-projects',
+  MY_PROJECTS = '/communities',
   CREATE_PROJECTS = '/my-projects/new ',
   PROJECT = '/projects/',
   USER = '/users/',
