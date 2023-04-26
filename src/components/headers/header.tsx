@@ -85,16 +85,16 @@ const Header = () => {
         <LeftSession>
           <BoxLink>
             <LinkText href={RouterConst.EXPLORE}>
-              <TitleText className={`font-medium`}>{'Explore'}</TitleText>
+              <TitleText>{'Explore'}</TitleText>
               {navActive === 1 && <Underline />}
             </LinkText>
 
             <LinkText href={RouterConst.MY_PROJECTS}>
-              <TitleText className={`font-medium`}>{'Communities'}</TitleText>
+              <TitleText>{'Communities'}</TitleText>
               {navActive === 2 && <Underline />}
             </LinkText>
             <LinkText href={RouterConst.QUESTBOARD}>
-              <TitleText className={`font-medium`}>{'QuesterCamp'}</TitleText>
+              <TitleText>{'QuesterCamp'}</TitleText>
               {navActive === 3 && <Underline />}
             </LinkText>
           </BoxLink>

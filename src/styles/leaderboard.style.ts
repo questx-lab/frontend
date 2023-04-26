@@ -16,7 +16,7 @@ export const Main = tw.div`
   flex-col
   pl-[200px]
   pr-[480px]
-  max-2xl:pr-[200px]
+  max-2xl:pr-[320px]
   max-2xl:pl-[120px]
   py-5
   w-full
@@ -97,6 +97,8 @@ export const LHTitleBox = tw.div`
 export const LHLogo = tw.div`
   flex
   flex-row
+  justify-center
+  items-center
 `
 
 export const LHTitle = tw.p`
@@ -294,15 +296,14 @@ export const LLbox = tw.div`
 
 export const TabWrap = tw.div`
   w-[350px] 
-  px-[20px] 
-  py-5 
+  max-2xl:w-[280px]
   h-full 
   right-0
   fixed  
-  border-l-2 
+  border-l-[1px] 
   border-solid 
   bg-white 
-  border-black 
+  border-gray-200 
   overflow-y-scroll
 `
 
@@ -314,16 +315,32 @@ export const TabBox = tw.div`
 `
 
 export const TabList = styled(Tab.List)(tw`
-  border-2  
-  border-black 
   flex 
   space-x-1 
-  rounded-full 
   bg-white
-  p-1
 `)
 
 export const TabPannel = styled(Tab.Panel)(tw`
   rounded-xl 
   bg-white
+  px-4
+  py-2
 `)
+
+export const LItem = tw.li`
+  relative 
+  py-2
+  flex 
+  flex-row 
+  justify-between 
+  items-center
+`
+
+export const TextItem = tw.span`
+  max-w-[120px]
+  font-normal
+  text-[#C2410C]
+  text-sm
+  overflow-hidden
+  text-ellipsis
+`

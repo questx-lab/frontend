@@ -12,9 +12,7 @@ import {
   EndWrap,
   Gap,
   LargeText,
-  MediumText,
   NormalText,
-  RowBWrap,
 } from '@/styles/common.style'
 import { MDialog } from '@/styles/home.style'
 import {
@@ -25,6 +23,7 @@ import {
   LHLogo,
   LHTitle,
   LHTitleBox,
+  LItem,
   LLbox,
   LogoP,
   LUImg,
@@ -36,6 +35,7 @@ import {
   TabList,
   TabPannel,
   TabWrap,
+  TextItem,
   Wrap,
 } from '@/styles/leaderboard.style'
 import {
@@ -45,7 +45,12 @@ import {
   ModalWrap,
   TitleModal,
 } from '@/styles/modal.style'
-import { CardBox, QuestText, SCardBox } from '@/styles/questboard.style'
+import {
+  CardBox,
+  PointText,
+  QuestText,
+  SCardBox,
+} from '@/styles/questboard.style'
 import { Tab, Transition } from '@headlessui/react'
 
 import QuestBoardTab from './questboard/page'
@@ -162,57 +167,24 @@ export default function Leaderboard() {
                 </LHTitleBox>
               </LHBox>
             </LHInfoA>
-            {/* <Gap height={4} />
-            <LHInfoC>
-              <PFollow>
-                {' '}
-                <Image
-                  width={20}
-                  height={20}
-                  src={StorageConst.CHECK_ICON.src}
-                  alt={StorageConst.CHECK_ICON.alt}
-                />
-                {' Following'}
-              </PFollow>
-              <Gap height={8} />
-              <PFollow>
-                <Image
-                  width={20}
-                  height={20}
-                  src={StorageConst.SHARE_ICON.src}
-                  alt={StorageConst.SHARE_ICON.alt}
-                />
-              </PFollow>
-            </LHInfoC> */}
           </LHeader>
         )}
         <Divider />
         <QuestBoardTab />
       </Main>
       <TabWrap>
-        <RowBWrap>
-          <MediumText>{'Leaderboard'}</MediumText>
-          <Image
-            onClick={onOpen}
-            src={StorageConst.ARROW_ICON.src}
-            alt={StorageConst.ARROW_ICON.alt}
-            width={28}
-            height={28}
-            className='cursor-pointer'
-          />
-        </RowBWrap>
         <TabBox>
           <Tab.Group>
             <TabList>
-              {['This Week', 'This Month', 'All Time'].map((category) => (
+              {['WEEKLY', 'MONTHLY', 'ALL TIME'].map((category) => (
                 <Tab
                   key={category}
                   className={({ selected }) =>
                     classNames(
-                      'rounded-full w-full p-2 text-sm leading-5 text-black',
+                      'pb-4 font-medium w-full text-sm leading-5 text-black outline-0 ring-0',
                       selected
-                        ? 'bg-gray-200 shadow font-bold'
-                        : 'text-blue-100 font-medium hover:text-black'
+                        ? 'text-primary-500 border-b-2 border-primary-500'
+                        : 'text-black  hover:text-black border-b-[1px] border-gray-200'
                     )
                   }
                 >
@@ -224,17 +196,20 @@ export default function Leaderboard() {
               {[0, 1, 2].map((posts, idx) => (
                 <TabPannel key={idx}>
                   <ul>
-                    {[0, 1, 2, 3, 4, 5].map((post) => (
-                      <li
-                        key={post}
-                        className='relative rounded-lg p-3 bg-gray-200 flex flex-row justify-between items-center my-4'
-                      >
-                        <div className='w-[50px] h-[50px] bg-gray-700 rounded-full'></div>
-                        <div className='w-36 bg-white rounded-full h-4' />
-                        <p className='font-bold text-md text-black'>
-                          {'267 quests'}
-                        </p>
-                      </li>
+                    {[0, 1, 2, 3, 4, 5].map((post, idx) => (
+                      <LItem key={post}>
+                        <LHLogo>
+                          <LogoP
+                            width={40}
+                            height={40}
+                            src={`/images/dummy/${idx + 1}.svg`}
+                            alt={'logo'}
+                          />
+                          <Gap width={4} />
+                          <TextItem>{'alim_marcusalim'}</TextItem>
+                        </LHLogo>
+                        <PointText>{'200'}</PointText>
+                      </LItem>
                     ))}
                   </ul>
                 </TabPannel>

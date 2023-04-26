@@ -5,18 +5,20 @@ import Image from 'next/image'
 import Layout from '@/components/layouts/layout'
 import SidebarCustom from '@/components/layouts/sidebar'
 import { StorageConst } from '@/constants/storage.const'
-import { Divider, Gap, RowBWrap } from '@/styles/common.style'
+import { Gap } from '@/styles/common.style'
 import {
   Card,
   CardBox,
   Description,
   DesQ,
+  EndBoarding,
   FilterBox,
   HeaderBox,
   ImageQuestBox,
   Main,
   PointText,
   QuestboardBox,
+  StartBoarding,
   Title,
   TitleQuestBox,
   Wrap,
@@ -26,24 +28,24 @@ import {
 export default function Questboard() {
   const listQuestboards = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((e) => (
     <QuestboardBox key={e}>
-      <Gap height={4} />
-      <HeaderBox>
-        <ImageQuestBox
-          width={50}
-          height={50}
-          src={StorageConst.MANTA_LOGO.src}
-          alt={StorageConst.MANTA_LOGO.alt}
-        />
-        <TitleQuestBox>{'Manta Network'}</TitleQuestBox>
-      </HeaderBox>
-      <Gap height={4} />
-      <TitleQuestBox>
-        {"🎉 deFarm's $1,000 USDC Airdrop - Join the Farm Now!"}
-      </TitleQuestBox>
-      <Gap height={4} />
-      <DesQ>{'Please visit Manta Network official website'}</DesQ>
-      <Divider />
-      <RowBWrap>
+      <StartBoarding>
+        <HeaderBox>
+          <ImageQuestBox
+            width={50}
+            height={50}
+            src={StorageConst.MANTA_LOGO.src}
+            alt={StorageConst.MANTA_LOGO.alt}
+          />
+          <TitleQuestBox>{'Manta Network'}</TitleQuestBox>
+        </HeaderBox>
+        <Gap height={4} />
+        <TitleQuestBox>
+          {"🎉 deFarm's $1,000 USDC Airdrop - Join the Farm Now!"}
+        </TitleQuestBox>
+        <Gap height={4} />
+        <DesQ>{'Please visit Manta Network official website'}</DesQ>
+      </StartBoarding>
+      <EndBoarding>
         <HeaderBox>
           <Image
             width={25}
@@ -60,7 +62,7 @@ export default function Questboard() {
           <Card type={1}>{'DAILY'}</Card>
           <Gap width={2} />
         </CardBox>
-      </RowBWrap>
+      </EndBoarding>
     </QuestboardBox>
   ))
 

@@ -17,8 +17,8 @@ export const Wrap = tw.nav`
   items-center
   h-[70px]
   px-[15px]
-  shadow
-  shadow-md
+  border-b-[1px]
+  border-gray-200
   fixed
   bg-white
   max-sm:h-[65px]
@@ -49,7 +49,6 @@ export const BoxLink = tw.div`
 export const LinkText = styled(Link)(
   tw`
   relative
-  w-[150px]
   text-black
   text-xl
   font-light
@@ -59,6 +58,7 @@ export const LinkText = styled(Link)(
   justify-center
   items-center
   h-full
+  px-4
   `
 )
 
@@ -68,10 +68,12 @@ export const TitleText = tw.div`
   flex
   justify-center
   items-center
+  font-normal
+  text-lg
 `
 
 export const Underline = tw.div`
-  h-[6px]
+  h-[5px]
   bg-primary-600
   w-full
   rounded-t-full

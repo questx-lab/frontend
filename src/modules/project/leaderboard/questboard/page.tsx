@@ -59,9 +59,9 @@ export default function QuestBoardTab() {
           <PointText>{'300 Gems'}</PointText>
         </HeaderBox>
         <CardBox>
-          <Card>{'HARD'}</Card>
+          <Card type={1}>{'HARD'}</Card>
           <Gap width={2} />
-          <Card type={1}>{'DAILY'}</Card>
+          <Card>{'DAILY'}</Card>
           <Gap width={2} />
         </CardBox>
       </EndBoarding>
@@ -90,9 +90,7 @@ export default function QuestBoardTab() {
           <PointText>{'300 Gems'}</PointText>
         </HeaderBox>
         <CardBox>
-          <Card>{'HARD'}</Card>
-          <Gap width={2} />
-          <Card type={1}>{'DAILY'}</Card>
+          <Card>{'DAILY'}</Card>
           <Gap width={2} />
         </CardBox>
       </EndBoarding>
@@ -106,7 +104,7 @@ export default function QuestBoardTab() {
         <Gap height={2} width={0} />
         <CategoryBox>{listCategory}</CategoryBox>
       </QuestWrapCat> */}
-      <HeaderText>{'👋 Onboarding'}</HeaderText>
+      <HeaderText>{'👋 Popular Quests'}</HeaderText>
       <Gap height={6} />
       <Boarding>{listBoarding}</Boarding>
       <Gap height={4} />

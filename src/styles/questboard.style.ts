@@ -42,7 +42,8 @@ export const FilterBox = tw.div`
   font-bold
   border
   border-dashed
-  border-2 border-gray-400
+  border-2
+  border-gray-400
 `
 
 export const WrapQuestboard = tw.div`
