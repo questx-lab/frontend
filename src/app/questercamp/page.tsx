@@ -57,8 +57,6 @@ export default function Questboard() {
           <PointText>{'300 Gems'}</PointText>
         </HeaderBox>
         <CardBox>
-          <Card>{'HARD'}</Card>
-          <Gap width={2} />
           <Card type={1}>{'DAILY'}</Card>
           <Gap width={2} />
         </CardBox>

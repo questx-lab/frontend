@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import Image from 'next/image'
 
+import Editor from '@/components/editor/page'
 import Layout from '@/components/layouts/layout'
 import SidebarCustom from '@/components/layouts/sidebar'
 import { StorageConst } from '@/constants/storage.const'
@@ -431,10 +432,7 @@ export default function Questboard() {
                   <Gap height={6} />
                   <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
                   <Gap />
-                  <MulInputBox
-                    rows={4}
-                    placeholder='The description of the quest is written here.'
-                  />
+                  <Editor />
                 </PICard>
               </ICard>
               <Gap height={8} />

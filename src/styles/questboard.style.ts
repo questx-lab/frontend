@@ -195,7 +195,6 @@ export const LvBox = tw.div`
   bg-[#14B8A6]
   rounded-full
   px-3
-  py-1
   text-sm
   font-normal
   text-white
@@ -290,7 +289,7 @@ export const TwitterBox = styled.div<{ active?: number }>(({ active = 0 }) => [
       mr-2
       mt-2
       text-sm
-      text-gray-200
+      text-gray-400
       font-normal
     `,
 ])

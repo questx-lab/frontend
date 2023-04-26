@@ -59,9 +59,7 @@ export default function QuestBoardTab() {
           <PointText>{'300 Gems'}</PointText>
         </HeaderBox>
         <CardBox>
-          <Card type={1}>{'HARD'}</Card>
-          <Gap width={2} />
-          <Card>{'DAILY'}</Card>
+          <Card type={1}>{'ONCE'}</Card>
           <Gap width={2} />
         </CardBox>
       </EndBoarding>
