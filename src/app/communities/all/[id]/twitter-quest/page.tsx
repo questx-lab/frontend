@@ -277,13 +277,8 @@ export default function TwitterQuest({ params }: { params: { id: string } }) {
       description: instructionRef.current?.value ?? '',
       categories: [],
       recurrence: 'once',
-      awards: [
-        {
-          type: 'points',
-          value: pointRewardRef.current?.value ?? '0',
-        },
-      ],
-      validation_data: validations,
+      rewards: [],
+      validation_data: {},
       condition_op: 'and',
       conditions: [],
     }

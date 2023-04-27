@@ -55,7 +55,7 @@ const Header = () => {
     }
     if (
       path &&
-      (path.includes(RouterConst.MY_PROJECTS) ||
+      (path.includes(RouterConst.COMMUNITIES) ||
         path.includes(RouterConst.PROJECT))
     ) {
       setNavActive(2)
@@ -89,7 +89,7 @@ const Header = () => {
               {navActive === 1 && <Underline />}
             </LinkText>
 
-            <LinkText href={RouterConst.MY_PROJECTS}>
+            <LinkText href={RouterConst.COMMUNITIES}>
               <TitleText>{'Communities'}</TitleText>
               {navActive === 2 && <Underline />}
             </LinkText>
@@ -195,7 +195,7 @@ const Header = () => {
               <NavTitle>{'Explore'}</NavTitle>
               {navActive === 1 && <NavUnderline />}
             </NavLink>
-            <NavLink onClick={() => handleClick(RouterConst.MY_PROJECTS)}>
+            <NavLink onClick={() => handleClick(RouterConst.COMMUNITIES)}>
               <NavTitle>{'Communities'}</NavTitle>
               {navActive === 2 && <NavUnderline />}
             </NavLink>

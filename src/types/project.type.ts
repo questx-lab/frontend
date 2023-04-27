@@ -1,6 +1,6 @@
 export type ReqNewProject = {
   name: string
-  introdution?: string
+  introduction?: string
   telegram?: string
   projectUrl?: string
   website?: string
@@ -24,6 +24,7 @@ export type ProjectType = {
   twitter?: string
   discord?: string
   telegram?: string
+  introduction?: string
 }
 
 export type ListProjectsType = {
@@ -36,11 +37,6 @@ export type ReqNewRoleProject = {
   name: string
 }
 
-export type AwardType = {
-  type: string
-  value: string
-}
-
 export type ReqNewQuestType = {
   project_id: string
   type: string
@@ -48,10 +44,36 @@ export type ReqNewQuestType = {
   description: string
   categories?: string[]
   recurrence: string
-  validation_data: unknown
-  awards: AwardType[]
+  validation_data: ValidationQuest
+  rewards: RewardType[]
   condition_op: string
   conditions: []
+}
+
+export type RewardType = {
+  type: string
+  data: {
+    points?: number
+    role?: string
+  }
+}
+
+export type ValidationQuest = {
+  auto_validate?: boolean
+  answer?: string
+  question?: string
+  options?: string[]
+  link?: string
+  included_words?: string[]
+  default_tweet?: string
+  twitter_handle?: string
+  tweet_url?: string
+  retweet?: boolean
+  reply?: boolean
+  like?: boolean
+  space_url?: string
+  invite_link?: string
+  number?: number
 }
 
 export type QuestType = {

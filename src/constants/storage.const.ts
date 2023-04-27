@@ -59,6 +59,10 @@ export const StorageConst = {
     src: '/images/icons/arrow.svg',
     alt: 'Arrow icon',
   },
+  ARROW_BACK_ICON: {
+    src: '/images/icons/arrow_back.svg',
+    alt: 'Arrow back icon',
+  },
   POINT_ICON: {
     src: '/images/icons/gem.svg',
     alt: 'Point Icon',
