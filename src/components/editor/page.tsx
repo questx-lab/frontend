@@ -35,13 +35,18 @@ const formats = [
   'video',
 ]
 
-export default function Editor() {
+export default function Editor({
+  onChange,
+}: {
+  onChange: (value: string) => void
+}) {
   return (
     <QuillNoSSRWrapper
       className='rounded-lg'
       modules={modules}
       formats={formats}
       theme='snow'
+      onChange={onChange}
     />
   )
 }

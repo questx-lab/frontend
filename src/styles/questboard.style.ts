@@ -30,6 +30,15 @@ export const CMain = tw.div`
   w-full
 `
 
+export const MMain = tw.div`
+  flex
+  flex-row
+  pl-[70px]
+  max-lg:pr-[10px]
+  max-lg:pl-[80px]
+  w-full
+`
+
 export const CSide = tw.div`
   w-64
   fixed
@@ -48,7 +57,7 @@ export const CBox = tw.div`
   flex-row
   justify-center
   items-start
-  ml-64
+  pl-64
 `
 
 export const CCard = tw.div`
@@ -342,6 +351,9 @@ export const QuestboardBox = tw.div`
   w-full
   flex
   flex-col
+  hover:shadow-lg
+  justify-center
+  items-center
 `
 
 export const ImageQuestBox = styled(Image)(
@@ -413,7 +425,26 @@ export const Boarding = tw.div`
   flex-row
 `
 
-export const BoardingCard = tw.div`
+export const BoardingCard = styled.div<{ manage?: boolean }>(
+  ({ manage = false }) => [
+    manage
+      ? tw`
+  cursor-pointer
+  border
+  rounded-lg
+  border-solid
+  border-gray-200
+  border-[1px]
+  h-[280px]
+  bg-white
+  max-lg:h-[350px]
+  flex
+  flex-col
+  w-64
+  mr-4
+  hover:shadow-lg
+`
+      : tw`
   cursor-pointer
   border
   rounded-lg
@@ -426,9 +457,13 @@ export const BoardingCard = tw.div`
   flex-col
   w-64
   mr-4
-`
+  hover:shadow-lg
+`,
+  ]
+)
 
 export const StartBoarding = tw.div`
+  w-full
   flex
   flex-col
   h-full
@@ -436,6 +471,7 @@ export const StartBoarding = tw.div`
 `
 
 export const EndBoarding = tw.div`
+  w-full
   h-16
   flex
   flex-row
@@ -487,6 +523,26 @@ export const Card = styled.div<{ type?: number }>(({ type = 0 }) => [
     text-[#A855F7]
     bg-[#F3E8FF]
   `,
+  type === 2 &&
+    tw`
+    px-2
+    py-1
+    rounded-sm
+    text-sm
+    font-normal
+    text-[#A855F7]
+    bg-[#F3E8FF]
+  `,
+  type === 3 &&
+    tw`
+    px-2
+    py-1
+    rounded-sm
+    text-sm
+    font-normal
+    text-[#A855F7]
+    bg-[#F3E8FF]
+  `,
 ])
 
 export const BtnWrap = tw.div`
@@ -503,7 +559,7 @@ export const PointBox = tw.div`
   flex-row
   border
   border-solid
-  border-gray-100
+  border-gray-200
   border-[1px]
   rounded-lg
   p-3
@@ -513,4 +569,64 @@ export const PointInput = tw.input`
   w-full
   outline-0
   ring-0
+`
+
+export const LabelCheckText = tw.span`
+  cursor-pointer 
+  select-none
+  text-sm
+  font-medium
+  text-black
+`
+
+export const MBox = tw.div`
+  w-full
+  h-full
+  bg-white
+  py-8
+`
+
+export const MHeader = tw.div`
+  w-full
+  flex
+  flex-row
+  justify-between
+  items-center
+`
+
+export const MTitleBox = tw.div`
+  flex
+  flex-row
+  justify-between
+  items-center
+`
+
+export const MPadding = tw.div`
+  w-full
+  px-16
+`
+
+export const Mtemplate = tw.div`
+  px-16
+  bg-gray-100
+  border
+  border-[1px]
+  border-solid
+  border-gray-200
+  py-6
+`
+
+export const SeeAllText = tw.p`
+  text-lg
+  text-primary
+  font-medium
+  cursor-pointer
+`
+
+export const BlockBox = tw.div`
+flex 
+h-screen 
+w-screen 
+justify-center 
+items-center
 `

@@ -1,11 +1,13 @@
 import { Fragment, useState } from 'react'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 import SidebarCustom from '@/components/layouts/sidebar'
+import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { useStoreState } from '@/store/store'
-import { PFollow, PSave } from '@/styles/button.style'
+import { PFollow, PManage, PSave } from '@/styles/button.style'
 import {
   CloseIcon,
   Divider,
@@ -62,7 +64,8 @@ export default function Leaderboard() {
   const [tab, setTab] = useState<number>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const projectState = useStoreState((state) => state.project.curProject)
-
+  const userState = useStoreState((state) => state.userSession.user)
+  const router = useRouter()
   const onClose = () => setIsOpen(false)
   const onOpen = () => {
     setIsOpen(true)
@@ -102,9 +105,8 @@ export default function Leaderboard() {
                 <LHTitle>{projectState.name}</LHTitle>
                 <Gap height={1} />
                 <LHDes>
-                  {
-                    'Manta Network is the zk layer 1 blockchain with the fastest prover speed and most decentralized trusted setup that brings programmable privacy to web3. Its suite of core products and technologies, including zkNFTs and MantaPay, offers user-friendly access to powerful ZK-enabled use cases.'
-                  }
+                  {projectState.introduction ??
+                    'Manta Network is the zk layer 1 blockchain with the fastest prover speed and most decentralized trusted setup that brings programmable privacy to web3. Its suite of core products and technologies, including zkNFTs and MantaPay, offers user-friendly access to powerful ZK-enabled use cases.'}
                 </LHDes>
                 <Gap height={3} />
                 <LHLogo>
@@ -137,34 +139,51 @@ export default function Leaderboard() {
                   />
                 </LHLogo>
                 <Gap height={5} />
-                <LHTitleBox>
-                  <SCardBox>
-                    <PSave isBlock={false}>{'Join Townhall'}</PSave>
-                    <Gap width={4} height={0} />
-                    <QuestText>{'with 287.6K questers 👋'}</QuestText>
-                  </SCardBox>
-                  <CardBox>
-                    <PFollow>
-                      <Image
-                        width={20}
-                        height={20}
-                        src={StorageConst.CHECK_ICON.src}
-                        alt={StorageConst.CHECK_ICON.alt}
-                      />
-                      <Gap width={1} />
-                      {'Following'}
-                    </PFollow>
-                    <Gap height={8} />
-                    <PFollow>
-                      <Image
-                        width={20}
-                        height={20}
-                        src={StorageConst.SHARE_ICON.src}
-                        alt={StorageConst.SHARE_ICON.alt}
-                      />
-                    </PFollow>
-                  </CardBox>
-                </LHTitleBox>
+                {userState && projectState && (
+                  <LHTitleBox>
+                    <SCardBox>
+                      <PSave isBlock={false}>{'Join Townhall'}</PSave>
+                      <Gap width={4} height={0} />
+                      <QuestText>{'with 287.6K questers 👋'}</QuestText>
+                    </SCardBox>
+                    {userState.id !== projectState.created_by && (
+                      <CardBox>
+                        <PFollow>
+                          <Image
+                            width={20}
+                            height={20}
+                            src={StorageConst.CHECK_ICON.src}
+                            alt={StorageConst.CHECK_ICON.alt}
+                          />
+                          <Gap width={1} />
+                          {'Following'}
+                        </PFollow>
+                        <Gap height={8} />
+                        <PFollow>
+                          <Image
+                            width={20}
+                            height={20}
+                            src={StorageConst.SHARE_ICON.src}
+                            alt={StorageConst.SHARE_ICON.alt}
+                          />
+                        </PFollow>
+                      </CardBox>
+                    )}
+                    {userState.id === projectState.created_by && (
+                      <CardBox>
+                        <PManage
+                          onClick={() =>
+                            router.push(
+                              RouterConst.PROJECT + projectState.id + '/manage'
+                            )
+                          }
+                        >
+                          {'Manage'}
+                        </PManage>
+                      </CardBox>
+                    )}
+                  </LHTitleBox>
+                )}
               </LHBox>
             </LHInfoA>
           </LHeader>

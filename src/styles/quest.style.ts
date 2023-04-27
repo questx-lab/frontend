@@ -44,8 +44,8 @@ export const TCheckBox = tw.input`
   cursor-pointer 
   focus:outline-none 
   focus-visible:outline-none 
-  w-8 
-  h-8 
+  w-4
+  h-4 
   text-gray-600 
   bg-gray-800 
   border-gray-300 

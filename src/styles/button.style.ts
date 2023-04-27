@@ -206,6 +206,22 @@ export const PFollow = tw.button`
   items-center
 `
 
+export const PManage = tw.button`
+  px-8
+  py-2
+  bg-primary-200
+  hover:bg-gray-200
+  text-primary-700
+  font-normal
+  text-sm
+  rounded-lg
+  max-lg:text-sm
+  flex
+  flex-row
+  justify-center
+  items-center
+`
+
 export const MenuBtn = tw.button`
   lg:hidden
   max-lg:mr-2

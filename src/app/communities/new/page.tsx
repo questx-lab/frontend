@@ -74,11 +74,12 @@ export default function NewProject() {
       const payload: ReqNewProject = {
         name: nameRef.current?.value ?? '',
         telegram: telRef.current?.value ?? '',
-        discord: discordRef.current?.value ?? '',
+        introduction: introRef.current?.value ?? '',
       }
+
       const data = await newProjectApi(payload)
       if (data.data) {
-        router.push(RouterConst.COMMUNITIES + '/all/' + data.data?.id)
+        router.push(RouterConst.PROJECT + data.data?.id + '/create')
       }
       if (data.error) {
         setIsOpen(false)
