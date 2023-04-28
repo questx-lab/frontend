@@ -16,7 +16,6 @@ import { Spinner } from '@/components/spinner/spinner'
 import {
   ActionList,
   ActiveEnum,
-  QuestRecurrences,
   QuestRewards,
   QuestTypeEnum,
   QuestTypes,
@@ -74,6 +73,7 @@ import ControlPanel from './control-panel'
 
 import QuestTypeView from './quest-type'
 import QuestDetails from './quest-details'
+import Recurrence from './recurrence'
 
 import { NewQuestStore } from './store'
 
@@ -94,7 +94,7 @@ const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
   const store = NewQuestStore.useStore()
   const handleSubmit = (e: any) => {
     let state = store.getState()
-    console.log('state = ', state)
+    // TODO: Convert the state to a model that can be submitted to the server side.
   }
 
   return (
@@ -122,9 +122,7 @@ const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
               <InputBox
                 value={title}
                 placeholder='The name of the quest is written here.'
-                onChange={(e) => {
-                  onTitleChanged(e.target.value)
-                }}
+                onChange={(e) => onTitleChanged(e.target.value)}
               />
               <Gap height={6} />
               <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
@@ -138,15 +136,9 @@ const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
           <Gap height={8} />
 
           <QuestDetails />
+          <Gap height={8} />
 
-          {/* <ICard>
-            <PICard>
-              <LabelInput>{'RECURRENCE'}</LabelInput>
-              <Gap height={2} />
-              <ITypeBox>{listRecurrenceItems}</ITypeBox>
-            </PICard>
-          </ICard>
-          <Gap height={8} /> */}
+          <Recurrence />
 
           <BtnWrap>
             <BtnDraft>{'Draft'}</BtnDraft>

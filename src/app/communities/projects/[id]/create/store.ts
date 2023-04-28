@@ -1,17 +1,19 @@
 import { createContextStore, Action, action } from 'easy-peasy'
-import { QuestTypeEnum } from '@/constants/project.const'
+import { QuestTypeEnum, QuestRecurrence } from '@/constants/project.const'
 
 interface NewQuestModel {
   title: string
   description: string
   questType: QuestTypeEnum
   textAutoValid: boolean
+  recurrence: QuestRecurrence
 
   // Actions
   onTitleChanged: Action<NewQuestModel, string>
   onDescriptionChanged: Action<NewQuestModel, string>
   onQuestTypeChanged: Action<NewQuestModel, QuestTypeEnum>
   onTextAutoValid: Action<NewQuestModel, boolean>
+  onRecurrenceChanged: Action<NewQuestModel, QuestRecurrence>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -19,6 +21,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   description: '',
   questType: QuestTypeEnum.URL,
   textAutoValid: false,
+  recurrence: QuestRecurrence.ONCE,
 
   onTitleChanged: action((state, newTitle) => {
     state.title = newTitle
@@ -34,6 +37,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   onTextAutoValid: action((state, newTextAutoValid) => {
     state.textAutoValid = newTextAutoValid
+  }),
+
+  onRecurrenceChanged: action((state, newRecurrence) => {
+    state.recurrence = newRecurrence
   }),
 })
 

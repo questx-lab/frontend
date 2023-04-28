@@ -39,7 +39,7 @@ import {
 import {
   ActionList,
   ActiveEnum,
-  QuestRecurrences,
+  QuestRecurrence,
   QuestRewards,
   QuestTypeEnum,
   QuestTypes,

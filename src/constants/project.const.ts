@@ -77,14 +77,21 @@ export enum SubmissionEnum {
   INVITES,
 }
 
-export const QuestRecurrences = ['Once', 'Daily', 'Weekly', 'Monthly']
+// export const QuestRecurrences = ['Once', 'Daily', 'Weekly', 'Monthly']
 
-export enum QuestRecurrencesEnum {
+export enum QuestRecurrence {
   ONCE = 'once',
   DAILY = 'daily',
   WEEKLY = 'weekly',
   MONTHLY = 'monthly',
 }
+
+export const QuestRecurrencesMap = new Map<QuestRecurrence, String>([
+  [QuestRecurrence.ONCE, 'Once'],
+  [QuestRecurrence.DAILY, 'Daily'],
+  [QuestRecurrence.WEEKLY, 'Weekly'],
+  [QuestRecurrence.MONTHLY, 'Monthly'],
+])
 
 export const QuestRewards = ['Gem', 'Discord Role', 'Other']
 
