@@ -4,40 +4,67 @@ import tw from 'twin.macro'
 import { Dialog } from '@headlessui/react'
 
 export const ModalBg = tw.div`
-  fixed 
-  inset-0 
-  bg-black 
-  bg-opacity-80 
+  fixed
+  inset-0
+  bg-black
+  bg-opacity-80
   backdrop-blur-sm
 `
 
 export const ModalWrap = tw.div`
-  fixed 
-  inset-0 
+  fixed
+  inset-0
   overflow-y-auto
 `
 
 export const ModalContent = tw.div`
-  flex 
-  min-h-full 
-  items-center 
-  justify-center 
-  p-4 
+  flex
+  min-h-full
+  items-center
+  justify-center
+  p-4
   text-center
 `
 
+export const TMContent = tw.div`
+  flex
+  h-screen
+  items-center
+  justify-end
+  text-center
+`
+
+export const TMWrap = styled(Dialog.Panel)(
+  tw`
+  w-5/6
+  max-2xl:w-[calc(100%_-_70px)]
+  h-full
+  overflow-hidden
+  bg-white
+  py-6
+  text-left
+  align-middle
+  shadow-xl
+  transition-all
+  flex
+  flex-col
+  justify-start
+  items-center
+  `
+)
+
 export const DialogPannel = styled(Dialog.Panel)(
   tw`
-  w-full 
-  max-w-md 
-  transform 
-  overflow-hidden 
-  rounded-2xl 
-  bg-white 
+  w-full
+  max-w-md
+  transform
+  overflow-hidden
+  rounded-2xl
+  bg-white
   p-10
-  text-left 
-  align-middle 
-  shadow-xl 
+  text-left
+  align-middle
+  shadow-xl
   transition-all
   flex
   flex-col
@@ -48,15 +75,15 @@ export const DialogPannel = styled(Dialog.Panel)(
 
 export const LDDP = styled(Dialog.Panel)(
   tw`
-  w-2/3 
+  w-2/3
   h-[720px]
-  overflow-hidden 
-  rounded-2xl 
-  bg-white 
+  overflow-hidden
+  rounded-2xl
+  bg-white
   p-6
-  text-left 
-  align-middle 
-  shadow-xl 
+  text-left
+  align-middle
+  shadow-xl
   transition-all
   flex
   flex-col
