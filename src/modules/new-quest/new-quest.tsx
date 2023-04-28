@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent } from 'react'
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -8,19 +8,21 @@ import Editor from '@/components/editor/page'
 import { QuestTypeEnum, QuestTypeStringMap } from '@/constants/project.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
-import { useStoreState } from '@/store/store'
 import { BtnCreateQuest, BtnDraft } from '@/styles/button.style'
-import { Gap, SpinnerStyle } from '@/styles/common.style'
+import { Gap } from '@/styles/common.style'
 import { InputBox } from '@/styles/input.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import {
+  BtnUseT,
   BtnWrap,
   CBox,
   CCard,
-  CHeadling,
+  CHeading,
   ICard,
   PICard,
   TitleBox,
+  Vertical,
+  TopHeader,
 } from '@/styles/questboard.style'
 
 import QuestReward from './quest-reward'
@@ -72,52 +74,57 @@ const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
 
   return (
     <>
-      <CBox>
-        <CCard>
-          <TitleBox>
-            <Image
-              className='cursor-pointer'
-              onClick={() => router.push(RouterConst.PROJECT + id)}
-              width={35}
-              height={35}
-              src={StorageConst.ARROW_BACK_ICON.src}
-              alt={StorageConst.ARROW_BACK_ICON.alt}
-            />
-            <Gap width={3} />
-            <CHeadling>{'Create Quest'}</CHeadling>
-          </TitleBox>
-          <Gap height={8} />
+      <Vertical>
+        <TopHeader>
+          <Image
+            className='cursor-pointer'
+            onClick={() => router.push(RouterConst.PROJECT + id)}
+            width={35}
+            height={35}
+            src={StorageConst.ARROW_BACK_ICON.src}
+            alt={StorageConst.ARROW_BACK_ICON.alt}
+          />
+          <CHeading>{'Create Quest'}</CHeading>
 
-          <ICard>
-            <PICard>
-              <LabelInput>{'QUEST TITLE'}</LabelInput>
-              <Gap />
-              <InputBox
-                value={title}
-                placeholder='The name of the quest is written here.'
-                onChange={(e) => onTitleChanged(e.target.value)}
-              />
-              <Gap height={6} />
-              <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
-              <Gap />
-              <Editor onChange={(value) => onDescriptionChanged(value)} />
-            </PICard>
-          </ICard>
-          <Gap height={8} />
+          <BtnUseT>{'Use Template'}</BtnUseT>
+        </TopHeader>
 
-          <QuestTypeView />
-          <Gap height={8} />
+        <CBox>
+          <CCard>
+            <Gap height={8} />
+            <ICard>
+              <PICard>
+                <LabelInput>{'QUEST TITLE'}</LabelInput>
+                <Gap />
+                <InputBox
+                  value={title}
+                  placeholder='The name of the quest is written here.'
+                  onChange={(e) => onTitleChanged(e.target.value)}
+                />
+                <Gap height={6} />
+                <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
+                <Gap />
+                <Editor onChange={(value) => onDescriptionChanged(value)} />
+              </PICard>
+            </ICard>
+            <Gap height={8} />
 
-          <Recurrence />
-          <Gap height={8} />
+            <QuestTypeView />
+            <Gap height={8} />
 
-          <BtnWrap>
-            <BtnDraft>{'Draft'}</BtnDraft>
-            <BtnCreateQuest onClick={handleSubmit}>{'Publish'}</BtnCreateQuest>
-          </BtnWrap>
-        </CCard>
-        <QuestReward />
-      </CBox>
+            <Recurrence />
+            <Gap height={8} />
+
+            <BtnWrap>
+              <BtnDraft>{'Draft'}</BtnDraft>
+              <BtnCreateQuest onClick={handleSubmit}>
+                {'Publish'}
+              </BtnCreateQuest>
+            </BtnWrap>
+          </CCard>
+          <QuestReward />
+        </CBox>
+      </Vertical>
     </>
   )
 }

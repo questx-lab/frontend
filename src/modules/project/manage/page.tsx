@@ -21,7 +21,7 @@ import {
   Card,
   CardBox,
   CBox,
-  CHeadling,
+  CHeading,
   CPBox,
   CSide,
   DesQ,
@@ -219,7 +219,7 @@ export default function ManageProject({ projectId }: { projectId: string }) {
           <MBox>
             <MPadding>
               <MHeader>
-                <CHeadling>{'Quest'}</CHeadling>
+                <CHeading>{'Quest'}</CHeading>
                 <PSave
                   onClick={() =>
                     router.push(RouterConst.PROJECT + projectId + '/create')

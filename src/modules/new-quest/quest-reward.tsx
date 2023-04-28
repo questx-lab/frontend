@@ -46,8 +46,6 @@ export default function QuestReward() {
 
   return (
     <CSideCard>
-      <BtnUseT>{'Use Template'}</BtnUseT>
-      <Gap height={5} />
       <ICard>
         <PICard>
           <LabelInput>{'REWARD'}</LabelInput>

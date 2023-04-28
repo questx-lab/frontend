@@ -51,20 +51,35 @@ export const CPBox = tw.div`
   px-4
 `
 
+export const Vertical = tw.div`
+  w-full
+  flex
+  flex-col
+  items-start
+  pl-64
+`
+
+export const TopHeader = tw.div`
+  w-full
+  flex
+  flex-row
+  items-center
+  pt-4
+  pl-12
+`
+
 export const CBox = tw.div`
   w-full
   flex
   flex-row
   justify-center
   items-start
-  pl-64
 `
 
 export const CCard = tw.div`
   w-2/3
   h-full
   bg-white
-  py-8
   pl-12
 `
 
@@ -140,10 +155,12 @@ export const ItemSide = styled.div<{ active?: boolean }>(
   ]
 )
 
-export const CHeadling = tw.p`
+export const CHeading = tw.p`
+  flex-1
   text-2xl
   font-normal
   text-black
+  pl-2
 `
 
 export const CTitle = tw.p`
@@ -173,11 +190,11 @@ export const ITypeBox = tw.div`
 `
 
 export const PersonWrap = tw.div`
-  flex 
-  flex-col 
-  justify-center 
-  items-center 
-  p-6 
+  flex
+  flex-col
+  justify-center
+  items-center
+  p-6
 `
 
 export const LabelDes = tw.p`
@@ -363,10 +380,10 @@ export const ImageQuestBox = styled(Image)(
 )
 
 export const ContentQuestBox = tw.div`
-  p-5 
-  flex 
-  flex-col 
-  justify-between 
+  p-5
+  flex
+  flex-col
+  justify-between
 `
 
 export const HeaderBox = tw.div`
@@ -378,7 +395,7 @@ export const HeaderBox = tw.div`
 `
 
 export const TitleBox = tw.div`
-  flex
+  flex-1
   flex-row
   justify-start
   items-center
@@ -386,8 +403,8 @@ export const TitleBox = tw.div`
 
 export const TitleQuestBox = tw.p`
   px-4
-  text-black 
-  font-medium 
+  text-black
+  font-medium
   text-lg
   max-lg:text-sm
 `
@@ -395,7 +412,7 @@ export const TitleQuestBox = tw.p`
 export const DesQ = tw.p`
   px-4
   text-gray-700
-  font-normal 
+  font-normal
   text-lg
   max-lg:text-sm
 `
@@ -407,16 +424,16 @@ export const PointText = tw.span`
 `
 
 export const SkeletonFirst = tw.div`
-  h-[10px] 
-  w-1/2 
-  rounded-full 
+  h-[10px]
+  w-1/2
+  rounded-full
   bg-gray-200
 `
 
 export const SkeletonSecond = tw.div`
-  h-[10px] 
-  w-full 
-  rounded-full 
+  h-[10px]
+  w-full
+  rounded-full
   bg-gray-200
 `
 
@@ -572,7 +589,7 @@ export const PointInput = tw.input`
 `
 
 export const LabelCheckText = tw.span`
-  cursor-pointer 
+  cursor-pointer
   select-none
   text-sm
   font-medium
@@ -624,9 +641,9 @@ export const SeeAllText = tw.p`
 `
 
 export const BlockBox = tw.div`
-flex 
-h-screen 
-w-screen 
-justify-center 
+flex
+h-screen
+w-screen
+justify-center
 items-center
 `
