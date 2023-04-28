@@ -20,19 +20,13 @@ import {
   QuestRewards,
   QuestTypeEnum,
   QuestTypes,
-  SubmissionEnum,
 } from '@/constants/project.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { useStoreState } from '@/store/store'
 import { BtnCreateQuest, BtnDraft } from '@/styles/button.style'
 import { Divider, Gap, SpinnerStyle } from '@/styles/common.style'
-import {
-  InputBox,
-  InputInviteBox,
-  InputTeleBox,
-  MulInputBox,
-} from '@/styles/input.style'
+import { InputBox } from '@/styles/input.style'
 import {
   DesModal,
   DialogPannel,
@@ -70,87 +64,138 @@ import {
   PointBox,
   PointInput,
   TitleBox,
-  TwitterBox,
   TypeBox,
   UnderText,
   Wrap,
 } from '@/styles/questboard.style'
-import {
-  ProjectType,
-  ReqNewQuestType,
-  ValidationQuest,
-} from '@/types/project.type'
+import { ProjectType, ReqNewQuestType, RewardType } from '@/types/project.type'
 import { Dialog, Transition } from '@headlessui/react'
 import ControlPanel from './control-panel'
-import SubmissionType from './submission-type'
 
-const ActionView: FunctionComponent<{ activeType: SubmissionEnum }> = ({
-  activeType,
-}) => {
-  switch (activeType) {
-    case SubmissionEnum.URL:
-      return <></>
-    case SubmissionEnum.TEXT:
-      return (
-        <PICard>
-          <Gap height={6} />
-          <TBox>
-            <TCheckBox
-              // checked={textAutoValid}
-              // onChange={}
-              id='inline-checked-checkbox'
-              type='checkbox'
-            />
-            <Gap width={4} />
-            <LabelCheckText>{'Autovalidate'}</LabelCheckText>
-          </TBox>
+import QuestTypeView from './quest-type'
+import QuestDetails from './quest-details'
 
-          {/* {textAutoValid && (
-            <>
-              <Gap height={4} />
-              <LabelInput>{'Correct Answer'}</LabelInput>
-              <Gap height={2} />
-              <InputBox ref={textAnserRef} placeholder='' />
-              <Gap height={2} />
-              <LabelDes>{'Leave empty for accepting any value'}</LabelDes>
-            </>
-          )} */}
-        </PICard>
-      )
+import { NewQuestStore } from './store'
+
+const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
+  const router = useRouter()
+
+  // Data
+  const title = NewQuestStore.useStoreState((state) => state.title)
+
+  // Actions
+  const onTitleChanged = NewQuestStore.useStoreActions(
+    (actions) => actions.onTitleChanged
+  )
+  const onDescriptionChanged = NewQuestStore.useStoreActions(
+    (actions) => actions.onDescriptionChanged
+  )
+
+  const store = NewQuestStore.useStore()
+  const handleSubmit = (e: any) => {
+    let state = store.getState()
+    console.log('state = ', state)
   }
-  return <></>
+
+  return (
+    <>
+      <CBox>
+        <CCard>
+          <TitleBox>
+            <Image
+              className='cursor-pointer'
+              onClick={() => router.push(RouterConst.PROJECT + id)}
+              width={35}
+              height={35}
+              src={StorageConst.ARROW_BACK_ICON.src}
+              alt={StorageConst.ARROW_BACK_ICON.alt}
+            />
+            <Gap width={3} />
+            <CHeadling>{'Create Quest'}</CHeadling>
+          </TitleBox>
+          <Gap height={8} />
+
+          <ICard>
+            <PICard>
+              <LabelInput>{'QUEST TITLE'}</LabelInput>
+              <Gap />
+              <InputBox
+                value={title}
+                placeholder='The name of the quest is written here.'
+                onChange={(e) => {
+                  onTitleChanged(e.target.value)
+                }}
+              />
+              <Gap height={6} />
+              <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
+              <Gap />
+              <Editor onChange={(value) => onDescriptionChanged(value)} />
+            </PICard>
+          </ICard>
+          <Gap height={8} />
+
+          <QuestTypeView />
+          <Gap height={8} />
+
+          <QuestDetails />
+
+          {/* <ICard>
+            <PICard>
+              <LabelInput>{'RECURRENCE'}</LabelInput>
+              <Gap height={2} />
+              <ITypeBox>{listRecurrenceItems}</ITypeBox>
+            </PICard>
+          </ICard>
+          <Gap height={8} /> */}
+
+          <BtnWrap>
+            <BtnDraft>{'Draft'}</BtnDraft>
+            <BtnCreateQuest onClick={handleSubmit}>{'Publish'}</BtnCreateQuest>
+          </BtnWrap>
+        </CCard>
+
+        <CSideCard>
+          <BtnUseT>{'Use Template'}</BtnUseT>
+          <Gap height={5} />
+          <ICard>
+            <PICard>
+              {/* <LabelInput>{'REWARD'}</LabelInput>
+              <Gap height={2} />
+              <ITypeBox>{listRewards}</ITypeBox>
+              <Gap height={6} />
+              <PointBox>
+                <Image
+                  width={30}
+                  height={30}
+                  src={StorageConst.POINT_ICON.src}
+                  alt={StorageConst.POINT_ICON.alt}
+                />
+                <Gap width={2} />
+                <PointInput
+                  ref={pointRewardRef}
+                  type='number'
+                  min={1}
+                  defaultValue={100}
+                />
+              </PointBox> */}
+
+              <Gap height={6} />
+              <UnderText>
+                {'Learn more here about how the levels are calculated.'}
+              </UnderText>
+            </PICard>
+          </ICard>
+        </CSideCard>
+      </CBox>
+    </>
+  )
 }
 
 export default function Questboard({ params }: { params: { id: string } }) {
-  const [quest, setQuest] = useState<{}>({})
-
-  const [activeType, setActiveType] = useState<number>(0)
-  const [activeRecurrence, setActiveRecurrence] = useState<number>(0)
-  const [activeReward, setActiveReward] = useState<number>(0)
-  const [activeSide, setActiveSide] = useState<number>(0)
-  const [project, setProject] = useState<ProjectType>()
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [questDescription, setQuestDescription] = useState<string>('')
-  const [emptyAutoValid, setEmptyAutoValid] = useState<boolean>(true)
-  const [pendingPermission, setPendingPermission] = useState<boolean>(true)
-  const [hasPermission, setHasPermission] = useState<boolean>(false)
+  const [project, setProject] = useState<ProjectType>()
 
   const projectState = useStoreState((state) => state.project.curProject)
-  const userState = useStoreState((state) => state.userSession.user)
-
-  const titleRef = useRef<HTMLInputElement>(null)
-  const followTwRef = useRef<HTMLInputElement>(null)
-  const tweetTwRef = useRef<HTMLInputElement>(null)
-  const replyTwRef = useRef<HTMLTextAreaElement>(null)
-  const contentTwRef = useRef<HTMLTextAreaElement>(null)
-  const joinSpaceTwRef = useRef<HTMLInputElement>(null)
-  const visitLinkRef = useRef<HTMLInputElement>(null)
-  const pointRewardRef = useRef<HTMLInputElement>(null)
-  const textAnserRef = useRef<HTMLInputElement>(null)
-  const telegramLinkRef = useRef<HTMLInputElement>(null)
-  const inviteRef = useRef<HTMLInputElement>(null)
-
-  const router = useRouter()
 
   useEffect(() => {
     projectState && setProject(projectState)
@@ -162,63 +207,11 @@ export default function Questboard({ params }: { params: { id: string } }) {
 
   const getProject = async () => {
     try {
-      setPendingPermission(true)
       const rs = await getProjectApi(params.id)
-      if (rs.error) {
-        setHasPermission(false)
-      } else {
-        if (userState && userState.id === rs.data?.project.created_by) {
-          setHasPermission(true)
-        } else {
-          setHasPermission(false)
-        }
-      }
-      setPendingPermission(false)
     } catch (error) {
       toast.error('error')
-      setPendingPermission(false)
     }
   }
-
-  const listTypeItems = QuestTypes.map((e, i) => (
-    <TypeBox
-      active={activeType === i}
-      key={i}
-      onClick={() => {
-        setActiveType(i)
-      }}
-    >
-      {e}
-    </TypeBox>
-  ))
-
-  const onChangeEditor = (val: string) => {
-    setQuestDescription(val)
-  }
-
-  const listRewards = QuestRewards.map((e, i) => (
-    <TypeBox
-      active={activeReward === i}
-      key={i}
-      onClick={() => {
-        setActiveReward(i)
-      }}
-    >
-      {e}
-    </TypeBox>
-  ))
-
-  const listRecurrenceItems = QuestRecurrences.map((e, i) => (
-    <TypeBox
-      active={activeRecurrence === i}
-      key={i}
-      onClick={() => {
-        setActiveRecurrence(i)
-      }}
-    >
-      {e}
-    </TypeBox>
-  ))
 
   return (
     <Layout>
@@ -231,90 +224,9 @@ export default function Questboard({ params }: { params: { id: string } }) {
         <CMain>
           <ControlPanel />
 
-          <CBox>
-            <CCard>
-              <TitleBox>
-                <Image
-                  className='cursor-pointer'
-                  onClick={() => router.push(RouterConst.PROJECT + params.id)}
-                  width={35}
-                  height={35}
-                  src={StorageConst.ARROW_BACK_ICON.src}
-                  alt={StorageConst.ARROW_BACK_ICON.alt}
-                />
-                <Gap width={3} />
-                <CHeadling>{'Create Quest'}</CHeadling>
-              </TitleBox>
-              <Gap height={8} />
-
-              <ICard>
-                <PICard>
-                  <LabelInput>{'QUEST TITLE'}</LabelInput>
-                  <Gap />
-                  <InputBox
-                    ref={titleRef}
-                    placeholder='The name of the quest is written here.'
-                  />
-                  <Gap height={6} />
-                  <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
-                  <Gap />
-                  <Editor onChange={onChangeEditor} />
-                </PICard>
-              </ICard>
-              <Gap height={8} />
-
-              <SubmissionType activeType={0} />
-              <Gap height={8} />
-
-              <ActionView activeType={0} />
-
-              <ICard>
-                <PICard>
-                  <LabelInput>{'RECURRENCE'}</LabelInput>
-                  <Gap height={2} />
-                  <ITypeBox>{listRecurrenceItems}</ITypeBox>
-                </PICard>
-              </ICard>
-              <Gap height={8} />
-              <BtnWrap>
-                <BtnDraft>{'Draft'}</BtnDraft>
-                <BtnCreateQuest>{'Publish'}</BtnCreateQuest>
-              </BtnWrap>
-            </CCard>
-
-            <CSideCard>
-              <BtnUseT>{'Use Template'}</BtnUseT>
-              <Gap height={5} />
-              <ICard>
-                <PICard>
-                  <LabelInput>{'REWARD'}</LabelInput>
-                  <Gap height={2} />
-                  <ITypeBox>{listRewards}</ITypeBox>
-                  <Gap height={6} />
-                  <PointBox>
-                    <Image
-                      width={30}
-                      height={30}
-                      src={StorageConst.POINT_ICON.src}
-                      alt={StorageConst.POINT_ICON.alt}
-                    />
-                    <Gap width={2} />
-                    <PointInput
-                      ref={pointRewardRef}
-                      type='number'
-                      min={1}
-                      defaultValue={100}
-                    />
-                  </PointBox>
-
-                  <Gap height={6} />
-                  <UnderText>
-                    {'Learn more here about how the levels are calculated.'}
-                  </UnderText>
-                </PICard>
-              </ICard>
-            </CSideCard>
-          </CBox>
+          <NewQuestStore.Provider>
+            <QuestFrame id={params.id} />
+          </NewQuestStore.Provider>
         </CMain>
       </Wrap>
 
