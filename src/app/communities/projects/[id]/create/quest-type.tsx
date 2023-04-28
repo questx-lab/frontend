@@ -1,11 +1,11 @@
 'use client'
 
-import { FunctionComponent } from 'react'
-import { LabelInput } from '@/styles/myProjects.style'
+import { QuestTypeEnum, QuestTypeStringMap } from '@/constants/project.const'
 import { Gap } from '@/styles/common.style'
+import { LabelInput } from '@/styles/myProjects.style'
 import { ICard, ITypeBox, PICard, TypeBox } from '@/styles/questboard.style'
 
-import { QuestTypeEnum, QuestTypeStringMap } from '@/constants/project.const'
+import QuestDetails from './quest-details'
 import { NewQuestStore } from './store'
 
 const QuestTypeView = () => {
@@ -22,7 +22,10 @@ const QuestTypeView = () => {
     QuestTypeEnum.INVITES,
   ]
 
+  // data
   const questType = NewQuestStore.useStoreState((state) => state.questType)
+
+  // actions
   const onQuestTypeChanged = NewQuestStore.useStoreActions(
     (actions) => actions.onQuestTypeChanged
   )
@@ -46,6 +49,7 @@ const QuestTypeView = () => {
         <Gap height={2} />
         <ITypeBox>{listTypeItems}</ITypeBox>
       </PICard>
+      <QuestDetails />
     </ICard>
   )
 }

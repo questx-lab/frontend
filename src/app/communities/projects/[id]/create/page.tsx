@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useEffect, useRef, useState, FunctionComponent } from 'react'
+import { Fragment, FunctionComponent, useEffect, useState } from 'react'
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -8,23 +8,15 @@ import toast from 'react-hot-toast'
 import { DotLoader } from 'react-spinners'
 
 import { getProjectApi } from '@/app/api/client/project'
-import { newQuestApi } from '@/app/api/client/quest'
 import Editor from '@/components/editor/page'
 import Layout from '@/components/layouts/layout'
 import SidebarCustom from '@/components/layouts/sidebar'
-import { Spinner } from '@/components/spinner/spinner'
-import {
-  ActionList,
-  ActiveEnum,
-  QuestRewards,
-  QuestTypeEnum,
-  QuestTypes,
-} from '@/constants/project.const'
+import { QuestTypeEnum, QuestTypeStringMap } from '@/constants/project.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { useStoreState } from '@/store/store'
 import { BtnCreateQuest, BtnDraft } from '@/styles/button.style'
-import { Divider, Gap, SpinnerStyle } from '@/styles/common.style'
+import { Gap, SpinnerStyle } from '@/styles/common.style'
 import { InputBox } from '@/styles/input.style'
 import {
   DesModal,
@@ -36,45 +28,24 @@ import {
   WrapProgressBar,
 } from '@/styles/modal.style'
 import { LabelInput } from '@/styles/myProjects.style'
-import { TBox, TCheckBox } from '@/styles/quest.style'
 import {
-  BlockBox,
-  BtnUseT,
   BtnWrap,
   CBox,
   CCard,
   CHeadling,
   CMain,
-  CPBox,
-  CSide,
-  CSideCard,
   ICard,
-  ImageQuestBox,
-  ItemSide,
-  ITypeBox,
-  LabelCheckText,
-  LabelDes,
-  LvBox,
-  PersonDes,
-  PersonInfoBox,
-  PersonName,
-  PersonWrap,
   PICard,
-  PointBox,
-  PointInput,
   TitleBox,
-  TypeBox,
-  UnderText,
   Wrap,
 } from '@/styles/questboard.style'
-import { ProjectType, ReqNewQuestType, RewardType } from '@/types/project.type'
+import { ProjectType } from '@/types/project.type'
 import { Dialog, Transition } from '@headlessui/react'
+
 import ControlPanel from './control-panel'
-
+import QuestReward from './quest-reward'
 import QuestTypeView from './quest-type'
-import QuestDetails from './quest-details'
 import Recurrence from './recurrence'
-
 import { NewQuestStore } from './store'
 
 const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
@@ -93,7 +64,29 @@ const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
 
   const store = NewQuestStore.useStore()
   const handleSubmit = (e: any) => {
-    let state = store.getState()
+    const state = store.getState()
+    const type =
+      state.questType !== QuestTypeStringMap.get(QuestTypeEnum.TWITTER)
+        ? state.questType
+        : state.twitterType
+    // const payload: ReqNewQuestType = {
+    //   project_id: id,
+    //   type,
+    //   title: state.title,
+    //   description: state.description,
+    //   categories: [],
+    //   recurrence: state.recurrence,
+    //   rewards: [
+    //     {
+    //       type: 'points',
+    //       data: {
+    //         points: state.pointReward,
+    //       },
+    //     },
+    //   ],
+    //   condition_op: 'and',
+    //   conditions: [],
+    // }
     // TODO: Convert the state to a model that can be submitted to the server side.
   }
 
@@ -135,49 +128,15 @@ const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
           <QuestTypeView />
           <Gap height={8} />
 
-          <QuestDetails />
-          <Gap height={8} />
-
           <Recurrence />
+          <Gap height={8} />
 
           <BtnWrap>
             <BtnDraft>{'Draft'}</BtnDraft>
             <BtnCreateQuest onClick={handleSubmit}>{'Publish'}</BtnCreateQuest>
           </BtnWrap>
         </CCard>
-
-        <CSideCard>
-          <BtnUseT>{'Use Template'}</BtnUseT>
-          <Gap height={5} />
-          <ICard>
-            <PICard>
-              {/* <LabelInput>{'REWARD'}</LabelInput>
-              <Gap height={2} />
-              <ITypeBox>{listRewards}</ITypeBox>
-              <Gap height={6} />
-              <PointBox>
-                <Image
-                  width={30}
-                  height={30}
-                  src={StorageConst.POINT_ICON.src}
-                  alt={StorageConst.POINT_ICON.alt}
-                />
-                <Gap width={2} />
-                <PointInput
-                  ref={pointRewardRef}
-                  type='number'
-                  min={1}
-                  defaultValue={100}
-                />
-              </PointBox> */}
-
-              <Gap height={6} />
-              <UnderText>
-                {'Learn more here about how the levels are calculated.'}
-              </UnderText>
-            </PICard>
-          </ICard>
-        </CSideCard>
+        <QuestReward />
       </CBox>
     </>
   )

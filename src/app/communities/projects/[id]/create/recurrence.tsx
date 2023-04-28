@@ -1,9 +1,11 @@
 'use client'
 
-import { NewQuestStore } from './store'
-
-import { TypeBox } from '@/styles/questboard.style'
 import { QuestRecurrence, QuestRecurrencesMap } from '@/constants/project.const'
+import { Gap } from '@/styles/common.style'
+import { LabelInput } from '@/styles/myProjects.style'
+import { ICard, ITypeBox, PICard, TypeBox } from '@/styles/questboard.style'
+
+import { NewQuestStore } from './store'
 
 export default function Recurrence() {
   // Data
@@ -32,5 +34,13 @@ export default function Recurrence() {
     </TypeBox>
   ))
 
-  return <>{items}</>
+  return (
+    <ICard>
+      <PICard>
+        <LabelInput>{'REPEAT'}</LabelInput>
+        <Gap height={2} />
+        <ITypeBox>{items}</ITypeBox>
+      </PICard>
+    </ICard>
+  )
 }
