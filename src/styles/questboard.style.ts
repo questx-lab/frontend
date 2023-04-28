@@ -2,6 +2,8 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { Disclosure } from '@headlessui/react'
+
 export const Wrap = tw.div`
   flex
   flex-row
@@ -462,6 +464,22 @@ export const BoardingCard = styled.div<{ manage?: boolean }>(
   ]
 )
 
+export const TBoardingCard = tw.div`
+  cursor-pointer
+  border
+  rounded-lg
+  border-solid
+  border-gray-200
+  border-[1px]
+  h-[280px]
+  max-lg:h-[350px]
+  flex
+  flex-col
+  w-full
+  bg-white
+  hover:shadow-lg
+`
+
 export const StartBoarding = tw.div`
   w-full
   flex
@@ -624,9 +642,73 @@ export const SeeAllText = tw.p`
 `
 
 export const BlockBox = tw.div`
-flex 
-h-screen 
-w-screen 
-justify-center 
-items-center
+  flex 
+  h-screen 
+  w-screen 
+  justify-center 
+  items-center
+`
+
+export const TMain = tw.div`
+  flex
+  flex-row
+  w-full
+  h-full
+  border-t-[1px]
+  border-solid
+  border-gray-200
+`
+
+export const TMHeader = tw.div`
+  w-full
+  flex
+  flex-row
+  justify-between
+  items-center
+  px-3
+  py-2
+`
+
+export const TLSide = tw.div`
+  w-80
+  h-full
+  border-r-[1px]
+  border-solid
+  border-gray-200
+  bg-gray-50
+  fixed
+  overflow-y-scroll
+  pb-24
+  px-2
+  pt-2
+`
+
+export const DisclosureBtn = styled(Disclosure.Button)(tw`
+  flex 
+  w-full 
+  justify-between
+  items-center
+  rounded-lg
+  px-2 
+  py-2 
+  text-left 
+  text-sm 
+  font-medium 
+  text-gray-900 
+  ring-0 
+  outline-none
+`)
+
+export const DisclosurePanel = styled(Disclosure.Panel)(tw`
+  flex 
+  flex-row
+  px-2 
+  pt-4 
+  pb-2 
+`)
+
+export const DisclosureTitle = tw.span`
+  text-primary 
+  text-sm 
+  font-medium
 `
