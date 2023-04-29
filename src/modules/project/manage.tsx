@@ -12,34 +12,26 @@ import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NewProjectStore } from '@/store/local/project.store'
 import { PSave } from '@/styles/button.style'
-import { Divider, Gap } from '@/styles/common.style'
+import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { QTWrap } from '@/styles/leaderboard.style'
 import {
   Boarding,
   BoardingCard,
+  BtnUseT,
   Card,
   CardBox,
-  CBox,
+  CCBox,
   CHeadling,
-  CPBox,
-  CSide,
   DesQ,
   EndBoarding,
   HeaderBox,
-  ImageQuestBox,
-  ItemSide,
-  LvBox,
   MBox,
   MHeader,
   MMain,
   MPadding,
   Mtemplate,
   MTitleBox,
-  PersonDes,
-  PersonInfoBox,
-  PersonName,
-  PersonWrap,
   PointText,
   QuestboardBox,
   SeeAllText,
@@ -49,13 +41,18 @@ import {
   WrapQuestboard,
 } from '@/styles/questboard.style'
 import { ProjectType, QuestType } from '@/types/project.type'
+import { TemplateModal } from '@/widgets/modal'
 import { SmallSpinner } from '@/widgets/spinner'
+
+import ControlPanel from '../new-quest/control-panel'
+import QuestFrame from '../new-quest/new-quest'
 
 export default function ManageProject({ project }: { project: ProjectType }) {
   const router = useRouter()
   const [activeSide, setActiveSide] = useState<number>(0)
   const [questList, setListQuests] = useState<QuestType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const [openTemplate, setOpenTemplate] = useState<boolean>(false)
 
   // actions
   const onProjectChanged = NewProjectStore.useStoreActions(
@@ -160,81 +157,26 @@ export default function ManageProject({ project }: { project: ProjectType }) {
     <Wrap>
       <SidebarCustom />
       <MMain>
-        <CSide>
-          <PersonWrap>
-            <ImageQuestBox
-              width={80}
-              height={80}
-              src={'/images/dummy/1.svg'}
-              alt={'Avatar'}
-            />
-            <Gap height={6} />
-            <PersonInfoBox>
-              <PersonName>{'ThanhChi'}</PersonName>
-              <Gap width={1} />
-              <LvBox>{'lvl.3'}</LvBox>
-            </PersonInfoBox>
-            <Gap height={3} />
-            <PersonDes>
-              {'Short description. Lorem ipsum dolor sit amt, consectetur'}
-            </PersonDes>
-          </PersonWrap>
-          <Divider />
-          <CPBox>
-            <ItemSide
-              onClick={() => setActiveSide(0)}
-              active={activeSide === 0}
-            >
-              <Image
-                width={30}
-                height={30}
-                src={'/images/icons/bolt.svg'}
-                alt={'logo'}
-              />
-              <Gap width={2} />
-              {'QUESTS'}
-            </ItemSide>
-            <ItemSide
-              onClick={() => setActiveSide(1)}
-              active={activeSide === 1}
-            >
-              <Image
-                width={30}
-                height={30}
-                src={'/images/icons/bolt.svg'}
-                alt={'logo'}
-              />
-              <Gap width={2} />
-              {'REVIEW SUBMISSION'}
-            </ItemSide>
-            <ItemSide
-              onClick={() => setActiveSide(2)}
-              active={activeSide === 2}
-            >
-              <Image
-                width={30}
-                height={30}
-                src={'/images/icons/bolt.svg'}
-                alt={'logo'}
-              />
-              <Gap width={2} />
-              {'SETTINGS'}
-            </ItemSide>
-          </CPBox>
-        </CSide>
-        <CBox>
+        <ControlPanel />
+        <CCBox>
           <MBox>
             <MPadding>
               <MHeader>
                 <CHeadling>{'Quest'}</CHeadling>
-                <PSave
-                  onClick={() =>
-                    router.push(RouterConst.PROJECT + project.id + '/create')
-                  }
-                  isBlock={false}
-                >
-                  {'+  Create Quest'}
-                </PSave>
+                <CardBox>
+                  <BtnUseT onClick={() => setOpenTemplate(true)}>
+                    {'Use Template'}
+                  </BtnUseT>
+                  <Gap width={4} />
+                  <PSave
+                    onClick={() =>
+                      router.push(RouterConst.PROJECT + project.id + '/create')
+                    }
+                    isBlock={false}
+                  >
+                    {'+  Create Quest'}
+                  </PSave>
+                </CardBox>
               </MHeader>
             </MPadding>
             <Gap height={6} />
@@ -272,8 +214,14 @@ export default function ManageProject({ project }: { project: ProjectType }) {
               </QTWrap>
             </MPadding>
           </MBox>
-        </CBox>
+        </CCBox>
       </MMain>
+      <TemplateModal
+        isOpen={openTemplate}
+        onClose={() => setOpenTemplate(false)}
+      >
+        <QuestFrame isTemplate id={project.id} />
+      </TemplateModal>
     </Wrap>
   )
 }

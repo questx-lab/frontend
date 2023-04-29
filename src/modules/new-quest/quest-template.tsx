@@ -68,6 +68,6 @@ const listClosure = ['COMMUNITY', 'SOCIAL NETWORK'].map((e, i) => (
   </Disclosure>
 ))
 
-export default function LeftSide() {
+export default function QuestTemplate() {
   return <TLSide>{listClosure}</TLSide>
 }

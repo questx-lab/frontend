@@ -28,7 +28,7 @@ export const ModalContent = tw.div`
 
 export const TMContent = tw.div`
   flex 
-  h-screen
+  h-full
   items-center 
   justify-end 
   text-center
@@ -39,11 +39,10 @@ export const TMWrap = styled(Dialog.Panel)(
   w-5/6 
   max-2xl:w-[calc(100%_-_70px)]
   h-full
-  overflow-hidden 
   bg-white 
-  py-6
   text-left 
   align-middle 
+  overflow-hidden
   shadow-xl 
   transition-all
   flex

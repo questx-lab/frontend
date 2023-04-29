@@ -31,6 +31,7 @@ import {
   CBox,
   CCard,
   CHeadling,
+  CWrap,
   ICard,
   PICard,
   TitleBox,
@@ -148,7 +149,10 @@ const handleSubmit = async (
   return false
 }
 
-const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
+const QuestFrame: FunctionComponent<{ id: string; isTemplate?: boolean }> = ({
+  id,
+  isTemplate = false,
+}) => {
   const router = useRouter()
 
   // Data
@@ -176,52 +180,54 @@ const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
 
   return (
     <>
-      <CBox>
-        <CCard>
-          <TitleBox>
-            <Image
-              className='cursor-pointer'
-              onClick={() => router.push(RouterConst.PROJECT + id)}
-              width={35}
-              height={35}
-              src={StorageConst.ARROW_BACK_ICON.src}
-              alt={StorageConst.ARROW_BACK_ICON.alt}
-            />
-            <Gap width={3} />
-            <CHeadling>{'Create Quest'}</CHeadling>
-          </TitleBox>
-          <Gap height={8} />
+      <CWrap>
+        <TitleBox>
+          <Image
+            className='cursor-pointer'
+            onClick={() => router.push(RouterConst.PROJECT + id)}
+            width={35}
+            height={35}
+            src={StorageConst.ARROW_BACK_ICON.src}
+            alt={StorageConst.ARROW_BACK_ICON.alt}
+          />
+          <Gap width={3} />
+          <CHeadling>{'Create Quest'}</CHeadling>
+        </TitleBox>
+        <CBox isTemplate={isTemplate}>
+          <CCard>
+            <ICard>
+              <PICard>
+                <LabelInput>{'QUEST TITLE'}</LabelInput>
+                <Gap />
+                <InputBox
+                  value={title}
+                  placeholder='The name of the quest is written here.'
+                  onChange={(e) => onTitleChanged(e.target.value)}
+                />
+                <Gap height={6} />
+                <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
+                <Gap />
+                <Editor onChange={(value) => onDescriptionChanged(value)} />
+              </PICard>
+            </ICard>
+            <Gap height={8} />
 
-          <ICard>
-            <PICard>
-              <LabelInput>{'QUEST TITLE'}</LabelInput>
-              <Gap />
-              <InputBox
-                value={title}
-                placeholder='The name of the quest is written here.'
-                onChange={(e) => onTitleChanged(e.target.value)}
-              />
-              <Gap height={6} />
-              <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
-              <Gap />
-              <Editor onChange={(value) => onDescriptionChanged(value)} />
-            </PICard>
-          </ICard>
-          <Gap height={8} />
+            <QuestTypeView />
+            <Gap height={8} />
 
-          <QuestTypeView />
-          <Gap height={8} />
+            <Recurrence />
+            <Gap height={8} />
 
-          <Recurrence />
-          <Gap height={8} />
-
-          <BtnWrap>
-            <BtnDraft>{'Draft'}</BtnDraft>
-            <BtnCreateQuest onClick={submitAction}>{'Publish'}</BtnCreateQuest>
-          </BtnWrap>
-        </CCard>
-        <QuestReward />
-      </CBox>
+            <BtnWrap>
+              <BtnDraft>{'Draft'}</BtnDraft>
+              <BtnCreateQuest onClick={submitAction}>
+                {'Publish'}
+              </BtnCreateQuest>
+            </BtnWrap>
+          </CCard>
+          <QuestReward />
+        </CBox>
+      </CWrap>
       <Modal isOpen={isOpen}>
         <ModalWrap>
           <ModalContent>
