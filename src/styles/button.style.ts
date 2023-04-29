@@ -12,7 +12,7 @@ export const WrapBtn = tw.div`
   items-center
 `
 
-export const FullWidthBtnBox = tw.button`
+export const FullWidthBtn = tw.button`
   w-full 
   bg-primary 
   hover:bg-gray-400 
@@ -24,7 +24,7 @@ export const FullWidthBtnBox = tw.button`
   rounded-lg
 `
 
-export const LoginHeaderBtn = tw.button`
+export const LoginBtn = tw.button`
   bg-primary 
   hover:bg-gray-400 
   text-sm 

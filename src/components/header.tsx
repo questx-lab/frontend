@@ -3,12 +3,11 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
-import { LoginBtn } from '@/components/buttons/default-btn.cpn'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import AuthType from '@/modules/login/auth-type'
 import { useStoreActions, useStoreState } from '@/store/store'
-import { MenuBtn } from '@/styles/button.style'
+import { LoginBtn, MenuBtn } from '@/styles/button.style'
 import { Divider, Gap, LightText, MediumText } from '@/styles/common.style'
 import {
   AvatarBox,
@@ -165,10 +164,9 @@ const Header = () => {
               )}
             </UserSession>
           ) : (
-            <LoginBtn
-              onClick={() => router.push(RouterConst.LOGIN)}
-              text={'Login / sign up'.toUpperCase()}
-            />
+            <LoginBtn onClick={() => router.push(RouterConst.LOGIN)}>
+              {'LOGIN/SIGN UP'}
+            </LoginBtn>
           )}
           <MenuBtn onClick={() => navBarAction(!navBarState)}>
             <Image

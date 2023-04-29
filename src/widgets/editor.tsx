@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 
-import { SmallSpinner } from '../spinner/spinner'
+import { SmallSpinner } from '@/widgets/spinner'
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   ssr: false,

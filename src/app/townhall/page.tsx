@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react'
 
-import LayoutDefault from '@/components/layouts/layout-default'
+import { LayoutDefault } from '@/components/layout'
 
 function Townhall() {
   // Loader

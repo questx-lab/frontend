@@ -16,7 +16,7 @@ export type ReqUpdateProject = {
 }
 
 export type ProjectType = {
-  id?: string
+  id: string
   created_at?: string
   updated_at?: string
   created_by?: string

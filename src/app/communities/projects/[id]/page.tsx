@@ -5,17 +5,19 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { getProjectApi } from '@/app/api/client/project'
-import Layout from '@/components/layouts/layout'
-import { Spinner } from '@/components/spinner/spinner'
-import Leaderboard from '@/modules/project/leaderboard/page'
-import ManageProject from '@/modules/project/manage/page'
-import { useStoreActions, useStoreState } from '@/store/store'
+import { Layout } from '@/components/layout'
+import ManageProject from '@/modules/project/manage'
+import ProjectGuess from '@/modules/project/project-guess'
+import { NewProjectStore } from '@/store/local/project.store'
+import { useStoreState } from '@/store/store'
+import { ProjectType } from '@/types/project.type'
+import { Spinner } from '@/widgets/spinner'
 
 export default function ProjectPage(props: { params: { id: string } }) {
   const [loading, setLoading] = useState<boolean>(true)
-  const projectAction = useStoreActions((action) => action.project.upCurProject)
   const userState = useStoreState((state) => state.userSession.user)
   const [isGuess, setIsGuess] = useState<boolean>(true)
+  const [project, setProject] = useState<ProjectType>()
 
   useEffect(() => {
     fetchProject()
@@ -24,14 +26,19 @@ export default function ProjectPage(props: { params: { id: string } }) {
   const fetchProject = async () => {
     try {
       const rs = await getProjectApi(props.params.id)
-      projectAction(rs.data!.project)
-      if (userState && Object.keys(userState).length) {
-        if (userState.id === rs.data?.project.created_by) {
-          setIsGuess(false)
-        } else {
-          setIsGuess(true)
+      if (rs.error) {
+        toast.error(rs.error)
+      } else {
+        setProject(rs.data?.project)
+        if (userState && Object.keys(userState).length) {
+          if (userState.id === rs.data?.project.created_by) {
+            setIsGuess(false)
+          } else {
+            setIsGuess(true)
+          }
         }
       }
+
       setLoading(false)
     } catch (error) {
       toast.error('Error while fetch project')
@@ -44,8 +51,11 @@ export default function ProjectPage(props: { params: { id: string } }) {
       <header>
         <title>{'Project'}</title>
       </header>
-      {!loading && isGuess && <Leaderboard />}
-      {!loading && !isGuess && <ManageProject projectId={props.params.id} />}
+      <NewProjectStore.Provider>
+        {!loading && isGuess && <ProjectGuess project={project!} />}
+        {!loading && !isGuess && <ManageProject project={project!} />}
+      </NewProjectStore.Provider>
+
       {loading && <Spinner />}
     </Layout>
   )

@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 
-import Layout from '@/components/layouts/layout'
-import CreatedProject from '@/modules/my-projects/createdProject'
-import FollowingProject from '@/modules/my-projects/followingProject'
+import { Layout } from '@/components/layout'
+import CreatedProject from '@/modules/my-projects/created-project'
+import FollowingProject from '@/modules/my-projects/following-project'
+import { NewProjectStore } from '@/store/local/project.store'
 import { Tab, TabSide, Text, Wrap } from '@/styles/myProjects.style'
 
 export default function MyProjects() {
@@ -29,8 +30,10 @@ export default function MyProjects() {
             <Text isActive={tabActive === 1}>{'Created Projects'}</Text>
           </Tab>
         </TabSide>
-        {tabActive === 1 && <CreatedProject />}
-        {tabActive === 0 && <FollowingProject />}
+        <NewProjectStore.Provider>
+          {tabActive === 1 && <CreatedProject />}
+          {tabActive === 0 && <FollowingProject />}
+        </NewProjectStore.Provider>
       </Wrap>
     </Layout>
   )

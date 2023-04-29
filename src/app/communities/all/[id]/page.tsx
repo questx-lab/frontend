@@ -5,14 +5,19 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { getProjectApi } from '@/app/api/client/project'
-import Layout from '@/components/layouts/layout'
-import { Spinner } from '@/components/spinner/spinner'
+import { Layout } from '@/components/layout'
 import Project from '@/modules/project'
-import { useStoreActions } from '@/store/store'
+import { NewProjectStore } from '@/store/local/project.store'
+import { Spinner } from '@/widgets/spinner'
 
 export default function ProjectPage(props: { params: { id: string } }) {
+  // data
   const [loading, setLoading] = useState<boolean>(true)
-  const projectAction = useStoreActions((action) => action.project.upCurProject)
+
+  // actions
+  const onProjectChanged = NewProjectStore.useStoreActions(
+    (action) => action.onProjectChanged
+  )
 
   useEffect(() => {
     fetchProject()
@@ -21,7 +26,7 @@ export default function ProjectPage(props: { params: { id: string } }) {
   const fetchProject = async () => {
     try {
       const rs = await getProjectApi(props.params.id)
-      projectAction(rs.data!.project)
+      onProjectChanged(rs.data!.project)
       setLoading(false)
     } catch (error) {
       toast.error('Error while fetch project')

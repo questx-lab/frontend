@@ -3,11 +3,11 @@
 import { FunctionComponent } from 'react'
 
 import {
-  ActionList,
   ActiveEnum,
   QuestTypeEnum,
   TwitterEnum,
 } from '@/constants/project.const'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Divider, Gap } from '@/styles/common.style'
 import { InputBox, MulInputBox } from '@/styles/input.style'
 import { LabelInput } from '@/styles/myProjects.style'
@@ -17,8 +17,6 @@ import {
   PICard,
   TwitterBox,
 } from '@/styles/questboard.style'
-
-import { NewQuestStore } from './store'
 
 const TwitterList: FunctionComponent = () => {
   const actionTwitter = NewQuestStore.useStoreState(
@@ -42,8 +40,11 @@ const TwitterList: FunctionComponent = () => {
   const onTwitterTypeChanged = NewQuestStore.useStoreActions(
     (actions) => actions.onTwitterTypeChanged
   )
+  const onSpaceUrlTwChanged = NewQuestStore.useStoreActions(
+    (actions) => actions.onSpaceUrlTwChanged
+  )
 
-  const handleActive = (i: number) => {
+  const handleActive = (i: string) => {
     if (i === TwitterEnum.FOLLOW) {
       onTwitterTypeChanged(QuestTypeEnum.TWITTER_FOLLOW)
     }
@@ -71,11 +72,11 @@ const TwitterList: FunctionComponent = () => {
     }
   }
 
-  const listTwitterAction = ActionList.map((e, i) => {
+  const listTwitterAction = Object.values(TwitterEnum).map((e, i) => {
     let block = false
 
     if (actionTwitter.includes(TwitterEnum.FOLLOW)) {
-      if (i !== TwitterEnum.FOLLOW) {
+      if (e !== TwitterEnum.FOLLOW) {
         block = true
       } else {
         block = false
@@ -83,7 +84,7 @@ const TwitterList: FunctionComponent = () => {
     }
 
     if (actionTwitter.includes(TwitterEnum.TWEET)) {
-      if (i !== TwitterEnum.TWEET) {
+      if (e !== TwitterEnum.TWEET) {
         block = true
       } else {
         block = false
@@ -104,9 +105,9 @@ const TwitterList: FunctionComponent = () => {
       actionTwitter.includes(TwitterEnum.RETWEET)
     ) {
       if (
-        i !== TwitterEnum.LIKE &&
-        i !== TwitterEnum.REPLY &&
-        i !== TwitterEnum.RETWEET
+        e !== TwitterEnum.LIKE &&
+        e !== TwitterEnum.REPLY &&
+        e !== TwitterEnum.RETWEET
       ) {
         block = true
       } else {
@@ -120,7 +121,7 @@ const TwitterList: FunctionComponent = () => {
       active = ActiveEnum.BLOCK
     }
 
-    if (actionTwitter.includes(i)) {
+    if (actionTwitter.includes(e)) {
       active = ActiveEnum.ACTIVE
     }
 
@@ -128,9 +129,9 @@ const TwitterList: FunctionComponent = () => {
       <TwitterBox
         active={active}
         key={i}
-        onClick={block ? undefined : () => handleActive(i)}
+        onClick={block ? undefined : () => handleActive(e)}
       >
-        {e.name}
+        {e}
       </TwitterBox>
     )
   })
@@ -201,6 +202,19 @@ const TwitterList: FunctionComponent = () => {
               onChange={(e) => onContentTwChanged(e.target.value)}
               rows={3}
               placeholder='Check this out @mantanetworl, @dzucle, @yugih, so cool!'
+            />
+          </PICard>
+        </>
+      )}
+      {actionTwitter.includes(TwitterEnum.JOIN_SPACE) && (
+        <>
+          <Divider />
+          <PICard>
+            <LabelInput>{'SPACE URL'}</LabelInput>
+            <Gap height={3} />
+            <InputBox
+              onChange={(e) => onSpaceUrlTwChanged(e.target.value)}
+              placeholder='Empty'
             />
           </PICard>
         </>

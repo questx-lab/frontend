@@ -1,13 +1,13 @@
 'use client'
 
 import { QuestTypeEnum } from '@/constants/project.const'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Divider, Gap } from '@/styles/common.style'
 import { InputBox, InputInviteBox } from '@/styles/input.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import { TBox, TCheckBox } from '@/styles/quest.style'
 import { LabelCheckText, LabelDes, PICard } from '@/styles/questboard.style'
 
-import { NewQuestStore } from './store'
 import TwitterList from './twitter-list'
 
 const QuestDetails = () => {
