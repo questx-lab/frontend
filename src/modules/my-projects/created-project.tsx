@@ -3,9 +3,9 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-import { FullWidthBtn } from '@/components/buttons/custom-btn.cpn'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
+import { FullWidthBtn } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
 import {
   ContentCreatedProjectBox,
@@ -59,7 +59,7 @@ export default function CreatedProject() {
           </TitleCreatedProjectBox>
           <SkeletonFirst />
           <SkeletonSecond />
-          <FullWidthBtn text={'button'.toUpperCase()} onClick={() => {}} />
+          <FullWidthBtn onClick={() => {}}>{'BUTTON'}</FullWidthBtn>
         </ContentCreatedProjectBox>
       </CreatedProjectBox>
     )),

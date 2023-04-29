@@ -2,9 +2,9 @@
 
 import Image from 'next/image'
 
-import { FullWidthBtn } from '@/components/buttons/custom-btn.cpn'
-import Layout from '@/components/layouts/layout'
+import { Layout } from '@/components/layout'
 import { StorageConst } from '@/constants/storage.const'
+import { FullWidthBtn } from '@/styles/button.style'
 import {
   ColSWrap,
   Divider,
@@ -58,7 +58,7 @@ export default function UserProfile({
           <SmallTitle>{'6.54K Followers'}</SmallTitle>
         </RowBWrap>
         <Gap height={5} />
-        <FullWidthBtn text={'detail'.toUpperCase()} onClick={() => {}} />
+        <FullWidthBtn onClick={() => {}}>{'DETAIL'}</FullWidthBtn>
       </ContentProjectBox>
     </ProjectBox>
   ))

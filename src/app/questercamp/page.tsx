@@ -2,8 +2,8 @@
 
 import Image from 'next/image'
 
-import Layout from '@/components/layouts/layout'
-import SidebarCustom from '@/components/layouts/sidebar'
+import { Layout } from '@/components/layout'
+import SidebarCustom from '@/components/sidebar'
 import { StorageConst } from '@/constants/storage.const'
 import { Gap } from '@/styles/common.style'
 import {

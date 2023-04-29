@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 
-import Layout from '@/components/layouts/layout'
-import { Spinner } from '@/components/spinner/spinner'
+import { Layout } from '@/components/layout'
 import { useStoreState } from '@/store/store'
+import { Spinner } from '@/widgets/spinner'
 
 export default function Home() {
   const isLogin = useStoreState((state) => state.userSession.isLogin)
