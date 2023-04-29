@@ -7,10 +7,10 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
-import SidebarCustom from '@/components/layouts/sidebar'
-import { SmallSpinner } from '@/components/spinner/spinner'
+import SidebarCustom from '@/components/sidebar'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
+import { NewProjectStore } from '@/store/local/project.store'
 import { PSave } from '@/styles/button.style'
 import { Divider, Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
@@ -48,21 +48,28 @@ import {
   Wrap,
   WrapQuestboard,
 } from '@/styles/questboard.style'
-import { QuestType } from '@/types/project.type'
+import { ProjectType, QuestType } from '@/types/project.type'
+import { SmallSpinner } from '@/widgets/spinner'
 
-export default function ManageProject({ projectId }: { projectId: string }) {
+export default function ManageProject({ project }: { project: ProjectType }) {
   const router = useRouter()
   const [activeSide, setActiveSide] = useState<number>(0)
   const [questList, setListQuests] = useState<QuestType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
+  // actions
+  const onProjectChanged = NewProjectStore.useStoreActions(
+    (actions) => actions.onProjectChanged
+  )
+
   useEffect(() => {
+    onProjectChanged(project)
     getQuests()
   }, [])
 
   const getQuests = async () => {
     try {
-      const data = await listQuestApi(projectId)
+      const data = await listQuestApi(project.id)
       if (data.error) {
         toast.error(data.error)
       }
@@ -76,6 +83,17 @@ export default function ManageProject({ projectId }: { projectId: string }) {
   }
 
   const listQuests = questList && [
+    <QuestboardBox
+      onClick={() => router.push(RouterConst.PROJECT + project.id + '/create')}
+      key={'x'}
+    >
+      <Image
+        width={50}
+        height={50}
+        src={StorageConst.ADD_ICON.src}
+        alt={StorageConst.ADD_ICON.alt}
+      />
+    </QuestboardBox>,
     ...questList.map((e) => (
       <QuestboardBox key={e.id}>
         <StartBoarding>
@@ -106,17 +124,6 @@ export default function ManageProject({ projectId }: { projectId: string }) {
         </EndBoarding>
       </QuestboardBox>
     )),
-    <QuestboardBox
-      onClick={() => router.push(RouterConst.PROJECT + projectId + '/create')}
-      key={'x'}
-    >
-      <Image
-        width={50}
-        height={50}
-        src={StorageConst.ADD_ICON.src}
-        alt={StorageConst.ADD_ICON.alt}
-      />
-    </QuestboardBox>,
   ]
 
   const listBoarding = [0, 1, 2, 3].map((e) => (
@@ -222,7 +229,7 @@ export default function ManageProject({ projectId }: { projectId: string }) {
                 <CHeadling>{'Quest'}</CHeadling>
                 <PSave
                   onClick={() =>
-                    router.push(RouterConst.PROJECT + projectId + '/create')
+                    router.push(RouterConst.PROJECT + project.id + '/create')
                   }
                   isBlock={false}
                 >

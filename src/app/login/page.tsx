@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import LayoutDefault from '@/components/layouts/layout-default'
-import { Spinner } from '@/components/spinner/spinner'
+import { LayoutDefault } from '@/components/layout'
 import { RouterConst } from '@/constants/router.const'
 import AuthType from '@/modules/login/auth-type'
 import {
@@ -19,6 +18,7 @@ import {
   Wrap,
 } from '@/styles/login.style'
 import { getAccessToken } from '@/utils/helper'
+import { Spinner } from '@/widgets/spinner'
 
 const LoginPage = () => {
   const [loading, setLoading] = useState<boolean>(true)

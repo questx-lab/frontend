@@ -1,12 +1,12 @@
 'use client'
 
 import { QuestTypeEnum, QuestTypeStringMap } from '@/constants/project.const'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import { ICard, ITypeBox, PICard, TypeBox } from '@/styles/questboard.style'
 
 import QuestDetails from './quest-details'
-import { NewQuestStore } from './store'
 
 const QuestTypeView = () => {
   const display = [

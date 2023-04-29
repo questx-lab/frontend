@@ -1,10 +1,11 @@
 import { ReactNode, useEffect } from 'react'
 
+import Head from 'next/head'
 import { useRouter } from 'next/navigation'
 import { Toaster } from 'react-hot-toast'
 
 import { getUserApi, refreshTokenApi } from '@/app/api/client/user'
-import Header from '@/components/headers/header'
+import Header from '@/components/header'
 import { useStoreActions, useStoreState } from '@/store/store'
 import { Html, Main } from '@/styles/layout.style'
 import {
@@ -15,7 +16,23 @@ import {
   setUserLocal,
 } from '@/utils/helper'
 
-const Layout = ({ children }: { children: ReactNode }) => {
+export const LayoutDefault = ({ children }: { children: ReactNode }) => {
+  const isNavBar = useStoreState((state) => state.navBar.isOpen)
+
+  return (
+    <Html lang='en' isOpen={isNavBar}>
+      <body>
+        <Head>
+          <meta name='viewport' content='viewport-fit=cover' />
+        </Head>
+        {children}
+        <Toaster position='top-center' reverseOrder={false} />
+      </body>
+    </Html>
+  )
+}
+
+export const Layout = ({ children }: { children: ReactNode }) => {
   const isNavBar = useStoreState((state) => state.navBar.isOpen)
   const loginAction = useStoreActions(
     (action) => action.userSession.updateState
@@ -76,5 +93,3 @@ const Layout = ({ children }: { children: ReactNode }) => {
     </Html>
   )
 }
-
-export default Layout

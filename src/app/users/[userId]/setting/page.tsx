@@ -1,15 +1,10 @@
 'use client'
 
-import { useState } from 'react';
+import { useState } from 'react'
 
-import Layout from '@/components/layouts/layout';
-import UserProfileTab from '@/modules/users/user-profile';
-import {
-  Tab,
-  TabSide,
-  Text,
-  Wrap,
-} from '@/styles/user.style';
+import { Layout } from '@/components/layout'
+import UserProfileTab from '@/modules/users/user-profile'
+import { Tab, TabSide, Text, Wrap } from '@/styles/user.style'
 
 export default function UserSetting({
   params,

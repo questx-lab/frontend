@@ -7,7 +7,8 @@ import { toast } from 'react-hot-toast'
 import { DotLoader } from 'react-spinners'
 
 import { newProjectApi } from '@/app/api/client/project'
-import Layout from '@/components/layouts/layout'
+import { Layout } from '@/components/layout'
+import Modal from '@/components/modal'
 import { RouterConst } from '@/constants/router.const'
 import {
   ConnectTwitterBtn,
@@ -19,7 +20,6 @@ import { InputBox } from '@/styles/input.style'
 import {
   DesModal,
   DialogPannel,
-  ModalBg,
   ModalContent,
   ModalWrap,
   TitleModal,
@@ -38,7 +38,7 @@ import {
   WrapElementBox,
 } from '@/styles/myProjects.style'
 import { ReqNewProject } from '@/types/project.type'
-import { Dialog, Transition } from '@headlessui/react'
+import { Transition } from '@headlessui/react'
 
 const categories = [
   'NFT',
@@ -182,52 +182,39 @@ export default function NewProject() {
           </CreateProjectBtn>
         </WrapBtn>
       </Wrap>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={() => {}}>
-          <Transition.Child
-            as={Fragment}
-            enter='ease-out duration-300'
-            enterFrom='opacity-0'
-            enterTo='opacity-100'
-            leave='ease-in duration-200'
-            leaveFrom='opacity-100'
-            leaveTo='opacity-0'
-          >
-            <ModalBg />
-          </Transition.Child>
-          <ModalWrap>
-            <ModalContent>
-              <Transition.Child
-                as={Fragment}
-                enter='ease-out duration-300'
-                enterFrom='opacity-0 scale-95'
-                enterTo='opacity-100 scale-100'
-                leave='ease-in duration-200'
-                leaveFrom='opacity-100 scale-100'
-                leaveTo='opacity-0 scale-95'
-              >
-                <DialogPannel>
-                  <WrapProgressBar>
-                    <DotLoader
-                      color={'#000'}
-                      loading={true}
-                      cssOverride={SpinnerStyle}
-                      size={150}
-                      aria-label='Loading Spinner'
-                      data-testid='loader'
-                    />
-                  </WrapProgressBar>
-                  <Gap height={6} />
-                  <TitleModal>{'Hang in there'}</TitleModal>
-                  <Gap height={6} />
-                  <DesModal>{"We're creating project,"}</DesModal>
-                  <DesModal>{'It might take some minutes.'}</DesModal>
-                </DialogPannel>
-              </Transition.Child>
-            </ModalContent>
-          </ModalWrap>
-        </Dialog>
-      </Transition>
+      <Modal isOpen={isOpen}>
+        <ModalWrap>
+          <ModalContent>
+            <Transition.Child
+              as={Fragment}
+              enter='ease-out duration-300'
+              enterFrom='opacity-0 scale-95'
+              enterTo='opacity-100 scale-100'
+              leave='ease-in duration-200'
+              leaveFrom='opacity-100 scale-100'
+              leaveTo='opacity-0 scale-95'
+            >
+              <DialogPannel>
+                <WrapProgressBar>
+                  <DotLoader
+                    color={'#000'}
+                    loading={true}
+                    cssOverride={SpinnerStyle}
+                    size={150}
+                    aria-label='Loading Spinner'
+                    data-testid='loader'
+                  />
+                </WrapProgressBar>
+                <Gap height={6} />
+                <TitleModal>{'Hang in there'}</TitleModal>
+                <Gap height={6} />
+                <DesModal>{"We're creating project,"}</DesModal>
+                <DesModal>{'It might take some minutes.'}</DesModal>
+              </DialogPannel>
+            </Transition.Child>
+          </ModalContent>
+        </ModalWrap>
+      </Modal>
     </Layout>
   )
 }

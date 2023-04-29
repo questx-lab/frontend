@@ -1,13 +1,22 @@
-import { Fragment, useState } from 'react'
+import {
+  Fragment,
+  useEffect,
+  useState,
+} from 'react';
 
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-import SidebarCustom from '@/components/layouts/sidebar'
-import { RouterConst } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
-import { useStoreState } from '@/store/store'
-import { PFollow, PManage, PSave } from '@/styles/button.style'
+import SidebarCustom from '@/components/sidebar';
+import { RouterConst } from '@/constants/router.const';
+import { StorageConst } from '@/constants/storage.const';
+import { NewProjectStore } from '@/store/local/project.store';
+import { useStoreState } from '@/store/store';
+import {
+  PFollow,
+  PManage,
+  PSave,
+} from '@/styles/button.style';
 import {
   CloseIcon,
   Divider,
@@ -15,8 +24,8 @@ import {
   Gap,
   LargeText,
   NormalText,
-} from '@/styles/common.style'
-import { MDialog } from '@/styles/home.style'
+} from '@/styles/common.style';
+import { MDialog } from '@/styles/home.style';
 import {
   LHBox,
   LHDes,
@@ -39,37 +48,51 @@ import {
   TabWrap,
   TextItem,
   Wrap,
-} from '@/styles/leaderboard.style'
+} from '@/styles/leaderboard.style';
 import {
   LDDP,
   ModalBg,
   ModalContent,
   ModalWrap,
   TitleModal,
-} from '@/styles/modal.style'
+} from '@/styles/modal.style';
 import {
   CardBox,
   PointText,
   QuestText,
   SCardBox,
-} from '@/styles/questboard.style'
-import { Tab, Transition } from '@headlessui/react'
+} from '@/styles/questboard.style';
+import { ProjectType } from '@/types/project.type';
+import {
+  Tab,
+  Transition,
+} from '@headlessui/react';
 
-import QuestBoardTab from './questboard/page'
+import QuestBoardTab from './questboard';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
-export default function Leaderboard() {
+export default function ProjectGuess({ project }: { project: ProjectType }) {
   const [tab, setTab] = useState<number>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const projectState = useStoreState((state) => state.project.curProject)
+  const projectState = NewProjectStore.useStoreState((state) => state.project)
   const userState = useStoreState((state) => state.userSession.user)
   const router = useRouter()
   const onClose = () => setIsOpen(false)
   const onOpen = () => {
     setIsOpen(true)
   }
+
+  // actions
+  const onProjectChanged = NewProjectStore.useStoreActions(
+    (actions) => actions.onProjectChanged
+  )
+
+  useEffect(() => {
+    onProjectChanged(project)
+  }, [])
+
   const listLD = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((e) => (
     <div key={e}>
       <LUWrap2>

@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
-import { SmallSpinner } from '@/components/spinner/spinner'
 import { StorageConst } from '@/constants/storage.const'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
@@ -25,6 +24,7 @@ import {
   WrapQuestboard,
 } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
+import { SmallSpinner } from '@/widgets/spinner'
 
 const categories = [
   'NFT',

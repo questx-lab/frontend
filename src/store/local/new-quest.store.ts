@@ -2,7 +2,7 @@ import { action, Action, createContextStore } from 'easy-peasy'
 
 import { QuestRecurrence, QuestTypeEnum } from '@/constants/project.const'
 
-interface NewQuestModel {
+export interface NewQuestModel {
   title: string
   description: string
   questType: QuestTypeEnum
@@ -12,14 +12,16 @@ interface NewQuestModel {
   visitLink: string
   telegramLink: string
   invites: number
-  actionTwitter: number[]
+  actionTwitter: string[]
   accountUrl: string
   tweetUrl: string
   replyTw: string
   contentTw: string
+  spaceUrlTw: string
   pointReward: number
   activeReward: number
   twitterType: string
+  isOpenModal: boolean
 
   // Actions
   onTitleChanged: Action<NewQuestModel, string>
@@ -31,7 +33,7 @@ interface NewQuestModel {
   onVisitLinkChanged: Action<NewQuestModel, string>
   onTelegramLinkChanged: Action<NewQuestModel, string>
   onInvitesChanged: Action<NewQuestModel, number>
-  onActionTwitterChanged: Action<NewQuestModel, number[]>
+  onActionTwitterChanged: Action<NewQuestModel, string[]>
   onAccountLinkChanged: Action<NewQuestModel, string>
   onTweetUrlChanged: Action<NewQuestModel, string>
   onReplyTwChanged: Action<NewQuestModel, string>
@@ -39,6 +41,8 @@ interface NewQuestModel {
   onPointRewardChanged: Action<NewQuestModel, number>
   onActiveRewardChanged: Action<NewQuestModel, number>
   onTwitterTypeChanged: Action<NewQuestModel, string>
+  onSpaceUrlTwChanged: Action<NewQuestModel, string>
+  onOpenModalChanged: Action<NewQuestModel, boolean>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -56,9 +60,11 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   tweetUrl: '',
   replyTw: '',
   contentTw: '',
-  pointReward: 0,
+  pointReward: 100,
   activeReward: 0,
   twitterType: '',
+  spaceUrlTw: '',
+  isOpenModal: false,
 
   onTitleChanged: action((state, newTitle) => {
     state.title = newTitle
@@ -126,6 +132,14 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   onTwitterTypeChanged: action((state, newTwitterType) => {
     state.twitterType = newTwitterType
+  }),
+
+  onSpaceUrlTwChanged: action((state, spaceUrlTw) => {
+    state.spaceUrlTw = spaceUrlTw
+  }),
+
+  onOpenModalChanged: action((state, openModal) => {
+    state.isOpenModal = openModal
   }),
 })
 

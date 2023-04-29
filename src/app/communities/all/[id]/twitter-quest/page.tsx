@@ -7,10 +7,9 @@ import { toast } from 'react-hot-toast'
 import { DotLoader } from 'react-spinners'
 
 import { newQuestApi } from '@/app/api/client/quest'
-import Layout from '@/components/layouts/layout'
-import { Spinner } from '@/components/spinner/spinner'
+import { Layout } from '@/components/layout'
 import { StorageConst } from '@/constants/storage.const'
-import { useStoreState } from '@/store/store'
+import { NewProjectStore } from '@/store/local/project.store'
 import { PSave } from '@/styles/button.style'
 import {
   ColSWrap,
@@ -49,6 +48,7 @@ import {
   TWrap,
 } from '@/styles/quest.style'
 import { ProjectType, ReqNewQuestType } from '@/types/project.type'
+import { Spinner } from '@/widgets/spinner'
 import { Dialog, Transition } from '@headlessui/react'
 
 type ActionType = {
@@ -98,7 +98,7 @@ const ActionList: ActionType[] = [
 ]
 
 export default function TwitterQuest({ params }: { params: { id: string } }) {
-  const projectState = useStoreState((state) => state.project.curProject)
+  const projectState = NewProjectStore.useStoreState((state) => state.project)
   const [project, setProject] = useState<ProjectType>()
   const [actionActive, setActionActive] = useState<number[]>([])
   const titleRef = useRef<HTMLInputElement>(null)

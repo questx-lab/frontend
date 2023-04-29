@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 import { listProjectsApi } from '@/app/api/client/project'
-import { FullWidthBtn } from '@/components/buttons/custom-btn.cpn'
 import { RouterConst } from '@/constants/router.const'
+import { FullWidthBtn } from '@/styles/button.style'
 import {
   Gap,
   LightText,
@@ -65,10 +65,9 @@ export default function FollowingProject() {
             <SmallTitle>{'6.54K Followers'}</SmallTitle>
           </RowBWrap>
           <Gap height={5} />
-          <FullWidthBtn
-            text={'detail'.toUpperCase()}
-            onClick={() => router.push(RouterConst.PROJECT + e.id)}
-          />
+          <FullWidthBtn onClick={() => router.push(RouterConst.PROJECT + e.id)}>
+            {'DETAIL'}
+          </FullWidthBtn>
         </ContentProjectBox>
       </ProjectBox>
     ))

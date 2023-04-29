@@ -2,6 +2,7 @@ import Image from 'next/image'
 
 import { QuestRewards } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import {
@@ -15,8 +16,6 @@ import {
   TypeBox,
   UnderText,
 } from '@/styles/questboard.style'
-
-import { NewQuestStore } from './store'
 
 export default function QuestReward() {
   // Data

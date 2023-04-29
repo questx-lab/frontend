@@ -3,8 +3,8 @@ import { Fragment, useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { addRoleProjectApi } from '@/app/api/client/project'
-import { useStoreState } from '@/store/store'
-import { AddRoleBtn, FullWidthBtnBox, SubmitBtn } from '@/styles/button.style'
+import { NewProjectStore } from '@/store/local/project.store'
+import { AddRoleBtn, FullWidthBtn, SubmitBtn } from '@/styles/button.style'
 import { CloseIcon, ColSWrap, EndWrap, Gap } from '@/styles/common.style'
 import {
   MBoxBtn,
@@ -50,7 +50,7 @@ export default function PManageMod() {
   const [selected, setSelected] = useState(Role[0])
   const emailRef = useRef<HTMLInputElement>(null)
   const metaRef = useRef<HTMLInputElement>(null)
-  const projectState = useStoreState((state) => state.project.curProject)
+  const projectState = NewProjectStore.useStoreState((state) => state.project)
 
   const onClose = () => setIsOpen(false)
   const onOpen = () => {
@@ -239,9 +239,9 @@ export default function PManageMod() {
                         </Transition>
                       </MLbox>
                       <Gap height={9} />
-                      <FullWidthBtnBox onClick={handleAdRole}>
+                      <FullWidthBtn onClick={handleAdRole}>
                         {'ADD ROLE'}
-                      </FullWidthBtnBox>
+                      </FullWidthBtn>
                       <Gap height={4} />
                     </Listbox>
                   </ColSWrap>

@@ -50,12 +50,12 @@ export const QuestTypeStringMap = new Map<QuestTypeEnum, String>([
 ])
 
 export enum TwitterEnum {
-  FOLLOW,
-  LIKE,
-  REPLY,
-  RETWEET,
-  TWEET,
-  JOIN_SPACE,
+  FOLLOW = 'Follow',
+  LIKE = 'Like',
+  REPLY = 'Reply',
+  RETWEET = 'Retweet',
+  TWEET = 'Tweet',
+  JOIN_SPACE = 'Join Space',
 }
 
 export enum ActiveEnum {
@@ -94,49 +94,3 @@ export const QuestRecurrencesMap = new Map<QuestRecurrence, String>([
 ])
 
 export const QuestRewards = ['Gem', 'Discord Role', 'Other']
-
-type ActionType = {
-  name: string
-  des: string
-  label: string
-  key: string
-}
-
-export const ActionList: ActionType[] = [
-  {
-    name: 'Follow',
-    des: 'This is a subtitle',
-    label: 'Twitter Handle',
-    key: 'account_url',
-  },
-  {
-    name: 'Like',
-    des: 'This is a subtitle',
-    label: 'Tweet URL',
-    key: 'tweet_url',
-  },
-  {
-    name: 'Reply',
-    des: 'This is a subtitle',
-    label: 'Twitter Handle',
-    key: 'tweet_url',
-  },
-  {
-    name: 'Retweet',
-    des: 'This is a subtitle',
-    label: 'Tweet URL',
-    key: 'tweet_url',
-  },
-  {
-    name: 'Tweet',
-    des: 'This is a subtitle',
-    label: 'Default tweet',
-    key: 'default_tweet',
-  },
-  {
-    name: 'Join Space',
-    des: 'This is a subtitle',
-    label: 'Space URL',
-    key: 'space_url',
-  },
-]
