@@ -1,11 +1,15 @@
 'use client'
 
 import { Fragment, FunctionComponent, useState } from 'react'
-
-import { EasyPeasyConfig, Store } from 'easy-peasy'
+import { toast } from 'react-hot-toast'
+import {
+  EasyPeasyConfig,
+  FilterActionTypes,
+  StateMapper,
+  Store,
+} from 'easy-peasy'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import toast from 'react-hot-toast'
 import { DotLoader } from 'react-spinners'
 
 import { newQuestApi } from '@/app/api/client/quest'
@@ -45,11 +49,25 @@ import QuestTypeView from '@/modules/new-quest/quest-type'
 import Recurrence from '@/modules/new-quest/recurrence'
 import QuestTemplate from '@/modules/new-quest/quest-template'
 
+const errorMessage = (state: StateMapper<FilterActionTypes<NewQuestModel>>) => {
+  if (!state.title) {
+    return 'Quest title cannot be empty.'
+  }
+
+  return ''
+}
+
 const handleSubmit = async (
   store: Store<NewQuestModel, EasyPeasyConfig<undefined, {}>>,
   id: string
 ): Promise<boolean> => {
   const state = store.getState()
+  const error = errorMessage(state)
+  if (error) {
+    toast.error(error)
+    return false
+  }
+
   const type =
     state.questType !== QuestTypeEnum.TWITTER
       ? state.questType

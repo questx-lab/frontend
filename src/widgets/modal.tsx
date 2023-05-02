@@ -1,7 +1,6 @@
 import { Fragment, FunctionComponent, ReactNode } from 'react'
 
 import Modal from '@/components/modal'
-import QuestTemplate from '@/modules/new-quest/quest-template'
 import { CloseIcon } from '@/styles/common.style'
 import { ModalWrap, TMContent, TMWrap } from '@/styles/modal.style'
 import { CHeadling, TMain, TMHeader } from '@/styles/questboard.style'
