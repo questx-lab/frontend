@@ -1,53 +1,91 @@
 'use client'
 
-import { Fragment, FunctionComponent, useState } from 'react'
-
-import { EasyPeasyConfig, Store } from 'easy-peasy'
+import { FunctionComponent, useState } from 'react'
+import { toast } from 'react-hot-toast'
+import {
+  EasyPeasyConfig,
+  FilterActionTypes,
+  StateMapper,
+  Store,
+} from 'easy-peasy'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import toast from 'react-hot-toast'
-import { DotLoader } from 'react-spinners'
 
 import { newQuestApi } from '@/app/api/client/quest'
-import Modal from '@/components/modal'
 import { QuestTypeEnum, TwitterEnum } from '@/constants/project.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NewQuestModel, NewQuestStore } from '@/store/local/new-quest.store'
 import { BtnCreateQuest, BtnDraft } from '@/styles/button.style'
-import { Gap, SpinnerStyle } from '@/styles/common.style'
+import { Gap } from '@/styles/common.style'
 import { InputBox } from '@/styles/input.style'
-import {
-  DesModal,
-  DialogPannel,
-  ModalContent,
-  ModalWrap,
-  TitleModal,
-  WrapProgressBar,
-} from '@/styles/modal.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import {
   BtnWrap,
   CBox,
   CCard,
   CHeadling,
+  CWrap,
   ICard,
   PICard,
   TitleBox,
 } from '@/styles/questboard.style'
 import { ReqNewQuestType, ValidationQuest } from '@/types/project.type'
 import Editor from '@/widgets/editor'
-import { Transition } from '@headlessui/react'
 
-import QuestReward from './quest-reward'
-import QuestTypeView from './quest-type'
-import Recurrence from './recurrence'
+import QuestReward from '@/modules/new-quest/quest-reward'
+import QuestTypeView from '@/modules/new-quest/quest-type'
+import Recurrence from '@/modules/new-quest/recurrence'
+import QuestTemplate from '@/modules/new-quest/quest-template'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
+import ProgressModal from '@/widgets/progress-modal'
+
+const CreateQuestLabel: FunctionComponent<{
+  id: string
+  isTemplate?: boolean
+  router: AppRouterInstance
+}> = ({ id, isTemplate = false, router }) => {
+  if (isTemplate) {
+    return <></>
+  }
+
+  return (
+    <>
+      <TitleBox>
+        <Image
+          className='cursor-pointer'
+          onClick={() => router.push(RouterConst.PROJECT + id)}
+          width={35}
+          height={35}
+          src={StorageConst.ARROW_BACK_ICON.src}
+          alt={StorageConst.ARROW_BACK_ICON.alt}
+        />
+        <Gap width={3} />
+        <CHeadling>{'Create Quest'}</CHeadling>
+      </TitleBox>
+    </>
+  )
+}
+
+const errorMessage = (state: StateMapper<FilterActionTypes<NewQuestModel>>) => {
+  if (!state.title) {
+    return 'Quest title cannot be empty.'
+  }
+
+  return ''
+}
 
 const handleSubmit = async (
   store: Store<NewQuestModel, EasyPeasyConfig<undefined, {}>>,
   id: string
 ): Promise<boolean> => {
   const state = store.getState()
+  const error = errorMessage(state)
+  if (error) {
+    toast.error(error)
+    return false
+  }
+
   const type =
     state.questType !== QuestTypeEnum.TWITTER
       ? state.questType
@@ -148,7 +186,10 @@ const handleSubmit = async (
   return false
 }
 
-const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
+const QuestFrame: FunctionComponent<{
+  id: string
+  isTemplate?: boolean
+}> = ({ id, isTemplate = false }) => {
   const router = useRouter()
 
   // Data
@@ -176,85 +217,54 @@ const QuestFrame: FunctionComponent<{ id: string }> = ({ id }) => {
 
   return (
     <>
-      <CBox>
-        <CCard>
-          <TitleBox>
-            <Image
-              className='cursor-pointer'
-              onClick={() => router.push(RouterConst.PROJECT + id)}
-              width={35}
-              height={35}
-              src={StorageConst.ARROW_BACK_ICON.src}
-              alt={StorageConst.ARROW_BACK_ICON.alt}
-            />
-            <Gap width={3} />
-            <CHeadling>{'Create Quest'}</CHeadling>
-          </TitleBox>
-          <Gap height={8} />
+      <QuestTemplate />
+      <CWrap>
+        <CreateQuestLabel router={router} isTemplate={isTemplate} id={id} />
 
-          <ICard>
-            <PICard>
-              <LabelInput>{'QUEST TITLE'}</LabelInput>
-              <Gap />
-              <InputBox
-                value={title}
-                placeholder='The name of the quest is written here.'
-                onChange={(e) => onTitleChanged(e.target.value)}
-              />
-              <Gap height={6} />
-              <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
-              <Gap />
-              <Editor onChange={(value) => onDescriptionChanged(value)} />
-            </PICard>
-          </ICard>
-          <Gap height={8} />
-
-          <QuestTypeView />
-          <Gap height={8} />
-
-          <Recurrence />
-          <Gap height={8} />
-
-          <BtnWrap>
-            <BtnDraft>{'Draft'}</BtnDraft>
-            <BtnCreateQuest onClick={submitAction}>{'Publish'}</BtnCreateQuest>
-          </BtnWrap>
-        </CCard>
-        <QuestReward />
-      </CBox>
-      <Modal isOpen={isOpen}>
-        <ModalWrap>
-          <ModalContent>
-            <Transition.Child
-              as={Fragment}
-              enter='ease-out duration-300'
-              enterFrom='opacity-0 scale-95'
-              enterTo='opacity-100 scale-100'
-              leave='ease-in duration-200'
-              leaveFrom='opacity-100 scale-100'
-              leaveTo='opacity-0 scale-95'
-            >
-              <DialogPannel>
-                <WrapProgressBar>
-                  <DotLoader
-                    color={'#000'}
-                    loading={true}
-                    cssOverride={SpinnerStyle}
-                    size={150}
-                    aria-label='Loading Spinner'
-                    data-testid='loader'
-                  />
-                </WrapProgressBar>
+        <CBox isTemplate={isTemplate}>
+          <CCard>
+            <ICard>
+              <PICard>
+                <LabelInput>{'QUEST TITLE'}</LabelInput>
+                <Gap />
+                <InputBox
+                  value={title}
+                  placeholder='The name of the quest is written here.'
+                  onChange={(e) => onTitleChanged(e.target.value)}
+                />
                 <Gap height={6} />
-                <TitleModal>{'Hang in there'}</TitleModal>
-                <Gap height={6} />
-                <DesModal>{"We're creating quest,"}</DesModal>
-                <DesModal>{'It might take some minutes.'}</DesModal>
-              </DialogPannel>
-            </Transition.Child>
-          </ModalContent>
-        </ModalWrap>
-      </Modal>
+                <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
+                <Gap />
+                <Editor onChange={(value) => onDescriptionChanged(value)} />
+              </PICard>
+            </ICard>
+            <Gap height={8} />
+
+            <QuestTypeView />
+            <Gap height={8} />
+
+            <Recurrence />
+            <Gap height={8} />
+
+            <BtnWrap>
+              <BtnDraft>{'Draft'}</BtnDraft>
+              <BtnCreateQuest onClick={submitAction}>
+                {'Publish'}
+              </BtnCreateQuest>
+            </BtnWrap>
+          </CCard>
+          <QuestReward />
+        </CBox>
+      </CWrap>
+
+      <ProgressModal
+        isOpen={isOpen}
+        title={`Hang in there!`}
+        lines={[
+          `We're creating new quest.`,
+          'This might take a few seconds...',
+        ]}
+      />
     </>
   )
 }

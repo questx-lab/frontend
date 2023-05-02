@@ -1,30 +1,20 @@
 'use client'
 
-import { Fragment, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
-import { DotLoader } from 'react-spinners'
 
 import { newProjectApi } from '@/app/api/client/project'
 import { Layout } from '@/components/layout'
-import Modal from '@/components/modal'
 import { RouterConst } from '@/constants/router.const'
 import {
   ConnectTwitterBtn,
   CreateProjectBtn,
   WrapBtn,
 } from '@/styles/button.style'
-import { Divider, Gap, SpinnerStyle } from '@/styles/common.style'
+import { Divider, Gap } from '@/styles/common.style'
 import { InputBox } from '@/styles/input.style'
-import {
-  DesModal,
-  DialogPannel,
-  ModalContent,
-  ModalWrap,
-  TitleModal,
-  WrapProgressBar,
-} from '@/styles/modal.style'
 import {
   CategoryBox,
   CategoryItem,
@@ -38,7 +28,7 @@ import {
   WrapElementBox,
 } from '@/styles/myProjects.style'
 import { ReqNewProject } from '@/types/project.type'
-import { Transition } from '@headlessui/react'
+import ProgressModal from '@/widgets/progress-modal'
 
 const categories = [
   'NFT',
@@ -182,39 +172,12 @@ export default function NewProject() {
           </CreateProjectBtn>
         </WrapBtn>
       </Wrap>
-      <Modal isOpen={isOpen}>
-        <ModalWrap>
-          <ModalContent>
-            <Transition.Child
-              as={Fragment}
-              enter='ease-out duration-300'
-              enterFrom='opacity-0 scale-95'
-              enterTo='opacity-100 scale-100'
-              leave='ease-in duration-200'
-              leaveFrom='opacity-100 scale-100'
-              leaveTo='opacity-0 scale-95'
-            >
-              <DialogPannel>
-                <WrapProgressBar>
-                  <DotLoader
-                    color={'#000'}
-                    loading={true}
-                    cssOverride={SpinnerStyle}
-                    size={150}
-                    aria-label='Loading Spinner'
-                    data-testid='loader'
-                  />
-                </WrapProgressBar>
-                <Gap height={6} />
-                <TitleModal>{'Hang in there'}</TitleModal>
-                <Gap height={6} />
-                <DesModal>{"We're creating project,"}</DesModal>
-                <DesModal>{'It might take some minutes.'}</DesModal>
-              </DialogPannel>
-            </Transition.Child>
-          </ModalContent>
-        </ModalWrap>
-      </Modal>
+
+      <ProgressModal
+        isOpen={isOpen}
+        title={`Hang in there!`}
+        lines={[`We're creating project.`, 'This might take a few seconds...']}
+      />
     </Layout>
   )
 }

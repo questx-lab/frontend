@@ -8,6 +8,7 @@ import { getProjectApi } from '@/app/api/client/project'
 import { Layout } from '@/components/layout'
 import ManageProject from '@/modules/project/manage'
 import ProjectGuess from '@/modules/project/project-guess'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 import { NewProjectStore } from '@/store/local/project.store'
 import { useStoreState } from '@/store/store'
 import { ProjectType } from '@/types/project.type'
@@ -52,8 +53,10 @@ export default function ProjectPage(props: { params: { id: string } }) {
         <title>{'Project'}</title>
       </header>
       <NewProjectStore.Provider>
-        {!loading && isGuess && <ProjectGuess project={project!} />}
-        {!loading && !isGuess && <ManageProject project={project!} />}
+        <NewQuestStore.Provider>
+          {!loading && isGuess && <ProjectGuess project={project!} />}
+          {!loading && !isGuess && <ManageProject project={project!} />}
+        </NewQuestStore.Provider>
       </NewProjectStore.Provider>
 
       {loading && <Spinner />}

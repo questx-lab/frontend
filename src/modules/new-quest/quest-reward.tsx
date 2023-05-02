@@ -6,7 +6,6 @@ import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import {
-  BtnUseT,
   CSideCard,
   ICard,
   ITypeBox,
@@ -45,8 +44,6 @@ export default function QuestReward() {
 
   return (
     <CSideCard>
-      <BtnUseT>{'Use Template'}</BtnUseT>
-      <Gap height={5} />
       <ICard>
         <PICard>
           <LabelInput>{'REWARD'}</LabelInput>

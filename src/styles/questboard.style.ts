@@ -2,6 +2,8 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { Disclosure } from '@headlessui/react'
+
 export const Wrap = tw.div`
   flex
   flex-row
@@ -40,7 +42,7 @@ export const MMain = tw.div`
 `
 
 export const CSide = tw.div`
-  w-64
+  w-80
   fixed
   border-r-2
   border-gray-200
@@ -51,13 +53,44 @@ export const CPBox = tw.div`
   px-4
 `
 
-export const CBox = tw.div`
+export const CBox = styled.div<{ isTemplate?: boolean }>(
+  ({ isTemplate = false }) => [
+    isTemplate
+      ? tw`
+        w-full
+        h-full
+        flex
+        flex-row
+        justify-center
+        items-start
+        pr-12
+        mb-12
+      `
+      : tw`
+        w-full
+        flex
+        flex-row
+        justify-center
+        items-start
+      `,
+  ]
+)
+
+export const CCBox = tw.div`
   w-full
   flex
   flex-row
   justify-center
   items-start
-  pl-64
+  pl-80
+`
+
+export const CWrap = tw.div`
+  flex
+  flex-col
+  w-full
+  h-full
+  pl-80
 `
 
 export const CCard = tw.div`
@@ -382,6 +415,8 @@ export const TitleBox = tw.div`
   flex-row
   justify-start
   items-center
+  pt-6
+  px-12
 `
 
 export const TitleQuestBox = tw.p`
@@ -461,6 +496,22 @@ export const BoardingCard = styled.div<{ manage?: boolean }>(
 `,
   ]
 )
+
+export const TBoardingCard = tw.div`
+  cursor-pointer
+  border
+  rounded-lg
+  border-solid
+  border-gray-200
+  border-[1px]
+  h-[280px]
+  max-lg:h-[350px]
+  flex
+  flex-col
+  w-full
+  bg-white
+  hover:shadow-lg
+`
 
 export const StartBoarding = tw.div`
   w-full
@@ -624,9 +675,74 @@ export const SeeAllText = tw.p`
 `
 
 export const BlockBox = tw.div`
-flex 
-h-screen 
-w-screen 
-justify-center 
-items-center
+  flex 
+  h-screen 
+  w-screen 
+  justify-center 
+  items-center
+`
+
+export const TMain = tw.div`
+  flex
+  flex-row
+  w-full
+  h-full
+  border-t-[1px]
+  border-solid
+  border-gray-200
+  overflow-y-scroll
+`
+
+export const TMHeader = tw.div`
+  w-full
+  flex
+  flex-row
+  justify-between
+  items-center
+  px-6
+  py-4
+`
+
+export const TLSide = tw.div`
+  w-80
+  h-full
+  border-r-[1px]
+  border-solid
+  border-gray-200
+  bg-gray-50
+  fixed
+  overflow-y-scroll
+  pb-24
+  px-6
+  pt-2
+`
+
+export const DisclosureBtn = styled(Disclosure.Button)(tw`
+  flex 
+  w-full 
+  justify-between
+  items-center
+  rounded-lg
+  px-2 
+  py-2 
+  text-left 
+  text-sm 
+  font-medium 
+  text-gray-900 
+  ring-0 
+  outline-none
+`)
+
+export const DisclosurePanel = styled(Disclosure.Panel)(tw`
+  flex 
+  flex-row
+  px-2 
+  pt-4 
+  pb-2 
+`)
+
+export const DisclosureTitle = tw.span`
+  text-primary 
+  text-sm 
+  font-medium
 `
