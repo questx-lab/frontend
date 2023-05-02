@@ -40,6 +40,33 @@ import QuestTemplate from '@/modules/new-quest/quest-template'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
 import ProgressModal from '@/widgets/progress-modal'
 
+const CreateQuestLabel: FunctionComponent<{
+  id: string
+  isTemplate?: boolean
+  router: AppRouterInstance
+}> = ({ id, isTemplate = false, router }) => {
+  if (isTemplate) {
+    return <></>
+  }
+
+  return (
+    <>
+      <TitleBox>
+        <Image
+          className='cursor-pointer'
+          onClick={() => router.push(RouterConst.PROJECT + id)}
+          width={35}
+          height={35}
+          src={StorageConst.ARROW_BACK_ICON.src}
+          alt={StorageConst.ARROW_BACK_ICON.alt}
+        />
+        <Gap width={3} />
+        <CHeadling>{'Create Quest'}</CHeadling>
+      </TitleBox>
+    </>
+  )
+}
+
 const errorMessage = (state: StateMapper<FilterActionTypes<NewQuestModel>>) => {
   if (!state.title) {
     return 'Quest title cannot be empty.'
@@ -157,33 +184,6 @@ const handleSubmit = async (
     toast.error('Error while creating quest')
   }
   return false
-}
-
-const CreateQuestLabel: FunctionComponent<{
-  id: string
-  isTemplate?: boolean
-  router: AppRouterInstance
-}> = ({ id, isTemplate = false, router }) => {
-  if (isTemplate) {
-    return <></>
-  }
-
-  return (
-    <>
-      <TitleBox>
-        <Image
-          className='cursor-pointer'
-          onClick={() => router.push(RouterConst.PROJECT + id)}
-          width={35}
-          height={35}
-          src={StorageConst.ARROW_BACK_ICON.src}
-          alt={StorageConst.ARROW_BACK_ICON.alt}
-        />
-        <Gap width={3} />
-        <CHeadling>{'Create Quest'}</CHeadling>
-      </TitleBox>
-    </>
-  )
 }
 
 const QuestFrame: FunctionComponent<{

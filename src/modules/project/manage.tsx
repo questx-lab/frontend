@@ -41,7 +41,7 @@ import {
   WrapQuestboard,
 } from '@/styles/questboard.style'
 import { ProjectType, QuestType } from '@/types/project.type'
-import { TemplateModal } from '@/widgets/modal'
+import { TemplateModal } from '@/widgets/template-modal'
 import { SmallSpinner } from '@/widgets/spinner'
 
 import ControlPanel from '../new-quest/control-panel'
