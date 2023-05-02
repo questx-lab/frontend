@@ -16,7 +16,6 @@ export default function Questboard({ params }: { params: { id: string } }) {
       <Wrap>
         <SidebarCustom />
         <CMain>
-          <QuestTemplate />
           <NewQuestStore.Provider>
             <QuestFrame id={params.id} />
           </NewQuestStore.Provider>

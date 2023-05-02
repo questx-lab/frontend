@@ -44,10 +44,7 @@ export const TemplateModal: FunctionComponent<{
                   />
                 </CloseIcon>
               </TMHeader>
-              <TMain>
-                <QuestTemplate />
-                {children}
-              </TMain>
+              <TMain>{children}</TMain>
             </TMWrap>
           </Transition.Child>
         </TMContent>

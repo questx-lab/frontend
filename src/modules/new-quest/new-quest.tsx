@@ -40,9 +40,10 @@ import { ReqNewQuestType, ValidationQuest } from '@/types/project.type'
 import Editor from '@/widgets/editor'
 import { Transition } from '@headlessui/react'
 
-import QuestReward from './quest-reward'
-import QuestTypeView from './quest-type'
-import Recurrence from './recurrence'
+import QuestReward from '@/modules/new-quest/quest-reward'
+import QuestTypeView from '@/modules/new-quest/quest-type'
+import Recurrence from '@/modules/new-quest/recurrence'
+import QuestTemplate from '@/modules/new-quest/quest-template'
 
 const handleSubmit = async (
   store: Store<NewQuestModel, EasyPeasyConfig<undefined, {}>>,
@@ -180,6 +181,7 @@ const QuestFrame: FunctionComponent<{ id: string; isTemplate?: boolean }> = ({
 
   return (
     <>
+      <QuestTemplate />
       <CWrap>
         <TitleBox>
           <Image
