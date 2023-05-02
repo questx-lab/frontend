@@ -3,7 +3,6 @@
 import { Layout } from '@/components/layout'
 import SidebarCustom from '@/components/sidebar'
 import QuestFrame from '@/modules/new-quest/new-quest'
-import QuestTemplate from '@/modules/new-quest/quest-template'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { CMain, Wrap } from '@/styles/questboard.style'
 
