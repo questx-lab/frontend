@@ -45,11 +45,10 @@ import { TemplateModal } from '@/widgets/modal'
 import { SmallSpinner } from '@/widgets/spinner'
 
 import ControlPanel from '../new-quest/control-panel'
-import QuestFrame from '../new-quest/new-quest'
+import QuestFrame from '../new-quest/quest-frame'
 
 export default function ManageProject({ project }: { project: ProjectType }) {
   const router = useRouter()
-  const [activeSide, setActiveSide] = useState<number>(0)
   const [questList, setListQuests] = useState<QuestType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [openTemplate, setOpenTemplate] = useState<boolean>(false)
@@ -217,6 +216,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
         </CCBox>
       </MMain>
       <TemplateModal
+        title='Template'
         isOpen={openTemplate}
         onClose={() => setOpenTemplate(false)}
       >

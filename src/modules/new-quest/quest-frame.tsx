@@ -48,6 +48,7 @@ import QuestReward from '@/modules/new-quest/quest-reward'
 import QuestTypeView from '@/modules/new-quest/quest-type'
 import Recurrence from '@/modules/new-quest/recurrence'
 import QuestTemplate from '@/modules/new-quest/quest-template'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
 
 const errorMessage = (state: StateMapper<FilterActionTypes<NewQuestModel>>) => {
   if (!state.title) {
@@ -168,10 +169,37 @@ const handleSubmit = async (
   return false
 }
 
-const QuestFrame: FunctionComponent<{ id: string; isTemplate?: boolean }> = ({
-  id,
-  isTemplate = false,
-}) => {
+const CreateQuestLabel: FunctionComponent<{
+  id: string
+  isTemplate?: boolean
+  router: AppRouterInstance
+}> = ({ id, isTemplate = false, router }) => {
+  if (isTemplate) {
+    return <></>
+  }
+
+  return (
+    <>
+      <TitleBox>
+        <Image
+          className='cursor-pointer'
+          onClick={() => router.push(RouterConst.PROJECT + id)}
+          width={35}
+          height={35}
+          src={StorageConst.ARROW_BACK_ICON.src}
+          alt={StorageConst.ARROW_BACK_ICON.alt}
+        />
+        <Gap width={3} />
+        <CHeadling>{'Create Quest'}</CHeadling>
+      </TitleBox>
+    </>
+  )
+}
+
+const QuestFrame: FunctionComponent<{
+  id: string
+  isTemplate?: boolean
+}> = ({ id, isTemplate = false }) => {
   const router = useRouter()
 
   // Data
@@ -201,18 +229,8 @@ const QuestFrame: FunctionComponent<{ id: string; isTemplate?: boolean }> = ({
     <>
       <QuestTemplate />
       <CWrap>
-        <TitleBox>
-          <Image
-            className='cursor-pointer'
-            onClick={() => router.push(RouterConst.PROJECT + id)}
-            width={35}
-            height={35}
-            src={StorageConst.ARROW_BACK_ICON.src}
-            alt={StorageConst.ARROW_BACK_ICON.alt}
-          />
-          <Gap width={3} />
-          <CHeadling>{'Create Quest'}</CHeadling>
-        </TitleBox>
+        <CreateQuestLabel router={router} isTemplate={isTemplate} id={id} />
+
         <CBox isTemplate={isTemplate}>
           <CCard>
             <ICard>

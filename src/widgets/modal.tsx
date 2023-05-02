@@ -10,7 +10,8 @@ export const TemplateModal: FunctionComponent<{
   isOpen: boolean
   onClose: () => void
   children?: ReactNode
-}> = ({ isOpen, onClose, children }) => {
+  title: string
+}> = ({ isOpen, onClose, title, children }) => {
   return (
     <Modal isOpen={isOpen}>
       <ModalWrap>
@@ -26,7 +27,7 @@ export const TemplateModal: FunctionComponent<{
           >
             <TMWrap>
               <TMHeader>
-                <CHeadling>{'Templates'}</CHeadling>
+                <CHeadling>{title}</CHeadling>
                 <CloseIcon
                   onClick={onClose}
                   xmlns='http://www.w3.org/2000/svg'
