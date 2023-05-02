@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import {
   EasyPeasyConfig,
@@ -10,25 +10,15 @@ import {
 } from 'easy-peasy'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { DotLoader } from 'react-spinners'
 
 import { newQuestApi } from '@/app/api/client/quest'
-import Modal from '@/components/modal'
 import { QuestTypeEnum, TwitterEnum } from '@/constants/project.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NewQuestModel, NewQuestStore } from '@/store/local/new-quest.store'
 import { BtnCreateQuest, BtnDraft } from '@/styles/button.style'
-import { Gap, SpinnerStyle } from '@/styles/common.style'
+import { Gap } from '@/styles/common.style'
 import { InputBox } from '@/styles/input.style'
-import {
-  DesModal,
-  DialogPannel,
-  ModalContent,
-  ModalWrap,
-  TitleModal,
-  WrapProgressBar,
-} from '@/styles/modal.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import {
   BtnWrap,
@@ -42,13 +32,13 @@ import {
 } from '@/styles/questboard.style'
 import { ReqNewQuestType, ValidationQuest } from '@/types/project.type'
 import Editor from '@/widgets/editor'
-import { Transition } from '@headlessui/react'
 
 import QuestReward from '@/modules/new-quest/quest-reward'
 import QuestTypeView from '@/modules/new-quest/quest-type'
 import Recurrence from '@/modules/new-quest/recurrence'
 import QuestTemplate from '@/modules/new-quest/quest-template'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
+import ProgressModal from '@/widgets/progress-modal'
 
 const errorMessage = (state: StateMapper<FilterActionTypes<NewQuestModel>>) => {
   if (!state.title) {
@@ -266,39 +256,15 @@ const QuestFrame: FunctionComponent<{
           <QuestReward />
         </CBox>
       </CWrap>
-      <Modal isOpen={isOpen}>
-        <ModalWrap>
-          <ModalContent>
-            <Transition.Child
-              as={Fragment}
-              enter='ease-out duration-300'
-              enterFrom='opacity-0 scale-95'
-              enterTo='opacity-100 scale-100'
-              leave='ease-in duration-200'
-              leaveFrom='opacity-100 scale-100'
-              leaveTo='opacity-0 scale-95'
-            >
-              <DialogPannel>
-                <WrapProgressBar>
-                  <DotLoader
-                    color={'#000'}
-                    loading={true}
-                    cssOverride={SpinnerStyle}
-                    size={150}
-                    aria-label='Loading Spinner'
-                    data-testid='loader'
-                  />
-                </WrapProgressBar>
-                <Gap height={6} />
-                <TitleModal>{'Hang in there'}</TitleModal>
-                <Gap height={6} />
-                <DesModal>{"We're creating quest,"}</DesModal>
-                <DesModal>{'It might take some minutes.'}</DesModal>
-              </DialogPannel>
-            </Transition.Child>
-          </ModalContent>
-        </ModalWrap>
-      </Modal>
+
+      <ProgressModal
+        isOpen={isOpen}
+        title={`Hang in there!`}
+        lines={[
+          `We're creating new quest.`,
+          'This might take a few seconds...',
+        ]}
+      />
     </>
   )
 }
