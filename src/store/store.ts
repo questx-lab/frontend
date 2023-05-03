@@ -7,6 +7,6 @@ const { useStoreActions, useStoreDispatch, useStoreState } =
 
 export { useStoreActions, useStoreDispatch, useStoreState }
 
-const store = createStore(model)
+const store = createStore<StoreModel>(model)
 
 export default store

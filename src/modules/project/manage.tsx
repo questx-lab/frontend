@@ -41,8 +41,8 @@ import {
   WrapQuestboard,
 } from '@/styles/questboard.style'
 import { ProjectType, QuestType } from '@/types/project.type'
-import { TemplateModal } from '@/widgets/template-modal'
 import { SmallSpinner } from '@/widgets/spinner'
+import { TemplateModal } from '@/widgets/template-modal'
 
 import ControlPanel from '../new-quest/control-panel'
 import QuestFrame from '../new-quest/quest-frame'
@@ -156,7 +156,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
     <Wrap>
       <SidebarCustom />
       <MMain>
-        <ControlPanel />
+        <ControlPanel projectId={project.id} />
         <CCBox>
           <MBox>
             <MPadding>

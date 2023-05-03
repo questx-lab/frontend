@@ -2,8 +2,11 @@
 
 import { FunctionComponent } from 'react'
 
-import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
+import { SideEnum } from '@/constants/project.const'
+import { RouterConst } from '@/constants/router.const'
+import { useStoreState } from '@/store/store'
 import { Divider, Gap } from '@/styles/common.style'
 import {
   CPBox,
@@ -11,13 +14,24 @@ import {
   ImageQuestBox,
   ItemSide,
   LvBox,
-  PersonDes,
   PersonInfoBox,
   PersonName,
   PersonWrap,
 } from '@/styles/questboard.style'
+import {
+  ArrowUpOnSquareIcon,
+  BoltIcon,
+  Cog6ToothIcon,
+} from '@heroicons/react/24/outline'
 
-const ControlPanel: FunctionComponent<{}> = () => {
+const ControlPanel: FunctionComponent<{
+  projectId: string
+  active?: number
+}> = ({ projectId, active = SideEnum.QUEST }) => {
+  // Data
+  const userState = useStoreState((state) => state.userSession.user)
+  const router = useRouter()
+
   return (
     <CSide>
       <PersonWrap>
@@ -29,45 +43,38 @@ const ControlPanel: FunctionComponent<{}> = () => {
         />
         <Gap height={6} />
         <PersonInfoBox>
-          <PersonName>{'ThanhChi'}</PersonName>
+          {userState && <PersonName>{userState.name}</PersonName>}
           <Gap width={1} />
           <LvBox>{'lvl.3'}</LvBox>
         </PersonInfoBox>
-        <Gap height={3} />
-        <PersonDes>
-          {'Short description. Lorem ipsum dolor sit amt, consectetur'}
-        </PersonDes>
       </PersonWrap>
       <Divider />
       <CPBox>
-        <ItemSide>
-          <Image
-            width={30}
-            height={30}
-            src={'/images/icons/bolt.svg'}
-            alt={'logo'}
-          />
-          <Gap width={2} />
+        <ItemSide
+          onClick={() => {
+            router.push(RouterConst.PROJECT + projectId)
+          }}
+          active={active === SideEnum.QUEST}
+        >
+          <BoltIcon className='w-6 h-6 mr-2' />
           {'QUESTS'}
         </ItemSide>
-        <ItemSide>
-          <Image
-            width={30}
-            height={30}
-            src={'/images/icons/bolt.svg'}
-            alt={'logo'}
-          />
-          <Gap width={2} />
+        <ItemSide
+          onClick={() => {
+            router.push(RouterConst.PROJECT + projectId + '/review')
+          }}
+          active={active === SideEnum.REVIEW_SUBMISSION}
+        >
+          <ArrowUpOnSquareIcon className='w-6 h-6 mr-2' />
           {'REVIEW SUBMISSION'}
         </ItemSide>
-        <ItemSide>
-          <Image
-            width={30}
-            height={30}
-            src={'/images/icons/bolt.svg'}
-            alt={'logo'}
-          />
-          <Gap width={2} />
+        <ItemSide
+          onClick={() => {
+            router.push(RouterConst.PROJECT + projectId + '/review')
+          }}
+          active={active === SideEnum.SETTINGS}
+        >
+          <Cog6ToothIcon className='w-6 h-6 mr-2' />
           {'SETTINGS'}
         </ItemSide>
       </CPBox>

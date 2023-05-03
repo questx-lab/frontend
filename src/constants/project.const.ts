@@ -94,3 +94,31 @@ export const QuestRecurrencesMap = new Map<QuestRecurrence, String>([
 ])
 
 export const QuestRewards = ['Gem', 'Discord Role', 'Other']
+
+export enum SideEnum {
+  QUEST,
+  REVIEW_SUBMISSION,
+  SETTINGS,
+}
+
+export enum TabReviewEnum {
+  PENDING,
+  HISTORY,
+}
+
+export enum ReviewBtnEnum {
+  REJECT,
+  ACCEPT,
+  EXPORT,
+  PENDING,
+}
+
+export enum ReviewStatusEnum {
+  SUCCESS,
+  FAIL,
+}
+
+export const ReviewStatusMap = new Map<ReviewStatusEnum, String>([
+  [ReviewStatusEnum.SUCCESS, 'Success'],
+  [ReviewStatusEnum.FAIL, 'Fail'],
+])

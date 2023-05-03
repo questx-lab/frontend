@@ -16,8 +16,9 @@ export interface UserSessionModel {
 
 const userSession: UserSessionModel = {
   isLogin: false,
-  updateState: action(userSessionAction),
   user: {},
+
+  updateState: action(userSessionAction),
   updateUser: action(userUpdateAction),
 }
 
