@@ -15,7 +15,7 @@ import { PSave } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { QTWrap } from '@/styles/leaderboard.style'
-import { QuestDetailModal } from '@/widgets/quest-detail-modal'
+import { QuestDetailModal } from '@/modules/project/quest-detail-modal'
 
 import {
   Boarding,
