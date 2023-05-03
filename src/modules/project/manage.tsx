@@ -54,7 +54,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
   const [questList, setListQuests] = useState<QuestType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [openTemplate, setOpenTemplate] = useState<boolean>(false)
-  const [openQuestDetail, setOpenQuestDetail] = useState<QuestType | null>(null)
+  const [questDetail, setQuestDetail] = useState<QuestType | null>(null)
 
   // actions
   const onProjectChanged = NewProjectStore.useStoreActions(
@@ -94,7 +94,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
       />
     </QuestboardBox>,
     ...questList.map((e) => (
-      <QuestboardBox key={e.id} onClick={() => setOpenQuestDetail(e)}>
+      <QuestboardBox key={e.id} onClick={() => setQuestDetail(e)}>
         <StartBoarding>
           <Gap height={4} />
           <TitleQuestBox>{`🎉 ${e.title}`}</TitleQuestBox>
@@ -226,9 +226,9 @@ export default function ManageProject({ project }: { project: ProjectType }) {
         <QuestFrame isTemplate id={project.id} />
       </TemplateModal>
       <QuestDetailModal
-        isOpen={openQuestDetail !== null}
-        quest={openQuestDetail}
-        onClose={() => setOpenQuestDetail(null)}
+        isOpen={questDetail !== null}
+        quest={questDetail}
+        onClose={() => setQuestDetail(null)}
       />
     </Wrap>
   )
