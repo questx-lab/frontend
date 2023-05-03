@@ -15,6 +15,8 @@ import { PSave } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { QTWrap } from '@/styles/leaderboard.style'
+import { QuestDetailModal } from '@/widgets/quest-detail-modal'
+
 import {
   Boarding,
   BoardingCard,
@@ -52,6 +54,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
   const [questList, setListQuests] = useState<QuestType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [openTemplate, setOpenTemplate] = useState<boolean>(false)
+  const [openQuestDetail, setOpenQuestDetail] = useState<QuestType | null>(null)
 
   // actions
   const onProjectChanged = NewProjectStore.useStoreActions(
@@ -91,7 +94,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
       />
     </QuestboardBox>,
     ...questList.map((e) => (
-      <QuestboardBox key={e.id}>
+      <QuestboardBox key={e.id} onClick={() => setOpenQuestDetail(e)}>
         <StartBoarding>
           <Gap height={4} />
           <TitleQuestBox>{`🎉 ${e.title}`}</TitleQuestBox>
@@ -222,6 +225,11 @@ export default function ManageProject({ project }: { project: ProjectType }) {
       >
         <QuestFrame isTemplate id={project.id} />
       </TemplateModal>
+      <QuestDetailModal
+        isOpen={openQuestDetail !== null}
+        quest={openQuestDetail}
+        onClose={() => setOpenQuestDetail(null)}
+      />
     </Wrap>
   )
 }
