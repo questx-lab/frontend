@@ -81,12 +81,9 @@ export default function ManageProject({ project }: { project: ProjectType }) {
   const onCloseModal = () => {
     onSubmissionModalChanged(false)
   }
-  const onOpenModal = () => {
-    onSubmissionModalChanged(true)
-  }
   const onClickQuestItem = (e: QuestType) => {
     onQuestActiveChanged(e)
-    onOpenModal()
+    onSubmissionModalChanged(true)
   }
 
   useEffect(() => {
