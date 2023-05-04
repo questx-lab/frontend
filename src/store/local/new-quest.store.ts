@@ -1,6 +1,10 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { QuestRecurrence, QuestTypeEnum } from '@/constants/project.const'
+import {
+  QuestRecurrence,
+  QuestTypeEnum,
+  ReviewStatusEnum,
+} from '@/constants/project.const'
 
 export interface NewQuestModel {
   title: string
@@ -22,6 +26,9 @@ export interface NewQuestModel {
   activeReward: number
   twitterType: string
   isOpenModal: boolean
+  reviewStatus: number
+  chooseQuestsHistory: string[]
+  chooseQuestsPending: string[]
 
   // Actions
   onTitleChanged: Action<NewQuestModel, string>
@@ -43,6 +50,9 @@ export interface NewQuestModel {
   onTwitterTypeChanged: Action<NewQuestModel, string>
   onSpaceUrlTwChanged: Action<NewQuestModel, string>
   onOpenModalChanged: Action<NewQuestModel, boolean>
+  onReviewStatusChanged: Action<NewQuestModel, number>
+  onChooseQuestsHistoryChanged: Action<NewQuestModel, string[]>
+  onChooseQuestsPendingChanged: Action<NewQuestModel, string[]>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -65,6 +75,9 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   twitterType: '',
   spaceUrlTw: '',
   isOpenModal: false,
+  reviewStatus: ReviewStatusEnum.SUCCESS,
+  chooseQuestsHistory: [],
+  chooseQuestsPending: [],
 
   onTitleChanged: action((state, newTitle) => {
     state.title = newTitle
@@ -140,6 +153,18 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   onOpenModalChanged: action((state, openModal) => {
     state.isOpenModal = openModal
+  }),
+
+  onReviewStatusChanged: action((state, status) => {
+    state.reviewStatus = status
+  }),
+
+  onChooseQuestsHistoryChanged: action((state, quests) => {
+    state.chooseQuestsHistory = quests
+  }),
+
+  onChooseQuestsPendingChanged: action((state, quests) => {
+    state.chooseQuestsPending = quests
   }),
 })
 

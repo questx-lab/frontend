@@ -1,5 +1,3 @@
-import { persist } from 'easy-peasy'
-
 import navBar, { NavBarModel } from './navBar'
 import userSession, { UserSessionModel } from './useSession'
 
@@ -9,7 +7,7 @@ export interface StoreModel {
 }
 
 const model: StoreModel = {
-  userSession: persist(userSession),
+  userSession: userSession,
   navBar,
 }
 

@@ -36,7 +36,7 @@ export const MMain = tw.div`
   flex
   flex-row
   pl-[70px]
-  max-lg:pr-[10px]
+  max-lg:pr-0
   max-lg:pl-[80px]
   w-full
 `
@@ -140,7 +140,7 @@ export const ItemSide = styled.div<{ active?: boolean }>(
   ({ active = false }) => [
     active
       ? tw`
-        bg-gray-100
+        bg-gray-200
         px-3
         py-2
         flex
@@ -148,7 +148,7 @@ export const ItemSide = styled.div<{ active?: boolean }>(
         justify-start
         items-center
         rounded-lg
-        hover:bg-gray-50
+        hover:bg-gray-200
         cursor-pointer
         my-2
         text-sm
@@ -163,12 +163,13 @@ export const ItemSide = styled.div<{ active?: boolean }>(
         flex-row
         justify-start
         items-center
-        hover:bg-gray-50
+        rounded-lg
+        hover:bg-gray-200
         cursor-pointer
         my-2
         text-sm
-        font-normal
-        text-black
+        font-medium
+        text-gray-700
       `,
   ]
 )
@@ -231,6 +232,11 @@ export const PersonName = tw.p`
   font-medium
   text-black
   text-center
+  max-w-lg
+  text-ellipsis 
+  overflow-hidden 
+  max-w-[150px]
+
 `
 
 export const LvBox = tw.div`
