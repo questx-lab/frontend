@@ -29,8 +29,8 @@ export const QuestDetail: FunctionComponent<{
         <Image
           width={400}
           height={200}
-          src={StorageConst.EMPTY.src}
-          alt={StorageConst.EMPTY.alt}
+          src={StorageConst.FAVORITE_ICON.src}
+          alt={StorageConst.FAVORITE_ICON.alt}
         />
         <Gap height={4} />
         <Description>

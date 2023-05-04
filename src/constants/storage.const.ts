@@ -71,12 +71,4 @@ export const StorageConst = {
     src: '/images/dummy/manta.svg',
     alt: 'Manta Logo',
   },
-  EMPTY: {
-    src: '/assets/empty.svg',
-    alt: 'Empty image',
-  },
-  GEM: {
-    src: '/images/logo/gem.svg',
-    alt: 'Gem logo',
-  },
 }
