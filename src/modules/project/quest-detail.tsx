@@ -68,7 +68,14 @@ export const QuestDetail: FunctionComponent<{
           molestie ex ex.
         </Description>
         <Gap height={6} />
-        <FullWidthBtn> Claim Reward </FullWidthBtn>
+        <FullWidthBtn
+          onClick={() => {
+            claimReward()
+          }}
+        >
+          {' '}
+          Claim Reward{' '}
+        </FullWidthBtn>
       </div>
       <div className='text-left'>
         <div className='border-b-2 p-6'>
@@ -82,7 +89,7 @@ export const QuestDetail: FunctionComponent<{
               alt={StorageConst.POINT_ICON.alt}
             />
             <Gap width={2} />
-            <PointText>{quest?.recurrence}</PointText>
+            <PointText>{'300 Points'}</PointText>
           </HeaderBox>
         </div>
       </div>
