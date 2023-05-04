@@ -73,8 +73,7 @@ export const QuestDetail: FunctionComponent<{
             claimReward()
           }}
         >
-          {' '}
-          Claim Reward{' '}
+          Claim Reward
         </FullWidthBtn>
       </div>
       <div className='text-left'>
