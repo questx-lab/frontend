@@ -1,10 +1,13 @@
 import { FunctionComponent } from 'react'
+
 import Image from 'next/image'
-import { Gap } from '@/styles/common.style'
+
 import { StorageConst } from '@/constants/storage.const'
-import { QuestType } from '@/types/project.type'
 import { FullWidthBtn } from '@/styles/button.style'
-import { Title, Description, HeaderBox, PointText } from './quest-detail-styles'
+import { Gap } from '@/styles/common.style'
+import { QuestType } from '@/types/project.type'
+
+import { Description, HeaderBox, PointText, Title } from './quest-detail-styles'
 
 export const QuestDetail: FunctionComponent<{
   quest: QuestType | null

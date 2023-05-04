@@ -1,15 +1,13 @@
 import { ChangeEvent, FunctionComponent } from 'react'
 
-import Image from 'next/image'
+import { FixedSizeList as List } from 'react-window'
 
-import { ReviewBtnEnum } from '@/constants/project.const'
-import { StorageConst } from '@/constants/storage.const'
+import { ReviewBtnEnum, TabReviewEnum } from '@/constants/project.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import {
   Btn,
   BtnBox,
   BtnWrap,
-  PAction,
   PBody,
   PBox,
   PCheckBox,
@@ -20,19 +18,14 @@ import {
   PSort,
   PTabHeader,
   PWrap,
-  SCol,
-  SDes,
-  SInfo,
-  SItem,
-  SName,
-  SRow,
-  STextInfo,
-  SubmitItem,
 } from '@/styles/quest-review.style'
 import { BarsArrowDownIcon } from '@heroicons/react/24/solid'
 
 import QuestSearch from './quest-search'
 import Recurrence from './recurrence'
+import SubmissionItem from './submission-item'
+
+const DummyData = Array.from({ length: 1000 }, (_, i) => i)
 
 const RenderBtn: FunctionComponent<{ data: string[] }> = ({ data }) => {
   if (!data.length) {
@@ -54,11 +47,27 @@ const PendingTab: FunctionComponent = () => {
   const chooseQuestsState = NewQuestStore.useStoreState(
     (state) => state.chooseQuestsPending
   )
+  const allCheckPendingState = NewQuestStore.useStoreState(
+    (state) => state.allCheckPending
+  )
 
   // Actions
   const onChooseQuestsChanged = NewQuestStore.useStoreActions(
     (actions) => actions.onChooseQuestsPendingChanged
   )
+  const onAllCheckPendingChanged = NewQuestStore.useStoreActions(
+    (actions) => actions.onAllCheckPendingChanged
+  )
+
+  // Handler
+  const onCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
+    onAllCheckPendingChanged(e.target.checked)
+    if (e.target.checked) {
+      onChooseQuestsChanged(DummyData.map((e) => e.toString()))
+    } else {
+      onChooseQuestsChanged([])
+    }
+  }
 
   const onCheck = (e: ChangeEvent<HTMLInputElement>, value: string) => {
     if (e.target.checked) {
@@ -68,47 +77,18 @@ const PendingTab: FunctionComponent = () => {
     }
   }
 
-  const listSubmit = [1, 2, 3, 4, 5, 6].map((e) => {
-    const active = chooseQuestsState.includes(e.toString())
-    return (
-      <SRow key={e} active={active}>
-        <SubmitItem>
-          <PCheckBox
-            checked={active}
-            type='checkbox'
-            onChange={(value) => onCheck(value, e.toString())}
-          />
-          <SItem>
-            <SInfo>
-              <Image
-                width={40}
-                height={40}
-                src={'/images/dummy/1.svg'}
-                alt={StorageConst.AVATAR_DEFAUL.alt}
-              />
-              <SCol>
-                <SName>{'alim_marcus'}</SName>
-                <SDes>{'claimed a few seconds ago'}</SDes>
-              </SCol>
-            </SInfo>
-            <STextInfo>{'Invite 15 fren to join our crew3 🤲'}</STextInfo>
-          </SItem>
-        </SubmitItem>
-        <PAction>
-          <Btn btnType={ReviewBtnEnum.REJECT}>{'Reject'}</Btn>
-          <Btn btnType={ReviewBtnEnum.ACCEPT}>{'Accept'}</Btn>
-        </PAction>
-      </SRow>
-    )
-  })
-
   return (
     <PWrap>
       <PBox>
         <PLSide>
           <PTabHeader>
             <PHeaderInfo>
-              <PCheckBox id='inline-checked-checkbox' type='checkbox' />
+              <PCheckBox
+                id='inline-checked-checkbox'
+                type='checkbox'
+                onChange={onCheckAll}
+                checked={allCheckPendingState}
+              />
               {'Pending Submission'}
             </PHeaderInfo>
             <PSort>
@@ -116,7 +96,29 @@ const PendingTab: FunctionComponent = () => {
               {'Sort by'}
             </PSort>
           </PTabHeader>
-          <PBody>{listSubmit}</PBody>
+
+          <PBody>
+            <List
+              height={600}
+              itemCount={DummyData.length}
+              itemSize={120}
+              width={'100%'}
+            >
+              {({ index, style }) => {
+                const active = chooseQuestsState.includes(index.toString())
+                return (
+                  <SubmissionItem
+                    submissionType={TabReviewEnum.PENDING}
+                    active={active}
+                    onChange={onCheck}
+                    payload={index.toString()}
+                    key={index}
+                    style={style}
+                  />
+                )
+              }}
+            </List>
+          </PBody>
         </PLSide>
         <PRSide>
           <PRWrap>
