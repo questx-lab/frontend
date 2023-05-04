@@ -5,10 +5,30 @@ import { StorageConst } from '@/constants/storage.const'
 import { QuestType } from '@/types/project.type'
 import { FullWidthBtn } from '@/styles/button.style'
 import { Title, Description, HeaderBox, PointText } from './quest-detail-styles'
+import { claimRewardApi } from '@/app/api/client/reward'
+import { toast } from 'react-hot-toast'
 
 export const QuestDetail: FunctionComponent<{
   quest: QuestType | null
-}> = ({ quest }) => {
+  onClose: () => void
+}> = ({ quest, onClose }) => {
+  const claimReward = async () => {
+    try {
+      const data = await claimRewardApi({
+        quest_id: quest?.id,
+        input: 'any',
+      })
+      if (data.error) {
+        toast.error(data.error)
+        return
+      }
+      toast.success('Claim reward successfully')
+      onClose()
+    } catch (error) {
+      toast.error('Error while claim')
+    }
+  }
+
   return (
     <div className='grid gap-2 grid-cols-2 overscroll-none divide-x-2 h-max'>
       <div className='text-left p-6'>

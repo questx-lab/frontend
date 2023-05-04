@@ -230,7 +230,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
         onClose={() => setQuestDetail(null)}
         title={questDetail?.title || ''}
       >
-        <QuestDetail quest={questDetail} />
+        <QuestDetail quest={questDetail} onClose={() => setQuestDetail(null)} />
       </TemplateModal>
     </Wrap>
   )

@@ -92,3 +92,8 @@ export type QuestType = {
 export type LQuestType = {
   quests: QuestType[]
 }
+
+export type ReqClaimReward = {
+  quest_id?: string
+  input?: string
+}
