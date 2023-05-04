@@ -15,7 +15,7 @@ import { PSave } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { QTWrap } from '@/styles/leaderboard.style'
-import { QuestDetailModal } from '@/modules/project/quest-detail-modal'
+import { QuestDetail } from '@/modules/project/quest-detail'
 
 import {
   Boarding,
@@ -225,11 +225,13 @@ export default function ManageProject({ project }: { project: ProjectType }) {
       >
         <QuestFrame isTemplate id={project.id} />
       </TemplateModal>
-      <QuestDetailModal
+      <TemplateModal
         isOpen={questDetail !== null}
-        quest={questDetail}
         onClose={() => setQuestDetail(null)}
-      />
+        title={questDetail?.title || ''}
+      >
+        <QuestDetail quest={questDetail} />
+      </TemplateModal>
     </Wrap>
   )
 }

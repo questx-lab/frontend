@@ -91,22 +91,6 @@ export const LDDP = styled(Dialog.Panel)(
   `
 )
 
-export const LDDP2 = styled(Dialog.Panel)(
-  tw`
-  w-2/3 
-  overflow-hidden 
-  rounded-2xl 
-  bg-white 
-  p-6
-  text-left 
-  align-middle 
-  shadow-xl 
-  transition-all
-  flex
-  flex-col
-  justify-start
-  `
-)
 export const TitleModal = tw.h2`
   text-black
   font-bold
