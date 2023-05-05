@@ -1,16 +1,15 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-
+import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
-
 import { listQuestApi } from '@/app/api/client/quest'
 import SidebarCustom from '@/components/sidebar'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { QuestDetail } from '@/modules/project/quest-detail'
+import { ClaimReward } from '@/modules/project/claim-reward'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { NewProjectStore } from '@/store/local/project.store'
 import { PSave } from '@/styles/button.style'
@@ -48,7 +47,6 @@ import BaseModal from '@/widgets/base-modal'
 import { SmallSpinner } from '@/widgets/spinner'
 import { TemplateModal } from '@/widgets/template-modal'
 import { XMarkIcon } from '@heroicons/react/20/solid'
-
 import ControlPanel from '../new-quest/control-panel'
 import QuestFrame from '../new-quest/quest-frame'
 
@@ -59,11 +57,14 @@ export default function ManageProject({ project }: { project: ProjectType }) {
   const [openTemplate, setOpenTemplate] = useState<boolean>(false)
 
   // data
-  const submisisonModalState = NewQuestStore.useStoreState(
-    (state) => state.submissionModal
+  const questDetailModalState = NewQuestStore.useStoreState(
+    (state) => state.questDetailModal
   )
   const questActiveState = NewQuestStore.useStoreState(
     (state) => state.questActive
+  )
+  const submisisonModalState = NewQuestStore.useStoreState(
+    (state) => state.submissionModal
   )
 
   // actions
@@ -77,13 +78,22 @@ export default function ManageProject({ project }: { project: ProjectType }) {
     (actions) => actions.onSubmissionModalChanged
   )
 
+  const onQuestDetailModalChanged = NewQuestStore.useStoreActions(
+    (actions) => actions.onQuestDetailModalChanged
+  )
+
   // Handler
   const onCloseModal = () => {
     onSubmissionModalChanged(false)
   }
   const onClickQuestItem = (e: QuestType) => {
     onQuestActiveChanged(e)
+    onQuestDetailModalChanged(true)
+  }
+
+  const onNextQuestDetailModal = () => {
     onSubmissionModalChanged(true)
+    onQuestDetailModalChanged(false)
   }
 
   useEffect(() => {
@@ -250,6 +260,23 @@ export default function ManageProject({ project }: { project: ProjectType }) {
       >
         <QuestFrame isTemplate id={project.id} />
       </TemplateModal>
+      <BaseModal isOpen={questDetailModalState}>
+        <ModalBox>
+          <ModalContent>
+            <MDHead>
+              {'Invite 2 fren to join our crew3 🤲'}
+              <XMarkIcon
+                className='w-7 h-7 cursor-pointer'
+                onClick={onCloseModal}
+              />
+            </MDHead>
+            <QuestDetail
+              quest={questActiveState}
+              next={onNextQuestDetailModal}
+            />
+          </ModalContent>
+        </ModalBox>
+      </BaseModal>
       <BaseModal isOpen={submisisonModalState}>
         <ModalBox>
           <ModalContent>
@@ -260,7 +287,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
                 onClick={onCloseModal}
               />
             </MDHead>
-            <QuestDetail quest={questActiveState} />
+            <ClaimReward quest={questActiveState} onClose={onCloseModal} />
           </ModalContent>
         </ModalBox>
       </BaseModal>

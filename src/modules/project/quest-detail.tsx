@@ -5,15 +5,14 @@ import Image from 'next/image'
 import { StorageConst } from '@/constants/storage.const'
 import { FullWidthBtn } from '@/styles/button.style'
 import { Title, Description, HeaderBox, PointText } from './quest-detail-styles'
-import { claimRewardApi } from '@/app/api/client/reward'
-import { toast } from 'react-hot-toast'
+
 import { Gap } from '@/styles/common.style'
 import { QuestType } from '@/types/project.type'
 
 export const QuestDetail: FunctionComponent<{
   quest: QuestType | null
-  onClose: () => void
-}> = ({ quest, onClose }) => {
+  next: () => void
+}> = ({ quest, next }) => {
   return (
     <div className='grid gap-2 grid-cols-2 overscroll-none divide-x-2 h-max'>
       <div className='text-left p-6'>
@@ -53,13 +52,7 @@ export const QuestDetail: FunctionComponent<{
           molestie ex ex.
         </Description>
         <Gap height={6} />
-        <FullWidthBtn
-          onClick={() => {
-            claimReward()
-          }}
-        >
-          Claim Reward
-        </FullWidthBtn>
+        <FullWidthBtn onClick={next}>Claim Reward</FullWidthBtn>
       </div>
       <div className='text-left'>
         <div className='border-b-2 p-6'>

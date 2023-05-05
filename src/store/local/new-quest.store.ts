@@ -31,6 +31,7 @@ export interface NewQuestModel {
   chooseQuestsHistory: string[]
   chooseQuestsPending: string[]
   submissionModal: boolean
+  questDetailModal: boolean
   allCheckHistory: boolean
   allCheckPending: boolean
   questActive: QuestType
@@ -59,6 +60,7 @@ export interface NewQuestModel {
   onChooseQuestsHistoryChanged: Action<NewQuestModel, string[]>
   onChooseQuestsPendingChanged: Action<NewQuestModel, string[]>
   onSubmissionModalChanged: Action<NewQuestModel, boolean>
+  onQuestDetailModalChanged: Action<NewQuestModel, boolean>
   onAllCheckHistoryChanged: Action<NewQuestModel, boolean>
   onAllCheckPendingChanged: Action<NewQuestModel, boolean>
   onQuestActiveChanged: Action<NewQuestModel, QuestType>
@@ -87,6 +89,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   reviewStatus: ReviewStatusEnum.SUCCESS,
   chooseQuestsHistory: [],
   chooseQuestsPending: [],
+  questDetailModal: false,
   submissionModal: false,
   allCheckHistory: false,
   allCheckPending: false,
@@ -182,6 +185,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   onSubmissionModalChanged: action((state, modal) => {
     state.submissionModal = modal
+  }),
+
+  onQuestDetailModalChanged: action((state, modal) => {
+    state.questDetailModal = modal
   }),
 
   onAllCheckHistoryChanged: action((state, status) => {
