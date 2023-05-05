@@ -113,16 +113,6 @@ export enum ReviewBtnEnum {
   PENDING,
 }
 
-// export enum ReviewStatusEnum {
-//   SUCCESS,
-//   FAIL,
-// }
-
-// export const ReviewStatusMap = new Map<ReviewStatusEnum, String>([
-//   [ReviewStatusEnum.SUCCESS, 'Success'],
-//   [ReviewStatusEnum.FAIL, 'Fail'],
-// ])
-
 export enum ClaimedQuestStatus {
   PENDING = 'pending',
   ACCEPTED = 'accepted',
