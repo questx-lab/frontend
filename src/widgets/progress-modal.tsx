@@ -1,12 +1,14 @@
 import { FunctionComponent } from 'react'
+
+import { DotLoader } from 'react-spinners'
+
+import { Gap, SpinnerStyle } from '@/styles/common.style'
 import {
   DesModal,
   DialogPannel,
   TitleModal,
   WrapProgressBar,
 } from '@/styles/modal.style'
-import { DotLoader } from 'react-spinners'
-import { Gap, SpinnerStyle } from '@/styles/common.style'
 import BaseModal from '@/widgets/base-modal'
 
 export const ProgressModal: FunctionComponent<{
