@@ -1,3 +1,5 @@
+import { UserType } from './account.type'
+
 export type ReqNewProject = {
   name: string
   introduction?: string
@@ -91,4 +93,19 @@ export type QuestType = {
 
 export type LQuestType = {
   quests: QuestType[]
+}
+
+export type ClaimQuestType = {
+  id?: string
+  quest_id?: string
+  quest?: QuestType
+  user_id?: string
+  user?: UserType
+  status?: string
+  input?: string
+  reviewer_at?: string
+}
+
+export type ListClaimQuestType = {
+  claimed_quests: ClaimQuestType[]
 }

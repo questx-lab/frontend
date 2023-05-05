@@ -1,5 +1,12 @@
-import { Fragment, FunctionComponent, useState } from 'react'
+import { Fragment, FunctionComponent, useEffect } from 'react'
 
+import toast from 'react-hot-toast'
+
+import { listQuestApi } from '@/app/api/client/quest'
+import { TabReviewEnum } from '@/constants/project.const'
+import { NewQuestStore } from '@/store/local/new-quest.store'
+import { NewProjectStore } from '@/store/local/project.store'
+import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import {
@@ -14,42 +21,160 @@ import {
   RICard,
   WrapIcon,
 } from '@/styles/quest-review.style'
+import { QuestType } from '@/types/project.type'
 import { Combobox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
-const titles = [
-  { id: 1, name: 'Join Discord 👾' },
-  { id: 2, name: 'Invite 100 people to our Discord 🎉' },
-  { id: 3, name: 'Invite 200 people to our Discord 🎉' },
-  { id: 4, name: 'Invite 500 people to our Discord 🎉' },
-  { id: 5, name: 'Invite 1000 people to our Discord 🎉' },
-]
+import { getListClaimQuest } from './review-submission'
 
-const QuestSearch: FunctionComponent = () => {
-  const [selected, setSelected] = useState([])
-  const [query, setQuery] = useState('')
+const ResultBox: FunctionComponent<{ quest: QuestType[]; query: string }> = ({
+  quest,
+  query,
+}) => {
+  if (!quest.length && query !== '') {
+    return <NotFoundBox>Nothing found.</NotFoundBox>
+  }
 
-  const filteredTitle =
-    query === ''
-      ? titles
-      : titles.filter((person) => {
-          return person.name.toLowerCase().includes(query.toLowerCase())
+  return (
+    <>
+      {quest.map((quest) => (
+        <Combobox.Option
+          key={quest.id}
+          className='relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900'
+          value={quest}
+        >
+          {({ selected }) => (
+            <>
+              <CbbTitle selected={selected}>{quest.title}</CbbTitle>
+              {selected ? (
+                <WrapIcon>
+                  <CheckIcon className='h-5 w-5' aria-hidden='true' />
+                </WrapIcon>
+              ) : null}
+            </>
+          )}
+        </Combobox.Option>
+      ))}
+    </>
+  )
+}
+
+const QuestSearch: FunctionComponent<{ projectId: string }> = ({
+  projectId,
+}) => {
+  // data
+  const listQuestsState = NewQuestSearchStore.useStoreState(
+    (state) => state.listQuests
+  )
+  const queryState = NewQuestSearchStore.useStoreState((state) => state.query)
+  const questsSelectState = NewQuestSearchStore.useStoreState(
+    (state) => state.questsSelect
+  )
+  const listQuestQuery = NewQuestSearchStore.useStoreState(
+    (state) => state.listQuestQuery
+  )
+  const tabReviewState = NewProjectStore.useStoreState(
+    (state) => state.tabReview
+  )
+  const reviewStatus = NewQuestStore.useStoreState(
+    (state) => state.reviewStatus
+  )
+
+  // actions
+  const onListQuestsChanged = NewQuestSearchStore.useStoreActions(
+    (actions) => actions.onListQuestsChanged
+  )
+  const onQuestsSelectChanged = NewQuestSearchStore.useStoreActions(
+    (actions) => actions.onQuestsSelectChanged
+  )
+  const onQueryChanged = NewQuestSearchStore.useStoreActions(
+    (actions) => actions.onQueryChanged
+  )
+  const onListQuestQueryChanged = NewQuestSearchStore.useStoreActions(
+    (actions) => actions.onListQuestQueryChanged
+  )
+  const onListClaimQuestHistoryChanged = NewQuestStore.useStoreActions(
+    (actions) => actions.onListClaimQuestHistoryChanged
+  )
+  const onListClaimQuestPendingChanged = NewQuestStore.useStoreActions(
+    (actions) => actions.onListClaimQuestPendingChanged
+  )
+  const onLoadingModalChanged = NewQuestStore.useStoreActions(
+    (actions) => actions.onLoadingModalChanged
+  )
+
+  useEffect(() => {
+    getQuests()
+  }, [])
+
+  const getQuests = async () => {
+    try {
+      const data = await listQuestApi(projectId)
+      if (data.error) {
+        toast.error(data.error)
+      }
+      if (data.data) {
+        onListQuestsChanged(data.data.quests)
+      }
+    } catch (error) {
+      toast.error('error')
+    }
+  }
+
+  useEffect(() => {
+    if (!queryState && listQuestsState.length) {
+      onListQuestQueryChanged(
+        listQuestsState.filter((quest) => {
+          const title = quest!.title?.toLowerCase() ?? ''
+          return title.includes(queryState.toLowerCase())
         })
+      )
+    } else {
+      onListQuestQueryChanged(listQuestsState)
+    }
+  }, [queryState])
+
+  const onChangeQuestBox = async (e: QuestType[]) => {
+    onQuestsSelectChanged(e)
+    onLoadingModalChanged(true)
+    if (tabReviewState === TabReviewEnum.HISTORY) {
+      await getListClaimQuest(
+        projectId,
+        reviewStatus,
+        onListClaimQuestHistoryChanged,
+        e.map((e) => e.id!)
+      )
+    }
+    if (tabReviewState === TabReviewEnum.PENDING) {
+      await getListClaimQuest(
+        projectId,
+        'pending',
+        onListClaimQuestPendingChanged,
+        e.map((e) => e.id!)
+      )
+    }
+    setTimeout(() => onLoadingModalChanged(false), 500)
+  }
 
   return (
     <RCard>
       <RICard>
         <LabelInput>{'QUEST'}</LabelInput>
         <Gap height={4} />
-        <Combobox value={selected} onChange={(e) => setSelected(e)} multiple>
+        <Combobox
+          value={questsSelectState}
+          onChange={onChangeQuestBox}
+          multiple
+        >
           <CbbWrap>
             <CbbBoxInput>
               <CbbInput
                 displayValue={(person) => (person as any).name}
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event) => onQueryChanged(event.target.value)}
               />
               <CbbBtn>
                 <ChevronUpDownIcon
+                  onClick={() => onListQuestQueryChanged(listQuestsState)}
                   className='h-5 w-5 text-gray-400'
                   aria-hidden='true'
                 />
@@ -60,34 +185,10 @@ const QuestSearch: FunctionComponent = () => {
               leave='transition ease-in duration-100'
               leaveFrom='opacity-100'
               leaveTo='opacity-0'
-              afterLeave={() => setQuery('')}
+              afterLeave={() => onQueryChanged('')}
             >
               <CbbOption>
-                {filteredTitle.length === 0 && query !== '' ? (
-                  <NotFoundBox>Nothing found.</NotFoundBox>
-                ) : (
-                  filteredTitle.map((title) => (
-                    <Combobox.Option
-                      key={title.id}
-                      className='relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900'
-                      value={title}
-                    >
-                      {({ selected }) => (
-                        <>
-                          <CbbTitle selected={selected}>{title.name}</CbbTitle>
-                          {selected ? (
-                            <WrapIcon>
-                              <CheckIcon
-                                className='h-5 w-5'
-                                aria-hidden='true'
-                              />
-                            </WrapIcon>
-                          ) : null}
-                        </>
-                      )}
-                    </Combobox.Option>
-                  ))
-                )}
+                <ResultBox quest={listQuestQuery} query={queryState} />
               </CbbOption>
             </Transition>
           </CbbWrap>

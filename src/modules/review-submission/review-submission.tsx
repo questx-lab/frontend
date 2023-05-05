@@ -1,20 +1,53 @@
+import toast from 'react-hot-toast'
+
+import { listClaimedQuestsApi } from '@/app/api/client/quest'
 import SidebarCustom from '@/components/sidebar'
 import { SideEnum, TabReviewEnum } from '@/constants/project.const'
 import ControlPanel from '@/modules/new-quest/control-panel'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 import { NewProjectStore } from '@/store/local/project.store'
+import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
 import { Head, Main, Tab, TabItem } from '@/styles/quest-review.style'
 import { MMain, Wrap } from '@/styles/questboard.style'
+import { ClaimQuestType } from '@/types/project.type'
+import { LoadingModal } from '@/widgets/modal'
 import { ArrowPathIcon, ClockIcon } from '@heroicons/react/24/outline'
 
 import DetailSubmission from './detail-submission'
 import HistoryTab from './history'
 import PendingTab from './pending'
 
+// Handler
+export const getListClaimQuest = async (
+  projectId: string,
+  filterQuest: string = 'rejected,accepted',
+  onAction: (action: ClaimQuestType[]) => void,
+  filterQuestIds?: string[]
+) => {
+  try {
+    const data = await listClaimedQuestsApi(
+      projectId,
+      filterQuest,
+      filterQuestIds ?? []
+    )
+    if (data.error) {
+      toast.error(data.error)
+    } else {
+      onAction(data.data?.claimed_quests!)
+    }
+  } catch (error) {
+    toast.error('Error network')
+  }
+}
+
 export default function ReviewSubmission({ projectId }: { projectId: string }) {
   // Data
   const tabReviewState = NewProjectStore.useStoreState(
     (state) => state.tabReview
+  )
+  const loadingModal = NewQuestStore.useStoreState(
+    (state) => state.loadingModal
   )
 
   // Actions
@@ -49,11 +82,19 @@ export default function ReviewSubmission({ projectId }: { projectId: string }) {
             </TabItem>
           </Tab>
           <Gap height={6} />
-          {tabReviewState === TabReviewEnum.PENDING && <PendingTab />}
-          {tabReviewState === TabReviewEnum.HISTORY && <HistoryTab />}
+          <NewQuestSearchStore.Provider>
+            {tabReviewState === TabReviewEnum.PENDING && (
+              <PendingTab projectId={projectId} />
+            )}
+            {tabReviewState === TabReviewEnum.HISTORY && (
+              <HistoryTab projectId={projectId} />
+            )}
+          </NewQuestSearchStore.Provider>
+
           <DetailSubmission />
         </Main>
       </MMain>
+      <LoadingModal isOpen={loadingModal} />
     </Wrap>
   )
 }

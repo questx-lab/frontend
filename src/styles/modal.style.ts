@@ -52,6 +52,13 @@ export const TMWrap = styled(Dialog.Panel)(
   `
 )
 
+export const CenterWrap = tw.div`
+  flex 
+  h-full
+  items-center 
+  justify-center 
+  text-center
+`
 export const DialogPannel = styled(Dialog.Panel)(
   tw`
   w-full 
@@ -106,4 +113,7 @@ export const DesModal = tw.h4`
 export const WrapProgressBar = tw.div`
   w-[200px]
   h-[200px]
+  flex
+  justify-center
+  items-center
 `
