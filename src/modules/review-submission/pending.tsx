@@ -15,6 +15,7 @@ import {
   Btn,
   BtnBox,
   BtnWrap,
+  NothingBox,
   PBody,
   PBox,
   PCheckBox,
@@ -65,7 +66,7 @@ const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
         onListClaimQuestPendingChanged([])
       }
 
-      setTimeout(() => onLoadingModalChanged(false), 500)
+      setTimeout(() => onLoadingModalChanged(false), 200)
     } catch (error) {
       toast.error('Error network')
       onLoadingModalChanged(false)
@@ -96,6 +97,34 @@ const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
   )
 }
 
+const RenderBody: FunctionComponent<{
+  data: ClaimQuestType[]
+  choose: ClaimQuestType[]
+  onCheck: (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => void
+}> = ({ data, choose, onCheck }) => {
+  if (data.length === 0) {
+    return <NothingBox>{'Nothing quest claim'}</NothingBox>
+  }
+
+  return (
+    <List height={600} itemCount={data.length} itemSize={120} width={'100%'}>
+      {({ index, style }) => {
+        const active = choose.includes(data[index])
+        return (
+          <SubmissionItem
+            tab={TabReviewEnum.PENDING}
+            active={active}
+            onChange={onCheck}
+            payload={data[index]}
+            key={index}
+            style={style}
+          />
+        )
+      }}
+    </List>
+  )
+}
+
 const PendingTab: FunctionComponent<{ projectId: string }> = ({
   projectId,
 }) => {
@@ -123,16 +152,25 @@ const PendingTab: FunctionComponent<{ projectId: string }> = ({
   const onListClaimQuestPendingChanged = NewQuestStore.useStoreActions(
     (actions) => actions.onListClaimQuestPendingChanged
   )
+  const onLoadingModalChanged = NewQuestStore.useStoreActions(
+    (actions) => actions.onLoadingModalChanged
+  )
 
   // Hook
   useEffect(() => {
-    getListClaimQuest(
+    getClaimsQuest()
+  }, [])
+
+  const getClaimsQuest = async () => {
+    onLoadingModalChanged(true)
+    await getListClaimQuest(
       projectId,
       'pending',
       onListClaimQuestPendingChanged,
       questsSelect.map((e) => e.id!)
     )
-  }, [])
+    setTimeout(() => onLoadingModalChanged(false), 200)
+  }
 
   const onCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
     onAllCheckPendingChanged(e.target.checked)
@@ -172,7 +210,12 @@ const PendingTab: FunctionComponent<{ projectId: string }> = ({
           </PTabHeader>
 
           <PBody>
-            <List
+            <RenderBody
+              onCheck={onCheck}
+              data={listClaimQuestState}
+              choose={chooseQuestsState}
+            />
+            {/* <List
               height={600}
               itemCount={listClaimQuestState.length}
               itemSize={120}
@@ -193,7 +236,7 @@ const PendingTab: FunctionComponent<{ projectId: string }> = ({
                   />
                 )
               }}
-            </List>
+            </List> */}
           </PBody>
         </PLSide>
         <PRSide>

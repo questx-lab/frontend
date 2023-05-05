@@ -47,7 +47,7 @@ const Status: FunctionComponent<{ projectId: string }> = ({ projectId }) => {
       onListClaimQuestHistoryChanged,
       questsSelect.map((e) => e.id!)
     )
-    setTimeout(() => onLoadingModalChanged(false), 500)
+    setTimeout(() => onLoadingModalChanged(false), 200)
   }
 
   const items = display.map((e, i) => (

@@ -60,7 +60,7 @@ const Action: FunctionComponent<{
           listClaimPendingQuestState.filter((e) => e.id !== claimQuest.id!)
         )
       }
-      setTimeout(() => onLoadingModalChanged(false), 500)
+      setTimeout(() => onLoadingModalChanged(false), 200)
     } catch (error) {
       toast.error('Error network')
       onLoadingModalChanged(false)

@@ -602,3 +602,11 @@ export const EmptyBox = tw.div`
   rounded-lg
   bg-gray-100
 `
+
+export const NothingBox = tw.div`
+  flex
+  justify-center
+  items-center
+  w-full
+  h-full
+`

@@ -153,7 +153,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
         e.map((e) => e.id!)
       )
     }
-    setTimeout(() => onLoadingModalChanged(false), 500)
+    setTimeout(() => onLoadingModalChanged(false), 200)
   }
 
   return (

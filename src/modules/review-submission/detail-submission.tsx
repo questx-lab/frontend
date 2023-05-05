@@ -72,7 +72,7 @@ const Action: FunctionComponent<{
         )
         onSubmissionModalChanged(false)
       }
-      setTimeout(() => onLoadingModalChanged(false), 500)
+      setTimeout(() => onLoadingModalChanged(false), 200)
     } catch (error) {
       toast.error('Error network')
       onLoadingModalChanged(false)
