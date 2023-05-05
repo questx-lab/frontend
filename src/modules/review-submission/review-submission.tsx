@@ -7,6 +7,7 @@ import { Head, Main, Tab, TabItem } from '@/styles/quest-review.style'
 import { MMain, Wrap } from '@/styles/questboard.style'
 import { ArrowPathIcon, ClockIcon } from '@heroicons/react/24/outline'
 
+import DetailSubmission from './detail-submission'
 import HistoryTab from './history'
 import PendingTab from './pending'
 
@@ -50,6 +51,7 @@ export default function ReviewSubmission({ projectId }: { projectId: string }) {
           <Gap height={6} />
           {tabReviewState === TabReviewEnum.PENDING && <PendingTab />}
           {tabReviewState === TabReviewEnum.HISTORY && <HistoryTab />}
+          <DetailSubmission />
         </Main>
       </MMain>
     </Wrap>

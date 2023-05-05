@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { ReviewBtnEnum } from '@/constants/project.const'
-import { Combobox } from '@headlessui/react'
+import { Combobox, Dialog } from '@headlessui/react'
 
 export const Main = tw.div`
   w-full
@@ -84,6 +84,7 @@ export const PBox = tw.div`
   gap-4
   w-full
   h-full
+  pb-[60px]
 `
 
 export const PWrap = tw.div`
@@ -208,12 +209,14 @@ export const SubmitItem = tw.div`
   flex-row
   justify-start
   items-center
+  w-full
 `
 
 export const SItem = tw.div`
   flex
   flex-col
   w-full
+  cursor-pointer
 `
 
 export const SInfo = tw.div`
@@ -253,7 +256,7 @@ export const STag = tw.div`
 `
 
 export const STextInfo = tw.p`
-  mt-2
+  mb-2
   font-normal
   text-lg
   text-black
@@ -268,6 +271,14 @@ export const RCard = tw.div`
 
 export const RICard = tw.div`
   px-6
+`
+
+export const BtnSubmitWrap = tw.div`
+  w-full
+  flex
+  flex-row
+  gap-4
+  my-4
 `
 
 export const PAction = tw.div`
@@ -388,7 +399,7 @@ export const CbbInput = styled(Combobox.Input)(tw`
   border 
   border-solid 
   border-gray-300 
-  py-2 
+  py-3
   pl-3 
   pr-10 
   text-sm 
@@ -446,4 +457,114 @@ export const WrapIcon = tw.span`
   flex 
   items-center 
   pl-3
+`
+
+export const ModalContent = styled(Dialog.Panel)(
+  tw`
+  w-1/2
+  max-2xl:w-[calc(100%_-_70px)]
+  h-full
+  bg-white 
+  text-center 
+  align-middle 
+  overflow-hidden
+  shadow-xl 
+  transition-all
+  flex
+  flex-col
+  justify-start
+  items-center
+  rounded-lg
+  `
+)
+
+export const ModalBox = tw.div`
+  flex 
+  h-full
+  items-center 
+  justify-center 
+  text-center
+  py-6
+`
+
+export const MDHead = tw.div`
+  w-full
+  flex
+  flex-row
+  justify-between
+  items-center
+  px-8
+  py-4
+  text-2xl
+  font-normal
+  text-black
+  border
+  border-solid
+  border-gray-200
+`
+
+export const MDBody = tw.div`
+  flex
+  flex-row
+  w-full
+  h-full
+  overflow-y-scroll
+`
+
+export const MDLeftSide = tw.div`
+  w-2/5
+  flex
+  flex-col
+  p-6
+  border-r
+  border-solid
+  border-gray-200
+  justify-start
+  items-start
+`
+
+export const MDPadding = tw.div`
+  px-6
+  w-full
+  flex
+  flex-col
+  justify-start
+  items-start
+`
+
+export const MDRightSide = tw.div`
+  w-3/5
+  flex
+  flex-col
+  py-6
+  justify-start
+  items-start
+`
+
+export const MDTitle = tw.span`
+  font-medium
+  text-lg
+  text-black
+`
+
+export const MDDes = tw.p`
+  font-light
+  text-lg
+  text-gray-700
+  text-start
+`
+
+export const MDInfo = tw.div`
+  flex
+  flex-row
+  justify-between
+  items-center
+  w-full
+`
+
+export const EmptyBox = tw.div`
+  w-full
+  h-64
+  rounded-lg
+  bg-gray-100
 `

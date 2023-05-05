@@ -5,6 +5,7 @@ import {
   QuestTypeEnum,
   ReviewStatusEnum,
 } from '@/constants/project.const'
+import { QuestType } from '@/types/project.type'
 
 export interface NewQuestModel {
   title: string
@@ -29,6 +30,10 @@ export interface NewQuestModel {
   reviewStatus: number
   chooseQuestsHistory: string[]
   chooseQuestsPending: string[]
+  submissionModal: boolean
+  allCheckHistory: boolean
+  allCheckPending: boolean
+  questActive: QuestType
 
   // Actions
   onTitleChanged: Action<NewQuestModel, string>
@@ -53,6 +58,10 @@ export interface NewQuestModel {
   onReviewStatusChanged: Action<NewQuestModel, number>
   onChooseQuestsHistoryChanged: Action<NewQuestModel, string[]>
   onChooseQuestsPendingChanged: Action<NewQuestModel, string[]>
+  onSubmissionModalChanged: Action<NewQuestModel, boolean>
+  onAllCheckHistoryChanged: Action<NewQuestModel, boolean>
+  onAllCheckPendingChanged: Action<NewQuestModel, boolean>
+  onQuestActiveChanged: Action<NewQuestModel, QuestType>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -78,6 +87,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   reviewStatus: ReviewStatusEnum.SUCCESS,
   chooseQuestsHistory: [],
   chooseQuestsPending: [],
+  submissionModal: false,
+  allCheckHistory: false,
+  allCheckPending: false,
+  questActive: {},
 
   onTitleChanged: action((state, newTitle) => {
     state.title = newTitle
@@ -165,6 +178,22 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   onChooseQuestsPendingChanged: action((state, quests) => {
     state.chooseQuestsPending = quests
+  }),
+
+  onSubmissionModalChanged: action((state, modal) => {
+    state.submissionModal = modal
+  }),
+
+  onAllCheckHistoryChanged: action((state, status) => {
+    state.allCheckHistory = status
+  }),
+
+  onAllCheckPendingChanged: action((state, status) => {
+    state.allCheckPending = status
+  }),
+
+  onQuestActiveChanged: action((state, quest) => {
+    state.questActive = quest
   }),
 })
 
