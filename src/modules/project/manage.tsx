@@ -9,7 +9,6 @@ import SidebarCustom from '@/components/sidebar'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { QuestDetail } from '@/modules/project/quest-detail'
-import { ClaimReward } from '@/modules/project/claim-reward'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { NewProjectStore } from '@/store/local/project.store'
 import { PSave } from '@/styles/button.style'
@@ -57,9 +56,6 @@ export default function ManageProject({ project }: { project: ProjectType }) {
   const [openTemplate, setOpenTemplate] = useState<boolean>(false)
 
   // data
-  const questDetailModalState = NewQuestStore.useStoreState(
-    (state) => state.questDetailModal
-  )
   const questActiveState = NewQuestStore.useStoreState(
     (state) => state.questActive
   )
@@ -78,22 +74,18 @@ export default function ManageProject({ project }: { project: ProjectType }) {
     (actions) => actions.onSubmissionModalChanged
   )
 
-  const onQuestDetailModalChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onQuestDetailModalChanged
-  )
-
   // Handler
   const onCloseModal = () => {
     onSubmissionModalChanged(false)
   }
   const onClickQuestItem = (e: QuestType) => {
     onQuestActiveChanged(e)
-    onQuestDetailModalChanged(true)
+
+    onSubmissionModalChanged(true)
   }
 
   const onNextQuestDetailModal = () => {
-    onSubmissionModalChanged(true)
-    onQuestDetailModalChanged(false)
+    onSubmissionModalChanged(false)
   }
 
   useEffect(() => {
@@ -260,7 +252,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
       >
         <QuestFrame isTemplate id={project.id} />
       </TemplateModal>
-      <BaseModal isOpen={questDetailModalState}>
+      <BaseModal isOpen={submisisonModalState}>
         <ModalBox>
           <ModalContent>
             <MDHead>
@@ -272,22 +264,8 @@ export default function ManageProject({ project }: { project: ProjectType }) {
             </MDHead>
             <QuestDetail
               quest={questActiveState}
-              next={onNextQuestDetailModal}
+              onClose={onNextQuestDetailModal}
             />
-          </ModalContent>
-        </ModalBox>
-      </BaseModal>
-      <BaseModal isOpen={submisisonModalState}>
-        <ModalBox>
-          <ModalContent>
-            <MDHead>
-              {'Invite 2 fren to join our crew3 🤲'}
-              <XMarkIcon
-                className='w-7 h-7 cursor-pointer'
-                onClick={onCloseModal}
-              />
-            </MDHead>
-            <ClaimReward quest={questActiveState} onClose={onCloseModal} />
           </ModalContent>
         </ModalBox>
       </BaseModal>

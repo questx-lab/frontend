@@ -25,3 +25,12 @@ export const PointText = tw.span`
   text-lg
   font-medium
 `
+
+export const ContentContainer = tw.div`
+  text-left
+  p-6
+  m-5
+  border-2
+  rounded-md
+  border-[#E5E7EB]
+`

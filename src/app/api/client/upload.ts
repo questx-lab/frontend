@@ -8,7 +8,12 @@ export const uploadImageApi = async (
 ): Promise<Rsp<{ url: string }>> => {
   const { data } = await api.post(
     EnvVariables.NEXT_PUBLIC_API_URL + '/uploadImage',
-    body
+    body,
+    {
+      headers: {
+        'Content-Type': `multipart/form-data`,
+      },
+    }
   )
   return data
 }
