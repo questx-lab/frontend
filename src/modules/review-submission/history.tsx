@@ -9,7 +9,7 @@ import {
   ReviewBtnEnum,
   TabReviewEnum,
 } from '@/constants/project.const'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
 import {
@@ -38,10 +38,10 @@ import SubmissionItem from './submission-item'
 
 const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
   // action
-  const onListClaimQuestHistoryChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onListClaimQuestHistoryChanged
+  const onHistoryClaimsChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onHistoryClaimsChanged
   )
-  const onLoadingModalChanged = NewQuestStore.useStoreActions(
+  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 
@@ -56,7 +56,7 @@ const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
       if (rs.error) {
         toast.error(rs.error)
       } else {
-        onListClaimQuestHistoryChanged([])
+        onHistoryClaimsChanged([])
       }
 
       setTimeout(() => onLoadingModalChanged(false), 200)
@@ -101,7 +101,7 @@ const RenderBody: FunctionComponent<{
         const active = choose.includes(data[index])
         return (
           <SubmissionItem
-            tab={TabReviewEnum.PENDING}
+            tab={TabReviewEnum.HISTORY}
             active={active}
             onChange={onCheck}
             payload={data[index]}
@@ -118,30 +118,30 @@ const HistoryTab: FunctionComponent<{ projectId: string }> = ({
   projectId,
 }) => {
   // Data
-  const chooseQuestsState = NewQuestStore.useStoreState(
+  const chooseQuestsState = NewQuestClaimStore.useStoreState(
     (state) => state.chooseQuestsHistory
   )
-  const allCheckHistoryState = NewQuestStore.useStoreState(
+  const allCheckHistoryState = NewQuestClaimStore.useStoreState(
     (state) => state.allCheckHistory
   )
-  const listClaimQuestState = NewQuestStore.useStoreState(
-    (state) => state.listClaimHistoryQuest
+  const historyClaims = NewQuestClaimStore.useStoreState(
+    (state) => state.historyClaims
   )
   const questsSelect = NewQuestSearchStore.useStoreState(
     (state) => state.questsSelect
   )
 
   // Actions
-  const onChooseQuestsChanged = NewQuestStore.useStoreActions(
+  const onChooseQuestsChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onChooseQuestsHistoryChanged
   )
-  const onAllCheckHistoryChanged = NewQuestStore.useStoreActions(
+  const onAllCheckHistoryChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onAllCheckHistoryChanged
   )
-  const onListClaimQuestHistoryChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onListClaimQuestHistoryChanged
+  const onHistoryClaimsChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onHistoryClaimsChanged
   )
-  const onLoadingModalChanged = NewQuestStore.useStoreActions(
+  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 
@@ -155,7 +155,7 @@ const HistoryTab: FunctionComponent<{ projectId: string }> = ({
     getListClaimQuest(
       projectId,
       'rejected,accepted',
-      onListClaimQuestHistoryChanged,
+      onHistoryClaimsChanged,
       questsSelect.map((e) => e.id!)
     )
     setTimeout(() => onLoadingModalChanged(false), 200)
@@ -165,7 +165,7 @@ const HistoryTab: FunctionComponent<{ projectId: string }> = ({
   const onCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
     onAllCheckHistoryChanged(e.target.checked)
     if (e.target.checked) {
-      onChooseQuestsChanged(listClaimQuestState.map((e) => e))
+      onChooseQuestsChanged(historyClaims.map((e) => e))
     } else {
       onChooseQuestsChanged([])
     }
@@ -202,7 +202,7 @@ const HistoryTab: FunctionComponent<{ projectId: string }> = ({
           <PBody>
             <RenderBody
               onCheck={onCheck}
-              data={listClaimQuestState}
+              data={historyClaims}
               choose={chooseQuestsState}
             />
           </PBody>

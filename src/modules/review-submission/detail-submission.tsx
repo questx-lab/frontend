@@ -10,7 +10,7 @@ import {
   ReviewBtnEnum,
 } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
 import { Divider, Gap } from '@/styles/common.style'
 import { MulInputBox } from '@/styles/input.style'
 import {
@@ -41,18 +41,18 @@ const Action: FunctionComponent<{
   claimQuest: ClaimQuestType
 }> = ({ claimQuest }) => {
   // data
-  const listClaimPendingQuestState = NewQuestStore.useStoreState(
-    (state) => state.listClaimPendingQuest
+  const pendingClaims = NewQuestClaimStore.useStoreState(
+    (state) => state.pendingClaims
   )
 
   // action
-  const onListClaimQuestPendingChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onListClaimQuestPendingChanged
+  const onPendingClaimsChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onPendingClaimsChanged
   )
-  const onLoadingModalChanged = NewQuestStore.useStoreActions(
+  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
-  const onSubmissionModalChanged = NewQuestStore.useStoreActions(
+  const onSubmissionModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onSubmissionModalChanged
   )
 
@@ -67,8 +67,8 @@ const Action: FunctionComponent<{
       if (rs.error) {
         toast.error(rs.error)
       } else {
-        onListClaimQuestPendingChanged(
-          listClaimPendingQuestState.filter((e) => e.id !== claimQuest.id)
+        onPendingClaimsChanged(
+          pendingClaims.filter((e) => e.id !== claimQuest.id)
         )
         onSubmissionModalChanged(false)
       }
@@ -114,15 +114,15 @@ const Action: FunctionComponent<{
 
 const DetailSubmission: FunctionComponent = () => {
   // Data
-  const submisisonModalState = NewQuestStore.useStoreState(
+  const submisisonModalState = NewQuestClaimStore.useStoreState(
     (state) => state.submissionModal
   )
-  const claimQuestActive = NewQuestStore.useStoreState(
+  const claimQuestActive = NewQuestClaimStore.useStoreState(
     (state) => state.claimQuestActive
   )
 
   // Actions
-  const onSubmissionModalChanged = NewQuestStore.useStoreActions(
+  const onSubmissionModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onSubmissionModalChanged
   )
 

@@ -11,7 +11,7 @@ import {
   TabReviewEnum,
 } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
 import {
   Btn,
   PAction,
@@ -33,15 +33,15 @@ const Action: FunctionComponent<{
   tab: number
 }> = ({ claimQuest, tab }) => {
   // data
-  const listClaimPendingQuestState = NewQuestStore.useStoreState(
-    (state) => state.listClaimPendingQuest
+  const pendingClaims = NewQuestClaimStore.useStoreState(
+    (state) => state.pendingClaims
   )
 
   // action
-  const onListClaimQuestPendingChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onListClaimQuestPendingChanged
+  const onPendingClaimsChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onPendingClaimsChanged
   )
-  const onLoadingModalChanged = NewQuestStore.useStoreActions(
+  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 
@@ -56,8 +56,8 @@ const Action: FunctionComponent<{
       if (rs.error) {
         toast.error(rs.error)
       } else {
-        onListClaimQuestPendingChanged(
-          listClaimPendingQuestState.filter((e) => e.id !== claimQuest.id!)
+        onPendingClaimsChanged(
+          pendingClaims.filter((e) => e.id !== claimQuest.id!)
         )
       }
       setTimeout(() => onLoadingModalChanged(false), 200)
@@ -105,10 +105,10 @@ const SubmissionItem: FunctionComponent<{
   style?: CSSProperties
 }> = ({ tab, active, onChange, payload, style }) => {
   // Actions
-  const onSubmissionModalChanged = NewQuestStore.useStoreActions(
+  const onSubmissionModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onSubmissionModalChanged
   )
-  const onClaimQuestActiveChanged = NewQuestStore.useStoreActions(
+  const onClaimQuestActiveChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onClaimQuestActiveChanged
   )
 

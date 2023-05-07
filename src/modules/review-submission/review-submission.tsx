@@ -4,8 +4,8 @@ import { listClaimedQuestsApi } from '@/app/api/client/quest'
 import SidebarCustom from '@/components/sidebar'
 import { SideEnum, TabReviewEnum } from '@/constants/project.const'
 import ControlPanel from '@/modules/new-quest/control-panel'
-import { NewQuestStore } from '@/store/local/new-quest.store'
 import { NewProjectStore } from '@/store/local/project.store'
+import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
 import { Head, Main, Tab, TabItem } from '@/styles/quest-review.style'
@@ -46,7 +46,7 @@ export default function ReviewSubmission({ projectId }: { projectId: string }) {
   const tabReviewState = NewProjectStore.useStoreState(
     (state) => state.tabReview
   )
-  const loadingModal = NewQuestStore.useStoreState(
+  const loadingModal = NewQuestClaimStore.useStoreState(
     (state) => state.loadingModal
   )
 

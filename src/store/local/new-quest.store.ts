@@ -1,11 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import {
-  ClaimedQuestStatus,
-  QuestRecurrence,
-  QuestTypeEnum,
-} from '@/constants/project.const'
-import { ClaimQuestType, QuestType } from '@/types/project.type'
+import { QuestRecurrence, QuestTypeEnum } from '@/constants/project.const'
+import { QuestType } from '@/types/project.type'
 
 export interface NewQuestModel {
   title: string
@@ -27,17 +23,9 @@ export interface NewQuestModel {
   activeReward: number
   twitterType: string
   isOpenModal: boolean
-  reviewStatus: string
-  chooseQuestsHistory: ClaimQuestType[]
-  chooseQuestsPending: ClaimQuestType[]
   submissionModal: boolean
-  allCheckHistory: boolean
-  allCheckPending: boolean
-  questActive: QuestType
-  listClaimPendingQuest: ClaimQuestType[]
-  listClaimHistoryQuest: ClaimQuestType[]
-  claimQuestActive: ClaimQuestType
   loadingModal: boolean
+  questActive: QuestType
 
   // Actions
   onTitleChanged: Action<NewQuestModel, string>
@@ -59,17 +47,9 @@ export interface NewQuestModel {
   onTwitterTypeChanged: Action<NewQuestModel, string>
   onSpaceUrlTwChanged: Action<NewQuestModel, string>
   onOpenModalChanged: Action<NewQuestModel, boolean>
-  onReviewStatusChanged: Action<NewQuestModel, string>
-  onChooseQuestsHistoryChanged: Action<NewQuestModel, ClaimQuestType[]>
-  onChooseQuestsPendingChanged: Action<NewQuestModel, ClaimQuestType[]>
   onSubmissionModalChanged: Action<NewQuestModel, boolean>
-  onAllCheckHistoryChanged: Action<NewQuestModel, boolean>
-  onAllCheckPendingChanged: Action<NewQuestModel, boolean>
-  onQuestActiveChanged: Action<NewQuestModel, QuestType>
-  onListClaimQuestPendingChanged: Action<NewQuestModel, ClaimQuestType[]>
-  onListClaimQuestHistoryChanged: Action<NewQuestModel, ClaimQuestType[]>
-  onClaimQuestActiveChanged: Action<NewQuestModel, ClaimQuestType>
   onLoadingModalChanged: Action<NewQuestModel, boolean>
+  onQuestActiveChanged: Action<NewQuestModel, QuestType>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -92,17 +72,9 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   twitterType: '',
   spaceUrlTw: '',
   isOpenModal: false,
-  reviewStatus: ClaimedQuestStatus.ALL,
-  chooseQuestsHistory: [],
-  chooseQuestsPending: [],
   submissionModal: false,
-  allCheckHistory: false,
-  allCheckPending: false,
-  questActive: {},
-  listClaimPendingQuest: [],
-  listClaimHistoryQuest: [],
-  claimQuestActive: {},
   loadingModal: false,
+  questActive: {},
 
   onTitleChanged: action((state, newTitle) => {
     state.title = newTitle
@@ -180,48 +152,16 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.isOpenModal = openModal
   }),
 
-  onReviewStatusChanged: action((state, status) => {
-    state.reviewStatus = status
-  }),
-
-  onChooseQuestsHistoryChanged: action((state, quests) => {
-    state.chooseQuestsHistory = quests
-  }),
-
-  onChooseQuestsPendingChanged: action((state, quests) => {
-    state.chooseQuestsPending = quests
-  }),
-
   onSubmissionModalChanged: action((state, modal) => {
     state.submissionModal = modal
   }),
 
-  onAllCheckHistoryChanged: action((state, status) => {
-    state.allCheckHistory = status
-  }),
-
-  onAllCheckPendingChanged: action((state, status) => {
-    state.allCheckPending = status
+  onLoadingModalChanged: action((state, loading) => {
+    state.loadingModal = loading
   }),
 
   onQuestActiveChanged: action((state, quest) => {
     state.questActive = quest
-  }),
-
-  onListClaimQuestPendingChanged: action((state, claims) => {
-    state.listClaimPendingQuest = claims
-  }),
-
-  onListClaimQuestHistoryChanged: action((state, claims) => {
-    state.listClaimHistoryQuest = claims
-  }),
-
-  onClaimQuestActiveChanged: action((state, claim) => {
-    state.claimQuestActive = claim
-  }),
-
-  onLoadingModalChanged: action((state, loading) => {
-    state.loadingModal = loading
   }),
 })
 

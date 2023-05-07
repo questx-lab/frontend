@@ -9,7 +9,7 @@ import {
   ReviewBtnEnum,
   TabReviewEnum,
 } from '@/constants/project.const'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import {
   Btn,
@@ -36,10 +36,10 @@ import SubmissionItem from './submission-item'
 
 const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
   // action
-  const onListClaimQuestPendingChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onListClaimQuestPendingChanged
+  const onPendingClaimsChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onPendingClaimsChanged
   )
-  const onLoadingModalChanged = NewQuestStore.useStoreActions(
+  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 
@@ -63,7 +63,7 @@ const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
       if (rs.error) {
         toast.error(rs.error)
       } else {
-        onListClaimQuestPendingChanged([])
+        onPendingClaimsChanged([])
       }
 
       setTimeout(() => onLoadingModalChanged(false), 200)
@@ -129,30 +129,30 @@ const PendingTab: FunctionComponent<{ projectId: string }> = ({
   projectId,
 }) => {
   // Data
-  const chooseQuestsState = NewQuestStore.useStoreState(
+  const chooseQuestsState = NewQuestClaimStore.useStoreState(
     (state) => state.chooseQuestsPending
   )
-  const allCheckPendingState = NewQuestStore.useStoreState(
+  const allCheckPendingState = NewQuestClaimStore.useStoreState(
     (state) => state.allCheckPending
   )
-  const listClaimQuestState = NewQuestStore.useStoreState(
-    (state) => state.listClaimPendingQuest
+  const listClaimQuestState = NewQuestClaimStore.useStoreState(
+    (state) => state.pendingClaims
   )
   const questsSelect = NewQuestSearchStore.useStoreState(
     (state) => state.questsSelect
   )
 
   // Actions
-  const onChooseQuestsChanged = NewQuestStore.useStoreActions(
+  const onChooseQuestsChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onChooseQuestsPendingChanged
   )
-  const onAllCheckPendingChanged = NewQuestStore.useStoreActions(
+  const onAllCheckPendingChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onAllCheckPendingChanged
   )
-  const onListClaimQuestPendingChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onListClaimQuestPendingChanged
+  const onPendingClaimsChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onPendingClaimsChanged
   )
-  const onLoadingModalChanged = NewQuestStore.useStoreActions(
+  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 
@@ -166,7 +166,7 @@ const PendingTab: FunctionComponent<{ projectId: string }> = ({
     await getListClaimQuest(
       projectId,
       'pending',
-      onListClaimQuestPendingChanged,
+      onPendingClaimsChanged,
       questsSelect.map((e) => e.id!)
     )
     setTimeout(() => onLoadingModalChanged(false), 200)

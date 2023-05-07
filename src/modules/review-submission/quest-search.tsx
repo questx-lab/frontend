@@ -4,8 +4,8 @@ import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
 import { TabReviewEnum } from '@/constants/project.const'
-import { NewQuestStore } from '@/store/local/new-quest.store'
 import { NewProjectStore } from '@/store/local/project.store'
+import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
 import { LabelInput } from '@/styles/myProjects.style'
@@ -76,7 +76,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
   const tabReviewState = NewProjectStore.useStoreState(
     (state) => state.tabReview
   )
-  const reviewStatus = NewQuestStore.useStoreState(
+  const reviewStatus = NewQuestClaimStore.useStoreState(
     (state) => state.reviewStatus
   )
 
@@ -93,13 +93,13 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
   const onListQuestQueryChanged = NewQuestSearchStore.useStoreActions(
     (actions) => actions.onListQuestQueryChanged
   )
-  const onListClaimQuestHistoryChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onListClaimQuestHistoryChanged
+  const onHistoryClaimsChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onHistoryClaimsChanged
   )
-  const onListClaimQuestPendingChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onListClaimQuestPendingChanged
+  const onPendingClaimsChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onPendingClaimsChanged
   )
-  const onLoadingModalChanged = NewQuestStore.useStoreActions(
+  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 
@@ -141,7 +141,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
       await getListClaimQuest(
         projectId,
         reviewStatus,
-        onListClaimQuestHistoryChanged,
+        onHistoryClaimsChanged,
         e.map((e) => e.id!)
       )
     }
@@ -149,7 +149,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
       await getListClaimQuest(
         projectId,
         'pending',
-        onListClaimQuestPendingChanged,
+        onPendingClaimsChanged,
         e.map((e) => e.id!)
       )
     }
