@@ -28,7 +28,7 @@ import {
   WrapElementBox,
 } from '@/styles/myProjects.style'
 import { ReqNewProject } from '@/types/project.type'
-import ProgressModal from '@/widgets/progress-modal'
+import { ProgressModal } from '@/widgets/modal'
 
 const categories = [
   'NFT',

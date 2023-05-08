@@ -1,13 +1,21 @@
-import { ChangeEvent, FunctionComponent } from 'react'
+import { ChangeEvent, FunctionComponent, useEffect } from 'react'
 
+import toast from 'react-hot-toast'
 import { FixedSizeList as List } from 'react-window'
 
-import { ReviewBtnEnum, TabReviewEnum } from '@/constants/project.const'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import { updateClaimedQuestApi } from '@/app/api/client/quest'
+import {
+  ClaimedQuestStatus,
+  ReviewBtnEnum,
+  TabReviewEnum,
+} from '@/constants/project.const'
+import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
+import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import {
   Btn,
   BtnBox,
   BtnWrap,
+  NothingBox,
   PBody,
   PBox,
   PCheckBox,
@@ -19,61 +27,165 @@ import {
   PTabHeader,
   PWrap,
 } from '@/styles/quest-review.style'
+import { ClaimQuestType } from '@/types/project.type'
 import { BarsArrowDownIcon } from '@heroicons/react/24/solid'
 
 import QuestSearch from './quest-search'
-import Recurrence from './recurrence'
+import { getListClaimQuest } from './review-submission'
 import SubmissionItem from './submission-item'
 
-const DummyData = Array.from({ length: 1000 }, (_, i) => i)
+const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
+  // action
+  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setPendingClaims
+  )
+  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onLoadingModalChanged
+  )
 
-const RenderBtn: FunctionComponent<{ data: string[] }> = ({ data }) => {
   if (!data.length) {
     return <></>
+  }
+
+  // Handler
+  const updateClaimQuest = async (submissionType: number) => {
+    try {
+      let action = ClaimedQuestStatus.ACCEPTED
+      if (submissionType === ReviewBtnEnum.REJECT) {
+        action = ClaimedQuestStatus.REJECTED
+      }
+
+      const rs = await updateClaimedQuestApi(
+        data.map((e) => e.id!),
+        action
+      )
+
+      if (rs.error) {
+        toast.error(rs.error)
+      } else {
+        setPendingClaims([])
+      }
+
+      setTimeout(() => onLoadingModalChanged(false), 200)
+    } catch (error) {
+      toast.error('Error network')
+      onLoadingModalChanged(false)
+    }
+  }
+  const onSubmit = (submitType: number) => {
+    updateClaimQuest(submitType)
+    onLoadingModalChanged(true)
   }
 
   return (
     <BtnWrap>
       <BtnBox>
-        <Btn btnType={ReviewBtnEnum.REJECT}>{'Reject'}</Btn>
-        <Btn btnType={ReviewBtnEnum.ACCEPT}>{'Accept'}</Btn>
+        <Btn
+          onClick={() => onSubmit(ReviewBtnEnum.REJECT)}
+          btnType={ReviewBtnEnum.REJECT}
+        >
+          {'Reject'}
+        </Btn>
+        <Btn
+          onClick={() => onSubmit(ReviewBtnEnum.ACCEPT)}
+          btnType={ReviewBtnEnum.ACCEPT}
+        >
+          {'Accept'}
+        </Btn>
       </BtnBox>
     </BtnWrap>
   )
 }
 
-const PendingTab: FunctionComponent = () => {
+const RenderBody: FunctionComponent<{
+  data: ClaimQuestType[]
+  choose: ClaimQuestType[]
+  onCheck: (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => void
+}> = ({ data, choose, onCheck }) => {
+  if (data.length === 0) {
+    return <NothingBox>{'Nothing quest claim'}</NothingBox>
+  }
+
+  return (
+    <List height={600} itemCount={data.length} itemSize={120} width={'100%'}>
+      {({ index, style }) => {
+        const active = choose.includes(data[index])
+        return (
+          <SubmissionItem
+            tab={TabReviewEnum.PENDING}
+            active={active}
+            onChange={onCheck}
+            payload={data[index]}
+            key={index}
+            style={style}
+          />
+        )
+      }}
+    </List>
+  )
+}
+
+const PendingTab: FunctionComponent<{ projectId: string }> = ({
+  projectId,
+}) => {
   // Data
-  const chooseQuestsState = NewQuestStore.useStoreState(
+  const chooseQuestsState = NewQuestClaimStore.useStoreState(
     (state) => state.chooseQuestsPending
   )
-  const allCheckPendingState = NewQuestStore.useStoreState(
+  const allCheckPendingState = NewQuestClaimStore.useStoreState(
     (state) => state.allCheckPending
+  )
+  const listClaimQuestState = NewQuestClaimStore.useStoreState(
+    (state) => state.pendingClaims
+  )
+  const questsSelect = NewQuestSearchStore.useStoreState(
+    (state) => state.questsSelect
   )
 
   // Actions
-  const onChooseQuestsChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onChooseQuestsPendingChanged
+  const setChoosePending = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setChoosePending
   )
-  const onAllCheckPendingChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onAllCheckPendingChanged
+  const setCheckPending = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setCheckPending
+  )
+  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setPendingClaims
+  )
+  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onLoadingModalChanged
   )
 
-  // Handler
+  // Hook
+  useEffect(() => {
+    getClaimsQuest()
+  }, [])
+
+  const getClaimsQuest = async () => {
+    onLoadingModalChanged(true)
+    await getListClaimQuest(
+      projectId,
+      'pending',
+      setPendingClaims,
+      questsSelect.map((e) => e.id!)
+    )
+    setTimeout(() => onLoadingModalChanged(false), 200)
+  }
+
   const onCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
-    onAllCheckPendingChanged(e.target.checked)
+    setCheckPending(e.target.checked)
     if (e.target.checked) {
-      onChooseQuestsChanged(DummyData.map((e) => e.toString()))
+      setChoosePending(listClaimQuestState.map((e) => e))
     } else {
-      onChooseQuestsChanged([])
+      setChoosePending([])
     }
   }
 
-  const onCheck = (e: ChangeEvent<HTMLInputElement>, value: string) => {
+  const onCheck = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
     if (e.target.checked) {
-      onChooseQuestsChanged([...chooseQuestsState, value])
+      setChoosePending([...chooseQuestsState, value])
     } else {
-      onChooseQuestsChanged(chooseQuestsState.filter((data) => data !== value))
+      setChoosePending(chooseQuestsState.filter((data) => data !== value))
     }
   }
 
@@ -98,26 +210,33 @@ const PendingTab: FunctionComponent = () => {
           </PTabHeader>
 
           <PBody>
-            <List
+            <RenderBody
+              onCheck={onCheck}
+              data={listClaimQuestState}
+              choose={chooseQuestsState}
+            />
+            {/* <List
               height={600}
-              itemCount={DummyData.length}
+              itemCount={listClaimQuestState.length}
               itemSize={120}
               width={'100%'}
             >
               {({ index, style }) => {
-                const active = chooseQuestsState.includes(index.toString())
+                const active = chooseQuestsState.includes(
+                  listClaimQuestState[index]
+                )
                 return (
                   <SubmissionItem
-                    submissionType={TabReviewEnum.PENDING}
+                    tab={TabReviewEnum.PENDING}
                     active={active}
                     onChange={onCheck}
-                    payload={index.toString()}
+                    payload={listClaimQuestState[index]}
                     key={index}
                     style={style}
                   />
                 )
               }}
-            </List>
+            </List> */}
           </PBody>
         </PLSide>
         <PRSide>
@@ -125,8 +244,8 @@ const PendingTab: FunctionComponent = () => {
             <PTabHeader>
               <PHeaderInfo>{'Filter'}</PHeaderInfo>
             </PTabHeader>
-            <Recurrence />
-            <QuestSearch />
+            {/* <Recurrence /> */}
+            <QuestSearch projectId={projectId} />
           </PRWrap>
         </PRSide>
       </PBox>

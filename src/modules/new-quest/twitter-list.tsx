@@ -23,25 +23,25 @@ const TwitterList: FunctionComponent = () => {
     (state) => state.actionTwitter
   )
   const onActionTwitterChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onActionTwitterChanged
+    (actions) => actions.setActionTwitter
   )
   const onAccountLinkChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onAccountLinkChanged
+    (actions) => actions.setAccountLink
   )
   const onTweetUrlChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onTweetUrlChanged
+    (actions) => actions.setTweetUrl
   )
   const onReplyTwChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onReplyTwChanged
+    (actions) => actions.setReplyTwitter
   )
   const onContentTwChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onContentTwChanged
+    (actions) => actions.setContentTwitter
   )
   const onTwitterTypeChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onTwitterTypeChanged
+    (actions) => actions.setTwitterType
   )
   const onSpaceUrlTwChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onSpaceUrlTwChanged
+    (actions) => actions.setSpaceUrl
   )
 
   const handleActive = (i: string) => {

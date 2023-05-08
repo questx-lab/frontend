@@ -1,6 +1,13 @@
 import { EnvVariables } from '@/constants/env.const'
+import { ClaimedQuestStatus } from '@/constants/project.const'
 import { Rsp } from '@/types/common.type'
-import { LQuestType, QuestType, ReqNewQuestType } from '@/types/project.type'
+import {
+  ClaimQuestType,
+  ListClaimQuestType,
+  LQuestType,
+  QuestType,
+  ReqNewQuestType,
+} from '@/types/project.type'
 
 import { api } from '../config/api'
 
@@ -27,6 +34,64 @@ export const listQuestApi = async (
 export const getQuestApi = async (id: string): Promise<Rsp<QuestType>> => {
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL + `/getQuest?id=${id}`
+  )
+  return data
+}
+
+export const getClaimedQuestApi = async (
+  id: string
+): Promise<Rsp<ClaimQuestType>> => {
+  const { data } = await api.get(
+    EnvVariables.NEXT_PUBLIC_API_URL + `/getClaimedQuest?id=${id}`
+  )
+  return data
+}
+
+export const listClaimedQuestsApi = async (
+  id: string,
+  status: string = ClaimedQuestStatus.PENDING,
+  filterQuestIds: string[],
+  offset: number = 0,
+  limit: number = 10
+): Promise<Rsp<ListClaimQuestType>> => {
+  const questIds = filterQuestIds.join(',')
+  const { data } = await api.get(
+    EnvVariables.NEXT_PUBLIC_API_URL +
+      `/getListClaimedQuest?project_id=${id}&status=${status}&quest_id=${questIds}&offset=${offset}&limit=${limit}`
+  )
+  return data
+}
+
+export const updateClaimedQuestApi = async (
+  ids: string[],
+  action: string
+): Promise<Rsp<{}>> => {
+  const { data } = await api.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + `/review`,
+    {
+      ids,
+      action,
+    }
+  )
+  return data
+}
+
+export const updateAllClaimedQuestApi = async (
+  action: string,
+  project_id: string,
+  filter_quest_id: string,
+  filter_user_id: string,
+  excludes: string[]
+) => {
+  const { data } = await api.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + `/reviewAll`,
+    {
+      action,
+      project_id,
+      filter_quest_id,
+      filter_user_id,
+      excludes,
+    }
   )
   return data
 }

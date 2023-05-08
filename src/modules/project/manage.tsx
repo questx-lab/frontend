@@ -42,9 +42,8 @@ import {
   WrapQuestboard,
 } from '@/styles/questboard.style'
 import { ProjectType, QuestType } from '@/types/project.type'
-import BaseModal from '@/widgets/base-modal'
+import { BaseModal, TemplateModal } from '@/widgets/modal'
 import { SmallSpinner } from '@/widgets/spinner'
-import { TemplateModal } from '@/widgets/template-modal'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import ControlPanel from '../new-quest/control-panel'
 import QuestFrame from '../new-quest/quest-frame'
@@ -68,7 +67,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
     (actions) => actions.onProjectChanged
   )
   const onQuestActiveChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onQuestActiveChanged
+    (actions) => actions.setQuestActive
   )
   const onSubmissionModalChanged = NewQuestStore.useStoreActions(
     (actions) => actions.onSubmissionModalChanged

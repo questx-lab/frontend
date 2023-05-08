@@ -113,12 +113,18 @@ export enum ReviewBtnEnum {
   PENDING,
 }
 
-export enum ReviewStatusEnum {
-  SUCCESS,
-  FAIL,
+export enum ClaimedQuestStatus {
+  PENDING = 'pending',
+  ACCEPTED = 'accepted',
+  REJECTED = 'rejected',
+  AUTO_REJECTED = 'auto_rejected',
+  AUTO_ACCEPTED = 'auto_accepted',
+  ALL = 'rejected,accepted',
 }
 
-export const ReviewStatusMap = new Map<ReviewStatusEnum, String>([
-  [ReviewStatusEnum.SUCCESS, 'Success'],
-  [ReviewStatusEnum.FAIL, 'Fail'],
+export const ClaimedQuestMap = new Map<ClaimedQuestStatus, String>([
+  [ClaimedQuestStatus.PENDING, 'Pending'],
+  [ClaimedQuestStatus.ACCEPTED, 'Accept'],
+  [ClaimedQuestStatus.REJECTED, 'Reject'],
+  [ClaimedQuestStatus.ALL, 'All'],
 ])

@@ -1,10 +1,6 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import {
-  QuestRecurrence,
-  QuestTypeEnum,
-  ReviewStatusEnum,
-} from '@/constants/project.const'
+import { QuestRecurrence, QuestTypeEnum } from '@/constants/project.const'
 import { QuestType } from '@/types/project.type'
 
 export interface NewQuestModel {
@@ -27,43 +23,45 @@ export interface NewQuestModel {
   activeReward: number
   twitterType: string
   isOpenModal: boolean
-  reviewStatus: number
-  chooseQuestsHistory: string[]
-  chooseQuestsPending: string[]
   submissionModal: boolean
+  chooseQuestsHistory: any[]
+  chooseQuestsPending: any[]
+
   questDetailModal: boolean
   allCheckHistory: boolean
   allCheckPending: boolean
+  loadingModal: boolean
+
   questActive: QuestType
 
   // Actions
-  onTitleChanged: Action<NewQuestModel, string>
-  onDescriptionChanged: Action<NewQuestModel, string>
-  onQuestTypeChanged: Action<NewQuestModel, QuestTypeEnum>
-  onTextAutoValid: Action<NewQuestModel, boolean>
-  onRecurrenceChanged: Action<NewQuestModel, QuestRecurrence>
-  onAnswerChanged: Action<NewQuestModel, string>
-  onVisitLinkChanged: Action<NewQuestModel, string>
-  onTelegramLinkChanged: Action<NewQuestModel, string>
-  onInvitesChanged: Action<NewQuestModel, number>
-  onActionTwitterChanged: Action<NewQuestModel, string[]>
-  onAccountLinkChanged: Action<NewQuestModel, string>
-  onTweetUrlChanged: Action<NewQuestModel, string>
-  onReplyTwChanged: Action<NewQuestModel, string>
-  onContentTwChanged: Action<NewQuestModel, string>
-  onPointRewardChanged: Action<NewQuestModel, number>
-  onActiveRewardChanged: Action<NewQuestModel, number>
-  onTwitterTypeChanged: Action<NewQuestModel, string>
-  onSpaceUrlTwChanged: Action<NewQuestModel, string>
+  setTitle: Action<NewQuestModel, string>
+  setDescription: Action<NewQuestModel, string>
+  setQuestType: Action<NewQuestModel, QuestTypeEnum>
+  setTextAutoValidation: Action<NewQuestModel, boolean>
+  setRecurrence: Action<NewQuestModel, QuestRecurrence>
+  setAnswer: Action<NewQuestModel, string>
+  setVisitLink: Action<NewQuestModel, string>
+  setTelegramLink: Action<NewQuestModel, string>
+  setInvites: Action<NewQuestModel, number>
+  setActionTwitter: Action<NewQuestModel, string[]>
+  setAccountLink: Action<NewQuestModel, string>
+  setTweetUrl: Action<NewQuestModel, string>
+  setReplyTwitter: Action<NewQuestModel, string>
+  setContentTwitter: Action<NewQuestModel, string>
+  setPointReward: Action<NewQuestModel, number>
+  setActiveReward: Action<NewQuestModel, number>
+  setTwitterType: Action<NewQuestModel, string>
+  setSpaceUrl: Action<NewQuestModel, string>
   onOpenModalChanged: Action<NewQuestModel, boolean>
-  onReviewStatusChanged: Action<NewQuestModel, number>
-  onChooseQuestsHistoryChanged: Action<NewQuestModel, string[]>
-  onChooseQuestsPendingChanged: Action<NewQuestModel, string[]>
   onSubmissionModalChanged: Action<NewQuestModel, boolean>
+
   onQuestDetailModalChanged: Action<NewQuestModel, boolean>
   onAllCheckHistoryChanged: Action<NewQuestModel, boolean>
-  onAllCheckPendingChanged: Action<NewQuestModel, boolean>
-  onQuestActiveChanged: Action<NewQuestModel, QuestType>
+  // onQuestActiveChanged: Action<NewQuestModel, QuestType>
+  onLoadingModalChanged: Action<NewQuestModel, boolean>
+
+  setQuestActive: Action<NewQuestModel, QuestType>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -86,101 +84,91 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   twitterType: '',
   spaceUrlTw: '',
   isOpenModal: false,
-  reviewStatus: ReviewStatusEnum.SUCCESS,
+  // reviewStatus: ReviewStatusEnum.SUCCESS,
   chooseQuestsHistory: [],
   chooseQuestsPending: [],
   questDetailModal: false,
   submissionModal: false,
-  allCheckHistory: false,
-  allCheckPending: false,
+  loadingModal: false,
   questActive: {},
 
-  onTitleChanged: action((state, newTitle) => {
+  allCheckHistory: false,
+  allCheckPending: false,
+
+  setTitle: action((state, newTitle) => {
     state.title = newTitle
   }),
 
-  onDescriptionChanged: action((state, newDescription) => {
+  setDescription: action((state, newDescription) => {
     state.description = newDescription
   }),
 
-  onQuestTypeChanged: action((state, newQuestType) => {
+  setQuestType: action((state, newQuestType) => {
     state.questType = newQuestType
   }),
 
-  onTextAutoValid: action((state, newTextAutoValid) => {
+  setTextAutoValidation: action((state, newTextAutoValid) => {
     state.textAutoValid = newTextAutoValid
   }),
 
-  onRecurrenceChanged: action((state, newRecurrence) => {
+  setRecurrence: action((state, newRecurrence) => {
     state.recurrence = newRecurrence
   }),
 
-  onAnswerChanged: action((state, newAnwser) => {
+  setAnswer: action((state, newAnwser) => {
     state.anwser = newAnwser
   }),
 
-  onVisitLinkChanged: action((state, newVisitLink) => {
+  setVisitLink: action((state, newVisitLink) => {
     state.visitLink = newVisitLink
   }),
 
-  onTelegramLinkChanged: action((state, newTelegramLink) => {
+  setTelegramLink: action((state, newTelegramLink) => {
     state.telegramLink = newTelegramLink
   }),
 
-  onInvitesChanged: action((state, newInvites) => {
+  setInvites: action((state, newInvites) => {
     state.invites = newInvites
   }),
 
-  onActionTwitterChanged: action((state, actionTwitters) => {
+  setActionTwitter: action((state, actionTwitters) => {
     state.actionTwitter = actionTwitters
   }),
 
-  onAccountLinkChanged: action((state, newAccountUrl) => {
+  setAccountLink: action((state, newAccountUrl) => {
     state.accountUrl = newAccountUrl
   }),
 
-  onTweetUrlChanged: action((state, newTweetUrl) => {
+  setTweetUrl: action((state, newTweetUrl) => {
     state.tweetUrl = newTweetUrl
   }),
 
-  onReplyTwChanged: action((state, newReplyTw) => {
+  setReplyTwitter: action((state, newReplyTw) => {
     state.replyTw = newReplyTw
   }),
 
-  onContentTwChanged: action((state, newContentTw) => {
+  setContentTwitter: action((state, newContentTw) => {
     state.contentTw = newContentTw
   }),
 
-  onPointRewardChanged: action((state, newPointReward) => {
+  setPointReward: action((state, newPointReward) => {
     state.pointReward = newPointReward
   }),
 
-  onActiveRewardChanged: action((state, newActiveReward) => {
+  setActiveReward: action((state, newActiveReward) => {
     state.activeReward = newActiveReward
   }),
 
-  onTwitterTypeChanged: action((state, newTwitterType) => {
+  setTwitterType: action((state, newTwitterType) => {
     state.twitterType = newTwitterType
   }),
 
-  onSpaceUrlTwChanged: action((state, spaceUrlTw) => {
+  setSpaceUrl: action((state, spaceUrlTw) => {
     state.spaceUrlTw = spaceUrlTw
   }),
 
   onOpenModalChanged: action((state, openModal) => {
     state.isOpenModal = openModal
-  }),
-
-  onReviewStatusChanged: action((state, status) => {
-    state.reviewStatus = status
-  }),
-
-  onChooseQuestsHistoryChanged: action((state, quests) => {
-    state.chooseQuestsHistory = quests
-  }),
-
-  onChooseQuestsPendingChanged: action((state, quests) => {
-    state.chooseQuestsPending = quests
   }),
 
   onSubmissionModalChanged: action((state, modal) => {
@@ -195,11 +183,11 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.allCheckHistory = status
   }),
 
-  onAllCheckPendingChanged: action((state, status) => {
-    state.allCheckPending = status
+  onLoadingModalChanged: action((state, loading) => {
+    state.loadingModal = loading
   }),
 
-  onQuestActiveChanged: action((state, quest) => {
+  setQuestActive: action((state, quest) => {
     state.questActive = quest
   }),
 })

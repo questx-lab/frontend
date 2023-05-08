@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { ReviewBtnEnum } from '@/constants/project.const'
+import { ClaimedQuestStatus, ReviewBtnEnum } from '@/constants/project.const'
 import { Combobox, Dialog } from '@headlessui/react'
 
 export const Main = tw.div`
@@ -237,6 +237,9 @@ export const SName = tw.span`
   font-medium
   text-sm
   text-gray-800
+  max-w-[300px]
+  text-ellipsis 
+  overflow-hidden 
 `
 
 export const SDes = tw.span`
@@ -245,7 +248,10 @@ export const SDes = tw.span`
   text-gray-500
 `
 
-export const STag = tw.div`
+export const STag = styled.div<{ claimStatus?: string }>(
+  ({ claimStatus = ClaimedQuestStatus.PENDING }) => [
+    claimStatus === ClaimedQuestStatus.PENDING &&
+      tw`
   text-sm
   font-normal
   text-[#B45309]
@@ -253,7 +259,35 @@ export const STag = tw.div`
   px-3
   rounded-lg
   bg-[#FEF3C7]
-`
+  `,
+    claimStatus === ClaimedQuestStatus.ACCEPTED &&
+      tw`
+  text-sm
+  font-normal
+  text-success-700
+  py-1
+  px-3
+  rounded-lg
+  bg-success-50
+  border
+  border-solid
+  border-success-300
+  `,
+    claimStatus === ClaimedQuestStatus.REJECTED &&
+      tw`
+  text-sm
+  font-normal
+  text-danger-700
+  py-1
+  px-3
+  rounded-lg
+  bg-danger-50
+  border
+  border-solid
+  border-danger-300
+  `,
+  ]
+)
 
 export const STextInfo = tw.p`
   mb-2
@@ -567,4 +601,12 @@ export const EmptyBox = tw.div`
   h-64
   rounded-lg
   bg-gray-100
+`
+
+export const NothingBox = tw.div`
+  flex
+  justify-center
+  items-center
+  w-full
+  h-full
 `

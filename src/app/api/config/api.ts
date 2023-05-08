@@ -64,7 +64,7 @@ api.interceptors.response.use(
           try {
             const data = await refreshTokenApi(refreshToken)
 
-            if (!data.data.error) {
+            if (!data.error) {
               // 5. set header and cookies
               originalRequest.headers['Authorization'] =
                 'Bearer ' + data.data.access_token
