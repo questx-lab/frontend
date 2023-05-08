@@ -36,8 +36,8 @@ import SubmissionItem from './submission-item'
 
 const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
   // action
-  const onPendingClaimsChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onPendingClaimsChanged
+  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setPendingClaims
   )
   const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
@@ -63,7 +63,7 @@ const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
       if (rs.error) {
         toast.error(rs.error)
       } else {
-        onPendingClaimsChanged([])
+        setPendingClaims([])
       }
 
       setTimeout(() => onLoadingModalChanged(false), 200)
@@ -143,14 +143,14 @@ const PendingTab: FunctionComponent<{ projectId: string }> = ({
   )
 
   // Actions
-  const onChooseQuestsChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onChooseQuestsPendingChanged
+  const setChoosePending = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setChoosePending
   )
-  const onAllCheckPendingChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onAllCheckPendingChanged
+  const setCheckPending = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setCheckPending
   )
-  const onPendingClaimsChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onPendingClaimsChanged
+  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setPendingClaims
   )
   const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
@@ -166,26 +166,26 @@ const PendingTab: FunctionComponent<{ projectId: string }> = ({
     await getListClaimQuest(
       projectId,
       'pending',
-      onPendingClaimsChanged,
+      setPendingClaims,
       questsSelect.map((e) => e.id!)
     )
     setTimeout(() => onLoadingModalChanged(false), 200)
   }
 
   const onCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
-    onAllCheckPendingChanged(e.target.checked)
+    setCheckPending(e.target.checked)
     if (e.target.checked) {
-      onChooseQuestsChanged(listClaimQuestState.map((e) => e))
+      setChoosePending(listClaimQuestState.map((e) => e))
     } else {
-      onChooseQuestsChanged([])
+      setChoosePending([])
     }
   }
 
   const onCheck = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
     if (e.target.checked) {
-      onChooseQuestsChanged([...chooseQuestsState, value])
+      setChoosePending([...chooseQuestsState, value])
     } else {
-      onChooseQuestsChanged(chooseQuestsState.filter((data) => data !== value))
+      setChoosePending(chooseQuestsState.filter((data) => data !== value))
     }
   }
 

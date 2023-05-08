@@ -38,8 +38,8 @@ const Action: FunctionComponent<{
   )
 
   // action
-  const onPendingClaimsChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onPendingClaimsChanged
+  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setPendingClaims
   )
   const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
@@ -56,9 +56,7 @@ const Action: FunctionComponent<{
       if (rs.error) {
         toast.error(rs.error)
       } else {
-        onPendingClaimsChanged(
-          pendingClaims.filter((e) => e.id !== claimQuest.id!)
-        )
+        setPendingClaims(pendingClaims.filter((e) => e.id !== claimQuest.id!))
       }
       setTimeout(() => onLoadingModalChanged(false), 200)
     } catch (error) {
@@ -108,8 +106,8 @@ const SubmissionItem: FunctionComponent<{
   const onSubmissionModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onSubmissionModalChanged
   )
-  const onClaimQuestActiveChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onClaimQuestActiveChanged
+  const setClaimActive = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setClaimActive
   )
 
   // Handler
@@ -118,11 +116,7 @@ const SubmissionItem: FunctionComponent<{
   }
 
   return (
-    <SRow
-      active={active}
-      style={style}
-      onClick={() => onClaimQuestActiveChanged(payload)}
-    >
+    <SRow active={active} style={style} onClick={() => setClaimActive(payload)}>
       <SubmitItem>
         <PCheckBox
           checked={active}

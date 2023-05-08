@@ -17,7 +17,7 @@ export default function Recurrence() {
   ]
 
   // Actions
-  const onRecurrenceChanged = NewQuestStore.useStoreActions(
+  const setRecurrence = NewQuestStore.useStoreActions(
     (actions) => actions.setRecurrence
   )
 
@@ -26,7 +26,7 @@ export default function Recurrence() {
       active={recurrence === e}
       key={i}
       onClick={() => {
-        onRecurrenceChanged(e)
+        setRecurrence(e)
       }}
     >
       {QuestRecurrencesMap.get(e)}

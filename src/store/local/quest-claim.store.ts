@@ -1,7 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { ClaimedQuestStatus, QuestRecurrence } from '@/constants/project.const'
-import { ClaimQuestType, QuestType } from '@/types/project.type'
+import { ClaimQuestType } from '@/types/project.type'
 
 interface QuestClaimModel {
   pendingClaims: ClaimQuestType[]
@@ -13,22 +13,20 @@ interface QuestClaimModel {
   allCheckHistory: boolean
   allCheckPending: boolean
   loadingModal: boolean
-  questActive: QuestType
   submissionModal: boolean
   recurrence: QuestRecurrence
 
-  onAllCheckHistoryChanged: Action<QuestClaimModel, boolean>
-  onAllCheckPendingChanged: Action<QuestClaimModel, boolean>
-  onClaimQuestActiveChanged: Action<QuestClaimModel, ClaimQuestType>
-  onChooseQuestsHistoryChanged: Action<QuestClaimModel, ClaimQuestType[]>
-  onChooseQuestsPendingChanged: Action<QuestClaimModel, ClaimQuestType[]>
-  onReviewStatusChanged: Action<QuestClaimModel, string>
-  onPendingClaimsChanged: Action<QuestClaimModel, ClaimQuestType[]>
-  onHistoryClaimsChanged: Action<QuestClaimModel, ClaimQuestType[]>
+  setCheckHistory: Action<QuestClaimModel, boolean>
+  setCheckPending: Action<QuestClaimModel, boolean>
+  setClaimActive: Action<QuestClaimModel, ClaimQuestType>
+  setChooseHistory: Action<QuestClaimModel, ClaimQuestType[]>
+  setChoosePending: Action<QuestClaimModel, ClaimQuestType[]>
+  setReviewStatus: Action<QuestClaimModel, string>
+  setPendingClaims: Action<QuestClaimModel, ClaimQuestType[]>
+  setHistoryClaims: Action<QuestClaimModel, ClaimQuestType[]>
   onLoadingModalChanged: Action<QuestClaimModel, boolean>
-  onQuestActiveChanged: Action<QuestClaimModel, QuestType>
   onSubmissionModalChanged: Action<QuestClaimModel, boolean>
-  onRecurrenceChanged: Action<QuestClaimModel, QuestRecurrence>
+  setRecurrence: Action<QuestClaimModel, QuestRecurrence>
 }
 
 export const NewQuestClaimStore = createContextStore<QuestClaimModel>({
@@ -41,38 +39,37 @@ export const NewQuestClaimStore = createContextStore<QuestClaimModel>({
   historyClaims: [],
   claimQuestActive: {},
   loadingModal: false,
-  questActive: {},
   submissionModal: false,
   recurrence: QuestRecurrence.ONCE,
 
-  onReviewStatusChanged: action((state, status) => {
+  setReviewStatus: action((state, status) => {
     state.reviewStatus = status
   }),
 
-  onChooseQuestsHistoryChanged: action((state, quests) => {
+  setChooseHistory: action((state, quests) => {
     state.chooseQuestsHistory = quests
   }),
 
-  onChooseQuestsPendingChanged: action((state, quests) => {
+  setChoosePending: action((state, quests) => {
     state.chooseQuestsPending = quests
   }),
 
-  onAllCheckHistoryChanged: action((state, status) => {
+  setCheckHistory: action((state, status) => {
     state.allCheckHistory = status
   }),
 
-  onAllCheckPendingChanged: action((state, status) => {
+  setCheckPending: action((state, status) => {
     state.allCheckPending = status
   }),
-  onPendingClaimsChanged: action((state, claims) => {
+  setPendingClaims: action((state, claims) => {
     state.pendingClaims = claims
   }),
 
-  onHistoryClaimsChanged: action((state, claims) => {
+  setHistoryClaims: action((state, claims) => {
     state.historyClaims = claims
   }),
 
-  onClaimQuestActiveChanged: action((state, claim) => {
+  setClaimActive: action((state, claim) => {
     state.claimQuestActive = claim
   }),
 
@@ -80,15 +77,11 @@ export const NewQuestClaimStore = createContextStore<QuestClaimModel>({
     state.loadingModal = loading
   }),
 
-  onQuestActiveChanged: action((state, quest) => {
-    state.questActive = quest
-  }),
-
   onSubmissionModalChanged: action((state, modal) => {
     state.submissionModal = modal
   }),
 
-  onRecurrenceChanged: action((state, newRecurrence) => {
+  setRecurrence: action((state, newRecurrence) => {
     state.recurrence = newRecurrence
   }),
 })

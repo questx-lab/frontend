@@ -3,36 +3,36 @@ import { action, Action, createContextStore } from 'easy-peasy'
 import { QuestType } from '@/types/project.type'
 
 interface QuestSearchModel {
-  listQuests: QuestType[]
+  quests: QuestType[]
   questsSelect: QuestType[]
   query: string
-  listQuestQuery: QuestType[]
+  questsQuery: QuestType[]
 
-  onListQuestsChanged: Action<QuestSearchModel, QuestType[]>
-  onQuestsSelectChanged: Action<QuestSearchModel, QuestType[]>
-  onQueryChanged: Action<QuestSearchModel, string>
-  onListQuestQueryChanged: Action<QuestSearchModel, QuestType[]>
+  setQuests: Action<QuestSearchModel, QuestType[]>
+  setQuestsSelect: Action<QuestSearchModel, QuestType[]>
+  setQuery: Action<QuestSearchModel, string>
+  setQuestsQuery: Action<QuestSearchModel, QuestType[]>
 }
 
 export const NewQuestSearchStore = createContextStore<QuestSearchModel>({
-  listQuests: [],
+  quests: [],
   questsSelect: [],
   query: '',
-  listQuestQuery: [],
+  questsQuery: [],
 
-  onListQuestsChanged: action((state, quests) => {
-    state.listQuests = quests
+  setQuests: action((state, quests) => {
+    state.quests = quests
   }),
 
-  onQuestsSelectChanged: action((state, quests) => {
+  setQuestsSelect: action((state, quests) => {
     state.questsSelect = quests
   }),
 
-  onQueryChanged: action((state, query) => {
+  setQuery: action((state, query) => {
     state.query = query
   }),
 
-  onListQuestQueryChanged: action((state, queries) => {
-    state.listQuestQuery = queries
+  setQuestsQuery: action((state, queries) => {
+    state.questsQuery = queries
   }),
 })
