@@ -286,3 +286,15 @@ export const BtnDraft = tw.button`
   border-[1ox]
   border-gray-300
 `
+
+export const GotoTwitterBtn = tw.button`
+  text-sm 
+  text-[#1DA1F2] 
+  py-2 
+  px-4 
+  rounded-lg
+  border
+  border-solid
+  border-[1ox]
+  border-[#1DA1F2] 
+`

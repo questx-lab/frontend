@@ -1,7 +1,7 @@
-import { FunctionComponent, useState, useRef, ChangeEvent } from 'react'
+import { FunctionComponent, useState, useRef } from 'react'
 import Image from 'next/image'
 import { StorageConst } from '@/constants/storage.const'
-import { FullWidthBtn } from '@/styles/button.style'
+import { FullWidthBtn, GotoTwitterBtn } from '@/styles/button.style'
 import {
   Title,
   Description,
@@ -23,6 +23,7 @@ const claimType = {
   IMAGE: 'image',
   URL: 'url',
   QUIZ: 'quiz',
+  TWITTER: 'twitter_follow',
 }
 
 // mock quizzes
@@ -91,19 +92,7 @@ export const QuestDetail: FunctionComponent<{
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [currentQuiz, setCurrentQuiz] = useState<number>(0)
   const [chosenAnswers, setChosenAnswers] = useState<string[]>([])
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone()
-
-  const handleUploadClick = () => {
-    inputRef.current?.click()
-  }
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) {
-      return
-    }
-
-    setFile(e.target.files[0])
-  }
+  const { acceptedFiles, getRootProps, open, getInputProps } = useDropzone()
 
   const files = acceptedFiles.map((file) => (
     <li key={file.name}>
@@ -190,7 +179,7 @@ export const QuestDetail: FunctionComponent<{
 
   const withText = () => {
     return (
-      <div className='px-6 pt-6'>
+      <div className='px-6'>
         <Title>Mission</Title>
         <Gap height={2} />
         <Description>Join the community Weekly event.</Description>
@@ -210,17 +199,13 @@ export const QuestDetail: FunctionComponent<{
             <div {...getRootProps({ className: 'dropzone' })}>
               <input {...getInputProps()} />
               <div className='w-full h-32 border-2 border-dotted rounded'>
-                <div className='px-32 pt-9'>
-                  <FullWidthBtn> Add files</FullWidthBtn>
+                <div className='pt-9 flex justify-center'>
+                  <FullWidthBtn className='w-32'> Add files</FullWidthBtn>
                 </div>
                 <Gap height={2} />
-                <div className='px-32 pb-9'>Accepts .gif, .jpg, and .png</div>
+                <div className='text-center'>Accepts .gif, .jpg, and .png</div>
               </div>
             </div>
-            <aside>
-              <h4>Files</h4>
-              <ul>{files}</ul>
-            </aside>
           </section>
         )}
 
@@ -234,11 +219,55 @@ export const QuestDetail: FunctionComponent<{
       </div>
     )
   }
+
+  const withTwitter = () => {
+    return (
+      <div className='px-6'>
+        <Title>Mission 🎯</Title>
+        <Gap height={2} />
+        <Description>
+          Just like reply and retweet the post, this quest will auto validate
+          when you finish.
+        </Description>
+        <Gap height={4} />
+        <GotoTwitterBtn>
+          <div className='flex'>
+            <Image
+              width={30}
+              height={30}
+              src={StorageConst.TWITTER_DIR.src}
+              alt={StorageConst.TWITTER_DIR.alt}
+              color='#1DA1F2'
+            />
+            <Gap width={2} />
+            <div className='flex items-center'>Connect Twitter </div>
+          </div>
+        </GotoTwitterBtn>
+      </div>
+    )
+  }
+
+  const getDescription = () => {
+    console.log(quest?.type)
+
+    switch (quest?.type) {
+      case claimType.QUIZ:
+        return withQuizzes()
+      case claimType.TWITTER:
+        return withTwitter()
+
+      default:
+        return withText()
+    }
+  }
+
   return (
-    <div className='grid gap-1 grid-cols-2 w-full'>
-      <ContentContainer className={claimType.QUIZ ? 'px-0' : '' + ' w-480'}>
-        {quest?.type === claimType.QUIZ ? withQuizzes() : withText()}
-      </ContentContainer>
+    <div className='grid gap-1 grid-cols-3 w-full'>
+      <div className='col-span-2'>
+        <ContentContainer className={claimType.QUIZ ? 'px-0' : '' + ' w-full'}>
+          {getDescription()}
+        </ContentContainer>
+      </div>
       <div>
         <ContentContainer>
           <Title>Reward</Title>
