@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useRef } from 'react'
+import { FunctionComponent, useState, ChangeEvent } from 'react'
 import Image from 'next/image'
 import { StorageConst } from '@/constants/storage.const'
 import { FullWidthBtn, GotoTwitterBtn } from '@/styles/button.style'
@@ -88,31 +88,33 @@ export const QuestDetail: FunctionComponent<{
   quest: QuestType | null
   onClose: () => void
 }> = ({ quest, onClose }) => {
-  const [file, setFile] = useState<Blob>()
-  const inputRef = useRef<HTMLInputElement | null>(null)
+  const [input, setInput] = useState<string>('')
   const [currentQuiz, setCurrentQuiz] = useState<number>(0)
   const [chosenAnswers, setChosenAnswers] = useState<string[]>([])
-  const { acceptedFiles, getRootProps, open, getInputProps } = useDropzone()
-
-  const files = acceptedFiles.map((file) => (
-    <li key={file.name}>
-      {file.name} - {file.size} bytes
-    </li>
-  ))
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone()
 
   const chooseAnswer = (answer_id: string) => {
     setChosenAnswers([...chosenAnswers, answer_id])
     if (currentQuiz < quizzes.length) setCurrentQuiz(currentQuiz + 1)
   }
 
+  const onChangeInput = (e: any) => {
+    setInput(e.target?.value)
+  }
+
   const submit = async () => {
-    let input = inputRef.current?.value ?? ''
+    let inp = input
     if (quest?.type === claimType.IMAGE) {
       var formData = new FormData()
+      if (acceptedFiles.length == 0) {
+        toast.error('Must upload file')
+        return
+      }
+      const file = acceptedFiles[0]
       formData.append('image', file || '')
       try {
         const data = await uploadImageApi(formData)
-        input = data?.data?.url || ''
+        inp = data?.data?.url || ''
       } catch (error) {
         toast.error('Error while upload file')
         return
@@ -121,7 +123,7 @@ export const QuestDetail: FunctionComponent<{
     try {
       const data = await claimRewardApi({
         quest_id: quest?.id,
-        input: input,
+        input: inp,
       })
       if (data.error) {
         toast.error(data.error)
@@ -210,11 +212,15 @@ export const QuestDetail: FunctionComponent<{
         )}
 
         {quest?.type === claimType.TEXT && (
-          <InputBox ref={inputRef} placeholder='YES' />
+          <InputBox value={input} onChange={onChangeInput} placeholder='YES' />
         )}
 
         {quest?.type === claimType.URL && (
-          <InputBox ref={inputRef} placeholder='https://twitter.com/' />
+          <InputBox
+            value={input}
+            onChange={onChangeInput}
+            placeholder='https://twitter.com/'
+          />
         )}
       </div>
     )
