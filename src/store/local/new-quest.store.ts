@@ -1,10 +1,6 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import {
-  QuestRecurrence,
-  QuestTypeEnum,
-  ReviewStatusEnum,
-} from '@/constants/project.const'
+import { QuestRecurrence, QuestTypeEnum } from '@/constants/project.const'
 import { QuestType } from '@/types/project.type'
 
 export interface NewQuestModel {
@@ -27,12 +23,8 @@ export interface NewQuestModel {
   activeReward: number
   twitterType: string
   isOpenModal: boolean
-  reviewStatus: number
-  chooseQuestsHistory: string[]
-  chooseQuestsPending: string[]
   submissionModal: boolean
-  allCheckHistory: boolean
-  allCheckPending: boolean
+  loadingModal: boolean
   questActive: QuestType
 
   // Actions
@@ -55,12 +47,8 @@ export interface NewQuestModel {
   onTwitterTypeChanged: Action<NewQuestModel, string>
   onSpaceUrlTwChanged: Action<NewQuestModel, string>
   onOpenModalChanged: Action<NewQuestModel, boolean>
-  onReviewStatusChanged: Action<NewQuestModel, number>
-  onChooseQuestsHistoryChanged: Action<NewQuestModel, string[]>
-  onChooseQuestsPendingChanged: Action<NewQuestModel, string[]>
   onSubmissionModalChanged: Action<NewQuestModel, boolean>
-  onAllCheckHistoryChanged: Action<NewQuestModel, boolean>
-  onAllCheckPendingChanged: Action<NewQuestModel, boolean>
+  onLoadingModalChanged: Action<NewQuestModel, boolean>
   onQuestActiveChanged: Action<NewQuestModel, QuestType>
 }
 
@@ -84,12 +72,8 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   twitterType: '',
   spaceUrlTw: '',
   isOpenModal: false,
-  reviewStatus: ReviewStatusEnum.SUCCESS,
-  chooseQuestsHistory: [],
-  chooseQuestsPending: [],
   submissionModal: false,
-  allCheckHistory: false,
-  allCheckPending: false,
+  loadingModal: false,
   questActive: {},
 
   onTitleChanged: action((state, newTitle) => {
@@ -168,28 +152,12 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.isOpenModal = openModal
   }),
 
-  onReviewStatusChanged: action((state, status) => {
-    state.reviewStatus = status
-  }),
-
-  onChooseQuestsHistoryChanged: action((state, quests) => {
-    state.chooseQuestsHistory = quests
-  }),
-
-  onChooseQuestsPendingChanged: action((state, quests) => {
-    state.chooseQuestsPending = quests
-  }),
-
   onSubmissionModalChanged: action((state, modal) => {
     state.submissionModal = modal
   }),
 
-  onAllCheckHistoryChanged: action((state, status) => {
-    state.allCheckHistory = status
-  }),
-
-  onAllCheckPendingChanged: action((state, status) => {
-    state.allCheckPending = status
+  onLoadingModalChanged: action((state, loading) => {
+    state.loadingModal = loading
   }),
 
   onQuestActiveChanged: action((state, quest) => {

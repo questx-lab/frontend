@@ -1,20 +1,26 @@
 'use client'
 
 import { FunctionComponent, useState } from 'react'
-import { toast } from 'react-hot-toast'
+
 import {
   EasyPeasyConfig,
   FilterActionTypes,
   StateMapper,
   Store,
 } from 'easy-peasy'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-hot-toast'
 
 import { newQuestApi } from '@/app/api/client/quest'
 import { QuestTypeEnum, TwitterEnum } from '@/constants/project.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
+import QuestReward from '@/modules/new-quest/quest-reward'
+import QuestTemplate from '@/modules/new-quest/quest-template'
+import QuestTypeView from '@/modules/new-quest/quest-type'
+import Recurrence from '@/modules/new-quest/recurrence'
 import { NewQuestModel, NewQuestStore } from '@/store/local/new-quest.store'
 import { BtnCreateQuest, BtnDraft } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
@@ -32,13 +38,7 @@ import {
 } from '@/styles/questboard.style'
 import { ReqNewQuestType, ValidationQuest } from '@/types/project.type'
 import Editor from '@/widgets/editor'
-
-import QuestReward from '@/modules/new-quest/quest-reward'
-import QuestTypeView from '@/modules/new-quest/quest-type'
-import Recurrence from '@/modules/new-quest/recurrence'
-import QuestTemplate from '@/modules/new-quest/quest-template'
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
-import ProgressModal from '@/widgets/progress-modal'
+import { ProgressModal } from '@/widgets/modal'
 
 const CreateQuestLabel: FunctionComponent<{
   id: string

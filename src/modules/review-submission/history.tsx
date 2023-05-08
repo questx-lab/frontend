@@ -1,14 +1,22 @@
-import { ChangeEvent, FunctionComponent } from 'react'
+import { ChangeEvent, FunctionComponent, useEffect } from 'react'
 
+import toast from 'react-hot-toast'
 import { FixedSizeList as List } from 'react-window'
 
-import { ReviewBtnEnum, TabReviewEnum } from '@/constants/project.const'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import { updateClaimedQuestApi } from '@/app/api/client/quest'
+import {
+  ClaimedQuestStatus,
+  ReviewBtnEnum,
+  TabReviewEnum,
+} from '@/constants/project.const'
+import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
+import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
 import {
   Btn,
   BtnBox,
   BtnWrap,
+  NothingBox,
   PBody,
   PBox,
   PCheckBox,
@@ -20,16 +28,49 @@ import {
   PTabHeader,
   PWrap,
 } from '@/styles/quest-review.style'
+import { ClaimQuestType } from '@/types/project.type'
 import { BarsArrowDownIcon } from '@heroicons/react/24/solid'
 
 import QuestSearch from './quest-search'
-import Recurrence from './recurrence'
+import { getListClaimQuest } from './review-submission'
 import Status from './status'
 import SubmissionItem from './submission-item'
 
-const DummyData = Array.from({ length: 1000 }, (_, i) => i)
+const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
+  // action
+  const onHistoryClaimsChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onHistoryClaimsChanged
+  )
+  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onLoadingModalChanged
+  )
 
-const RenderBtn: FunctionComponent<{ data: string[] }> = ({ data }) => {
+  // Handler
+  const updateClaimQuest = async () => {
+    try {
+      const rs = await updateClaimedQuestApi(
+        data.map((e) => e.id!),
+        ClaimedQuestStatus.PENDING
+      )
+
+      if (rs.error) {
+        toast.error(rs.error)
+      } else {
+        onHistoryClaimsChanged([])
+      }
+
+      setTimeout(() => onLoadingModalChanged(false), 200)
+    } catch (error) {
+      toast.error('Error network')
+      onLoadingModalChanged(false)
+    }
+  }
+
+  const onSubmit = () => {
+    updateClaimQuest()
+    onLoadingModalChanged(true)
+  }
+
   if (!data.length) {
     return <></>
   }
@@ -37,40 +78,100 @@ const RenderBtn: FunctionComponent<{ data: string[] }> = ({ data }) => {
   return (
     <BtnWrap>
       <BtnBox>
-        <Btn btnType={ReviewBtnEnum.PENDING}>{'Set as Pending'}</Btn>
+        <Btn onClick={onSubmit} btnType={ReviewBtnEnum.PENDING}>
+          {'Set as Pending'}
+        </Btn>
       </BtnBox>
     </BtnWrap>
   )
 }
 
-const HistoryTab: FunctionComponent = () => {
+const RenderBody: FunctionComponent<{
+  data: ClaimQuestType[]
+  choose: ClaimQuestType[]
+  onCheck: (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => void
+}> = ({ data, choose, onCheck }) => {
+  if (data.length === 0) {
+    return <NothingBox>{'Nothing quest claim'}</NothingBox>
+  }
+
+  return (
+    <List height={600} itemCount={data.length} itemSize={120} width={'100%'}>
+      {({ index, style }) => {
+        const active = choose.includes(data[index])
+        return (
+          <SubmissionItem
+            tab={TabReviewEnum.HISTORY}
+            active={active}
+            onChange={onCheck}
+            payload={data[index]}
+            key={index}
+            style={style}
+          />
+        )
+      }}
+    </List>
+  )
+}
+
+const HistoryTab: FunctionComponent<{ projectId: string }> = ({
+  projectId,
+}) => {
   // Data
-  const chooseQuestsState = NewQuestStore.useStoreState(
+  const chooseQuestsState = NewQuestClaimStore.useStoreState(
     (state) => state.chooseQuestsHistory
   )
-  const allCheckHistoryState = NewQuestStore.useStoreState(
+  const allCheckHistoryState = NewQuestClaimStore.useStoreState(
     (state) => state.allCheckHistory
+  )
+  const historyClaims = NewQuestClaimStore.useStoreState(
+    (state) => state.historyClaims
+  )
+  const questsSelect = NewQuestSearchStore.useStoreState(
+    (state) => state.questsSelect
   )
 
   // Actions
-  const onChooseQuestsChanged = NewQuestStore.useStoreActions(
+  const onChooseQuestsChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onChooseQuestsHistoryChanged
   )
-  const onAllCheckHistoryChanged = NewQuestStore.useStoreActions(
+  const onAllCheckHistoryChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onAllCheckHistoryChanged
   )
+  const onHistoryClaimsChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onHistoryClaimsChanged
+  )
+  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.onLoadingModalChanged
+  )
+
+  // Hook
+  useEffect(() => {
+    getClaimsQuest()
+  }, [])
+
+  const getClaimsQuest = async () => {
+    onLoadingModalChanged(true)
+    getListClaimQuest(
+      projectId,
+      'rejected,accepted',
+      onHistoryClaimsChanged,
+      questsSelect.map((e) => e.id!)
+    )
+    setTimeout(() => onLoadingModalChanged(false), 200)
+  }
 
   // Handler
   const onCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
     onAllCheckHistoryChanged(e.target.checked)
     if (e.target.checked) {
-      onChooseQuestsChanged(DummyData.map((e) => e.toString()))
+      onChooseQuestsChanged(historyClaims.map((e) => e))
     } else {
       onChooseQuestsChanged([])
     }
   }
 
-  const onCheck = (e: ChangeEvent<HTMLInputElement>, value: string) => {
+  const onCheck = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
     if (e.target.checked) {
       onChooseQuestsChanged([...chooseQuestsState, value])
     } else {
@@ -99,26 +200,11 @@ const HistoryTab: FunctionComponent = () => {
             </PSort>
           </PTabHeader>
           <PBody>
-            <List
-              height={600}
-              itemCount={DummyData.length}
-              itemSize={120}
-              width={'100%'}
-            >
-              {({ index, style }) => {
-                const active = chooseQuestsState.includes(index.toString())
-                return (
-                  <SubmissionItem
-                    submissionType={TabReviewEnum.HISTORY}
-                    active={active}
-                    onChange={onCheck}
-                    payload={index.toString()}
-                    key={index}
-                    style={style}
-                  />
-                )
-              }}
-            </List>
+            <RenderBody
+              onCheck={onCheck}
+              data={historyClaims}
+              choose={chooseQuestsState}
+            />
           </PBody>
         </PLSide>
         <PRSide>
@@ -126,9 +212,9 @@ const HistoryTab: FunctionComponent = () => {
             <PTabHeader>
               <PHeaderInfo>{'Filter'}</PHeaderInfo>
             </PTabHeader>
-            <Status />
-            <Recurrence />
-            <QuestSearch />
+            <Status projectId={projectId} />
+            {/* <Recurrence /> */}
+            <QuestSearch projectId={projectId} />
           </PRWrap>
           <Gap height={6} />
           <Btn btnType={ReviewBtnEnum.EXPORT}>{'Export CSV'}</Btn>

@@ -4,17 +4,11 @@ import Head from 'next/head'
 import { useRouter } from 'next/navigation'
 import { Toaster } from 'react-hot-toast'
 
-import { getUserApi, refreshTokenApi } from '@/app/api/client/user'
+import { getUserApi } from '@/app/api/client/user'
 import Header from '@/components/header'
 import { useStoreActions, useStoreState } from '@/store/store'
 import { Html, Main } from '@/styles/layout.style'
-import {
-  getAccessToken,
-  getRefreshToken,
-  setAccessToken,
-  setRefreshToken,
-  setUserLocal,
-} from '@/utils/helper'
+import { getAccessToken, getRefreshToken, setUserLocal } from '@/utils/helper'
 
 export const LayoutDefault = ({ children }: { children: ReactNode }) => {
   const isNavBar = useStoreState((state) => state.navBar.isOpen)
@@ -47,7 +41,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     const accessToken = getAccessToken()
 
     if (refreshToken && !accessToken) {
-      loginUser(refreshToken)
+      getUserData()
     }
 
     if (accessToken) {
@@ -61,23 +55,12 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     }
   }, [router])
 
-  const loginUser = async (refreshToken: string) => {
-    try {
-      const data = await refreshTokenApi(refreshToken)
-      if (data.data) {
-        setAccessToken(data.data.access_token)
-        setRefreshToken(data.data.refresh_token)
-        loginAction(true)
-      }
-      getUserData()
-    } catch (error) {}
-  }
-
   const getUserData = async () => {
     try {
       const user = await getUserApi()
       setUserLocal(user.data!)
       actionUser(user.data!)
+      loginAction(true)
     } catch (error) {}
   }
 
