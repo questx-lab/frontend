@@ -18,7 +18,7 @@ export default function Recurrence() {
 
   // Actions
   const onRecurrenceChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onRecurrenceChanged
+    (actions) => actions.setRecurrence
   )
 
   const items = display.map((e, i) => (
