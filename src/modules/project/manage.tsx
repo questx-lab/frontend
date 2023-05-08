@@ -70,7 +70,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
     (actions) => actions.onProjectChanged
   )
   const onQuestActiveChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onQuestActiveChanged
+    (actions) => actions.setQuestActive
   )
   const onSubmissionModalChanged = NewQuestStore.useStoreActions(
     (actions) => actions.onSubmissionModalChanged

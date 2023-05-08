@@ -199,10 +199,10 @@ const QuestFrame: FunctionComponent<{
 
   // Actions
   const onTitleChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onTitleChanged
+    (actions) => actions.setTitle
   )
   const onDescriptionChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onDescriptionChanged
+    (actions) => actions.setDescription
   )
 
   const submitAction = async () => {

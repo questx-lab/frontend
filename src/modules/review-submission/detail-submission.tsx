@@ -46,8 +46,8 @@ const Action: FunctionComponent<{
   )
 
   // action
-  const onPendingClaimsChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onPendingClaimsChanged
+  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setPendingClaims
   )
   const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
@@ -67,9 +67,7 @@ const Action: FunctionComponent<{
       if (rs.error) {
         toast.error(rs.error)
       } else {
-        onPendingClaimsChanged(
-          pendingClaims.filter((e) => e.id !== claimQuest.id)
-        )
+        setPendingClaims(pendingClaims.filter((e) => e.id !== claimQuest.id))
         onSubmissionModalChanged(false)
       }
       setTimeout(() => onLoadingModalChanged(false), 200)

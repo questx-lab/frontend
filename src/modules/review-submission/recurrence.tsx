@@ -20,8 +20,8 @@ export default function Recurrence() {
   ]
 
   // Actions
-  const onRecurrenceChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onRecurrenceChanged
+  const setRecurrence = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setRecurrence
   )
 
   const items = display.map((e, i) => (
@@ -29,7 +29,7 @@ export default function Recurrence() {
       active={recurrence === e}
       key={i}
       onClick={() => {
-        onRecurrenceChanged(e)
+        setRecurrence(e)
       }}
     >
       {QuestRecurrencesMap.get(e)}

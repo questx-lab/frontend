@@ -24,10 +24,10 @@ export default function QuestReward() {
 
   // Actions
   const onActiveRewardChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onActiveRewardChanged
+    (actions) => actions.setActiveReward
   )
   const onPointRewardChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onPointRewardChanged
+    (actions) => actions.setPointReward
   )
 
   const listRewards = QuestRewards.map((e, i) => (

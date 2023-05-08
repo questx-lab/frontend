@@ -38,8 +38,8 @@ import SubmissionItem from './submission-item'
 
 const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
   // action
-  const onHistoryClaimsChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onHistoryClaimsChanged
+  const setHistoryClaims = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setHistoryClaims
   )
   const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
@@ -56,7 +56,7 @@ const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
       if (rs.error) {
         toast.error(rs.error)
       } else {
-        onHistoryClaimsChanged([])
+        setHistoryClaims([])
       }
 
       setTimeout(() => onLoadingModalChanged(false), 200)
@@ -132,14 +132,14 @@ const HistoryTab: FunctionComponent<{ projectId: string }> = ({
   )
 
   // Actions
-  const onChooseQuestsChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onChooseQuestsHistoryChanged
+  const setChooseHistory = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setChooseHistory
   )
-  const onAllCheckHistoryChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onAllCheckHistoryChanged
+  const setCheckHistory = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setCheckHistory
   )
-  const onHistoryClaimsChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onHistoryClaimsChanged
+  const setHistoryClaims = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setHistoryClaims
   )
   const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
@@ -155,7 +155,7 @@ const HistoryTab: FunctionComponent<{ projectId: string }> = ({
     getListClaimQuest(
       projectId,
       'rejected,accepted',
-      onHistoryClaimsChanged,
+      setHistoryClaims,
       questsSelect.map((e) => e.id!)
     )
     setTimeout(() => onLoadingModalChanged(false), 200)
@@ -163,19 +163,19 @@ const HistoryTab: FunctionComponent<{ projectId: string }> = ({
 
   // Handler
   const onCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
-    onAllCheckHistoryChanged(e.target.checked)
+    setCheckHistory(e.target.checked)
     if (e.target.checked) {
-      onChooseQuestsChanged(historyClaims.map((e) => e))
+      setChooseHistory(historyClaims.map((e) => e))
     } else {
-      onChooseQuestsChanged([])
+      setChooseHistory([])
     }
   }
 
   const onCheck = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
     if (e.target.checked) {
-      onChooseQuestsChanged([...chooseQuestsState, value])
+      setChooseHistory([...chooseQuestsState, value])
     } else {
-      onChooseQuestsChanged(chooseQuestsState.filter((data) => data !== value))
+      setChooseHistory(chooseQuestsState.filter((data) => data !== value))
     }
   }
 

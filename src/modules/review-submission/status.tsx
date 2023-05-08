@@ -27,11 +27,11 @@ const Status: FunctionComponent<{ projectId: string }> = ({ projectId }) => {
   ]
 
   // Actions
-  const onReviewStatusChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onReviewStatusChanged
+  const setReviewStatus = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setReviewStatus
   )
-  const onHistoryClaimsChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onHistoryClaimsChanged
+  const setHistoryClaims = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setHistoryClaims
   )
   const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
@@ -40,11 +40,11 @@ const Status: FunctionComponent<{ projectId: string }> = ({ projectId }) => {
   // Handler
   const onClick = async (e: string) => {
     onLoadingModalChanged(true)
-    onReviewStatusChanged(e)
+    setReviewStatus(e)
     await getListClaimQuest(
       projectId,
       e,
-      onHistoryClaimsChanged,
+      setHistoryClaims,
       questsSelect.map((e) => e.id!)
     )
     setTimeout(() => onLoadingModalChanged(false), 200)

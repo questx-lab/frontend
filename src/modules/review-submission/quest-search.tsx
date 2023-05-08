@@ -63,15 +63,13 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
   projectId,
 }) => {
   // data
-  const listQuestsState = NewQuestSearchStore.useStoreState(
-    (state) => state.listQuests
+  const questsQuery = NewQuestSearchStore.useStoreState(
+    (state) => state.questsQuery
   )
+  const questsState = NewQuestSearchStore.useStoreState((state) => state.quests)
   const queryState = NewQuestSearchStore.useStoreState((state) => state.query)
   const questsSelectState = NewQuestSearchStore.useStoreState(
     (state) => state.questsSelect
-  )
-  const listQuestQuery = NewQuestSearchStore.useStoreState(
-    (state) => state.listQuestQuery
   )
   const tabReviewState = NewProjectStore.useStoreState(
     (state) => state.tabReview
@@ -81,23 +79,23 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
   )
 
   // actions
-  const onListQuestsChanged = NewQuestSearchStore.useStoreActions(
-    (actions) => actions.onListQuestsChanged
+  const setQuests = NewQuestSearchStore.useStoreActions(
+    (actions) => actions.setQuests
   )
-  const onQuestsSelectChanged = NewQuestSearchStore.useStoreActions(
-    (actions) => actions.onQuestsSelectChanged
+  const setQuestsSelect = NewQuestSearchStore.useStoreActions(
+    (actions) => actions.setQuestsSelect
   )
-  const onQueryChanged = NewQuestSearchStore.useStoreActions(
-    (actions) => actions.onQueryChanged
+  const setQuery = NewQuestSearchStore.useStoreActions(
+    (actions) => actions.setQuery
   )
-  const onListQuestQueryChanged = NewQuestSearchStore.useStoreActions(
-    (actions) => actions.onListQuestQueryChanged
+  const setQuestsQuery = NewQuestSearchStore.useStoreActions(
+    (actions) => actions.setQuestsQuery
   )
-  const onHistoryClaimsChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onHistoryClaimsChanged
+  const setHistoryClaims = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setHistoryClaims
   )
-  const onPendingClaimsChanged = NewQuestClaimStore.useStoreActions(
-    (actions) => actions.onPendingClaimsChanged
+  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+    (actions) => actions.setPendingClaims
   )
   const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
@@ -114,7 +112,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
         toast.error(data.error)
       }
       if (data.data) {
-        onListQuestsChanged(data.data.quests)
+        setQuests(data.data.quests)
       }
     } catch (error) {
       toast.error('error')
@@ -122,26 +120,26 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
   }
 
   useEffect(() => {
-    if (!queryState && listQuestsState.length) {
-      onListQuestQueryChanged(
-        listQuestsState.filter((quest) => {
+    if (queryState !== '' && questsState.length) {
+      setQuestsQuery(
+        questsState.filter((quest) => {
           const title = quest!.title?.toLowerCase() ?? ''
           return title.includes(queryState.toLowerCase())
         })
       )
     } else {
-      onListQuestQueryChanged(listQuestsState)
+      setQuestsQuery(questsState)
     }
   }, [queryState])
 
   const onChangeQuestBox = async (e: QuestType[]) => {
-    onQuestsSelectChanged(e)
+    setQuestsSelect(e)
     onLoadingModalChanged(true)
     if (tabReviewState === TabReviewEnum.HISTORY) {
       await getListClaimQuest(
         projectId,
         reviewStatus,
-        onHistoryClaimsChanged,
+        setHistoryClaims,
         e.map((e) => e.id!)
       )
     }
@@ -149,7 +147,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
       await getListClaimQuest(
         projectId,
         'pending',
-        onPendingClaimsChanged,
+        setPendingClaims,
         e.map((e) => e.id!)
       )
     }
@@ -170,11 +168,11 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
             <CbbBoxInput>
               <CbbInput
                 displayValue={(person) => (person as any).name}
-                onChange={(event) => onQueryChanged(event.target.value)}
+                onChange={(event) => setQuery(event.target.value)}
               />
               <CbbBtn>
                 <ChevronUpDownIcon
-                  onClick={() => onListQuestQueryChanged(listQuestsState)}
+                  onClick={() => setQuestsQuery(questsState)}
                   className='h-5 w-5 text-gray-400'
                   aria-hidden='true'
                 />
@@ -185,10 +183,10 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
               leave='transition ease-in duration-100'
               leaveFrom='opacity-100'
               leaveTo='opacity-0'
-              afterLeave={() => onQueryChanged('')}
+              afterLeave={() => setQuery('')}
             >
               <CbbOption>
-                <ResultBox quest={listQuestQuery} query={queryState} />
+                <ResultBox quest={questsQuery} query={queryState} />
               </CbbOption>
             </Transition>
           </CbbWrap>

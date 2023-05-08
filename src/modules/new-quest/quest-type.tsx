@@ -27,7 +27,7 @@ const QuestTypeView = () => {
 
   // actions
   const onQuestTypeChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onQuestTypeChanged
+    (actions) => actions.setQuestType
   )
 
   const listTypeItems = display.map((e, i) => (

@@ -19,19 +19,19 @@ const QuestDetails = () => {
 
   // Actions
   const onTextAutoValid = NewQuestStore.useStoreActions(
-    (actions) => actions.onTextAutoValid
+    (actions) => actions.setTextAutoValidation
   )
   const onAnswerChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onAnswerChanged
+    (actions) => actions.setAnswer
   )
   const onVisitLinkChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onVisitLinkChanged
+    (actions) => actions.setVisitLink
   )
   const onTelegramLinkChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onTelegramLinkChanged
+    (actions) => actions.setTelegramLink
   )
   const onInvitesChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.onInvitesChanged
+    (actions) => actions.setInvites
   )
 
   switch (questType) {
