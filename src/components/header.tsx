@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
+import { useStoreActions, useStoreState } from 'easy-peasy'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import AuthType from '@/modules/login/auth-type'
-import { useStoreActions, useStoreState } from '@/store/store'
+import { GlobalStoreModel } from '@/store/store'
 import { LoginBtn, MenuBtn } from '@/styles/button.style'
 import { Divider, Gap, LightText, MediumText } from '@/styles/common.style'
 import {
   AvatarBox,
   BoxLink,
+  CreateProjectBtn,
   DesNameTxt,
   ImageLogoBox,
   LeftSession,
@@ -33,17 +35,38 @@ import {
   Wrap,
 } from '@/styles/header.style'
 import { Popover } from '@headlessui/react'
+import { PlusIcon } from '@heroicons/react/24/outline'
 
-const Header = () => {
-  const isNavBar = useStoreState((state) => state.navBar.isOpen)
+const CreateCommunity: FunctionComponent<{ isShow?: boolean }> = ({
+  isShow,
+}) => {
+  const router = useRouter()
+  if (isShow) {
+    return (
+      <CreateProjectBtn
+        onClick={() => router.push(RouterConst.CREATE_PROJECTS)}
+      >
+        <PlusIcon className={'w-5 h-5 text-black'} />
+        {'Create Project'}
+      </CreateProjectBtn>
+    )
+  }
+
+  return <></>
+}
+
+const Header: FunctionComponent = () => {
+  const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
 
   const router = useRouter()
-  const isLogin = useStoreState((state) => state.userSession.isLogin)
-  const userState = useStoreState((state) => state.userSession.user)
-  const navBarState = useStoreState((state) => state.navBar.isOpen)
+  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
+  const userState = useStoreState<GlobalStoreModel>((state) => state.user)
+  const navBarState = useStoreState<GlobalStoreModel>((state) => state.navBar)
   const [hydrated, setHydrated] = useState(false)
 
-  const navBarAction = useStoreActions((action) => action.navBar.updateState)
+  const setNavBar = useStoreActions<GlobalStoreModel>(
+    (action) => action.setNavBar
+  )
 
   const path = usePathname()
   const [navActive, setNavActive] = useState<number>(0)
@@ -75,7 +98,7 @@ const Header = () => {
 
   const handleClick = (url: string) => {
     router.push(url)
-    navBarAction(false)
+    setNavBar(false)
   }
 
   return (
@@ -107,68 +130,73 @@ const Header = () => {
         </LeftSession>
         <RightSession>
           {isLogin ? (
-            <UserSession>
-              <PopWrap>
-                <Popover.Button className={'outline-0'}>
-                  <Image
-                    width={35}
-                    height={35}
-                    src={StorageConst.NOTIFICATION_ICON.src}
-                    alt={StorageConst.NOTIFICATION_ICON.alt}
-                  />
-                </Popover.Button>
-
-                <PopPanel>
-                  <PopItem>
-                    <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-                    <Gap height={2} />
-                    <MediumText>{'Headline'}</MediumText>
-                    <Gap height={2} />
-                    <LightText>{'Notification content'}</LightText>
-                    <Divider />
-                  </PopItem>
-                  <PopItem>
-                    <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-                    <Gap height={2} />
-                    <MediumText>{'Headline'}</MediumText>
-                    <Gap height={2} />
-                    <LightText>{'Notification content'}</LightText>
-                    <Divider />
-                  </PopItem>
-                  <PopItem>
-                    <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-                    <Gap height={2} />
-                    <MediumText>{'Headline'}</MediumText>
-                    <Gap height={2} />
-                    <LightText>{'Notification content'}</LightText>
-                    <Divider />
-                  </PopItem>
-                </PopPanel>
-              </PopWrap>
-
-              <AvatarBox
-                width={40}
-                height={40}
-                src={StorageConst.AVATAR_DEFAUL.src}
-                alt={StorageConst.AVATAR_DEFAUL.alt}
+            <>
+              <CreateCommunity
+                isShow={path ? path.includes(RouterConst.COMMUNITIES) : false}
               />
-              {userState && (
-                <UserInfo
-                  onClick={() => router.push(RouterConst.USER + userState.id)}
-                >
-                  <DesNameTxt>{'Explorer'}</DesNameTxt>
-                  <UserNameTxt>
-                    {(userState.name ?? '').split('@')[0].toUpperCase()}
-                  </UserNameTxt>
-                </UserInfo>
-              )}
-            </UserSession>
+              <UserSession>
+                <PopWrap>
+                  <Popover.Button className={'outline-0'}>
+                    <Image
+                      width={35}
+                      height={35}
+                      src={StorageConst.NOTIFICATION_ICON.src}
+                      alt={StorageConst.NOTIFICATION_ICON.alt}
+                    />
+                  </Popover.Button>
+
+                  <PopPanel>
+                    <PopItem>
+                      <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+                      <Gap height={2} />
+                      <MediumText>{'Headline'}</MediumText>
+                      <Gap height={2} />
+                      <LightText>{'Notification content'}</LightText>
+                      <Divider />
+                    </PopItem>
+                    <PopItem>
+                      <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+                      <Gap height={2} />
+                      <MediumText>{'Headline'}</MediumText>
+                      <Gap height={2} />
+                      <LightText>{'Notification content'}</LightText>
+                      <Divider />
+                    </PopItem>
+                    <PopItem>
+                      <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+                      <Gap height={2} />
+                      <MediumText>{'Headline'}</MediumText>
+                      <Gap height={2} />
+                      <LightText>{'Notification content'}</LightText>
+                      <Divider />
+                    </PopItem>
+                  </PopPanel>
+                </PopWrap>
+
+                <AvatarBox
+                  width={40}
+                  height={40}
+                  src={StorageConst.AVATAR_DEFAUL.src}
+                  alt={StorageConst.AVATAR_DEFAUL.alt}
+                />
+                {userState && (
+                  <UserInfo
+                    onClick={() => router.push(RouterConst.USER + userState.id)}
+                  >
+                    <DesNameTxt>{'Explorer'}</DesNameTxt>
+                    <UserNameTxt>
+                      {(userState.name ?? '').split('@')[0].toUpperCase()}
+                    </UserNameTxt>
+                  </UserInfo>
+                )}
+              </UserSession>
+            </>
           ) : (
             <LoginBtn onClick={() => router.push(RouterConst.LOGIN)}>
               {'LOGIN/SIGN UP'}
             </LoginBtn>
           )}
-          <MenuBtn onClick={() => navBarAction(!navBarState)}>
+          <MenuBtn onClick={() => setNavBar(!navBarState)}>
             <Image
               width={40}
               height={40}

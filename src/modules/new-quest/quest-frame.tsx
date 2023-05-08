@@ -14,7 +14,11 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 
 import { newQuestApi } from '@/app/api/client/quest'
-import { QuestTypeEnum, TwitterEnum } from '@/constants/project.const'
+import {
+  QuestStatusEnum,
+  QuestTypeEnum,
+  TwitterEnum,
+} from '@/constants/project.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import QuestReward from '@/modules/new-quest/quest-reward'
@@ -77,7 +81,8 @@ const errorMessage = (state: StateMapper<FilterActionTypes<NewQuestModel>>) => {
 
 const handleSubmit = async (
   store: Store<NewQuestModel, EasyPeasyConfig<undefined, {}>>,
-  id: string
+  id: string,
+  status: string
 ): Promise<boolean> => {
   const state = store.getState()
   const error = errorMessage(state)
@@ -170,6 +175,7 @@ const handleSubmit = async (
     validation_data: validations,
     condition_op: 'and',
     conditions: [],
+    status,
   }
 
   try {
@@ -205,9 +211,9 @@ const QuestFrame: FunctionComponent<{
     (actions) => actions.setDescription
   )
 
-  const submitAction = async () => {
+  const submitAction = async (status: string) => {
     setIsOpen(true)
-    const rs = await handleSubmit(store, id)
+    const rs = await handleSubmit(store, id, status)
     if (rs) {
       router.push(RouterConst.PROJECT + id)
     } else {
@@ -247,8 +253,12 @@ const QuestFrame: FunctionComponent<{
             <Gap height={8} />
 
             <BtnWrap>
-              <BtnDraft>{'Draft'}</BtnDraft>
-              <BtnCreateQuest onClick={submitAction}>
+              <BtnDraft onClick={() => submitAction(QuestStatusEnum.DRAFT)}>
+                {'Draft'}
+              </BtnDraft>
+              <BtnCreateQuest
+                onClick={() => submitAction(QuestStatusEnum.ACTIVE)}
+              >
                 {'Publish'}
               </BtnCreateQuest>
             </BtnWrap>

@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from 'react'
 
+import { useStoreState } from 'easy-peasy'
+
 import { Layout } from '@/components/layout'
-import { useStoreState } from '@/store/store'
+import { GlobalStoreModel } from '@/store/store'
 import { Spinner } from '@/widgets/spinner'
 
 export default function Home() {
-  const isLogin = useStoreState((state) => state.userSession.isLogin)
+  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {

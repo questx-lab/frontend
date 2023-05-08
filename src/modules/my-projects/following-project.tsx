@@ -1,86 +1,110 @@
-import { useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import { useDebouncedCallback } from 'use-debounce'
 
 import { listProjectsApi } from '@/app/api/client/project'
-import { RouterConst } from '@/constants/router.const'
-import { FullWidthBtn } from '@/styles/button.style'
+import { NewProjectStore } from '@/store/local/project.store'
 import {
-  Gap,
-  LightText,
-  RowBWrap,
-  SmallTitle,
-  VDevider,
-} from '@/styles/common.style'
-import {
-  ContentProjectBox,
-  ImageProjectBox,
-  ProjectBox,
-  TitleProjectBox,
+  FFitlerBox,
+  FSearchBox,
+  FSearchInput,
+  FSearchWrap,
+  FWrap,
   WrapProjects,
 } from '@/styles/explore.style'
 import {
-  DescriptionCreatedProject,
-  TitleCreatedProject,
-  WrapCreatedProject,
-} from '@/styles/myProjects.style'
-import { ProjectType } from '@/types/project.type'
+  AdjustmentsHorizontalIcon,
+  MagnifyingGlassIcon,
+} from '@heroicons/react/24/outline'
+
+import ProjectBox from '../project/project-box'
 
 export default function FollowingProject() {
-  const [projects, setProjects] = useState<ProjectType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
+
+  // Data
+  const projects = NewProjectStore.useStoreState((state) => state.projects)
+  const query = NewProjectStore.useStoreState((state) => state.query)
+  const searchProjects = NewProjectStore.useStoreState(
+    (state) => state.searchProjects
+  )
+
+  // Action
+  const setProjects = NewProjectStore.useStoreActions(
+    (action) => action.setProjects
+  )
+  const setQuery = NewProjectStore.useStoreActions((action) => action.setQuery)
+  const setSearchProjects = NewProjectStore.useStoreActions(
+    (action) => action.setSearchProjects
+  )
 
   useEffect(() => {
     fetchListProjects()
   }, [])
 
-  const fetchListProjects = async () => {
+  useEffect(() => {
+    if (query.length > 2) {
+      setTimeout(() => fetchListProjects(query, true), 1000)
+    }
+  }, [query])
+
+  // Handler
+  const debounced = useDebouncedCallback((value) => {
+    setQuery(value)
+  }, 500)
+
+  const fetchListProjects = async (query: string = '', isSearch = false) => {
     try {
-      const list = await listProjectsApi()
-      setProjects(list.data!.projects)
+      if (isSearch) {
+        const list = await listProjectsApi(0, 50, query)
+        setSearchProjects(list.data!.projects)
+      } else {
+        const list = await listProjectsApi()
+        setProjects(list.data!.projects)
+      }
+
       setLoading(false)
     } catch (error) {
       toast.error('Error while fetching projects')
       setLoading(false)
     }
   }
-  const listProject =
-    projects &&
-    projects.map((e) => (
-      <ProjectBox key={e.id}>
-        <ImageProjectBox />
-        <ContentProjectBox>
-          <TitleProjectBox>{e.name!.toUpperCase()}</TitleProjectBox>
-          <Gap height={3} />
-          <LightText>{'Intro-2 Lines'}</LightText>
-          <LightText>
-            {'Lorem ipsum dolor sit amet, consectetur adipisc'}
-          </LightText>
-          <Gap height={5} />
-          <RowBWrap>
-            <SmallTitle>{'46 Quests'}</SmallTitle>
-            <VDevider />
-            <SmallTitle>{'6.54K Followers'}</SmallTitle>
-          </RowBWrap>
-          <Gap height={5} />
-          <FullWidthBtn onClick={() => router.push(RouterConst.PROJECT + e.id)}>
-            {'DETAIL'}
-          </FullWidthBtn>
-        </ContentProjectBox>
-      </ProjectBox>
-    ))
+
+  const projectsList =
+    projects && projects.map((e) => <ProjectBox key={e.id} project={e} />)
+
+  const projectsSearch =
+    searchProjects &&
+    searchProjects.map((e) => <ProjectBox key={e.id} project={e} />)
+
+  const ProjectWrap: FunctionComponent = () => {
+    if (query.length > 2) {
+      return <WrapProjects>{projectsSearch}</WrapProjects>
+    }
+
+    return <WrapProjects>{projectsList}</WrapProjects>
+  }
 
   return (
-    <WrapCreatedProject>
-      <TitleCreatedProject>{'Following Projects'}</TitleCreatedProject>
-      <Gap />
-      <DescriptionCreatedProject>
-        {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sem eros, scelerisque' +
-          ' sed ultricies at, egestas quis dolor'}
-      </DescriptionCreatedProject>
-      {!loading && <WrapProjects>{listProject}</WrapProjects>}
-    </WrapCreatedProject>
+    <FWrap>
+      <FSearchWrap>
+        <FSearchBox>
+          <MagnifyingGlassIcon className='w-5 h-5 text-gray-500' />
+          <FSearchInput
+            className='border-0 ring-0 outline-none text-lg'
+            placeholder='Search Community'
+            onChange={(e) => debounced(e.target.value)}
+          />
+        </FSearchBox>
+        <FFitlerBox>
+          <AdjustmentsHorizontalIcon className='w-5 h-5' />
+          {'Filter'}
+        </FFitlerBox>
+      </FSearchWrap>
+      {!loading && <ProjectWrap />}
+    </FWrap>
   )
 }

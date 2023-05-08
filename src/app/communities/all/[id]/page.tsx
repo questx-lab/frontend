@@ -15,8 +15,8 @@ export default function ProjectPage(props: { params: { id: string } }) {
   const [loading, setLoading] = useState<boolean>(true)
 
   // actions
-  const onProjectChanged = NewProjectStore.useStoreActions(
-    (action) => action.onProjectChanged
+  const setProject = NewProjectStore.useStoreActions(
+    (action) => action.setProject
   )
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function ProjectPage(props: { params: { id: string } }) {
   const fetchProject = async () => {
     try {
       const rs = await getProjectApi(props.params.id)
-      onProjectChanged(rs.data!.project)
+      setProject(rs.data!.project)
       setLoading(false)
     } catch (error) {
       toast.error('Error while fetch project')

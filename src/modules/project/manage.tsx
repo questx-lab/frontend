@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
-import SidebarCustom from '@/components/sidebar'
+import ProjectSide from '@/components/sidebar'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { QuestDetail } from '@/modules/project/quest-detail'
@@ -66,8 +66,8 @@ export default function ManageProject({ project }: { project: ProjectType }) {
   )
 
   // actions
-  const onProjectChanged = NewProjectStore.useStoreActions(
-    (actions) => actions.onProjectChanged
+  const setProject = NewProjectStore.useStoreActions(
+    (actions) => actions.setProject
   )
   const onQuestActiveChanged = NewQuestStore.useStoreActions(
     (actions) => actions.setQuestActive
@@ -86,7 +86,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
   }
 
   useEffect(() => {
-    onProjectChanged(project)
+    setProject(project)
     getQuests()
   }, [])
 
@@ -181,7 +181,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
 
   return (
     <Wrap>
-      <SidebarCustom />
+      <ProjectSide />
       <MMain>
         <ControlPanel projectId={project.id} />
         <CCBox>

@@ -50,6 +50,7 @@ export type ReqNewQuestType = {
   rewards: RewardType[]
   condition_op: string
   conditions: []
+  status?: string
 }
 
 export type RewardType = {

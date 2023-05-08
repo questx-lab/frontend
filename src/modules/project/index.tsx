@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import SidebarCustom from '@/components/sidebar'
+import ProjectSide from '@/components/sidebar'
 import { NewProjectStore } from '@/store/local/project.store'
 import { Gap } from '@/styles/common.style'
 import { Main, Tab, TabSide, Text, Title, Wrap } from '@/styles/home.style'
@@ -21,7 +21,7 @@ export default function Project() {
 
   return (
     <Wrap>
-      <SidebarCustom />
+      <ProjectSide />
       {projectState && (
         <Main>
           <Title>{projectState.name}</Title>

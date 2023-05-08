@@ -3,7 +3,7 @@
 import Image from 'next/image'
 
 import { Layout } from '@/components/layout'
-import SidebarCustom from '@/components/sidebar'
+import ProjectSide from '@/components/sidebar'
 import { StorageConst } from '@/constants/storage.const'
 import { Gap } from '@/styles/common.style'
 import {
@@ -70,7 +70,7 @@ export default function Questboard() {
         <title>{'Questboard'}</title>
       </header>
       <Wrap>
-        <SidebarCustom />
+        <ProjectSide />
         <Main>
           <Title>{'Questboard (Show all Quests)'}</Title>
           <Gap />
