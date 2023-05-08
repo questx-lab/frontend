@@ -8,19 +8,80 @@ import {
   HeaderBox,
   PointText,
   ContentContainer,
-} from './quest-detail-styles'
+} from '@/styles/quest-detail.style'
 import { uploadImageApi } from '@/app/api/client/upload'
 import { claimRewardApi } from '@/app/api/client/reward'
 import { Gap } from '@/styles/common.style'
 import { QuestType } from '@/types/project.type'
 import { toast } from 'react-hot-toast'
 import { InputBox } from '@/styles/input.style'
+import { Answers } from './quiz'
+import { useDropzone } from 'react-dropzone'
 
 const claimType = {
   TEXT: 'text',
   IMAGE: 'image',
   URL: 'url',
+  QUIZ: 'quiz',
 }
+
+// mock quizzes
+const quizzes = [
+  {
+    id: '1',
+    content: '',
+    answers: [
+      {
+        id: '1',
+        content: 'We are doing good 1',
+      },
+      {
+        id: '2',
+        content: 'We will have roadmap 1',
+      },
+      {
+        id: '3',
+        content: 'We will have feature 1',
+      },
+    ],
+  },
+  {
+    id: '2',
+    content: '',
+    answers: [
+      {
+        id: '1',
+        content: 'We are doing good 2',
+      },
+      {
+        id: '2',
+        content: 'We will have roadmap 2',
+      },
+      {
+        id: '3',
+        content: 'We will have feature 2',
+      },
+    ],
+  },
+  {
+    id: '3',
+    content: '',
+    answers: [
+      {
+        id: '1',
+        content: 'We are doing good 3',
+      },
+      {
+        id: '2',
+        content: 'We will have roadmap 3',
+      },
+      {
+        id: '3',
+        content: 'We will have feature 3',
+      },
+    ],
+  },
+]
 
 export const QuestDetail: FunctionComponent<{
   quest: QuestType | null
@@ -28,6 +89,9 @@ export const QuestDetail: FunctionComponent<{
 }> = ({ quest, onClose }) => {
   const [file, setFile] = useState<Blob>()
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const [currentQuiz, setCurrentQuiz] = useState<number>(0)
+  const [chosenAnswers, setChosenAnswers] = useState<string[]>([])
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone()
 
   const handleUploadClick = () => {
     inputRef.current?.click()
@@ -39,6 +103,17 @@ export const QuestDetail: FunctionComponent<{
     }
 
     setFile(e.target.files[0])
+  }
+
+  const files = acceptedFiles.map((file) => (
+    <li key={file.name}>
+      {file.name} - {file.size} bytes
+    </li>
+  ))
+
+  const chooseAnswer = (answer_id: string) => {
+    setChosenAnswers([...chosenAnswers, answer_id])
+    if (currentQuiz < quizzes.length) setCurrentQuiz(currentQuiz + 1)
   }
 
   const submit = async () => {
@@ -70,9 +145,52 @@ export const QuestDetail: FunctionComponent<{
     }
   }
 
-  return (
-    <div className='grid gap-2 grid-cols-2 overscroll-none h-max'>
-      <ContentContainer>
+  const withQuizzes = () => {
+    return (
+      <div className='w-full'>
+        <div className='flex border-b-2 pb-5 px-6'>
+          <div className='w-full text-md text-gray-500'>
+            {currentQuiz} of {quizzes.length} quests completed
+          </div>
+          <div className='flex items-center w-full'>
+            <div className=' h-2 w-full bg-gray-200 rounded-lg'>
+              <div
+                className='h-2 bg-success rounded-lg'
+                style={{
+                  width: `${(currentQuiz / quizzes.length) * 100}%`,
+                }}
+              ></div>
+            </div>
+          </div>
+        </div>
+        <div className='px-6 pt-6'>
+          {currentQuiz === quizzes.length ? (
+            <div>all quest have completed</div>
+          ) : (
+            <div>
+              <Title>
+                Question {currentQuiz + 1}/{quizzes.length} ❓
+              </Title>
+              <Gap height={2} />
+              <Description>Join the community Weekly event.</Description>
+              <Gap height={4} />
+              <Title>Submission 📝</Title>
+              <Gap height={2} />
+              <Description>Choose the best answer:</Description>
+              <Answers
+                answers={quizzes[currentQuiz]?.answers || []}
+                onChoose={chooseAnswer}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  const withText = () => {
+    return (
+      <div className='px-6 pt-6'>
         <Title>Mission</Title>
         <Gap height={2} />
         <Description>Join the community Weekly event.</Description>
@@ -88,21 +206,22 @@ export const QuestDetail: FunctionComponent<{
         </Description>
         <Gap height={4} />
         {quest?.type === claimType.IMAGE && (
-          <div>
-            <div>Upload a file:</div>
-
-            <FullWidthBtn onClick={handleUploadClick}>
-              Click to select
-            </FullWidthBtn>
-            {file ? `${file.name}` : <></>}
-
-            <InputBox
-              type='file'
-              ref={inputRef}
-              onChange={handleFileChange}
-              style={{ display: 'none' }}
-            />
-          </div>
+          <section className='container'>
+            <div {...getRootProps({ className: 'dropzone' })}>
+              <input {...getInputProps()} />
+              <div className='w-full h-32 border-2 border-dotted rounded'>
+                <div className='px-32 pt-9'>
+                  <FullWidthBtn> Add files</FullWidthBtn>
+                </div>
+                <Gap height={2} />
+                <div className='px-32 pb-9'>Accepts .gif, .jpg, and .png</div>
+              </div>
+            </div>
+            <aside>
+              <h4>Files</h4>
+              <ul>{files}</ul>
+            </aside>
+          </section>
         )}
 
         {quest?.type === claimType.TEXT && (
@@ -112,6 +231,13 @@ export const QuestDetail: FunctionComponent<{
         {quest?.type === claimType.URL && (
           <InputBox ref={inputRef} placeholder='https://twitter.com/' />
         )}
+      </div>
+    )
+  }
+  return (
+    <div className='grid gap-1 grid-cols-2 w-full'>
+      <ContentContainer className={claimType.QUIZ ? 'px-0' : '' + ' w-480'}>
+        {quest?.type === claimType.QUIZ ? withQuizzes() : withText()}
       </ContentContainer>
       <div>
         <ContentContainer>

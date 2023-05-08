@@ -254,7 +254,7 @@ export default function ManageProject({ project }: { project: ProjectType }) {
       </TemplateModal>
       <BaseModal isOpen={submisisonModalState}>
         <ModalBox>
-          <ModalContent>
+          <ModalContent className='w-2/3'>
             <MDHead>
               {'Invite 2 fren to join our crew3 🤲'}
               <XMarkIcon
