@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, ChangeEvent } from 'react'
+import { FunctionComponent, useState } from 'react'
 import Image from 'next/image'
 import { StorageConst } from '@/constants/storage.const'
 import { FullWidthBtn, GotoTwitterBtn } from '@/styles/button.style'
@@ -30,57 +30,33 @@ const claimType = {
 const quizzes = [
   {
     id: '1',
-    content: '',
-    answers: [
-      {
-        id: '1',
-        content: 'We are doing good 1',
-      },
-      {
-        id: '2',
-        content: 'We will have roadmap 1',
-      },
-      {
-        id: '3',
-        content: 'We will have feature 1',
-      },
+    question: '',
+    options: [
+      'We are doing good 1',
+      'We will have roadmap 1',
+      'We will have feature 1',
     ],
+    answers: ['We are doing good 1'],
   },
   {
     id: '2',
-    content: '',
-    answers: [
-      {
-        id: '1',
-        content: 'We are doing good 2',
-      },
-      {
-        id: '2',
-        content: 'We will have roadmap 2',
-      },
-      {
-        id: '3',
-        content: 'We will have feature 2',
-      },
+    question: '',
+    options: [
+      'We are doing good 2',
+      'We will have roadmap 2',
+      'We will have feature 2',
     ],
+    answers: ['We will have roadmap 2'],
   },
   {
     id: '3',
-    content: '',
-    answers: [
-      {
-        id: '1',
-        content: 'We are doing good 3',
-      },
-      {
-        id: '2',
-        content: 'We will have roadmap 3',
-      },
-      {
-        id: '3',
-        content: 'We will have feature 3',
-      },
+    question: '',
+    options: [
+      'We are doing good 3',
+      'We will have roadmap 3',
+      'We will have feature 3',
     ],
+    answers: ['We will have feature 3'],
   },
 ]
 
@@ -93,9 +69,15 @@ export const QuestDetail: FunctionComponent<{
   const [chosenAnswers, setChosenAnswers] = useState<string[]>([])
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone()
 
-  const chooseAnswer = (answer_id: string) => {
-    setChosenAnswers([...chosenAnswers, answer_id])
-    if (currentQuiz < quizzes.length) setCurrentQuiz(currentQuiz + 1)
+  const chooseAnswer = (answer: string) => {
+    setChosenAnswers([...chosenAnswers, answer])
+    if (currentQuiz < quizzes.length) {
+      if (!quizzes[currentQuiz].answers.includes(answer)) {
+        toast.error('Wrong answer')
+        return
+      }
+      setCurrentQuiz(currentQuiz + 1)
+    }
   }
 
   const onChangeInput = (e: any) => {
@@ -104,21 +86,28 @@ export const QuestDetail: FunctionComponent<{
 
   const submit = async () => {
     let inp = input
-    if (quest?.type === claimType.IMAGE) {
-      var formData = new FormData()
-      if (acceptedFiles.length == 0) {
-        toast.error('Must upload file')
-        return
-      }
-      const file = acceptedFiles[0]
-      formData.append('image', file || '')
-      try {
-        const data = await uploadImageApi(formData)
-        inp = data?.data?.url || ''
-      } catch (error) {
-        toast.error('Error while upload file')
-        return
-      }
+    switch (quest?.type) {
+      case claimType.IMAGE:
+        let formData = new FormData()
+        if (acceptedFiles.length == 0) {
+          toast.error('Must upload file')
+          return
+        }
+        const file = acceptedFiles[0]
+        formData.append('image', file || '')
+        try {
+          const data = await uploadImageApi(formData)
+          inp = data?.data?.url || ''
+        } catch (error) {
+          toast.error('Error while upload file')
+          return
+        }
+        break
+      case claimType.QUIZ:
+        inp = JSON.stringify(chosenAnswers)
+
+      default:
+        break
     }
     try {
       const data = await claimRewardApi({

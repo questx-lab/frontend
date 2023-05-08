@@ -8,7 +8,7 @@ export type AnswerType = {
 }
 
 export const Answers: FunctionComponent<{
-  answers: AnswerType[]
+  answers: string[]
   quiz_id?: string
   onChoose: (answer_id: string) => void
 }> = ({ answers, onChoose }) => {
@@ -27,16 +27,16 @@ export const Answers: FunctionComponent<{
 }
 
 const Answer: FunctionComponent<{
-  answer: AnswerType
+  answer: string
   idx: integer
   onChoose: (answer_id: string) => void
 }> = ({ answer, idx, onChoose }) => {
   return (
     <AnswerWrap>
-      <div className='flex' onClick={() => onChoose(answer?.id || '')}>
+      <div className='flex' onClick={() => onChoose(answer || '')}>
         <AlphabetOrderWrap>{convertToAlphabet(idx)}</AlphabetOrderWrap>
         <Gap height={4} />
-        <div className='flex items-center'>{answer.content} </div>
+        <div className='flex items-center'>{answer} </div>
       </div>
     </AnswerWrap>
   )
