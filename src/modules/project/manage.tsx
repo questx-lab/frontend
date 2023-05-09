@@ -95,8 +95,6 @@ export default function ManageProject({ project }: { project: ProjectType }) {
   const [openTemplate, setOpenTemplate] = useState<boolean>(false)
   const [selectedQuest, setSelectedQuest] = useState<QuestType>()
 
-  // data
-
   // actions
   const setProject = NewProjectStore.useStoreActions(
     (actions) => actions.setProject
@@ -128,7 +126,6 @@ export default function ManageProject({ project }: { project: ProjectType }) {
   }
 
   const onItemSelected = (quest: QuestType) => {
-    console.log('Quest = ', quest)
     setSelectedQuest(quest)
   }
 

@@ -307,7 +307,8 @@ export const QuestDetail: FunctionComponent<{
       case QuestTypeEnum.DISCORD:
         return withDiscord()
       default:
-        toast.error('unsupport quest type')
+        console.error('unsupport quest type')
+        return <></>
     }
   }
 
