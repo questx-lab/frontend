@@ -1,19 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+
+import { useRouter } from 'next/navigation'
 
 import { Layout } from '@/components/layout'
-import { useStoreState } from '@/store/store'
-import { Spinner } from '@/widgets/spinner'
+import { RouterConst } from '@/constants/router.const'
 
 export default function Home() {
-  const isLogin = useStoreState((state) => state.userSession.isLogin)
-  const [loading, setLoading] = useState<boolean>(true)
-
+  const router = useRouter()
   useEffect(() => {
-    setLoading(true)
-    setTimeout(() => setLoading(false), 1000)
-  }, [isLogin])
+    router.push(RouterConst.COMMUNITIES)
+  }, [])
 
   return (
     <Layout>
@@ -21,7 +19,6 @@ export default function Home() {
         <title>{'Home Page'}</title>
       </header>
       {/* {!loading && <Project />} */}
-      {loading && <Spinner />}
     </Layout>
   )
 }

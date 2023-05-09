@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import { useStoreActions, useStoreState } from '@/store/store'
+import { useStoreActions, useStoreState } from 'easy-peasy'
+
+import { GlobalStoreModel } from '@/store/store'
 import { DelBtn, PActionWrap, Pcancel, PSave } from '@/styles/button.style'
 import {
   ColCWrap,
@@ -18,13 +20,13 @@ import { UPWrap } from '@/styles/user.style'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
 
 export default function UserProfileTab({ userId }: { userId: string }) {
-  const userState = useStoreState((state) => state.userSession.user)
+  const userState = useStoreState<GlobalStoreModel>((state) => state.user)
   const [isPerson, setIsPerson] = useState<boolean>(false)
-  const loginAction = useStoreActions(
-    (action) => action.userSession.updateState
+  const setLogin = useStoreActions<GlobalStoreModel>(
+    (action) => action.setLogin
   )
 
-  const userAction = useStoreActions((action) => action.userSession.updateUser)
+  const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   useEffect(() => {
     if (userState && userState.id === userId) {
@@ -33,8 +35,8 @@ export default function UserProfileTab({ userId }: { userId: string }) {
   }, [])
 
   const handleLogout = () => {
-    loginAction(false)
-    userAction({})
+    setLogin(false)
+    setUser({})
     delCookies()
     clearLocalStorage()
   }

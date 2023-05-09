@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
+import { useStoreState } from 'easy-peasy'
 import { toast } from 'react-hot-toast'
 
 import { getProjectApi } from '@/app/api/client/project'
@@ -10,13 +11,13 @@ import ManageProject from '@/modules/project/manage'
 import ProjectGuess from '@/modules/project/project-guess'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { NewProjectStore } from '@/store/local/project.store'
-import { useStoreState } from '@/store/store'
+import { GlobalStoreModel } from '@/store/store'
 import { ProjectType } from '@/types/project.type'
 import { Spinner } from '@/widgets/spinner'
 
 export default function ProjectPage(props: { params: { id: string } }) {
   const [loading, setLoading] = useState<boolean>(true)
-  const userState = useStoreState((state) => state.userSession.user)
+  const userState = useStoreState<GlobalStoreModel>((state) => state.user)
   const [isGuess, setIsGuess] = useState<boolean>(true)
   const [project, setProject] = useState<ProjectType>()
 

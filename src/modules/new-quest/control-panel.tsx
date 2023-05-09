@@ -2,11 +2,12 @@
 
 import { FunctionComponent } from 'react'
 
+import { useStoreState } from 'easy-peasy'
 import { useRouter } from 'next/navigation'
 
 import { SideEnum } from '@/constants/project.const'
 import { RouterConst } from '@/constants/router.const'
-import { useStoreState } from '@/store/store'
+import { GlobalStoreModel } from '@/store/store'
 import { Divider, Gap } from '@/styles/common.style'
 import {
   CPBox,
@@ -29,7 +30,7 @@ const ControlPanel: FunctionComponent<{
   active?: number
 }> = ({ projectId, active = SideEnum.QUEST }) => {
   // Data
-  const userState = useStoreState((state) => state.userSession.user)
+  const userState = useStoreState<GlobalStoreModel>((state) => state.user)
   const router = useRouter()
 
   return (
