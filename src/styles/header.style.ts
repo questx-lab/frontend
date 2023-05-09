@@ -217,3 +217,21 @@ export const PopItem = tw.div`
   w-full
   py-2
 `
+
+export const CreateProjectBtn = tw.div`
+  flex 
+  flex-row 
+  gap-2 
+  border  
+  border-solid
+  border-gray-300 
+  rounded-lg 
+  justify-center 
+  items-center 
+  py-2 
+  px-4 
+  text-lg 
+  text-black 
+  font-medium  
+  cursor-pointer
+`

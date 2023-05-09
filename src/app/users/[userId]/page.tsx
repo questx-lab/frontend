@@ -20,8 +20,7 @@ import {
 } from '@/styles/common.style'
 import {
   ContentProjectBox,
-  ImageProjectBox,
-  ProjectBox,
+  ProjectBoxWrap,
   TitleProjectBox,
   WrapProjects,
 } from '@/styles/explore.style'
@@ -42,8 +41,7 @@ export default function UserProfile({
   params: { userId: string }
 }) {
   const listProject = [1, 2, 3, 4, 5, 6, 7, 8].map((e) => (
-    <ProjectBox key={e}>
-      <ImageProjectBox />
+    <ProjectBoxWrap key={e}>
       <ContentProjectBox>
         <TitleProjectBox>{e}</TitleProjectBox>
         <Gap height={3} />
@@ -60,7 +58,7 @@ export default function UserProfile({
         <Gap height={5} />
         <FullWidthBtn onClick={() => {}}>{'DETAIL'}</FullWidthBtn>
       </ContentProjectBox>
-    </ProjectBox>
+    </ProjectBoxWrap>
   ))
 
   return (

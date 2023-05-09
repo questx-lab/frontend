@@ -1,17 +1,19 @@
 import { ReactNode, useEffect } from 'react'
 
+import { useStoreActions, useStoreState } from 'easy-peasy'
 import Head from 'next/head'
 import { useRouter } from 'next/navigation'
-import { Toaster } from 'react-hot-toast'
+import { toast, Toaster } from 'react-hot-toast'
 
+import { getFollowProjectApi, getMyProjectsApi } from '@/app/api/client/project'
 import { getUserApi } from '@/app/api/client/user'
 import Header from '@/components/header'
-import { useStoreActions, useStoreState } from '@/store/store'
+import { GlobalStoreModel } from '@/store/store'
 import { Html, Main } from '@/styles/layout.style'
 import { getAccessToken, getRefreshToken, setUserLocal } from '@/utils/helper'
 
 export const LayoutDefault = ({ children }: { children: ReactNode }) => {
-  const isNavBar = useStoreState((state) => state.navBar.isOpen)
+  const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
 
   return (
     <Html lang='en' isOpen={isNavBar}>
@@ -27,13 +29,22 @@ export const LayoutDefault = ({ children }: { children: ReactNode }) => {
 }
 
 export const Layout = ({ children }: { children: ReactNode }) => {
-  const isNavBar = useStoreState((state) => state.navBar.isOpen)
-  const loginAction = useStoreActions(
-    (action) => action.userSession.updateState
+  // data
+  const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
+  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
+  const userState = useStoreState<GlobalStoreModel>((state) => state.user)
+
+  // action
+  const setLogin = useStoreActions<GlobalStoreModel>(
+    (action) => action.setLogin
   )
-  const isLogin = useStoreState((state) => state.userSession.isLogin)
-  const actionUser = useStoreActions((action) => action.userSession.updateUser)
-  const userState = useStoreState((state) => state.userSession.user)
+  const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
+  const setProjectsFollowing = useStoreActions<GlobalStoreModel>(
+    (action) => action.setProjectsFollowing
+  )
+  const setMyProjects = useStoreActions<GlobalStoreModel>(
+    (action) => action.setMyProjects
+  )
 
   const router = useRouter()
   useEffect(() => {
@@ -45,12 +56,12 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     }
 
     if (accessToken) {
-      !isLogin && loginAction(true)
+      !isLogin && setLogin(true)
       if (userState && !Object.keys(userState).length) {
         getUserData()
       }
     } else {
-      loginAction(false)
+      setLogin(false)
       // router.push(RouterConst.EXPLORE)
     }
   }, [router])
@@ -59,9 +70,37 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     try {
       const user = await getUserApi()
       setUserLocal(user.data!)
-      actionUser(user.data!)
-      loginAction(true)
+      setUser(user.data!)
+      setLogin(true)
+      getProjectsFollowing()
+      getMyProjects()
     } catch (error) {}
+  }
+
+  const getProjectsFollowing = async () => {
+    try {
+      const projects = await getFollowProjectApi()
+      if (projects.error) {
+        toast.error('Error when get your following projects')
+      } else {
+        setProjectsFollowing(projects.data?.projects)
+      }
+    } catch (error) {
+      toast.error('Server error')
+    }
+  }
+
+  const getMyProjects = async () => {
+    try {
+      const projects = await getMyProjectsApi()
+      if (projects.error) {
+        toast.error('Error when get your projects')
+      } else {
+        setMyProjects(projects.data?.projects)
+      }
+    } catch (error) {
+      toast.error('Server error')
+    }
   }
 
   return (

@@ -1,6 +1,10 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { ClaimedQuestStatus, QuestRecurrence } from '@/constants/project.const'
+import {
+  ClaimedQuestStatus,
+  QuestRecurrence,
+  TabReviewEnum,
+} from '@/constants/project.const'
 import { ClaimQuestType } from '@/types/project.type'
 
 interface QuestClaimModel {
@@ -15,6 +19,7 @@ interface QuestClaimModel {
   loadingModal: boolean
   submissionModal: boolean
   recurrence: QuestRecurrence
+  tabReview: number
 
   setCheckHistory: Action<QuestClaimModel, boolean>
   setCheckPending: Action<QuestClaimModel, boolean>
@@ -27,6 +32,7 @@ interface QuestClaimModel {
   onLoadingModalChanged: Action<QuestClaimModel, boolean>
   onSubmissionModalChanged: Action<QuestClaimModel, boolean>
   setRecurrence: Action<QuestClaimModel, QuestRecurrence>
+  setTabReview: Action<QuestClaimModel, number>
 }
 
 export const NewQuestClaimStore = createContextStore<QuestClaimModel>({
@@ -41,6 +47,7 @@ export const NewQuestClaimStore = createContextStore<QuestClaimModel>({
   loadingModal: false,
   submissionModal: false,
   recurrence: QuestRecurrence.ONCE,
+  tabReview: TabReviewEnum.PENDING,
 
   setReviewStatus: action((state, status) => {
     state.reviewStatus = status
@@ -83,5 +90,9 @@ export const NewQuestClaimStore = createContextStore<QuestClaimModel>({
 
   setRecurrence: action((state, newRecurrence) => {
     state.recurrence = newRecurrence
+  }),
+
+  setTabReview: action((state, tab) => {
+    state.tabReview = tab
   }),
 })

@@ -4,7 +4,6 @@ import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
 import { TabReviewEnum } from '@/constants/project.const'
-import { NewProjectStore } from '@/store/local/project.store'
 import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
@@ -71,7 +70,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
   const questsSelectState = NewQuestSearchStore.useStoreState(
     (state) => state.questsSelect
   )
-  const tabReviewState = NewProjectStore.useStoreState(
+  const tabReviewState = NewQuestClaimStore.useStoreState(
     (state) => state.tabReview
   )
   const reviewStatus = NewQuestClaimStore.useStoreState(

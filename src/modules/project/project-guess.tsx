@@ -1,22 +1,17 @@
-import {
-  Fragment,
-  useEffect,
-  useState,
-} from 'react';
+import { Fragment, FunctionComponent, useEffect, useState } from 'react'
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useStoreActions, useStoreState } from 'easy-peasy'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-hot-toast'
+import { MoonLoader } from 'react-spinners'
 
-import SidebarCustom from '@/components/sidebar';
-import { RouterConst } from '@/constants/router.const';
-import { StorageConst } from '@/constants/storage.const';
-import { NewProjectStore } from '@/store/local/project.store';
-import { useStoreState } from '@/store/store';
-import {
-  PFollow,
-  PManage,
-  PSave,
-} from '@/styles/button.style';
+import { newFollowProjectApi } from '@/app/api/client/project'
+import ProjectSide from '@/components/sidebar'
+import { StorageConst } from '@/constants/storage.const'
+import { NewProjectStore } from '@/store/local/project.store'
+import { GlobalStoreModel } from '@/store/store'
+import { PFollow, PSave, PShare } from '@/styles/button.style'
 import {
   CloseIcon,
   Divider,
@@ -24,8 +19,8 @@ import {
   Gap,
   LargeText,
   NormalText,
-} from '@/styles/common.style';
-import { MDialog } from '@/styles/home.style';
+} from '@/styles/common.style'
+import { MDialog } from '@/styles/home.style'
 import {
   LHBox,
   LHDes,
@@ -48,36 +43,100 @@ import {
   TabWrap,
   TextItem,
   Wrap,
-} from '@/styles/leaderboard.style';
+} from '@/styles/leaderboard.style'
 import {
   LDDP,
   ModalBg,
   ModalContent,
   ModalWrap,
   TitleModal,
-} from '@/styles/modal.style';
+} from '@/styles/modal.style'
 import {
   CardBox,
   PointText,
   QuestText,
   SCardBox,
-} from '@/styles/questboard.style';
-import { ProjectType } from '@/types/project.type';
-import {
-  Tab,
-  Transition,
-} from '@headlessui/react';
+} from '@/styles/questboard.style'
+import { ProjectType } from '@/types/project.type'
+import { Tab, Transition } from '@headlessui/react'
 
-import QuestBoardTab from './questboard';
+import QuestBoardTab from './questboard'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
+
+const FollowBtn: FunctionComponent<{
+  project: ProjectType
+}> = ({ project }) => {
+  const [loading, setLoading] = useState<boolean>(false)
+  const projects: ProjectType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.projectsFollowing
+  )
+  const setProjectsFollowing = useStoreActions<GlobalStoreModel>(
+    (action) => action.setProjectsFollowing
+  )
+  const projectExist = projects && projects.filter((e) => e.id === project.id)
+
+  const handleFollow = async () => {
+    setLoading(true)
+    try {
+      const data = await newFollowProjectApi(project.id)
+      if (data.error) {
+        toast.error(data.error)
+      } else {
+        setProjectsFollowing([...projects, project])
+      }
+      setTimeout(() => setLoading(false), 500)
+    } catch (error) {
+      toast.error('Server error')
+    }
+  }
+
+  if (projectExist && projectExist.length) {
+    return (
+      <PFollow isFollow={true}>
+        <Image
+          width={20}
+          height={20}
+          src={StorageConst.CHECK_ICON.src}
+          alt={StorageConst.CHECK_ICON.alt}
+        />
+        <Gap width={1} />
+        {'Following'}
+      </PFollow>
+    )
+  }
+
+  const ContentBtn = () => {
+    if (loading) {
+      return (
+        <MoonLoader
+          color='hsla(168, 0%, 100%, 1)'
+          loading
+          speedMultiplier={0.8}
+          size={20}
+        />
+      )
+    }
+
+    return <span>{'Follow'}</span>
+  }
+
+  return (
+    <PFollow onClick={handleFollow} isFollow={false}>
+      <ContentBtn />
+    </PFollow>
+  )
+}
+
 export default function ProjectGuess({ project }: { project: ProjectType }) {
   const [tab, setTab] = useState<number>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
   const projectState = NewProjectStore.useStoreState((state) => state.project)
-  const userState = useStoreState((state) => state.userSession.user)
+  const userState = useStoreState<GlobalStoreModel>((state) => state.user)
+
   const router = useRouter()
   const onClose = () => setIsOpen(false)
   const onOpen = () => {
@@ -85,12 +144,12 @@ export default function ProjectGuess({ project }: { project: ProjectType }) {
   }
 
   // actions
-  const onProjectChanged = NewProjectStore.useStoreActions(
-    (actions) => actions.onProjectChanged
+  const setProject = NewProjectStore.useStoreActions(
+    (actions) => actions.setProject
   )
 
   useEffect(() => {
-    onProjectChanged(project)
+    setProject(project)
   }, [])
 
   const listLD = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((e) => (
@@ -112,7 +171,7 @@ export default function ProjectGuess({ project }: { project: ProjectType }) {
 
   return (
     <Wrap>
-      <SidebarCustom />
+      <ProjectSide />
       <Main>
         {projectState && (
           <LHeader>
@@ -169,42 +228,18 @@ export default function ProjectGuess({ project }: { project: ProjectType }) {
                       <Gap width={4} height={0} />
                       <QuestText>{'with 287.6K questers 👋'}</QuestText>
                     </SCardBox>
-                    {userState.id !== projectState.created_by && (
-                      <CardBox>
-                        <PFollow>
-                          <Image
-                            width={20}
-                            height={20}
-                            src={StorageConst.CHECK_ICON.src}
-                            alt={StorageConst.CHECK_ICON.alt}
-                          />
-                          <Gap width={1} />
-                          {'Following'}
-                        </PFollow>
-                        <Gap height={8} />
-                        <PFollow>
-                          <Image
-                            width={20}
-                            height={20}
-                            src={StorageConst.SHARE_ICON.src}
-                            alt={StorageConst.SHARE_ICON.alt}
-                          />
-                        </PFollow>
-                      </CardBox>
-                    )}
-                    {userState.id === projectState.created_by && (
-                      <CardBox>
-                        <PManage
-                          onClick={() =>
-                            router.push(
-                              RouterConst.PROJECT + projectState.id + '/manage'
-                            )
-                          }
-                        >
-                          {'Manage'}
-                        </PManage>
-                      </CardBox>
-                    )}
+                    <CardBox>
+                      <FollowBtn project={project} />
+                      <Gap height={8} />
+                      <PShare>
+                        <Image
+                          width={20}
+                          height={20}
+                          src={StorageConst.SHARE_ICON.src}
+                          alt={StorageConst.SHARE_ICON.alt}
+                        />
+                      </PShare>
+                    </CardBox>
                   </LHTitleBox>
                 )}
               </LHBox>

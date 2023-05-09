@@ -41,12 +41,14 @@ export const updateProjectApi = async (
 
 export const listProjectsApi = async (
   offset: number = 0,
-  limit: number = 12
+  limit: number = 12,
+  search?: string
 ): Promise<Rsp<ListProjectsType>> => {
-  const rs = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getListProject?offset=${offset}&limit=${limit}`
-  )
+  let url = `/getListProject?offset=${offset}&limit=${limit}`
+  if (search && search.length > 2) {
+    url = `/getListProject?offset=${offset}&limit=${limit}&q=${search}`
+  }
+  const rs = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + url)
   return rs.data
 }
 
@@ -57,5 +59,32 @@ export const addRoleProjectApi = async (
     EnvVariables.NEXT_PUBLIC_API_URL + '/createCollaborator',
     data
   )
+  return rs.data
+}
+
+export const getMyProjectsApi = async (): Promise<
+  Rsp<{ projects: ProjectType[] }>
+> => {
+  const rs = await api.get(
+    EnvVariables.NEXT_PUBLIC_API_URL + '/getMyListProject'
+  )
+  return rs.data
+}
+
+export const getFollowProjectApi = async (): Promise<
+  Rsp<{ projects: ProjectType[] }>
+> => {
+  const rs = await api.get(
+    EnvVariables.NEXT_PUBLIC_API_URL + '/getFollowingProjects'
+  )
+  return rs.data
+}
+
+export const newFollowProjectApi = async (
+  projectId: string
+): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/follow', {
+    project_id: projectId,
+  })
   return rs.data
 }
