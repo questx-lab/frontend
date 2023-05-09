@@ -8,6 +8,9 @@ import { StorageConst } from '@/constants/storage.const'
 import {
   ContentProjectBox,
   ImageProjectBox,
+  PbDes,
+  PbInfo,
+  PbInfoBox,
   PBottomBox,
   ProjectBoxWrap,
   PTopBox,
@@ -35,19 +38,15 @@ const ProjectBox: FunctionComponent<{ project: ProjectType }> = ({
         />
         <ContentProjectBox>
           <TitleProjectBox>{project.name!}</TitleProjectBox>
-          <div className='mt-3 flex flex-row justify-start gap-3'>
-            <div className='bg-gray-100 px-2 py-1 rounded-lg text-sm font-normal text-gray-700'>
-              {'8 Quests'}
-            </div>
-            <div className='bg-gray-100 px-2 py-1 rounded-lg text-sm font-normal text-gray-700'>
-              {'8 Quests'}
-            </div>
-          </div>
-          <div className='mt-3 text-lg font-normal text-gray-700 overflow-hidden text-ellipsis line-clamp-3'>
-            {
-              'Swap platform on Sui blockchain.  Every XP you get in CREW3 can be used to redeem Suiswap token airdrops Swap platform on Sui blockchain.  Every XP you get in CREW3 can be used to redeem Suiswap token airdrops'
-            }
-          </div>
+          <PbInfo>
+            <PbInfoBox>{'8 Quests'}</PbInfoBox>
+            <PbInfoBox>{'8 Quests'}</PbInfoBox>
+          </PbInfo>
+          <PbDes>
+            {'Swap platform on Sui blockchain.  Every XP you get in CREW3 can be used to redeem ' +
+              'Suiswap token airdrops Swap platform on Sui blockchain.  Every XP you get in CREW3 ' +
+              'can be used to redeem Suiswap token airdrops'}
+          </PbDes>
         </ContentProjectBox>
       </PTopBox>
       <PBottomBox>

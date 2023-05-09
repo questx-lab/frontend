@@ -183,6 +183,30 @@ export const TitleProjectBox = tw.p`
   max-lg:text-lg
 `
 
+export const PbInfo = tw.div`
+  mt-3 flex flex-row justify-start gap-3
+`
+
+export const PbInfoBox = tw.div`
+  bg-gray-100 
+  px-2 
+  py-1 
+  rounded-lg 
+  text-sm 
+  font-normal 
+  text-gray-700
+`
+
+export const PbDes = tw.div`
+  mt-3 
+  text-lg 
+  font-normal 
+  text-gray-700 
+  overflow-hidden 
+  text-ellipsis 
+  line-clamp-3
+`
+
 export const SkeletonFirst = tw.div`
   h-[10px] 
   w-1/2 
