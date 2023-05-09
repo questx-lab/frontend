@@ -26,6 +26,9 @@ export interface NewQuestModel {
   submissionModal: boolean
   loadingModal: boolean
   questActive: QuestType
+  quizQuestion: string
+  quizAnswers: string[]
+  quizCorrectAnswers: string[]
 
   // Actions
   setTitle: Action<NewQuestModel, string>
@@ -50,10 +53,13 @@ export interface NewQuestModel {
   onSubmissionModalChanged: Action<NewQuestModel, boolean>
   onLoadingModalChanged: Action<NewQuestModel, boolean>
   setQuestActive: Action<NewQuestModel, QuestType>
+  setQuizQuestion: Action<NewQuestModel, string>
+  setQuizAnswers: Action<NewQuestModel, string[]>
+  setQuizCorrectAnswers: Action<NewQuestModel, string[]>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
-  title: '',
+  title: 'Untitled Quest',
   description: '',
   questType: QuestTypeEnum.URL,
   textAutoValid: false,
@@ -75,6 +81,9 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   submissionModal: false,
   loadingModal: false,
   questActive: {},
+  quizQuestion: '',
+  quizAnswers: [''],
+  quizCorrectAnswers: [],
 
   setTitle: action((state, newTitle) => {
     state.title = newTitle
@@ -162,6 +171,18 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setQuestActive: action((state, quest) => {
     state.questActive = quest
+  }),
+
+  setQuizQuestion: action((state, question) => {
+    state.quizQuestion = question
+  }),
+
+  setQuizAnswers: action((state, questions) => {
+    state.quizAnswers = questions
+  }),
+
+  setQuizCorrectAnswers: action((state, questions) => {
+    state.quizCorrectAnswers = questions
   }),
 })
 

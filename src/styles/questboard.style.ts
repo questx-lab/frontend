@@ -608,6 +608,7 @@ export const BtnWrap = tw.div`
   flex-row
   justify-between
   items-center
+  gap-4
 `
 
 export const PointBox = tw.div`

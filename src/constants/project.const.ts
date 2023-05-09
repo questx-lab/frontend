@@ -133,3 +133,10 @@ export enum QuestStatusEnum {
   ACTIVE = 'active',
   DRAFT = 'draft',
 }
+
+export enum AnswerStatusEnum {
+  DEFAULT,
+  DANGER,
+  ACTIVE,
+  BLOCK,
+}

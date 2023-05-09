@@ -50,3 +50,7 @@
   border: 1px solid #d1d5db;
   border-top: 0;
 }
+
+p {
+  font-size: medium;
+}

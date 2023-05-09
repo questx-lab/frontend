@@ -9,7 +9,7 @@ import {
 } from '@/constants/project.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Divider, Gap } from '@/styles/common.style'
-import { InputBox, MulInputBox } from '@/styles/input.style'
+import { MulInputBox } from '@/styles/input.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import {
   ITypeBox,
@@ -17,44 +17,51 @@ import {
   PICard,
   TwitterBox,
 } from '@/styles/questboard.style'
+import { TextField } from '@/widgets/form'
 
 const TwitterList: FunctionComponent = () => {
+  // Data
   const actionTwitter = NewQuestStore.useStoreState(
     (state) => state.actionTwitter
   )
-  const onActionTwitterChanged = NewQuestStore.useStoreActions(
+  const accountUrl = NewQuestStore.useStoreState((state) => state.accountUrl)
+  const tweetUrl = NewQuestStore.useStoreState((state) => state.tweetUrl)
+  const spaceUrlTw = NewQuestStore.useStoreState((state) => state.spaceUrlTw)
+
+  // Action
+  const setActionTwitter = NewQuestStore.useStoreActions(
     (actions) => actions.setActionTwitter
   )
-  const onAccountLinkChanged = NewQuestStore.useStoreActions(
+  const setAccountLink = NewQuestStore.useStoreActions(
     (actions) => actions.setAccountLink
   )
-  const onTweetUrlChanged = NewQuestStore.useStoreActions(
+  const setTweetUrl = NewQuestStore.useStoreActions(
     (actions) => actions.setTweetUrl
   )
-  const onReplyTwChanged = NewQuestStore.useStoreActions(
+  const setReplyTwitter = NewQuestStore.useStoreActions(
     (actions) => actions.setReplyTwitter
   )
-  const onContentTwChanged = NewQuestStore.useStoreActions(
+  const setContentTwitter = NewQuestStore.useStoreActions(
     (actions) => actions.setContentTwitter
   )
-  const onTwitterTypeChanged = NewQuestStore.useStoreActions(
+  const setTwitterType = NewQuestStore.useStoreActions(
     (actions) => actions.setTwitterType
   )
-  const onSpaceUrlTwChanged = NewQuestStore.useStoreActions(
+  const setSpaceUrl = NewQuestStore.useStoreActions(
     (actions) => actions.setSpaceUrl
   )
 
   const handleActive = (i: string) => {
     if (i === TwitterEnum.FOLLOW) {
-      onTwitterTypeChanged(QuestTypeEnum.TWITTER_FOLLOW)
+      setTwitterType(QuestTypeEnum.TWITTER_FOLLOW)
     }
 
     if (i === TwitterEnum.TWEET) {
-      onTwitterTypeChanged(QuestTypeEnum.TWITTER_TWEET)
+      setTwitterType(QuestTypeEnum.TWITTER_TWEET)
     }
 
     if (i === TwitterEnum.JOIN_SPACE) {
-      onTwitterTypeChanged(QuestTypeEnum.TWITTER_JOIN_SPACE)
+      setTwitterType(QuestTypeEnum.TWITTER_JOIN_SPACE)
     }
 
     if (
@@ -62,13 +69,13 @@ const TwitterList: FunctionComponent = () => {
       i === TwitterEnum.REPLY ||
       i === TwitterEnum.RETWEET
     ) {
-      onTwitterTypeChanged(QuestTypeEnum.TWITTER_REACTION)
+      setTwitterType(QuestTypeEnum.TWITTER_REACTION)
     }
 
     if (!actionTwitter.includes(i)) {
-      onActionTwitterChanged([...actionTwitter, i])
+      setActionTwitter([...actionTwitter, i])
     } else {
-      onActionTwitterChanged(actionTwitter.filter((e) => e !== i))
+      setActionTwitter(actionTwitter.filter((e) => e !== i))
     }
   }
 
@@ -150,9 +157,12 @@ const TwitterList: FunctionComponent = () => {
           <PICard>
             <LabelInput>{'ACCOUNT URL'}</LabelInput>
             <Gap height={3} />
-            <InputBox
-              onChange={(e) => onAccountLinkChanged(e.target.value)}
+            <TextField
+              onChange={(e) => setAccountLink(e.target.value)}
               placeholder='https://twitter.com/elon.musk'
+              value={accountUrl}
+              required
+              errorMsg='This field is required'
             />
           </PICard>
         </>
@@ -165,9 +175,12 @@ const TwitterList: FunctionComponent = () => {
           <PICard>
             <LabelInput>{'TWEET URL'}</LabelInput>
             <Gap height={3} />
-            <InputBox
-              onChange={(e) => onTweetUrlChanged(e.target.value)}
+            <TextField
+              onChange={(e) => setTweetUrl(e.target.value)}
               placeholder='https://twitter.com/abc'
+              value={tweetUrl}
+              required
+              errorMsg='This field is required'
             />
             <Gap height={3} />
             <LabelDes>{'Post to like/reply/retweet'}</LabelDes>
@@ -181,7 +194,7 @@ const TwitterList: FunctionComponent = () => {
             <LabelInput>{'DEFAULT REPLY'}</LabelInput>
             <Gap height={3} />
             <MulInputBox
-              onChange={(e) => onReplyTwChanged(e.target.value)}
+              onChange={(e) => setReplyTwitter(e.target.value)}
               rows={3}
               placeholder='Check this out @mantanetworl, @dzucle, @yugih, so cool!'
             />
@@ -199,7 +212,7 @@ const TwitterList: FunctionComponent = () => {
             <LabelInput>{'TWEET CONTENT'}</LabelInput>
             <Gap height={3} />
             <MulInputBox
-              onChange={(e) => onContentTwChanged(e.target.value)}
+              onChange={(e) => setContentTwitter(e.target.value)}
               rows={3}
               placeholder='Check this out @mantanetworl, @dzucle, @yugih, so cool!'
             />
@@ -212,9 +225,12 @@ const TwitterList: FunctionComponent = () => {
           <PICard>
             <LabelInput>{'SPACE URL'}</LabelInput>
             <Gap height={3} />
-            <InputBox
-              onChange={(e) => onSpaceUrlTwChanged(e.target.value)}
+            <TextField
+              onChange={(e) => setSpaceUrl(e.target.value)}
               placeholder='Empty'
+              value={spaceUrlTw}
+              required
+              errorMsg='This field is required'
             />
           </PICard>
         </>
