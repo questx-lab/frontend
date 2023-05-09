@@ -75,3 +75,7 @@ export const ProgressBarTotal = tw.div`
   bg-success 
   rounded-lg
 `
+
+export const Px6 = tw.div`
+  px-6
+`

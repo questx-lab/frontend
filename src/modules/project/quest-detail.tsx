@@ -20,6 +20,7 @@ import {
   ProgressBar,
   ProgressBarBg,
   ProgressBarTotal,
+  Px6,
 } from '@/styles/quest-detail.style'
 import { uploadImageApi } from '@/app/api/client/upload'
 import { claimRewardApi } from '@/app/api/client/reward'
@@ -174,7 +175,7 @@ export const QuestDetail: FunctionComponent<{
 
   const withText = () => {
     return (
-      <div className='px-6'>
+      <Px6>
         <Title>Mission</Title>
         <Gap height={2} />
         <Description>Join the community Weekly event.</Description>
@@ -215,13 +216,13 @@ export const QuestDetail: FunctionComponent<{
             placeholder='https://twitter.com/'
           />
         )}
-      </div>
+      </Px6>
     )
   }
 
   const withTwitter = () => {
     return (
-      <div className='px-6'>
+      <Px6>
         <Title>Mission 🎯</Title>
         <Gap height={2} />
         <Description>
@@ -243,20 +244,47 @@ export const QuestDetail: FunctionComponent<{
             </div>
           </GotoTwitterBtn>
         </a>
-      </div>
+      </Px6>
     )
   }
 
+  const withDiscord = () => {
+    return (
+      <Px6>
+        <Title>Mission 🎯</Title>
+        <Gap height={2} />
+        <Description>
+          Just like reply and retweet the post, this quest will auto validate
+          when you finish.
+        </Description>
+        <Gap height={4} />
+        <a href={quest?.title} target='_blank'>
+          <GotoTwitterBtn>
+            <div className='flex'>
+              <Image
+                width={30}
+                height={30}
+                src={StorageConst.DISCORD_DIR.src}
+                alt={StorageConst.DISCORD_DIR.alt}
+              />
+              <Gap width={2} />
+              <div className='flex items-center'>Connect Discord </div>
+            </div>
+          </GotoTwitterBtn>
+        </a>
+      </Px6>
+    )
+  }
   const withEmpty = () => {
     return (
-      <div className='px-6'>
+      <Px6>
         <Title>Mission 🎯</Title>
         <Gap height={2} />
         <Description>
           This is our easiest quest! Just connect to Xquest and claim this one
           every day.
         </Description>
-      </div>
+      </Px6>
     )
   }
 
@@ -266,12 +294,18 @@ export const QuestDetail: FunctionComponent<{
     switch (quest?.type) {
       case QuestTypeEnum.QUIZ:
         return withQuizzes()
-      case QuestTypeEnum.TWITTER:
+      case (QuestTypeEnum.TWITTER,
+      QuestTypeEnum.TWITTER_TWEET,
+      QuestTypeEnum.TWITTER_FOLLOW,
+      QuestTypeEnum.TWITTER_JOIN_SPACE,
+      QuestTypeEnum.TWITTER_REACTION):
         return withTwitter()
       case QuestTypeEnum.EMPTY:
         return withEmpty()
       case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
         return withText()
+      case QuestTypeEnum.DISCORD:
+        return withDiscord()
       default:
         toast.error('unsupport quest type')
     }
