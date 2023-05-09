@@ -19,7 +19,6 @@ import {
   Gap,
   LargeText,
   NormalText,
-  SpinnerStyle,
 } from '@/styles/common.style'
 import { MDialog } from '@/styles/home.style'
 import {
@@ -113,12 +112,10 @@ const FollowBtn: FunctionComponent<{
     if (loading) {
       return (
         <MoonLoader
-          color={'#fff'}
-          loading={true}
-          cssOverride={SpinnerStyle}
+          color='hsla(168, 0%, 100%, 1)'
+          loading
+          speedMultiplier={0.8}
           size={20}
-          aria-label='Loading Spinner'
-          data-testid='loader'
         />
       )
     }
