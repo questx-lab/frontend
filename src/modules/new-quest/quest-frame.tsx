@@ -28,8 +28,7 @@ import Recurrence from '@/modules/new-quest/recurrence'
 import { NewQuestModel, NewQuestStore } from '@/store/local/new-quest.store'
 import { BtnCreateQuest, BtnDraft } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
-import { InputBox } from '@/styles/input.style'
-import { LabelInput } from '@/styles/myProjects.style'
+import { LabelInput, RequireSignal } from '@/styles/input.style'
 import {
   BtnWrap,
   CBox,
@@ -42,6 +41,7 @@ import {
 } from '@/styles/questboard.style'
 import { ReqNewQuestType, ValidationQuest } from '@/types/project.type'
 import Editor from '@/widgets/editor'
+import { TextField } from '@/widgets/form'
 import { ProgressModal } from '@/widgets/modal'
 
 const CreateQuestLabel: FunctionComponent<{
@@ -68,6 +68,154 @@ const CreateQuestLabel: FunctionComponent<{
         <CHeadling>{'Create Quest'}</CHeadling>
       </TitleBox>
     </>
+  )
+}
+
+const ButtonSubmit: FunctionComponent<{
+  setIsOpen: (e: boolean) => any
+  id: string
+}> = ({ setIsOpen, id }) => {
+  const store = NewQuestStore.useStore()
+  const router = useRouter()
+  const title = NewQuestStore.useStoreState((state) => state.title)
+  const questType = NewQuestStore.useStoreState((state) => state.questType)
+  const actionTwitter = NewQuestStore.useStoreState(
+    (state) => state.actionTwitter
+  )
+  const visitLink = NewQuestStore.useStoreState((state) => state.visitLink)
+  const quizQuestion = NewQuestStore.useStoreState(
+    (state) => state.quizQuestion
+  )
+  const quizAnswers = NewQuestStore.useStoreState((state) => state.quizAnswers)
+  const quizCorrectAnswers = NewQuestStore.useStoreState(
+    (state) => state.quizCorrectAnswers
+  )
+  const accountUrl = NewQuestStore.useStoreState((state) => state.accountUrl)
+  const tweetUrl = NewQuestStore.useStoreState((state) => state.tweetUrl)
+  const contentTw = NewQuestStore.useStoreState((state) => state.contentTw)
+  const spaceUrlTw = NewQuestStore.useStoreState((state) => state.spaceUrlTw)
+  const telegramLink = NewQuestStore.useStoreState(
+    (state) => state.telegramLink
+  )
+  const textAutoValid = NewQuestStore.useStoreState(
+    (state) => state.textAutoValid
+  )
+  const anwser = NewQuestStore.useStoreState((state) => state.anwser)
+
+  const submitAction = async (status: string) => {
+    setIsOpen(true)
+    const rs = await handleSubmit(store, id, status)
+    if (rs) {
+      router.push(RouterConst.PROJECT + id)
+    } else {
+      setIsOpen(false)
+    }
+  }
+
+  let disable = true
+
+  if (title !== '') {
+    switch (questType) {
+      case QuestTypeEnum.URL:
+        disable = false
+        break
+      case QuestTypeEnum.IMAGE:
+        disable = false
+        break
+      case QuestTypeEnum.TEXT:
+        if (textAutoValid && anwser === '') {
+          disable = true
+        } else {
+          disable = false
+        }
+        break
+      case QuestTypeEnum.QUIZ:
+        const validQuest = quizAnswers.filter((e) => e === '')
+        if (
+          quizQuestion !== '' &&
+          !validQuest.length &&
+          quizCorrectAnswers.length > 0
+        ) {
+          disable = false
+        }
+
+        break
+      case QuestTypeEnum.VISIT_LINK:
+        if (visitLink !== '') {
+          disable = false
+        }
+        break
+      case QuestTypeEnum.EMPTY:
+        disable = false
+        break
+      case QuestTypeEnum.TWITTER:
+        actionTwitter.forEach((e) => {
+          switch (e) {
+            case TwitterEnum.FOLLOW:
+              if (accountUrl !== '') {
+                disable = false
+              }
+              break
+            case TwitterEnum.LIKE:
+              if (tweetUrl !== '') {
+                disable = false
+              }
+              break
+            case TwitterEnum.REPLY:
+              if (tweetUrl !== '') {
+                disable = false
+              }
+              break
+            case TwitterEnum.RETWEET:
+              if (tweetUrl !== '') {
+                disable = false
+              }
+              break
+            case TwitterEnum.TWEET:
+              if (contentTw !== '') {
+                disable = false
+              }
+              break
+            case TwitterEnum.JOIN_SPACE:
+              if (spaceUrlTw !== '') {
+                disable = false
+              }
+              break
+          }
+        })
+
+        break
+      case QuestTypeEnum.DISCORD:
+        disable = false
+        break
+      case QuestTypeEnum.JOIN_TELEGRAM:
+        if (telegramLink !== '') {
+          disable = false
+        }
+        break
+      case QuestTypeEnum.INVITES:
+        disable = false
+        break
+    }
+  }
+
+  return (
+    <BtnWrap>
+      <BtnDraft
+        disabled={disable}
+        block={disable}
+        onClick={() => submitAction(QuestStatusEnum.DRAFT)}
+      >
+        {'Draft'}
+      </BtnDraft>
+      <BtnCreateQuest
+        disabled={disable}
+        block={disable}
+        onClick={() => submitAction(QuestStatusEnum.ACTIVE)}
+      >
+        {'Publish'}
+      </BtnCreateQuest>
+    </BtnWrap>
   )
 }
 
@@ -201,7 +349,6 @@ const QuestFrame: FunctionComponent<{
   // Data
   const title = NewQuestStore.useStoreState((state) => state.title)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const store = NewQuestStore.useStore()
 
   // Actions
   const onTitleChanged = NewQuestStore.useStoreActions(
@@ -210,16 +357,6 @@ const QuestFrame: FunctionComponent<{
   const onDescriptionChanged = NewQuestStore.useStoreActions(
     (actions) => actions.setDescription
   )
-
-  const submitAction = async (status: string) => {
-    setIsOpen(true)
-    const rs = await handleSubmit(store, id, status)
-    if (rs) {
-      router.push(RouterConst.PROJECT + id)
-    } else {
-      setIsOpen(false)
-    }
-  }
 
   return (
     <>
@@ -231,12 +368,17 @@ const QuestFrame: FunctionComponent<{
           <CCard>
             <ICard>
               <PICard>
-                <LabelInput>{'QUEST TITLE'}</LabelInput>
+                <LabelInput>
+                  {'QUEST TITLE'}
+                  <RequireSignal>{'*'}</RequireSignal>
+                </LabelInput>
                 <Gap />
-                <InputBox
+                <TextField
+                  required
                   value={title}
                   placeholder='The name of the quest is written here.'
                   onChange={(e) => onTitleChanged(e.target.value)}
+                  errorMsg='You must have a quest title to create this quest.'
                 />
                 <Gap height={6} />
                 <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
@@ -252,16 +394,7 @@ const QuestFrame: FunctionComponent<{
             <Recurrence />
             <Gap height={8} />
 
-            <BtnWrap>
-              <BtnDraft onClick={() => submitAction(QuestStatusEnum.DRAFT)}>
-                {'Draft'}
-              </BtnDraft>
-              <BtnCreateQuest
-                onClick={() => submitAction(QuestStatusEnum.ACTIVE)}
-              >
-                {'Publish'}
-              </BtnCreateQuest>
-            </BtnWrap>
+            <ButtonSubmit setIsOpen={setIsOpen} id={id} />
           </CCard>
           <QuestReward />
         </CBox>

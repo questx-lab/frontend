@@ -277,7 +277,7 @@ export const BtnCreateQuest = styled.button<{ block?: boolean }>(
   ({ block = false }) => [
     !block
       ? tw`
-          w-[calc(50%_-_8px)]
+          w-full
           py-2
           rounded-lg
           bg-primary-500
@@ -291,8 +291,8 @@ export const BtnCreateQuest = styled.button<{ block?: boolean }>(
           hover:bg-primary-400
         `
       : tw`
+        w-full
         py-2
-        w-[calc(50%_-_8px)]
         rounded-lg
         bg-primary-300
         flex
@@ -306,21 +306,43 @@ export const BtnCreateQuest = styled.button<{ block?: boolean }>(
   ]
 )
 
-export const BtnDraft = tw.button`
-  w-[calc(50%_-_8px)]
-  py-2
-  rounded-lg
-  bg-white
-  flex
-  justify-center
-  items-center
-  text-lg
-  font-medium
-  text-black
-  cursor-pointer
-  hover:bg-gray-200
-  border
-  border-solid
-  border-[1ox]
-  border-gray-300
-`
+export const BtnDraft = styled.button<{ block?: boolean }>(
+  ({ block = false }) => [
+    !block
+      ? tw`
+          w-full
+          py-2
+          rounded-lg
+          bg-white
+          flex
+          justify-center
+          items-center
+          text-lg
+          font-medium
+          text-black
+          cursor-pointer
+          hover:bg-gray-200
+          border
+          border-solid
+          border-[1ox]
+          border-gray-300
+        `
+      : tw`
+          w-full
+          py-2
+          rounded-lg
+          bg-white
+          flex
+          justify-center
+          items-center
+          text-lg
+          font-medium
+          text-gray-500
+          cursor-pointer
+          border
+          border-solid
+          border
+          border-gray-200
+        `,
+  ]
+)

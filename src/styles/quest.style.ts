@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { AnswerStatusEnum } from '@/constants/project.const'
+
 export const TWrap = tw.div`
   flex
   flex-row
@@ -90,3 +92,117 @@ export const TEText = tw.p`
   font-light 
   text-black
 `
+
+export const QuestQuizBox = tw.div`
+  flex
+  flex-col
+  gap-2
+  mt-4
+`
+
+export const AnswerWrap = tw.div`
+  flex
+  flex-col
+  gap-3
+`
+
+export const AnswerBox = styled.div<{ status?: number }>(
+  ({ status = AnswerStatusEnum.DEFAULT }) => [
+    status === AnswerStatusEnum.DANGER &&
+      tw`
+    p-2
+    flex
+    flex-row
+    items-center
+    gap-2
+    rounded-lg
+    border
+    border-solid
+    border-danger-500
+    cursor-pointer
+  `,
+    status === AnswerStatusEnum.DEFAULT &&
+      tw`
+    p-2
+    flex
+    flex-row
+    items-center
+    gap-2
+    rounded-lg
+    border
+    border-solid
+    border-gray-300
+    cursor-pointer
+  `,
+    status === AnswerStatusEnum.ACTIVE &&
+      tw`
+    p-2
+    flex
+    flex-row
+    items-center
+    gap-2
+    rounded-lg
+    border-2
+    border-solid
+    border-success-500
+    cursor-pointer
+  `,
+    status === AnswerStatusEnum.BLOCK &&
+      tw`
+    
+    p-2
+    flex
+    flex-row
+    items-center
+    gap-2
+    rounded-lg
+    border
+    border-solid
+    border-gray-300
+    cursor-not-allowed
+    `,
+  ]
+)
+
+export const SquareBox = tw.div`
+  w-12
+  h-12
+  text-lg
+  font-medium
+  text-black
+  bg-gray-100
+  rounded-lg
+  flex
+  justify-center
+  items-center
+`
+
+export const AnswerInput = tw.input`
+  border-0
+  outline-0
+  ring-0
+  w-full
+  h-full
+  text-lg
+`
+
+export const AnswerText = styled.div<{ status?: number }>(
+  ({ status = AnswerStatusEnum.DEFAULT }) => [
+    status === AnswerStatusEnum.DEFAULT &&
+      tw`
+  w-full
+  h-full
+  text-lg
+  font-normal
+  text-gray-700
+`,
+    status === AnswerStatusEnum.BLOCK &&
+      tw`
+w-full
+h-full
+text-lg
+font-normal
+text-gray-300
+`,
+  ]
+)
