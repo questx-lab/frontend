@@ -78,7 +78,7 @@ export type ValidationQuest = {
   number?: number
 }
 
-export type QuestType = {
+export interface QuestType {
   id?: string
   project_id?: string
   title?: string

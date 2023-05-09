@@ -23,7 +23,6 @@ export interface NewQuestModel {
   activeReward: number
   twitterType: string
   isOpenModal: boolean
-  submissionModal: boolean
   chooseQuestsHistory: any[]
   chooseQuestsPending: any[]
 
@@ -54,11 +53,9 @@ export interface NewQuestModel {
   setTwitterType: Action<NewQuestModel, string>
   setSpaceUrl: Action<NewQuestModel, string>
   onOpenModalChanged: Action<NewQuestModel, boolean>
-  onSubmissionModalChanged: Action<NewQuestModel, boolean>
 
   onQuestDetailModalChanged: Action<NewQuestModel, boolean>
   onAllCheckHistoryChanged: Action<NewQuestModel, boolean>
-  // onQuestActiveChanged: Action<NewQuestModel, QuestType>
   onLoadingModalChanged: Action<NewQuestModel, boolean>
 
   setQuestActive: Action<NewQuestModel, QuestType>
@@ -88,7 +85,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   chooseQuestsHistory: [],
   chooseQuestsPending: [],
   questDetailModal: false,
-  submissionModal: false,
   loadingModal: false,
   questActive: {},
 
@@ -169,10 +165,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   onOpenModalChanged: action((state, openModal) => {
     state.isOpenModal = openModal
-  }),
-
-  onSubmissionModalChanged: action((state, modal) => {
-    state.submissionModal = modal
   }),
 
   onQuestDetailModalChanged: action((state, modal) => {

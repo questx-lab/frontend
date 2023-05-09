@@ -61,7 +61,7 @@ const quizzes = [
 ]
 
 export const QuestDetail: FunctionComponent<{
-  quest: QuestType | null
+  quest: QuestType | undefined
   onClose: () => void
 }> = ({ quest, onClose }) => {
   const [input, setInput] = useState<string>('')
