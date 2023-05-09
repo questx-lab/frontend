@@ -1,13 +1,25 @@
 import { FunctionComponent, useState } from 'react'
 import Image from 'next/image'
 import { StorageConst } from '@/constants/storage.const'
-import { FullWidthBtn, GotoTwitterBtn } from '@/styles/button.style'
+import {
+  FullWidthBtn,
+  GotoTwitterBtn,
+  EditButton,
+  DeleteBtn,
+} from '@/styles/button.style'
 import {
   Title,
   Description,
   HeaderBox,
   PointText,
   ContentContainer,
+  QuestDetailWrap,
+  QuizzesWrap,
+  ProgressWrap,
+  ProgressText,
+  ProgressBar,
+  ProgressBarBg,
+  ProgressBarTotal,
 } from '@/styles/quest-detail.style'
 import { uploadImageApi } from '@/app/api/client/upload'
 import { claimRewardApi } from '@/app/api/client/reward'
@@ -17,14 +29,7 @@ import { toast } from 'react-hot-toast'
 import { InputBox } from '@/styles/input.style'
 import { Answers } from './quiz'
 import { useDropzone } from 'react-dropzone'
-
-const claimType = {
-  TEXT: 'text',
-  IMAGE: 'image',
-  URL: 'url',
-  QUIZ: 'quiz',
-  TWITTER: 'twitter_follow',
-}
+import { QuestTypeEnum } from '@/constants/project.const'
 
 // mock quizzes
 const quizzes = [
@@ -87,7 +92,7 @@ export const QuestDetail: FunctionComponent<{
   const submit = async () => {
     let inp = input
     switch (quest?.type) {
-      case claimType.IMAGE:
+      case QuestTypeEnum.IMAGE:
         let formData = new FormData()
         if (acceptedFiles.length == 0) {
           toast.error('Must upload file')
@@ -103,7 +108,7 @@ export const QuestDetail: FunctionComponent<{
           return
         }
         break
-      case claimType.QUIZ:
+      case QuestTypeEnum.QUIZ:
         inp = JSON.stringify(chosenAnswers)
 
       default:
@@ -127,22 +132,21 @@ export const QuestDetail: FunctionComponent<{
 
   const withQuizzes = () => {
     return (
-      <div className='w-full'>
-        <div className='flex border-b-2 pb-5 px-6'>
-          <div className='w-full text-md text-gray-500'>
+      <QuizzesWrap>
+        <ProgressWrap>
+          <ProgressText>
             {currentQuiz} of {quizzes.length} quests completed
-          </div>
-          <div className='flex items-center w-full'>
-            <div className=' h-2 w-full bg-gray-200 rounded-lg'>
-              <div
-                className='h-2 bg-success rounded-lg'
+          </ProgressText>
+          <ProgressBar>
+            <ProgressBarBg>
+              <ProgressBarTotal
                 style={{
                   width: `${(currentQuiz / quizzes.length) * 100}%`,
                 }}
-              ></div>
-            </div>
-          </div>
-        </div>
+              ></ProgressBarTotal>
+            </ProgressBarBg>
+          </ProgressBar>
+        </ProgressWrap>
         <div className='px-6 pt-6'>
           {currentQuiz === quizzes.length ? (
             <div>all quest have completed</div>
@@ -164,7 +168,7 @@ export const QuestDetail: FunctionComponent<{
             </div>
           )}
         </div>
-      </div>
+      </QuizzesWrap>
     )
   }
 
@@ -185,7 +189,7 @@ export const QuestDetail: FunctionComponent<{
           Type “YES” if you participate in the event in the text area.
         </Description>
         <Gap height={4} />
-        {quest?.type === claimType.IMAGE && (
+        {quest?.type === QuestTypeEnum.IMAGE && (
           <section className='container'>
             <div {...getRootProps({ className: 'dropzone' })}>
               <input {...getInputProps()} />
@@ -200,11 +204,11 @@ export const QuestDetail: FunctionComponent<{
           </section>
         )}
 
-        {quest?.type === claimType.TEXT && (
+        {quest?.type === QuestTypeEnum.TEXT && (
           <InputBox value={input} onChange={onChangeInput} placeholder='YES' />
         )}
 
-        {quest?.type === claimType.URL && (
+        {quest?.type === QuestTypeEnum.URL && (
           <InputBox
             value={input}
             onChange={onChangeInput}
@@ -225,19 +229,33 @@ export const QuestDetail: FunctionComponent<{
           when you finish.
         </Description>
         <Gap height={4} />
-        <GotoTwitterBtn>
-          <div className='flex'>
-            <Image
-              width={30}
-              height={30}
-              src={StorageConst.TWITTER_DIR.src}
-              alt={StorageConst.TWITTER_DIR.alt}
-              color='#1DA1F2'
-            />
-            <Gap width={2} />
-            <div className='flex items-center'>Connect Twitter </div>
-          </div>
-        </GotoTwitterBtn>
+        <a href={quest?.title} target='_blank'>
+          <GotoTwitterBtn>
+            <div className='flex'>
+              <Image
+                width={30}
+                height={30}
+                src={StorageConst.TWITTER_DIR.src}
+                alt={StorageConst.TWITTER_DIR.alt}
+              />
+              <Gap width={2} />
+              <div className='flex items-center'>Connect Twitter </div>
+            </div>
+          </GotoTwitterBtn>
+        </a>
+      </div>
+    )
+  }
+
+  const withEmpty = () => {
+    return (
+      <div className='px-6'>
+        <Title>Mission 🎯</Title>
+        <Gap height={2} />
+        <Description>
+          This is our easiest quest! Just connect to Xquest and claim this one
+          every day.
+        </Description>
       </div>
     )
   }
@@ -246,20 +264,25 @@ export const QuestDetail: FunctionComponent<{
     console.log(quest?.type)
 
     switch (quest?.type) {
-      case claimType.QUIZ:
+      case QuestTypeEnum.QUIZ:
         return withQuizzes()
-      case claimType.TWITTER:
+      case QuestTypeEnum.TWITTER:
         return withTwitter()
-
-      default:
+      case QuestTypeEnum.EMPTY:
+        return withEmpty()
+      case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
         return withText()
+      default:
+        toast.error('unsupport quest type')
     }
   }
 
   return (
-    <div className='grid gap-1 grid-cols-3 w-full'>
+    <QuestDetailWrap>
       <div className='col-span-2'>
-        <ContentContainer className={claimType.QUIZ ? 'px-0' : '' + ' w-full'}>
+        <ContentContainer
+          className={QuestTypeEnum.QUIZ ? 'px-0' : '' + ' w-full'}
+        >
           {getDescription()}
         </ContentContainer>
       </div>
@@ -279,11 +302,17 @@ export const QuestDetail: FunctionComponent<{
           </HeaderBox>
         </ContentContainer>
         <div className='p-6 pt-2'>
+          {
+            <div className='grip grip-cols-2 gap-2'>
+              <EditButton> Edit </EditButton>
+              <DeleteBtn> Delete </DeleteBtn>
+            </div>
+          }
           <FullWidthBtn onClick={submit} className='h-10'>
             Claim Reward
           </FullWidthBtn>
         </div>
       </div>
-    </div>
+    </QuestDetailWrap>
   )
 }

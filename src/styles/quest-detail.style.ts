@@ -34,3 +34,44 @@ export const ContentContainer = tw.div`
   rounded-md
   border-[#E5E7EB]
 `
+
+export const QuestDetailWrap = tw.div`
+  grid
+  gap-1
+  grid-cols-3
+  w-full
+`
+
+export const QuizzesWrap = tw.div`
+  w-full
+`
+
+export const ProgressWrap = tw.div`
+  flex
+  border-b-2
+  pb-5
+  px-6
+`
+
+export const ProgressText = tw.div`
+  w-full 
+  text-sm
+  text-gray-500
+`
+export const ProgressBar = tw.div`
+  flex 
+  items-center 
+  w-full
+`
+
+export const ProgressBarBg = tw.div`
+  h-2
+  w-full
+  bg-gray-200
+  rounded-lg
+`
+export const ProgressBarTotal = tw.div`
+  h-2 
+  bg-success 
+  rounded-lg
+`

@@ -327,6 +327,17 @@ export const BtnDraft = tw.button`
 
 export const GotoTwitterBtn = tw.button`
   text-sm 
+  py-2 
+  px-4 
+  rounded-lg
+  border
+  border-solid
+  border-[1ox]
+  border-[#1DA1F2] 
+`
+
+export const EditButton = tw.button`
+  text-sm 
   text-[#1DA1F2] 
   py-2 
   px-4 
@@ -335,4 +346,17 @@ export const GotoTwitterBtn = tw.button`
   border-solid
   border-[1ox]
   border-[#1DA1F2] 
+`
+
+export const DeleteBtn = tw.button`
+  text-sm 
+  text-[#B91C1C] 
+  py-2 
+  px-4 
+  rounded-lg
+  border
+  border-solid
+  border-[1ox]
+  border-[#FCA5A5]
+  bg-[#FEF2F2]
 `
