@@ -3,11 +3,13 @@
 import { QuestTypeEnum } from '@/constants/project.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Divider, Gap } from '@/styles/common.style'
-import { InputBox, InputInviteBox } from '@/styles/input.style'
+import { InputInviteBox } from '@/styles/input.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import { TBox, TCheckBox } from '@/styles/quest.style'
 import { LabelCheckText, LabelDes, PICard } from '@/styles/questboard.style'
+import { TextField } from '@/widgets/form'
 
+import QuestQuiz from './quest-quiz'
 import TwitterList from './twitter-list'
 
 const QuestDetails = () => {
@@ -16,21 +18,26 @@ const QuestDetails = () => {
   const textAutoValid = NewQuestStore.useStoreState(
     (state) => state.textAutoValid
   )
+  const visitLink = NewQuestStore.useStoreState((state) => state.visitLink)
+  const telegramLink = NewQuestStore.useStoreState(
+    (state) => state.telegramLink
+  )
+  const anwser = NewQuestStore.useStoreState((state) => state.anwser)
 
   // Actions
-  const onTextAutoValid = NewQuestStore.useStoreActions(
+  const setTextAutoValidation = NewQuestStore.useStoreActions(
     (actions) => actions.setTextAutoValidation
   )
-  const onAnswerChanged = NewQuestStore.useStoreActions(
+  const setAnswer = NewQuestStore.useStoreActions(
     (actions) => actions.setAnswer
   )
-  const onVisitLinkChanged = NewQuestStore.useStoreActions(
+  const setVisitLink = NewQuestStore.useStoreActions(
     (actions) => actions.setVisitLink
   )
-  const onTelegramLinkChanged = NewQuestStore.useStoreActions(
+  const setTelegramLink = NewQuestStore.useStoreActions(
     (actions) => actions.setTelegramLink
   )
-  const onInvitesChanged = NewQuestStore.useStoreActions(
+  const setInvites = NewQuestStore.useStoreActions(
     (actions) => actions.setInvites
   )
 
@@ -47,13 +54,15 @@ const QuestDetails = () => {
             <TCheckBox
               checked={textAutoValid}
               onChange={(e) => {
-                onTextAutoValid(e.target.checked)
+                setTextAutoValidation(e.target.checked)
               }}
               id='inline-checked-checkbox'
               type='checkbox'
             />
             <Gap width={4} />
-            <LabelCheckText onClick={() => onTextAutoValid(!textAutoValid)}>
+            <LabelCheckText
+              onClick={() => setTextAutoValidation(!textAutoValid)}
+            >
               {'Autovalidate'}
             </LabelCheckText>
           </TBox>
@@ -62,9 +71,12 @@ const QuestDetails = () => {
               <Gap height={4} />
               <LabelInput>{'Correct Answer'}</LabelInput>
               <Gap height={2} />
-              <InputBox
-                onChange={(e) => onAnswerChanged(e.target.value)}
+              <TextField
+                onChange={(e) => setAnswer(e.target.value)}
                 placeholder=''
+                value={anwser}
+                required
+                errorMsg='This field is required'
               />
               <Gap height={2} />
               <LabelDes>{'Leave empty for accepting any value'}</LabelDes>
@@ -73,7 +85,11 @@ const QuestDetails = () => {
         </PICard>
       )
     case QuestTypeEnum.QUIZ:
-      return <></>
+      return (
+        <PICard>
+          <QuestQuiz />
+        </PICard>
+      )
     case QuestTypeEnum.VISIT_LINK:
       return (
         <>
@@ -81,9 +97,12 @@ const QuestDetails = () => {
           <PICard>
             <LabelInput>{'LINK'}</LabelInput>
             <Gap height={2} />
-            <InputBox
-              onChange={(e) => onVisitLinkChanged(e.target.value)}
+            <TextField
+              onChange={(e) => setVisitLink(e.target.value)}
               placeholder='https://example.com'
+              value={visitLink}
+              required
+              errorMsg='You must have a url to visit link submission.'
             />
           </PICard>
         </>
@@ -95,12 +114,14 @@ const QuestDetails = () => {
           <TBox>
             <TCheckBox
               checked={textAutoValid}
-              onChange={(e) => onTextAutoValid(e.target.checked)}
+              onChange={(e) => setTextAutoValidation(e.target.checked)}
               id='inline-checked-checkbox'
               type='checkbox'
             />
             <Gap width={4} />
-            <LabelCheckText onClick={() => onTextAutoValid(!textAutoValid)}>
+            <LabelCheckText
+              onClick={() => setTextAutoValidation(!textAutoValid)}
+            >
               {'Autovalidate'}
             </LabelCheckText>
           </TBox>
@@ -115,10 +136,14 @@ const QuestDetails = () => {
           <PICard>
             <LabelInput>{'JOIN TELEGRAM'}</LabelInput>
             <Gap height={2} />
-            <InputBox
-              onChange={(e) => onTelegramLinkChanged(e.target.value)}
+            <TextField
+              onChange={(e) => setTelegramLink(e.target.value)}
               placeholder='Telegram invite link'
+              value={telegramLink}
+              required
+              errorMsg='You must have a url to telegramLink submission.'
             />
+
             <Gap height={2} />
             <LabelDes>
               {'Invite link should be in the format https://t.me/groupid'}
@@ -134,9 +159,7 @@ const QuestDetails = () => {
             <LabelInput>{'INVITES'}</LabelInput>
             <Gap height={2} />
             <InputInviteBox
-              onChange={(e) =>
-                onInvitesChanged(parseInt(e.target.value ?? '0'))
-              }
+              onChange={(e) => setInvites(parseInt(e.target.value ?? '0'))}
               defaultValue={10}
               type='number'
             />
