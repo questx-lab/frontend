@@ -132,7 +132,6 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     case QuestTypeEnum.DISCORD:
       return <QuestDiscord />
     default:
-      console.error('unsupport quest type')
       return <></>
   }
 }
@@ -141,7 +140,6 @@ export const QuestDetail: FunctionComponent<{
   onClose: () => void
 }> = ({ onClose }) => {
   const quest = NewQuestStore.useStoreState((state) => state.questActive)
-  console.log('quest', quest)
 
   return (
     <QuestDetailWrap>
