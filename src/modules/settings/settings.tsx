@@ -5,7 +5,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { StorageConst } from '@/constants/storage.const'
 import { ImageQuestBox } from '@/styles/questboard.style'
 import { Gap } from '@/styles/common.style'
-import { InfoText } from '@/styles/settings.style'
+import { InfoText, Badge } from '@/styles/settings.style'
 import Image from 'next/image'
 
 export default function Setting({ userId }: { userId: string }) {
@@ -76,31 +76,59 @@ export default function Setting({ userId }: { userId: string }) {
           </InfoText>
         </div>
       </ContentContainer>
-      <ContentContainer className='col-span-2 p-0'>
-        <div className='divide-y-2'>
-          <div className='py-6 px-12 flex'>
-            <div> 🎉 Badge Achievements </div>
-            <Gap width={2} />
-            <div className='bg-[#F3F4F6] rounded-full px-2 py-1 text-xs text-gray-700'>
-              12
+      <div className='col-span-2'>
+        <ContentContainer className='p-0'>
+          <div className='divide-y-2'>
+            <div className='py-6 px-12 flex'>
+              <div> 🎉 Badge Achievements </div>
+              <Gap width={2} />
+              <Badge>12</Badge>
+            </div>
+            <div className='grid grid-cols-5'>
+              {[...Array.from({ length: 20 }, (x: any, i: any) => i)].map(
+                (idx) => (
+                  <ContentContainer key={`key-${idx}`}>
+                    <Image
+                      width={96}
+                      height={96}
+                      src={StorageConst.MANTA_LOGO.src}
+                      alt={StorageConst.MANTA_LOGO.alt}
+                    />
+                  </ContentContainer>
+                )
+              )}
             </div>
           </div>
-          <div className='grid grid-cols-5'>
-            {[...Array.from({ length: 20 }, (x: any, i: any) => i)].map(
+        </ContentContainer>
+        <ContentContainer className='p-0'>
+          <div className='divide-y-2'>
+            <div className='py-6 px-12 flex'>👑 Community Ranking</div>
+            {[...Array.from({ length: 10 }, (x: any, i: any) => i)].map(
               (idx) => (
-                <ContentContainer key={`key-${idx}`}>
-                  <Image
-                    width={96}
-                    height={96}
-                    src={StorageConst.XP_ICON.src}
-                    alt={StorageConst.XP_ICON.alt}
-                  />
-                </ContentContainer>
+                <div className='py-6 px-12 flex' key={`key-${idx}`}>
+                  <div>
+                    <ImageQuestBox
+                      width={64}
+                      height={64}
+                      src={StorageConst.MANTA_LOGO.src}
+                      alt={StorageConst.MANTA_LOGO.alt}
+                    />
+                  </div>
+                  <Gap width={4} />
+                  <div>
+                    <div> Manta Network </div>
+                    <Gap width={1} />
+                    <div className='flex gap-2'>
+                      <Badge>🔥 Top 5</Badge>
+                      <Badge>32 Quest Completed</Badge>
+                    </div>
+                  </div>
+                </div>
               )
             )}
           </div>
-        </div>
-      </ContentContainer>
+        </ContentContainer>
+      </div>
     </div>
   )
 }
