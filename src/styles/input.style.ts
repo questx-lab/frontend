@@ -46,6 +46,9 @@ export const ErrorBox = tw.div`
   flex
   flex-col
   gap-2
+  w-full
+  justify-start
+  items-start
 `
 
 export const ErrorMsg = tw.span`

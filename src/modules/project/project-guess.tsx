@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, useEffect, useState } from 'react'
+import { Fragment, FunctionComponent, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Image from 'next/image'
@@ -130,7 +130,7 @@ const FollowBtn: FunctionComponent<{
   )
 }
 
-export default function ProjectGuess({ project }: { project: ProjectType }) {
+export default function ProjectGuess() {
   const [tab, setTab] = useState<number>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -142,15 +142,6 @@ export default function ProjectGuess({ project }: { project: ProjectType }) {
   const onOpen = () => {
     setIsOpen(true)
   }
-
-  // actions
-  const setProject = NewProjectStore.useStoreActions(
-    (actions) => actions.setProject
-  )
-
-  useEffect(() => {
-    setProject(project)
-  }, [])
 
   const listLD = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((e) => (
     <div key={e}>
@@ -229,7 +220,7 @@ export default function ProjectGuess({ project }: { project: ProjectType }) {
                       <QuestText>{'with 287.6K questers 👋'}</QuestText>
                     </SCardBox>
                     <CardBox>
-                      <FollowBtn project={project} />
+                      <FollowBtn project={projectState} />
                       <Gap height={8} />
                       <PShare>
                         <Image
