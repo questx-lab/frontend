@@ -79,7 +79,7 @@ export type ValidationQuest = {
   number?: number
 }
 
-export type QuestType = {
+export interface QuestType {
   id?: string
   project_id?: string
   title?: string
@@ -94,6 +94,11 @@ export type QuestType = {
 
 export type LQuestType = {
   quests: QuestType[]
+}
+
+export type ReqClaimReward = {
+  quest_id?: string
+  input?: string
 }
 
 export type ClaimQuestType = {

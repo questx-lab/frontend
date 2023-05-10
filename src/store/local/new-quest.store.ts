@@ -22,9 +22,9 @@ export interface NewQuestModel {
   pointReward: number
   activeReward: number
   twitterType: string
-  isOpenModal: boolean
-  submissionModal: boolean
-  loadingModal: boolean
+  chooseQuestsHistory: any[]
+  chooseQuestsPending: any[]
+
   questActive: QuestType
   quizQuestion: string
   quizAnswers: string[]
@@ -49,9 +49,7 @@ export interface NewQuestModel {
   setActiveReward: Action<NewQuestModel, number>
   setTwitterType: Action<NewQuestModel, string>
   setSpaceUrl: Action<NewQuestModel, string>
-  onOpenModalChanged: Action<NewQuestModel, boolean>
-  onSubmissionModalChanged: Action<NewQuestModel, boolean>
-  onLoadingModalChanged: Action<NewQuestModel, boolean>
+
   setQuestActive: Action<NewQuestModel, QuestType>
   setQuizQuestion: Action<NewQuestModel, string>
   setQuizAnswers: Action<NewQuestModel, string[]>
@@ -77,9 +75,9 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   activeReward: 0,
   twitterType: '',
   spaceUrlTw: '',
-  isOpenModal: false,
-  submissionModal: false,
-  loadingModal: false,
+  // reviewStatus: ReviewStatusEnum.SUCCESS,
+  chooseQuestsHistory: [],
+  chooseQuestsPending: [],
   questActive: {},
   quizQuestion: '',
   quizAnswers: [''],
@@ -155,18 +153,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setSpaceUrl: action((state, spaceUrlTw) => {
     state.spaceUrlTw = spaceUrlTw
-  }),
-
-  onOpenModalChanged: action((state, openModal) => {
-    state.isOpenModal = openModal
-  }),
-
-  onSubmissionModalChanged: action((state, modal) => {
-    state.submissionModal = modal
-  }),
-
-  onLoadingModalChanged: action((state, loading) => {
-    state.loadingModal = loading
   }),
 
   setQuestActive: action((state, quest) => {

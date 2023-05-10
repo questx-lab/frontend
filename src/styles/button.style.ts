@@ -13,36 +13,36 @@ export const WrapBtn = tw.div`
 `
 
 export const FullWidthBtn = tw.button`
-  w-full 
-  bg-primary 
-  hover:bg-gray-400 
-  text-sm 
-  text-white 
-  font-medium 
-  py-2 
-  px-4 
+  w-full
+  bg-primary
+  hover:bg-gray-400
+  text-sm
+  text-white
+  font-medium
+  py-2
+  px-4
   rounded-lg
 `
 
 export const LoginBtn = tw.button`
-  bg-primary 
-  hover:bg-gray-400 
-  text-sm 
-  text-white 
-  font-medium 
-  py-2 
-  px-4 
+  bg-primary
+  hover:bg-gray-400
+  text-sm
+  text-white
+  font-medium
+  py-2
+  px-4
   rounded-lg
   max-lg:hidden
 `
 
 export const AddRoleBtn = tw.button`
-  bg-primary 
-  hover:bg-gray-400 
-  text-sm 
-  text-white 
-  font-medium 
-  py-2 
+  bg-primary
+  hover:bg-gray-400
+  text-sm
+  text-white
+  font-medium
+  py-2
   px-12
   rounded-lg
   max-sm:hidden
@@ -50,12 +50,12 @@ export const AddRoleBtn = tw.button`
 
 export const SubmitBtn = tw.button`
   bg-[#C1C7CD]
-  hover:bg-gray-200 
-  text-sm 
-  text-white 
-  font-medium 
-  py-4 
-  px-8 
+  hover:bg-gray-200
+  text-sm
+  text-white
+  font-medium
+  py-4
+  px-8
   rounded-lg
   max-sm:hidden
 `
@@ -346,3 +346,39 @@ export const BtnDraft = styled.button<{ block?: boolean }>(
         `,
   ]
 )
+
+export const GotoTwitterBtn = tw.button`
+  text-sm
+  py-2
+  px-4
+  rounded-lg
+  border
+  border-solid
+  border-[1ox]
+  border-[#1DA1F2]
+`
+
+export const EditButton = tw.button`
+  text-sm
+  text-[#1DA1F2]
+  py-2
+  px-4
+  rounded-lg
+  border
+  border-solid
+  border-[1ox]
+  border-[#1DA1F2]
+`
+
+export const DeleteBtn = tw.button`
+  text-sm
+  text-[#B91C1C]
+  py-2
+  px-4
+  rounded-lg
+  border
+  border-solid
+  border-[1ox]
+  border-[#FCA5A5]
+  bg-[#FEF2F2]
+`

@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
 import { StorageConst } from '@/constants/storage.const'
+import { Quests } from '@/modules/quests/quest-list'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { QTWrap } from '@/styles/leaderboard.style'
@@ -21,10 +22,8 @@ import {
   QuestboardBox,
   StartBoarding,
   TitleQuestBox,
-  WrapQuestboard,
 } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
-import { SmallSpinner } from '@/widgets/spinner'
 
 const categories = [
   'NFT',
@@ -140,25 +139,8 @@ export default function QuestBoardTab() {
       <Gap height={6} />
       <Boarding>{listBoarding}</Boarding>
       <Gap height={6} />
-      <HeaderText>{'👋 Onboarding'}</HeaderText>
-      <Gap height={6} />
-      {/* <Divider /> */}
-      {loading && <SmallSpinner />}
-      {!loading && (
-        <WrapQuestboard>
-          {!questList.length ? <EmptyQuest /> : listQuests}
-        </WrapQuestboard>
-      )}
-      <Gap height={6} />
-      <HeaderText>{'👌 Invite'}</HeaderText>
-      <Gap height={6} />
-      {/* <Divider /> */}
-      {loading && <SmallSpinner />}
-      {!loading && (
-        <WrapQuestboard>
-          {!questList.length ? <EmptyQuest /> : listQuests}
-        </WrapQuestboard>
-      )}
+
+      <Quests questList={questList} show={!loading} />
     </QTWrap>
   )
 }
