@@ -34,6 +34,7 @@ import {
   UWrapI,
   Wrap,
 } from '@/styles/user.style'
+import Settings from '@/modules/settings/settings'
 
 export default function UserProfile({
   params,
@@ -66,106 +67,8 @@ export default function UserProfile({
       <header>
         <title>{'Profile'}</title>
       </header>
-      <Wrap>
-        <Gap height={8} />
-        <UInfo>
-          <UInfoL>
-            <UAvt />
-            <Gap width={4} />
-            <ColSWrap>
-              <MediumTitle>{'Username 001'}</MediumTitle>
-              <Gap height={3} />
-              <RowSWrap>
-                <Image
-                  width={30}
-                  height={30}
-                  src={StorageConst.TWITTER_DIR.src}
-                  alt={StorageConst.TWITTER_DIR.alt}
-                />
-                <Gap width={2} />
-                <Image
-                  width={30}
-                  height={30}
-                  src={StorageConst.DISCORD_DIR.src}
-                  alt={StorageConst.DISCORD_DIR.alt}
-                />
-                <Gap width={2} />
-                <Image
-                  width={30}
-                  height={30}
-                  src={StorageConst.METAMASK_DIR.src}
-                  alt={StorageConst.METAMASK_DIR.alt}
-                />
-              </RowSWrap>
-              <Gap height={3} />
-              <NormalText>{'Joined on 24 Mar, 2022'}</NormalText>
-            </ColSWrap>
-          </UInfoL>
-          <UInfoR>
-            <UBadge>
-              <SmallTitle>{'Badges'}</SmallTitle>
-              <Gap width={4} />
-              <Image
-                width={30}
-                height={30}
-                src={StorageConst.RECOMEND_ICON.src}
-                alt={StorageConst.RECOMEND_ICON.alt}
-              />
-              <Gap width={2} />
-              <Image
-                width={30}
-                height={30}
-                src={StorageConst.FAVORITE_ICON.src}
-                alt={StorageConst.FAVORITE_ICON.alt}
-              />{' '}
-            </UBadge>
-          </UInfoR>
-        </UInfo>
-        <UWrapI>
-          <UBoxI>
-            <Image
-              width={30}
-              height={30}
-              src={StorageConst.DISCORD_DIR.src}
-              alt={StorageConst.DISCORD_DIR.alt}
-            />
-          </UBoxI>
-          <Gap width={2} />
-          <UBoxI>
-            <Image
-              width={30}
-              height={30}
-              src={StorageConst.TWITTER_DIR.src}
-              alt={StorageConst.TWITTER_DIR.alt}
-            />
-          </UBoxI>
-          <Gap width={2} />
-          <UBoxI>
-            <Image
-              width={30}
-              height={30}
-              src={StorageConst.METAMASK_DIR.src}
-              alt={StorageConst.METAMASK_DIR.alt}
-            />
-          </UBoxI>
-        </UWrapI>
-        <Gap height={9} />
-        <MediumTitle>{'NFT Collection'}</MediumTitle>
-        <Divider />
-        <RowSWrap>
-          <ImgBox />
-          <Gap />
-          <ImgBox />
-          <Gap />
-          <ImgBox />
-          <Gap />
-          <ImgBox />
-        </RowSWrap>
-
-        <Gap height={9} />
-        <MediumTitle>{'Creator for Projects'}</MediumTitle>
-        <Divider />
-        <WrapProjects>{listProject}</WrapProjects>
+      <Wrap className='w-5/6'>
+        <Settings userId={params.userId} />
       </Wrap>
     </Layout>
   )
