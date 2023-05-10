@@ -1,20 +1,12 @@
 'use client'
 
-import Image from 'next/image'
-
 import { Layout } from '@/components/layout'
-import { StorageConst } from '@/constants/storage.const'
+import Settings from '@/modules/settings/settings'
 import { FullWidthBtn } from '@/styles/button.style'
 import {
-  ColSWrap,
-  Divider,
   Gap,
-  ImgBox,
   LightText,
-  MediumTitle,
-  NormalText,
   RowBWrap,
-  RowSWrap,
   SmallTitle,
   VDevider,
 } from '@/styles/common.style'
@@ -22,19 +14,8 @@ import {
   ContentProjectBox,
   ProjectBoxWrap,
   TitleProjectBox,
-  WrapProjects,
 } from '@/styles/explore.style'
-import {
-  UAvt,
-  UBadge,
-  UBoxI,
-  UInfo,
-  UInfoL,
-  UInfoR,
-  UWrapI,
-  Wrap,
-} from '@/styles/user.style'
-import Settings from '@/modules/settings/settings'
+import { Wrap } from '@/styles/user.style'
 
 export default function UserProfile({
   params,
@@ -67,7 +48,7 @@ export default function UserProfile({
       <header>
         <title>{'Profile'}</title>
       </header>
-      <Wrap className='w-5/6'>
+      <Wrap className='w-full'>
         <Settings userId={params.userId} />
       </Wrap>
     </Layout>
