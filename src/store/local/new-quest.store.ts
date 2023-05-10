@@ -22,14 +22,8 @@ export interface NewQuestModel {
   pointReward: number
   activeReward: number
   twitterType: string
-  isOpenModal: boolean
   chooseQuestsHistory: any[]
   chooseQuestsPending: any[]
-
-  questDetailModal: boolean
-  allCheckHistory: boolean
-  allCheckPending: boolean
-  loadingModal: boolean
 
   questActive: QuestType
   quizQuestion: string
@@ -55,11 +49,6 @@ export interface NewQuestModel {
   setActiveReward: Action<NewQuestModel, number>
   setTwitterType: Action<NewQuestModel, string>
   setSpaceUrl: Action<NewQuestModel, string>
-  onOpenModalChanged: Action<NewQuestModel, boolean>
-
-  onQuestDetailModalChanged: Action<NewQuestModel, boolean>
-  onAllCheckHistoryChanged: Action<NewQuestModel, boolean>
-  onLoadingModalChanged: Action<NewQuestModel, boolean>
 
   setQuestActive: Action<NewQuestModel, QuestType>
   setQuizQuestion: Action<NewQuestModel, string>
@@ -86,19 +75,13 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   activeReward: 0,
   twitterType: '',
   spaceUrlTw: '',
-  isOpenModal: false,
   // reviewStatus: ReviewStatusEnum.SUCCESS,
   chooseQuestsHistory: [],
   chooseQuestsPending: [],
-  questDetailModal: false,
-  loadingModal: false,
   questActive: {},
   quizQuestion: '',
   quizAnswers: [''],
   quizCorrectAnswers: [],
-
-  allCheckHistory: false,
-  allCheckPending: false,
 
   setTitle: action((state, newTitle) => {
     state.title = newTitle
@@ -170,22 +153,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setSpaceUrl: action((state, spaceUrlTw) => {
     state.spaceUrlTw = spaceUrlTw
-  }),
-
-  onOpenModalChanged: action((state, openModal) => {
-    state.isOpenModal = openModal
-  }),
-
-  onQuestDetailModalChanged: action((state, modal) => {
-    state.questDetailModal = modal
-  }),
-
-  onAllCheckHistoryChanged: action((state, status) => {
-    state.allCheckHistory = status
-  }),
-
-  onLoadingModalChanged: action((state, loading) => {
-    state.loadingModal = loading
   }),
 
   setQuestActive: action((state, quest) => {
