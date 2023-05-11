@@ -1,4 +1,6 @@
+'use client'
 import { FunctionComponent, useEffect, useState } from 'react'
+import tw from 'twin.macro'
 
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
@@ -7,19 +9,65 @@ import { useDebouncedCallback } from 'use-debounce'
 import { listProjectsApi } from '@/app/api/client/project'
 import { NewProjectStore } from '@/store/local/project.store'
 import {
-  FFitlerBox,
-  FSearchBox,
-  FSearchInput,
-  FSearchWrap,
-  FWrap,
-  WrapProjects,
-} from '@/styles/explore.style'
-import {
   AdjustmentsHorizontalIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline'
 
 import ProjectBox from '../project/project-box'
+
+const FSearchInput = tw.input`
+  border-0
+  ring-0
+  outline-none
+  text-lg
+  w-full
+`
+
+const FFitlerBox = tw.div`
+  flex
+  flex-row
+  gap-3
+  border
+  border-solid
+  border-gray-300
+  py-2 px-3
+  rounded-lg
+  items-center
+`
+
+const FSearchBox = tw.div`
+  flex
+  flex-row
+  gap-3
+  border
+  border-solid
+  border-gray-300
+  py-2
+  px-3
+  justify-start
+  items-center
+  w-full
+  rounded-lg
+`
+
+const FSearchWrap = tw.div`
+  flex flex-row w-full gap-3 py-3
+`
+
+const FWrap = tw.div`
+  flex
+  flex-col
+  py-2
+`
+
+const WrapProjects = tw.div`
+  grid
+  grid-cols-4
+  gap-4
+  max-2xl:grid-cols-3
+  max-xl:grid-cols-2
+  max-sm:grid-cols-1
+`
 
 export default function FollowingProject() {
   const [loading, setLoading] = useState<boolean>(true)

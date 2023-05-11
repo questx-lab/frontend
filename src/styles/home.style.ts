@@ -102,56 +102,11 @@ export const NotifyText = tw.span`
   font-bold
   text-white
 `
-export const QuestWrapCat = tw.div`
-  flex
-  flex-row
-  w-full
-  max-lg:flex-col
-`
-
-export const CateTitle = tw.p`
-  text-lg
-  font-bold
-  text-black
-  w-[200px]
-`
 
 export const HeaderText = tw.h2`
   text-2xl
   text-black
   font-bold
-`
-
-export const SectionWrap = tw.div`
-  grid
-  grid-cols-4
-  max-2xl:grid-cols-3
-  max-xl:grid-cols-2
-  max-sm:grid-cols-1
-  gap-2
-  w-full
-`
-
-export const SectionBox = tw.div`
-h-[325px]
-cursor-pointer
-max-lg:w-full
-border-dashed
-border
-border-dashed
-border-2 
-border-gray-400
-rounded-lg
-flex
-flex-col
-justify-center
-items-center
-text-black
-font-bold
-text-lg
-mr-6
-mb-6
-max-lg:mr-0
 `
 
 // ================== PROJECT SETTING STYLE ==================
@@ -288,65 +243,65 @@ export const MBtn = tw.button`
 `
 
 export const PTableWrap = tw.div`
-  w-full 
-  relative 
+  w-full
+  relative
   overflow-x-auto
 `
 
 export const PTable = tw.table`
-  w-full 
-  text-sm 
-  text-left 
-  text-gray-500 
+  w-full
+  text-sm
+  text-left
+  text-gray-500
   dark:text-gray-400
 `
 
 export const PThead = tw.thead`
-  text-xs 
-  text-gray-700 
-  uppercase 
-  bg-gray-100 
-  dark:bg-gray-700 
+  text-xs
+  text-gray-700
+  uppercase
+  bg-gray-100
+  dark:bg-gray-700
   dark:text-gray-400
 `
 
 export const PTh = tw.th`
-  px-6 
-  py-3 
+  px-6
+  py-3
   rounded-l-lg
 `
 
 export const PTr = tw.tr`
-  bg-white  
+  bg-white
   dark:bg-gray-800
 `
 
 export const PTd = tw.td`
-  px-6 
+  px-6
   py-4
 `
 
 export const MLbox = tw.div`
-  relative 
-  w-full 
-  border-2 
-  border-solid 
-  border-black 
+  relative
+  w-full
+  border-2
+  border-solid
+  border-black
   rounded-lg
 `
 
 export const MBoxBtn = styled(Listbox.Button)(tw`
-  relative 
-  w-full 
-  cursor-default 
-  rounded-lg 
-  bg-white 
-  py-2 
-  pl-3 
-  pr-10 
-  text-left 
-  shadow-md 
-  focus:outline-none 
+  relative
+  w-full
+  cursor-default
+  rounded-lg
+  bg-white
+  py-2
+  pl-3
+  pr-10
+  text-left
+  shadow-md
+  focus:outline-none
   sm:text-sm
 `)
 
@@ -355,12 +310,12 @@ block truncate
 `
 
 export const MSpanIcon = tw.span`
-  pointer-events-none 
-  absolute 
-  inset-y-0 
-  right-0 
-  flex 
-  items-center 
+  pointer-events-none
+  absolute
+  inset-y-0
+  right-0
+  flex
+  items-center
   pr-2
 `
 
