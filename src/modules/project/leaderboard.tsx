@@ -217,7 +217,7 @@ const Leaderboard: FunctionComponent = () => {
             ))}
           </TabList>
           <Tab.Panels className='mt-2 '>
-            {[0, 1, 2].map((posts, idx) => (
+            {Array.from(LeaderboardRangeMap.values()).map((e, idx) => (
               <TabPannel key={idx}>
                 <ul>
                   <RenderLeaderboard
