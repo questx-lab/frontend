@@ -41,32 +41,8 @@ export const LHInfoA = tw.div`
   flex
   flex-row
   max-sm:flex-col
-  items-center 
-  justify-center
-`
-
-export const LHInfoB = tw.div`
-  px-2
-  w-1/3
-  max-sm:w-full
-  flex
-  flex-row
-  max-sm:flex-wrap
-  items-center 
-  justify-center
-`
-
-export const LHInfoC = tw.div`
-  w-1/3
-  flex
-  flex-row
-  justify-end
   items-center
-  max-sm:mt-4
-  max-sm:w-full
-  max-sm:flex-row
-  max-sm:justify-between
-  max-sm:items-center
+  justify-center
 `
 
 export const LogoP = styled(Image)(
@@ -116,84 +92,10 @@ export const LHDes = tw.p`
   line-clamp-2
 `
 
-export const LSBox = tw.div`
-  flex
-  flex-col
-  justify-center
-  items-center
-  px-4
-  py-1
-  bg-gray-200
-  rounded-lg
-  max-sm:mt-2
-`
-
-export const LTInvite = tw.p`
-  text-sm
-  text-black
-  font-normal
-  border-b-2
-  border-black
-  cursor-pointer
-`
-
-export const LTabWrap = tw.div`
-  border-2
-  border-solid
-  border-gray-200
-  rounded-lg
-  p-[1px]
-  bg-white
-  flex
-  flex-row
-  w-96
-  max-sm:w-full
-`
-
-export const LTabSide = styled.div<{ active?: boolean }>(
-  ({ active = false }) => [
-    active
-      ? tw`
-      h-10
-      w-48
-      bg-black
-      text-sm
-      text-white
-      font-bold
-      flex
-      justify-center
-      items-center
-      rounded-lg
-      cursor-pointer
-    `
-      : tw`
-      h-10
-      w-48
-      bg-white
-      text-sm
-      text-black
-      font-normal
-      flex
-      justify-center
-      items-center
-      cursor-pointer
-    `,
-  ]
-)
-
 export const QTWrap = tw.div`
   w-full
   flex
   flex-col
-`
-
-export const QTLbBox = tw.div`
-  w-full
-  flex
-  flex-col
-  p-6
-  rounded-lg
-  bg-gray-200
 `
 
 export const QTWrapC = tw.div`
@@ -202,22 +104,6 @@ export const QTWrapC = tw.div`
   max-sm:flex-col
   max-sm:justify-center
   justify-start
-  items-center
-`
-
-export const QTWrapD = tw.div`
-  flex
-  flex-row
-  justify-start
-  items-center
-`
-
-export const QTWrapL = tw.div`
-  flex
-  flex-row
-  w-full
-  max-sm:justify-center
-  justify-end
   items-center
 `
 
@@ -259,80 +145,71 @@ export const QTCard = styled.div<{ active?: boolean }>(({ active = false }) => [
   `,
 ])
 
-export const LUWrap = tw.div`
-  h-full 
-  flex 
-  flex-row 
-  justify-center 
-  items-center
-  max-sm:mb-2
-`
-
 export const LUImg = tw.div`
-  bg-white 
-  w-8 
-  h-8 
-  rounded-lg 
-  border-[1px] 
+  bg-white
+  w-8
+  h-8
+  rounded-lg
+  border-[1px]
   border-gray-400
 `
 
 export const LUWrap2 = tw.div`
-  w-full 
-  flex 
-  flex-row 
-  justify-between 
+  w-full
+  flex
+  flex-row
+  justify-between
   items-center
 `
 
 export const LLbox = tw.div`
-  p-2 
-  h-full 
-  flex 
-  flex-col 
-  w-full 
+  p-2
+  h-full
+  flex
+  flex-col
+  w-full
   overflow-y-scroll
 `
 
 export const TabWrap = tw.div`
-  w-[350px] 
+  w-[350px]
   max-2xl:w-[280px]
-  h-full 
+  h-full
   right-0
-  fixed  
-  border-l-[1px] 
-  border-solid 
-  bg-white 
-  border-gray-200 
+  fixed
+  border-l-[1px]
+  border-solid
+  bg-white
+  border-gray-200
   overflow-y-scroll
 `
 
 export const TabBox = tw.div`
-  w-full 
-  max-w-md 
-  pt-4 
+  w-full
+  max-w-md
+  pt-4
   sm:px-0
 `
 
 export const TabList = styled(Tab.List)(tw`
-  flex 
-  space-x-1 
+  flex
+  space-x-1
   bg-white
 `)
 
 export const TabPannel = styled(Tab.Panel)(tw`
-  rounded-xl 
+  rounded-xl
   bg-white
   px-4
   py-2
 `)
 
 export const LItem = tw.li`
-  relative 
+  relative
   py-2
-  flex 
-  flex-row 
-  justify-between 
+  flex
+  flex-row
+  justify-between
   items-center
 `
 

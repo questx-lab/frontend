@@ -58,16 +58,6 @@ export const ErrorMsg = tw.span`
   text-danger-500
 `
 
-export const InputTeleBox = tw.input`
-  w-full
-  border
-  border-[1px]
-  border-solid
-  border-gray-300
-  p-3
-  rounded-lg
-`
-
 export const InputBBox = tw.input`
   w-full
   border-0
