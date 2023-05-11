@@ -18,9 +18,7 @@ export const QuestListView: FunctionComponent<{
   }
 
   const questListView = questList.map((quest) => (
-    <ActiveQuestStore.Provider key={quest.id}>
-      <QuestView quest={quest} />
-    </ActiveQuestStore.Provider>
+    <QuestView quest={quest} key={quest.id} />
   ))
 
   return <>{questListView}</>
@@ -40,7 +38,9 @@ export const Quests: FunctionComponent<{
         <HeaderText>{'👌 Invite'}</HeaderText>
         <Gap height={6} />
         <WrapQuestboard>
-          <QuestListView questList={questList} />
+          <ActiveQuestStore.Provider>
+            <QuestListView questList={questList} />
+          </ActiveQuestStore.Provider>
         </WrapQuestboard>
       </QTWrap>
     </>
