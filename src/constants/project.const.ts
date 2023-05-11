@@ -142,6 +142,7 @@ export enum AnswerStatusEnum {
 }
 
 export enum ProjectRoleEnum {
+  NONE,
   GUEST,
   OWNER,
   EDITOR,

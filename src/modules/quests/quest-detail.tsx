@@ -4,12 +4,12 @@ import parseHtml from 'html-react-parser'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 
+import { DeleteBtn, EditButton, FullWidthBtn } from '@/styles/button.style'
 import { claimRewardApi } from '@/app/api/client/reward'
 import { uploadImageApi } from '@/app/api/client/upload'
 import { ProjectRoleEnum, QuestTypeEnum } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
-import { DeleteBtn, EditButton, FullWidthBtn } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
 import {
   ContentBox,
@@ -24,6 +24,7 @@ import {
 } from '@/styles/quest-detail.style'
 import { QuestType } from '@/types/project.type'
 
+import { NewProjectStore } from '@/store/local/project.store'
 import {
   QuestDiscord,
   QuestImage,
@@ -32,7 +33,6 @@ import {
   QuestUrl,
   QuestVisitLink,
 } from './quest-type'
-import { NewProjectStore } from '@/store/local/project.store'
 
 const SubmitButton: FunctionComponent = () => {
   const role = NewProjectStore.useStoreState((state) => state.role)
@@ -89,20 +89,25 @@ const SubmitButton: FunctionComponent = () => {
     }
   }
 
-  if (role === ProjectRoleEnum.GUEST) {
-    return (
-      <FullWidthBtn disabled onClick={submit}>
-        {'Claim Reward'}
-      </FullWidthBtn>
-    )
-  }
+  switch (role) {
+    case (ProjectRoleEnum.OWNER, ProjectRoleEnum.EDITOR):
+      return (
+        <WrapBtn>
+          <EditButton> {'Edit'} </EditButton>
+          <DeleteBtn> {'Delete'} </DeleteBtn>
+        </WrapBtn>
+      )
 
-  return (
-    <WrapBtn>
-      <EditButton> {'Edit'} </EditButton>
-      <DeleteBtn> {'Delete'} </DeleteBtn>
-    </WrapBtn>
-  )
+    case ProjectRoleEnum.GUEST:
+      return (
+        <FullWidthBtn disabled onClick={submit}>
+          {'Claim Reward'}
+        </FullWidthBtn>
+      )
+
+    default:
+      return <></>
+  }
 }
 
 const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
