@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect } from 'react'
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
-
+import { useSession } from 'next-auth/react'
 import { claimRewardApi } from '@/app/api/client/reward'
 import { uploadImageApi } from '@/app/api/client/upload'
 import { ProjectRoleEnum, QuestTypeEnum } from '@/constants/project.const'
@@ -151,24 +151,24 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     case QuestTypeEnum.TEXT:
       return <QuestText />
     case QuestTypeEnum.VISIT_LINK:
-      return <QuestVisitLink />
+      return <QuestVisitLink link={'https://twitter.com/elonmusk'} />
     // case QuestTypeEnum.QUIZ:
     //   return withQuizzes()
 
     case QuestTypeEnum.TWITTER_TWEET:
-      return <QuestTwitter />
+      return <QuestTwitter link={'https://twitter.com/elonmusk'} />
     case QuestTypeEnum.TWITTER_FOLLOW:
-      return <QuestTwitter />
+      return <QuestTwitter link={'https://twitter.com/elonmusk'} />
     case QuestTypeEnum.TWITTER_JOIN_SPACE:
-      return <QuestTwitter />
+      return <QuestTwitter link={'https://twitter.com/elonmusk'} />
     case QuestTypeEnum.TWITTER_REACTION:
-      return <QuestTwitter />
+      return <QuestTwitter link={'https://twitter.com/elonmusk'} />
     case QuestTypeEnum.EMPTY:
       return <></>
     // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
     //   return withText()
     case QuestTypeEnum.DISCORD:
-      return <QuestDiscord />
+      return <QuestDiscord link={'https://twitter.com/elonmusk'} />
     default:
       return <></>
   }
@@ -179,6 +179,9 @@ export const QuestDetail: FunctionComponent<{
   onClose: () => void
 }> = ({ quest }) => {
   useEffect(() => {}, [])
+
+  const { data: session, status } = useSession()
+  console.log(session)
 
   return (
     <QuestDetailWrap>

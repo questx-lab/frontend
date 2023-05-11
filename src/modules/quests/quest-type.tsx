@@ -15,8 +15,11 @@ import {
   UploadInput,
   UrlBox,
   WrapUploadImg,
+  WrapBtn,
 } from '@/styles/quest-detail.style'
 import { TextField } from '@/widgets/form'
+import { signIn } from 'next-auth/react'
+import { getUserLocal } from '@/utils/helper'
 
 export const QuestText: FunctionComponent = () => {
   // data
@@ -136,20 +139,57 @@ export const QuestImage: FunctionComponent = () => {
   )
 }
 
-export const QuestDiscord: FunctionComponent = () => {
-  return <SocialBtn>{'Connect Discord'}</SocialBtn>
-}
-
-export const QuestTwitter: FunctionComponent = () => {
+export const QuestDiscord: FunctionComponent<{ link: string }> = ({ link }) => {
+  const onConnect = async () => {
+    signIn('discord')
+  }
+  const user = getUserLocal()
   return (
-    <SocialBtn btnType={ButtonSocialType.TWITTER}>
-      {'Connect Twitter'}
-    </SocialBtn>
+    <WrapBtn>
+      {!user.services.discord && (
+        <SocialBtn btnType={ButtonSocialType.DISCORD} onClick={onConnect}>
+          {'Connect Discord'}
+        </SocialBtn>
+      )}
+      <a href={link} target='_blank' className='w-full'>
+        <SocialBtn btnType={ButtonSocialType.DISCORD}>
+          {'Go to Discord'}
+        </SocialBtn>
+      </a>
+    </WrapBtn>
   )
 }
 
-export const QuestVisitLink: FunctionComponent = () => {
+export const QuestTwitter: FunctionComponent<{ link: string }> = ({ link }) => {
+  const onConnect = async () => {
+    signIn('twitter')
+  }
+  const user = getUserLocal()
+
   return (
-    <SocialBtn btnType={ButtonSocialType.VISIT_LINK}>{'Visit link'}</SocialBtn>
+    <WrapBtn>
+      {!user.services.twitter && (
+        <SocialBtn btnType={ButtonSocialType.TWITTER} onClick={onConnect}>
+          {'Connect Twitter'}
+        </SocialBtn>
+      )}
+      <a href={link} target='_blank' className='w-full'>
+        <SocialBtn btnType={ButtonSocialType.TWITTER}>
+          {'Go to Twitter'}
+        </SocialBtn>
+      </a>
+    </WrapBtn>
+  )
+}
+
+export const QuestVisitLink: FunctionComponent<{ link: string }> = ({
+  link,
+}) => {
+  return (
+    <a href={link} target='_blank'>
+      <SocialBtn btnType={ButtonSocialType.VISIT_LINK}>
+        {'Visit link'}
+      </SocialBtn>
+    </a>
   )
 }

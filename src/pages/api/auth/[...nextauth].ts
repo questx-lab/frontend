@@ -7,9 +7,9 @@ import FacebookProvider from 'next-auth/providers/facebook'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
-import DiscordProvider from "next-auth/providers/discord";
+import DiscordProvider from 'next-auth/providers/discord'
 
-import { verifyOAuth2 } from '@/app/api/client/oauth'
+import { verifyOAuth2, linkOAuth2 } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum } from '@/constants/key.const'
 
@@ -44,12 +44,26 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       }),
     ],
     callbacks: {
-      async jwt({ token, account }) {
+      async jwt({ token, account, isNewUser, profile }) {
         if (account?.provider == undefined) {
           return token
         }
 
         if (account?.access_token == undefined) {
+          return token
+        }
+
+        const accessToken = req.cookies['access_token']
+        console.log('account?.provider', account?.provider)
+
+        if (accessToken) {
+          const resp = await linkOAuth2(
+            account?.provider,
+            account?.access_token,
+            accessToken
+          )
+          console.log(resp)
+
           return token
         }
 
