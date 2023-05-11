@@ -6,8 +6,9 @@ import { QuestView } from '@/modules/quests/single-quest'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { QTWrap } from '@/styles/leaderboard.style'
-import { MPadding, WrapQuestboard } from '@/styles/questboard.style'
+import { WrapQuestboard } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
+import { ActiveQuestStore } from '@/store/local/active-quest.store'
 
 export const QuestListView: FunctionComponent<{
   questList: QuestType[]
@@ -33,15 +34,15 @@ export const Quests: FunctionComponent<{
 
   return (
     <>
-      <MPadding>
-        <QTWrap>
-          <HeaderText>{'👌 Invite'}</HeaderText>
-          <Gap height={6} />
-          <WrapQuestboard>
+      <QTWrap>
+        <HeaderText>{'👌 Invite'}</HeaderText>
+        <Gap height={6} />
+        <WrapQuestboard>
+          <ActiveQuestStore.Provider>
             <QuestListView questList={questList} />
-          </WrapQuestboard>
-        </QTWrap>
-      </MPadding>
+          </ActiveQuestStore.Provider>
+        </WrapQuestboard>
+      </QTWrap>
     </>
   )
 }

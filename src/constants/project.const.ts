@@ -140,3 +140,16 @@ export enum AnswerStatusEnum {
   ACTIVE,
   BLOCK,
 }
+
+export enum ProjectRoleEnum {
+  NONE,
+  GUEST,
+  OWNER,
+  EDITOR,
+}
+
+export enum ButtonSocialType {
+  DISCORD,
+  TWITTER,
+  VISIT_LINK,
+}

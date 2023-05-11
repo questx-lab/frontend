@@ -1,5 +1,10 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
+import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
+
 import { listQuestApi } from '@/app/api/client/quest'
 import ProjectSide from '@/components/sidebar'
 import { RouterConst } from '@/constants/router.const'
@@ -10,39 +15,33 @@ import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import {
   BtnUseT,
+  CardBox,
   CCBox,
   CHeadling,
-  CardBox,
   MBox,
   MHeader,
   MMain,
   MPadding,
-  MTitleBox,
   Mtemplate,
+  MTitleBox,
   SeeAllText,
   Wrap,
 } from '@/styles/questboard.style'
-import { ProjectType, QuestType } from '@/types/project.type'
+import { QuestType } from '@/types/project.type'
 import { TemplateModal } from '@/widgets/modal'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
+
 import ControlPanel from '../new-quest/control-panel'
 import QuestFrame from '../new-quest/quest-frame'
 
-export default function ManageProject({ project }: { project: ProjectType }) {
+export default function ManageProject() {
   const router = useRouter()
   const [questList, setListQuests] = useState<QuestType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [openTemplate, setOpenTemplate] = useState<boolean>(false)
 
-  // actions
-  const setProject = NewProjectStore.useStoreActions(
-    (actions) => actions.setProject
-  )
+  const project = NewProjectStore.useStoreState((state) => state.project)
 
   useEffect(() => {
-    setProject(project)
     getQuests()
   }, [])
 
@@ -97,7 +96,9 @@ export default function ManageProject({ project }: { project: ProjectType }) {
             </Mtemplate>
             <Gap height={6} />
 
-            <Quests questList={questList} show={!loading} />
+            <MPadding>
+              <Quests questList={questList} show={!loading} />
+            </MPadding>
           </MBox>
         </CCBox>
       </MMain>

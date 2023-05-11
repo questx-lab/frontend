@@ -19,7 +19,6 @@ import {
   EndBoarding,
   HeaderBox,
   PointText,
-  QuestboardBox,
   StartBoarding,
   TitleQuestBox,
 } from '@/styles/questboard.style'
@@ -64,41 +63,6 @@ export default function QuestBoardTab() {
     }
   }
 
-  const EmptyQuest = () => <div>{'There are currently no quests'}</div>
-
-  const listQuests =
-    questList &&
-    questList.map((e) => (
-      <QuestboardBox key={e.id}>
-        <StartBoarding>
-          <Gap height={4} />
-          <TitleQuestBox>{`🎉 ${e.title}`}</TitleQuestBox>
-          <Gap height={4} />
-          <DesQ>
-            {e.description ?? 'Please visit Manta Network official website'}
-          </DesQ>
-        </StartBoarding>
-        <EndBoarding>
-          <HeaderBox>
-            <Image
-              width={25}
-              height={25}
-              src={StorageConst.POINT_ICON.src}
-              alt={StorageConst.POINT_ICON.alt}
-            />
-            <Gap width={2} />
-            <PointText>{`300 Gems`}</PointText>
-          </HeaderBox>
-          {e.recurrence && (
-            <CardBox>
-              <Card>{e.recurrence.toUpperCase()}</Card>
-              <Gap width={2} />
-            </CardBox>
-          )}
-        </EndBoarding>
-      </QuestboardBox>
-    ))
-
   const listBoarding = [0, 1, 2, 3].map((e) => (
     <BoardingCard key={e}>
       <StartBoarding>
@@ -139,7 +103,6 @@ export default function QuestBoardTab() {
       <Gap height={6} />
       <Boarding>{listBoarding}</Boarding>
       <Gap height={6} />
-
       <Quests questList={questList} show={!loading} />
     </QTWrap>
   )

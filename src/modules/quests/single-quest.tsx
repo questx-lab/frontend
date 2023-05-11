@@ -2,8 +2,12 @@
 
 import { FunctionComponent, useState } from 'react'
 
+import parse from 'html-react-parser'
+import Image from 'next/image'
+
 import { StorageConst } from '@/constants/storage.const'
-import { QuestDetail } from '@/modules/project/quest-detail'
+import { QuestDetail } from '@/modules/quests/quest-detail'
+import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { Gap } from '@/styles/common.style'
 import { MDHead, ModalBox, ModalContent } from '@/styles/quest-review.style'
 import {
@@ -20,36 +24,37 @@ import {
 import { QuestType } from '@/types/project.type'
 import { BaseModal } from '@/widgets/modal'
 import { XMarkIcon } from '@heroicons/react/20/solid'
-import Image from 'next/image'
+
+const DescriptionBox: FunctionComponent<{ des?: string }> = ({ des }) => {
+  if (!des || des === '') {
+    return <></>
+  }
+  return <DesQ>{parse(des)}</DesQ>
+}
 
 export const QuestView: FunctionComponent<{
   quest: QuestType
-  onQuestSelected?: (e: QuestType) => void
-}> = ({ quest, onQuestSelected = undefined }) => {
-  const [selectedQuest, setSelectedQuest] = useState<QuestType>()
+}> = ({ quest }) => {
+  const [isOpen, setOpen] = useState<boolean>(false)
+  const setQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
 
-  const onItemSelected = (quest: QuestType) => {
-    if (onQuestSelected) {
-      onQuestSelected(quest)
-    } else {
-      setSelectedQuest(quest)
-    }
+  const onOpenModal = () => {
+    setQuest(quest)
+    setOpen(true)
   }
 
   const onCloseModal = () => {
-    setSelectedQuest(undefined)
+    setOpen(false)
   }
 
   return (
     <>
-      <QuestboardBox key={quest.id} onClick={() => onItemSelected(quest)}>
+      <QuestboardBox key={quest.id} onClick={onOpenModal}>
         <StartBoarding>
           <Gap height={4} />
           <TitleQuestBox>{`🎉 ${quest.title}`}</TitleQuestBox>
           <Gap height={4} />
-          <DesQ>
-            {quest.description ?? 'Please visit Manta Network official website'}
-          </DesQ>
+          <DescriptionBox des={quest.description} />
         </StartBoarding>
         <EndBoarding>
           <HeaderBox>
@@ -71,17 +76,17 @@ export const QuestView: FunctionComponent<{
         </EndBoarding>
       </QuestboardBox>
 
-      <BaseModal isOpen={selectedQuest != undefined}>
+      <BaseModal isOpen={isOpen}>
         <ModalBox>
           <ModalContent className='w-2/3'>
             <MDHead>
-              {'Invite 2 fren to join our crew3 🤲'}
+              {`🎉 ${quest.title}`}
               <XMarkIcon
                 className='w-7 h-7 cursor-pointer'
                 onClick={onCloseModal}
               />
             </MDHead>
-            <QuestDetail quest={selectedQuest} onClose={onCloseModal} />
+            <QuestDetail quest={quest} onClose={onCloseModal} />
           </ModalContent>
         </ModalBox>
       </BaseModal>
