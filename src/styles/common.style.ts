@@ -78,10 +78,10 @@ export const Gap = styled.div<GapProps>(({ width = 4, height = 4 }) => [
 ])
 
 export const Divider = tw.div`
-  bg-gray-200
+  bg-gray-300
   h-[1px]
   w-full
-  my-4
+  my-2
 `
 
 export const VDevider = tw.div`

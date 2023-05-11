@@ -42,8 +42,8 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   const setProjectsFollowing = useStoreActions<GlobalStoreModel>(
     (action) => action.setProjectsFollowing
   )
-  const setMyProjects = useStoreActions<GlobalStoreModel>(
-    (action) => action.setMyProjects
+  const setProjectCollab = useStoreActions<GlobalStoreModel>(
+    (action) => action.setProjectCollab
   )
 
   const router = useRouter()
@@ -66,14 +66,17 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     }
   }, [router])
 
+  useEffect(() => {
+    getProjectsFollowing()
+    getMyProjects()
+  }, [])
+
   const getUserData = async () => {
     try {
       const user = await getUserApi()
       setUserLocal(user.data!)
       setUser(user.data!)
       setLogin(true)
-      getProjectsFollowing()
-      getMyProjects()
     } catch (error) {}
   }
 
@@ -83,7 +86,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       if (projects.error) {
         toast.error('Error when get your following projects')
       } else {
-        setProjectsFollowing(projects.data?.projects)
+        if (projects.data?.projects) {
+          setProjectsFollowing(projects.data?.projects)
+        }
       }
     } catch (error) {
       toast.error('Server error')
@@ -96,7 +101,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       if (projects.error) {
         toast.error('Error when get your projects')
       } else {
-        setMyProjects(projects.data?.projects)
+        if (projects.data?.collaborators) {
+          setProjectCollab(projects.data?.collaborators)
+        }
       }
     } catch (error) {
       toast.error('Server error')

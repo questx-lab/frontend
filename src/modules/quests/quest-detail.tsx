@@ -64,10 +64,13 @@ const handleSubmit = async (
       break
     case QuestTypeEnum.URL:
       inp = urlSubmit
+      break
     case QuestTypeEnum.TEXT:
       inp = textSubmit
+      break
     case QuestTypeEnum.QUIZ:
-    // inp = JSON.stringify(chosenAnswers)
+      // inp = JSON.stringify(chosenAnswers)
+      break
 
     default:
       break

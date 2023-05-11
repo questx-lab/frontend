@@ -34,7 +34,7 @@ export const QuestText: FunctionComponent = () => {
         errorMsg='This field is required'
         placeholder='Input your text'
         required
-        onChange={setTextSubmit}
+        onChange={(e) => setTextSubmit(e.target.value)}
         value={textSubmit}
       />
     )
@@ -59,7 +59,7 @@ export const QuestUrl: FunctionComponent = () => {
         errorMsg='This field is required'
         placeholder='Input url'
         required
-        onChange={setUrlSubmit}
+        onChange={(e) => setUrlSubmit(e.target.value)}
         value={urlSutmit}
       />
     )

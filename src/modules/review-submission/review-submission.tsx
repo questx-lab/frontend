@@ -45,6 +45,7 @@ export default function ReviewSubmission({ projectId }: { projectId: string }) {
   const tabReviewState = NewQuestClaimStore.useStoreState(
     (state) => state.tabReview
   )
+
   const loadingModal = NewQuestClaimStore.useStoreState(
     (state) => state.loadingModal
   )
@@ -56,7 +57,7 @@ export default function ReviewSubmission({ projectId }: { projectId: string }) {
 
   return (
     <Wrap>
-      <ProjectSide />
+      <ProjectSide projectId={projectId} />
       <MMain>
         <ControlPanel
           projectId={projectId}

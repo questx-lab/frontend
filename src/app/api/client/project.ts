@@ -1,6 +1,9 @@
 import { EnvVariables } from '@/constants/env.const'
 import { Rsp } from '@/types/common.type'
 import {
+  CategoryType,
+  CollaboratorType,
+  LeaderboardType,
   ListProjectsType,
   ProjectType,
   ReqNewProject,
@@ -63,10 +66,10 @@ export const addRoleProjectApi = async (
 }
 
 export const getMyProjectsApi = async (): Promise<
-  Rsp<{ projects: ProjectType[] }>
+  Rsp<{ collaborators: CollaboratorType[] }>
 > => {
   const rs = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + '/getMyListProject'
+    EnvVariables.NEXT_PUBLIC_API_URL + '/getMyCollaborators'
   )
   return rs.data
 }
@@ -86,5 +89,41 @@ export const newFollowProjectApi = async (
   const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/follow', {
     project_id: projectId,
   })
+  return rs.data
+}
+
+export const createCategoryApi = async (
+  projectId: string,
+  name: string
+): Promise<Rsp<{}>> => {
+  const rs = await api.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + '/createCategory',
+    {
+      project_id: projectId,
+      name,
+    }
+  )
+  return rs.data
+}
+
+export const getCategoriesApi = async (
+  projectId: string
+): Promise<Rsp<{ categories: CategoryType[] }>> => {
+  const rs = await api.get(
+    EnvVariables.NEXT_PUBLIC_API_URL +
+      `/getListCategory?project_id=${projectId}`
+  )
+  return rs.data
+}
+
+export const getLeaderboardApi = async (
+  projectId: string,
+  range: string,
+  type: string
+): Promise<Rsp<{ leaderboard: LeaderboardType[] }>> => {
+  const rs = await api.get(
+    EnvVariables.NEXT_PUBLIC_API_URL +
+      `/getLeaderBoard?project_id=${projectId}&range=${range}&type=${type}`
+  )
   return rs.data
 }

@@ -153,3 +153,20 @@ export enum ButtonSocialType {
   TWITTER,
   VISIT_LINK,
 }
+
+export enum LeaderboardRangeEnum {
+  WEEK = 'week',
+  MONTH = 'month',
+  TOTAL = 'total',
+}
+
+export const LeaderboardRangeMap = new Map<LeaderboardRangeEnum, String>([
+  [LeaderboardRangeEnum.WEEK, 'WEEK'],
+  [LeaderboardRangeEnum.MONTH, 'MONTH'],
+  [LeaderboardRangeEnum.TOTAL, 'ALL TIME'],
+])
+
+export enum LeaderboardConst {
+  POINT = 'point',
+  TASK = 'task',
+}

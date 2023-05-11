@@ -1,7 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { ProjectRoleEnum } from '@/constants/project.const'
-import { ProjectType } from '@/types/project.type'
+import { CategoryType, ProjectType } from '@/types/project.type'
 
 interface ProjectModel {
   project: ProjectType
@@ -9,12 +9,14 @@ interface ProjectModel {
   query: string
   searchProjects: ProjectType[]
   role: number
+  categories: CategoryType[]
 
   setProject: Action<ProjectModel, ProjectType>
   setProjects: Action<ProjectModel, ProjectType[]>
   setQuery: Action<ProjectModel, string>
   setSearchProjects: Action<ProjectModel, ProjectType[]>
   setRole: Action<ProjectModel, number>
+  setCategories: Action<ProjectModel, CategoryType[]>
 }
 
 const NewProjectStore = createContextStore<ProjectModel>({
@@ -23,6 +25,7 @@ const NewProjectStore = createContextStore<ProjectModel>({
   query: '',
   searchProjects: [],
   role: ProjectRoleEnum.GUEST,
+  categories: [],
 
   setProject: action((state, newProject) => {
     state.project = newProject
@@ -42,6 +45,10 @@ const NewProjectStore = createContextStore<ProjectModel>({
 
   setRole: action((state, role) => {
     state.role = role
+  }),
+
+  setCategories: action((state, categories) => {
+    state.categories = categories
   }),
 })
 export { NewProjectStore }

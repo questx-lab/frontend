@@ -10,9 +10,9 @@ import { Layout } from '@/components/layout'
 import { ProjectRoleEnum } from '@/constants/project.const'
 import ManageProject from '@/modules/project/manage'
 import ProjectGuess from '@/modules/project/project-guess'
-import { NewQuestStore } from '@/store/local/new-quest.store'
 import { NewProjectStore } from '@/store/local/project.store'
 import { GlobalStoreModel } from '@/store/store'
+import { CollaboratorType } from '@/types/project.type'
 import { Spinner } from '@/widgets/spinner'
 
 const ProjectBox: FunctionComponent<{ projectId: string }> = ({
@@ -21,7 +21,10 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
   const [loading, setLoading] = useState<boolean>(true)
 
   // data
-  const userState = useStoreState<GlobalStoreModel>((state) => state.user)
+
+  const projectCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.projectCollab
+  )
   const role = NewProjectStore.useStoreState((state) => state.role)
 
   // action
@@ -33,10 +36,9 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
   // hook
   useEffect(() => {
     fetchProject()
-  }, [userState])
+  }, [projectCollab])
 
   // handler
-
   const fetchProject = async () => {
     try {
       const rs = await getProjectApi(projectId)
@@ -44,11 +46,14 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
         toast.error(rs.error)
       } else {
         setProject(rs.data?.project!)
-        if (userState && Object.keys(userState).length) {
-          if (userState.id === rs.data?.project.created_by) {
-            setRole(ProjectRoleEnum.OWNER)
-          } else {
+        if (projectCollab) {
+          const filter = projectCollab.filter(
+            (e) => e.project_id === rs.data?.project.id
+          )
+          if (filter.length === 0) {
             setRole(ProjectRoleEnum.GUEST)
+          } else {
+            setRole(ProjectRoleEnum.OWNER)
           }
         }
       }
@@ -59,6 +64,7 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
       setLoading(false)
     }
   }
+
   if (loading) {
     return <Spinner />
   }
