@@ -142,7 +142,7 @@ export enum AnswerStatusEnum {
 }
 
 export enum ProjectRoleEnum {
-  GUESS,
+  GUEST,
   OWNER,
   EDITOR,
 }

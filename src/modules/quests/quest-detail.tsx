@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
@@ -8,8 +8,7 @@ import { claimRewardApi } from '@/app/api/client/reward'
 import { uploadImageApi } from '@/app/api/client/upload'
 import { ProjectRoleEnum, QuestTypeEnum } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
-import { NewQuestStore } from '@/store/local/new-quest.store'
-import { NewProjectStore } from '@/store/local/project.store'
+import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { DeleteBtn, EditButton, FullWidthBtn } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
 import {
@@ -33,13 +32,15 @@ import {
   QuestUrl,
   QuestVisitLink,
 } from './quest-type'
+import { NewProjectStore } from '@/store/local/project.store'
 
 const SubmitButton: FunctionComponent = () => {
   const role = NewProjectStore.useStoreState((state) => state.role)
-  const quest = NewQuestStore.useStoreState((state) => state.questActive)
-  const fileUpload = NewQuestStore.useStoreState((state) => state.fileUpload)
-  const urlSubmit = NewQuestStore.useStoreState((state) => state.urlSubmit)
-  const textSubmit = NewQuestStore.useStoreState((state) => state.textSubmit)
+  const quest = ActiveQuestStore.useStoreState((state) => state.quest)
+
+  const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
+  const urlSubmit = ActiveQuestStore.useStoreState((state) => state.urlSubmit)
+  const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
 
   const submit = async () => {
     let inp = ''
@@ -88,7 +89,7 @@ const SubmitButton: FunctionComponent = () => {
     }
   }
 
-  if (role === ProjectRoleEnum.GUESS) {
+  if (role === ProjectRoleEnum.GUEST) {
     return (
       <FullWidthBtn disabled onClick={submit}>
         {'Claim Reward'}
@@ -137,9 +138,10 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
 }
 
 export const QuestDetail: FunctionComponent<{
+  quest: QuestType
   onClose: () => void
-}> = ({ onClose }) => {
-  const quest = NewQuestStore.useStoreState((state) => state.questActive)
+}> = ({ quest }) => {
+  useEffect(() => {}, [])
 
   return (
     <QuestDetailWrap>

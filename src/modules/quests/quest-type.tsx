@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react'
 import Dropzone from 'react-dropzone'
 
 import { ButtonSocialType, ProjectRoleEnum } from '@/constants/project.const'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { NewProjectStore } from '@/store/local/project.store'
 import { DeleteBtn } from '@/styles/button.style'
 import {
@@ -21,14 +21,14 @@ import { TextField } from '@/widgets/form'
 export const QuestText: FunctionComponent = () => {
   // data
   const role = NewProjectStore.useStoreState((state) => state.role)
-  const textSubmit = NewQuestStore.useStoreState((state) => state.textSubmit)
+  const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
 
   // action
-  const setTextSubmit = NewQuestStore.useStoreActions(
+  const setTextSubmit = ActiveQuestStore.useStoreActions(
     (action) => action.setTextSubmit
   )
 
-  if (role === ProjectRoleEnum.GUESS) {
+  if (role === ProjectRoleEnum.GUEST) {
     return (
       <TextField
         errorMsg='This field is required'
@@ -46,14 +46,14 @@ export const QuestText: FunctionComponent = () => {
 export const QuestUrl: FunctionComponent = () => {
   // data
   const role = NewProjectStore.useStoreState((state) => state.role)
-  const urlSutmit = NewQuestStore.useStoreState((state) => state.urlSubmit)
+  const urlSutmit = ActiveQuestStore.useStoreState((state) => state.urlSubmit)
 
   // action
-  const setUrlSubmit = NewQuestStore.useStoreActions(
+  const setUrlSubmit = ActiveQuestStore.useStoreActions(
     (action) => action.setUrlSubmit
   )
 
-  if (role === ProjectRoleEnum.GUESS) {
+  if (role === ProjectRoleEnum.GUEST) {
     return (
       <TextField
         errorMsg='This field is required'
@@ -71,13 +71,13 @@ export const QuestUrl: FunctionComponent = () => {
 export const QuestImage: FunctionComponent = () => {
   // data
   const role = NewProjectStore.useStoreState((state) => state.role)
-  const fileUpload = NewQuestStore.useStoreState((state) => state.fileUpload)
+  const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
 
   // handler
   const onRemoveImg = () => {
     setFileUpload([])
   }
-  const setFileUpload = NewQuestStore.useStoreActions(
+  const setFileUpload = ActiveQuestStore.useStoreActions(
     (action) => action.setFileUpload
   )
 
@@ -125,7 +125,7 @@ export const QuestImage: FunctionComponent = () => {
     )
   }
 
-  if (role === ProjectRoleEnum.GUESS) {
+  if (role === ProjectRoleEnum.GUEST) {
     return <ShowImage />
   }
 

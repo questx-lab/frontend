@@ -22,7 +22,7 @@ const NewProjectStore = createContextStore<ProjectModel>({
   projects: [],
   query: '',
   searchProjects: [],
-  role: ProjectRoleEnum.GUESS,
+  role: ProjectRoleEnum.GUEST,
 
   setProject: action((state, newProject) => {
     state.project = newProject

@@ -8,6 +8,7 @@ import { HeaderText } from '@/styles/home.style'
 import { QTWrap } from '@/styles/leaderboard.style'
 import { WrapQuestboard } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
+import { ActiveQuestStore } from '@/store/local/active-quest.store'
 
 export const QuestListView: FunctionComponent<{
   questList: QuestType[]
@@ -17,7 +18,9 @@ export const QuestListView: FunctionComponent<{
   }
 
   const questListView = questList.map((quest) => (
-    <QuestView quest={quest} key={quest.id} />
+    <ActiveQuestStore.Provider key={quest.id}>
+      <QuestView quest={quest} />
+    </ActiveQuestStore.Provider>
   ))
 
   return <>{questListView}</>

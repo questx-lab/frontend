@@ -48,7 +48,7 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
           if (userState.id === rs.data?.project.created_by) {
             setRole(ProjectRoleEnum.OWNER)
           } else {
-            setRole(ProjectRoleEnum.GUESS)
+            setRole(ProjectRoleEnum.GUEST)
           }
         }
       }
@@ -63,7 +63,7 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
     return <Spinner />
   }
 
-  if (role === ProjectRoleEnum.GUESS) {
+  if (role === ProjectRoleEnum.GUEST) {
     return <ProjectGuess />
   }
 
@@ -77,9 +77,7 @@ export default function ProjectPage(props: { params: { id: string } }) {
         <title>{'Project'}</title>
       </header>
       <NewProjectStore.Provider>
-        <NewQuestStore.Provider>
-          <ProjectBox projectId={props.params.id} />
-        </NewQuestStore.Provider>
+        <ProjectBox projectId={props.params.id} />
       </NewProjectStore.Provider>
     </Layout>
   )

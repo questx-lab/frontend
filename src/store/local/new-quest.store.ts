@@ -25,10 +25,6 @@ export interface NewQuestModel {
   chooseQuestsHistory: any[]
   chooseQuestsPending: any[]
 
-  urlSubmit: string
-  textSubmit: string
-  fileUpload: File[]
-
   questActive: QuestType
   quizQuestion: string
   quizAnswers: string[]
@@ -53,10 +49,6 @@ export interface NewQuestModel {
   setActiveReward: Action<NewQuestModel, number>
   setTwitterType: Action<NewQuestModel, string>
   setSpaceUrl: Action<NewQuestModel, string>
-
-  setUrlSubmit: Action<NewQuestModel, string>
-  setTextSubmit: Action<NewQuestModel, string>
-  setFileUpload: Action<NewQuestModel, File[]>
 
   setQuestActive: Action<NewQuestModel, QuestType>
   setQuizQuestion: Action<NewQuestModel, string>
@@ -89,9 +81,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   quizQuestion: '',
   quizAnswers: [''],
   quizCorrectAnswers: [],
-  urlSubmit: '',
-  textSubmit: '',
-  fileUpload: [],
 
   setTitle: action((state, newTitle) => {
     state.title = newTitle
@@ -167,18 +156,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setQuestActive: action((state, quest) => {
     state.questActive = quest
-  }),
-
-  setUrlSubmit: action((state, url) => {
-    state.urlSubmit = url
-  }),
-
-  setTextSubmit: action((state, text) => {
-    state.textSubmit = text
-  }),
-
-  setFileUpload: action((state, files) => {
-    state.fileUpload = files
   }),
 
   setQuizQuestion: action((state, question) => {

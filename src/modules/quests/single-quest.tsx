@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 import { StorageConst } from '@/constants/storage.const'
 import { QuestDetail } from '@/modules/quests/quest-detail'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { Gap } from '@/styles/common.style'
 import { MDHead, ModalBox, ModalContent } from '@/styles/quest-review.style'
 import {
@@ -36,13 +36,11 @@ export const QuestView: FunctionComponent<{
   quest: QuestType
 }> = ({ quest }) => {
   const [isOpen, setOpen] = useState<boolean>(false)
-  const setQuestActive = NewQuestStore.useStoreActions(
-    (action) => action.setQuestActive
-  )
+  const setQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
 
   const onOpenModal = () => {
+    setQuest(quest)
     setOpen(true)
-    setQuestActive(quest)
   }
 
   const onCloseModal = () => {
@@ -88,7 +86,7 @@ export const QuestView: FunctionComponent<{
                 onClick={onCloseModal}
               />
             </MDHead>
-            <QuestDetail onClose={onCloseModal} />
+            <QuestDetail quest={quest} onClose={onCloseModal} />
           </ModalContent>
         </ModalBox>
       </BaseModal>
