@@ -32,6 +32,7 @@ import { TemplateModal } from '@/widgets/modal'
 
 import ControlPanel from '../new-quest/control-panel'
 import QuestFrame from '../new-quest/quest-frame'
+import Category from './category'
 
 export default function ManageProject() {
   const router = useRouter()
@@ -62,7 +63,7 @@ export default function ManageProject() {
 
   return (
     <Wrap>
-      <ProjectSide />
+      <ProjectSide projectId={project.id} />
       <MMain>
         <ControlPanel projectId={project.id} />
         <CCBox>
@@ -95,8 +96,8 @@ export default function ManageProject() {
               <Gap height={6} />
             </Mtemplate>
             <Gap height={6} />
-
             <MPadding>
+              <Category />
               <Quests questList={questList} show={!loading} />
             </MPadding>
           </MBox>

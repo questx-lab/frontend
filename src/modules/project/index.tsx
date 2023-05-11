@@ -21,7 +21,7 @@ export default function Project() {
 
   return (
     <Wrap>
-      <ProjectSide />
+      <ProjectSide projectId={projectState.id} />
       {projectState && (
         <Main>
           <Title>{projectState.name}</Title>
