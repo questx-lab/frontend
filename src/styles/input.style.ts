@@ -28,6 +28,7 @@ export const InputBox = styled.input<{ danger?: boolean }>(
         focus:border-black
         focus:outline-black
         focus:ring-black
+        font-normal
       `,
   ]
 )
@@ -100,6 +101,7 @@ export const MulInputBox = styled.textarea<{ danger?: boolean }>(
         p-3
         rounded-lg
         h-full
+        font-normal
       `,
   ]
 )

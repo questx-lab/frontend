@@ -18,7 +18,7 @@ export const FullWidthBtn = styled.button<{ block?: boolean }>(
       ? tw`
   w-full
   bg-primary-300
-  text-sm
+  text-lg
   text-white
   font-medium
   py-2
@@ -30,7 +30,7 @@ export const FullWidthBtn = styled.button<{ block?: boolean }>(
   w-full
   bg-primary
   hover:bg-primary-300
-  text-sm
+  text-lg
   text-white
   font-medium
   py-2

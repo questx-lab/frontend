@@ -4,12 +4,13 @@ import parseHtml from 'html-react-parser'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 
-import { DeleteBtn, EditButton, FullWidthBtn } from '@/styles/button.style'
 import { claimRewardApi } from '@/app/api/client/reward'
 import { uploadImageApi } from '@/app/api/client/upload'
 import { ProjectRoleEnum, QuestTypeEnum } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
+import { NewProjectStore } from '@/store/local/project.store'
+import { DeleteBtn, EditButton, FullWidthBtn } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
 import {
   ContentBox,
@@ -24,7 +25,6 @@ import {
 } from '@/styles/quest-detail.style'
 import { QuestType } from '@/types/project.type'
 
-import { NewProjectStore } from '@/store/local/project.store'
 import {
   QuestDiscord,
   QuestImage,
@@ -34,6 +34,59 @@ import {
   QuestVisitLink,
 } from './quest-type'
 
+const handleSubmit = async (
+  quest: QuestType,
+  fileUpload: File[],
+  urlSubmit: string,
+  textSubmit: string
+) => {
+  let inp = ''
+  switch (quest.type) {
+    case QuestTypeEnum.IMAGE:
+      let formData = new FormData()
+      if (fileUpload.length === 0) {
+        toast.error('Must upload file')
+        return
+      }
+      const file = fileUpload[0]
+      formData.append('image', file || '')
+      try {
+        const data = await uploadImageApi(formData)
+        if (data.error) {
+          toast.error(data.error)
+          return
+        }
+        inp = data?.data?.url || ''
+      } catch (error) {
+        toast.error('Error while upload file')
+        return
+      }
+      break
+    case QuestTypeEnum.URL:
+      inp = urlSubmit
+    case QuestTypeEnum.TEXT:
+      inp = textSubmit
+    case QuestTypeEnum.QUIZ:
+    // inp = JSON.stringify(chosenAnswers)
+
+    default:
+      break
+  }
+  try {
+    const data = await claimRewardApi({
+      quest_id: quest?.id,
+      input: inp,
+    })
+    if (data.error) {
+      toast.error(data.error)
+      return
+    }
+    toast.success('Claim reward successfully')
+  } catch (error) {
+    toast.error('Server error')
+  }
+}
+
 const SubmitButton: FunctionComponent = () => {
   const role = NewProjectStore.useStoreState((state) => state.role)
   const quest = ActiveQuestStore.useStoreState((state) => state.quest)
@@ -42,51 +95,26 @@ const SubmitButton: FunctionComponent = () => {
   const urlSubmit = ActiveQuestStore.useStoreState((state) => state.urlSubmit)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
 
-  const submit = async () => {
-    let inp = ''
-    switch (quest?.type) {
-      case QuestTypeEnum.IMAGE:
-        let formData = new FormData()
-        if (fileUpload.length === 0) {
-          toast.error('Must upload file')
-          return
-        }
-        const file = fileUpload[0]
-        formData.append('image', file || '')
-        try {
-          const data = await uploadImageApi(formData)
-          if (data.error) {
-            toast.error('Upload error')
-          }
-          inp = data?.data?.url || ''
-        } catch (error) {
-          toast.error('Error while upload file')
-          return
-        }
-        break
-      case QuestTypeEnum.URL:
-        inp = urlSubmit
-      case QuestTypeEnum.TEXT:
-        inp = textSubmit
-      case QuestTypeEnum.QUIZ:
-      // inp = JSON.stringify(chosenAnswers)
-
-      default:
-        break
-    }
-    try {
-      const data = await claimRewardApi({
-        quest_id: quest?.id,
-        input: inp,
-      })
-      if (data.error) {
-        toast.error(data.error)
-        return
+  let block = true
+  switch (quest.type) {
+    case QuestTypeEnum.IMAGE:
+      if (fileUpload.length > 0) {
+        block = false
       }
-      toast.success('Claim reward successfully')
-    } catch (error) {
-      toast.error('Server error')
-    }
+      break
+    case QuestTypeEnum.URL:
+      if (urlSubmit !== '') {
+        block = false
+      }
+    case QuestTypeEnum.TEXT:
+      if (textSubmit !== '') {
+        block = false
+      }
+    case QuestTypeEnum.QUIZ:
+    // inp = JSON.stringify(chosenAnswers)
+
+    default:
+      break
   }
 
   switch (role) {
@@ -100,7 +128,11 @@ const SubmitButton: FunctionComponent = () => {
 
     case ProjectRoleEnum.GUEST:
       return (
-        <FullWidthBtn disabled onClick={submit}>
+        <FullWidthBtn
+          disabled={block}
+          block={block}
+          onClick={() => handleSubmit(quest, fileUpload, urlSubmit, textSubmit)}
+        >
           {'Claim Reward'}
         </FullWidthBtn>
       )
