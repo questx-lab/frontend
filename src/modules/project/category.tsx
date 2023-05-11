@@ -149,9 +149,7 @@ const Category: FunctionComponent = () => {
           setCategories(rs.data?.categories)
         }
       }
-    } catch (error) {
-      toast.error('Error while fetch project')
-    }
+    } catch (error) {}
   }
 
   return (
