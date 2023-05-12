@@ -157,8 +157,16 @@ const generateReplyLink = (
 }
 
 const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
-  const { tweet_url, like, reply, retweet, default_reply } =
-    quest.validation_data || {}
+  const {
+    tweet_url,
+    like,
+    reply,
+    retweet,
+    default_reply,
+    link,
+    discord_invite_url,
+    telegram_invite_url,
+  } = quest.validation_data || {}
   switch (quest?.type) {
     case QuestTypeEnum.URL:
       return <QuestUrl />
@@ -167,11 +175,10 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     case QuestTypeEnum.TEXT:
       return <QuestText />
     case QuestTypeEnum.VISIT_LINK:
-      return <QuestVisitLink link={'https://twitter.com/elonmusk'} />
+      return <QuestVisitLink link={link || ''} />
     // case QuestTypeEnum.QUIZ:
     //   return withQuizzes()
-    case QuestTypeEnum.JOIN_TELEGRAM:
-      return <QuestTelegram link={tweet_url || ''} />
+
     case QuestTypeEnum.TWITTER_TWEET:
       return <QuestTwitter link={tweet_url || ''} text={'Go to twitter'} />
     case QuestTypeEnum.TWITTER_FOLLOW:
@@ -201,7 +208,9 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
     //   return withText()
     case QuestTypeEnum.DISCORD:
-      return <QuestDiscord link={'https://twitter.com/elonmusk'} />
+      return <QuestDiscord link={discord_invite_url || ''} />
+    case QuestTypeEnum.JOIN_TELEGRAM:
+      return <QuestTelegram link={telegram_invite_url || ''} />
     default:
       return <></>
   }

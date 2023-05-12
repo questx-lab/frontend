@@ -96,6 +96,9 @@ export interface QuestType {
     reply?: boolean
     retweet?: boolean
     default_reply?: string
+    link?: string
+    discord_invite_url?: string
+    telegram_invite_url?: string
   }
 }
 
