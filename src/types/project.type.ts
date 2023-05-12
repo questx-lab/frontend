@@ -75,7 +75,8 @@ export type ValidationQuest = {
   reply?: boolean
   like?: boolean
   space_url?: string
-  invite_link?: string
+  telegram_invite_link?: string
+  discord_invite_link?: string
   number?: number
 }
 

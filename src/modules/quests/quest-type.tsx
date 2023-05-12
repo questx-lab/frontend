@@ -163,7 +163,7 @@ export const QuestTwitter: FunctionComponent<{
   text: string
 }> = ({ link, text }) => {
   const onConnect = async () => {
-    signIn('twitter', undefined, 'project_id=123')
+    signIn('twitter')
   }
   const user = getUserLocal()
 
