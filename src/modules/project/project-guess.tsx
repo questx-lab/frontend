@@ -8,8 +8,8 @@ import { MoonLoader } from 'react-spinners'
 import { newFollowProjectApi } from '@/app/api/client/project'
 import ProjectSide from '@/components/sidebar'
 import { StorageConst } from '@/constants/storage.const'
+import { CommunityStore } from '@/store/local/community.store'
 import { LeaderboardStore } from '@/store/local/leaderboard.store'
-import { NewProjectStore } from '@/store/local/project.store'
 import { GlobalStoreModel } from '@/store/store'
 import { PFollow, PSave, PShare } from '@/styles/button.style'
 import {
@@ -120,7 +120,7 @@ export default function ProjectGuess() {
   const [tab, setTab] = useState<number>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const projectState = NewProjectStore.useStoreState((state) => state.project)
+  const projectState = CommunityStore.useStoreState((state) => state.project)
   const userState = useStoreState<GlobalStoreModel>((state) => state.user)
 
   const onClose = () => setIsOpen(false)

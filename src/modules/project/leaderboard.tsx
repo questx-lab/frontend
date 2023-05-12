@@ -11,8 +11,8 @@ import {
   LeaderboardRangeEnum,
   LeaderboardRangeMap,
 } from '@/constants/project.const'
+import { CommunityStore } from '@/store/local/community.store'
 import { LeaderboardStore } from '@/store/local/leaderboard.store'
-import { NewProjectStore } from '@/store/local/project.store'
 import { PointText } from '@/styles/questboard.style'
 import { LeaderboardType } from '@/types/project.type'
 import { Tab } from '@headlessui/react'
@@ -131,7 +131,7 @@ const RenderLeaderboard: FunctionComponent<{
 
 const Leaderboard: FunctionComponent = () => {
   // data
-  const project = NewProjectStore.useStoreState((state) => state.project)
+  const project = CommunityStore.useStoreState((state) => state.project)
   const week = LeaderboardStore.useStoreState((state) => state.week)
   const month = LeaderboardStore.useStoreState((state) => state.month)
   const all = LeaderboardStore.useStoreState((state) => state.all)

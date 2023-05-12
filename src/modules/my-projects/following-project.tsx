@@ -1,13 +1,13 @@
 'use client'
 import { FunctionComponent, useEffect, useState } from 'react'
-import tw from 'twin.macro'
 
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
 
 import { listProjectsApi } from '@/app/api/client/project'
-import { NewProjectStore } from '@/store/local/project.store'
+import { CommunityStore } from '@/store/local/community.store'
 import {
   AdjustmentsHorizontalIcon,
   MagnifyingGlassIcon,
@@ -74,18 +74,18 @@ export default function FollowingProject() {
   const router = useRouter()
 
   // Data
-  const projects = NewProjectStore.useStoreState((state) => state.projects)
-  const query = NewProjectStore.useStoreState((state) => state.query)
-  const searchProjects = NewProjectStore.useStoreState(
+  const projects = CommunityStore.useStoreState((state) => state.projects)
+  const query = CommunityStore.useStoreState((state) => state.query)
+  const searchProjects = CommunityStore.useStoreState(
     (state) => state.searchProjects
   )
 
   // Action
-  const setProjects = NewProjectStore.useStoreActions(
+  const setProjects = CommunityStore.useStoreActions(
     (action) => action.setProjects
   )
-  const setQuery = NewProjectStore.useStoreActions((action) => action.setQuery)
-  const setSearchProjects = NewProjectStore.useStoreActions(
+  const setQuery = CommunityStore.useStoreActions((action) => action.setQuery)
+  const setSearchProjects = CommunityStore.useStoreActions(
     (action) => action.setSearchProjects
   )
 

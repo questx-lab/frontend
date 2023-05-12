@@ -22,12 +22,12 @@ export const InputBox = styled.input<{ danger?: boolean }>(
         border
         border-[1px]
         border-solid
-        border-gray-300
+        border-primary
         p-3
         rounded-lg
-        focus:border-black
-        focus:outline-black
-        focus:ring-black
+        focus:border-primary
+        focus:outline-primary
+        focus:ring-primary
         font-normal
       `,
   ]
@@ -87,18 +87,21 @@ export const MulInputBox = styled.textarea<{ danger?: boolean }>(
         border
         border-[1px]
         border-solid
-        border-gray-300
+        border-primary-300
         p-3
         rounded-lg
         h-full
         font-normal
+        focus:border-primary
+        focus:outline-primary
+        focus:ring-primary
       `,
   ]
 )
 
 export const LabelInput = tw.label`
-  text-black
-  font-normal
+  text-gray-700
+  font-medium
   text-sm
   flex
   flex-row

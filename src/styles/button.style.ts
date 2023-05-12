@@ -25,6 +25,10 @@ export const FullWidthBtn = styled.button<{ block?: boolean }>(
   px-4
   rounded-lg
   outline-0
+  flex
+  flex-row
+  justify-center
+  items-center
 `
       : tw`
   w-full
@@ -37,6 +41,10 @@ export const FullWidthBtn = styled.button<{ block?: boolean }>(
   px-4
   rounded-lg
   outline-0
+  flex
+  flex-row
+  justify-center
+  items-center
 `,
   ]
 )

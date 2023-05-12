@@ -14,7 +14,6 @@ import { Divider, Gap, LightText, MediumText } from '@/styles/common.style'
 import {
   AvatarBox,
   BoxLink,
-  CreateProjectBtn,
   DesNameTxt,
   ImageLogoBox,
   LeftSession,
@@ -36,25 +35,6 @@ import {
   Wrap,
 } from '@/styles/header.style'
 import { Popover } from '@headlessui/react'
-import { PlusIcon } from '@heroicons/react/24/outline'
-
-const CreateCommunity: FunctionComponent<{ isShow?: boolean }> = ({
-  isShow,
-}) => {
-  const router = useRouter()
-  if (isShow) {
-    return (
-      <CreateProjectBtn
-        onClick={() => router.push(RouterConst.CREATE_PROJECTS)}
-      >
-        <PlusIcon className={'w-5 h-5 text-black'} />
-        {'Create Project'}
-      </CreateProjectBtn>
-    )
-  }
-
-  return <></>
-}
 
 const UserInfoBox: FunctionComponent = () => {
   const path = usePathname()
@@ -68,63 +48,58 @@ const UserInfoBox: FunctionComponent = () => {
 
   if (isLogin && userState) {
     return (
-      <>
-        <CreateCommunity isShow={isShow} />
-        <UserSession>
-          <PopWrap>
-            <Popover.Button className={'outline-0'}>
-              <Image
-                width={35}
-                height={35}
-                src={StorageConst.NOTIFICATION_ICON.src}
-                alt={StorageConst.NOTIFICATION_ICON.alt}
-              />
-            </Popover.Button>
+      <UserSession>
+        <PopWrap>
+          <Popover.Button className={'outline-0'}>
+            <Image
+              width={35}
+              height={35}
+              src={StorageConst.NOTIFICATION_ICON.src}
+              alt={StorageConst.NOTIFICATION_ICON.alt}
+            />
+          </Popover.Button>
 
-            <PopPanel>
-              <PopItem>
-                <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-                <Gap height={2} />
-                <MediumText>{'Headline'}</MediumText>
-                <Gap height={2} />
-                <LightText>{'Notification content'}</LightText>
-                <Divider />
-              </PopItem>
-              <PopItem>
-                <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-                <Gap height={2} />
-                <MediumText>{'Headline'}</MediumText>
-                <Gap height={2} />
-                <LightText>{'Notification content'}</LightText>
-                <Divider />
-              </PopItem>
-              <PopItem>
-                <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-                <Gap height={2} />
-                <MediumText>{'Headline'}</MediumText>
-                <Gap height={2} />
-                <LightText>{'Notification content'}</LightText>
-                <Divider />
-              </PopItem>
-            </PopPanel>
-          </PopWrap>
+          <PopPanel>
+            <PopItem>
+              <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+              <Gap height={2} />
+              <MediumText>{'Headline'}</MediumText>
+              <Gap height={2} />
+              <LightText>{'Notification content'}</LightText>
+              <Divider />
+            </PopItem>
+            <PopItem>
+              <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+              <Gap height={2} />
+              <MediumText>{'Headline'}</MediumText>
+              <Gap height={2} />
+              <LightText>{'Notification content'}</LightText>
+              <Divider />
+            </PopItem>
+            <PopItem>
+              <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+              <Gap height={2} />
+              <MediumText>{'Headline'}</MediumText>
+              <Gap height={2} />
+              <LightText>{'Notification content'}</LightText>
+              <Divider />
+            </PopItem>
+          </PopPanel>
+        </PopWrap>
 
-          <AvatarBox
-            width={40}
-            height={40}
-            src={StorageConst.AVATAR_DEFAUL.src}
-            alt={StorageConst.AVATAR_DEFAUL.alt}
-          />
-          <UserInfo
-            onClick={() => router.push(RouterConst.USER + userState.id)}
-          >
-            <DesNameTxt>{'Explorer'}</DesNameTxt>
-            <UserNameTxt>
-              {(userState.name ?? '').split('@')[0].toUpperCase()}
-            </UserNameTxt>
-          </UserInfo>
-        </UserSession>
-      </>
+        <AvatarBox
+          width={40}
+          height={40}
+          src={StorageConst.AVATAR_DEFAUL.src}
+          alt={StorageConst.AVATAR_DEFAUL.alt}
+        />
+        <UserInfo onClick={() => router.push(RouterConst.USER + userState.id)}>
+          <DesNameTxt>{'Explorer'}</DesNameTxt>
+          <UserNameTxt>
+            {(userState.name ?? '').split('@')[0].toUpperCase()}
+          </UserNameTxt>
+        </UserInfo>
+      </UserSession>
     )
   }
 
