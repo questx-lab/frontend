@@ -90,6 +90,13 @@ export interface QuestType {
   condition_op?: string
   created_at?: string
   updated_at?: string
+  validation_data?: {
+    tweet_url?: string
+    like?: boolean
+    reply?: boolean
+    retweet?: boolean
+    default_reply?: string
+  }
 }
 
 export type LQuestType = {

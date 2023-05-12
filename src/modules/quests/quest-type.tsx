@@ -1,7 +1,5 @@
 import { FunctionComponent } from 'react'
-
 import Dropzone from 'react-dropzone'
-
 import { ButtonSocialType, ProjectRoleEnum } from '@/constants/project.const'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { NewProjectStore } from '@/store/local/project.store'
@@ -160,7 +158,10 @@ export const QuestDiscord: FunctionComponent<{ link: string }> = ({ link }) => {
   )
 }
 
-export const QuestTwitter: FunctionComponent<{ link: string }> = ({ link }) => {
+export const QuestTwitter: FunctionComponent<{
+  link: string
+  text: string
+}> = ({ link, text }) => {
   const onConnect = async () => {
     signIn('twitter')
   }
@@ -174,9 +175,7 @@ export const QuestTwitter: FunctionComponent<{ link: string }> = ({ link }) => {
         </SocialBtn>
       )}
       <a href={link} target='_blank' className='w-full'>
-        <SocialBtn btnType={ButtonSocialType.TWITTER}>
-          {'Go to Twitter'}
-        </SocialBtn>
+        <SocialBtn btnType={ButtonSocialType.TWITTER}>{text}</SocialBtn>
       </a>
     </WrapBtn>
   )

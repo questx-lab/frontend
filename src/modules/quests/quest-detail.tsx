@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
@@ -142,7 +142,22 @@ const SubmitButton: FunctionComponent = () => {
   }
 }
 
+const generateRetweetLink = (status_link: string): string => {
+  const status_id = status_link.split('/').pop()
+  return `https://twitter.com/intent/retweet?tweet_id=${status_id}`
+}
+
+const generateReplyLink = (
+  status_link: string,
+  default_reply: string
+): string => {
+  const status_id = status_link.split('/').pop()
+  return `https://twitter.com/intent/tweet?in_reply_to=${status_id}&text=${default_reply}`
+}
+
 const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+  const { tweet_url, like, reply, retweet, default_reply } =
+    quest.validation_data || {}
   switch (quest?.type) {
     case QuestTypeEnum.URL:
       return <QuestUrl />
@@ -156,13 +171,29 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     //   return withQuizzes()
 
     case QuestTypeEnum.TWITTER_TWEET:
-      return <QuestTwitter link={'https://twitter.com/elonmusk'} />
+      return <QuestTwitter link={tweet_url || ''} text={'Go to twitter'} />
     case QuestTypeEnum.TWITTER_FOLLOW:
-      return <QuestTwitter link={'https://twitter.com/elonmusk'} />
+      return <QuestTwitter link={tweet_url || ''} text={'Follow'} />
     case QuestTypeEnum.TWITTER_JOIN_SPACE:
-      return <QuestTwitter link={'https://twitter.com/elonmusk'} />
+      return <QuestTwitter link={tweet_url || ''} text={'Join Space'} />
     case QuestTypeEnum.TWITTER_REACTION:
-      return <QuestTwitter link={'https://twitter.com/elonmusk'} />
+      return (
+        <>
+          {retweet && (
+            <QuestTwitter
+              link={generateRetweetLink(tweet_url || '')}
+              text={'Retweet'}
+            />
+          )}
+          {like && <QuestTwitter link={tweet_url || ''} text={'Like'} />}
+          {reply && (
+            <QuestTwitter
+              link={generateReplyLink(tweet_url || '', default_reply || '')}
+              text={'Reply'}
+            />
+          )}
+        </>
+      )
     case QuestTypeEnum.EMPTY:
       return <></>
     // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
@@ -179,9 +210,6 @@ export const QuestDetail: FunctionComponent<{
   onClose: () => void
 }> = ({ quest }) => {
   useEffect(() => {}, [])
-
-  const { data: session, status } = useSession()
-  console.log(session)
 
   return (
     <QuestDetailWrap>

@@ -44,7 +44,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       }),
     ],
     callbacks: {
-      async jwt({ token, account, isNewUser, profile }) {
+      async jwt({ token, account }) {
         if (account?.provider == undefined) {
           return token
         }
@@ -54,7 +54,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         }
 
         const accessToken = req.cookies['access_token']
-        console.log('account?.provider', account?.provider)
 
         if (accessToken) {
           const resp = await linkOAuth2(
@@ -62,8 +61,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             account?.access_token,
             accessToken
           )
-          console.log(resp)
-
           return token
         }
 
