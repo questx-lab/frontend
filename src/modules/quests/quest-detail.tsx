@@ -1,9 +1,8 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
-import { useSession } from 'next-auth/react'
 import { claimRewardApi } from '@/app/api/client/reward'
 import { uploadImageApi } from '@/app/api/client/upload'
 import { ProjectRoleEnum, QuestTypeEnum } from '@/constants/project.const'
