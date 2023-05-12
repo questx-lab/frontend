@@ -10,7 +10,7 @@ export enum QuestTypeEnum {
   TWITTER_REACTION = 'twitter_reaction',
   TWITTER_TWEET = 'twitter_tweet',
   TWITTER_JOIN_SPACE = 'twitter_join_space',
-  DISCORD = 'discord',
+  DISCORD = 'join_discord',
   JOIN_TELEGRAM = 'join_telegram',
   INVITES = 'invite',
 }
@@ -152,4 +152,5 @@ export enum ButtonSocialType {
   DISCORD,
   TWITTER,
   VISIT_LINK,
+  TELEGRAM,
 }

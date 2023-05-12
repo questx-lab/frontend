@@ -32,6 +32,7 @@ import {
   QuestTwitter,
   QuestUrl,
   QuestVisitLink,
+  QuestTelegram,
 } from './quest-type'
 
 const handleSubmit = async (
@@ -169,7 +170,8 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
       return <QuestVisitLink link={'https://twitter.com/elonmusk'} />
     // case QuestTypeEnum.QUIZ:
     //   return withQuizzes()
-
+    case QuestTypeEnum.JOIN_TELEGRAM:
+      return <QuestTelegram link={tweet_url || ''} />
     case QuestTypeEnum.TWITTER_TWEET:
       return <QuestTwitter link={tweet_url || ''} text={'Go to twitter'} />
     case QuestTypeEnum.TWITTER_FOLLOW:

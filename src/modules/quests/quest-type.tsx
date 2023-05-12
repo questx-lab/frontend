@@ -163,7 +163,7 @@ export const QuestTwitter: FunctionComponent<{
   text: string
 }> = ({ link, text }) => {
   const onConnect = async () => {
-    signIn('twitter')
+    signIn('twitter', undefined, 'project_id=123')
   }
   const user = getUserLocal()
 
@@ -188,6 +188,18 @@ export const QuestVisitLink: FunctionComponent<{ link: string }> = ({
     <a href={link} target='_blank'>
       <SocialBtn btnType={ButtonSocialType.VISIT_LINK}>
         {'Visit link'}
+      </SocialBtn>
+    </a>
+  )
+}
+
+export const QuestTelegram: FunctionComponent<{ link: string }> = ({
+  link,
+}) => {
+  return (
+    <a href={link} target='_blank'>
+      <SocialBtn btnType={ButtonSocialType.TELEGRAM}>
+        {'Join Telegram'}
       </SocialBtn>
     </a>
   )

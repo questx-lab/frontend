@@ -52,6 +52,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         if (account?.access_token == undefined) {
           return token
         }
+        console.log(req.url)
 
         const accessToken = req.cookies['access_token']
 
