@@ -4,7 +4,7 @@ import { listClaimedQuestsApi } from '@/app/api/client/quest'
 import ProjectSide from '@/components/sidebar'
 import { SideEnum, TabReviewEnum } from '@/constants/project.const'
 import ControlPanel from '@/modules/new-quest/control-panel'
-import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
+import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
 import { Head, Main, Tab, TabItem } from '@/styles/quest-review.style'
@@ -42,16 +42,16 @@ export const getListClaimQuest = async (
 
 export default function ReviewSubmission({ projectId }: { projectId: string }) {
   // Data
-  const tabReviewState = NewQuestClaimStore.useStoreState(
+  const tabReviewState = NewClaimReviewStore.useStoreState(
     (state) => state.tabReview
   )
 
-  const loadingModal = NewQuestClaimStore.useStoreState(
+  const loadingModal = NewClaimReviewStore.useStoreState(
     (state) => state.loadingModal
   )
 
   // Actions
-  const setTabReview = NewQuestClaimStore.useStoreActions(
+  const setTabReview = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setTabReview
   )
 

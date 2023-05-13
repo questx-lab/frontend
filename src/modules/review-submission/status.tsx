@@ -3,7 +3,7 @@
 import { FunctionComponent } from 'react'
 
 import { ClaimedQuestMap, ClaimedQuestStatus } from '@/constants/project.const'
-import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
+import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
 import { LabelInput } from '@/styles/myProjects.style'
@@ -14,7 +14,7 @@ import { getListClaimQuest } from './review-submission'
 
 const Status: FunctionComponent<{ projectId: string }> = ({ projectId }) => {
   // Data
-  const reviewStatus = NewQuestClaimStore.useStoreState(
+  const reviewStatus = NewClaimReviewStore.useStoreState(
     (state) => state.reviewStatus
   )
   const questsSelect = NewQuestSearchStore.useStoreState(
@@ -27,13 +27,13 @@ const Status: FunctionComponent<{ projectId: string }> = ({ projectId }) => {
   ]
 
   // Actions
-  const setReviewStatus = NewQuestClaimStore.useStoreActions(
+  const setReviewStatus = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setReviewStatus
   )
-  const setHistoryClaims = NewQuestClaimStore.useStoreActions(
+  const setHistoryClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setHistoryClaims
   )
-  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+  const onLoadingModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 

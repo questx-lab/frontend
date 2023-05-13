@@ -10,7 +10,7 @@ import {
   ReviewBtnEnum,
 } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
-import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
+import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { Divider, Gap } from '@/styles/common.style'
 import { MulInputBox } from '@/styles/input.style'
 import {
@@ -41,18 +41,18 @@ const Action: FunctionComponent<{
   claimQuest: ClaimQuestType
 }> = ({ claimQuest }) => {
   // data
-  const pendingClaims = NewQuestClaimStore.useStoreState(
+  const pendingClaims = NewClaimReviewStore.useStoreState(
     (state) => state.pendingClaims
   )
 
   // action
-  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+  const setPendingClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setPendingClaims
   )
-  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+  const onLoadingModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
-  const onSubmissionModalChanged = NewQuestClaimStore.useStoreActions(
+  const onSubmissionModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.onSubmissionModalChanged
   )
 
@@ -112,15 +112,15 @@ const Action: FunctionComponent<{
 
 const DetailSubmission: FunctionComponent = () => {
   // Data
-  const submisisonModalState = NewQuestClaimStore.useStoreState(
+  const submisisonModalState = NewClaimReviewStore.useStoreState(
     (state) => state.submissionModal
   )
-  const claimQuestActive = NewQuestClaimStore.useStoreState(
+  const claimQuestActive = NewClaimReviewStore.useStoreState(
     (state) => state.claimQuestActive
   )
 
   // Actions
-  const onSubmissionModalChanged = NewQuestClaimStore.useStoreActions(
+  const onSubmissionModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.onSubmissionModalChanged
   )
 

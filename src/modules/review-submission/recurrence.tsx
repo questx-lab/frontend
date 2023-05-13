@@ -1,7 +1,7 @@
 'use client'
 
 import { QuestRecurrence, QuestRecurrencesMap } from '@/constants/project.const'
-import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
+import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { Gap } from '@/styles/common.style'
 import { LabelInput } from '@/styles/myProjects.style'
 import { RCard, RICard } from '@/styles/quest-review.style'
@@ -9,7 +9,7 @@ import { ITypeBox, TypeBox } from '@/styles/questboard.style'
 
 export default function Recurrence() {
   // Data
-  const recurrence = NewQuestClaimStore.useStoreState(
+  const recurrence = NewClaimReviewStore.useStoreState(
     (state) => state.recurrence
   )
   const display = [
@@ -20,7 +20,7 @@ export default function Recurrence() {
   ]
 
   // Actions
-  const setRecurrence = NewQuestClaimStore.useStoreActions(
+  const setRecurrence = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setRecurrence
   )
 
