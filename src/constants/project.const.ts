@@ -233,4 +233,11 @@ export enum NewCommunityStep {
   SECOND,
   THIRD,
   FOURTH,
+  FIFTH,
+}
+
+export enum ConnectSocialPlatformEnum {
+  NONE = 'None',
+  DISCORD = 'Discord',
+  TWITTER = 'Twitter',
 }

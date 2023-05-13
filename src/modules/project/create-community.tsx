@@ -10,6 +10,8 @@ import tw from 'twin.macro'
 
 import { newProjectApi } from '@/app/api/client/project'
 import {
+  ButtonSocialType,
+  ConnectSocialPlatformEnum,
   NewCommunityDescribeSizeMap,
   NewCommunityStage,
   NewCommunityStageMap,
@@ -22,6 +24,7 @@ import { StorageConst } from '@/constants/storage.const'
 import { NewCommunityStore } from '@/store/local/new-community.store'
 import { FullWidthBtn } from '@/styles/button.style'
 import { LabelInput, RequireSignal } from '@/styles/input.style'
+import { SocialBtn } from '@/styles/quest-detail.style'
 import { ReqNewProject } from '@/types/project.type'
 import { MultipleTextField, TextField } from '@/widgets/form'
 import { Dialog } from '@headlessui/react'
@@ -171,6 +174,30 @@ const BackBtn = tw.button`
   text-lg
 `
 
+export const UploadImgBox = tw.div`
+  flex
+  flex-row
+  justify-start
+  items-end
+  gap-3
+`
+
+export const RemoveAvt = tw.button`
+  text-sm
+  text-danger-700
+  py-1
+  rounded-lg
+  border
+  border-solid
+  border
+  border-danger-400
+  bg-danger-100
+  hover:bg-danger-700
+  hover:text-white
+  outline-0
+  px-4
+`
+
 const InputOtherFirstStep: FunctionComponent = () => {
   // data
   const stageCheckBoxQuiz = NewCommunityStore.useStoreState(
@@ -227,7 +254,8 @@ const InputOtherThirdStep: FunctionComponent = () => {
   return <></>
 }
 
-const FourthStep: FunctionComponent = () => {
+// ********* FIFTH STEP ***********
+const FifthStep: FunctionComponent = () => {
   // data
   const inviteCode = NewCommunityStore.useStoreState(
     (state) => state.inviteCode
@@ -271,7 +299,7 @@ const FourthStep: FunctionComponent = () => {
   }
 
   const onBack = () => {
-    setCurrentStep(NewCommunityStep.THIRD)
+    setCurrentStep(NewCommunityStep.FOURTH)
   }
 
   const LoadingBtn: FunctionComponent = () => {
@@ -308,6 +336,103 @@ const FourthStep: FunctionComponent = () => {
   )
 }
 
+// ********* FOURTH STEP ***********
+const FourthStep: FunctionComponent = () => {
+  // data
+  const discordUrl = NewCommunityStore.useStoreState(
+    (state) => state.discordUrl
+  )
+  const twitterUrl = NewCommunityStore.useStoreState(
+    (state) => state.twitterUrl
+  )
+
+  // action
+  const setCurrentStep = NewCommunityStore.useStoreActions(
+    (action) => action.setCurrentStep
+  )
+  const setDiscordUrl = NewCommunityStore.useStoreActions(
+    (action) => action.setDiscordUrl
+  )
+  const setTwitterUrl = NewCommunityStore.useStoreActions(
+    (action) => action.setTwitterUrl
+  )
+
+  // hook
+  const [social, setSocial] = useState<string>(ConnectSocialPlatformEnum.NONE)
+
+  // handler
+  const onNext = () => {
+    setCurrentStep(NewCommunityStep.FIFTH)
+  }
+  const onBack = () => {
+    setCurrentStep(NewCommunityStep.THIRD)
+  }
+
+  const InputUrl: FunctionComponent = () => {
+    switch (social) {
+      case ConnectSocialPlatformEnum.DISCORD:
+        return (
+          <SocialBtn btnType={ButtonSocialType.DISCORD}>
+            {'Connect Discord'}
+          </SocialBtn>
+        )
+      case ConnectSocialPlatformEnum.TWITTER:
+        return (
+          <SocialBtn btnType={ButtonSocialType.TWITTER}>
+            {'Connect Twitter'}
+          </SocialBtn>
+        )
+    }
+
+    return <></>
+  }
+
+  const renderItems = Array.from(Object.values(ConnectSocialPlatformEnum)).map(
+    (value, i) => (
+      <ListItem className='p-0 flex flex-col gap-3' key={i}>
+        <Label htmlFor={value}>
+          <ListItemPrefix className='mr-3'>
+            <Checkbox
+              checked={value === social}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSocial(value)
+                }
+              }}
+              id={value}
+              ripple={false}
+            />
+          </ListItemPrefix>
+          <StageTitle>{value}</StageTitle>
+        </Label>
+      </ListItem>
+    )
+  )
+
+  const block =
+    (discordUrl === '' && social === ConnectSocialPlatformEnum.DISCORD) ||
+    (twitterUrl === '' && social === ConnectSocialPlatformEnum.TWITTER)
+
+  return (
+    <Main>
+      <Title>{'Connect social platform'}</Title>
+      <Card className='w-full shadow-0'>
+        <List>{renderItems}</List>
+        <InputOtherThirdStep />
+      </Card>
+      <InputUrl />
+
+      <HorizotalFlex>
+        <BackBtn onClick={onBack}>{'Back'}</BackBtn>
+        <FullWidthBtn disabled={block} block={block} onClick={onNext}>
+          {'Next'}
+        </FullWidthBtn>
+      </HorizotalFlex>
+    </Main>
+  )
+}
+
+// ********* THIRD STEP ***********
 const ThirdStep: FunctionComponent = () => {
   // data
   const typeShareQuiz = NewCommunityStore.useStoreState(
@@ -380,6 +505,7 @@ const ThirdStep: FunctionComponent = () => {
   )
 }
 
+// ********* SECOND STEP ***********
 const SecondStep: FunctionComponent = () => {
   // data
   const describeSizeQuiz = NewCommunityStore.useStoreState(
@@ -439,6 +565,7 @@ const SecondStep: FunctionComponent = () => {
   )
 }
 
+// ********* FIRST STEP ***********
 const FirstStep: FunctionComponent = () => {
   // data
   const stageCheckBoxQuiz = NewCommunityStore.useStoreState(
@@ -507,6 +634,65 @@ const FirstStep: FunctionComponent = () => {
   )
 }
 
+const AvatarUpload: FunctionComponent = () => {
+  // data
+  const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
+
+  // action
+  const setAvatar = NewCommunityStore.useStoreActions(
+    (action) => action.setAvatar
+  )
+
+  // handler
+  const onRemoveImg = () => {
+    setAvatar([])
+  }
+
+  if (avatar.length) {
+    return (
+      <UploadImgBox>
+        <Image
+          width={100}
+          height={100}
+          src={(avatar[0] as any).preview}
+          alt={'Community avatar'}
+        />
+        <RemoveAvt onClick={onRemoveImg}>{'Remove'}</RemoveAvt>
+      </UploadImgBox>
+    )
+  }
+
+  return (
+    <Dropzone
+      onDrop={(acceptedFiles) => {
+        setAvatar(
+          acceptedFiles.map((upFile) =>
+            Object.assign(upFile, {
+              preview: URL.createObjectURL(upFile),
+            })
+          )
+        )
+      }}
+    >
+      {({ getRootProps, getInputProps }) => (
+        <SectionUploadImg
+          {...getRootProps({
+            className: 'dropzone outline-none cursor-pointer',
+          })}
+        >
+          <UploadInput {...getInputProps()} />
+          <Image
+            width={100}
+            height={100}
+            src={StorageConst.UPLOAD_IMG.src}
+            alt={StorageConst.UPLOAD_IMG.alt}
+          />
+        </SectionUploadImg>
+      )}
+    </Dropzone>
+  )
+}
+
 const BasicInfo: FunctionComponent = () => {
   // data
   const title = NewCommunityStore.useStoreState((state) => state.title)
@@ -551,23 +737,7 @@ const BasicInfo: FunctionComponent = () => {
         placeholder='The description of the quest is written here.'
       />
       <LabelInput>{'UPLOAD COMMUNITY IMAGE'}</LabelInput>
-      <Dropzone onDrop={(acceptedFiles) => {}}>
-        {({ getRootProps, getInputProps }) => (
-          <SectionUploadImg
-            {...getRootProps({
-              className: 'dropzone outline-none cursor-pointer',
-            })}
-          >
-            <UploadInput {...getInputProps()} />
-            <Image
-              width={100}
-              height={100}
-              src={StorageConst.UPLOAD_IMG.src}
-              alt={StorageConst.UPLOAD_IMG.alt}
-            />
-          </SectionUploadImg>
-        )}
-      </Dropzone>
+      <AvatarUpload />
       <FullWidthBtn
         disabled={title === ''}
         block={title === ''}
@@ -596,6 +766,8 @@ const RenderStep: FunctionComponent = () => {
       return <ThirdStep />
     case NewCommunityStep.FOURTH:
       return <FourthStep />
+    case NewCommunityStep.FIFTH:
+      return <FifthStep />
   }
 
   return <BasicInfo />
@@ -611,13 +783,15 @@ const RenderTitle: FunctionComponent = () => {
     case NewCommunityStep.BEGIN:
       return <TitleBox>{'LET START!'}</TitleBox>
     case NewCommunityStep.FIRST:
-      return <TitleBox>{'QUIZ 1/4'}</TitleBox>
+      return <TitleBox>{'QUIZ 1/5'}</TitleBox>
     case NewCommunityStep.SECOND:
-      return <TitleBox>{'QUIZ 2/4'}</TitleBox>
+      return <TitleBox>{'QUIZ 2/5'}</TitleBox>
     case NewCommunityStep.THIRD:
-      return <TitleBox>{'QUIZ 3/4'}</TitleBox>
+      return <TitleBox>{'QUIZ 3/5'}</TitleBox>
     case NewCommunityStep.FOURTH:
-      return <TitleBox>{'QUIZ 4/4'}</TitleBox>
+      return <TitleBox>{'QUIZ 4/5'}</TitleBox>
+    case NewCommunityStep.FIFTH:
+      return <TitleBox>{'QUIZ 5/5'}</TitleBox>
   }
 
   return <TitleBox>{'LET START!'}</TitleBox>
