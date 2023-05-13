@@ -33,6 +33,7 @@ import { TemplateModal } from '@/widgets/modal'
 import ControlPanel from '../new-quest/control-panel'
 import QuestFrame from '../new-quest/quest-frame'
 import Category from './category'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 
 export default function ManageProject() {
   const router = useRouter()
@@ -108,7 +109,9 @@ export default function ManageProject() {
         isOpen={openTemplate}
         onClose={() => setOpenTemplate(false)}
       >
-        <QuestFrame isTemplate id={project.id} />
+        <NewQuestStore.Provider>
+          <QuestFrame isTemplate id={project.id} />
+        </NewQuestStore.Provider>
       </TemplateModal>
     </Wrap>
   )
