@@ -11,7 +11,7 @@ import {
   TabReviewEnum,
 } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
-import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
+import { NewClaimReviewStore } from '@/store/local/claim-review'
 import {
   Btn,
   PAction,
@@ -33,15 +33,15 @@ const Action: FunctionComponent<{
   tab: number
 }> = ({ claimQuest, tab }) => {
   // data
-  const pendingClaims = NewQuestClaimStore.useStoreState(
+  const pendingClaims = NewClaimReviewStore.useStoreState(
     (state) => state.pendingClaims
   )
 
   // action
-  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+  const setPendingClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setPendingClaims
   )
-  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+  const onLoadingModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 
@@ -103,10 +103,10 @@ const SubmissionItem: FunctionComponent<{
   style?: CSSProperties
 }> = ({ tab, active, onChange, payload, style }) => {
   // Actions
-  const onSubmissionModalChanged = NewQuestClaimStore.useStoreActions(
+  const onSubmissionModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.onSubmissionModalChanged
   )
-  const setClaimActive = NewQuestClaimStore.useStoreActions(
+  const setClaimActive = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setClaimActive
   )
 

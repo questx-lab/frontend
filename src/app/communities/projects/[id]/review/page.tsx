@@ -3,7 +3,7 @@
 import { Layout } from '@/components/layout'
 import ReviewSubmission from '@/modules/review-submission/review-submission'
 import { NewProjectStore } from '@/store/local/project.store'
-import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
+import { NewClaimReviewStore } from '@/store/local/claim-review'
 
 export default function Review(props: { params: { id: string } }) {
   return (
@@ -12,9 +12,9 @@ export default function Review(props: { params: { id: string } }) {
         <title>{'Project'}</title>
       </header>
       <NewProjectStore.Provider>
-        <NewQuestClaimStore.Provider>
+        <NewClaimReviewStore.Provider>
           <ReviewSubmission projectId={props.params.id} />
-        </NewQuestClaimStore.Provider>
+        </NewClaimReviewStore.Provider>
       </NewProjectStore.Provider>
     </Layout>
   )
