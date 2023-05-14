@@ -365,23 +365,6 @@ export const WrapQuestboard = tw.div`
   items-center
 `
 
-export const QuestboardBox = tw.div`
-  cursor-pointer
-  border
-  rounded-lg
-  border-solid
-  border-gray-200
-  border-[1px]
-  h-[250px]
-  max-lg:h-[300px]
-  w-full
-  flex
-  flex-col
-  hover:shadow-lg
-  justify-center
-  items-center
-`
-
 export const ImageQuestBox = styled(Image)(
   () => tw`
   rounded-full
@@ -618,33 +601,9 @@ export const MHeader = tw.div`
   items-center
 `
 
-export const MTitleBox = tw.div`
-  flex
-  flex-row
-  justify-between
-  items-center
-`
-
 export const MPadding = tw.div`
   w-full
   px-16
-`
-
-export const Mtemplate = tw.div`
-  px-16
-  bg-gray-100
-  border
-  border-[1px]
-  border-solid
-  border-gray-200
-  py-6
-`
-
-export const SeeAllText = tw.p`
-  text-lg
-  text-primary
-  font-medium
-  cursor-pointer
 `
 
 export const TMain = tw.div`
