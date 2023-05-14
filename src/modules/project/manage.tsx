@@ -9,7 +9,7 @@ import { listQuestApi } from '@/app/api/client/quest'
 import ProjectSide from '@/components/sidebar'
 import { RouterConst } from '@/constants/router.const'
 import { Quests } from '@/modules/quests/quest-list'
-import { NewProjectStore } from '@/store/local/project.store'
+import { CommunityStore } from '@/store/local/community.store'
 import { PSave } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
@@ -41,7 +41,7 @@ export default function ManageProject() {
   const [loading, setLoading] = useState<boolean>(true)
   const [openTemplate, setOpenTemplate] = useState<boolean>(false)
 
-  const project = NewProjectStore.useStoreState((state) => state.project)
+  const project = CommunityStore.useStoreState((state) => state.project)
 
   useEffect(() => {
     getQuests()

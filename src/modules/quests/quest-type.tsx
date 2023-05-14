@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone'
 
 import { ButtonSocialType, ProjectRoleEnum } from '@/constants/project.const'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
-import { NewProjectStore } from '@/store/local/project.store'
+import { CommunityStore } from '@/store/local/community.store'
 import { DeleteBtn } from '@/styles/button.style'
 import {
   AddFileBtn,
@@ -20,7 +20,7 @@ import { TextField } from '@/widgets/form'
 
 export const QuestText: FunctionComponent = () => {
   // data
-  const role = NewProjectStore.useStoreState((state) => state.role)
+  const role = CommunityStore.useStoreState((state) => state.role)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
 
   // action
@@ -45,7 +45,7 @@ export const QuestText: FunctionComponent = () => {
 
 export const QuestUrl: FunctionComponent = () => {
   // data
-  const role = NewProjectStore.useStoreState((state) => state.role)
+  const role = CommunityStore.useStoreState((state) => state.role)
   const urlSutmit = ActiveQuestStore.useStoreState((state) => state.urlSubmit)
 
   // action
@@ -70,7 +70,7 @@ export const QuestUrl: FunctionComponent = () => {
 
 export const QuestImage: FunctionComponent = () => {
   // data
-  const role = NewProjectStore.useStoreState((state) => state.role)
+  const role = CommunityStore.useStoreState((state) => state.role)
   const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
 
   // handler

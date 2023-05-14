@@ -64,6 +64,10 @@ module.exports = {
         700: '#1D4ED8',
         DEFAULT: '#3B82F6',
       },
+      teal: {
+        500: '#14B8A6',
+        DEFAULT: '#14B8A6',
+      },
     },
   },
   plugins: [

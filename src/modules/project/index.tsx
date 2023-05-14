@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import ProjectSide from '@/components/sidebar'
-import { NewProjectStore } from '@/store/local/project.store'
+import { CommunityStore } from '@/store/local/community.store'
 import { Gap } from '@/styles/common.style'
 import { Main, Tab, TabSide, Text, Title, Wrap } from '@/styles/home.style'
 
@@ -11,7 +11,7 @@ import ReviewSubMitMod from './review-submit'
 
 export default function Project() {
   const [tabActive, setTabActive] = useState<number>(0)
-  const projectState = NewProjectStore.useStoreState((state) => state.project)
+  const projectState = CommunityStore.useStoreState((state) => state.project)
 
   const onChanageTab = (tabNum: number) => {
     if (tabActive !== tabNum) {

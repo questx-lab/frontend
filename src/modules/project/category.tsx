@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { createCategoryApi, getCategoriesApi } from '@/app/api/client/project'
-import { NewProjectStore } from '@/store/local/project.store'
+import { CommunityStore } from '@/store/local/community.store'
 import { Menu } from '@headlessui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
 
@@ -105,11 +105,11 @@ const AddBtn = styled.button<{ block?: boolean }>(({ block = true }) => [
 
 const Category: FunctionComponent = () => {
   // data
-  const project = NewProjectStore.useStoreState((state) => state.project)
-  const categories = NewProjectStore.useStoreState((state) => state.categories)
+  const project = CommunityStore.useStoreState((state) => state.project)
+  const categories = CommunityStore.useStoreState((state) => state.categories)
 
   // action
-  const setCategories = NewProjectStore.useStoreActions(
+  const setCategories = CommunityStore.useStoreActions(
     (action) => action.setCategories
   )
 
