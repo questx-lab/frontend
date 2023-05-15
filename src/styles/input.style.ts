@@ -109,7 +109,7 @@ export const LabelInput = tw.label`
 `
 
 export const RequireSignal = tw.span`
-  text-sm
+  text-lg
   font-medium
   text-danger-700
 `

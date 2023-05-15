@@ -1,5 +1,4 @@
 export enum RouterConst {
-  LOGIN = '/login',
   HOME = '/',
   QUESTBOARD = '/questercamp',
   EXPLORE = '/explore',
