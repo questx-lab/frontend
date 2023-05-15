@@ -9,7 +9,6 @@
     "lint": "next lint",
     "prepare": "husky install",
     "check-types": "tsc --pretty --noEmit",
-    "check-format": "prettier --check src",
     "check-lint": "eslint . --ext ts --ext tsx --ext js"
   },
   "dependencies": {

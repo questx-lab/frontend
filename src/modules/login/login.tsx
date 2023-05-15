@@ -11,6 +11,7 @@ import tw from 'twin.macro'
 import { getUserApi, updateUserApi } from '@/app/api/client/user'
 import { AuthEnum } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
+import { handleMetamask } from '@/handler/auth/metamask'
 import { LoginStore } from '@/store/local/login.store'
 import { GlobalStoreModel } from '@/store/store'
 import { RequireSignal } from '@/styles/input.style'
@@ -415,8 +416,21 @@ const LoginBox: FunctionComponent = () => {
     await signIn('google')
   }
 
+  const handleSignInTwitter = async (e: React.MouseEvent<HTMLImageElement>) => {
+    e.preventDefault()
+    await signIn('twitter')
+  }
+
+  const handleSignInDiscord = async (e: React.MouseEvent<HTMLImageElement>) => {
+    e.preventDefault()
+    await signIn('discord')
+  }
+
   // action
   const setAuthBox = LoginStore.useStoreActions((action) => action.setAuthBox)
+  const setLogin = useStoreActions<GlobalStoreModel>(
+    (action) => action.setLogin
+  )
 
   return (
     <BoxContent>
@@ -430,7 +444,7 @@ const LoginBox: FunctionComponent = () => {
         />
         {'Log in with Google'}
       </SocialBox>
-      <SocialBox>
+      <SocialBox onClick={handleSignInTwitter}>
         <Image
           width={40}
           height={40}
@@ -439,7 +453,7 @@ const LoginBox: FunctionComponent = () => {
         />
         {'Log in with Twitter'}
       </SocialBox>
-      <SocialBox>
+      <SocialBox onClick={handleSignInDiscord}>
         <Image
           width={40}
           height={40}
@@ -448,7 +462,7 @@ const LoginBox: FunctionComponent = () => {
         />
         {'Log in with Discord'}
       </SocialBox>
-      <SocialBox>
+      <SocialBox onClick={() => handleMetamask(setLogin)}>
         <Image
           width={40}
           height={40}
