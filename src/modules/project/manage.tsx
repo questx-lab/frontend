@@ -22,9 +22,6 @@ import {
   MHeader,
   MMain,
   MPadding,
-  Mtemplate,
-  MTitleBox,
-  SeeAllText,
   Wrap,
 } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
@@ -34,6 +31,7 @@ import ControlPanel from '../new-quest/control-panel'
 import QuestFrame from '../new-quest/quest-frame'
 import Category from './category'
 import { NewQuestStore } from '@/store/local/new-quest.store'
+import { Templates } from '@/modules/project/templates'
 
 export default function ManageProject() {
   const router = useRouter()
@@ -89,13 +87,8 @@ export default function ManageProject() {
               </MHeader>
             </MPadding>
             <Gap height={6} />
-            <Mtemplate>
-              <MTitleBox>
-                <HeaderText>{'🌟 Templates'}</HeaderText>
-                <SeeAllText>{'See all Templates'}</SeeAllText>
-              </MTitleBox>
-              <Gap height={6} />
-            </Mtemplate>
+            <Templates />
+
             <Gap height={6} />
             <MPadding>
               <Category />

@@ -40,28 +40,28 @@ const MenuButton = styled(Menu.Button)(tw`
 const MenuItem = styled(Menu.Items)<{ isshow: boolean }>(({ isshow }) => [
   isshow
     ? tw`
-  absolute 
-  left-0 
-  mt-2 
+  absolute
+  left-0
+  mt-2
   w-72
-  origin-top-right 
-  divide-y 
-  divide-gray-100 
-  rounded-md 
-  bg-white 
-  shadow-lg 
-  ring-1 
-  ring-black 
-  ring-opacity-5 
+  origin-top-right
+  divide-y
+  divide-gray-100
+  rounded-md
+  bg-white
+  shadow-lg
+  ring-1
+  ring-black
+  ring-opacity-5
   focus:outline-none
 `
     : tw`hidden`,
 ])
 
 const ListBox = tw.div`
-  p-2 
-  w-full 
-  flex 
+  p-2
+  w-full
+  flex
   flex-row
   gap-3
 `
@@ -78,7 +78,7 @@ const Input = tw.input`
   rounded-lg
   w-full
   outline-primary
-  
+
 `
 
 const AddBtn = styled.button<{ block?: boolean }>(({ block = true }) => [

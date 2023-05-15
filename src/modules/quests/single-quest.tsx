@@ -3,24 +3,12 @@
 import { FunctionComponent, useState } from 'react'
 
 import parse from 'html-react-parser'
-import Image from 'next/image'
 
-import { StorageConst } from '@/constants/storage.const'
+import { QuestCard } from '@/modules/project/quest-card'
 import { QuestDetail } from '@/modules/quests/quest-detail'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
-import { Gap } from '@/styles/common.style'
 import { MDHead, ModalBox, ModalContent } from '@/styles/quest-review.style'
-import {
-  Card,
-  CardBox,
-  DesQ,
-  EndBoarding,
-  HeaderBox,
-  PointText,
-  QuestboardBox,
-  StartBoarding,
-  TitleQuestBox,
-} from '@/styles/questboard.style'
+import { DesQ } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
 import { BaseModal } from '@/widgets/modal'
 import { XMarkIcon } from '@heroicons/react/20/solid'
@@ -49,32 +37,13 @@ export const QuestView: FunctionComponent<{
 
   return (
     <>
-      <QuestboardBox key={quest.id} onClick={onOpenModal}>
-        <StartBoarding>
-          <Gap height={4} />
-          <TitleQuestBox>{`🎉 ${quest.title}`}</TitleQuestBox>
-          <Gap height={4} />
-          <DescriptionBox des={quest.description} />
-        </StartBoarding>
-        <EndBoarding>
-          <HeaderBox>
-            <Image
-              width={25}
-              height={25}
-              src={StorageConst.POINT_ICON.src}
-              alt={StorageConst.POINT_ICON.alt}
-            />
-            <Gap width={2} />
-            <PointText>{`300 Gems`}</PointText>
-          </HeaderBox>
-          {quest.recurrence && (
-            <CardBox>
-              <Card>{quest.recurrence.toUpperCase()}</Card>
-              <Gap width={2} />
-            </CardBox>
-          )}
-        </EndBoarding>
-      </QuestboardBox>
+      <QuestCard
+        quest={quest}
+        isTemplate={false}
+        manage={true}
+        key={quest.id}
+        onClick={onOpenModal}
+      />
 
       <BaseModal isOpen={isOpen}>
         <ModalBox>
