@@ -1,5 +1,6 @@
 'use client'
 import { FunctionComponent, useEffect, useState } from 'react'
+
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
@@ -47,7 +48,6 @@ export const Templates: FunctionComponent<{}> = ({}) => {
         toast.error(data.error)
       }
       if (data.data) {
-        console.log('Data = ', data.data)
         setTemplates(data.data.quests)
       }
     } catch (error) {
@@ -55,9 +55,11 @@ export const Templates: FunctionComponent<{}> = ({}) => {
     }
   }
 
-  const cardList = templates.map((e, i) => (
-    <QuestCard quest={e} manage={true} isTemplate={true} key={i}></QuestCard>
-  ))
+  const cardList =
+    templates &&
+    templates.map((e, i) => (
+      <QuestCard quest={e} manage={true} isTemplate={true} key={i}></QuestCard>
+    ))
 
   return (
     <Mtemplate>
