@@ -8,9 +8,10 @@ import { LabelInput } from '@/styles/myProjects.style'
 import { TBox, TCheckBox } from '@/styles/quest.style'
 import { LabelCheckText, LabelDes, PICard } from '@/styles/questboard.style'
 import { TextField } from '@/widgets/form'
-
 import QuestQuiz from './quest-quiz'
 import TwitterList from './twitter-list'
+import { FullWidthBtn } from '@/styles/button.style'
+import { signIn } from 'next-auth/react'
 
 const QuestDetails = () => {
   // Data
@@ -23,6 +24,8 @@ const QuestDetails = () => {
     (state) => state.telegramLink
   )
   const anwser = NewQuestStore.useStoreState((state) => state.anwser)
+
+  const project = NewQuestStore.useStoreState((state) => state.project)
 
   // Actions
   const setTextAutoValidation = NewQuestStore.useStoreActions(
@@ -41,6 +44,16 @@ const QuestDetails = () => {
     (actions) => actions.setInvites
   )
 
+  const onConnectDiscord = () => {
+    signIn(
+      'discord',
+      { redirect: false },
+      {
+        type: 'PROJECT_CONNECT_DISCORD',
+        project_id: project.id,
+      }
+    )
+  }
   switch (questType) {
     case QuestTypeEnum.URL:
       return <></>
@@ -168,6 +181,18 @@ const QuestDetails = () => {
               {'Invited user needs to complete 1 quest for invite to count'}
             </LabelDes>
           </PICard>
+        </>
+      )
+    case QuestTypeEnum.DISCORD:
+      console.log(project)
+
+      return (
+        <>
+          {!project.discord && (
+            <FullWidthBtn className='mt-3' onClick={onConnectDiscord}>
+              Connect with Discord
+            </FullWidthBtn>
+          )}
         </>
       )
   }

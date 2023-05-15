@@ -1,6 +1,6 @@
 'use client'
 
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState, useEffect } from 'react'
 
 import {
   EasyPeasyConfig,
@@ -43,6 +43,7 @@ import { ReqNewQuestType, ValidationQuest } from '@/types/project.type'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
 import { ProgressModal } from '@/widgets/modal'
+import { getProjectApi } from '@/app/api/client/project'
 
 const CreateQuestLabel: FunctionComponent<{
   id: string
@@ -357,6 +358,25 @@ const QuestFrame: FunctionComponent<{
   const onDescriptionChanged = NewQuestStore.useStoreActions(
     (actions) => actions.setDescription
   )
+
+  const setProject = NewQuestStore.useStoreActions(
+    (action) => action.setProject
+  )
+
+  useEffect(() => {
+    fetchProject()
+  }, [])
+
+  const fetchProject = async () => {
+    try {
+      const rs = await getProjectApi(id)
+      setProject(rs.data!.project)
+      // setLoading(false)
+    } catch (error) {
+      toast.error('Error while fetch project')
+      // setLoading(false)
+    }
+  }
 
   return (
     <>

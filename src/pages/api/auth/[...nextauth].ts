@@ -7,13 +7,15 @@ import FacebookProvider from 'next-auth/providers/facebook'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
-import DiscordProvider from "next-auth/providers/discord";
+import DiscordProvider from 'next-auth/providers/discord'
 
-import { verifyOAuth2 } from '@/app/api/client/oauth'
+import { verifyOAuth2, updateDiscord } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum } from '@/constants/key.const'
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+  const { project_id, type } = req.query
+
   return await NextAuth(req, res, {
     providers: [
       FacebookProvider({
@@ -36,6 +38,9 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       DiscordProvider({
         clientId: process.env.DISCORD_ID,
         clientSecret: process.env.DISCORD_SECRET,
+        authorization: {
+          params: { permission: 268435488, scope: 'guilds bot' },
+        },
       }),
       Auth0Provider({
         clientId: process.env.AUTH0_ID,
@@ -50,6 +55,24 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         }
 
         if (account?.access_token == undefined) {
+          return token
+        }
+        const url = req.cookies['next-auth.callback-url']
+        const accessToken = req.cookies['access_token']
+        console.log(url)
+        const matcher = '.*/communities/projects/.*/create'
+        console.log(matcher.search(url))
+        console.log(account)
+
+        if (url && matcher.match(url)) {
+          const arr = url.split('/')
+          const project_id = arr[arr.length - 2]
+          await updateDiscord(
+            project_id,
+            account?.guild?.id || '',
+            accessToken,
+            account?.access_token
+          )
           return token
         }
 

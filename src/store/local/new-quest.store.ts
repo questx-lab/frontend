@@ -1,7 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { QuestRecurrence, QuestTypeEnum } from '@/constants/project.const'
-import { QuestType } from '@/types/project.type'
+import { QuestType, ProjectType } from '@/types/project.type'
 
 export interface NewQuestModel {
   title: string
@@ -29,6 +29,7 @@ export interface NewQuestModel {
   quizQuestion: string
   quizAnswers: string[]
   quizCorrectAnswers: string[]
+  project: ProjectType
 
   // Actions
   setTitle: Action<NewQuestModel, string>
@@ -54,6 +55,7 @@ export interface NewQuestModel {
   setQuizQuestion: Action<NewQuestModel, string>
   setQuizAnswers: Action<NewQuestModel, string[]>
   setQuizCorrectAnswers: Action<NewQuestModel, string[]>
+  setProject: Action<NewQuestModel, ProjectType>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -81,6 +83,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   quizQuestion: '',
   quizAnswers: [''],
   quizCorrectAnswers: [],
+  project: { id: '' },
 
   setTitle: action((state, newTitle) => {
     state.title = newTitle
@@ -168,6 +171,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setQuizCorrectAnswers: action((state, questions) => {
     state.quizCorrectAnswers = questions
+  }),
+
+  setProject: action((state, newProject) => {
+    state.project = newProject
   }),
 })
 
