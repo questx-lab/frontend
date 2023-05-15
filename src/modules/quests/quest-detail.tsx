@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
@@ -33,12 +33,15 @@ import {
   QuestVisitLink,
   QuestTelegram,
 } from './quest-type'
+import { InputBox } from '@/styles/input.style'
+import { getUserLocal } from '@/utils/helper'
 
 const handleSubmit = async (
   quest: QuestType,
   fileUpload: File[],
   urlSubmit: string,
-  textSubmit: string
+  textSubmit: string,
+  replyUrlSubmit: string
 ) => {
   let inp = ''
   switch (quest.type) {
@@ -68,7 +71,8 @@ const handleSubmit = async (
       inp = textSubmit
     case QuestTypeEnum.QUIZ:
     // inp = JSON.stringify(chosenAnswers)
-
+    case QuestTypeEnum.TWITTER_REACTION:
+      inp = replyUrlSubmit
     default:
       break
   }
@@ -95,7 +99,13 @@ const SubmitButton: FunctionComponent = () => {
   const urlSubmit = ActiveQuestStore.useStoreState((state) => state.urlSubmit)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
 
+  const replyUrlSubmit = ActiveQuestStore.useStoreState(
+    (state) => state.replyUrlSubmit
+  )
+
   let block = true
+  console.log(quest.type)
+
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
       if (fileUpload.length > 0) {
@@ -112,6 +122,14 @@ const SubmitButton: FunctionComponent = () => {
       }
     case QuestTypeEnum.QUIZ:
     // inp = JSON.stringify(chosenAnswers)
+
+    case QuestTypeEnum.TWITTER:
+    case QuestTypeEnum.TWITTER_FOLLOW:
+    case QuestTypeEnum.TWITTER_JOIN_SPACE:
+    case QuestTypeEnum.TWITTER_REACTION:
+    case QuestTypeEnum.TWITTER_TWEET:
+      const user = getUserLocal()
+      block = !user.services.twitter
 
     default:
       break
@@ -131,7 +149,15 @@ const SubmitButton: FunctionComponent = () => {
         <FullWidthBtn
           disabled={block}
           block={block}
-          onClick={() => handleSubmit(quest, fileUpload, urlSubmit, textSubmit)}
+          onClick={() =>
+            handleSubmit(
+              quest,
+              fileUpload,
+              urlSubmit,
+              textSubmit,
+              replyUrlSubmit
+            )
+          }
         >
           {'Claim Reward'}
         </FullWidthBtn>
@@ -166,6 +192,11 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     discord_invite_url,
     telegram_invite_url,
   } = quest.validation_data || {}
+
+  const setReplyUrlSubmit = ActiveQuestStore.useStoreActions(
+    (action) => action.setReplyUrlSubmit
+  )
+
   switch (quest?.type) {
     case QuestTypeEnum.URL:
       return <QuestUrl />
@@ -195,10 +226,13 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
           )}
           {like && <QuestTwitter link={tweet_url || ''} text={'Like'} />}
           {reply && (
-            <QuestTwitter
-              link={generateReplyLink(tweet_url || '', default_reply || '')}
-              text={'Reply'}
-            />
+            <>
+              <InputBox onChange={(e) => setReplyUrlSubmit(e.target.value)} />
+              <QuestTwitter
+                link={generateReplyLink(tweet_url || '', default_reply || '')}
+                text={'Reply'}
+              />
+            </>
           )}
         </>
       )

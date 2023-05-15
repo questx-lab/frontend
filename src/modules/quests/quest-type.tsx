@@ -60,7 +60,7 @@ export const QuestUrl: FunctionComponent = () => {
         errorMsg='This field is required'
         placeholder='Input url'
         required
-        onChange={setUrlSubmit}
+        onChange={(e) => setUrlSubmit(e.target.value)}
         value={urlSutmit}
       />
     )
