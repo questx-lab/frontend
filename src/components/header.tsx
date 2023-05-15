@@ -61,7 +61,7 @@ const UserInfoBox: FunctionComponent = () => {
       setAuthBox(AuthEnum.INPUT_FORM)
     }
   }, [userState])
-  console.log('isopen', isOpen)
+
   if (isLogin && userState) {
     return (
       <UserSession>
