@@ -1,6 +1,8 @@
 'use client'
-import Image from 'next/image'
 import { FunctionComponent } from 'react'
+
+import Image from 'next/image'
+import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
@@ -16,12 +18,11 @@ import {
   TitleQuestBox,
 } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
-import styled from 'styled-components'
 
-const OuterBox = styled.div<{ isTemplate: boolean; manage: bolean }>(
+const OuterBox = styled.div<{ isTemplate: boolean; manage: boolean }>(
   ({ isTemplate, manage }) => {
     if (!isTemplate) {
-      return tw.div`
+      return tw`
         cursor-pointer
         border
         rounded-lg

@@ -159,7 +159,7 @@ const Category: FunctionComponent = () => {
         <MenuButton onClick={() => setShowMenu(true)}>
           <PlusIcon className='w-5 h-5' />
         </MenuButton>
-        <MenuItem isshow={+showMenu}>
+        <MenuItem isshow={showMenu}>
           <ListBox>
             <Input
               value={name}
