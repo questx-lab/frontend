@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check src",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.13",
@@ -61,6 +65,7 @@
     "@types/websocket": "^1.0.5",
     "@types/ws": "^8.5.4",
     "babel-plugin-twin": "^1.1.0",
-    "encoding": "^0.1.13"
+    "encoding": "^0.1.13",
+    "husky": "^8.0.0"
   }
 }

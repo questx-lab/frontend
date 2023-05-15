@@ -12,7 +12,7 @@ export const StorageConst = {
     alt: 'Discord',
   },
   TWITTER_DIR: {
-    src: '/images/logos/skype.svg',
+    src: '/images/logos/twitter.svg',
     alt: 'Twitter',
   },
   METAMASK_DIR: {

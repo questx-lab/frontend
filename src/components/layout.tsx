@@ -52,13 +52,15 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     const accessToken = getAccessToken()
 
     if (refreshToken && !accessToken) {
-      getUserData()
+      handleInit()
     }
 
     if (accessToken) {
-      !isLogin && setLogin(true)
+      if (!isLogin) {
+        setLogin(true)
+      }
       if (userState && !Object.keys(userState).length) {
-        getUserData()
+        handleInit()
       }
     } else {
       setLogin(false)
@@ -66,10 +68,11 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     }
   }, [router])
 
-  useEffect(() => {
+  const handleInit = () => {
+    getUserData()
     getProjectsFollowing()
     getMyProjects()
-  }, [])
+  }
 
   const getUserData = async () => {
     try {

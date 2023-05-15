@@ -3,11 +3,11 @@ import jwt from 'jwt-decode'
 import { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth from 'next-auth'
 import Auth0Provider from 'next-auth/providers/auth0'
+import DiscordProvider from 'next-auth/providers/discord'
 import FacebookProvider from 'next-auth/providers/facebook'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
-import DiscordProvider from "next-auth/providers/discord";
 
 import { verifyOAuth2 } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
