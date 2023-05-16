@@ -15,7 +15,8 @@ import Login from '@/modules/login/login'
 import { LoginStore } from '@/store/local/login.store'
 import { GlobalStoreModel } from '@/store/store'
 import { AuthBox, LoginBtn, MenuBtn, SignUpBtn } from '@/styles/button.style'
-import { Divider, Gap, LightText, MediumText } from '@/styles/common.style'
+import { LightText } from '@/widgets/text'
+import { Divider, Gap, MediumText } from '@/styles/common.style'
 import {
   AvatarBox,
   BoxLink,

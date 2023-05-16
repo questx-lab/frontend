@@ -219,20 +219,6 @@ export const MediumText = tw.p`
   max-sm:text-sm
 `
 
-export const NormalText = tw.p`
-  text-lg
-  text-black
-  font-normal
-  max-sm:text-xs
-`
-
-export const LightText = tw.p`
-  text-sm
-  text-black
-  font-light
-  max-sm:text-xl
-`
-
 export const FullScreen = tw.div`
   w-screen
   h-screen

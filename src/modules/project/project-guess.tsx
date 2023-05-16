@@ -18,8 +18,8 @@ import {
   EndWrap,
   Gap,
   LargeText,
-  NormalText,
 } from '@/styles/common.style'
+import { NormalText } from '@/widgets/text'
 import { MDialog } from '@/styles/home.style'
 import {
   LHBox,
