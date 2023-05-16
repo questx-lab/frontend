@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 
+import { signIn } from 'next-auth/react'
 import Dropzone from 'react-dropzone'
 
 import { ButtonSocialType, ProjectRoleEnum } from '@/constants/project.const'
@@ -14,8 +15,10 @@ import {
   UploadImgBox,
   UploadInput,
   UrlBox,
+  WrapBtn,
   WrapUploadImg,
 } from '@/styles/quest-detail.style'
+import { getUserLocal } from '@/utils/helper'
 import { TextField } from '@/widgets/form'
 
 export const QuestText: FunctionComponent = () => {
@@ -136,20 +139,70 @@ export const QuestImage: FunctionComponent = () => {
   )
 }
 
-export const QuestDiscord: FunctionComponent = () => {
-  return <SocialBtn>{'Connect Discord'}</SocialBtn>
-}
-
-export const QuestTwitter: FunctionComponent = () => {
+export const QuestDiscord: FunctionComponent<{ link: string }> = ({ link }) => {
+  const onConnect = async () => {
+    signIn('discord')
+  }
+  const user = getUserLocal()
   return (
-    <SocialBtn btnType={ButtonSocialType.TWITTER}>
-      {'Connect Twitter'}
-    </SocialBtn>
+    <WrapBtn>
+      {!user.services?.discord && (
+        <SocialBtn btnType={ButtonSocialType.DISCORD} onClick={onConnect}>
+          {'Connect Discord'}
+        </SocialBtn>
+      )}
+      <a href={link} target='_blank' className='w-full'>
+        <SocialBtn btnType={ButtonSocialType.DISCORD}>
+          {'Go to Discord'}
+        </SocialBtn>
+      </a>
+    </WrapBtn>
   )
 }
 
-export const QuestVisitLink: FunctionComponent = () => {
+export const QuestTwitter: FunctionComponent<{
+  link: string
+  text: string
+}> = ({ link, text }) => {
+  const onConnect = async () => {
+    signIn('twitter')
+  }
+  const user = getUserLocal()
+
   return (
-    <SocialBtn btnType={ButtonSocialType.VISIT_LINK}>{'Visit link'}</SocialBtn>
+    <WrapBtn>
+      {!user.services?.twitter && (
+        <SocialBtn btnType={ButtonSocialType.TWITTER} onClick={onConnect}>
+          {'Connect Twitter'}
+        </SocialBtn>
+      )}
+      <a href={link} target='_blank' className='w-full'>
+        <SocialBtn btnType={ButtonSocialType.TWITTER}>{text}</SocialBtn>
+      </a>
+    </WrapBtn>
+  )
+}
+
+export const QuestVisitLink: FunctionComponent<{ link: string }> = ({
+  link,
+}) => {
+  return (
+    <a href={link} target='_blank'>
+      <SocialBtn btnType={ButtonSocialType.VISIT_LINK}>
+        {'Visit link'}
+      </SocialBtn>
+    </a>
+  )
+}
+
+export const QuestTelegram: FunctionComponent<{ link: string }> = ({
+  link,
+}) => {
+  return (
+    <a href={link} target='_blank'>
+      <SocialBtn btnType={ButtonSocialType.TELEGRAM}>
+        {'Join Telegram'}
+      </SocialBtn>
+    </a>
   )
 }

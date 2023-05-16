@@ -297,9 +297,10 @@ const handleSubmit = async (
 
       break
     case QuestTypeEnum.DISCORD:
+      validations.discord_invite_link = state.discordLink
       break
     case QuestTypeEnum.JOIN_TELEGRAM:
-      validations.invite_link = state.telegramLink
+      validations.telegram_invite_link = state.telegramLink
       break
     case QuestTypeEnum.INVITES:
       validations.number = state.invites

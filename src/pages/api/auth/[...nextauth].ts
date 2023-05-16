@@ -9,13 +9,15 @@ import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
 
-import { verifyOAuth2, updateProjectDiscord } from '@/app/api/client/oauth'
+import {
+  verifyOAuth2,
+  updateProjectDiscord,
+  linkOAuth2,
+} from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum } from '@/constants/key.const'
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-  const { project_id, type } = req.query
-
   return await NextAuth(req, res, {
     providers: [
       FacebookProvider({
@@ -71,10 +73,20 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           const resp = await updateProjectDiscord(
             project_id,
             guild.id,
-            accessToken || '',
-            account?.access_token
+
+            account?.access_token,
+            accessToken || ''
           )
 
+          return token
+        }
+
+        if (accessToken) {
+          const resp = await linkOAuth2(
+            account?.provider,
+            account?.access_token,
+            accessToken
+          )
           return token
         }
 

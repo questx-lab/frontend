@@ -83,7 +83,8 @@ export type ValidationQuest = {
   reply?: boolean
   like?: boolean
   space_url?: string
-  invite_link?: string
+  telegram_invite_link?: string
+  discord_invite_link?: string
   number?: number
 }
 
@@ -98,6 +99,16 @@ export interface QuestType {
   condition_op?: string
   created_at?: string
   updated_at?: string
+  validation_data?: {
+    tweet_url?: string
+    like?: boolean
+    reply?: boolean
+    retweet?: boolean
+    default_reply?: string
+    link?: string
+    discord_invite_url?: string
+    telegram_invite_url?: string
+  }
 }
 
 export type LQuestType = {

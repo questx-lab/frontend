@@ -8,11 +8,13 @@ export interface ActiveQuestModel {
 
   urlSubmit: string
   textSubmit: string
+  replyUrlSubmit: string
   fileUpload: File[]
 
   setQuest: Action<ActiveQuestModel, QuestType>
   setUrlSubmit: Action<ActiveQuestModel, string>
   setTextSubmit: Action<ActiveQuestModel, string>
+  setReplyUrlSubmit: Action<ActiveQuestModel, string>
   setFileUpload: Action<ActiveQuestModel, File[]>
 }
 
@@ -20,6 +22,7 @@ export const ActiveQuestStore = createContextStore<ActiveQuestModel>({
   quest: {},
   urlSubmit: '',
   textSubmit: '',
+  replyUrlSubmit: '',
   fileUpload: [],
 
   setQuest: action((state, quest) => {
@@ -36,5 +39,9 @@ export const ActiveQuestStore = createContextStore<ActiveQuestModel>({
 
   setFileUpload: action((state, files) => {
     state.fileUpload = files
+  }),
+
+  setReplyUrlSubmit: action((state, url) => {
+    state.replyUrlSubmit = url
   }),
 })

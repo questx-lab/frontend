@@ -12,6 +12,7 @@ import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { CommunityStore } from '@/store/local/community.store'
 import { DeleteBtn, EditButton, FullWidthBtn } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
+import { InputBox } from '@/styles/input.style'
 import {
   ContentBox,
   ContentCard,
@@ -24,10 +25,12 @@ import {
   WrapBtn,
 } from '@/styles/quest-detail.style'
 import { QuestType } from '@/types/project.type'
+import { getUserLocal } from '@/utils/helper'
 
 import {
   QuestDiscord,
   QuestImage,
+  QuestTelegram,
   QuestText,
   QuestTwitter,
   QuestUrl,
@@ -38,7 +41,8 @@ const handleSubmit = async (
   quest: QuestType,
   fileUpload: File[],
   urlSubmit: string,
-  textSubmit: string
+  textSubmit: string,
+  replyUrlSubmit: string
 ) => {
   let inp = ''
   switch (quest.type) {
@@ -69,9 +73,9 @@ const handleSubmit = async (
       inp = textSubmit
       break
     case QuestTypeEnum.QUIZ:
-      // inp = JSON.stringify(chosenAnswers)
-      break
-
+    // inp = JSON.stringify(chosenAnswers)
+    case QuestTypeEnum.TWITTER_REACTION:
+      inp = replyUrlSubmit
     default:
       break
   }
@@ -98,7 +102,12 @@ const SubmitButton: FunctionComponent = () => {
   const urlSubmit = ActiveQuestStore.useStoreState((state) => state.urlSubmit)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
 
+  const replyUrlSubmit = ActiveQuestStore.useStoreState(
+    (state) => state.replyUrlSubmit
+  )
+
   let block = true
+
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
       if (fileUpload.length > 0) {
@@ -109,13 +118,25 @@ const SubmitButton: FunctionComponent = () => {
       if (urlSubmit !== '') {
         block = false
       }
+      break
     case QuestTypeEnum.TEXT:
       if (textSubmit !== '') {
         block = false
       }
+      break
     case QuestTypeEnum.QUIZ:
     // inp = JSON.stringify(chosenAnswers)
 
+    case QuestTypeEnum.TWITTER:
+    case QuestTypeEnum.TWITTER_FOLLOW:
+    case QuestTypeEnum.TWITTER_JOIN_SPACE:
+    case QuestTypeEnum.TWITTER_REACTION:
+    case QuestTypeEnum.TWITTER_TWEET:
+      const user = getUserLocal()
+      if (user.services) {
+        block = !user.services.twitter
+      }
+      break
     default:
       break
   }
@@ -134,7 +155,15 @@ const SubmitButton: FunctionComponent = () => {
         <FullWidthBtn
           disabled={block}
           block={block}
-          onClick={() => handleSubmit(quest, fileUpload, urlSubmit, textSubmit)}
+          onClick={() =>
+            handleSubmit(
+              quest,
+              fileUpload,
+              urlSubmit,
+              textSubmit,
+              replyUrlSubmit
+            )
+          }
         >
           {'Claim Reward'}
         </FullWidthBtn>
@@ -145,7 +174,35 @@ const SubmitButton: FunctionComponent = () => {
   }
 }
 
+const generateRetweetLink = (status_link: string): string => {
+  const status_id = status_link.split('/').pop()
+  return `https://twitter.com/intent/retweet?tweet_id=${status_id}`
+}
+
+const generateReplyLink = (
+  status_link: string,
+  default_reply: string
+): string => {
+  const status_id = status_link.split('/').pop()
+  return `https://twitter.com/intent/tweet?in_reply_to=${status_id}&text=${default_reply}`
+}
+
 const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+  const {
+    tweet_url,
+    like,
+    reply,
+    retweet,
+    default_reply,
+    link,
+    discord_invite_url,
+    telegram_invite_url,
+  } = quest.validation_data || {}
+
+  const setReplyUrlSubmit = ActiveQuestStore.useStoreActions(
+    (action) => action.setReplyUrlSubmit
+  )
+
   switch (quest?.type) {
     case QuestTypeEnum.URL:
       return <QuestUrl />
@@ -154,24 +211,45 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     case QuestTypeEnum.TEXT:
       return <QuestText />
     case QuestTypeEnum.VISIT_LINK:
-      return <QuestVisitLink />
+      return <QuestVisitLink link={link || ''} />
     // case QuestTypeEnum.QUIZ:
     //   return withQuizzes()
 
     case QuestTypeEnum.TWITTER_TWEET:
-      return <QuestTwitter />
+      return <QuestTwitter link={tweet_url || ''} text={'Go to twitter'} />
     case QuestTypeEnum.TWITTER_FOLLOW:
-      return <QuestTwitter />
+      return <QuestTwitter link={tweet_url || ''} text={'Follow'} />
     case QuestTypeEnum.TWITTER_JOIN_SPACE:
-      return <QuestTwitter />
+      return <QuestTwitter link={tweet_url || ''} text={'Join Space'} />
     case QuestTypeEnum.TWITTER_REACTION:
-      return <QuestTwitter />
+      return (
+        <>
+          {retweet && (
+            <QuestTwitter
+              link={generateRetweetLink(tweet_url || '')}
+              text={'Retweet'}
+            />
+          )}
+          {like && <QuestTwitter link={tweet_url || ''} text={'Like'} />}
+          {reply && (
+            <>
+              <InputBox onChange={(e) => setReplyUrlSubmit(e.target.value)} />
+              <QuestTwitter
+                link={generateReplyLink(tweet_url || '', default_reply || '')}
+                text={'Reply'}
+              />
+            </>
+          )}
+        </>
+      )
     case QuestTypeEnum.EMPTY:
       return <></>
     // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
     //   return withText()
     case QuestTypeEnum.DISCORD:
-      return <QuestDiscord />
+      return <QuestDiscord link={discord_invite_url || ''} />
+    case QuestTypeEnum.JOIN_TELEGRAM:
+      return <QuestTelegram link={telegram_invite_url || ''} />
     default:
       return <></>
   }

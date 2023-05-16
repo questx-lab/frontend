@@ -12,6 +12,7 @@ export interface NewQuestModel {
   anwser: string
   visitLink: string
   telegramLink: string
+  discordLink: string
   invites: number
   actionTwitter: string[]
   accountUrl: string
@@ -40,6 +41,7 @@ export interface NewQuestModel {
   setAnswer: Action<NewQuestModel, string>
   setVisitLink: Action<NewQuestModel, string>
   setTelegramLink: Action<NewQuestModel, string>
+  setDiscordLink: Action<NewQuestModel, string>
   setInvites: Action<NewQuestModel, number>
   setActionTwitter: Action<NewQuestModel, string[]>
   setAccountLink: Action<NewQuestModel, string>
@@ -67,6 +69,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   anwser: '',
   visitLink: '',
   telegramLink: '',
+  discordLink: '',
   invites: 10,
   actionTwitter: [],
   accountUrl: '',
@@ -115,6 +118,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setTelegramLink: action((state, newTelegramLink) => {
     state.telegramLink = newTelegramLink
+  }),
+
+  setDiscordLink: action((state, newDiscordLink) => {
+    state.discordLink = newDiscordLink
   }),
 
   setInvites: action((state, newInvites) => {
