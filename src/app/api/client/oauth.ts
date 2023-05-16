@@ -35,14 +35,14 @@ export const linkOAuth2 = async (
   return result.data
 }
 
-export const updateDiscord = async (
+export const updateProjectDiscord = async (
   project_id: string,
   server_id: string,
   oauth_access_token: string,
   access_token: string
 ): Promise<OAuth2VerifyResp> => {
   const result = await axios.post(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/updateDiscord`,
+    EnvVariables.NEXT_PUBLIC_API_URL + `/updateProjectDiscord`,
     {
       id: project_id,
       access_token: oauth_access_token,
