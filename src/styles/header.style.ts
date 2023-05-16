@@ -198,15 +198,17 @@ export const PopWrap = styled(Popover)(tw`
 `)
 
 export const PopPanel = styled(Popover.Panel)(tw`
+  divide-y
   right-0 
   rounded-lg 
-  p-6 
   mt-5 
   absolute z-10 
   bg-white 
   shadow-lg
+  border
+  border-solid
+  border-gray-300
   w-[350px] 
-  h-[500px]
   flex
   flex-col
 `)
@@ -216,6 +218,7 @@ export const PopItem = tw.div`
   flex-col
   w-full
   py-2
+  px-4
 `
 
 export const CreateProjectBtn = tw.div`

@@ -6,10 +6,11 @@ export const InfoText = tw.div`
   text-[#6B7280]
 `
 export const Badge = tw.div`
-  bg-[#F3F4F6]
-  rounded-full 
-  px-2 
-  py-1 
-  text-xs 
+  bg-gray-100
+  rounded-full
+  px-3
+  py-2 
+  text-sm
+  font-normal
   text-gray-700
 `

@@ -247,3 +247,17 @@ export enum AuthEnum {
   REGISTER,
   INPUT_FORM,
 }
+
+export enum SocialDisplay {
+  NONE,
+  TWITTER,
+  DISCORD,
+  EMAIL,
+}
+
+export const SocialDisplayMap = new Map<SocialDisplay, string>([
+  [SocialDisplay.NONE, 'None'],
+  [SocialDisplay.TWITTER, 'Twitter handle'],
+  [SocialDisplay.DISCORD, 'Discord profile'],
+  [SocialDisplay.EMAIL, 'Email address'],
+])
