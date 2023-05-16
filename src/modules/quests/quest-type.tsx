@@ -1,5 +1,8 @@
 import { FunctionComponent } from 'react'
+
+import { signIn } from 'next-auth/react'
 import Dropzone from 'react-dropzone'
+
 import { ButtonSocialType, ProjectRoleEnum } from '@/constants/project.const'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { CommunityStore } from '@/store/local/community.store'
@@ -12,12 +15,11 @@ import {
   UploadImgBox,
   UploadInput,
   UrlBox,
-  WrapUploadImg,
   WrapBtn,
+  WrapUploadImg,
 } from '@/styles/quest-detail.style'
-import { TextField } from '@/widgets/form'
-import { signIn } from 'next-auth/react'
 import { getUserLocal } from '@/utils/helper'
+import { TextField } from '@/widgets/form'
 
 export const QuestText: FunctionComponent = () => {
   // data
@@ -144,7 +146,7 @@ export const QuestDiscord: FunctionComponent<{ link: string }> = ({ link }) => {
   const user = getUserLocal()
   return (
     <WrapBtn>
-      {!user.services.discord && (
+      {!user.services?.discord && (
         <SocialBtn btnType={ButtonSocialType.DISCORD} onClick={onConnect}>
           {'Connect Discord'}
         </SocialBtn>
@@ -169,7 +171,7 @@ export const QuestTwitter: FunctionComponent<{
 
   return (
     <WrapBtn>
-      {!user.services.twitter && (
+      {!user.services?.twitter && (
         <SocialBtn btnType={ButtonSocialType.TWITTER} onClick={onConnect}>
           {'Connect Twitter'}
         </SocialBtn>

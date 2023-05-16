@@ -1,8 +1,9 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
+
 import { claimRewardApi } from '@/app/api/client/reward'
 import { uploadImageApi } from '@/app/api/client/upload'
 import { ProjectRoleEnum, QuestTypeEnum } from '@/constants/project.const'
@@ -11,6 +12,7 @@ import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { CommunityStore } from '@/store/local/community.store'
 import { DeleteBtn, EditButton, FullWidthBtn } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
+import { InputBox } from '@/styles/input.style'
 import {
   ContentBox,
   ContentCard,
@@ -23,18 +25,17 @@ import {
   WrapBtn,
 } from '@/styles/quest-detail.style'
 import { QuestType } from '@/types/project.type'
+import { getUserLocal } from '@/utils/helper'
 
 import {
   QuestDiscord,
   QuestImage,
+  QuestTelegram,
   QuestText,
   QuestTwitter,
   QuestUrl,
   QuestVisitLink,
-  QuestTelegram,
 } from './quest-type'
-import { InputBox } from '@/styles/input.style'
-import { getUserLocal } from '@/utils/helper'
 
 const handleSubmit = async (
   quest: QuestType,
@@ -117,10 +118,12 @@ const SubmitButton: FunctionComponent = () => {
       if (urlSubmit !== '') {
         block = false
       }
+      break
     case QuestTypeEnum.TEXT:
       if (textSubmit !== '') {
         block = false
       }
+      break
     case QuestTypeEnum.QUIZ:
     // inp = JSON.stringify(chosenAnswers)
 
@@ -130,8 +133,10 @@ const SubmitButton: FunctionComponent = () => {
     case QuestTypeEnum.TWITTER_REACTION:
     case QuestTypeEnum.TWITTER_TWEET:
       const user = getUserLocal()
-      block = !user.services.twitter
-
+      if (user.services) {
+        block = !user.services.twitter
+      }
+      break
     default:
       break
   }
