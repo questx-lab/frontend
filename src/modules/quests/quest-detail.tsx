@@ -106,7 +106,6 @@ const SubmitButton: FunctionComponent = () => {
   )
 
   let block = true
-  console.log(quest.type)
 
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
