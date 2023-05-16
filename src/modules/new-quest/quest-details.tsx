@@ -45,14 +45,7 @@ const QuestDetails = () => {
   )
 
   const onConnectDiscord = () => {
-    signIn(
-      'discord',
-      { redirect: false },
-      {
-        type: 'PROJECT_CONNECT_DISCORD',
-        project_id: project.id,
-      }
-    )
+    signIn('discord')
   }
   switch (questType) {
     case QuestTypeEnum.URL:
@@ -184,8 +177,6 @@ const QuestDetails = () => {
         </>
       )
     case QuestTypeEnum.DISCORD:
-      console.log(project)
-
       return (
         <>
           {!project.discord && (
