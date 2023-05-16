@@ -8,7 +8,7 @@ import { uploadImageApi } from '@/app/api/client/upload'
 import { ProjectRoleEnum, QuestTypeEnum } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
-import { NewProjectStore } from '@/store/local/project.store'
+import { CommunityStore } from '@/store/local/community.store'
 import { DeleteBtn, EditButton, FullWidthBtn } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
 import {
@@ -67,8 +67,10 @@ const handleSubmit = async (
       break
     case QuestTypeEnum.URL:
       inp = urlSubmit
+      break
     case QuestTypeEnum.TEXT:
       inp = textSubmit
+      break
     case QuestTypeEnum.QUIZ:
     // inp = JSON.stringify(chosenAnswers)
     case QuestTypeEnum.TWITTER_REACTION:
@@ -92,7 +94,7 @@ const handleSubmit = async (
 }
 
 const SubmitButton: FunctionComponent = () => {
-  const role = NewProjectStore.useStoreState((state) => state.role)
+  const role = CommunityStore.useStoreState((state) => state.role)
   const quest = ActiveQuestStore.useStoreState((state) => state.quest)
 
   const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)

@@ -34,42 +34,6 @@ export const Wrap = tw.div`
   max-lg:px-[20px]
 `
 
-export const TabSide = tw.div`
-  w-full
-  h-[60px]
-  border-b-2
-  border-gray-300
-  flex
-  flex-row
-  justify-start
-`
-
-export const Tab = styled.div<TabActive>(({ isActive }) =>
-  isActive
-    ? tw`
-        h-full
-        w-[200px]
-        border-b-2
-        border-black
-        flex
-        justify-center
-        items-center
-        cursor-pointer
-      `
-    : tw`
-        h-full
-        w-[200px]
-        flex
-        justify-center
-        items-center
-        cursor-pointer
-      `
-)
-
-export const Text = styled.p<TabActive>(({ isActive }) =>
-  isActive ? tw`font-bold` : tw`font-light`
-)
-
 // ========== Created project style ==========
 
 export const WrapCreatedProject = tw.div`
@@ -137,7 +101,7 @@ export const CreatedProjectBox = styled.div<CreatedProjectBoxType>(
 )
 
 export const ImageCreatedProjectBox = tw.div`
-  h-1/2 
+  h-1/2
   bg-gray-200
   rounded-t-lg
 `
@@ -149,8 +113,8 @@ export const ContentCreatedProjectBox = styled.div<CreatedProjectBoxType>(
           w-full
           h-full
           p-5
-          flex 
-          flex-col 
+          flex
+          flex-col
           justify-evenly
           items-center
         `
@@ -158,9 +122,9 @@ export const ContentCreatedProjectBox = styled.div<CreatedProjectBoxType>(
           w-full
           h-full
           p-5
-          flex 
-          flex-col 
-          justify-between 
+          flex
+          flex-col
+          justify-between
           items-start
           h-1/2
         `,
@@ -168,23 +132,23 @@ export const ContentCreatedProjectBox = styled.div<CreatedProjectBoxType>(
 )
 
 export const TitleCreatedProjectBox = tw.p`
-  text-black 
-  font-bold 
+  text-black
+  font-bold
   text-2xl
   max-lg:text-xl
 `
 
 export const SkeletonFirst = tw.div`
-  h-[10px] 
-  w-1/2 
-  rounded-full 
+  h-[10px]
+  w-1/2
+  rounded-full
   bg-gray-200
 `
 
 export const SkeletonSecond = tw.div`
-  h-[10px] 
-  w-full 
-  rounded-full 
+  h-[10px]
+  w-full
+  rounded-full
   bg-gray-200
 `
 
@@ -268,19 +232,19 @@ export const CategoryItem = tw.div`
 `
 
 export const ListBoxWrap = styled(Listbox.Options)(tw`
-  absolute 
-  mt-1 
-  max-h-80 
-  w-full 
-  overflow-auto 
-  rounded-md 
-  bg-white 
-  text-xl 
-  shadow-lg 
-  ring-1 
-  ring-black 
-  ring-opacity-5 
-  focus:outline-none 
+  absolute
+  mt-1
+  max-h-80
+  w-full
+  overflow-auto
+  rounded-md
+  bg-white
+  text-xl
+  shadow-lg
+  ring-1
+  ring-black
+  ring-opacity-5
+  focus:outline-none
   sm:text-sm
 `)
 
@@ -288,21 +252,21 @@ export const ListOps = styled(Listbox.Option)<ListOpsType>(
   ({ isActive = true }) => [
     isActive
       ? tw`
-        relative 
-        cursor-default 
-        select-none 
-        py-2 
-        pl-10 
+        relative
+        cursor-default
+        select-none
+        py-2
+        pl-10
         pr-4
-        bg-gray-100 
+        bg-gray-100
         text-gray-900
       `
       : tw`
-        relative 
-        cursor-default 
-        select-none 
-        py-2 
-        pl-10 
+        relative
+        cursor-default
+        select-none
+        py-2
+        pl-10
         pr-4
         text-gray-900
       `,
@@ -314,11 +278,11 @@ export const SpanList = styled.span<SpanSelect>(({ isSelect }) => [
 ])
 
 export const SpanIcon = tw.span`
-  absolute 
-  inset-y-0 
-  left-0 
-  flex 
-  items-center 
-  pl-3 
+  absolute
+  inset-y-0
+  left-0
+  flex
+  items-center
+  pl-3
   text-gray-600
 `

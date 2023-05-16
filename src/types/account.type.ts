@@ -7,4 +7,6 @@ export type UserType = {
     twitter?: string
     google?: string
   }
+  is_new_user?: boolean
+  role?: string
 }

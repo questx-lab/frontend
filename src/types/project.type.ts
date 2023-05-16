@@ -17,6 +17,14 @@ export type ReqUpdateProject = {
   telegram?: string
 }
 
+export type CollaboratorType = {
+  name: string
+  project: ProjectType
+  project_id: string
+  user: UserType
+  user_id: string
+}
+
 export type ProjectType = {
   id: string
   created_at?: string
@@ -125,4 +133,21 @@ export type ClaimQuestType = {
 
 export type ListClaimQuestType = {
   claimed_quests: ClaimQuestType[]
+}
+
+export type CategoryType = {
+  id: string
+  name: string
+  created_by: string
+  created_at: string
+  updated_at: string
+}
+
+export type LeaderboardType = {
+  user_id?: string
+  user?: UserType
+  total_task: number
+  total_point: number
+  prev_rank: number
+  current_rank: number
 }

@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
 import { TabReviewEnum } from '@/constants/project.const'
-import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
+import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
 import { LabelInput } from '@/styles/myProjects.style'
@@ -70,10 +70,10 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
   const questsSelectState = NewQuestSearchStore.useStoreState(
     (state) => state.questsSelect
   )
-  const tabReviewState = NewQuestClaimStore.useStoreState(
+  const tabReviewState = NewClaimReviewStore.useStoreState(
     (state) => state.tabReview
   )
-  const reviewStatus = NewQuestClaimStore.useStoreState(
+  const reviewStatus = NewClaimReviewStore.useStoreState(
     (state) => state.reviewStatus
   )
 
@@ -90,13 +90,13 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
   const setQuestsQuery = NewQuestSearchStore.useStoreActions(
     (actions) => actions.setQuestsQuery
   )
-  const setHistoryClaims = NewQuestClaimStore.useStoreActions(
+  const setHistoryClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setHistoryClaims
   )
-  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+  const setPendingClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setPendingClaims
   )
-  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+  const onLoadingModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 

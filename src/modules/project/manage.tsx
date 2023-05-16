@@ -9,7 +9,7 @@ import { listQuestApi } from '@/app/api/client/quest'
 import ProjectSide from '@/components/sidebar'
 import { RouterConst } from '@/constants/router.const'
 import { Quests } from '@/modules/quests/quest-list'
-import { NewProjectStore } from '@/store/local/project.store'
+import { CommunityStore } from '@/store/local/community.store'
 import { PSave } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
@@ -22,9 +22,6 @@ import {
   MHeader,
   MMain,
   MPadding,
-  Mtemplate,
-  MTitleBox,
-  SeeAllText,
   Wrap,
 } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
@@ -32,6 +29,9 @@ import { TemplateModal } from '@/widgets/modal'
 
 import ControlPanel from '../new-quest/control-panel'
 import QuestFrame from '../new-quest/quest-frame'
+import Category from './category'
+import { NewQuestStore } from '@/store/local/new-quest.store'
+import { Templates } from '@/modules/project/templates'
 
 export default function ManageProject() {
   const router = useRouter()
@@ -39,7 +39,7 @@ export default function ManageProject() {
   const [loading, setLoading] = useState<boolean>(true)
   const [openTemplate, setOpenTemplate] = useState<boolean>(false)
 
-  const project = NewProjectStore.useStoreState((state) => state.project)
+  const project = CommunityStore.useStoreState((state) => state.project)
 
   useEffect(() => {
     getQuests()
@@ -62,7 +62,7 @@ export default function ManageProject() {
 
   return (
     <Wrap>
-      <ProjectSide />
+      <ProjectSide projectId={project.id} />
       <MMain>
         <ControlPanel projectId={project.id} />
         <CCBox>
@@ -87,16 +87,11 @@ export default function ManageProject() {
               </MHeader>
             </MPadding>
             <Gap height={6} />
-            <Mtemplate>
-              <MTitleBox>
-                <HeaderText>{'🌟 Templates'}</HeaderText>
-                <SeeAllText>{'See all Templates'}</SeeAllText>
-              </MTitleBox>
-              <Gap height={6} />
-            </Mtemplate>
-            <Gap height={6} />
+            <Templates />
 
+            <Gap height={6} />
             <MPadding>
+              <Category />
               <Quests questList={questList} show={!loading} />
             </MPadding>
           </MBox>
@@ -107,7 +102,9 @@ export default function ManageProject() {
         isOpen={openTemplate}
         onClose={() => setOpenTemplate(false)}
       >
-        <QuestFrame isTemplate id={project.id} />
+        <NewQuestStore.Provider>
+          <QuestFrame isTemplate id={project.id} />
+        </NewQuestStore.Provider>
       </TemplateModal>
     </Wrap>
   )

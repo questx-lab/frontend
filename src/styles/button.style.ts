@@ -25,6 +25,10 @@ export const FullWidthBtn = styled.button<{ block?: boolean }>(
   px-4
   rounded-lg
   outline-0
+  flex
+  flex-row
+  justify-center
+  items-center
 `
       : tw`
   w-full
@@ -37,20 +41,45 @@ export const FullWidthBtn = styled.button<{ block?: boolean }>(
   px-4
   rounded-lg
   outline-0
+  flex
+  flex-row
+  justify-center
+  items-center
 `,
   ]
 )
 
 export const LoginBtn = tw.button`
+  bg-white
+  hover:bg-gray-100
+  text-sm
+  text-black
+  font-medium
+  py-3
+  px-6
+  rounded-lg
+  max-lg:hidden
+  border
+  border-gray-300
+  border-solid
+`
+
+export const SignUpBtn = tw.button`
   bg-primary
-  hover:bg-gray-400
+  hover:bg-primary-300
   text-sm
   text-white
   font-medium
-  py-2
-  px-4
+  py-3
+  px-6
   rounded-lg
   max-lg:hidden
+`
+
+export const AuthBox = tw.div`
+  flex
+  flex-row
+  gap-2
 `
 
 export const AddRoleBtn = tw.button`
@@ -261,22 +290,6 @@ export const PShare = tw.button`
   items-center
 `
 
-export const PManage = tw.button`
-  px-8
-  py-2
-  bg-primary-200
-  hover:bg-gray-200
-  text-primary-700
-  font-normal
-  text-sm
-  rounded-lg
-  max-lg:text-sm
-  flex
-  flex-row
-  justify-center
-  items-center
-`
-
 export const MenuBtn = tw.button`
   lg:hidden
   max-lg:mr-2
@@ -363,17 +376,6 @@ export const BtnDraft = styled.button<{ block?: boolean }>(
         `,
   ]
 )
-
-export const GotoTwitterBtn = tw.button`
-  text-sm
-  py-2
-  px-4
-  rounded-lg
-  border
-  border-solid
-  border-[1ox]
-  border-[#1DA1F2]
-`
 
 export const EditButton = tw.button`
   text-sm

@@ -12,7 +12,7 @@ export const StorageConst = {
     alt: 'Discord',
   },
   TWITTER_DIR: {
-    src: '/images/logos/skype.svg',
+    src: '/images/logos/twitter.svg',
     alt: 'Twitter',
   },
   METAMASK_DIR: {
@@ -70,5 +70,9 @@ export const StorageConst = {
   MANTA_LOGO: {
     src: '/images/dummy/manta.svg',
     alt: 'Manta Logo',
+  },
+  UPLOAD_IMG: {
+    src: '/images/icons/upload.svg',
+    alt: 'Upload image',
   },
 }

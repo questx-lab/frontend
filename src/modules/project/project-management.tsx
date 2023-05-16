@@ -3,7 +3,7 @@ import { Fragment, useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { addRoleProjectApi } from '@/app/api/client/project'
-import { NewProjectStore } from '@/store/local/project.store'
+import { CommunityStore } from '@/store/local/community.store'
 import { AddRoleBtn, FullWidthBtn, SubmitBtn } from '@/styles/button.style'
 import { CloseIcon, ColSWrap, EndWrap, Gap } from '@/styles/common.style'
 import {
@@ -50,7 +50,7 @@ export default function PManageMod() {
   const [selected, setSelected] = useState(Role[0])
   const emailRef = useRef<HTMLInputElement>(null)
   const metaRef = useRef<HTMLInputElement>(null)
-  const projectState = NewProjectStore.useStoreState((state) => state.project)
+  const projectState = CommunityStore.useStoreState((state) => state.project)
 
   const onClose = () => setIsOpen(false)
   const onOpen = () => {

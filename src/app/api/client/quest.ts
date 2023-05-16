@@ -95,3 +95,12 @@ export const updateAllClaimedQuestApi = async (
   )
   return data
 }
+
+// Templates
+export const getTemplates = async () => {
+  const { data } = await api.get(
+    EnvVariables.NEXT_PUBLIC_API_URL + `/getTemplates`,
+    {}
+  )
+  return data
+}

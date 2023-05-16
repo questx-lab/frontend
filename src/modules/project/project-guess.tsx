@@ -2,14 +2,14 @@ import { Fragment, FunctionComponent, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
 
 import { newFollowProjectApi } from '@/app/api/client/project'
 import ProjectSide from '@/components/sidebar'
 import { StorageConst } from '@/constants/storage.const'
-import { NewProjectStore } from '@/store/local/project.store'
+import { CommunityStore } from '@/store/local/community.store'
+import { LeaderboardStore } from '@/store/local/leaderboard.store'
 import { GlobalStoreModel } from '@/store/store'
 import { PFollow, PSave, PShare } from '@/styles/button.style'
 import {
@@ -29,7 +29,6 @@ import {
   LHLogo,
   LHTitle,
   LHTitleBox,
-  LItem,
   LLbox,
   LogoP,
   LUImg,
@@ -37,11 +36,6 @@ import {
   Main,
   QTCard,
   QTWrapC,
-  TabBox,
-  TabList,
-  TabPannel,
-  TabWrap,
-  TextItem,
   Wrap,
 } from '@/styles/leaderboard.style'
 import {
@@ -51,20 +45,12 @@ import {
   ModalWrap,
   TitleModal,
 } from '@/styles/modal.style'
-import {
-  CardBox,
-  PointText,
-  QuestText,
-  SCardBox,
-} from '@/styles/questboard.style'
+import { CardBox, QuestText, SCardBox } from '@/styles/questboard.style'
 import { ProjectType } from '@/types/project.type'
-import { Tab, Transition } from '@headlessui/react'
+import { Transition } from '@headlessui/react'
 
+import Leaderboard from './leaderboard'
 import QuestBoardTab from './questboard'
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
 
 const FollowBtn: FunctionComponent<{
   project: ProjectType
@@ -77,7 +63,6 @@ const FollowBtn: FunctionComponent<{
     (action) => action.setProjectsFollowing
   )
   const projectExist = projects && projects.filter((e) => e.id === project.id)
-
   const handleFollow = async () => {
     setLoading(true)
     try {
@@ -85,9 +70,10 @@ const FollowBtn: FunctionComponent<{
       if (data.error) {
         toast.error(data.error)
       } else {
-        setProjectsFollowing([...projects, project])
+        if (projects) {
+          setProjectsFollowing([...projects, project])
+        }
       }
-      setTimeout(() => setLoading(false), 500)
     } catch (error) {
       toast.error('Server error')
     }
@@ -134,10 +120,9 @@ export default function ProjectGuess() {
   const [tab, setTab] = useState<number>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const projectState = NewProjectStore.useStoreState((state) => state.project)
+  const projectState = CommunityStore.useStoreState((state) => state.project)
   const userState = useStoreState<GlobalStoreModel>((state) => state.user)
 
-  const router = useRouter()
   const onClose = () => setIsOpen(false)
   const onOpen = () => {
     setIsOpen(true)
@@ -162,7 +147,7 @@ export default function ProjectGuess() {
 
   return (
     <Wrap>
-      <ProjectSide />
+      <ProjectSide projectId={projectState.id} />
       <Main>
         {projectState && (
           <LHeader>
@@ -240,52 +225,9 @@ export default function ProjectGuess() {
         <Divider />
         <QuestBoardTab />
       </Main>
-      <TabWrap>
-        <TabBox>
-          <Tab.Group>
-            <TabList>
-              {['WEEKLY', 'MONTHLY', 'ALL TIME'].map((category) => (
-                <Tab
-                  key={category}
-                  className={({ selected }) =>
-                    classNames(
-                      'pb-4 font-medium w-full text-sm leading-5 text-black outline-0 ring-0',
-                      selected
-                        ? 'text-primary-500 border-b-2 border-primary-500'
-                        : 'text-black  hover:text-black border-b-[1px] border-gray-200'
-                    )
-                  }
-                >
-                  {category}
-                </Tab>
-              ))}
-            </TabList>
-            <Tab.Panels className='mt-2 '>
-              {[0, 1, 2].map((posts, idx) => (
-                <TabPannel key={idx}>
-                  <ul>
-                    {[0, 1, 2, 3, 4, 5].map((post, idx) => (
-                      <LItem key={post}>
-                        <LHLogo>
-                          <LogoP
-                            width={40}
-                            height={40}
-                            src={`/images/dummy/${idx + 1}.svg`}
-                            alt={'logo'}
-                          />
-                          <Gap width={4} />
-                          <TextItem>{'alim_marcusalim'}</TextItem>
-                        </LHLogo>
-                        <PointText>{'200'}</PointText>
-                      </LItem>
-                    ))}
-                  </ul>
-                </TabPannel>
-              ))}
-            </Tab.Panels>
-          </Tab.Group>
-        </TabBox>
-      </TabWrap>
+      <LeaderboardStore.Provider>
+        <Leaderboard />
+      </LeaderboardStore.Provider>
       <Transition appear show={isOpen} as={Fragment}>
         <MDialog onClose={() => {}}>
           <Transition.Child

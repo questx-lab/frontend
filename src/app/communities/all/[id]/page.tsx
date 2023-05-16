@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast'
 import { getProjectApi } from '@/app/api/client/project'
 import { Layout } from '@/components/layout'
 import Project from '@/modules/project'
-import { NewProjectStore } from '@/store/local/project.store'
+import { CommunityStore } from '@/store/local/community.store'
 import { Spinner } from '@/widgets/spinner'
 
 export default function ProjectPage(props: { params: { id: string } }) {
@@ -15,7 +15,7 @@ export default function ProjectPage(props: { params: { id: string } }) {
   const [loading, setLoading] = useState<boolean>(true)
 
   // actions
-  const setProject = NewProjectStore.useStoreActions(
+  const setProject = CommunityStore.useStoreActions(
     (action) => action.setProject
   )
 
