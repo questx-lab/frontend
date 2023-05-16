@@ -9,7 +9,7 @@ import {
   ReviewBtnEnum,
   TabReviewEnum,
 } from '@/constants/project.const'
-import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
+import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
 import {
@@ -38,10 +38,10 @@ import SubmissionItem from './submission-item'
 
 const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
   // action
-  const setHistoryClaims = NewQuestClaimStore.useStoreActions(
+  const setHistoryClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setHistoryClaims
   )
-  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+  const onLoadingModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 
@@ -118,13 +118,13 @@ const HistoryTab: FunctionComponent<{ projectId: string }> = ({
   projectId,
 }) => {
   // Data
-  const chooseQuestsState = NewQuestClaimStore.useStoreState(
+  const chooseQuestsState = NewClaimReviewStore.useStoreState(
     (state) => state.chooseQuestsHistory
   )
-  const allCheckHistoryState = NewQuestClaimStore.useStoreState(
+  const allCheckHistoryState = NewClaimReviewStore.useStoreState(
     (state) => state.allCheckHistory
   )
-  const historyClaims = NewQuestClaimStore.useStoreState(
+  const historyClaims = NewClaimReviewStore.useStoreState(
     (state) => state.historyClaims
   )
   const questsSelect = NewQuestSearchStore.useStoreState(
@@ -132,16 +132,16 @@ const HistoryTab: FunctionComponent<{ projectId: string }> = ({
   )
 
   // Actions
-  const setChooseHistory = NewQuestClaimStore.useStoreActions(
+  const setChooseHistory = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setChooseHistory
   )
-  const setCheckHistory = NewQuestClaimStore.useStoreActions(
+  const setCheckHistory = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setCheckHistory
   )
-  const setHistoryClaims = NewQuestClaimStore.useStoreActions(
+  const setHistoryClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setHistoryClaims
   )
-  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+  const onLoadingModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 

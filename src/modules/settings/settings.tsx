@@ -2,13 +2,17 @@ import { useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Image from 'next/image'
+import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
 import { GlobalStoreModel } from '@/store/store'
 import { Gap } from '@/styles/common.style'
-import { ContentContainer } from '@/styles/quest-detail.style'
 import { ImageQuestBox } from '@/styles/questboard.style'
 import { Badge, InfoText } from '@/styles/settings.style'
+
+const ContentContainer = tw.div`
+  
+`
 
 export default function Setting({ userId }: { userId: string }) {
   const userState = useStoreState<GlobalStoreModel>((state) => state.user)

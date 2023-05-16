@@ -140,3 +140,110 @@ export enum AnswerStatusEnum {
   ACTIVE,
   BLOCK,
 }
+
+export enum ProjectRoleEnum {
+  NONE,
+  GUEST,
+  OWNER,
+  EDITOR,
+}
+
+export enum ButtonSocialType {
+  DISCORD,
+  TWITTER,
+  VISIT_LINK,
+}
+
+export enum LeaderboardRangeEnum {
+  WEEK = 'week',
+  MONTH = 'month',
+  TOTAL = 'total',
+}
+
+export const LeaderboardRangeMap = new Map<LeaderboardRangeEnum, string>([
+  [LeaderboardRangeEnum.WEEK, 'WEEK'],
+  [LeaderboardRangeEnum.MONTH, 'MONTH'],
+  [LeaderboardRangeEnum.TOTAL, 'ALL TIME'],
+])
+
+export enum LeaderboardConst {
+  POINT = 'point',
+  TASK = 'task',
+}
+
+export enum NewCommunityStage {
+  IDEA,
+  DEVELOPMENT,
+  TESTING,
+  LAUNCH,
+  OTHER,
+}
+
+export enum NewCommunityDescribeSize {
+  SOLO,
+  SMALL,
+  MEDIUM,
+  LARGE,
+}
+
+export enum NewCommunityTypeShare {
+  PROJECT,
+  EDUCATION,
+  COMMUNITY,
+  DEVELOPMENT,
+  EVENT,
+  CONTENT,
+  OTHER,
+}
+
+export const NewCommunityStageMap = new Map<NewCommunityStage, string>([
+  [NewCommunityStage.IDEA, 'Idea/Concept stage'],
+  [NewCommunityStage.DEVELOPMENT, 'Development stage'],
+  [NewCommunityStage.TESTING, 'Beta testing stage'],
+  [NewCommunityStage.LAUNCH, 'Launch/Deployment stage'],
+  [NewCommunityStage.OTHER, 'Other'],
+])
+
+export const NewCommunityDescribeSizeMap = new Map<
+  NewCommunityDescribeSize,
+  string
+>([
+  [NewCommunityDescribeSize.SOLO, 'Solo developer'],
+  [NewCommunityDescribeSize.SMALL, 'Small team (2-5 members)'],
+  [NewCommunityDescribeSize.MEDIUM, 'Medium-sized team (6-10 members)'],
+  [NewCommunityDescribeSize.LARGE, 'Large team (11+ members)'],
+])
+
+export const NewCommunityTypeShareMap = new Map<NewCommunityTypeShare, string>([
+  [NewCommunityTypeShare.PROJECT, 'Project updates and milestones'],
+  [NewCommunityTypeShare.EDUCATION, 'Educational articles and tutorials'],
+  [NewCommunityTypeShare.COMMUNITY, 'Community spotlights and success stories'],
+  [NewCommunityTypeShare.DEVELOPMENT, 'Behind-the-scenes development insights'],
+  [
+    NewCommunityTypeShare.EVENT,
+    'Event announcements and participation opportunities',
+  ],
+  [NewCommunityTypeShare.CONTENT, 'Memes and light-hearted content'],
+  [NewCommunityTypeShare.OTHER, 'Other'],
+])
+
+export enum NewCommunityStep {
+  BEGIN,
+  FIRST,
+  SECOND,
+  THIRD,
+  FOURTH,
+  FIFTH,
+}
+
+export enum ConnectSocialPlatformEnum {
+  NONE = 'None',
+  DISCORD = 'Discord',
+  TWITTER = 'Twitter',
+}
+
+export enum AuthEnum {
+  LOGIN,
+  REGISTER,
+  INPUT_FORM,
+}

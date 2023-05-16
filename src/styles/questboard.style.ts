@@ -180,12 +180,6 @@ export const CHeadling = tw.p`
   text-black
 `
 
-export const CTitle = tw.p`
-  text-sm
-  font-medium
-  text-gray-700
-`
-
 export const ICard = tw.div`
   border-solid
   border-[1px]
@@ -207,11 +201,11 @@ export const ITypeBox = tw.div`
 `
 
 export const PersonWrap = tw.div`
-  flex 
-  flex-col 
-  justify-center 
-  items-center 
-  p-6 
+  flex
+  flex-col
+  justify-center
+  items-center
+  p-6
 `
 
 export const LabelDes = tw.p`
@@ -233,8 +227,8 @@ export const PersonName = tw.p`
   text-black
   text-center
   max-w-lg
-  text-ellipsis 
-  overflow-hidden 
+  text-ellipsis
+  overflow-hidden
   max-w-[150px]
 
 `
@@ -246,13 +240,6 @@ export const LvBox = tw.div`
   text-sm
   font-normal
   text-white
-`
-
-export const PersonDes = tw.p`
-  text-lg
-  font-normal
-  text-gray-700
-  text-center
 `
 
 export const TypeBox = styled.div<{ active?: boolean }>(
@@ -378,35 +365,11 @@ export const WrapQuestboard = tw.div`
   items-center
 `
 
-export const QuestboardBox = tw.div`
-  cursor-pointer
-  border
-  rounded-lg
-  border-solid
-  border-gray-200
-  border-[1px]
-  h-[250px]
-  max-lg:h-[300px]
-  w-full
-  flex
-  flex-col
-  hover:shadow-lg
-  justify-center
-  items-center
-`
-
 export const ImageQuestBox = styled(Image)(
   () => tw`
   rounded-full
 `
 )
-
-export const ContentQuestBox = tw.div`
-  p-5 
-  flex 
-  flex-col 
-  justify-between 
-`
 
 export const HeaderBox = tw.div`
   px-4
@@ -427,8 +390,8 @@ export const TitleBox = tw.div`
 
 export const TitleQuestBox = tw.p`
   px-4
-  text-black 
-  font-medium 
+  text-black
+  font-medium
   text-lg
   max-lg:text-sm
 `
@@ -436,7 +399,7 @@ export const TitleQuestBox = tw.p`
 export const DesQ = tw.p`
   px-4
   text-gray-700
-  font-normal 
+  font-normal
   text-lg
   max-lg:text-sm
 `
@@ -445,20 +408,6 @@ export const PointText = tw.span`
   text-[#FF7B05]
   text-sm
   font-medium
-`
-
-export const SkeletonFirst = tw.div`
-  h-[10px] 
-  w-1/2 
-  rounded-full 
-  bg-gray-200
-`
-
-export const SkeletonSecond = tw.div`
-  h-[10px] 
-  w-full 
-  rounded-full 
-  bg-gray-200
 `
 
 export const Boarding = tw.div`
@@ -630,7 +579,7 @@ export const PointInput = tw.input`
 `
 
 export const LabelCheckText = tw.span`
-  cursor-pointer 
+  cursor-pointer
   select-none
   text-sm
   font-medium
@@ -652,41 +601,9 @@ export const MHeader = tw.div`
   items-center
 `
 
-export const MTitleBox = tw.div`
-  flex
-  flex-row
-  justify-between
-  items-center
-`
-
 export const MPadding = tw.div`
   w-full
   px-16
-`
-
-export const Mtemplate = tw.div`
-  px-16
-  bg-gray-100
-  border
-  border-[1px]
-  border-solid
-  border-gray-200
-  py-6
-`
-
-export const SeeAllText = tw.p`
-  text-lg
-  text-primary
-  font-medium
-  cursor-pointer
-`
-
-export const BlockBox = tw.div`
-  flex 
-  h-screen 
-  w-screen 
-  justify-center 
-  items-center
 `
 
 export const TMain = tw.div`
@@ -725,31 +642,31 @@ export const TLSide = tw.div`
 `
 
 export const DisclosureBtn = styled(Disclosure.Button)(tw`
-  flex 
-  w-full 
+  flex
+  w-full
   justify-between
   items-center
   rounded-lg
-  px-2 
-  py-2 
-  text-left 
-  text-sm 
-  font-medium 
-  text-gray-900 
-  ring-0 
+  px-2
+  py-2
+  text-left
+  text-sm
+  font-medium
+  text-gray-900
+  ring-0
   outline-none
 `)
 
 export const DisclosurePanel = styled(Disclosure.Panel)(tw`
-  flex 
+  flex
   flex-row
-  px-2 
-  pt-4 
-  pb-2 
+  px-2
+  pt-4
+  pb-2
 `)
 
 export const DisclosureTitle = tw.span`
-  text-primary 
-  text-sm 
+  text-primary
+  text-sm
   font-medium
 `

@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { updateProjectApi } from '@/app/api/client/project'
-import { NewProjectStore } from '@/store/local/project.store'
+import { CommunityStore } from '@/store/local/community.store'
 import {
   ConnectedTwitterBtn,
   PActionWrap,
@@ -50,7 +50,7 @@ export default function ProjectSetting() {
   const webRef = useRef<HTMLInputElement>(null)
   const discordRef = useRef<HTMLInputElement>(null)
 
-  const projectState = NewProjectStore.useStoreState((state) => state.project)
+  const projectState = CommunityStore.useStoreState((state) => state.project)
 
   const listCategory = categories.map((e, i) => (
     <PCategoryItem key={i}>{e}</PCategoryItem>

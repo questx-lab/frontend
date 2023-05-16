@@ -36,6 +36,7 @@ module.exports = {
         50: '#FEF2F2',
         100: '#FEE2E2',
         300: '#FECACA',
+        400: '#FCA5A5',
         500: '#EF4444',
         600: '#DC2626',
         700: '#B91C1C',
@@ -62,6 +63,10 @@ module.exports = {
         500: '#3B82F6',
         700: '#1D4ED8',
         DEFAULT: '#3B82F6',
+      },
+      teal: {
+        500: '#14B8A6',
+        DEFAULT: '#14B8A6',
       },
     },
   },

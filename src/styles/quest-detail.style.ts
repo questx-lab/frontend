@@ -1,7 +1,11 @@
+import Image from 'next/image'
+import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { ButtonSocialType } from '@/constants/project.const'
+
 export const Title = tw.div`
-  text-xs	 
+  text-lg	 
   font-medium
   font-semibold	
   uppercase
@@ -26,20 +30,48 @@ export const PointText = tw.span`
   font-medium
 `
 
-export const ContentContainer = tw.div`
-  text-left
+export const ContentBox = tw.div`
+  flex
+  flex-col
+  gap-3
+  text-lg
+  font-bold
+  text-black
+  border
+  border-solid
+  border-gray-300
+  rounded-lg
+  w-2/3
+  justify-start
+  items-start
   p-6
-  m-5
-  border-2
-  rounded-md
-  border-[#E5E7EB]
+`
+
+export const ReviewBox = tw.div`
+  w-1/3
+  flex
+  flex-col
+  gap-6
+`
+
+export const RewardBox = tw.div`
+  flex
+  flex-col
+  border
+  border-solid
+  rounded-lg
+  border-gray-300
+  p-4
+  justify-center
+  items-start
 `
 
 export const QuestDetailWrap = tw.div`
-  grid
-  gap-1
-  grid-cols-3
   w-full
+  flex
+  flex-row
+  gap-5
+  p-6
 `
 
 export const QuizzesWrap = tw.div`
@@ -79,3 +111,144 @@ export const ProgressBarTotal = tw.div`
 export const Px6 = tw.div`
   px-6
 `
+
+export const WrapBtn = tw.div`
+  flex 
+  flex-row 
+  w-full 
+  gap-2
+`
+
+export const UrlBox = tw.div`
+  w-full
+  border
+  border-primary
+  border-solid
+  p-3
+  rounded-lg
+  flex
+  flex-row
+  justify-start
+  items-center
+`
+
+export const ContentCard = tw.div`
+  w-full
+  flex
+  flex-col
+  justify-start
+  items-start
+  gap-3
+`
+
+export const SectionUploadImg = tw.section`
+  w-full
+  h-32 
+  border-2 
+  border-dotted 
+  rounded-lg
+  justify-center
+  items-center
+  outline-0
+`
+
+export const WrapUploadImg = tw.div`
+  w-full
+  h-32
+  flex
+  flex-col
+  justify-center
+  items-center
+  text-sm
+  font-normal
+  text-gray-700
+  gap-3
+  outline-0
+`
+
+export const AddFileBtn = tw.button`
+  bg-primary-100
+  text-sm
+  font-medium
+  text-primary-700
+  px-6
+  py-2
+  rounded-lg
+  outline-0
+`
+
+export const UploadInput = tw.input`
+  outline-0 
+  ring-0
+  outline-offset-0
+  w-full
+  h-full
+`
+
+export const ShowImg = styled(Image)(tw`
+  rounded-lg
+  w-full
+  h-80
+`)
+
+export const UploadImgBox = tw.div`
+  w-full
+  flex
+  flex-col
+  justify-center
+  items-center
+  gap-3
+`
+
+export const SocialBtn = styled.button<{ btnType?: number }>(
+  ({ btnType = ButtonSocialType.DISCORD }) => [
+    btnType === ButtonSocialType.DISCORD &&
+      tw`
+        w-full
+        bg-primary
+        text-lg
+        font-medium
+        text-white
+        hover:bg-primary-300
+        py-2
+        rounded-lg
+        flex
+        flex-row
+        justify-center
+        items-center
+        outline-0
+      `,
+    btnType === ButtonSocialType.TWITTER &&
+      tw`
+        w-full
+        bg-info
+        text-lg
+        font-medium
+        text-white
+        hover:bg-info-500
+        py-2
+        rounded-lg
+        flex
+        flex-row
+        justify-center
+        items-center
+        outline-0
+      `,
+    btnType === ButtonSocialType.VISIT_LINK &&
+      tw`
+        w-full
+        bg-warning
+        text-lg
+        font-medium
+        text-white
+        hover:bg-warning-300
+        py-2
+        rounded-lg
+        flex
+        flex-row
+        justify-center
+        items-center
+        outline-0
+      `,
+  ]
+)

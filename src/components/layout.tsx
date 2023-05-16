@@ -42,8 +42,8 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   const setProjectsFollowing = useStoreActions<GlobalStoreModel>(
     (action) => action.setProjectsFollowing
   )
-  const setMyProjects = useStoreActions<GlobalStoreModel>(
-    (action) => action.setMyProjects
+  const setProjectCollab = useStoreActions<GlobalStoreModel>(
+    (action) => action.setProjectCollab
   )
 
   const router = useRouter()
@@ -52,13 +52,15 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     const accessToken = getAccessToken()
 
     if (refreshToken && !accessToken) {
-      getUserData()
+      handleInit()
     }
 
     if (accessToken) {
-      !isLogin && setLogin(true)
+      if (!isLogin) {
+        setLogin(true)
+      }
       if (userState && !Object.keys(userState).length) {
-        getUserData()
+        handleInit()
       }
     } else {
       setLogin(false)
@@ -66,14 +68,18 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     }
   }, [router])
 
+  const handleInit = () => {
+    getUserData()
+    getProjectsFollowing()
+    getMyProjects()
+  }
+
   const getUserData = async () => {
     try {
       const user = await getUserApi()
       setUserLocal(user.data!)
       setUser(user.data!)
       setLogin(true)
-      getProjectsFollowing()
-      getMyProjects()
     } catch (error) {}
   }
 
@@ -83,7 +89,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       if (projects.error) {
         toast.error('Error when get your following projects')
       } else {
-        setProjectsFollowing(projects.data?.projects)
+        if (projects.data?.projects) {
+          setProjectsFollowing(projects.data?.projects)
+        }
       }
     } catch (error) {
       toast.error('Server error')
@@ -96,7 +104,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       if (projects.error) {
         toast.error('Error when get your projects')
       } else {
-        setMyProjects(projects.data?.projects)
+        if (projects.data?.collaborators) {
+          setProjectCollab(projects.data?.collaborators)
+        }
       }
     } catch (error) {
       toast.error('Server error')

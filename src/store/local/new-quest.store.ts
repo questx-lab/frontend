@@ -75,7 +75,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   activeReward: 0,
   twitterType: '',
   spaceUrlTw: '',
-  // reviewStatus: ReviewStatusEnum.SUCCESS,
   chooseQuestsHistory: [],
   chooseQuestsPending: [],
   questActive: {},

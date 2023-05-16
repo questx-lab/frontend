@@ -9,7 +9,7 @@ import {
   ReviewBtnEnum,
   TabReviewEnum,
 } from '@/constants/project.const'
-import { NewQuestClaimStore } from '@/store/local/quest-claim.store'
+import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import {
   Btn,
@@ -36,10 +36,10 @@ import SubmissionItem from './submission-item'
 
 const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
   // action
-  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+  const setPendingClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setPendingClaims
   )
-  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+  const onLoadingModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 
@@ -129,13 +129,13 @@ const PendingTab: FunctionComponent<{ projectId: string }> = ({
   projectId,
 }) => {
   // Data
-  const chooseQuestsState = NewQuestClaimStore.useStoreState(
+  const chooseQuestsState = NewClaimReviewStore.useStoreState(
     (state) => state.chooseQuestsPending
   )
-  const allCheckPendingState = NewQuestClaimStore.useStoreState(
+  const allCheckPendingState = NewClaimReviewStore.useStoreState(
     (state) => state.allCheckPending
   )
-  const listClaimQuestState = NewQuestClaimStore.useStoreState(
+  const listClaimQuestState = NewClaimReviewStore.useStoreState(
     (state) => state.pendingClaims
   )
   const questsSelect = NewQuestSearchStore.useStoreState(
@@ -143,16 +143,16 @@ const PendingTab: FunctionComponent<{ projectId: string }> = ({
   )
 
   // Actions
-  const setChoosePending = NewQuestClaimStore.useStoreActions(
+  const setChoosePending = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setChoosePending
   )
-  const setCheckPending = NewQuestClaimStore.useStoreActions(
+  const setCheckPending = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setCheckPending
   )
-  const setPendingClaims = NewQuestClaimStore.useStoreActions(
+  const setPendingClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setPendingClaims
   )
-  const onLoadingModalChanged = NewQuestClaimStore.useStoreActions(
+  const onLoadingModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.onLoadingModalChanged
   )
 

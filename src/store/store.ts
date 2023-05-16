@@ -1,20 +1,20 @@
 import { action, Action, createStore } from 'easy-peasy'
 
 import { UserType } from '@/types/account.type'
-import { ProjectType } from '@/types/project.type'
+import { CollaboratorType, ProjectType } from '@/types/project.type'
 
 export interface GlobalStoreModel {
   navBar: boolean
   isLogin: boolean
   user: UserType
   projectsFollowing: ProjectType[]
-  myProjects: ProjectType[]
+  projectCollab: CollaboratorType[]
 
   setNavBar: Action<GlobalStoreModel, boolean>
   setLogin: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
   setProjectsFollowing: Action<GlobalStoreModel, ProjectType[]>
-  setMyProjects: Action<GlobalStoreModel, ProjectType[]>
+  setProjectCollab: Action<GlobalStoreModel, CollaboratorType[]>
 }
 
 const store = createStore<GlobalStoreModel>({
@@ -22,7 +22,7 @@ const store = createStore<GlobalStoreModel>({
   isLogin: false,
   user: {},
   projectsFollowing: [],
-  myProjects: [],
+  projectCollab: [],
 
   setNavBar: action((state, navBar) => {
     state.navBar = navBar
@@ -40,8 +40,8 @@ const store = createStore<GlobalStoreModel>({
     state.projectsFollowing = projects
   }),
 
-  setMyProjects: action((state, projects) => {
-    state.myProjects = projects
+  setProjectCollab: action((state, collabs) => {
+    state.projectCollab = collabs
   }),
 })
 

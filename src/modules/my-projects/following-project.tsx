@@ -1,19 +1,13 @@
+'use client'
 import { FunctionComponent, useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
 
 import { listProjectsApi } from '@/app/api/client/project'
-import { NewProjectStore } from '@/store/local/project.store'
-import {
-  FFitlerBox,
-  FSearchBox,
-  FSearchInput,
-  FSearchWrap,
-  FWrap,
-  WrapProjects,
-} from '@/styles/explore.style'
+import { CommunityStore } from '@/store/local/community.store'
 import {
   AdjustmentsHorizontalIcon,
   MagnifyingGlassIcon,
@@ -21,23 +15,77 @@ import {
 
 import ProjectBox from '../project/project-box'
 
+const FSearchInput = tw.input`
+  border-0
+  ring-0
+  outline-none
+  text-lg
+  w-full
+`
+
+const FFitlerBox = tw.div`
+  flex
+  flex-row
+  gap-3
+  border
+  border-solid
+  border-gray-300
+  py-2 px-3
+  rounded-lg
+  items-center
+`
+
+const FSearchBox = tw.div`
+  flex
+  flex-row
+  gap-3
+  border
+  border-solid
+  border-gray-300
+  py-2
+  px-3
+  justify-start
+  items-center
+  w-full
+  rounded-lg
+`
+
+const FSearchWrap = tw.div`
+  flex flex-row w-full gap-3 py-3
+`
+
+const FWrap = tw.div`
+  flex
+  flex-col
+  py-2
+`
+
+const WrapProjects = tw.div`
+  grid
+  grid-cols-4
+  gap-4
+  max-2xl:grid-cols-3
+  max-xl:grid-cols-2
+  max-sm:grid-cols-1
+`
+
 export default function FollowingProject() {
   const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
 
   // Data
-  const projects = NewProjectStore.useStoreState((state) => state.projects)
-  const query = NewProjectStore.useStoreState((state) => state.query)
-  const searchProjects = NewProjectStore.useStoreState(
+  const projects = CommunityStore.useStoreState((state) => state.projects)
+  const query = CommunityStore.useStoreState((state) => state.query)
+  const searchProjects = CommunityStore.useStoreState(
     (state) => state.searchProjects
   )
 
   // Action
-  const setProjects = NewProjectStore.useStoreActions(
+  const setProjects = CommunityStore.useStoreActions(
     (action) => action.setProjects
   )
-  const setQuery = NewProjectStore.useStoreActions((action) => action.setQuery)
-  const setSearchProjects = NewProjectStore.useStoreActions(
+  const setQuery = CommunityStore.useStoreActions((action) => action.setQuery)
+  const setSearchProjects = CommunityStore.useStoreActions(
     (action) => action.setSearchProjects
   )
 
