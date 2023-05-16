@@ -12,27 +12,20 @@ import { CommunityStore } from '@/store/local/community.store'
 import { LeaderboardStore } from '@/store/local/leaderboard.store'
 import { GlobalStoreModel } from '@/store/store'
 import { PFollow, PSave, PShare } from '@/styles/button.style'
-import {
-  CloseIcon,
-  Divider,
-  EndWrap,
-  Gap,
-  LargeText,
-} from '@/styles/common.style'
-import { NormalText } from '@/widgets/text'
+import { CloseIcon, Divider, EndWrap, Gap } from '@/styles/common.style'
 import { MDialog } from '@/styles/home.style'
 import {
   LHBox,
   LHDes,
-  LHeader,
   LHInfoA,
   LHLogo,
   LHTitle,
   LHTitleBox,
+  LHeader,
   LLbox,
-  LogoP,
   LUImg,
   LUWrap2,
+  LogoP,
   Main,
   QTCard,
   QTWrapC,
@@ -47,6 +40,7 @@ import {
 } from '@/styles/modal.style'
 import { CardBox, QuestText, SCardBox } from '@/styles/questboard.style'
 import { ProjectType } from '@/types/project.type'
+import { LargeText, NormalText } from '@/widgets/text'
 import { Transition } from '@headlessui/react'
 
 import Leaderboard from './leaderboard'

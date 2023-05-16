@@ -19,3 +19,17 @@ export const NormalText = tw.p`
   font-normal
   max-sm:text-xs
 `
+
+export const MediumText = tw.p`
+  text-lg
+  text-black
+  font-bold
+  max-sm:text-sm
+`
+
+export const LargeText = tw.p`
+  text-xl
+  text-black
+  font-bold
+  max-sm:text-lg
+`

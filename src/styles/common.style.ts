@@ -198,27 +198,6 @@ export const MediumTitle = tw.p`
   max-sm:text-2xl
 `
 
-export const SmallTitle = tw.p`
-  text-lg
-  text-black
-  font-bold
-  max-sm:text-lg
-`
-
-export const LargeText = tw.p`
-  text-xl
-  text-black
-  font-bold
-  max-sm:text-lg
-`
-
-export const MediumText = tw.p`
-  text-lg
-  text-black
-  font-bold
-  max-sm:text-sm
-`
-
 export const FullScreen = tw.div`
   w-screen
   h-screen
