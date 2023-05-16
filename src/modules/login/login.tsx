@@ -1,44 +1,35 @@
-import {
-  FunctionComponent,
-  useState,
-} from 'react';
+import { FunctionComponent, useState } from 'react'
 
-import {
-  useStoreActions,
-  useStoreState,
-} from 'easy-peasy';
-import { signIn } from 'next-auth/react';
-import Image from 'next/image';
-import { toast } from 'react-hot-toast';
-import { MoonLoader } from 'react-spinners';
-import styled from 'styled-components';
-import tw from 'twin.macro';
+import { useStoreActions, useStoreState } from 'easy-peasy'
+import { signIn } from 'next-auth/react'
+import Image from 'next/image'
+import { toast } from 'react-hot-toast'
+import { MoonLoader } from 'react-spinners'
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
-import {
-  getUserApi,
-  updateUserApi,
-} from '@/app/api/client/user';
-import { AuthEnum } from '@/constants/project.const';
-import { StorageConst } from '@/constants/storage.const';
-import { handleMetamask } from '@/handler/auth/metamask';
-import { LoginStore } from '@/store/local/login.store';
-import { GlobalStoreModel } from '@/store/store';
-import { RequireSignal } from '@/styles/input.style';
-import { UserType } from '@/types/account.type';
-import { setUserLocal } from '@/utils/helper';
-import { TextField } from '@/widgets/form';
-import { Dialog } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { getUserApi, updateUserApi } from '@/app/api/client/user'
+import { AuthEnum } from '@/constants/project.const'
+import { StorageConst } from '@/constants/storage.const'
+import { handleMetamask } from '@/handler/auth/metamask'
+import { LoginStore } from '@/store/local/login.store'
+import { GlobalStoreModel } from '@/store/store'
+import { RequireSignal } from '@/styles/input.style'
+import { UserType } from '@/types/account.type'
+import { setUserLocal } from '@/utils/helper'
+import { TextField } from '@/widgets/form'
+import { Dialog } from '@headlessui/react'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
   w-1/3
   max-xl:w-2/3
-  bg-white 
-  text-center 
-  align-middle 
+  bg-white
+  text-center
+  align-middle
   overflow-hidden
-  shadow-xl 
+  shadow-xl
   transition-all
   flex
   flex-col
@@ -256,8 +247,7 @@ const EmailText = tw.span`
 `
 
 const UserBox: FunctionComponent = () => {
-
-  const user:UserType = useStoreState<GlobalStoreModel>(state=>state.user)
+  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
   return (
     <InfoBox>
