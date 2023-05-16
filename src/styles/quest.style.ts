@@ -2,10 +2,9 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { AnswerStatusEnum } from '@/constants/project.const'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
-export const TWrap = tw.div`
-  flex
-  flex-row
+export const TWrap = tw(Horizontal)`
   min-h-screen
   pt-[80px]
 `
@@ -25,84 +24,74 @@ export const TActions = tw.div`
   gap-3
   max-lg:grid-cols-2
   max-sm:grid-cols-1
-  w-full 
+  w-full
   justify-between
 `
 
 export const TEWrap = tw.div`
-  flex 
-  flex-col  
-  w-full 
+  flex
+  flex-col
+  w-full
   mb-14
   max-lg:mb-12
 `
-export const TBox = tw.div`
-  flex 
-  flex-row 
+export const TBox = tw(Horizontal)`
   items-center
 `
 
 export const TCheckBox = tw.input`
-  cursor-pointer 
-  focus:outline-none 
-  focus-visible:outline-none 
+  cursor-pointer
+  focus:outline-none
+  focus-visible:outline-none
   w-4
-  h-4 
-  text-gray-600 
-  bg-gray-800 
-  border-gray-300 
+  h-4
+  text-gray-600
+  bg-gray-800
+  border-gray-300
   rounded
 `
 
-export const TEBox = tw.div`
-  w-full 
-  flex 
-  flex-row 
+export const TEBox = tw(Horizontal)`
+  w-full
   h-[80px]
-  border-2 
-  border-solid 
-  border-gray-200 
+  border-2
+  border-solid
+  border-gray-200
   rounded-lg
 `
 
 export const TImg = styled.div<{ disable?: boolean }>(({ disable = false }) => [
   disable
     ? tw`
-  h-[80px] 
-  w-[80px] 
-  bg-gray-400 
+  h-[80px]
+  w-[80px]
+  bg-gray-400
   rounded-l-lg
 `
     : tw`
-  h-[80px] 
-  w-[80px] 
-  bg-black 
+  h-[80px]
+  w-[80px]
+  bg-black
   rounded-l-lg
 `,
 ])
 
-export const TEEBox = tw.div`
-  flex 
-  flex-col 
+export const TEEBox = tw(Vertical)`
   p-2
 `
 
 export const TEText = tw.p`
-  text-sm 
-  font-light 
+  text-sm
+  font-light
   text-black
 `
 
-export const QuestQuizBox = tw.div`
-  flex
-  flex-col
+export const QuestQuizBox = tw(Vertical)`
   gap-2
   mt-4
 `
 
-export const AnswerWrap = tw.div`
-  flex
-  flex-col
+export const AnswerWrap = tw(Vertical)`
   gap-3
 `
 
@@ -149,7 +138,7 @@ export const AnswerBox = styled.div<{ status?: number }>(
   `,
     status === AnswerStatusEnum.BLOCK &&
       tw`
-    
+
     p-2
     flex
     flex-row

@@ -11,7 +11,6 @@ import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { QTWrap } from '@/styles/leaderboard.style'
 import {
-  Boarding,
   BoardingCard,
   Card,
   CardBox,
@@ -23,6 +22,7 @@ import {
   TitleQuestBox,
 } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
+import { Horizontal } from '@/widgets/orientation'
 
 const categories = [
   'NFT',
@@ -101,7 +101,7 @@ export default function QuestBoardTab() {
       </QuestWrapCat> */}
       <HeaderText>{'🔥 Trending Quests'}</HeaderText>
       <Gap height={6} />
-      <Boarding>{listBoarding}</Boarding>
+      <Horizontal>{listBoarding}</Horizontal>
       <Gap height={6} />
       <Quests questList={questList} show={!loading} />
     </QTWrap>

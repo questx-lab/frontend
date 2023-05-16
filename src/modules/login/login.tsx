@@ -20,6 +20,7 @@ import { setUserLocal } from '@/utils/helper'
 import { TextField } from '@/widgets/form'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
@@ -39,10 +40,8 @@ const Wrap = styled(Dialog.Panel)(
   `
 )
 
-const Header = tw.div`
+const Header = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-end
   items-center
   px-4
@@ -55,10 +54,8 @@ const Header = tw.div`
   border-gray-200
 `
 
-const BoxContent = tw.div`
+const BoxContent = tw(Vertical)`
   w-full
-  flex
-  flex-col
   justify-center
   items-center
   py-10
@@ -74,10 +71,8 @@ const Title = tw.span`
   mb-4
 `
 
-const SocialBox = tw.div`
+const SocialBox = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-center
   items-center
   gap-3
@@ -135,15 +130,13 @@ const FormBox = tw.div`
   gap-4
 `
 
-const SocialBoxInput = tw.div`
+const SocialBoxInput = tw(Horizontal)`
   w-full
   border
   border-solid
   border-gray-300
   rounded-lg
   h-14
-  flex
-  flex-row
 `
 
 const EmptyBox = tw.div`

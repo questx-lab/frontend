@@ -42,6 +42,7 @@ import { clearLocalStorage, delCookies } from '@/utils/helper'
 import { BaseModal } from '@/widgets/modal'
 import { LightText, MediumText } from '@/widgets/text'
 import { Popover } from '@headlessui/react'
+import { Horizontal } from '@/widgets/orientation'
 
 const UserBox = tw.div`
   flex
@@ -82,9 +83,7 @@ const LvBox = tw.div`
   items-center
 `
 
-const RowBox = tw.div`
-  flex
-  flex-row
+const RowBox = tw(Horizontal)`
   gap-1
 `
 
