@@ -9,7 +9,7 @@ import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
 
-import { verifyOAuth2 } from '@/app/api/client/oauth'
+import { verifyOAuth2, linkOAuth2 } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum } from '@/constants/key.const'
 
@@ -50,6 +50,17 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         }
 
         if (account?.access_token == undefined) {
+          return token
+        }
+
+        const accessToken = req.cookies['access_token']
+
+        if (accessToken) {
+          const resp = await linkOAuth2(
+            account?.provider,
+            account?.access_token,
+            accessToken
+          )
           return token
         }
 
