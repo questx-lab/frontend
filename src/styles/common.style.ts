@@ -232,3 +232,11 @@ export const LightText = tw.p`
   font-light
   max-sm:text-xl
 `
+
+export const FullScreen = tw.div`
+  w-screen
+  h-screen
+  flex
+  justify-center
+  items-center
+`

@@ -71,6 +71,10 @@ export const StorageConst = {
     src: '/images/dummy/manta.svg',
     alt: 'Manta Logo',
   },
+  XP_ICON: {
+    src: '/images/icons/xp.svg',
+    alt: 'XP Icon',
+  },
   UPLOAD_IMG: {
     src: '/images/icons/upload.svg',
     alt: 'Upload image',

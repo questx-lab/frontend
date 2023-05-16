@@ -1,22 +1,61 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+import { useStoreState } from 'easy-peasy'
+import ErrorPage from 'next/error'
+import { MoonLoader } from 'react-spinners'
 
 import { Layout } from '@/components/layout'
-import UserProfileTab from '@/modules/users/user-profile'
-import { Tab, TabSide, Text, Wrap } from '@/styles/user.style'
+import UserSetting from '@/modules/users/setting'
+import { GlobalStoreModel } from '@/store/store'
+import { FullScreen } from '@/styles/common.style'
+import { UserType } from '@/types/account.type'
 
-export default function UserSetting({
-  params,
-}: {
-  params: { userId: string }
-}) {
-  const [tabActive, setTabActive] = useState<number>(0)
+export default function Setting({ params }: { params: { userId: string } }) {
+  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
-  const onChanageTab = (tabNum: number) => {
-    if (tabActive !== tabNum) {
-      setTabActive(tabNum)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (user && user.id) {
+      // Check user permisison
+      if (user.id !== params.userId) {
+        setError(true)
+      } else {
+        setError(false)
+      }
+      setLoading(false)
+    } else {
+      setError(true)
     }
+  }, [user])
+
+  if (loading) {
+    // If not permisison => return error page
+    if (error) {
+      return (
+        <Layout>
+          <header>
+            <title>{'Page Not Found'}</title>
+          </header>
+          <ErrorPage statusCode={404} />
+        </Layout>
+      )
+    }
+
+    // Loading page
+    return (
+      <Layout>
+        <header>
+          <title>{'Profile'}</title>
+        </header>
+        <FullScreen>
+          <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />
+        </FullScreen>
+      </Layout>
+    )
   }
 
   return (
@@ -24,17 +63,7 @@ export default function UserSetting({
       <header>
         <title>{'Profile'}</title>
       </header>
-      <Wrap>
-        <TabSide>
-          <Tab isActive={!tabActive} onClick={() => onChanageTab(0)}>
-            <Text isActive={!tabActive}>{'User Profile'}</Text>
-          </Tab>
-          <Tab isActive={tabActive === 1} onClick={() => onChanageTab(1)}>
-            <Text isActive={tabActive === 1}>{'Account Settings'}</Text>
-          </Tab>
-        </TabSide>
-        {tabActive === 0 && <UserProfileTab userId={params.userId} />}
-      </Wrap>
+      <UserSetting />
     </Layout>
   )
 }

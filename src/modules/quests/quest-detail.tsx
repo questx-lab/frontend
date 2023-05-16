@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent } from 'react'
 
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
@@ -259,8 +259,6 @@ export const QuestDetail: FunctionComponent<{
   quest: QuestType
   onClose: () => void
 }> = ({ quest }) => {
-  useEffect(() => {}, [])
-
   return (
     <QuestDetailWrap>
       <ContentBox>
