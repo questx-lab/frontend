@@ -5,11 +5,14 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
 import { NavBarEnum } from '@/constants/key.const'
+import { AuthEnum } from '@/constants/project.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import AuthType from '@/modules/login/auth-type'
+import Login from '@/modules/login/login'
+import { LoginStore } from '@/store/local/login.store'
 import { GlobalStoreModel } from '@/store/store'
-import { LoginBtn, MenuBtn } from '@/styles/button.style'
+import { AuthBox, LoginBtn, MenuBtn, SignUpBtn } from '@/styles/button.style'
 import { Divider, Gap, LightText, MediumText } from '@/styles/common.style'
 import {
   AvatarBox,
@@ -34,17 +37,30 @@ import {
   UserSession,
   Wrap,
 } from '@/styles/header.style'
+import { ModalBox } from '@/styles/quest-review.style'
+import { UserType } from '@/types/account.type'
+import { BaseModal } from '@/widgets/modal'
 import { Popover } from '@headlessui/react'
 
 const UserInfoBox: FunctionComponent = () => {
-  const path = usePathname()
-  const router = useRouter()
-
   // data
   const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
-  const userState = useStoreState<GlobalStoreModel>((state) => state.user)
+  const userState: UserType = useStoreState<GlobalStoreModel>(
+    (state) => state.user
+  )
 
-  const isShow = path ? path.includes(RouterConst.COMMUNITIES) : false
+  //action
+  const setAuthBox = LoginStore.useStoreActions((action) => action.setAuthBox)
+
+  // hook
+  const router = useRouter()
+  const [isOpen, setOpen] = useState<boolean>(false)
+  useEffect(() => {
+    if (userState && userState.is_new_user) {
+      setOpen(true)
+      setAuthBox(AuthEnum.INPUT_FORM)
+    }
+  }, [userState])
 
   if (isLogin && userState) {
     return (
@@ -86,7 +102,6 @@ const UserInfoBox: FunctionComponent = () => {
             </PopItem>
           </PopPanel>
         </PopWrap>
-
         <AvatarBox
           width={40}
           height={40}
@@ -99,14 +114,41 @@ const UserInfoBox: FunctionComponent = () => {
             {(userState.name ?? '').split('@')[0].toUpperCase()}
           </UserNameTxt>
         </UserInfo>
+        <BaseModal isOpen={isOpen}>
+          <ModalBox>
+            <Login setOpen={setOpen} />
+          </ModalBox>
+        </BaseModal>
       </UserSession>
     )
   }
 
   return (
-    <LoginBtn onClick={() => router.push(RouterConst.LOGIN)}>
-      {'LOGIN/SIGN UP'}
-    </LoginBtn>
+    <>
+      <AuthBox>
+        <LoginBtn
+          onClick={() => {
+            setAuthBox(AuthEnum.LOGIN)
+            setOpen(true)
+          }}
+        >
+          {'Log in'}
+        </LoginBtn>
+        <SignUpBtn
+          onClick={() => {
+            setAuthBox(AuthEnum.REGISTER)
+            setOpen(true)
+          }}
+        >
+          {'Sign up'}
+        </SignUpBtn>
+      </AuthBox>
+      <BaseModal isOpen={isOpen}>
+        <ModalBox>
+          <Login setOpen={setOpen} />
+        </ModalBox>
+      </BaseModal>
+    </>
   )
 }
 
@@ -153,7 +195,7 @@ const Header: FunctionComponent = () => {
   )
 
   const path = usePathname()
-  const [navActive, setNavActive] = useState<number>(0)
+  const [navActive, setNavActive] = useState<number>(-1)
 
   useEffect(() => {
     if (
@@ -205,7 +247,9 @@ const Header: FunctionComponent = () => {
           />
         </LeftSession>
         <RightSession>
-          <UserInfoBox />
+          <LoginStore.Provider>
+            <UserInfoBox />
+          </LoginStore.Provider>
           <MenuBtn onClick={() => setNavBar(!navBarState)}>
             <Image
               width={40}

@@ -3,7 +3,6 @@ import axios, { AxiosError } from 'axios'
 import { GetServerSidePropsContext } from 'next'
 
 import { ErrorCodes } from '@/constants/code.const'
-import { RouterConst } from '@/constants/router.const'
 import {
   delCookies,
   getAccessToken,
@@ -54,7 +53,6 @@ api.interceptors.response.use(
         const accessToken = getAccessToken()
 
         if (!refreshToken) {
-          window.location.href = RouterConst.LOGIN
           return response
         }
 
@@ -96,7 +94,6 @@ api.interceptors.response.use(
     // check conditions to refresh token
     if (error.response?.status === 401) {
       delCookies()
-      window.location.href = RouterConst.LOGIN
       return
     }
     return Promise.reject(error)

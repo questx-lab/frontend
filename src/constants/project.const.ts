@@ -241,3 +241,9 @@ export enum ConnectSocialPlatformEnum {
   DISCORD = 'Discord',
   TWITTER = 'Twitter',
 }
+
+export enum AuthEnum {
+  LOGIN,
+  REGISTER,
+  INPUT_FORM,
+}

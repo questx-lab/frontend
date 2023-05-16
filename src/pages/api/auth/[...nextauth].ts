@@ -3,13 +3,13 @@ import jwt from 'jwt-decode'
 import { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth from 'next-auth'
 import Auth0Provider from 'next-auth/providers/auth0'
+import DiscordProvider from 'next-auth/providers/discord'
 import FacebookProvider from 'next-auth/providers/facebook'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
-import DiscordProvider from 'next-auth/providers/discord'
 
-import { verifyOAuth2, updateDiscord } from '@/app/api/client/oauth'
+import { verifyOAuth2, updateProjectDiscord } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum } from '@/constants/key.const'
 
@@ -59,18 +59,18 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         }
         const url = req.cookies['next-auth.callback-url']
         const accessToken = req.cookies['access_token']
-        console.log(url)
         const matcher = '.*/communities/projects/.*/create'
-        console.log(matcher.search(url))
-        console.log(account)
 
-        if (url && matcher.match(url)) {
+        if (url && url.match(matcher)) {
           const arr = url.split('/')
           const project_id = arr[arr.length - 2]
-          await updateDiscord(
+          console.log('project_id', project_id)
+          console.log(' account?.guild?.id', account?.guild?.id)
+
+          await updateProjectDiscord(
             project_id,
             account?.guild?.id || '',
-            accessToken,
+            accessToken || '',
             account?.access_token
           )
           return token
