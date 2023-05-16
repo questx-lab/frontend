@@ -64,15 +64,17 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         if (url && url.match(matcher)) {
           const arr = url.split('/')
           const project_id = arr[arr.length - 2]
-          console.log('project_id', project_id)
-          console.log(' account?.guild?.id', account?.guild?.id)
-
-          await updateProjectDiscord(
+          type Guild = {
+            id: string
+          }
+          const guild = account.guild as Guild
+          const resp = await updateProjectDiscord(
             project_id,
-            account?.guild?.id || '',
+            guild.id,
             accessToken || '',
             account?.access_token
           )
+
           return token
         }
 

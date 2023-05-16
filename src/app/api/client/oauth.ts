@@ -16,23 +16,23 @@ export const verifyOAuth2 = async (
   return result.data
 }
 
-export const updateDiscord = async (
+export const updateProjectDiscord = async (
   project_id: string,
   server_id: string,
   oauth_access_token: string,
   access_token: string
 ): Promise<OAuth2VerifyResp> => {
   const result = await axios.post(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/updateDiscord`,
+    EnvVariables.NEXT_PUBLIC_API_URL + `/updateProjectDiscord`,
     {
       id: project_id,
-      access_token: oauth_access_token,
+      access_token: access_token,
       server_id: server_id,
     },
     {
       headers: {
         ContentType: 'application/json',
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `Bearer ${oauth_access_token}`,
       },
     }
   )
