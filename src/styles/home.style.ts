@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Dialog, Listbox } from '@headlessui/react'
+import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
 
 type TabActive = {
   isActive: boolean
@@ -11,9 +12,7 @@ type SessionType = {
   postion?: boolean
 }
 
-export const Wrap = tw.div`
-  flex
-  flex-row
+export const Wrap = tw(Horizontal)`
   min-h-screen
   pt-[80px]
 `
@@ -36,14 +35,11 @@ export const Title = tw.p`
   max-sm:text-2xl
 `
 
-export const TabSide = tw.div`
+export const TabSide = tw(Horizontal)`
   w-full
   h-[60px]
   border-b-2
   border-gray-300
-  flex
-  flex-row
-  justify-start
 `
 
 export const Tab = styled.div<TabActive>(({ isActive }) =>
@@ -85,15 +81,11 @@ export const QuestWrap = tw.div`
   items-start
 `
 
-export const NotifyBox = tw.div`
+export const NotifyBox = tw(HorizontalBetweenCenter)`
   w-full
   bg-black
   px-8
   py-4
-  flex
-  flex-row
-  justify-between
-  items-center
   rounded-lg
 `
 
@@ -111,19 +103,15 @@ export const HeaderText = tw.h2`
 
 // ================== PROJECT SETTING STYLE ==================
 
-export const PWrap = tw.div`
-  flex
-  flex-row
+export const PWrap = tw(Horizontal)`
   w-full
   h-[200px]
   max-lg:flex-col
   max-lg:h-full
 `
 
-export const PSessionL = tw.div`
+export const PSessionL = tw(Horizontal)`
   w-3/5
-  flex
-  flex-row
   max-lg:flex-col
   max-lg:w-full
   max-lg:items-center
@@ -170,10 +158,8 @@ export const PLabel = tw.div`
   font-bold
 `
 
-export const PHalfWrap = tw.div`
+export const PHalfWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   max-lg:flex-col
 `
 
@@ -219,12 +205,8 @@ export const PCategoryItem = tw.div`
 `
 
 // ================== PROJECT MANAGEMENT STYLE ==================
-export const MWrapBtn = tw.div`
+export const MWrapBtn = tw(HorizontalBetweenCenter)`
   w-full
-  flex
-  flex-row
-  justify-between
-  items-center
 `
 
 export const MBtn = tw.button`

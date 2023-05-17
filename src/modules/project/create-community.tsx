@@ -35,6 +35,7 @@ import {
   ListItem,
   ListItemPrefix,
 } from '@material-tailwind/react'
+import { Horizontal } from '@/widgets/orientation'
 
 const Body = tw.div`
   w-full
@@ -58,8 +59,8 @@ const Main = tw.div`
 `
 
 const SectionUploadImg = tw.section`
-  border-2 
-  border-dotted 
+  border-2
+  border-dotted
   rounded-lg
   justify-center
   items-center
@@ -67,7 +68,7 @@ const SectionUploadImg = tw.section`
 `
 
 const UploadInput = tw.input`
-  outline-0 
+  outline-0
   ring-0
   outline-offset-0
   w-full
@@ -78,11 +79,11 @@ const Wrap = styled(Dialog.Panel)(
   tw`
   w-1/3
   max-xl:w-2/3
-  bg-white 
-  text-center 
-  align-middle 
+  bg-white
+  text-center
+  align-middle
   overflow-hidden
-  shadow-xl 
+  shadow-xl
   transition-all
   flex
   flex-col
@@ -92,10 +93,8 @@ const Wrap = styled(Dialog.Panel)(
   `
 )
 
-const Header = tw.div`
+const Header = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-between
   items-center
   px-4
@@ -139,22 +138,20 @@ const Card = tw.div`
 `
 
 const Label = tw.label`
-  py-2 
-  flex 
-  items-center 
-  w-full 
+  py-2
+  flex
+  items-center
+  w-full
   cursor-pointer
 `
 
 const StageTitle = tw.span`
-  font-normal 
-  text-gray-700 
+  font-normal
+  text-gray-700
   text-lg
 `
 
-const HorizotalFlex = tw.div`
-  flex
-  flex-row
+const HorizotalFlex = tw(Horizontal)`
   w-full
   gap-3
 `
@@ -174,10 +171,7 @@ const BackBtn = tw.button`
   text-lg
 `
 
-export const UploadImgBox = tw.div`
-  flex
-  flex-row
-  justify-start
+export const UploadImgBox = tw(Horizontal)`
   items-end
   gap-3
 `

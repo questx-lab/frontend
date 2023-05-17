@@ -8,6 +8,7 @@ import tw from 'twin.macro'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { ProjectType } from '@/types/project.type'
+import { Horizontal } from '@/widgets/orientation'
 
 const ContentProjectBox = tw.div`
   flex
@@ -29,8 +30,8 @@ const PbDes = tw.div`
   line-clamp-3
 `
 
-const PbInfo = tw.div`
-  mt-3 flex flex-row justify-start gap-3
+const PbInfo = tw(Horizontal)`
+  mt-3 gap-3
 `
 
 const PbInfoBox = tw.div`
@@ -43,11 +44,8 @@ const PbInfoBox = tw.div`
   text-gray-700
 `
 
-const PBottomBox = tw.div`
-  flex
-  flex-row
+const PBottomBox = tw(Horizontal)`
   w-full
-  justify-start
   items-center
 `
 
@@ -78,11 +76,8 @@ const PTopBox = tw.div`
   items-start
 `
 
-const RewardBox = tw.div`
-  flex
-  flex-row
+const RewardBox = tw(Horizontal)`
   gap-1
-  justify-start
   items-center
 `
 

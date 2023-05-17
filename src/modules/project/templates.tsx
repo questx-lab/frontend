@@ -9,6 +9,7 @@ import { QuestCard } from '@/modules/project/quest-card'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { QuestType } from '@/types/project.type'
+import { Horizontal } from '@/widgets/orientation'
 
 export const Mtemplate = tw.div`
   px-16
@@ -20,9 +21,7 @@ export const Mtemplate = tw.div`
   py-6
 `
 
-export const MTitleBox = tw.div`
-  flex
-  flex-row
+export const MTitleBox = tw(Horizontal)`
   justify-between
   items-center
 `

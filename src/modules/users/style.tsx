@@ -86,12 +86,8 @@ export const Asside = tw.div`
   h-full
 `
 
-export const Main = tw.div`
+export const Main = tw(Horizontal)`
   w-full
-  flex
-  flex-row
-  justify-start
-  items-start
   ml-80
   bg-white
 `

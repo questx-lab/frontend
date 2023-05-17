@@ -10,6 +10,7 @@ import { Divider } from '@/styles/common.style'
 import { ImageQuestBox } from '@/styles/questboard.style'
 import { Badge, InfoText } from '@/styles/settings.style'
 import { UserType } from '@/types/account.type'
+import { Horizontal } from '@/widgets/orientation'
 
 const Wrap = tw.div`
   w-full
@@ -75,9 +76,7 @@ const NormalText = tw.span`
   text-gray-500
 `
 
-const RowBox = tw.div`
-  flex
-  flex-row
+const RowBox = tw(Horizontal)`
   justify-center
   items-center
   gap-2
@@ -115,16 +114,13 @@ const Session = tw.div`
   rounded-lg
 `
 
-const TitleBox = tw.div`
+const TitleBox = tw(Horizontal)`
   py-6
   px-6
   gap-3
   text-xl
   font-medium
   text-gray-900
-  flex
-  flex-row
-  justify-start
   items-center
 `
 
@@ -144,9 +140,7 @@ const BadgeBox = tw.div`
   cursor-pointer
 `
 
-const RankWrap = tw.div`
-  flex
-  flex-row
+const RankWrap = tw(Horizontal)`
   justify-between
   items-center
   p-6

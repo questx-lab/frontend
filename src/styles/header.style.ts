@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Popover } from '@headlessui/react'
+import { Horizontal } from '@/widgets/orientation'
 
 type NavBarType = {
   isActive: boolean
@@ -35,12 +36,10 @@ export const LeftSession = tw.div`
   max-xl:absolute
 `
 
-export const BoxLink = tw.div`
+export const BoxLink = tw(Horizontal)`
   absolute
   h-full
   w-full
-  flex
-  flex-row
   justify-center
   items-center
   max-lg:hidden
@@ -83,10 +82,8 @@ export const Underline = tw.div`
 
 // ============= RIGHT SESSION =============
 
-export const RightSession = tw.div`
+export const RightSession = tw(Horizontal)`
   w-1/2
-  flex
-  flex-row
   items-center
   justify-end
   max-xl:absolute
@@ -97,10 +94,7 @@ export const RightSession = tw.div`
 `
 
 // ============= USER INFORMATION =============
-export const UserSession = tw.div`
-  flex
-  flex-row
-  justify-start
+export const UserSession = tw(Horizontal)`
   px-[20px]
   cursor-pointer
   max-lg:hidden
@@ -125,18 +119,18 @@ export const ImageLogoBox = styled(Image)(tw`
 export const AvatarBox = styled(Image)(tw`ml-4`)
 
 export const DesNameTxt = tw.p`
-  text-sm 
-  italic 
-  font-normal 
+  text-sm
+  italic
+  font-normal
   text-black
 `
 
 export const UserNameTxt = tw.p`
-  text-sm 
-  font-bold 
+  text-sm
+  font-bold
   text-black
-  text-ellipsis 
-  overflow-hidden 
+  text-ellipsis
+  overflow-hidden
   max-w-[150px]
 `
 
@@ -148,8 +142,8 @@ export const NavBar = styled.div<NavBarType>(({ isActive = false }) => [
     h-full
     w-full
     fixed
-    bg-black 
-    bg-opacity-80 
+    bg-black
+    bg-opacity-80
     backdrop-blur-sm
     mt-[60px]
   `
@@ -199,16 +193,16 @@ export const PopWrap = styled(Popover)(tw`
 
 export const PopPanel = styled(Popover.Panel)(tw`
   divide-y
-  right-0 
-  rounded-lg 
-  mt-5 
-  absolute z-10 
-  bg-white 
+  right-0
+  rounded-lg
+  mt-5
+  absolute z-10
+  bg-white
   shadow-lg
   border
   border-solid
   border-gray-300
-  w-[350px] 
+  w-[350px]
   flex
   flex-col
 `)
@@ -221,20 +215,18 @@ export const PopItem = tw.div`
   px-4
 `
 
-export const CreateProjectBtn = tw.div`
-  flex 
-  flex-row 
-  gap-2 
-  border  
+export const CreateProjectBtn = tw(Horizontal)`
+  gap-2
+  border
   border-solid
-  border-gray-300 
-  rounded-lg 
-  justify-center 
-  items-center 
-  py-2 
-  px-4 
-  text-lg 
-  text-black 
-  font-medium  
+  border-gray-300
+  rounded-lg
+  justify-center
+  items-center
+  py-2
+  px-4
+  text-lg
+  text-black
+  font-medium
   cursor-pointer
 `

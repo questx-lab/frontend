@@ -1,3 +1,4 @@
+import { Horizontal } from '@/widgets/orientation'
 import styled, { CSSProperties } from 'styled-components'
 import tw from 'twin.macro'
 
@@ -105,43 +106,32 @@ export const ColSWrap = tw.div`
   items-start
 `
 
-export const RowSWrap = tw.div`
+export const RowSWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
-  justify-start
   items-center
 `
 
-export const RowBWrap = tw.div`
+export const RowBWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-between
   items-center
 `
 
-export const RowBSWrap = tw.div`
+export const RowBSWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-between
   items-start
   max-lg:flex-col
 `
 
-export const RowHSWrap = tw.div`
+export const RowHSWrap = tw(Horizontal)`
   w-1/2
-  flex
-  flex-row
   justify-between
   items-start
   max-lg:flex-col
 `
-export const RowHEWrap = tw.div`
+export const RowHEWrap = tw(Horizontal)`
   w-1/2
-  flex
-  flex-row
   justify-between
   items-end
   max-lg:flex-col
@@ -155,10 +145,8 @@ export const ColCWrap = tw.div`
   items-center
 `
 
-export const RowCWrap = tw.div`
+export const RowCWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-center
   items-center
 `

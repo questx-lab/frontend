@@ -194,10 +194,8 @@ const Button = styled.button<{ block?: boolean }>(({ block = false }) => [
   `,
 ])
 
-const InfoBox = tw.div`
+const InfoBox = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   p-3
   justify-between
   items-center
@@ -210,10 +208,7 @@ const InfoBox = tw.div`
   cursor-pointer
 `
 
-const HorBox = tw.div`
-  flex
-  flex-row
-  justify-start
+const HorBox = tw(Horizontal)`
   items-center
   w-full
   gap-3

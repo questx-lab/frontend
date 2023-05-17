@@ -6,6 +6,14 @@ export const Horizontal = tw.div`
   justify-start
   items-start
 `
+
+export const HorizontalBetweenCenter = tw.div`
+  flex
+  flex-row
+  justify-between
+  items-center
+`
+
 export const Vertical = tw.div`
   flex
   flex-col

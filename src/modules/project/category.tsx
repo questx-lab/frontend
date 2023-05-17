@@ -8,6 +8,7 @@ import { createCategoryApi, getCategoriesApi } from '@/app/api/client/project'
 import { CommunityStore } from '@/store/local/community.store'
 import { Menu } from '@headlessui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
+import { Horizontal } from '@/widgets/orientation'
 
 // Css in js
 const Main = tw.div`
@@ -58,11 +59,9 @@ const MenuItem = styled(Menu.Items)<{ isshow: boolean }>(({ isshow }) => [
     : tw`hidden`,
 ])
 
-const ListBox = tw.div`
+const ListBox = tw(Horizontal)`
   p-2
   w-full
-  flex
-  flex-row
   gap-3
 `
 

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Listbox } from '@headlessui/react'
+import { Horizontal } from '@/widgets/orientation'
 
 type TabActive = {
   isActive: boolean
@@ -160,10 +161,8 @@ export const FormBox = tw.form`
   max-sm:flex-col
 `
 
-export const DivBox = tw.div`
+export const DivBox = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   max-sm:flex-col
 `
 

@@ -14,6 +14,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 import ProjectBox from '../project/project-box'
+import { Horizontal } from '@/widgets/orientation'
 
 const FSearchInput = tw.input`
   border-0
@@ -23,9 +24,7 @@ const FSearchInput = tw.input`
   w-full
 `
 
-const FFitlerBox = tw.div`
-  flex
-  flex-row
+const FFitlerBox = tw(Horizontal)`
   gap-3
   border
   border-solid
@@ -35,9 +34,7 @@ const FFitlerBox = tw.div`
   items-center
 `
 
-const FSearchBox = tw.div`
-  flex
-  flex-row
+const FSearchBox = tw(Horizontal)`
   gap-3
   border
   border-solid
@@ -50,8 +47,8 @@ const FSearchBox = tw.div`
   rounded-lg
 `
 
-const FSearchWrap = tw.div`
-  flex flex-row w-full gap-3 py-3
+const FSearchWrap = tw(Horizontal)`
+  w-full gap-3 py-3
 `
 
 const FWrap = tw.div`
