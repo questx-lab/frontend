@@ -10,6 +10,7 @@ import ProjectBox from '@/modules/project/project-box'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types/account.type'
 import { ProjectType } from '@/types/project.type'
+import { EnvVariables } from '@/constants/env.const'
 
 const Wrap = tw.div`
   flex
@@ -64,6 +65,8 @@ export default function Home() {
 
     return <></>
   }
+
+  console.log('EnvVariables.NEXTAUTH_URL', EnvVariables.NEXTAUTH_URL)
 
   return (
     <Layout>
