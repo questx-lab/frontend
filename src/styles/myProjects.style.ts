@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Listbox } from '@headlessui/react'
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
 type TabActive = {
   isActive: boolean
@@ -25,9 +25,7 @@ type SpanSelect = {
   isSelect: boolean
 }
 
-export const Wrap = tw.div`
-  flex
-  flex-col
+export const Wrap = tw(Vertical)`
   min-h-screen
   px-[80px]
   pt-[80px]
@@ -37,9 +35,7 @@ export const Wrap = tw.div`
 
 // ========== Created project style ==========
 
-export const WrapCreatedProject = tw.div`
-  flex
-  flex-col
+export const WrapCreatedProject = tw(Vertical)`
   py-2
 `
 
@@ -185,12 +181,9 @@ export const ElementBox = styled.div<DirectType>(({ position = 0 }) => [
 `,
 ])
 
-export const WrapElementBox = tw.div`
+export const WrapElementBox = tw(Vertical)`
   w-[calc(97%)]
-  flex
-  flex-col
   justify-center
-  items-start
   max-sm:items-start
   max-sm:w-full
 `

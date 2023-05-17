@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Popover } from '@headlessui/react'
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
 type NavBarType = {
   isActive: boolean
@@ -100,11 +100,8 @@ export const UserSession = tw(Horizontal)`
   max-lg:hidden
 `
 
-export const UserInfo = tw.div`
-  flex
-  flex-col
+export const UserInfo = tw(Vertical)`
   justify-center
-  items-start
   ml-4
 `
 
@@ -153,19 +150,14 @@ export const NavBar = styled.div<NavBarType>(({ isActive = false }) => [
     `,
 ])
 
-export const NavWrap = tw.div`
-  flex
-  flex-col
-  justify-start
+export const NavWrap = tw(Vertical)`
   w-full
   h-full
   p-4
 `
-export const NavLink = tw.div`
+export const NavLink = tw(Vertical)`
   w-full
   cursor-pointer
-  flex
-  flex-col
   justify-center
   items-center
   py-3
@@ -207,9 +199,7 @@ export const PopPanel = styled(Popover.Panel)(tw`
   flex-col
 `)
 
-export const PopItem = tw.div`
-  flex
-  flex-col
+export const PopItem = tw(Vertical)`
   w-full
   py-2
   px-4

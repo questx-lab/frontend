@@ -2,20 +2,17 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { AnswerStatusEnum } from '@/constants/project.const'
-import { Horizontal, Vertical } from '@/widgets/orientation'
+import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 
 export const TWrap = tw(Horizontal)`
   min-h-screen
   pt-[80px]
 `
 
-export const TMain = tw.div`
-  flex
-  flex-col
+export const TMain = tw(VerticalFullWidth)`
   px-[80px]
   max-lg:px-[16px]
   py-2
-  w-full
 `
 
 export const TActions = tw.div`
@@ -28,10 +25,7 @@ export const TActions = tw.div`
   justify-between
 `
 
-export const TEWrap = tw.div`
-  flex
-  flex-col
-  w-full
+export const TEWrap = tw(VerticalFullWidth)`
   mb-14
   max-lg:mb-12
 `

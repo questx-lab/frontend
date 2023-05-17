@@ -10,18 +10,15 @@ import ProjectBox from '@/modules/project/project-box'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types/account.type'
 import { ProjectType } from '@/types/project.type'
+import { Vertical } from '@/widgets/orientation'
 
-const Wrap = tw.div`
-  flex
-  flex-col
+const Wrap = tw(Vertical)`
   min-h-screen
   pt-[70px]
 `
 
-const Main = tw.div`
+const Main = tw(Vertical)`
   pt-8
-  flex
-  flex-col
   pb-[30px]
   px-16
   gap-4

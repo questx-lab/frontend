@@ -35,7 +35,7 @@ import {
   ListItem,
   ListItemPrefix,
 } from '@material-tailwind/react'
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
 const Body = tw.div`
   w-full
@@ -49,13 +49,9 @@ const Title = tw.span`
   text-start
 `
 
-const Main = tw.div`
-  flex
-  flex-col
+const Main = tw(Vertical)`
   gap-5
   p-5
-  justify-start
-  items-start
 `
 
 const SectionUploadImg = tw.section`
@@ -131,10 +127,8 @@ const WarningText = tw.span`
   text-start
 `
 
-const Card = tw.div`
+const Card = tw(Vertical)`
   w-full
-  flex
-  flex-col
 `
 
 const Label = tw.label`

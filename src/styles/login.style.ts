@@ -1,4 +1,4 @@
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
@@ -34,10 +34,8 @@ export const Wrap = tw.div`
   items-center
 `
 
-export const Box = tw.div`
+export const Box = tw(Vertical)`
   w-2/3
-  flex
-  flex-col
   justify-center
   items-center
   absolute

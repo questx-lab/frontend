@@ -42,11 +42,9 @@ import { clearLocalStorage, delCookies } from '@/utils/helper'
 import { BaseModal } from '@/widgets/modal'
 import { LightText, MediumText } from '@/widgets/text'
 import { Popover } from '@headlessui/react'
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
-const UserBox = tw.div`
-  flex
-  flex-col
+const UserBox = tw(Vertical)`
   w-full
   justify-center
   items-center

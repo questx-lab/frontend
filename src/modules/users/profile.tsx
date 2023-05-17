@@ -10,7 +10,7 @@ import { Divider } from '@/styles/common.style'
 import { ImageQuestBox } from '@/styles/questboard.style'
 import { Badge, InfoText } from '@/styles/settings.style'
 import { UserType } from '@/types/account.type'
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
 const Wrap = tw.div`
   w-full
@@ -27,18 +27,14 @@ const Aside = tw.div`
   w-[calc(21%)]
 `
 
-const Main = tw.div`
+const Main = tw(Vertical)`
   w-[calc(75%)]
   h-full
   ml-[calc(25%)]
-  flex
-  flex-col
   gap-6
 `
 
-const AssideInfo = tw.div`
-  flex
-  flex-col
+const AssideInfo = tw(Vertical)`
   w-full
   justify-center
   items-center
@@ -46,12 +42,10 @@ const AssideInfo = tw.div`
   gap-3
 `
 
-const AssideBadge = tw.div`
+const AssideBadge = tw(Vertical)`
   w-full
   px-3
   py-6
-  flex
-  flex-col
   gap-4
 `
 
@@ -82,11 +76,8 @@ const RowBox = tw(Horizontal)`
   gap-2
 `
 
-const ColBox = tw.div`
-  flex
-  flex-col
+const ColBox = tw(Vertical)`
   justify-center
-  items-start
   text-lg
   font-medium
   text-gray-900

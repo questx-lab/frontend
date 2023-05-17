@@ -3,22 +3,23 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Tab } from '@headlessui/react'
-import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
+import {
+  Horizontal,
+  HorizontalBetweenCenter,
+  VerticalFullWidth,
+} from '@/widgets/orientation'
 
 export const Wrap = tw(Horizontal)`
   min-h-screen
   pt-[70px]
 `
 
-export const Main = tw.div`
-  flex
-  flex-col
+export const Main = tw(VerticalFullWidth)`
   pl-[200px]
   pr-[480px]
   max-2xl:pr-[320px]
   max-2xl:pl-[120px]
   py-5
-  w-full
 `
 
 export const LHeader = tw(Horizontal)`
@@ -46,13 +47,9 @@ export const LogoP = styled(Image)(
 `
 )
 
-export const LHBox = tw.div`
-  w-full
+export const LHBox = tw(VerticalFullWidth)`
   h-full
-  flex
-  flex-col
   justify-center
-  items-start
   max-sm:items-center
 `
 
@@ -79,12 +76,6 @@ export const LHDes = tw.p`
   overflow-hidden
   text-ellipsis
   line-clamp-2
-`
-
-export const QTWrap = tw.div`
-  w-full
-  flex
-  flex-col
 `
 
 export const QTWrapC = tw(Horizontal)`

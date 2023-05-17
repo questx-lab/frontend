@@ -3,12 +3,12 @@
 import { FunctionComponent } from 'react'
 
 import { QuestView } from '@/modules/quests/single-quest'
+import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
-import { QTWrap } from '@/styles/leaderboard.style'
 import { WrapQuestboard } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
-import { ActiveQuestStore } from '@/store/local/active-quest.store'
+import { VerticalFullWidth } from '@/widgets/orientation'
 
 export const QuestListView: FunctionComponent<{
   questList: QuestType[]
@@ -34,7 +34,7 @@ export const Quests: FunctionComponent<{
 
   return (
     <>
-      <QTWrap>
+      <VerticalFullWidth>
         <HeaderText>{'👌 Invite'}</HeaderText>
         <Gap height={6} />
         <WrapQuestboard>
@@ -42,7 +42,7 @@ export const Quests: FunctionComponent<{
             <QuestListView questList={questList} />
           </ActiveQuestStore.Provider>
         </WrapQuestboard>
-      </QTWrap>
+      </VerticalFullWidth>
     </>
   )
 }

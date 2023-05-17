@@ -1,3 +1,4 @@
+import { Vertical } from '@/widgets/orientation'
 import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -18,10 +19,8 @@ export const Wrap = styled.div<{ isShow?: boolean }>(({ isShow = false }) => [
     : tw`w-0`,
 ])
 
-export const BoxContent = tw.div`
+export const BoxContent = tw(Vertical)`
   rounded-lg
-  flex
-  flex-col
   items-center
   py-3
   gap-2
@@ -33,8 +32,8 @@ export const CircleRouded = styled(Image)(tw`
 `)
 
 export const TitleText = tw.p`
-  text-xs 
-  text-black 
-  font-normal 
+  text-xs
+  text-black
+  font-normal
   mt-6
 `

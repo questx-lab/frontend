@@ -3,13 +3,9 @@ import tw from 'twin.macro'
 
 import { ClaimedQuestStatus, ReviewBtnEnum } from '@/constants/project.const'
 import { Combobox, Dialog } from '@headlessui/react'
-import { Horizontal, Vertical } from '@/widgets/orientation'
+import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 
-export const Main = tw.div`
-  w-full
-  flex
-  flex-col
-  justify-start
+export const Main = tw(VerticalFullWidth)`
   items-center
   ml-80
   pb-6
@@ -513,16 +509,12 @@ export const MDBody = tw(Horizontal)`
   overflow-y-scroll
 `
 
-export const MDLeftSide = tw.div`
+export const MDLeftSide = tw(Vertical)`
   w-2/5
-  flex
-  flex-col
   p-6
   border-r
   border-solid
   border-gray-200
-  justify-start
-  items-start
 `
 
 export const MDPadding = tw(Vertical)`

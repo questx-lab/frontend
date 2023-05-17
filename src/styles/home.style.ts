@@ -2,7 +2,11 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Dialog, Listbox } from '@headlessui/react'
-import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
+import {
+  Horizontal,
+  HorizontalBetweenCenter,
+  Vertical,
+} from '@/widgets/orientation'
 
 type TabActive = {
   isActive: boolean
@@ -17,9 +21,7 @@ export const Wrap = tw(Horizontal)`
   pt-[80px]
 `
 
-export const Main = tw.div`
-  flex
-  flex-col
+export const Main = tw(Vertical)`
   pl-[100px]
   pr-[40px]
   max-lg:pr-[10px]
@@ -73,12 +75,8 @@ export const Text = styled.p<TabActive>(({ isActive }) =>
 )
 
 // ================== QUESTS STYLE ==================
-export const QuestWrap = tw.div`
+export const QuestWrap = tw(Vertical)`
   w-full
-  flex
-  flex-col
-  justify-start
-  items-start
 `
 
 export const NotifyBox = tw(HorizontalBetweenCenter)`
@@ -126,12 +124,6 @@ export const PSessionLogo = tw.div`
   rounded-lg
 `
 
-export const PSessionLChild = tw.div`
-  w-full
-  flex
-  flex-col
-`
-
 export const PInputBlock = tw.div`
   w-full
   rounded-lg
@@ -143,11 +135,9 @@ export const PInputBlock = tw.div`
   py-4
 `
 
-export const PSessionR = tw.div`
+export const PSessionR = tw(Vertical)`
   w-2/5
   pl-5
-  flex
-  flex-col
   max-lg:w-full
   max-lg:pl-0
 `

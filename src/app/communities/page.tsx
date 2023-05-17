@@ -13,18 +13,14 @@ import { TitleCreatedProject } from '@/styles/myProjects.style'
 import { ModalBox } from '@/styles/quest-review.style'
 import { BaseModal } from '@/widgets/modal'
 import { PlusIcon } from '@heroicons/react/24/outline'
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
-const Wrap = tw.div`
-  flex
-  flex-col
+const Wrap = tw(Vertical)`
   min-h-screen
   pt-[70px]
 `
 
-const Main = tw.div`
-  flex
-  flex-col
+const Main = tw(Vertical)`
   px-[120px]
   pb-[30px]
   max-xl:px-[100px]

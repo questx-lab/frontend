@@ -127,11 +127,9 @@ export const LvBox = tw.div`
   text-white
 `
 
-export const OptionWrap = tw.div`
+export const OptionWrap = tw(Vertical)`
   py-4
   px-6
-  flex
-  flex-col
   gap-3
 `
 

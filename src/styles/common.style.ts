@@ -1,4 +1,4 @@
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 import styled, { CSSProperties } from 'styled-components'
 import tw from 'twin.macro'
 
@@ -98,12 +98,8 @@ export const SpinnerStyle: CSSProperties = {
   borderColor: '#000',
 }
 
-export const ColSWrap = tw.div`
+export const ColSWrap = tw(Vertical)`
   w-full
-  flex
-  flex-col
-  justify-start
-  items-start
 `
 
 export const RowSWrap = tw(Horizontal)`
@@ -120,7 +116,6 @@ export const RowBWrap = tw(Horizontal)`
 export const RowBSWrap = tw(Horizontal)`
   w-full
   justify-between
-  items-start
   max-lg:flex-col
 `
 

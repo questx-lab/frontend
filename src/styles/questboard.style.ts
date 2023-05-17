@@ -3,22 +3,19 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Disclosure } from '@headlessui/react'
-import { Horizontal, Vertical } from '@/widgets/orientation'
+import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 
 export const Wrap = tw(Horizontal)`
   min-h-screen
   pt-[70px]
 `
 
-export const Main = tw.div`
-  flex
-  flex-col
+export const Main = tw(VerticalFullWidth)`
   pl-[100px]
   pr-[40px]
   max-lg:pr-[10px]
   max-lg:pl-[80px]
   py-2
-  w-full
 `
 
 export const CMain = tw(Horizontal)`
@@ -428,7 +425,7 @@ export const BoardingCard = styled.div<{ manage?: boolean }>(
   ]
 )
 
-export const TBoardingCard = tw.div`
+export const TBoardingCard = tw(VerticalFullWidth)`
   cursor-pointer
   border
   rounded-lg
@@ -437,17 +434,11 @@ export const TBoardingCard = tw.div`
   border-[1px]
   h-[280px]
   max-lg:h-[350px]
-  flex
-  flex-col
-  w-full
   bg-white
   hover:shadow-lg
 `
 
-export const StartBoarding = tw.div`
-  w-full
-  flex
-  flex-col
+export const StartBoarding = tw(VerticalFullWidth)`
   h-full
   py-2
 `

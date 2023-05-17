@@ -121,12 +121,9 @@ const Label = tw.label`
   text-gray-700
 `
 
-const FormBox = tw.div`
+const FormBox = tw(Vertical)`
   w-full
-  flex
-  flex-col
   justify-center
-  items-start
   gap-4
 `
 
@@ -214,10 +211,7 @@ const HorBox = tw(Horizontal)`
   gap-3
 `
 
-const VerBox = tw.div`
-  flex
-  flex-col
-  items-start
+const VerBox = tw(Vertical)`
   justify-center
   gap-1
 `

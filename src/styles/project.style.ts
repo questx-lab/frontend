@@ -1,4 +1,8 @@
-import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
+import {
+  Horizontal,
+  HorizontalBetweenCenter,
+  Vertical,
+} from '@/widgets/orientation'
 import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -10,10 +14,8 @@ export const Wrap = tw.div`
   bg-white
 `
 
-export const InfoBox = tw.div`
+export const InfoBox = tw(Vertical)`
   w-2/3
-  flex
-  flex-col
 `
 
 export const ActionBox = tw(Horizontal)`

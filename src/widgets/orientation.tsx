@@ -20,3 +20,13 @@ export const Vertical = tw.div`
   justify-start
   items-start
 `
+
+export const VerticalFullWidth = tw(Vertical)`
+  w-full
+`
+
+export const VerticalBetween = tw.div`
+  flex
+  flex-col
+  justify-between
+`

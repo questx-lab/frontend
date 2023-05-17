@@ -1,4 +1,4 @@
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -6,9 +6,7 @@ type TabActive = {
   isActive: boolean
 }
 
-export const Wrap = tw.div`
-  flex
-  flex-col
+export const Wrap = tw(Vertical)`
   min-h-screen
   px-[80px]
   pt-[80px]
@@ -25,9 +23,7 @@ export const UInfoL = tw(Horizontal)`
   w-1/2
 `
 
-export const UInfoR = tw.div`
-  flex
-  flex-col
+export const UInfoR = tw(Vertical)`
   justify-between
   items-end
   w-1/2
@@ -88,14 +84,12 @@ export const Text = styled.p<TabActive>(({ isActive }) =>
   isActive ? tw`font-bold` : tw`font-light`
 )
 
-export const UPWrap = tw.div`
+export const UPWrap = tw(Vertical)`
   mt-8
   w-full
   bg-[#F2F4F8]
   rounded-lg
   p-5
-  flex
-  flex-col
 `
 
 export const UWrapI = tw(Horizontal)`

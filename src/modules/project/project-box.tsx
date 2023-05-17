@@ -8,11 +8,9 @@ import tw from 'twin.macro'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { ProjectType } from '@/types/project.type'
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
 
-const ContentProjectBox = tw.div`
-  flex
-  flex-col
+const ContentProjectBox = tw(Vertical)`
   justify-between
 `
 
@@ -49,7 +47,7 @@ const PBottomBox = tw(Horizontal)`
   items-center
 `
 
-const ProjectBoxWrap = tw.div`
+const ProjectBoxWrap = tw(VerticalBetween)`
   cursor-pointer
   p-5
   border
@@ -57,9 +55,6 @@ const ProjectBoxWrap = tw.div`
   border
   border-solid
   border-gray-300
-  flex
-  flex-col
-  justify-between
   mt-[16px]
   max-sm:w-full
   max-xl:mt-[16px]
@@ -67,13 +62,9 @@ const ProjectBoxWrap = tw.div`
   hover:shadow-lg
 `
 
-const PTopBox = tw.div`
-  flex
-  flex-col
+const PTopBox = tw(Vertical)`
   w-full
   h-full
-  justify-start
-  items-start
 `
 
 const RewardBox = tw(Horizontal)`

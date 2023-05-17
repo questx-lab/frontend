@@ -14,7 +14,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 import ProjectBox from '../project/project-box'
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
 const FSearchInput = tw.input`
   border-0
@@ -51,9 +51,7 @@ const FSearchWrap = tw(Horizontal)`
   w-full gap-3 py-3
 `
 
-const FWrap = tw.div`
-  flex
-  flex-col
+const FWrap = tw(Vertical)`
   py-2
 `
 
