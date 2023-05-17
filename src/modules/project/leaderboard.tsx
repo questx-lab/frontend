@@ -16,53 +16,52 @@ import { LeaderboardStore } from '@/store/local/leaderboard.store'
 import { PointText } from '@/styles/questboard.style'
 import { LeaderboardType } from '@/types/project.type'
 import { Tab } from '@headlessui/react'
+import { Horizontal } from '@/widgets/orientation'
 
 export const TabWrap = tw.div`
-  w-[350px] 
+  w-[350px]
   max-2xl:w-[280px]
-  h-full 
+  h-full
   right-0
-  fixed  
-  border-l-[1px] 
-  border-solid 
-  bg-white 
-  border-gray-200 
+  fixed
+  border-l-[1px]
+  border-solid
+  bg-white
+  border-gray-200
   overflow-y-scroll
 `
 
 export const TabBox = tw.div`
-  w-full 
-  max-w-md 
-  pt-4 
+  w-full
+  max-w-md
+  pt-4
   sm:px-0
 `
 
 export const TabList = styled(Tab.List)(tw`
-  flex 
-  space-x-1 
+  flex
+  space-x-1
   bg-white
 `)
 
 export const TabPannel = styled(Tab.Panel)(tw`
-  rounded-xl 
+  rounded-xl
   bg-white
   px-4
   py-2
 `)
 
 export const Item = tw.li`
-  relative 
+  relative
   py-2
-  flex 
-  flex-row 
-  justify-between 
+  flex
+  flex-row
+  justify-between
   items-center
   cursor-pointer
 `
 
-export const Info = tw.div`
-  flex
-  flex-row
+export const Info = tw(Horizontal)`
   justify-center
   items-center
 `

@@ -1,3 +1,4 @@
+import { Horizontal } from '@/widgets/orientation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -76,9 +77,7 @@ export const SignUpBtn = tw.button`
   max-lg:hidden
 `
 
-export const AuthBox = tw.div`
-  flex
-  flex-row
+export const AuthBox = tw(Horizontal)`
   gap-2
 `
 
@@ -173,10 +172,8 @@ export const CreateProjectBtn = styled.button<CreateProjectType>(
   ]
 )
 
-export const PActionWrap = tw.div`
+export const PActionWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-center
   items-center
 `

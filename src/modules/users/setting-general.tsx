@@ -15,13 +15,13 @@ import { UserType } from '@/types/account.type'
 import { setUserLocal } from '@/utils/helper'
 import { NegativeButton, PositiveButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
+import { Horizontal } from '@/widgets/orientation'
 import { PrimaryText } from '@/widgets/text'
 import { WalletIcon } from '@heroicons/react/24/outline'
 import { Checkbox } from '@material-tailwind/react'
 import {
   ButtonBox,
   CheckboxSession,
-  CheckboxWrap,
   ColBox,
   ContentBox,
   Description,
@@ -176,7 +176,7 @@ export const General: FunctionComponent = () => {
           <Description>
             {'Choose which information to display on your XQuest profile'}
           </Description>
-          <CheckboxWrap>{renderSocialDisplay}</CheckboxWrap>
+          <Horizontal>{renderSocialDisplay}</Horizontal>
         </ProfileSession>
         <ProfileSession>
           <ButtonBox>

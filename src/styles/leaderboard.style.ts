@@ -3,29 +3,27 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Tab } from '@headlessui/react'
+import {
+  Horizontal,
+  HorizontalBetweenCenter,
+  VerticalFullWidth,
+} from '@/widgets/orientation'
 
-export const Wrap = tw.div`
-  flex
-  flex-row
+export const Wrap = tw(Horizontal)`
   min-h-screen
   pt-[70px]
 `
 
-export const Main = tw.div`
-  flex
-  flex-col
+export const Main = tw(VerticalFullWidth)`
   pl-[200px]
   pr-[480px]
   max-2xl:pr-[320px]
   max-2xl:pl-[120px]
   py-5
-  w-full
 `
 
-export const LHeader = tw.div`
+export const LHeader = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   max-sm:flex-col
   max-sm:justify-start
   max-sm:items-start
@@ -35,11 +33,9 @@ export const LHeader = tw.div`
   rounded-lg
 `
 
-export const LHInfoA = tw.div`
+export const LHInfoA = tw(Horizontal)`
   w-full
   max-sm:w-full
-  flex
-  flex-row
   max-sm:flex-col
   items-center
   justify-center
@@ -51,28 +47,18 @@ export const LogoP = styled(Image)(
 `
 )
 
-export const LHBox = tw.div`
-  w-full
+export const LHBox = tw(VerticalFullWidth)`
   h-full
-  flex
-  flex-col
   justify-center
-  items-start
   max-sm:items-center
 `
 
-export const LHTitleBox = tw.div`
+export const LHTitleBox = tw(HorizontalBetweenCenter)`
   w-full
-  flex
-  flex-row
-  justify-between
-  items-center
   max-sm:flex-col
 `
 
-export const LHLogo = tw.div`
-  flex
-  flex-row
+export const LHLogo = tw(Horizontal)`
   justify-center
   items-center
 `
@@ -92,18 +78,9 @@ export const LHDes = tw.p`
   line-clamp-2
 `
 
-export const QTWrap = tw.div`
-  w-full
-  flex
-  flex-col
-`
-
-export const QTWrapC = tw.div`
-  flex
-  flex-row
+export const QTWrapC = tw(Horizontal)`
   max-sm:flex-col
   max-sm:justify-center
-  justify-start
   items-center
 `
 
@@ -154,12 +131,8 @@ export const LUImg = tw.div`
   border-gray-400
 `
 
-export const LUWrap2 = tw.div`
+export const LUWrap2 = tw(HorizontalBetweenCenter)`
   w-full
-  flex
-  flex-row
-  justify-between
-  items-center
 `
 
 export const LLbox = tw.div`

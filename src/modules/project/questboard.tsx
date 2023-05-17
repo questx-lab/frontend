@@ -9,9 +9,7 @@ import { StorageConst } from '@/constants/storage.const'
 import { Quests } from '@/modules/quests/quest-list'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
-import { QTWrap } from '@/styles/leaderboard.style'
 import {
-  Boarding,
   BoardingCard,
   Card,
   CardBox,
@@ -23,6 +21,7 @@ import {
   TitleQuestBox,
 } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
+import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 
 const categories = [
   'NFT',
@@ -93,7 +92,7 @@ export default function QuestBoardTab() {
   ))
 
   return (
-    <QTWrap>
+    <VerticalFullWidth>
       {/* <QuestWrapCat>
         <CateTitle>{'View Category'}</CateTitle>
         <Gap height={2} width={0} />
@@ -101,9 +100,9 @@ export default function QuestBoardTab() {
       </QuestWrapCat> */}
       <HeaderText>{'🔥 Trending Quests'}</HeaderText>
       <Gap height={6} />
-      <Boarding>{listBoarding}</Boarding>
+      <Horizontal>{listBoarding}</Horizontal>
       <Gap height={6} />
       <Quests questList={questList} show={!loading} />
-    </QTWrap>
+    </VerticalFullWidth>
   )
 }

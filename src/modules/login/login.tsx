@@ -20,6 +20,7 @@ import { setUserLocal } from '@/utils/helper'
 import { TextField } from '@/widgets/form'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
@@ -39,10 +40,8 @@ const Wrap = styled(Dialog.Panel)(
   `
 )
 
-const Header = tw.div`
+const Header = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-end
   items-center
   px-4
@@ -55,10 +54,8 @@ const Header = tw.div`
   border-gray-200
 `
 
-const BoxContent = tw.div`
+const BoxContent = tw(Vertical)`
   w-full
-  flex
-  flex-col
   justify-center
   items-center
   py-10
@@ -74,10 +71,8 @@ const Title = tw.span`
   mb-4
 `
 
-const SocialBox = tw.div`
+const SocialBox = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-center
   items-center
   gap-3
@@ -126,24 +121,19 @@ const Label = tw.label`
   text-gray-700
 `
 
-const FormBox = tw.div`
+const FormBox = tw(Vertical)`
   w-full
-  flex
-  flex-col
   justify-center
-  items-start
   gap-4
 `
 
-const SocialBoxInput = tw.div`
+const SocialBoxInput = tw(Horizontal)`
   w-full
   border
   border-solid
   border-gray-300
   rounded-lg
   h-14
-  flex
-  flex-row
 `
 
 const EmptyBox = tw.div`
@@ -201,10 +191,8 @@ const Button = styled.button<{ block?: boolean }>(({ block = false }) => [
   `,
 ])
 
-const InfoBox = tw.div`
+const InfoBox = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   p-3
   justify-between
   items-center
@@ -217,19 +205,13 @@ const InfoBox = tw.div`
   cursor-pointer
 `
 
-const HorBox = tw.div`
-  flex
-  flex-row
-  justify-start
+const HorBox = tw(Horizontal)`
   items-center
   w-full
   gap-3
 `
 
-const VerBox = tw.div`
-  flex
-  flex-col
-  items-start
+const VerBox = tw(Vertical)`
   justify-center
   gap-1
 `

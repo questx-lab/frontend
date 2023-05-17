@@ -1,17 +1,9 @@
+import { Horizontal, Vertical } from '@/widgets/orientation'
 import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-export const CheckboxWrap = tw.div`
-  flex
-  flex-col
-  justify-start
-  items-start
-`
-
-export const CheckboxSession = tw.div`
-  flex
-  flex-row
+export const CheckboxSession = tw(Horizontal)`
   gap-2
   justify-start
   items-center
@@ -20,10 +12,8 @@ export const CheckboxSession = tw.div`
   text-gray-700
 `
 
-export const ButtonBox = tw.div`
+export const ButtonBox = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   gap-3
   justify-end
   items-center
@@ -45,11 +35,9 @@ export const BadgeBox = tw.div`
   cursor-pointer
 `
 
-export const DivideBox = tw.div`
+export const DivideBox = tw(Vertical)`
   w-full
   divide-y
-  flex
-  flex-col
 `
 
 export const SocialBox = styled.div<{ active?: boolean }>(
@@ -84,9 +72,7 @@ export const SocialBox = styled.div<{ active?: boolean }>(
   ]
 )
 
-export const Wrap = tw.div`
-  flex
-  flex-row
+export const Wrap = tw(Horizontal)`
   min-h-screen
   mt-[70px]
 `
@@ -100,19 +86,13 @@ export const Asside = tw.div`
   h-full
 `
 
-export const Main = tw.div`
+export const Main = tw(Horizontal)`
   w-full
-  flex
-  flex-row
-  justify-start
-  items-start
   ml-80
   bg-white
 `
 
-export const PersonWrap = tw.div`
-  flex
-  flex-col
+export const PersonWrap = tw(Vertical)`
   justify-center
   items-center
   py-8
@@ -147,11 +127,9 @@ export const LvBox = tw.div`
   text-white
 `
 
-export const OptionWrap = tw.div`
+export const OptionWrap = tw(Vertical)`
   py-4
   px-6
-  flex
-  flex-col
   gap-3
 `
 
@@ -191,20 +169,16 @@ export const Option = styled.div<{ active?: boolean }>(({ active = false }) => [
       `,
 ])
 
-export const ContentBox = tw.div`
+export const ContentBox = tw(Vertical)`
   w-full
   py-6
   px-12
-  flex
-  flex-col
   gap-4
   divide-y
 `
 
-export const HeadBox = tw.div`
+export const HeadBox = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   py-6
   px-12
   text-2xl
@@ -212,10 +186,8 @@ export const HeadBox = tw.div`
   text-gray-900
 `
 
-export const ProfileSession = tw.div`
+export const ProfileSession = tw(Vertical)`
   w-2/3
-  flex
-  flex-col
   gap-5
   pb-3
   pt-6
@@ -233,18 +205,10 @@ export const Description = tw.label`
   text-gray-700
 `
 
-export const RowBox = tw.div`
-  flex
-  flex-row
+export const RowBox = tw(Horizontal)`
   gap-6
-  justify-start
-  items-start
 `
 
-export const ColBox = tw.div`
-  flex
-  flex-col
-  justify-start
-  items-start
+export const ColBox = tw(Vertical)`
   gap-3
 `
