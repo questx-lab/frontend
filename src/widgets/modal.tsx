@@ -2,20 +2,21 @@ import { Fragment, FunctionComponent, ReactNode } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 
-import { CloseIcon, Gap, SpinnerStyle } from '@/styles/common.style'
+import { Gap, SpinnerStyle } from '@/styles/common.style'
 import {
   CenterWrap,
   DesModal,
   DialogPannel,
+  MDHead,
   ModalBg,
+  ModalBox,
+  ModalContent,
   ModalWrap,
   TitleModal,
-  TMContent,
-  TMWrap,
   WrapProgressBar,
 } from '@/styles/modal.style'
-import { CHeadling, TMain, TMHeader } from '@/styles/questboard.style'
 import { Dialog, Transition } from '@headlessui/react'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
 export const BaseModal: FunctionComponent<{
   isOpen: boolean
@@ -42,47 +43,24 @@ export const BaseModal: FunctionComponent<{
   )
 }
 
-export const TemplateModal: FunctionComponent<{
+export const BasicModal: FunctionComponent<{
   isOpen: boolean
+  children: ReactNode
+  title?: string
   onClose: () => void
-  children?: ReactNode
-  title: string
-}> = ({ isOpen, onClose, title, children }) => {
+  styled?: string
+}> = ({ isOpen, children, title = '', onClose, styled = 'w-2/3' }) => {
   return (
     <BaseModal isOpen={isOpen}>
-      <TMContent>
-        <Transition.Child
-          as={Fragment}
-          enter='linear duration-300'
-          enterFrom='opacity-0 scale-95'
-          enterTo='opacity-100 scale-100'
-          leave='linear duration-200'
-          leaveFrom='opacity-100 scale-100'
-          leaveTo='opacity-0 scale-95'
-        >
-          <TMWrap>
-            <TMHeader>
-              <CHeadling>{title}</CHeadling>
-              <CloseIcon
-                onClick={onClose}
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='w-6 h-6'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M6 18L18 6M6 6l12 12'
-                />
-              </CloseIcon>
-            </TMHeader>
-            <TMain>{children}</TMain>
-          </TMWrap>
-        </Transition.Child>
-      </TMContent>
+      <ModalBox>
+        <ModalContent className={styled}>
+          <MDHead>
+            {title}
+            <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} />
+          </MDHead>
+          {children}
+        </ModalContent>
+      </ModalBox>
     </BaseModal>
   )
 }

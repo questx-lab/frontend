@@ -8,11 +8,12 @@ import toast from 'react-hot-toast'
 import { listQuestApi } from '@/app/api/client/quest'
 import ProjectSide from '@/components/sidebar'
 import { RouterConst } from '@/constants/router.const'
+import { Templates } from '@/modules/project/templates'
 import { Quests } from '@/modules/quests/quest-list'
 import { CommunityStore } from '@/store/local/community.store'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 import { PSave } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
-import { HeaderText } from '@/styles/home.style'
 import {
   BtnUseT,
   CardBox,
@@ -25,13 +26,11 @@ import {
   Wrap,
 } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
-import { TemplateModal } from '@/widgets/modal'
+import { BasicModal } from '@/widgets/modal'
 
 import ControlPanel from '../new-quest/control-panel'
 import QuestFrame from '../new-quest/quest-frame'
 import Category from './category'
-import { NewQuestStore } from '@/store/local/new-quest.store'
-import { Templates } from '@/modules/project/templates'
 
 export default function ManageProject() {
   const router = useRouter()
@@ -97,15 +96,16 @@ export default function ManageProject() {
           </MBox>
         </CCBox>
       </MMain>
-      <TemplateModal
-        title='Template'
+      <BasicModal
+        title={`🎉 Template`}
         isOpen={openTemplate}
         onClose={() => setOpenTemplate(false)}
+        styled='w-5/6 flex items-start'
       >
         <NewQuestStore.Provider>
           <QuestFrame isTemplate id={project.id} />
         </NewQuestStore.Provider>
-      </TemplateModal>
+      </BasicModal>
     </Wrap>
   )
 }

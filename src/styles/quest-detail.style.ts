@@ -47,6 +47,7 @@ export const ReviewBox = tw(Vertical)`
 `
 
 export const RewardBox = tw(Vertical)`
+  w-full
   border
   border-solid
   rounded-lg

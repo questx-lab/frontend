@@ -71,7 +71,7 @@ const ControlPanel: FunctionComponent<{
         </ItemSide>
         <ItemSide
           onClick={() => {
-            router.push(RouterConst.PROJECT + projectId + '/review')
+            router.push(RouterConst.PROJECT + projectId + '/setting')
           }}
           active={active === SideEnum.SETTINGS}
         >

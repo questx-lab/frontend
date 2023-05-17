@@ -79,4 +79,8 @@ export const StorageConst = {
     src: '/images/icons/upload.svg',
     alt: 'Upload image',
   },
+  COIN: {
+    src: '/images/icons/coin.svg',
+    alt: 'Coin',
+  },
 }
