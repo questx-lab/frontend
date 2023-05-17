@@ -1,3 +1,4 @@
+import { Horizontal, Vertical } from '@/widgets/orientation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -5,9 +6,7 @@ type TabActive = {
   isActive: boolean
 }
 
-export const Wrap = tw.div`
-  flex
-  flex-col
+export const Wrap = tw(Vertical)`
   min-h-screen
   px-[80px]
   pt-[80px]
@@ -15,35 +14,26 @@ export const Wrap = tw.div`
   max-lg:px-[20px]
 `
 
-export const UInfo = tw.div`
-  flex
-  flex-row
+export const UInfo = tw(Horizontal)`
   w-full
 `
 
-export const UInfoL = tw.div`
-  flex
-  flex-row
-  justify-start
+export const UInfoL = tw(Horizontal)`
   items-center
   w-1/2
 `
 
-export const UInfoR = tw.div`
-  flex
-  flex-col
+export const UInfoR = tw(Vertical)`
   justify-between
   items-end
   w-1/2
 `
 
-export const UBadge = tw.div`
+export const UBadge = tw(Horizontal)`
   bg-gray-200
   rounded-full
   py-3
   px-6
-  flex
-  flex-row
   justify-center
   items-center
 `
@@ -60,13 +50,11 @@ export const UAvt = tw.div`
   bg-gray-100
 `
 
-export const TabSide = tw.div`
+export const TabSide = tw(Horizontal)`
   w-full
   h-[60px]
   border-b-2
   border-gray-300
-  flex
-  flex-row
   justify-start
 `
 
@@ -96,19 +84,15 @@ export const Text = styled.p<TabActive>(({ isActive }) =>
   isActive ? tw`font-bold` : tw`font-light`
 )
 
-export const UPWrap = tw.div`
+export const UPWrap = tw(Vertical)`
   mt-8
   w-full
   bg-[#F2F4F8]
   rounded-lg
   p-5
-  flex
-  flex-col
 `
 
-export const UWrapI = tw.div`
-  flex
-  flex-row
+export const UWrapI = tw(Horizontal)`
   justify-end
   items-center
 `

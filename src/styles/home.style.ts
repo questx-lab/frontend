@@ -2,6 +2,11 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Dialog, Listbox } from '@headlessui/react'
+import {
+  Horizontal,
+  HorizontalBetweenCenter,
+  Vertical,
+} from '@/widgets/orientation'
 
 type TabActive = {
   isActive: boolean
@@ -11,16 +16,12 @@ type SessionType = {
   postion?: boolean
 }
 
-export const Wrap = tw.div`
-  flex
-  flex-row
+export const Wrap = tw(Horizontal)`
   min-h-screen
   pt-[80px]
 `
 
-export const Main = tw.div`
-  flex
-  flex-col
+export const Main = tw(Vertical)`
   pl-[100px]
   pr-[40px]
   max-lg:pr-[10px]
@@ -36,14 +37,11 @@ export const Title = tw.p`
   max-sm:text-2xl
 `
 
-export const TabSide = tw.div`
+export const TabSide = tw(Horizontal)`
   w-full
   h-[60px]
   border-b-2
   border-gray-300
-  flex
-  flex-row
-  justify-start
 `
 
 export const Tab = styled.div<TabActive>(({ isActive }) =>
@@ -77,23 +75,15 @@ export const Text = styled.p<TabActive>(({ isActive }) =>
 )
 
 // ================== QUESTS STYLE ==================
-export const QuestWrap = tw.div`
+export const QuestWrap = tw(Vertical)`
   w-full
-  flex
-  flex-col
-  justify-start
-  items-start
 `
 
-export const NotifyBox = tw.div`
+export const NotifyBox = tw(HorizontalBetweenCenter)`
   w-full
   bg-black
   px-8
   py-4
-  flex
-  flex-row
-  justify-between
-  items-center
   rounded-lg
 `
 
@@ -111,19 +101,15 @@ export const HeaderText = tw.h2`
 
 // ================== PROJECT SETTING STYLE ==================
 
-export const PWrap = tw.div`
-  flex
-  flex-row
+export const PWrap = tw(Horizontal)`
   w-full
   h-[200px]
   max-lg:flex-col
   max-lg:h-full
 `
 
-export const PSessionL = tw.div`
+export const PSessionL = tw(Horizontal)`
   w-3/5
-  flex
-  flex-row
   max-lg:flex-col
   max-lg:w-full
   max-lg:items-center
@@ -138,12 +124,6 @@ export const PSessionLogo = tw.div`
   rounded-lg
 `
 
-export const PSessionLChild = tw.div`
-  w-full
-  flex
-  flex-col
-`
-
 export const PInputBlock = tw.div`
   w-full
   rounded-lg
@@ -155,11 +135,9 @@ export const PInputBlock = tw.div`
   py-4
 `
 
-export const PSessionR = tw.div`
+export const PSessionR = tw(Vertical)`
   w-2/5
   pl-5
-  flex
-  flex-col
   max-lg:w-full
   max-lg:pl-0
 `
@@ -170,10 +148,8 @@ export const PLabel = tw.div`
   font-bold
 `
 
-export const PHalfWrap = tw.div`
+export const PHalfWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   max-lg:flex-col
 `
 
@@ -219,12 +195,8 @@ export const PCategoryItem = tw.div`
 `
 
 // ================== PROJECT MANAGEMENT STYLE ==================
-export const MWrapBtn = tw.div`
+export const MWrapBtn = tw(HorizontalBetweenCenter)`
   w-full
-  flex
-  flex-row
-  justify-between
-  items-center
 `
 
 export const MBtn = tw.button`

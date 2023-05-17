@@ -9,7 +9,11 @@ import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
 
-import { verifyOAuth2, linkOAuth2 } from '@/app/api/client/oauth'
+import {
+  verifyOAuth2,
+  updateProjectDiscord,
+  linkOAuth2,
+} from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum } from '@/constants/key.const'
 
@@ -36,6 +40,9 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       DiscordProvider({
         clientId: process.env.DISCORD_ID,
         clientSecret: process.env.DISCORD_SECRET,
+        authorization: {
+          params: { permission: 268435488, scope: 'guilds bot' },
+        },
       }),
       Auth0Provider({
         clientId: process.env.AUTH0_ID,
@@ -52,8 +59,27 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         if (account?.access_token == undefined) {
           return token
         }
-
+        const url = req.cookies['next-auth.callback-url']
         const accessToken = req.cookies['access_token']
+        const matcher = '.*/communities/projects/.*/create'
+
+        if (url && url.match(matcher)) {
+          const arr = url.split('/')
+          const project_id = arr[arr.length - 2]
+          type Guild = {
+            id: string
+          }
+          const guild = account.guild as Guild
+          const resp = await updateProjectDiscord(
+            project_id,
+            guild.id,
+
+            account?.access_token,
+            accessToken || ''
+          )
+
+          return token
+        }
 
         if (accessToken) {
           const resp = await linkOAuth2(

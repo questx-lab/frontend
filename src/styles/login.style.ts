@@ -1,3 +1,4 @@
+import { Horizontal, Vertical } from '@/widgets/orientation'
 import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
@@ -33,10 +34,8 @@ export const Wrap = tw.div`
   items-center
 `
 
-export const Box = tw.div`
+export const Box = tw(Vertical)`
   w-2/3
-  flex
-  flex-col
   justify-center
   items-center
   absolute
@@ -64,9 +63,7 @@ export const ImageBox = styled(Image)(tw`
   max-sm:w-[35px]
 `)
 
-export const ListLogos = tw.div`
-  flex
-  flex-row
+export const ListLogos = tw(Horizontal)`
   justify-center
   space-x-12
   max-sm:space-x-6

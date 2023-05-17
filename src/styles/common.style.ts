@@ -1,3 +1,4 @@
+import { Horizontal, Vertical } from '@/widgets/orientation'
 import styled, { CSSProperties } from 'styled-components'
 import tw from 'twin.macro'
 
@@ -97,51 +98,35 @@ export const SpinnerStyle: CSSProperties = {
   borderColor: '#000',
 }
 
-export const ColSWrap = tw.div`
+export const ColSWrap = tw(Vertical)`
   w-full
-  flex
-  flex-col
-  justify-start
-  items-start
 `
 
-export const RowSWrap = tw.div`
+export const RowSWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
-  justify-start
   items-center
 `
 
-export const RowBWrap = tw.div`
+export const RowBWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-between
   items-center
 `
 
-export const RowBSWrap = tw.div`
+export const RowBSWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-between
-  items-start
   max-lg:flex-col
 `
 
-export const RowHSWrap = tw.div`
+export const RowHSWrap = tw(Horizontal)`
   w-1/2
-  flex
-  flex-row
   justify-between
   items-start
   max-lg:flex-col
 `
-export const RowHEWrap = tw.div`
+export const RowHEWrap = tw(Horizontal)`
   w-1/2
-  flex
-  flex-row
   justify-between
   items-end
   max-lg:flex-col
@@ -155,10 +140,8 @@ export const ColCWrap = tw.div`
   items-center
 `
 
-export const RowCWrap = tw.div`
+export const RowCWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-center
   items-center
 `
@@ -198,37 +181,10 @@ export const MediumTitle = tw.p`
   max-sm:text-2xl
 `
 
-export const SmallTitle = tw.p`
-  text-lg
-  text-black
-  font-bold
-  max-sm:text-lg
-`
-
-export const LargeText = tw.p`
-  text-xl
-  text-black
-  font-bold
-  max-sm:text-lg
-`
-
-export const MediumText = tw.p`
-  text-lg
-  text-black
-  font-bold
-  max-sm:text-sm
-`
-
-export const NormalText = tw.p`
-  text-lg
-  text-black
-  font-normal
-  max-sm:text-xs
-`
-
-export const LightText = tw.p`
-  text-sm
-  text-black
-  font-light
-  max-sm:text-xl
+export const FullScreen = tw.div`
+  w-screen
+  h-screen
+  flex
+  justify-center
+  items-center
 `

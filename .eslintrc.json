@@ -1,3 +1,19 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    // suppress errors for missing 'import React' in files
+    "react/react-in-jsx-scope": "off",
+    // allow jsx syntax in js files (for next.js project)
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
+    "react-hooks/exhaustive-deps": "off",
+    "react-hooks/rules-of-hooks": "error"
+  }
 }

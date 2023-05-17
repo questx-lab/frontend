@@ -1,3 +1,4 @@
+import { Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -43,13 +44,8 @@ export const InputInviteBox = tw.input`
   rounded-lg
 `
 
-export const ErrorBox = tw.div`
-  flex
-  flex-col
+export const ErrorBox = tw(VerticalFullWidth)`
   gap-2
-  w-full
-  justify-start
-  items-start
 `
 
 export const ErrorMsg = tw.span`

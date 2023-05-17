@@ -3,28 +3,22 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Disclosure } from '@headlessui/react'
+import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 
-export const Wrap = tw.div`
-  flex
-  flex-row
+export const Wrap = tw(Horizontal)`
   min-h-screen
   pt-[70px]
 `
 
-export const Main = tw.div`
-  flex
-  flex-col
+export const Main = tw(VerticalFullWidth)`
   pl-[100px]
   pr-[40px]
   max-lg:pr-[10px]
   max-lg:pl-[80px]
   py-2
-  w-full
 `
 
-export const CMain = tw.div`
-  flex
-  flex-row
+export const CMain = tw(Horizontal)`
   pl-[70px]
   pr-[40px]
   max-lg:pr-[10px]
@@ -32,9 +26,7 @@ export const CMain = tw.div`
   w-full
 `
 
-export const MMain = tw.div`
-  flex
-  flex-row
+export const MMain = tw(Horizontal)`
   pl-[70px]
   max-lg:pr-0
   max-lg:pl-[80px]
@@ -76,18 +68,14 @@ export const CBox = styled.div<{ isTemplate?: boolean }>(
   ]
 )
 
-export const CCBox = tw.div`
+export const CCBox = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-center
   items-start
   pl-80
 `
 
-export const CWrap = tw.div`
-  flex
-  flex-col
+export const CWrap = tw(Vertical)`
   w-full
   h-full
   pl-80
@@ -101,14 +89,12 @@ export const CCard = tw.div`
   pl-12
 `
 
-export const CSideCard = tw.div`
+export const CSideCard = tw(Vertical)`
   py-8
   pl-6
   w-1/3
   h-full
   right-0
-  flex
-  flex-col
   justify-start
   items-end
 `
@@ -200,9 +186,7 @@ export const ITypeBox = tw.div`
   w-full
 `
 
-export const PersonWrap = tw.div`
-  flex
-  flex-col
+export const PersonWrap = tw(Vertical)`
   justify-center
   items-center
   p-6
@@ -214,9 +198,7 @@ export const LabelDes = tw.p`
   text-gray-700
 `
 
-export const PersonInfoBox = tw.div`
-  flex
-  flex-row
+export const PersonInfoBox = tw(Horizontal)`
   justify-center
   items-center
 `
@@ -371,17 +353,13 @@ export const ImageQuestBox = styled(Image)(
 `
 )
 
-export const HeaderBox = tw.div`
+export const HeaderBox = tw(Horizontal)`
   px-4
-  flex
-  flex-row
   justify-start
   items-center
 `
 
-export const TitleBox = tw.div`
-  flex
-  flex-row
+export const TitleBox = tw(Horizontal)`
   justify-start
   items-center
   pt-6
@@ -408,11 +386,6 @@ export const PointText = tw.span`
   text-[#FF7B05]
   text-sm
   font-medium
-`
-
-export const Boarding = tw.div`
-  flex
-  flex-row
 `
 
 export const BoardingCard = styled.div<{ manage?: boolean }>(
@@ -452,7 +425,7 @@ export const BoardingCard = styled.div<{ manage?: boolean }>(
   ]
 )
 
-export const TBoardingCard = tw.div`
+export const TBoardingCard = tw(VerticalFullWidth)`
   cursor-pointer
   border
   rounded-lg
@@ -461,43 +434,31 @@ export const TBoardingCard = tw.div`
   border-[1px]
   h-[280px]
   max-lg:h-[350px]
-  flex
-  flex-col
-  w-full
   bg-white
   hover:shadow-lg
 `
 
-export const StartBoarding = tw.div`
-  w-full
-  flex
-  flex-col
+export const StartBoarding = tw(VerticalFullWidth)`
   h-full
   py-2
 `
 
-export const EndBoarding = tw.div`
+export const EndBoarding = tw(Horizontal)`
   w-full
   h-16
-  flex
-  flex-row
   justify-between
   items-center
   border-t-[1px]
   border-gray-200
 `
 
-export const CardBox = tw.div`
-  flex
-  flex-row
+export const CardBox = tw(Horizontal)`
   items-center
   justify-end
 
 `
 
-export const SCardBox = tw.div`
-  flex
-  flex-row
+export const SCardBox = tw(Horizontal)`
   items-center
   justify-start
 `
@@ -551,19 +512,15 @@ export const Card = styled.div<{ type?: number }>(({ type = 0 }) => [
   `,
 ])
 
-export const BtnWrap = tw.div`
+export const BtnWrap = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-between
   items-center
   gap-4
 `
 
-export const PointBox = tw.div`
+export const PointBox = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   border
   border-solid
   border-gray-200
@@ -593,10 +550,8 @@ export const MBox = tw.div`
   py-8
 `
 
-export const MHeader = tw.div`
+export const MHeader = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-between
   items-center
 `
@@ -606,9 +561,7 @@ export const MPadding = tw.div`
   px-16
 `
 
-export const TMain = tw.div`
-  flex
-  flex-row
+export const TMain = tw(Horizontal)`
   w-full
   h-full
   border-t-[1px]
@@ -617,10 +570,8 @@ export const TMain = tw.div`
   overflow-y-scroll
 `
 
-export const TMHeader = tw.div`
+export const TMHeader = tw(Horizontal)`
   w-full
-  flex
-  flex-row
   justify-between
   items-center
   px-6

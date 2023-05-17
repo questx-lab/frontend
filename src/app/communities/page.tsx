@@ -13,47 +13,40 @@ import { TitleCreatedProject } from '@/styles/myProjects.style'
 import { ModalBox } from '@/styles/quest-review.style'
 import { BaseModal } from '@/widgets/modal'
 import { PlusIcon } from '@heroicons/react/24/outline'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
-const Wrap = tw.div`
-  flex
-  flex-col
+const Wrap = tw(Vertical)`
   min-h-screen
   pt-[70px]
 `
 
-const Main = tw.div`
-  flex
-  flex-col
+const Main = tw(Vertical)`
   px-[120px]
   pb-[30px]
   max-xl:px-[100px]
 `
 
-const TitleBox = tw.div`
+const TitleBox = tw(Horizontal)`
   px-[120px]
   py-6
   max-xl:px-[100px]
-  flex
-  flex-row
   w-full
   justify-between
 `
 
-const CreateProjectBtn = tw.div`
-  flex 
-  flex-row 
-  gap-2 
-  border  
+const CreateProjectBtn = tw(Horizontal)`
+  gap-2
+  border
   border-solid
-  border-gray-300 
-  rounded-lg 
-  justify-center 
-  items-center 
-  py-2 
-  px-4 
-  text-lg 
-  text-black 
-  font-medium  
+  border-gray-300
+  rounded-lg
+  justify-center
+  items-center
+  py-2
+  px-4
+  text-lg
+  text-black
+  font-medium
   cursor-pointer
 `
 

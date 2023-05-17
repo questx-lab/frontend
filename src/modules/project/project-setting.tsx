@@ -22,7 +22,6 @@ import {
   PInputBlock,
   PLabel,
   PSessionL,
-  PSessionLChild,
   PSessionLogo,
   PSessionR,
   PWrap,
@@ -30,6 +29,7 @@ import {
 } from '@/styles/home.style'
 import { InputBox, MulInputBox } from '@/styles/input.style'
 import { ReqUpdateProject } from '@/types/project.type'
+import { VerticalFullWidth } from '@/widgets/orientation'
 
 const categories = [
   'NFT',
@@ -87,7 +87,7 @@ export default function ProjectSetting() {
           <PSessionL>
             <PSessionLogo />
             <Gap width={8} />
-            <PSessionLChild>
+            <VerticalFullWidth>
               <PLabel>{'Project Name*'}</PLabel>
               <Gap height={4} />
               <InputBox
@@ -99,7 +99,7 @@ export default function ProjectSetting() {
               <PLabel>{'Project URL*'}</PLabel>
               <Gap height={4} />
               <PInputBlock>{'QuestX.com/Quest001'}</PInputBlock>
-            </PSessionLChild>
+            </VerticalFullWidth>
           </PSessionL>
           <Gap width={0} height={8} />
           <PSessionR>

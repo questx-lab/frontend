@@ -3,6 +3,8 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
 import { NavBarEnum } from '@/constants/key.const'
 import { AuthEnum } from '@/constants/project.const'
@@ -13,11 +15,10 @@ import Login from '@/modules/login/login'
 import { LoginStore } from '@/store/local/login.store'
 import { GlobalStoreModel } from '@/store/store'
 import { AuthBox, LoginBtn, MenuBtn, SignUpBtn } from '@/styles/button.style'
-import { Divider, Gap, LightText, MediumText } from '@/styles/common.style'
+import { Divider, Gap } from '@/styles/common.style'
 import {
   AvatarBox,
   BoxLink,
-  DesNameTxt,
   ImageLogoBox,
   LeftSession,
   LinkText,
@@ -32,15 +33,176 @@ import {
   RightSession,
   TitleText,
   Underline,
-  UserInfo,
-  UserNameTxt,
   UserSession,
   Wrap,
 } from '@/styles/header.style'
 import { ModalBox } from '@/styles/quest-review.style'
 import { UserType } from '@/types/account.type'
+import { clearLocalStorage, delCookies } from '@/utils/helper'
 import { BaseModal } from '@/widgets/modal'
+import { LightText, MediumText } from '@/widgets/text'
 import { Popover } from '@headlessui/react'
+import { Horizontal, Vertical } from '@/widgets/orientation'
+
+const UserBox = tw(Vertical)`
+  w-full
+  justify-center
+  items-center
+  py-2
+  gap-3
+`
+
+const Avatar = styled(Image)(
+  () => tw`
+  rounded-full
+`
+)
+
+const NameText = tw.p`
+  text-xl
+  font-medium
+  text-black
+  text-center
+  max-w-lg
+  text-ellipsis
+  overflow-hidden
+  max-w-[150px]
+`
+
+const LvBox = tw.div`
+  bg-teal
+  rounded-full
+  px-3
+  text-sm
+  font-medium
+  text-white
+  flex
+  justify-center
+  items-center
+`
+
+const RowBox = tw(Horizontal)`
+  gap-1
+`
+
+const OptionxBox = tw.div`
+  text-lg
+  font-normal
+  text-gray-700
+  p-2
+  px-3
+  rounded-lg
+  hover:bg-gray-100
+`
+
+const UserPopover: FunctionComponent = () => {
+  // hook
+  const router = useRouter()
+
+  // data
+  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+
+  // action
+  const setLogin = useStoreActions<GlobalStoreModel>(
+    (action) => action.setLogin
+  )
+  const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
+
+  // handler
+  const handleLogout = () => {
+    router.push(RouterConst.HOME)
+    setLogin(false)
+    setUser({})
+    delCookies()
+    clearLocalStorage()
+  }
+
+  return (
+    <PopWrap>
+      <Popover.Button className={'outline-0'}>
+        <AvatarBox
+          width={40}
+          height={40}
+          src={'/images/dummy/1.svg'}
+          alt={StorageConst.AVATAR_DEFAUL.alt}
+        />
+      </Popover.Button>
+
+      <PopPanel>
+        <PopItem>
+          <UserBox>
+            <Avatar
+              width={80}
+              height={80}
+              src={'/images/dummy/1.svg'}
+              alt={'Avatar'}
+            />
+            <RowBox>
+              <NameText>{user && user.name}</NameText>
+              <LvBox>{'lvl.3'}</LvBox>
+            </RowBox>
+          </UserBox>
+        </PopItem>
+        <PopItem>
+          <OptionxBox>{'My Community'}</OptionxBox>
+          <OptionxBox
+            onClick={() => user && router.push(RouterConst.USER + user.id)}
+          >
+            {'My Profile'}
+          </OptionxBox>
+          <OptionxBox
+            onClick={() =>
+              user && router.push(RouterConst.USER + user.id + '/setting')
+            }
+          >
+            {'Account Setting'}
+          </OptionxBox>
+        </PopItem>
+        <PopItem>
+          <OptionxBox onClick={handleLogout}>{'Sign out'}</OptionxBox>
+        </PopItem>
+      </PopPanel>
+    </PopWrap>
+  )
+}
+
+const NotifyPopover: FunctionComponent = () => {
+  return (
+    <PopWrap>
+      <Popover.Button className={'outline-0'}>
+        <Image
+          width={35}
+          height={35}
+          src={StorageConst.NOTIFICATION_ICON.src}
+          alt={StorageConst.NOTIFICATION_ICON.alt}
+        />
+      </Popover.Button>
+      <PopPanel>
+        <PopItem>
+          <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+          <Gap height={2} />
+          <MediumText>{'Headline'}</MediumText>
+          <Gap height={2} />
+          <LightText>{'Notification content'}</LightText>
+        </PopItem>
+        <PopItem>
+          <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+          <Gap height={2} />
+          <MediumText>{'Headline'}</MediumText>
+          <Gap height={2} />
+          <LightText>{'Notification content'}</LightText>
+        </PopItem>
+        <PopItem>
+          <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
+          <Gap height={2} />
+          <MediumText>{'Headline'}</MediumText>
+          <Gap height={2} />
+          <LightText>{'Notification content'}</LightText>
+        </PopItem>
+      </PopPanel>
+    </PopWrap>
+  )
+}
 
 const UserInfoBox: FunctionComponent = () => {
   // data
@@ -65,55 +227,15 @@ const UserInfoBox: FunctionComponent = () => {
   if (isLogin && userState) {
     return (
       <UserSession>
-        <PopWrap>
-          <Popover.Button className={'outline-0'}>
-            <Image
-              width={35}
-              height={35}
-              src={StorageConst.NOTIFICATION_ICON.src}
-              alt={StorageConst.NOTIFICATION_ICON.alt}
-            />
-          </Popover.Button>
+        <NotifyPopover />
+        <UserPopover />
 
-          <PopPanel>
-            <PopItem>
-              <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-              <Gap height={2} />
-              <MediumText>{'Headline'}</MediumText>
-              <Gap height={2} />
-              <LightText>{'Notification content'}</LightText>
-              <Divider />
-            </PopItem>
-            <PopItem>
-              <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-              <Gap height={2} />
-              <MediumText>{'Headline'}</MediumText>
-              <Gap height={2} />
-              <LightText>{'Notification content'}</LightText>
-              <Divider />
-            </PopItem>
-            <PopItem>
-              <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-              <Gap height={2} />
-              <MediumText>{'Headline'}</MediumText>
-              <Gap height={2} />
-              <LightText>{'Notification content'}</LightText>
-              <Divider />
-            </PopItem>
-          </PopPanel>
-        </PopWrap>
-        <AvatarBox
-          width={40}
-          height={40}
-          src={StorageConst.AVATAR_DEFAUL.src}
-          alt={StorageConst.AVATAR_DEFAUL.alt}
-        />
-        <UserInfo onClick={() => router.push(RouterConst.USER + userState.id)}>
+        {/* <UserInfo onClick={() => router.push(RouterConst.USER + userState.id)}>
           <DesNameTxt>{'Explorer'}</DesNameTxt>
           <UserNameTxt>
             {(userState.name ?? '').split('@')[0].toUpperCase()}
           </UserNameTxt>
-        </UserInfo>
+        </UserInfo> */}
         <BaseModal isOpen={isOpen}>
           <ModalBox>
             <Login setOpen={setOpen} />
