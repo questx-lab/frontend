@@ -21,6 +21,10 @@ const nextConfig = {
     return config
   },
   output: 'standalone',
+  env: {
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+  },
 }
 
 module.exports = nextConfig
