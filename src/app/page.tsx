@@ -63,8 +63,6 @@ export default function Home() {
     return <></>
   }
 
-  console.log('EnvVariables.NEXTAUTH_URL', EnvVariables.NEXTAUTH_URL)
-
   return (
     <Layout>
       <header>
