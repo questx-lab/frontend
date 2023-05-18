@@ -12,9 +12,15 @@ export type ReqNewProject = {
 
 export type ReqUpdateProject = {
   id: string
+  name?: string
+  introduction?: string
   twitter?: string
   discord?: string
   telegram?: string
+  team_size?: number
+  development_stage?: string
+  website_url?: string
+  shared_content_types?: string[]
 }
 
 export type CollaboratorType = {
@@ -35,6 +41,7 @@ export type ProjectType = {
   discord?: string
   telegram?: string
   introduction?: string
+  website_url?: string
 }
 
 export type ListProjectsType = {

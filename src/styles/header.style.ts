@@ -3,8 +3,8 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Popover } from '@headlessui/react'
-import { Horizontal, Vertical } from '@/widgets/orientation'
 
 type NavBarType = {
   isActive: boolean
@@ -17,7 +17,7 @@ export const Wrap = tw.nav`
   justify-between
   items-center
   h-[70px]
-  px-[15px]
+  px-16
   border-b-[1px]
   border-gray-200
   fixed
@@ -94,7 +94,7 @@ export const RightSession = tw(Horizontal)`
 `
 
 // ============= USER INFORMATION =============
-export const UserSession = tw(Horizontal)`
+export const UserSession = tw(HorizontalCenter)`
   px-[20px]
   cursor-pointer
   max-lg:hidden

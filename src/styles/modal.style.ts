@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 
 export const ModalBg = tw.div`
@@ -17,15 +18,47 @@ export const ModalWrap = tw.div`
   overflow-y-auto
 `
 
-export const ModalContent = tw.div`
-  flex 
-  min-h-full 
-  items-center 
-  justify-center 
-  p-4 
+export const ModalBox = tw(HorizontalCenter)`
+  flex
+  h-full
+  items-center
+  justify-center
   text-center
+  py-6
 `
 
+export const MDHead = tw(Horizontal)`
+  w-full
+  justify-between
+  items-center
+  px-8
+  py-4
+  text-2xl
+  font-normal
+  text-black
+  border
+  border-solid
+  border-gray-200
+`
+
+export const ModalContent = styled(Dialog.Panel)(
+  tw`
+  w-1/2
+  max-2xl:w-[calc(100%_-_70px)]
+  h-full
+  bg-white
+  text-center
+  align-middle
+  overflow-y-scroll
+  shadow-xl
+  transition-all
+  flex
+  flex-col
+  justify-start
+  items-center
+  rounded-lg
+  `
+)
 export const TMContent = tw.div`
   flex 
   h-full

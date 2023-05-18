@@ -20,6 +20,7 @@ export interface NewCommunityModel {
   avatar: File[]
   discordUrl: string
   twitterUrl: string
+  websiteUrl: string
 
   setStageCheckBoxQuiz: Action<NewCommunityModel, number>
   setDescribeSizeQuiz: Action<NewCommunityModel, number>
@@ -33,6 +34,7 @@ export interface NewCommunityModel {
   setAvatar: Action<NewCommunityModel, File[]>
   setDiscordUrl: Action<NewCommunityModel, string>
   setTwitterUrl: Action<NewCommunityModel, string>
+  setWebsiteUrl: Action<NewCommunityModel, string>
 }
 
 export const NewCommunityStore = createContextStore<NewCommunityModel>({
@@ -48,6 +50,7 @@ export const NewCommunityStore = createContextStore<NewCommunityModel>({
   avatar: [],
   discordUrl: '',
   twitterUrl: '',
+  websiteUrl: '',
 
   setStageCheckBoxQuiz: action((state, stage) => {
     state.stageCheckBoxQuiz = stage
@@ -84,5 +87,8 @@ export const NewCommunityStore = createContextStore<NewCommunityModel>({
   }),
   setTwitterUrl: action((state, url) => {
     state.twitterUrl = url
+  }),
+  setWebsiteUrl: action((state, url) => {
+    state.websiteUrl = url
   }),
 })

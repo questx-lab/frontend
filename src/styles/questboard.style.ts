@@ -2,8 +2,8 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { Disclosure } from '@headlessui/react'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
+import { Disclosure } from '@headlessui/react'
 
 export const Wrap = tw(Horizontal)`
   min-h-screen
@@ -338,6 +338,7 @@ export const FilterBox = tw.div`
 `
 
 export const WrapQuestboard = tw.div`
+  w-full
   grid
   grid-cols-3
   gap-4
@@ -580,7 +581,7 @@ export const TMHeader = tw(Horizontal)`
 
 export const TLSide = tw.div`
   w-80
-  h-full
+  h-[calc(100%_-_48px)]
   border-r-[1px]
   border-solid
   border-gray-200
