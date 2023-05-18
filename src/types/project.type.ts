@@ -158,3 +158,9 @@ export type LeaderboardType = {
   prev_rank: number
   current_rank: number
 }
+
+export type RefferalType = {
+  total_claimable_projects?: number
+  total_pending_projects?: number
+  reward_amount?: number
+}

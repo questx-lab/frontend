@@ -9,4 +9,5 @@ export type UserType = {
   }
   is_new_user?: boolean
   role?: string
+  referral_code?: string
 }

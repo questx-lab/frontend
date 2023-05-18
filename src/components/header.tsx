@@ -87,6 +87,7 @@ const RowBox = tw(Horizontal)`
 `
 
 const OptionxBox = tw.div`
+  w-full
   text-lg
   font-normal
   text-gray-700
