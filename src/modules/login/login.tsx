@@ -18,9 +18,9 @@ import { RequireSignal } from '@/styles/input.style'
 import { UserType } from '@/types/account.type'
 import { setUserLocal } from '@/utils/helper'
 import { TextField } from '@/widgets/form'
+import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { Horizontal, Vertical } from '@/widgets/orientation'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
@@ -127,7 +127,7 @@ const FormBox = tw(Vertical)`
   gap-4
 `
 
-const SocialBoxInput = tw(Horizontal)`
+const SocialBoxInput = tw(HorizontalCenter)`
   w-full
   border
   border-solid
@@ -137,6 +137,7 @@ const SocialBoxInput = tw(Horizontal)`
 `
 
 const EmptyBox = tw.div`
+  h-full
   bg-gray-50
   border-r
   border-solid

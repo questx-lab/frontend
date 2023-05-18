@@ -7,6 +7,7 @@ import { toast, Toaster } from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { getFollowProjectApi, getMyProjectsApi } from '@/app/api/client/project'
+import { getMyReferralInfoApi } from '@/app/api/client/reward'
 import { getUserApi } from '@/app/api/client/user'
 import Header from '@/components/header'
 import ControlPanel from '@/modules/new-quest/control-panel'
@@ -62,6 +63,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     (action) => action.setLogin
   )
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
+  const setReferral = useStoreActions<GlobalStoreModel>(
+    (action) => action.setReferral
+  )
   const setProjectsFollowing = useStoreActions<GlobalStoreModel>(
     (action) => action.setProjectsFollowing
   )
@@ -95,6 +99,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     getUserData()
     getProjectsFollowing()
     getMyProjects()
+    getMyReferralInfo()
   }
 
   const getUserData = async () => {
@@ -103,6 +108,15 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       setUserLocal(user.data!)
       setUser(user.data!)
       setLogin(true)
+    } catch (error) {}
+  }
+
+  const getMyReferralInfo = async () => {
+    try {
+      const referral = await getMyReferralInfoApi()
+      if (!referral.error) {
+        setReferral(referral.data)
+      }
     } catch (error) {}
   }
 

@@ -1,9 +1,10 @@
-import { Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-export const InputBox = styled.input<{ danger?: boolean }>(
-  ({ danger = false }) => [
+import { VerticalFullWidth } from '@/widgets/orientation'
+
+export const InputBox = styled.input<{ danger?: boolean; block?: boolean }>(
+  ({ danger = false, block = false }) => [
     danger
       ? tw`
         w-full
@@ -30,6 +31,11 @@ export const InputBox = styled.input<{ danger?: boolean }>(
         focus:outline-primary
         focus:ring-primary
         font-normal
+      `,
+    block &&
+      tw`
+        border-gray-300
+        bg-gray-100
       `,
   ]
 )

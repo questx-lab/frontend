@@ -1,7 +1,11 @@
 import { action, Action, createStore } from 'easy-peasy'
 
 import { UserType } from '@/types/account.type'
-import { CollaboratorType, ProjectType } from '@/types/project.type'
+import {
+  CollaboratorType,
+  ProjectType,
+  RefferalType,
+} from '@/types/project.type'
 
 export interface GlobalStoreModel {
   navBar: boolean
@@ -9,12 +13,14 @@ export interface GlobalStoreModel {
   user: UserType
   projectsFollowing: ProjectType[]
   projectCollab: CollaboratorType[]
+  referral: RefferalType
 
   setNavBar: Action<GlobalStoreModel, boolean>
   setLogin: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
   setProjectsFollowing: Action<GlobalStoreModel, ProjectType[]>
   setProjectCollab: Action<GlobalStoreModel, CollaboratorType[]>
+  setReferral: Action<GlobalStoreModel, RefferalType>
 }
 
 const store = createStore<GlobalStoreModel>({
@@ -23,6 +29,7 @@ const store = createStore<GlobalStoreModel>({
   user: {},
   projectsFollowing: [],
   projectCollab: [],
+  referral: {},
 
   setNavBar: action((state, navBar) => {
     state.navBar = navBar
@@ -42,6 +49,10 @@ const store = createStore<GlobalStoreModel>({
 
   setProjectCollab: action((state, collabs) => {
     state.projectCollab = collabs
+  }),
+
+  setReferral: action((state, referral) => {
+    state.referral = referral
   }),
 })
 
