@@ -53,7 +53,7 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-    - host: frontend.questx.app
+    - host: questx.app
       paths:
         - path: /
           pathType: Prefix
