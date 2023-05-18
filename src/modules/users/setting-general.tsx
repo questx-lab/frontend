@@ -19,6 +19,7 @@ import { Horizontal } from '@/widgets/orientation'
 import { PrimaryText } from '@/widgets/text'
 import { WalletIcon } from '@heroicons/react/24/outline'
 import { Checkbox } from '@material-tailwind/react'
+
 import {
   ButtonBox,
   CheckboxSession,
@@ -181,7 +182,7 @@ export const General: FunctionComponent = () => {
         <ProfileSession>
           <ButtonBox>
             <NegativeButton>{'Cancel'}</NegativeButton>
-            <PositiveButton onClick={handleSubmit} disabled={block}>
+            <PositiveButton onClick={handleSubmit} block={block}>
               {'Save'}
             </PositiveButton>
           </ButtonBox>

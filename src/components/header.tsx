@@ -12,6 +12,7 @@ import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import AuthType from '@/modules/login/auth-type'
 import Login from '@/modules/login/login'
+import InviteCommunity from '@/modules/project/invite-community'
 import { LoginStore } from '@/store/local/login.store'
 import { GlobalStoreModel } from '@/store/store'
 import { AuthBox, LoginBtn, MenuBtn, SignUpBtn } from '@/styles/button.style'
@@ -36,13 +37,13 @@ import {
   UserSession,
   Wrap,
 } from '@/styles/header.style'
-import { ModalBox } from '@/styles/quest-review.style'
+import { ModalBox } from '@/styles/modal.style'
 import { UserType } from '@/types/account.type'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
-import { BaseModal } from '@/widgets/modal'
-import { LightText, MediumText } from '@/widgets/text'
-import { Popover } from '@headlessui/react'
+import { BaseModal, BasicModal } from '@/widgets/modal'
 import { Horizontal, Vertical } from '@/widgets/orientation'
+import { Popover } from '@headlessui/react'
+import { GiftIcon } from '@heroicons/react/24/outline'
 
 const UserBox = tw(Vertical)`
   w-full
@@ -127,7 +128,6 @@ const UserPopover: FunctionComponent = () => {
           alt={StorageConst.AVATAR_DEFAUL.alt}
         />
       </Popover.Button>
-
       <PopPanel>
         <PopItem>
           <UserBox>
@@ -166,44 +166,6 @@ const UserPopover: FunctionComponent = () => {
   )
 }
 
-const NotifyPopover: FunctionComponent = () => {
-  return (
-    <PopWrap>
-      <Popover.Button className={'outline-0'}>
-        <Image
-          width={35}
-          height={35}
-          src={StorageConst.NOTIFICATION_ICON.src}
-          alt={StorageConst.NOTIFICATION_ICON.alt}
-        />
-      </Popover.Button>
-      <PopPanel>
-        <PopItem>
-          <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-          <Gap height={2} />
-          <MediumText>{'Headline'}</MediumText>
-          <Gap height={2} />
-          <LightText>{'Notification content'}</LightText>
-        </PopItem>
-        <PopItem>
-          <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-          <Gap height={2} />
-          <MediumText>{'Headline'}</MediumText>
-          <Gap height={2} />
-          <LightText>{'Notification content'}</LightText>
-        </PopItem>
-        <PopItem>
-          <MediumText>{'6 May 2023-09:32:23 AM'}</MediumText>
-          <Gap height={2} />
-          <MediumText>{'Headline'}</MediumText>
-          <Gap height={2} />
-          <LightText>{'Notification content'}</LightText>
-        </PopItem>
-      </PopPanel>
-    </PopWrap>
-  )
-}
-
 const UserInfoBox: FunctionComponent = () => {
   // data
   const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
@@ -217,6 +179,8 @@ const UserInfoBox: FunctionComponent = () => {
   // hook
   const router = useRouter()
   const [isOpen, setOpen] = useState<boolean>(false)
+  const [isInvite, setInvite] = useState<boolean>(false)
+
   useEffect(() => {
     if (userState && userState.is_new_user) {
       setOpen(true)
@@ -227,20 +191,20 @@ const UserInfoBox: FunctionComponent = () => {
   if (isLogin && userState) {
     return (
       <UserSession>
-        <NotifyPopover />
+        <GiftIcon onClick={() => setInvite(true)} className='h-7 w-7' />
         <UserPopover />
-
-        {/* <UserInfo onClick={() => router.push(RouterConst.USER + userState.id)}>
-          <DesNameTxt>{'Explorer'}</DesNameTxt>
-          <UserNameTxt>
-            {(userState.name ?? '').split('@')[0].toUpperCase()}
-          </UserNameTxt>
-        </UserInfo> */}
         <BaseModal isOpen={isOpen}>
           <ModalBox>
             <Login setOpen={setOpen} />
           </ModalBox>
         </BaseModal>
+        <BasicModal
+          title={`Invite Friend to create project 👋`}
+          isOpen={isInvite}
+          onClose={() => setInvite(false)}
+        >
+          <InviteCommunity />
+        </BasicModal>
       </UserSession>
     )
   }

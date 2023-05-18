@@ -1,14 +1,12 @@
 import toast from 'react-hot-toast'
 
 import { listClaimedQuestsApi } from '@/app/api/client/quest'
-import ProjectSide from '@/components/sidebar'
+import { PanelLayout } from '@/components/layout'
 import { SideEnum, TabReviewEnum } from '@/constants/project.const'
-import ControlPanel from '@/modules/new-quest/control-panel'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
-import { Head, Main, Tab, TabItem } from '@/styles/quest-review.style'
-import { MMain, Wrap } from '@/styles/questboard.style'
+import { Head, Tab, TabItem } from '@/styles/quest-review.style'
 import { ClaimQuestType } from '@/types/project.type'
 import { LoadingModal } from '@/widgets/modal'
 import { ArrowPathIcon, ClockIcon } from '@heroicons/react/24/outline'
@@ -56,45 +54,36 @@ export default function ReviewSubmission({ projectId }: { projectId: string }) {
   )
 
   return (
-    <Wrap>
-      <ProjectSide projectId={projectId} />
-      <MMain>
-        <ControlPanel
-          projectId={projectId}
-          active={SideEnum.REVIEW_SUBMISSION}
-        />
-        <Main>
-          <Head>{'Review Submission'}</Head>
-          <Tab>
-            <TabItem
-              active={tabReviewState === TabReviewEnum.PENDING}
-              onClick={() => setTabReview(TabReviewEnum.PENDING)}
-            >
-              <ClockIcon className='w-5 h-5 mr-1' />
-              {'PENDING'}
-            </TabItem>
-            <TabItem
-              active={tabReviewState === TabReviewEnum.HISTORY}
-              onClick={() => setTabReview(TabReviewEnum.HISTORY)}
-            >
-              <ArrowPathIcon className='w-5 h-5 mr-1' />
-              {'HISTORY'}
-            </TabItem>
-          </Tab>
-          <Gap height={6} />
-          <NewQuestSearchStore.Provider>
-            {tabReviewState === TabReviewEnum.PENDING && (
-              <PendingTab projectId={projectId} />
-            )}
-            {tabReviewState === TabReviewEnum.HISTORY && (
-              <HistoryTab projectId={projectId} />
-            )}
-          </NewQuestSearchStore.Provider>
+    <PanelLayout projectId={projectId} active={SideEnum.REVIEW_SUBMISSION}>
+      <Head>{'Review Submission'}</Head>
+      <Tab>
+        <TabItem
+          active={tabReviewState === TabReviewEnum.PENDING}
+          onClick={() => setTabReview(TabReviewEnum.PENDING)}
+        >
+          <ClockIcon className='w-5 h-5 mr-1' />
+          {'PENDING'}
+        </TabItem>
+        <TabItem
+          active={tabReviewState === TabReviewEnum.HISTORY}
+          onClick={() => setTabReview(TabReviewEnum.HISTORY)}
+        >
+          <ArrowPathIcon className='w-5 h-5 mr-1' />
+          {'HISTORY'}
+        </TabItem>
+      </Tab>
+      <Gap height={6} />
+      <NewQuestSearchStore.Provider>
+        {tabReviewState === TabReviewEnum.PENDING && (
+          <PendingTab projectId={projectId} />
+        )}
+        {tabReviewState === TabReviewEnum.HISTORY && (
+          <HistoryTab projectId={projectId} />
+        )}
+      </NewQuestSearchStore.Provider>
 
-          <DetailSubmission />
-        </Main>
-      </MMain>
+      <DetailSubmission />
       <LoadingModal isOpen={loadingModal} />
-    </Wrap>
+    </PanelLayout>
   )
 }

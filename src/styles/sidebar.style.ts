@@ -1,7 +1,8 @@
-import { Vertical } from '@/widgets/orientation'
 import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+
+import { Vertical } from '@/widgets/orientation'
 
 export const Wrap = styled.div<{ isShow?: boolean }>(({ isShow = false }) => [
   isShow

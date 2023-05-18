@@ -127,3 +127,27 @@ export const getLeaderboardApi = async (
   )
   return rs.data
 }
+
+export const generateProjectKeyApi = async (
+  projectId: string
+): Promise<Rsp<{ key: string }>> => {
+  const { data } = await api.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + '/generateAPIKey',
+    {
+      project_id: projectId,
+    }
+  )
+  return data
+}
+
+export const getProjectApiKeys = async (
+  projectId: string
+): Promise<Rsp<{}>> => {
+  const { data } = await api.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + '/generateAPIKey',
+    {
+      project_id: projectId,
+    }
+  )
+  return data
+}

@@ -1,16 +1,39 @@
-import { ReactNode, useEffect } from 'react'
+import { FunctionComponent, ReactNode, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Head from 'next/head'
 import { useRouter } from 'next/navigation'
 import { toast, Toaster } from 'react-hot-toast'
+import tw from 'twin.macro'
 
 import { getFollowProjectApi, getMyProjectsApi } from '@/app/api/client/project'
 import { getUserApi } from '@/app/api/client/user'
 import Header from '@/components/header'
+import ControlPanel from '@/modules/new-quest/control-panel'
 import { GlobalStoreModel } from '@/store/store'
 import { Html, Main } from '@/styles/layout.style'
 import { getAccessToken, getRefreshToken, setUserLocal } from '@/utils/helper'
+import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
+
+import ProjectSide from './sidebar'
+
+const Wrap = tw(Horizontal)`
+  min-h-screen
+  pt-[70px]
+`
+
+const MainPanel = tw(Horizontal)`
+  pl-[70px]
+  max-lg:pr-0
+  max-lg:pl-[80px]
+  w-full
+`
+
+const Content = tw(VerticalFullWidth)`
+  items-start
+  pl-80
+  pb-6
+`
 
 export const LayoutDefault = ({ children }: { children: ReactNode }) => {
   const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
@@ -123,5 +146,21 @@ export const Layout = ({ children }: { children: ReactNode }) => {
         <Toaster position='top-center' reverseOrder={false} />
       </body>
     </Html>
+  )
+}
+
+export const PanelLayout: FunctionComponent<{
+  projectId: string
+  active: number
+  children: ReactNode
+}> = ({ projectId, active, children }) => {
+  return (
+    <Wrap>
+      <ProjectSide projectId={projectId} />
+      <MainPanel>
+        <ControlPanel projectId={projectId} active={active} />
+        <Content>{children}</Content>
+      </MainPanel>
+    </Wrap>
   )
 }

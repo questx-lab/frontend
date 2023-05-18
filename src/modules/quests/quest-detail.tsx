@@ -257,7 +257,6 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
 
 export const QuestDetail: FunctionComponent<{
   quest: QuestType
-  onClose: () => void
 }> = ({ quest }) => {
   return (
     <QuestDetailWrap>
