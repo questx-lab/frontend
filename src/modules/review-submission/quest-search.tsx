@@ -1,5 +1,6 @@
-import { Fragment, FunctionComponent, useEffect } from 'react'
+'use client'
 
+import { Fragment, FunctionComponent, useEffect } from 'react'
 import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
@@ -106,7 +107,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
 
   const getQuests = async () => {
     try {
-      const data = await listQuestApi(projectId)
+      const data = await listQuestApi(projectId, '')
       if (data.error) {
         toast.error(data.error)
       }

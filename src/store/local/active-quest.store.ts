@@ -1,6 +1,5 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { ProjectRoleEnum } from '@/constants/project.const'
 import { QuestType } from '@/types/project.type'
 
 export interface ActiveQuestModel {
