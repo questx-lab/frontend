@@ -1,7 +1,8 @@
-import { Horizontal, Vertical } from '@/widgets/orientation'
 import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
 export const CheckboxSession = tw(Horizontal)`
   gap-2
@@ -39,38 +40,6 @@ export const DivideBox = tw(Vertical)`
   w-full
   divide-y
 `
-
-export const SocialBox = styled.div<{ active?: boolean }>(
-  ({ active = false }) => [
-    !active &&
-      tw`
-    flex
-    flex-row
-    border
-    border-solid
-    border-gray-300
-    rounded-lg
-    py-2
-    px-4
-    gap-2
-    bg-white
-    justify-center
-    items-center
-  `,
-    active &&
-      tw`
-    flex
-    flex-row
-    rounded-lg
-    py-2
-    px-4
-    gap-2
-    bg-primary-100
-    justify-center
-    items-center
-  `,
-  ]
-)
 
 export const Wrap = tw(Horizontal)`
   min-h-screen
@@ -131,6 +100,7 @@ export const OptionWrap = tw(Vertical)`
   py-4
   px-6
   gap-3
+  w-full
 `
 
 export const Option = styled.div<{ active?: boolean }>(({ active = false }) => [
@@ -150,6 +120,7 @@ export const Option = styled.div<{ active?: boolean }>(({ active = false }) => [
         font-medium
         text-primary-500
         gap-2
+        w-full
       `
     : tw`
         px-3
@@ -166,6 +137,7 @@ export const Option = styled.div<{ active?: boolean }>(({ active = false }) => [
         font-medium
         text-gray-700
         gap-2
+        w-full
       `,
 ])
 
