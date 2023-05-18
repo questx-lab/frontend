@@ -22,11 +22,15 @@ export const newQuestApi = async (
 }
 
 export const listQuestApi = async (
-  projectId: string
+  projectId: string,
+  search: string
 ): Promise<Rsp<LQuestType>> => {
+  if (search == undefined) {
+    search = ''
+  }
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getListQuest?project_id=${projectId}&limit=40`
+      `/getListQuest?project_id=${projectId}&limit=40&q=${search}`
   )
   return data
 }

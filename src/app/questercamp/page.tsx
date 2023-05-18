@@ -1,54 +1,87 @@
 'use client'
 
-import { Layout } from '@/components/layout'
-import ProjectSide from '@/components/sidebar'
-import { QuestCard } from '@/modules/project/quest-card'
-import { Gap } from '@/styles/common.style'
-import {
-  Description,
-  FilterBox,
-  Main,
-  Title,
-  Wrap,
-  WrapQuestboard,
-} from '@/styles/questboard.style'
+import tw from 'twin.macro'
+
+import { listQuestApi } from '@/app/api/client/quest'
+import { QuestListView } from '@/modules/quests/quest-list'
+import { ActiveQuestStore } from '@/store/local/active-quest.store'
+import { CommunityStore } from '@/store/local/community.store'
+import { Divider } from '@/styles/common.style'
+import { TitleCreatedProject } from '@/styles/myProjects.style'
+import { TitleBox, WrapQuestboard } from '@/styles/questboard.style'
 import { QuestType } from '@/types/project.type'
+import { MainLayout } from '@/widgets/main-layout'
+import { Horizontal, Vertical } from '@/widgets/orientation'
+import { SearchInput } from '@/widgets/search-input'
+import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
+import { useEffect, useState } from 'react'
 
-export default function Questboard() {
-  const handleOnClick = (quest: QuestType) => {}
+const FSearchWrap = tw(Horizontal)`
+  w-full gap-3 py-3
+`
 
-  const dummyQuest = {}
+const FWrap = tw(Vertical)`
+  py-2
+`
+const FFitlerBox = tw(Horizontal)`
+  gap-3
+  border
+  border-solid
+  border-gray-300
+  py-2 px-3
+  rounded-lg
+  items-center
+`
 
-  const listQuestboards = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((e, i) => (
-    <QuestCard
-      key={i}
-      quest={dummyQuest}
-      isTemplate={false}
-      manage={true}
-      onClick={handleOnClick}
-    />
-  ))
+const Main = tw(Vertical)`
+  px-[120px]
+  pb-[30px]
+  max-xl:px-[100px]
+`
+
+export default function QuestCamp() {
+  const [quests, setQuests] = useState<QuestType[]>([])
+
+  const setQuery = async (value: string) => {
+    const data = await listQuestApi('', value)
+    if (data && data.data) {
+      setQuests(data.data.quests)
+    }
+  }
+
+  useEffect(() => {
+    setQuery('')
+  }, [])
 
   return (
-    <Layout>
-      <header>
-        <title>{'Questboard'}</title>
-      </header>
-      <Wrap>
-        <ProjectSide />
-        <Main>
-          <Title>{'Questboard (Show all Quests)'}</Title>
-          <Gap />
-          <Description>
-            {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sem eros, scelerisque' +
-              ' sed ultricies at, egestas quis dolor'}
-          </Description>
-          <Gap />
-          <FilterBox>{'Filter / Sort'}</FilterBox>
-          <Gap />
-          <WrapQuestboard>{listQuestboards}</WrapQuestboard>
-        </Main>
-      </Wrap>
-    </Layout>
+    <MainLayout>
+      <TitleBox>
+        <TitleCreatedProject>{'👋 Communities'}</TitleCreatedProject>
+      </TitleBox>
+      <Divider />
+
+      <Main>
+        <FWrap>
+          <FSearchWrap>
+            <SearchInput
+              hint={'Search Community'}
+              onChanged={(value) => setQuery(value)}
+            />
+            <FFitlerBox>
+              <AdjustmentsHorizontalIcon className='w-5 h-5' />
+              {'Filter'}
+            </FFitlerBox>
+          </FSearchWrap>
+        </FWrap>
+      </Main>
+
+      <WrapQuestboard>
+        <CommunityStore.Provider>
+          <ActiveQuestStore.Provider>
+            <QuestListView questList={quests} />
+          </ActiveQuestStore.Provider>
+        </CommunityStore.Provider>
+      </WrapQuestboard>
+    </MainLayout>
   )
 }

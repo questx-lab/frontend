@@ -48,7 +48,7 @@ export default function QuestBoardTab() {
     try {
       const id = pathName?.split('/').at(-1)
       if (id) {
-        const data = await listQuestApi(id)
+        const data = await listQuestApi(id, '')
         if (data.error) {
           toast.error(data.error)
         }

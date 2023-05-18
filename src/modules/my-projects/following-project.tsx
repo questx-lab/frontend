@@ -4,25 +4,14 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
-import { useDebouncedCallback } from 'use-debounce'
 
 import { listProjectsApi } from '@/app/api/client/project'
 import { CommunityStore } from '@/store/local/community.store'
-import {
-  AdjustmentsHorizontalIcon,
-  MagnifyingGlassIcon,
-} from '@heroicons/react/24/outline'
+import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 
-import ProjectBox from '../project/project-box'
 import { Horizontal, Vertical } from '@/widgets/orientation'
-
-const FSearchInput = tw.input`
-  border-0
-  ring-0
-  outline-none
-  text-lg
-  w-full
-`
+import { SearchInput } from '@/widgets/search-input'
+import ProjectBox from '../project/project-box'
 
 const FFitlerBox = tw(Horizontal)`
   gap-3
@@ -32,19 +21,6 @@ const FFitlerBox = tw(Horizontal)`
   py-2 px-3
   rounded-lg
   items-center
-`
-
-const FSearchBox = tw(Horizontal)`
-  gap-3
-  border
-  border-solid
-  border-gray-300
-  py-2
-  px-3
-  justify-start
-  items-center
-  w-full
-  rounded-lg
 `
 
 const FSearchWrap = tw(Horizontal)`
@@ -94,11 +70,6 @@ export default function FollowingProject() {
     }
   }, [query])
 
-  // Handler
-  const debounced = useDebouncedCallback((value) => {
-    setQuery(value)
-  }, 500)
-
   const fetchListProjects = async (query: string = '', isSearch = false) => {
     try {
       if (isSearch) {
@@ -134,14 +105,10 @@ export default function FollowingProject() {
   return (
     <FWrap>
       <FSearchWrap>
-        <FSearchBox>
-          <MagnifyingGlassIcon className='w-5 h-5 text-gray-500' />
-          <FSearchInput
-            className='border-0 ring-0 outline-none text-lg'
-            placeholder='Search Community'
-            onChange={(e) => debounced(e.target.value)}
-          />
-        </FSearchBox>
+        <SearchInput
+          hint={'Search Community'}
+          onChanged={(value) => setQuery(value)}
+        />
         <FFitlerBox>
           <AdjustmentsHorizontalIcon className='w-5 h-5' />
           {'Filter'}

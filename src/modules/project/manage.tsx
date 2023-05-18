@@ -46,7 +46,7 @@ export default function ManageProject() {
 
   const getQuests = async () => {
     try {
-      const data = await listQuestApi(project.id)
+      const data = await listQuestApi(project.id, '')
       if (data.error) {
         toast.error(data.error)
       }

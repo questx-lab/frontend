@@ -3,22 +3,16 @@ import { FunctionComponent, useState } from 'react'
 
 import tw from 'twin.macro'
 
-import { Layout } from '@/components/layout'
-import ProjectSide from '@/components/sidebar'
 import FollowingProject from '@/modules/my-projects/following-project'
 import CreateProject from '@/modules/project/create-community'
 import { CommunityStore } from '@/store/local/community.store'
 import { Divider } from '@/styles/common.style'
 import { TitleCreatedProject } from '@/styles/myProjects.style'
 import { ModalBox } from '@/styles/quest-review.style'
+import { MainLayout } from '@/widgets/main-layout'
 import { BaseModal } from '@/widgets/modal'
-import { PlusIcon } from '@heroicons/react/24/outline'
 import { Horizontal, Vertical } from '@/widgets/orientation'
-
-const Wrap = tw(Vertical)`
-  min-h-screen
-  pt-[70px]
-`
+import { PlusIcon } from '@heroicons/react/24/outline'
 
 const Main = tw(Vertical)`
   px-[120px]
@@ -65,28 +59,23 @@ export default function MyProjects() {
   const [isOpen, setOpen] = useState<boolean>(false)
 
   return (
-    <Layout>
-      <header>
-        <title>{'My Projects'}</title>
-      </header>
-      <Wrap>
-        <ProjectSide />
-        <TitleBox>
-          <TitleCreatedProject>{'👋 Communities'}</TitleCreatedProject>
-          <CreateCommunity setOpen={setOpen} />
-        </TitleBox>
-        <Divider />
-        <Main>
-          <CommunityStore.Provider>
-            <FollowingProject />
-          </CommunityStore.Provider>
-        </Main>
-        <BaseModal isOpen={isOpen}>
-          <ModalBox>
-            <CreateProject setOpen={setOpen} />
-          </ModalBox>
-        </BaseModal>
-      </Wrap>
-    </Layout>
+    <MainLayout>
+      <TitleBox>
+        <TitleCreatedProject>{'👋 Communities'}</TitleCreatedProject>
+        <CreateCommunity setOpen={setOpen} />
+      </TitleBox>
+      <Divider />
+      <Main>
+        <CommunityStore.Provider>
+          <FollowingProject />
+        </CommunityStore.Provider>
+      </Main>
+
+      <BaseModal isOpen={isOpen}>
+        <ModalBox>
+          <CreateProject setOpen={setOpen} />
+        </ModalBox>
+      </BaseModal>
+    </MainLayout>
   )
 }
