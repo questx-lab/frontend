@@ -10,7 +10,11 @@ import { Divider } from '@/styles/common.style'
 import { ImageQuestBox } from '@/styles/questboard.style'
 import { Badge, InfoText } from '@/styles/settings.style'
 import { UserType } from '@/types/account.type'
-import { Horizontal, Vertical } from '@/widgets/orientation'
+import {
+  Horizontal,
+  HorizontalBetweenCenter,
+  Vertical,
+} from '@/widgets/orientation'
 
 const Wrap = tw.div`
   w-full
@@ -103,6 +107,7 @@ const Session = tw.div`
   border-solid
   border-gray-300
   rounded-lg
+  w-full
 `
 
 const TitleBox = tw(Horizontal)`
@@ -131,9 +136,8 @@ const BadgeBox = tw.div`
   cursor-pointer
 `
 
-const RankWrap = tw(Horizontal)`
-  justify-between
-  items-center
+const RankWrap = tw(HorizontalBetweenCenter)`
+  w-full
   p-6
 `
 

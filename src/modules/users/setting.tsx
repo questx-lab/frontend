@@ -9,16 +9,17 @@ import { General } from '@/modules/users/setting-general'
 import { UserStore } from '@/store/local/user.store'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types/account.type'
+
 import {
   Asside,
   Avatar,
   LvBox,
   Main,
   NameText,
+  Option,
   OptionWrap,
   PersonWrap,
   Wrap,
-  Option,
 } from './style'
 
 enum TabEnum {

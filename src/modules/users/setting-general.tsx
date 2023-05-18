@@ -3,11 +3,13 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
 import { getUserApi, updateUserApi } from '@/app/api/client/user'
-import { SocialDisplayMap } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
 import { UserStore } from '@/store/local/user.store'
 import { GlobalStoreModel } from '@/store/store'
@@ -15,14 +17,10 @@ import { UserType } from '@/types/account.type'
 import { setUserLocal } from '@/utils/helper'
 import { NegativeButton, PositiveButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
-import { Horizontal } from '@/widgets/orientation'
 import { PrimaryText } from '@/widgets/text'
-import { WalletIcon } from '@heroicons/react/24/outline'
-import { Checkbox } from '@material-tailwind/react'
 
 import {
   ButtonBox,
-  CheckboxSession,
   ColBox,
   ContentBox,
   Description,
@@ -31,8 +29,139 @@ import {
   Label,
   ProfileSession,
   RowBox,
-  SocialBox,
 } from './style'
+
+enum SocialType {
+  DISCORD = 'discord',
+  TWITTER = 'twitter',
+  GOOGLE = 'google',
+  METAMASK = 'wallet',
+}
+
+const SocialBox = styled.div<{ active?: boolean }>(({ active = false }) => [
+  !active &&
+    tw`
+    flex
+    flex-row
+    border
+    border-solid
+    border-gray-300
+    rounded-lg
+    py-2
+    px-4
+    gap-2
+    bg-white
+    justify-center
+    items-center
+    cursor-pointer
+  `,
+  active &&
+    tw`
+    flex
+    flex-row
+    rounded-lg
+    py-2
+    px-4
+    gap-2
+    bg-primary-100
+    justify-center
+    items-center
+  `,
+])
+
+const SocialText = tw.div`
+  max-w-sm
+  text-ellipsis
+  overflow-hidden
+  text-lg
+  font-normal
+  text-gray-700
+`
+
+const SocialConnect: FunctionComponent<{
+  logoSrc: string
+  logoAlt: string
+  type: string
+}> = ({ logoSrc, logoAlt, type }) => {
+  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+
+  const signInTwitter = async () => {
+    await signIn('twitter')
+  }
+
+  const signInDiscord = async () => {
+    await signIn('discord')
+  }
+
+  const signInGoogle = async () => {
+    await signIn('google')
+  }
+
+  switch (type) {
+    case SocialType.DISCORD: // Discord
+      if (user.services?.discord) {
+        return (
+          <SocialBox active>
+            <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
+            <SocialText>{user.services?.discord}</SocialText>
+          </SocialBox>
+        )
+      }
+      return (
+        <SocialBox onClick={signInDiscord}>
+          <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
+          <SocialText>{`Connect ${type}`}</SocialText>
+        </SocialBox>
+      )
+    case SocialType.TWITTER: // Twitter
+      if (user.services?.twitter) {
+        return (
+          <SocialBox active>
+            <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
+            <SocialText>{user.services?.twitter}</SocialText>
+          </SocialBox>
+        )
+      }
+      return (
+        <SocialBox onClick={signInTwitter}>
+          <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
+          <SocialText>{`Connect ${type}`}</SocialText>
+        </SocialBox>
+      )
+
+    case SocialType.GOOGLE: // Google
+      if (user.services?.google) {
+        return (
+          <SocialBox active>
+            <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
+            <SocialText>{user.services?.google}</SocialText>
+          </SocialBox>
+        )
+      }
+      return (
+        <SocialBox onClick={signInGoogle}>
+          <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
+          <SocialText>{`Connect ${type}`}</SocialText>
+        </SocialBox>
+      )
+
+    default: // Metamask
+      if (user.address !== '') {
+        return (
+          <SocialBox active>
+            <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
+            <SocialText>{user.address}</SocialText>
+          </SocialBox>
+        )
+      }
+      return (
+        <SocialBox>
+          <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
+          <SocialText>{`Connect ${type}`}</SocialText>
+        </SocialBox>
+      )
+  }
+}
 
 export const General: FunctionComponent = () => {
   // data
@@ -40,7 +169,6 @@ export const General: FunctionComponent = () => {
   const username = UserStore.useStoreState((state) => state.username)
   const inviteCode = UserStore.useStoreState((state) => state.inviteCode)
   const metamask = UserStore.useStoreState((state) => state.metamask)
-  const socialDisplay = UserStore.useStoreState((state) => state.socialDisplay)
 
   // action
   const setUsername = UserStore.useStoreActions((action) => action.setUsername)
@@ -48,9 +176,6 @@ export const General: FunctionComponent = () => {
     (action) => action.setInviteCode
   )
   const setMetaMask = UserStore.useStoreActions((action) => action.setMetaMask)
-  const setSocialDisplay = UserStore.useStoreActions(
-    (action) => action.setSocialDisplay
-  )
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   // hook
@@ -62,21 +187,6 @@ export const General: FunctionComponent = () => {
   }, [user])
 
   // handler
-  const renderSocialDisplay = Array.from(SocialDisplayMap.values()).map(
-    (value, i) => (
-      <CheckboxSession key={i}>
-        <Checkbox
-          onChange={(e) => {
-            if (e.target.checked) {
-              setSocialDisplay(i)
-            }
-          }}
-          checked={socialDisplay === i}
-        />
-        {value}
-      </CheckboxSession>
-    )
-  )
   const handleSubmit = async () => {
     setLoading(true)
     try {
@@ -126,37 +236,26 @@ export const General: FunctionComponent = () => {
               <PrimaryText>{'*Max 5.0MB, Size 200x200px'}</PrimaryText>
             </ColBox>
             <ColBox>
-              <SocialBox active>
-                <Image
-                  width={30}
-                  height={30}
-                  src={StorageConst.DISCORD_DIR.src}
-                  alt={StorageConst.DISCORD_DIR.alt}
-                />
-                {'LinnLinn2411#3662'}
-              </SocialBox>
-              <SocialBox active>
-                <Image
-                  width={30}
-                  height={30}
-                  src={StorageConst.TWITTER_DIR.src}
-                  alt={StorageConst.TWITTER_DIR.alt}
-                />
-                {'Linn_Linn_2411'}
-              </SocialBox>
-              <SocialBox active>
-                <Image
-                  width={30}
-                  height={30}
-                  src={StorageConst.GOOGLE_DIR.src}
-                  alt={StorageConst.GOOGLE_DIR.alt}
-                />
-                {'linnlinn2411@gmail.com'}
-              </SocialBox>
-              <SocialBox>
-                <WalletIcon className='w-7 h-7' />
-                {'Connect wallet'}
-              </SocialBox>
+              <SocialConnect
+                logoAlt={StorageConst.DISCORD_DIR.src}
+                logoSrc={StorageConst.DISCORD_DIR.src}
+                type={SocialType.DISCORD}
+              />
+              <SocialConnect
+                logoAlt={StorageConst.TWITTER_DIR.src}
+                logoSrc={StorageConst.TWITTER_DIR.src}
+                type={SocialType.TWITTER}
+              />
+              <SocialConnect
+                logoAlt={StorageConst.GOOGLE_DIR.src}
+                logoSrc={StorageConst.GOOGLE_DIR.src}
+                type={SocialType.GOOGLE}
+              />
+              <SocialConnect
+                logoAlt={StorageConst.METAMASK_DIR.src}
+                logoSrc={StorageConst.METAMASK_DIR.src}
+                type={SocialType.METAMASK}
+              />
             </ColBox>
           </RowBox>
         </ProfileSession>
@@ -171,13 +270,6 @@ export const General: FunctionComponent = () => {
           <Description>
             {'Please add your address so we can send you rewards.'}
           </Description>
-        </ProfileSession>
-        <ProfileSession>
-          <Label>{'PUBLIC PROFILE INFORMATION'}</Label>
-          <Description>
-            {'Choose which information to display on your XQuest profile'}
-          </Description>
-          <Horizontal>{renderSocialDisplay}</Horizontal>
         </ProfileSession>
         <ProfileSession>
           <ButtonBox>
