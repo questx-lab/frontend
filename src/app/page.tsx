@@ -62,8 +62,6 @@ export default function Home() {
     return <></>
   }
 
-  console.log('home')
-
   return (
     <Layout>
       <header>
