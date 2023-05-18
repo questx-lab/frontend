@@ -10,7 +10,6 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { getUserApi, updateUserApi } from '@/app/api/client/user'
-import { SocialDisplayMap } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
 import { UserStore } from '@/store/local/user.store'
 import { GlobalStoreModel } from '@/store/store'
@@ -18,13 +17,10 @@ import { UserType } from '@/types/account.type'
 import { setUserLocal } from '@/utils/helper'
 import { NegativeButton, PositiveButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
-import { Horizontal } from '@/widgets/orientation'
 import { PrimaryText } from '@/widgets/text'
-import { Checkbox } from '@material-tailwind/react'
 
 import {
   ButtonBox,
-  CheckboxSession,
   ColBox,
   ContentBox,
   Description,
@@ -173,7 +169,6 @@ export const General: FunctionComponent = () => {
   const username = UserStore.useStoreState((state) => state.username)
   const inviteCode = UserStore.useStoreState((state) => state.inviteCode)
   const metamask = UserStore.useStoreState((state) => state.metamask)
-  const socialDisplay = UserStore.useStoreState((state) => state.socialDisplay)
 
   // action
   const setUsername = UserStore.useStoreActions((action) => action.setUsername)
@@ -181,9 +176,6 @@ export const General: FunctionComponent = () => {
     (action) => action.setInviteCode
   )
   const setMetaMask = UserStore.useStoreActions((action) => action.setMetaMask)
-  const setSocialDisplay = UserStore.useStoreActions(
-    (action) => action.setSocialDisplay
-  )
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   // hook
@@ -195,21 +187,6 @@ export const General: FunctionComponent = () => {
   }, [user])
 
   // handler
-  const renderSocialDisplay = Array.from(SocialDisplayMap.values()).map(
-    (value, i) => (
-      <CheckboxSession key={i}>
-        <Checkbox
-          onChange={(e) => {
-            if (e.target.checked) {
-              setSocialDisplay(i)
-            }
-          }}
-          checked={socialDisplay === i}
-        />
-        {value}
-      </CheckboxSession>
-    )
-  )
   const handleSubmit = async () => {
     setLoading(true)
     try {
@@ -293,13 +270,6 @@ export const General: FunctionComponent = () => {
           <Description>
             {'Please add your address so we can send you rewards.'}
           </Description>
-        </ProfileSession>
-        <ProfileSession>
-          <Label>{'PUBLIC PROFILE INFORMATION'}</Label>
-          <Description>
-            {'Choose which information to display on your XQuest profile'}
-          </Description>
-          <Horizontal>{renderSocialDisplay}</Horizontal>
         </ProfileSession>
         <ProfileSession>
           <ButtonBox>
