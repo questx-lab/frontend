@@ -50,9 +50,9 @@ ingress:
   # kubernetes.io/tls-acme: "true"
   hosts:
     - host: frontend.tekgo.asia
-      # paths:
-      #   - path: /
-      #     pathType: ImplementationSpecific
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
