@@ -10,9 +10,9 @@ import { NavBarEnum } from '@/constants/key.const'
 import { AuthEnum } from '@/constants/project.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
+import InviteCommunity from '@/modules/community/invite-community'
 import AuthType from '@/modules/login/auth-type'
 import Login from '@/modules/login/login'
-import InviteCommunity from '@/modules/community/invite-community'
 import { LoginStore } from '@/store/local/login.store'
 import { GlobalStoreModel } from '@/store/store'
 import { AuthBox, LoginBtn, MenuBtn, SignUpBtn } from '@/styles/button.style'
@@ -41,7 +41,7 @@ import { ModalBox } from '@/styles/modal.style'
 import { UserType } from '@/types/account.type'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
 import { BaseModal, BasicModal } from '@/widgets/modal'
-import { Horizontal, Vertical } from '@/widgets/orientation'
+import { HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Popover } from '@headlessui/react'
 import { GiftIcon } from '@heroicons/react/24/outline'
 
@@ -82,8 +82,9 @@ const LvBox = tw.div`
   items-center
 `
 
-const RowBox = tw(Horizontal)`
+const RowBox = tw(HorizontalCenter)`
   gap-1
+
 `
 
 const OptionxBox = tw.div`
@@ -94,7 +95,7 @@ const OptionxBox = tw.div`
   p-2
   px-3
   rounded-lg
-  hover:bg-gray-100
+  hover:bg-primary-100
 `
 
 const UserPopover: FunctionComponent = () => {
@@ -269,7 +270,7 @@ const NavBarBox: FunctionComponent<{
   return <></>
 }
 
-const Header: FunctionComponent = () => {
+const Header: FunctionComponent<{ isApp?: boolean }> = ({ isApp = true }) => {
   const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
 
   const router = useRouter()
@@ -313,7 +314,7 @@ const Header: FunctionComponent = () => {
 
   return (
     <>
-      <Wrap>
+      <Wrap isApp={isApp}>
         <LeftSession>
           <BoxLink>
             <LinkText href={RouterConst.COMMUNITIES}>

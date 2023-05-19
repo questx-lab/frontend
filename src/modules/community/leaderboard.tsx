@@ -11,12 +11,14 @@ import {
   LeaderboardRangeEnum,
   LeaderboardRangeMap,
 } from '@/constants/project.const'
+import { StorageConst } from '@/constants/storage.const'
 import { CommunityStore } from '@/store/local/community.store'
 import { LeaderboardStore } from '@/store/local/leaderboard.store'
 import { PointText } from '@/styles/questboard.style'
 import { LeaderboardType } from '@/types/project.type'
+import { Horizontal, VerticalCenter } from '@/widgets/orientation'
+import { NormalText } from '@/widgets/text'
 import { Tab } from '@headlessui/react'
-import { Horizontal } from '@/widgets/orientation'
 
 export const TabWrap = tw.div`
   w-[350px]
@@ -82,6 +84,11 @@ export const Avatar = styled(Image)(
 `
 )
 
+const EmptyBox = tw(VerticalCenter)`
+  w-full
+  p-3
+`
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
@@ -106,6 +113,10 @@ const RenderList: FunctionComponent<{ data: LeaderboardType[] }> = ({
       </Item>
     ))
 
+  if (!data.length) {
+    return <Empty />
+  }
+
   return <>{reanderItems}</>
 }
 
@@ -126,6 +137,24 @@ const RenderLeaderboard: FunctionComponent<{
   }
 
   return <RenderList data={week} />
+}
+
+const Empty: FunctionComponent = () => {
+  return (
+    <EmptyBox>
+      <Image
+        width={300}
+        height={300}
+        src={StorageConst.HUSKY.src}
+        alt={StorageConst.HUSKY.alt}
+      />
+      <NormalText className='text-center'>
+        {
+          'There is no information about the leaderboard yet. Create more quests and connect users to have this leaderboard.'
+        }
+      </NormalText>
+    </EmptyBox>
+  )
 }
 
 const Leaderboard: FunctionComponent = () => {

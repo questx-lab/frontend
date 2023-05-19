@@ -7,7 +7,6 @@ import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
-import { Divider } from '@/styles/common.style'
 import { BoxContent, CircleRouded, Wrap } from '@/styles/sidebar.style'
 import { CollaboratorType, ProjectType } from '@/types/project.type'
 import { Tooltip } from '@material-tailwind/react'
@@ -45,6 +44,10 @@ const RenderFollowItems: FunctionComponent<{
       </Tooltip>
     ))
 
+  if (!projects.length) {
+    return <></>
+  }
+
   return <BoxContent>{listItems}</BoxContent>
 }
 
@@ -69,24 +72,34 @@ const RenderCollabItems: FunctionComponent<{
       </Tooltip>
     ))
 
+  if (!collaborator.length) {
+    return <></>
+  }
+
   return <BoxContent>{listItems}</BoxContent>
 }
 const ProjectSide: FunctionComponent<{ projectId?: string }> = ({
   projectId,
 }) => {
-  const projectsFollowing = useStoreState<GlobalStoreModel>(
+  const projectsFollowing: ProjectType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectsFollowing
   )
   const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
 
-  const projectCollab = useStoreState<GlobalStoreModel>(
+  const projectCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectCollab
   )
 
+  if (
+    !isLogin ||
+    (projectsFollowing.length === 0 && projectCollab.length === 0)
+  ) {
+    return <></>
+  }
+
   return (
-    <Wrap isShow={isLogin}>
+    <Wrap>
       <RenderCollabItems projectId={projectId} collaborator={projectCollab} />
-      <Divider />
       <RenderFollowItems projectId={projectId} projects={projectsFollowing} />
     </Wrap>
   )

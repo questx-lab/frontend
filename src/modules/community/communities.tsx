@@ -1,16 +1,19 @@
 'use client'
 import { FunctionComponent, useEffect, useState } from 'react'
 
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { listProjectsApi } from '@/app/api/client/project'
+import { StorageConst } from '@/constants/storage.const'
 import { CommunityStore } from '@/store/local/community.store'
+import { Horizontal, Vertical, VerticalCenter } from '@/widgets/orientation'
+import { SearchInput } from '@/widgets/search-input'
+import { NormalText } from '@/widgets/text'
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 
-import { Horizontal, Vertical } from '@/widgets/orientation'
-import { SearchInput } from '@/widgets/search-input'
 import CommunityBox from './community-box'
 
 const FFitlerBox = tw(Horizontal)`
@@ -28,6 +31,7 @@ const FSearchWrap = tw(Horizontal)`
 `
 
 const FWrap = tw(Vertical)`
+  w-full
   py-2
 `
 
@@ -38,6 +42,11 @@ const WrapProjects = tw.div`
   max-2xl:grid-cols-3
   max-xl:grid-cols-2
   max-sm:grid-cols-1
+  w-full
+`
+
+const EmptyBox = tw(VerticalCenter)`
+  w-full
 `
 
 export default function Communities() {
@@ -100,6 +109,24 @@ export default function Communities() {
     }
 
     return <WrapProjects>{projectsList}</WrapProjects>
+  }
+
+  if (!projects.length) {
+    return (
+      <EmptyBox>
+        <Image
+          width={300}
+          height={300}
+          src={StorageConst.HUSKY.src}
+          alt={StorageConst.HUSKY.alt}
+        />
+        <NormalText>
+          {
+            "Ohhh! This doesn't have any communities yet. Please follow and come back at a later time."
+          }
+        </NormalText>
+      </EmptyBox>
+    )
   }
 
   return (

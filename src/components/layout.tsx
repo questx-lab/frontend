@@ -52,7 +52,13 @@ export const LayoutDefault = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export const Layout = ({ children }: { children: ReactNode }) => {
+export const Layout = ({
+  children,
+  isApp = true,
+}: {
+  children: ReactNode
+  isApp?: boolean
+}) => {
   // data
   const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
   const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
@@ -155,7 +161,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       <body>
         <Main>
           <div className='overflow-scroll'>{children}</div>
-          <Header />
+          <Header isApp={isApp} />
         </Main>
         <Toaster position='top-center' reverseOrder={false} />
       </body>

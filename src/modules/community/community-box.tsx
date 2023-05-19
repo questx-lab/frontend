@@ -108,11 +108,7 @@ const CommunityBox: FunctionComponent<{ project: ProjectType }> = ({
             <PbInfoBox>{'8 Quests'}</PbInfoBox>
             <PbInfoBox>{'8 Quests'}</PbInfoBox>
           </PbInfo>
-          <PbDes>
-            {'Swap platform on Sui blockchain.  Every XP you get in CREW3 can be used to redeem ' +
-              'Suiswap token airdrops Swap platform on Sui blockchain.  Every XP you get in CREW3 ' +
-              'can be used to redeem Suiswap token airdrops'}
-          </PbDes>
+          <PbDes>{project.introduction}</PbDes>
         </ContentProjectBox>
       </PTopBox>
       <PBottomBox>

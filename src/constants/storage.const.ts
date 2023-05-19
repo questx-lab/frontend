@@ -83,4 +83,28 @@ export const StorageConst = {
     src: '/images/icons/coin.svg',
     alt: 'Coin',
   },
+  EARN_REWARD: {
+    src: '/images/logos/earn_reward.svg',
+    alt: 'logo',
+  },
+  JOIN_COMMUNITY: {
+    src: '/images/logos/join_community.svg',
+    alt: 'logo',
+  },
+  X_A_QUEST: {
+    src: '/images/logos/x_a_quest.svg',
+    alt: 'logo',
+  },
+  BACKGROUND: {
+    src: '/images/logos/bg.png',
+    alt: 'Background',
+  },
+  CHICKEN: {
+    src: '/images/logos/chicken.svg',
+    alt: 'Chicken',
+  },
+  HUSKY: {
+    src: '/images/logos/husky.svg',
+    alt: 'Husky',
+  },
 }

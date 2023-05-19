@@ -1,5 +1,6 @@
 'use client'
 import './globals.css'
+import 'react-multi-carousel/lib/styles.css'
 
 import { ReactNode } from 'react'
 

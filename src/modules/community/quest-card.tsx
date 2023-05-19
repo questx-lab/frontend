@@ -1,6 +1,7 @@
 'use client'
 import { FunctionComponent } from 'react'
 
+import parseHtml from 'html-react-parser'
 import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -88,7 +89,7 @@ export const QuestCard: FunctionComponent<{
       <StartBoarding>
         <TitleQuestBox>{quest.title}</TitleQuestBox>
         <Gap height={4} />
-        <DesQ>{quest.description}</DesQ>
+        <DesQ>{parseHtml(quest.description ?? '')}</DesQ>
       </StartBoarding>
 
       <EndBoarding>

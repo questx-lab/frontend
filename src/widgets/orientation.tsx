@@ -49,6 +49,13 @@ export const VerticalCenter = tw.div`
   items-center
 `
 
+export const VerticalStart = tw.div`
+  flex
+  flex-col
+  justify-start
+  items-start
+`
+
 export const VerticalFullWidth = tw(Vertical)`
   w-full
   flex
