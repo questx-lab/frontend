@@ -115,8 +115,8 @@ const CarouselCommunity: FunctionComponent<{
           <Image
             width={300}
             height={300}
-            src={StorageConst.HUSKY.src}
-            alt={StorageConst.HUSKY.alt}
+            src={StorageConst.CHICKEN.src}
+            alt={StorageConst.CHICKEN.alt}
           />
           <NormalText>
             {
