@@ -189,7 +189,7 @@ export const NavUnderline = tw.div`
 
 export const PopWrap = styled(Popover)(tw`
   relative
-  z-[1001]
+  z-10
 `)
 
 export const PopPanel = styled(Popover.Panel)(tw`
