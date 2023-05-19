@@ -170,14 +170,12 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({
       })
     }
   }
-  console.log(user.address)
-  console.log(referral.total_claimable_projects)
+
   if (
     user.address !== '' &&
     referral.total_claimable_projects &&
     referral.total_claimable_projects !== 0
   ) {
-    console.log('dung vao day r')
     block = false
   }
 
