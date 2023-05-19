@@ -21,7 +21,7 @@ import {
   ChevronRightIcon,
 } from '@heroicons/react/24/outline'
 
-import { listProjectsApi } from '@/app/api/client/project'
+import { listProjectsApi as listCommunities } from '@/app/api/client/project'
 import { MoonLoader } from 'react-spinners'
 import CommunityBox from './community-box'
 
@@ -104,13 +104,13 @@ const CommunityList: FunctionComponent = () => {
   const [communities, setCommunities] = useState<ProjectType[]>([])
 
   useEffect(() => {
-    fetchListProjects()
+    fetchCommunityList()
   }, [])
 
-  const fetchListProjects = async () => {
+  const fetchCommunityList = async () => {
     setLoading(true)
     try {
-      const list = await listProjectsApi(0, 50)
+      const list = await listCommunities(0, 50)
       setCommunities(list.data!.projects)
     } catch (error) {
       // TODO: show error (not toast) to indicate that the communities cannot be loaded.
