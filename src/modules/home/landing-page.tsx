@@ -50,13 +50,13 @@ const InfoBox = tw(VerticalCenter)`
   gap-4
 `
 
-const TitleText = tw.span`
+const Title = tw.span`
   text-7xl
   font-medium
   text-gray-900
 `
 
-const DescriptionText = tw(LargeText)`
+const Description = tw(LargeText)`
   text-gray-700
   font-normal
 `
@@ -108,13 +108,13 @@ const LandingPage: FunctionComponent = () => {
         <HeadWrap>
           <HeadBox>
             <InfoBox>
-              <TitleText>{'X a Quests,'}</TitleText>
-              <TitleText>{'Earn Rewards'}</TitleText>
-              <DescriptionText>
+              <Title>{'X a Quests,'}</Title>
+              <Title>{'Earn Rewards'}</Title>
+              <Description>
                 {
                   'XQuest is the best way to help community projects while earning incredible rewards.'
                 }
-              </DescriptionText>
+              </Description>
               <NegativeButton>{'Explore'}</NegativeButton>
             </InfoBox>
             <Image
