@@ -155,7 +155,7 @@ const LandingPage: FunctionComponent = () => {
               <TitleText>{'Earn Rewards'}</TitleText>
               <DescriptionText>
                 {
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac leo dui. Sed porttitor augue erat, a hendrerit neque.'
+                  'XQuest is the best way to help community projects while earning incredible rewards.'
                 }
               </DescriptionText>
               <NegativeButton>{'Explore'}</NegativeButton>
