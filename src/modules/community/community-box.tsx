@@ -86,7 +86,7 @@ const TitleProjectBox = tw.p`
   max-lg:text-lg
 `
 
-const ProjectBox: FunctionComponent<{ project: ProjectType }> = ({
+const CommunityBox: FunctionComponent<{ project: ProjectType }> = ({
   project,
 }) => {
   const router = useRouter()
@@ -130,4 +130,4 @@ const ProjectBox: FunctionComponent<{ project: ProjectType }> = ({
   )
 }
 
-export default ProjectBox
+export default CommunityBox

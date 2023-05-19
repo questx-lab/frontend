@@ -3,8 +3,8 @@ import { FunctionComponent, useState } from 'react'
 
 import tw from 'twin.macro'
 
-import FollowingProject from '@/modules/my-projects/following-project'
-import CreateProject from '@/modules/project/create-community'
+import Communities from '@/modules/community/communities'
+import CreateProject from '@/modules/community/create-community'
 import { CommunityStore } from '@/store/local/community.store'
 import { Divider } from '@/styles/common.style'
 import { TitleCreatedProject } from '@/styles/myProjects.style'
@@ -67,7 +67,7 @@ export default function MyProjects() {
       <Divider />
       <Main>
         <CommunityStore.Provider>
-          <FollowingProject />
+          <Communities />
         </CommunityStore.Provider>
       </Main>
 

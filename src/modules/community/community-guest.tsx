@@ -110,7 +110,7 @@ const FollowBtn: FunctionComponent<{
   )
 }
 
-export default function ProjectGuess() {
+export default function CommunityGuest() {
   const [tab, setTab] = useState<number>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
 

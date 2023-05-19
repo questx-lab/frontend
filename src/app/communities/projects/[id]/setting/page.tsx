@@ -1,7 +1,7 @@
 'use client'
 
 import { Layout } from '@/components/layout'
-import SettingCommunity from '@/modules/project/setting-community'
+import SettingCommunity from '@/modules/community/setting-community'
 import { CommunityStore } from '@/store/local/community.store'
 
 export default function Setting(props: { params: { id: string } }) {
