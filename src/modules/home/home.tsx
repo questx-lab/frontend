@@ -72,7 +72,7 @@ const HomePage: FunctionComponent = () => {
   //handler
   const renderProject =
     projectsFollowing &&
-    projectsFollowing.map((e) => <CommunityBox key={e.id} project={e} />)
+    projectsFollowing.map((e) => <CommunityBox key={e.id} community={e} />)
 
   const fetchListProjects = async () => {
     setLoading(true)

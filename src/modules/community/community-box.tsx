@@ -86,14 +86,14 @@ const TitleProjectBox = tw.p`
   max-lg:text-lg
 `
 
-const CommunityBox: FunctionComponent<{ project: ProjectType }> = ({
-  project,
+const CommunityBox: FunctionComponent<{ community: ProjectType }> = ({
+  community: community,
 }) => {
   const router = useRouter()
 
   return (
     <ProjectBoxWrap
-      onClick={() => router.push(RouterConst.PROJECT + project.id)}
+      onClick={() => router.push(RouterConst.PROJECT + community.id)}
     >
       <PTopBox>
         <ImageProjectBox
@@ -103,12 +103,12 @@ const CommunityBox: FunctionComponent<{ project: ProjectType }> = ({
           alt={'avatar'}
         />
         <ContentProjectBox>
-          <TitleProjectBox>{project.name!}</TitleProjectBox>
+          <TitleProjectBox>{community.name!}</TitleProjectBox>
           <PbInfo>
             <PbInfoBox>{'8 Quests'}</PbInfoBox>
             <PbInfoBox>{'8 Quests'}</PbInfoBox>
           </PbInfo>
-          <PbDes>{project.introduction}</PbDes>
+          <PbDes>{community.introduction}</PbDes>
         </ContentProjectBox>
       </PTopBox>
       <PBottomBox>

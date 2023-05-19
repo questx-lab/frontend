@@ -10,7 +10,6 @@ import {
   HorizontalBetweenCenter,
   Vertical,
   VerticalCenter,
-  VerticalStart,
 } from '@/widgets/orientation'
 import { LargeText } from '@/widgets/text'
 
@@ -27,7 +26,7 @@ const Head = tw.div`
   min-h-screen
 `
 
-const HeadWrap = tw(VerticalStart)`
+const HeadWrap = tw(Vertical)`
   absolute
   w-full
   gap-6
@@ -82,7 +81,7 @@ const RewardBox = tw(VerticalCenter)`
   shadow-lg
 `
 
-const Main = tw(VerticalStart)`
+const Main = tw(Vertical)`
   w-full
   gap-6
   mt-16

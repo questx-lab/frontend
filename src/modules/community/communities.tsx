@@ -97,11 +97,11 @@ export default function Communities() {
   }
 
   const projectsList =
-    projects && projects.map((e) => <CommunityBox key={e.id} project={e} />)
+    projects && projects.map((e) => <CommunityBox key={e.id} community={e} />)
 
   const projectsSearch =
     searchProjects &&
-    searchProjects.map((e) => <CommunityBox key={e.id} project={e} />)
+    searchProjects.map((e) => <CommunityBox key={e.id} community={e} />)
 
   const ProjectWrap: FunctionComponent = () => {
     if (query.length > 2) {

@@ -11,8 +11,8 @@ import { HeaderText } from '@/styles/home.style'
 import { ProjectType } from '@/types/project.type'
 import {
   HorizontalBetweenCenter,
+  Vertical,
   VerticalCenter,
-  VerticalStart,
 } from '@/widgets/orientation'
 import { NormalText, PrimaryText } from '@/widgets/text'
 import {
@@ -25,7 +25,7 @@ import { listProjectsApi } from '@/app/api/client/project'
 import { MoonLoader } from 'react-spinners'
 import CommunityBox from './community-box'
 
-const Wrap = tw(VerticalStart)`
+const Wrap = tw(Vertical)`
   gap-4
   w-full
   py-8
@@ -126,7 +126,7 @@ const CommunityList: FunctionComponent = () => {
 
   const renderCarousel = communities.map((e) => (
     <Card key={e.id}>
-      <CommunityBox project={e} />
+      <CommunityBox community={e} />
     </Card>
   ))
 
