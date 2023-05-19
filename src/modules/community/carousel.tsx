@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
 import Image from 'next/image'
 import Carousel from 'react-multi-carousel'
@@ -21,6 +21,8 @@ import {
   ChevronRightIcon,
 } from '@heroicons/react/24/outline'
 
+import { listProjectsApi } from '@/app/api/client/project'
+import { MoonLoader } from 'react-spinners'
 import CommunityBox from './community-box'
 
 const Wrap = tw(VerticalStart)`
@@ -98,47 +100,69 @@ const CustomLeftArrow = ({ onClick }: ArrowProps) => {
   )
 }
 
-const CarouselCommunity: FunctionComponent<{
-  title: string
-  communities: ProjectType[]
-}> = ({ title, communities }) => {
+const CommunityList: FunctionComponent = () => {
+  const [loading, setLoading] = useState<boolean>(true)
+  const [communities, setCommunities] = useState<ProjectType[]>([])
+
+  useEffect(() => {
+    fetchListProjects()
+  }, [])
+
+  const fetchListProjects = async () => {
+    setLoading(true)
+    try {
+      const list = await listProjectsApi(0, 50)
+      setCommunities(list.data!.projects)
+    } catch (error) {
+      // TODO: show error (not toast) to indicate that the communities cannot be loaded.
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />
+  }
+
   const renderCarousel = communities.map((e) => (
     <Card key={e.id}>
       <CommunityBox project={e} />
     </Card>
   ))
 
-  const Slides: FunctionComponent = () => {
-    if (!communities.length) {
-      return (
-        <EmptyBox>
-          <Image
-            width={300}
-            height={300}
-            src={StorageConst.CHICKEN.src}
-            alt={StorageConst.CHICKEN.alt}
-          />
-          <NormalText>
-            {
-              "Ohhh! This doesn't have any communities yet. Please follow and come back at a later time."
-            }
-          </NormalText>
-        </EmptyBox>
-      )
-    }
-
+  if (!communities.length) {
     return (
-      <Carousel
-        customRightArrow={<CustomRightArrow />}
-        customLeftArrow={<CustomLeftArrow />}
-        className='w-full h-full'
-        responsive={responsive}
-      >
-        {renderCarousel}
-      </Carousel>
+      <EmptyBox>
+        <Image
+          width={300}
+          height={300}
+          src={StorageConst.CHICKEN.src}
+          alt={StorageConst.CHICKEN.alt}
+        />
+        <NormalText>
+          {
+            "Ohhh! This doesn't have any communities yet. Please follow and come back at a later time."
+          }
+        </NormalText>
+      </EmptyBox>
     )
   }
 
+  return (
+    <Carousel
+      customRightArrow={<CustomRightArrow />}
+      customLeftArrow={<CustomLeftArrow />}
+      className='w-full h-full'
+      responsive={responsive}
+    >
+      {renderCarousel}
+    </Carousel>
+  )
+}
+
+const CarouselCommunity: FunctionComponent<{
+  title: string
+}> = ({ title }) => {
   return (
     <Wrap>
       <HeaderBox>
@@ -148,7 +172,7 @@ const CarouselCommunity: FunctionComponent<{
           <ArrowSmallRightIcon className='text-primary w-7 h-7' />
         </PrimaryText>
       </HeaderBox>
-      <Slides />
+      <CommunityList />
     </Wrap>
   )
 }

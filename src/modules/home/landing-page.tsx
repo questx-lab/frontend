@@ -1,16 +1,10 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent } from 'react'
 
-import { useStoreActions, useStoreState } from 'easy-peasy'
 import Image from 'next/image'
-import toast from 'react-hot-toast'
-import { MoonLoader } from 'react-spinners'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { listProjectsApi } from '@/app/api/client/project'
 import { StorageConst } from '@/constants/storage.const'
-import { GlobalStoreModel } from '@/store/store'
-import { FullScreen } from '@/styles/common.style'
 import { NegativeButton } from '@/widgets/button'
 import {
   HorizontalBetweenCenter,
@@ -109,42 +103,6 @@ const RewardView: FunctionComponent<{
 }
 
 const LandingPage: FunctionComponent = () => {
-  // hook
-  const [loading, setLoading] = useState<boolean>(true)
-  useEffect(() => {
-    fetchListProjects()
-  }, [])
-
-  // data
-  const projectsTrending = useStoreState<GlobalStoreModel>(
-    (state) => state.projectsTrending
-  )
-
-  // action
-  const setProjectsTrending = useStoreActions<GlobalStoreModel>(
-    (action) => action.setProjectsTrending
-  )
-
-  const fetchListProjects = async () => {
-    setLoading(true)
-    try {
-      const list = await listProjectsApi(0, 50)
-      setProjectsTrending(list.data!.projects)
-    } catch (error) {
-      toast.error('Network error')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  if (loading) {
-    return (
-      <FullScreen>
-        <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />
-      </FullScreen>
-    )
-  }
-
   return (
     <Wrap>
       <Head>
@@ -185,14 +143,8 @@ const LandingPage: FunctionComponent = () => {
             />
           </RewardSession>
           <Main>
-            <CarouselCommunity
-              title={'🔥 Trending Quests'}
-              communities={projectsTrending}
-            />
-            <CarouselCommunity
-              title={'⭐ Popular Communities'}
-              communities={projectsTrending}
-            />
+            <CarouselCommunity title={'🔥 Trending Quests'} />
+            <CarouselCommunity title={'⭐ Popular Communities'} />
           </Main>
         </HeadWrap>
         <Bg
