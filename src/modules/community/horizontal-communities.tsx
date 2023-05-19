@@ -24,6 +24,8 @@ import {
 import { listProjectsApi as listCommunities } from '@/app/api/client/project'
 import { MoonLoader } from 'react-spinners'
 import CommunityBox from './community-box'
+import { useRouter } from 'next/navigation'
+import { RouterConst } from '@/constants/router.const'
 
 const Wrap = tw(Vertical)`
   gap-4
@@ -162,11 +164,17 @@ const CommunityList: FunctionComponent = () => {
 const HorizontalCommunities: FunctionComponent<{
   title: string
 }> = ({ title }) => {
+  const router = useRouter()
+
+  const onShowAllClicked = () => {
+    router.push(RouterConst.COMMUNITIES)
+  }
+
   return (
     <Wrap>
       <HeaderBox>
         <HeaderText>{title}</HeaderText>
-        <PrimaryText isHover size='lg'>
+        <PrimaryText isHover size='lg' onClick={onShowAllClicked}>
           {'Show all'}
           <ArrowSmallRightIcon className='text-primary w-7 h-7' />
         </PrimaryText>
