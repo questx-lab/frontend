@@ -1,7 +1,7 @@
 'use client'
 
 import { Layout } from '@/components/layout'
-import ProjectSide from '@/components/sidebar'
+import CommunitySide from '@/components/sidebar'
 import { FunctionComponent, ReactNode } from 'react'
 import tw from 'twin.macro'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
@@ -29,7 +29,7 @@ export const MainLayout: FunctionComponent<{
         <title>{title}</title>
       </header>
       <Wrap>
-        <ProjectSide />
+        <CommunitySide />
         <Main>{children}</Main>
       </Wrap>
     </Layout>

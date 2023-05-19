@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
 
 import { newFollowProjectApi } from '@/app/api/client/project'
-import ProjectSide from '@/components/sidebar'
+import CommunitySide from '@/components/sidebar'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityStore } from '@/store/local/community.store'
 import { LeaderboardStore } from '@/store/local/leaderboard.store'
@@ -110,7 +110,7 @@ const FollowBtn: FunctionComponent<{
   )
 }
 
-export default function ProjectGuess() {
+export default function CommunityGuest() {
   const [tab, setTab] = useState<number>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -141,7 +141,7 @@ export default function ProjectGuess() {
 
   return (
     <Wrap>
-      <ProjectSide projectId={projectState.id} />
+      <CommunitySide projectId={projectState.id} />
       <Main>
         {projectState && (
           <LHeader>

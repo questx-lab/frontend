@@ -11,7 +11,7 @@ import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { SearchInput } from '@/widgets/search-input'
-import ProjectBox from '../community/project-box'
+import CommunityBox from './community-box'
 
 const FFitlerBox = tw(Horizontal)`
   gap-3
@@ -40,7 +40,7 @@ const WrapProjects = tw.div`
   max-sm:grid-cols-1
 `
 
-export default function FollowingProject() {
+export default function Communities() {
   const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
 
@@ -88,13 +88,13 @@ export default function FollowingProject() {
   }
 
   const projectsList =
-    projects && projects.map((e) => <ProjectBox key={e.id} project={e} />)
+    projects && projects.map((e) => <CommunityBox key={e.id} project={e} />)
 
   const projectsSearch =
     searchProjects &&
-    searchProjects.map((e) => <ProjectBox key={e.id} project={e} />)
+    searchProjects.map((e) => <CommunityBox key={e.id} project={e} />)
 
-  const ProjectWrap: FunctionComponent = () => {
+  const CommunityWrap: FunctionComponent = () => {
     if (query.length > 2) {
       return <WrapProjects>{projectsSearch}</WrapProjects>
     }
@@ -114,7 +114,7 @@ export default function FollowingProject() {
           {'Filter'}
         </FFitlerBox>
       </FSearchWrap>
-      {!loading && <ProjectWrap />}
+      {!loading && <CommunityWrap />}
     </FWrap>
   )
 }

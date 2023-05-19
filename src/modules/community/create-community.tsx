@@ -27,6 +27,7 @@ import { LabelInput, RequireSignal } from '@/styles/input.style'
 import { SocialBtn } from '@/styles/quest-detail.style'
 import { ReqNewProject } from '@/types/project.type'
 import { MultipleTextField, TextField } from '@/widgets/form'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import {
@@ -35,7 +36,6 @@ import {
   ListItem,
   ListItemPrefix,
 } from '@material-tailwind/react'
-import { Horizontal, Vertical } from '@/widgets/orientation'
 
 const Body = tw.div`
   w-full

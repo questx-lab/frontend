@@ -15,7 +15,7 @@ import { Html, Main } from '@/styles/layout.style'
 import { getAccessToken, getRefreshToken, setUserLocal } from '@/utils/helper'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 
-import ProjectSide from './sidebar'
+import CommunitySide from './sidebar'
 
 const Wrap = tw(Horizontal)`
   min-h-screen
@@ -156,7 +156,7 @@ export const PanelLayout: FunctionComponent<{
 }> = ({ projectId, active, children }) => {
   return (
     <Wrap>
-      <ProjectSide projectId={projectId} />
+      <CommunitySide projectId={projectId} />
       <MainPanel>
         <ControlPanel projectId={projectId} active={active} />
         <Content>{children}</Content>

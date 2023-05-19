@@ -47,7 +47,7 @@ const PBottomBox = tw(Horizontal)`
   items-center
 `
 
-const ProjectBoxWrap = tw(VerticalBetween)`
+const CommunityBoxWrap = tw(VerticalBetween)`
   cursor-pointer
   p-5
   border
@@ -86,13 +86,13 @@ const TitleProjectBox = tw.p`
   max-lg:text-lg
 `
 
-const ProjectBox: FunctionComponent<{ project: ProjectType }> = ({
+const CommunityBox: FunctionComponent<{ project: ProjectType }> = ({
   project,
 }) => {
   const router = useRouter()
 
   return (
-    <ProjectBoxWrap
+    <CommunityBoxWrap
       onClick={() => router.push(RouterConst.PROJECT + project.id)}
     >
       <PTopBox>
@@ -126,8 +126,8 @@ const ProjectBox: FunctionComponent<{ project: ProjectType }> = ({
           <RewardText>{'300 Gems'}</RewardText>
         </RewardBox>
       </PBottomBox>
-    </ProjectBoxWrap>
+    </CommunityBoxWrap>
   )
 }
 
-export default ProjectBox
+export default CommunityBox

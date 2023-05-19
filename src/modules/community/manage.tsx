@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
-import ProjectSide from '@/components/sidebar'
+import CommunitySide from '@/components/sidebar'
 import { RouterConst } from '@/constants/router.const'
 import { Templates } from '@/modules/community/templates'
 import { Quests } from '@/modules/quests/quest-list'
@@ -61,7 +61,7 @@ export default function ManageProject() {
 
   return (
     <Wrap>
-      <ProjectSide projectId={project.id} />
+      <CommunitySide projectId={project.id} />
       <MMain>
         <ControlPanel projectId={project.id} />
         <CCBox>

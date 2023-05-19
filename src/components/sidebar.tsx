@@ -71,7 +71,7 @@ const RenderCollabItems: FunctionComponent<{
 
   return <BoxContent>{listItems}</BoxContent>
 }
-const ProjectSide: FunctionComponent<{ projectId?: string }> = ({
+const CommunitySide: FunctionComponent<{ projectId?: string }> = ({
   projectId,
 }) => {
   const projectsFollowing = useStoreState<GlobalStoreModel>(
@@ -92,4 +92,4 @@ const ProjectSide: FunctionComponent<{ projectId?: string }> = ({
   )
 }
 
-export default ProjectSide
+export default CommunitySide
