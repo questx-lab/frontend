@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { getTemplates } from '@/app/api/client/quest'
-import { QuestCard } from '@/modules/project/quest-card'
+import { QuestCard } from '@/modules/community/quest-card'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { QuestType } from '@/types/project.type'

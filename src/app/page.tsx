@@ -6,7 +6,7 @@ import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
 import { Layout } from '@/components/layout'
-import ProjectBox from '@/modules/project/project-box'
+import ProjectBox from '@/modules/community/project-box'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types/account.type'
 import { ProjectType } from '@/types/project.type'

@@ -11,7 +11,7 @@ import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { SearchInput } from '@/widgets/search-input'
-import ProjectBox from '../project/project-box'
+import ProjectBox from './project-box'
 
 const FFitlerBox = tw(Horizontal)`
   gap-3
@@ -40,7 +40,7 @@ const WrapProjects = tw.div`
   max-sm:grid-cols-1
 `
 
-export default function FollowingProject() {
+export default function Communities() {
   const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
 
