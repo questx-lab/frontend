@@ -11,7 +11,7 @@ import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { SearchInput } from '@/widgets/search-input'
-import ProjectBox from '../project/project-box'
+import ProjectBox from '../community/project-box'
 
 const FFitlerBox = tw(Horizontal)`
   gap-3

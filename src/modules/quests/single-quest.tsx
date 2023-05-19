@@ -4,7 +4,7 @@ import { FunctionComponent, useState } from 'react'
 
 import parse from 'html-react-parser'
 
-import { QuestCard } from '@/modules/project/quest-card'
+import { QuestCard } from '@/modules/community/quest-card'
 import { QuestDetail } from '@/modules/quests/quest-detail'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { DesQ } from '@/styles/questboard.style'
