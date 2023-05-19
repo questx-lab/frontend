@@ -6,7 +6,7 @@ import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
 import { Layout } from '@/components/layout'
-import ProjectBox from '@/modules/community/project-box'
+import CommunityBox from '@/modules/community/community-box'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types/account.type'
 import { ProjectType } from '@/types/project.type'
@@ -52,7 +52,7 @@ export default function Home() {
 
   const renderProject =
     projectsFollowing &&
-    projectsFollowing.map((e) => <ProjectBox key={e.id} project={e} />)
+    projectsFollowing.map((e) => <CommunityBox key={e.id} project={e} />)
 
   const Title: FunctionComponent = () => {
     if (user && user.name) {

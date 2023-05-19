@@ -43,7 +43,7 @@ const categories = [
   'Others',
 ]
 
-export default function ProjectSetting() {
+export default function CommunitySetting() {
   const nameRef = useRef<HTMLInputElement>(null)
   const introRef = useRef<HTMLTextAreaElement>(null)
   const telRef = useRef<HTMLInputElement>(null)

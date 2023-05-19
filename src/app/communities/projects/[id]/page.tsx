@@ -9,7 +9,7 @@ import { getProjectApi } from '@/app/api/client/project'
 import { Layout } from '@/components/layout'
 import { ProjectRoleEnum } from '@/constants/project.const'
 import ManageProject from '@/modules/community/manage'
-import ProjectGuess from '@/modules/community/project-guest'
+import CommunityGuest from '@/modules/community/community-guest'
 import { CommunityStore } from '@/store/local/community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/types/project.type'
@@ -70,7 +70,7 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
   }
 
   if (role === ProjectRoleEnum.GUEST) {
-    return <ProjectGuess />
+    return <CommunityGuest />
   }
 
   return <ManageProject />

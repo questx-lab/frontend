@@ -11,7 +11,7 @@ import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { SearchInput } from '@/widgets/search-input'
-import ProjectBox from './project-box'
+import CommunityBox from './community-box'
 
 const FFitlerBox = tw(Horizontal)`
   gap-3
@@ -88,11 +88,11 @@ export default function Communities() {
   }
 
   const projectsList =
-    projects && projects.map((e) => <ProjectBox key={e.id} project={e} />)
+    projects && projects.map((e) => <CommunityBox key={e.id} project={e} />)
 
   const projectsSearch =
     searchProjects &&
-    searchProjects.map((e) => <ProjectBox key={e.id} project={e} />)
+    searchProjects.map((e) => <CommunityBox key={e.id} project={e} />)
 
   const ProjectWrap: FunctionComponent = () => {
     if (query.length > 2) {
