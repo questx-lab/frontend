@@ -7,13 +7,14 @@ import tw from 'twin.macro'
 import { StorageConst } from '@/constants/storage.const'
 import { NegativeButton } from '@/widgets/button'
 import {
+  Horizontal,
   HorizontalBetweenCenter,
   Vertical,
   VerticalCenter,
 } from '@/widgets/orientation'
 import { LargeText } from '@/widgets/text'
 
-import CarouselCommunity from '../community/carousel'
+import HorizontalCommunities from '../community/horizontal-communities'
 
 const Wrap = tw(Vertical)`
   min-h-screen
@@ -87,6 +88,15 @@ const Main = tw(Vertical)`
   mt-16
 `
 
+const FooterBox = tw(Horizontal)`
+  w-full
+  pb-3
+`
+
+const FooterText = tw.div`
+  flex-1
+`
+
 const RewardView: FunctionComponent<{
   name: string
   imgSrc: string
@@ -98,6 +108,20 @@ const RewardView: FunctionComponent<{
       <LargeText>{name}</LargeText>
       <RewardTextText>{des}</RewardTextText>
     </RewardBox>
+  )
+}
+
+const Footer: FunctionComponent = () => {
+  return (
+    <FooterBox>
+      <FooterText>Copyright © 2023 XQuest.</FooterText>
+      <Image
+        width={30}
+        height={30}
+        src={StorageConst.TWITTER_DIR.src}
+        alt={StorageConst.TWITTER_DIR.alt}
+      />
+    </FooterBox>
   )
 }
 
@@ -142,9 +166,10 @@ const LandingPage: FunctionComponent = () => {
             />
           </RewardSession>
           <Main>
-            <CarouselCommunity title={'🔥 Trending Quests'} />
-            <CarouselCommunity title={'⭐ Popular Communities'} />
+            <HorizontalCommunities title={'🔥 Trending Quests'} />
+            <HorizontalCommunities title={'⭐ Popular Communities'} />
           </Main>
+          <Footer />
         </HeadWrap>
         <Bg
           width={200}

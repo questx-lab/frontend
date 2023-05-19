@@ -13,7 +13,7 @@ import { UserType } from '@/types/account.type'
 import { ProjectType } from '@/types/project.type'
 import { Vertical } from '@/widgets/orientation'
 
-import CarouselCommunity from '../community/carousel'
+import HorizontalCommunities from '../community/horizontal-communities'
 
 const Wrap = tw(Vertical)`
   min-h-screen
@@ -106,11 +106,11 @@ const HomePage: FunctionComponent = () => {
     <Wrap>
       <Main>
         <Title />
-        <CarouselCommunity
+        <HorizontalCommunities
           title={'🔥 Trending Quests'}
           communities={projectsTrending}
         />
-        <CarouselCommunity
+        <HorizontalCommunities
           title={'⭐ Popular Communities'}
           communities={projectsTrending}
         />

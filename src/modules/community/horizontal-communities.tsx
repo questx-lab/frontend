@@ -28,7 +28,6 @@ import CommunityBox from './community-box'
 const Wrap = tw(Vertical)`
   gap-4
   w-full
-  py-8
 `
 
 const Card = tw.div`
@@ -160,7 +159,7 @@ const CommunityList: FunctionComponent = () => {
   )
 }
 
-const CarouselCommunity: FunctionComponent<{
+const HorizontalCommunities: FunctionComponent<{
   title: string
 }> = ({ title }) => {
   return (
@@ -177,4 +176,4 @@ const CarouselCommunity: FunctionComponent<{
   )
 }
 
-export default CarouselCommunity
+export default HorizontalCommunities
