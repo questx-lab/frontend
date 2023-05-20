@@ -15,6 +15,8 @@ import {
 import { LargeText } from '@/widgets/text'
 
 import HorizontalCommunities from '../community/horizontal-communities'
+import { RouterConst } from '@/constants/router.const'
+import { useRouter } from 'next/navigation'
 
 const Wrap = tw(Vertical)`
   min-h-screen
@@ -158,6 +160,8 @@ const Footer: FunctionComponent = () => {
 }
 
 const LandingPage: FunctionComponent = () => {
+  const router = useRouter()
+
   return (
     <Wrap>
       <Head>
@@ -171,7 +175,11 @@ const LandingPage: FunctionComponent = () => {
                   'XQuest is the best way to help community projects while earning incredible rewards.'
                 }
               </Description>
-              <NegativeButton>{'Explore'}</NegativeButton>
+              <NegativeButton
+                onClick={() => router.push(RouterConst.COMMUNITIES)}
+              >
+                {'Explore'}
+              </NegativeButton>
             </InfoBox>
             <MainImage
               width={680}
