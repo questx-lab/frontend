@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 
+import { useStoreActions } from 'easy-peasy'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import Dropzone from 'react-dropzone'
@@ -8,7 +9,7 @@ import { MoonLoader } from 'react-spinners'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { newProjectApi } from '@/app/api/client/project'
+import { getMyProjectsApi, newProjectApi } from '@/app/api/client/project'
 import {
   ButtonSocialType,
   ConnectSocialPlatformEnum,
@@ -22,11 +23,13 @@ import {
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NewCommunityStore } from '@/store/local/new-community.store'
+import { GlobalStoreModel } from '@/store/store'
 import { FullWidthBtn } from '@/styles/button.style'
 import { LabelInput, RequireSignal } from '@/styles/input.style'
 import { SocialBtn } from '@/styles/quest-detail.style'
 import { ReqNewProject } from '@/types/project.type'
 import { MultipleTextField, TextField } from '@/widgets/form'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import {
@@ -35,7 +38,6 @@ import {
   ListItem,
   ListItemPrefix,
 } from '@material-tailwind/react'
-import { Horizontal, Vertical } from '@/widgets/orientation'
 
 const Body = tw.div`
   w-full
@@ -260,6 +262,9 @@ const FifthStep: FunctionComponent = () => {
   const setInviteCode = NewCommunityStore.useStoreActions(
     (action) => action.setInviteCode
   )
+  const setProjectCollab = useStoreActions<GlobalStoreModel>(
+    (action) => action.setProjectCollab
+  )
 
   // hook
   let [isLoading, setLoading] = useState<boolean>(false)
@@ -278,10 +283,26 @@ const FifthStep: FunctionComponent = () => {
       if (data.error) {
         toast.error(data.error)
       } else {
+        getMyProjects()
         router.push(RouterConst.PROJECT + data.data?.id + '/create')
       }
     } catch (error) {
       setLoading(false)
+      toast.error('Server error')
+    }
+  }
+
+  const getMyProjects = async () => {
+    try {
+      const projects = await getMyProjectsApi()
+      if (projects.error) {
+        toast.error('Error when get your projects')
+      } else {
+        if (projects.data?.collaborators) {
+          setProjectCollab(projects.data?.collaborators)
+        }
+      }
+    } catch (error) {
       toast.error('Server error')
     }
   }

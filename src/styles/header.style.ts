@@ -10,20 +10,28 @@ type NavBarType = {
   isActive: boolean
 }
 
-export const Wrap = tw.nav`
+export const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
+  tw`
   w-full
   xl:flex
   xl:flex-row
   justify-between
   items-center
   h-[70px]
-  px-16
+  px-48
+  max-2xl:px-32
   border-b-[1px]
   border-gray-200
   fixed
-  bg-white
   max-sm:h-[65px]
-`
+  `,
+  isApp && tw`bg-white`,
+  !isApp &&
+    tw`
+    border-0
+    backdrop-blur-lg
+  `,
+])
 
 // ============= LEFT SESSION =============
 
@@ -181,6 +189,7 @@ export const NavUnderline = tw.div`
 
 export const PopWrap = styled(Popover)(tw`
   relative
+  z-10
 `)
 
 export const PopPanel = styled(Popover.Panel)(tw`

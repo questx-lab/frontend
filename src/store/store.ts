@@ -12,6 +12,7 @@ export interface GlobalStoreModel {
   isLogin: boolean
   user: UserType
   projectsFollowing: ProjectType[]
+  projectsTrending: ProjectType[]
   projectCollab: CollaboratorType[]
   referral: RefferalType
 
@@ -21,6 +22,7 @@ export interface GlobalStoreModel {
   setProjectsFollowing: Action<GlobalStoreModel, ProjectType[]>
   setProjectCollab: Action<GlobalStoreModel, CollaboratorType[]>
   setReferral: Action<GlobalStoreModel, RefferalType>
+  setProjectsTrending: Action<GlobalStoreModel, ProjectType[]>
 }
 
 const store = createStore<GlobalStoreModel>({
@@ -29,6 +31,7 @@ const store = createStore<GlobalStoreModel>({
   user: {},
   projectsFollowing: [],
   projectCollab: [],
+  projectsTrending: [],
   referral: {},
 
   setNavBar: action((state, navBar) => {
@@ -45,6 +48,10 @@ const store = createStore<GlobalStoreModel>({
 
   setProjectsFollowing: action((state, projects) => {
     state.projectsFollowing = projects
+  }),
+
+  setProjectsTrending: action((state, projects) => {
+    state.projectsTrending = projects
   }),
 
   setProjectCollab: action((state, collabs) => {

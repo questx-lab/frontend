@@ -361,10 +361,12 @@ export const HeaderBox = tw(Horizontal)`
 `
 
 export const TitleBox = tw(Horizontal)`
-  justify-start
-  items-center
-  pt-6
-  px-12
+  px-48
+  max-2xl:px-32
+  py-6
+  max-xl:px-[100px]
+  w-full
+  justify-between
 `
 
 export const TitleQuestBox = tw.p`
@@ -381,6 +383,9 @@ export const DesQ = tw.p`
   font-normal
   text-lg
   max-lg:text-sm
+  overflow-hidden
+  text-ellipsis
+  line-clamp-3
 `
 
 export const PointText = tw.span`

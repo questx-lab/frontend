@@ -18,7 +18,7 @@ const ImageProjectBox = styled(Image)(tw`
   rounded-full
 `)
 
-const PbDes = tw.div`
+const Description = tw.div`
   mt-3
   text-lg
   font-normal
@@ -28,11 +28,11 @@ const PbDes = tw.div`
   line-clamp-3
 `
 
-const PbInfo = tw(Horizontal)`
+const InfoSection = tw(Horizontal)`
   mt-3 gap-3
 `
 
-const PbInfoBox = tw.div`
+const Info = tw.div`
   bg-gray-100
   px-2
   py-1
@@ -42,12 +42,12 @@ const PbInfoBox = tw.div`
   text-gray-700
 `
 
-const PBottomBox = tw(Horizontal)`
+const Bottom = tw(Horizontal)`
   w-full
   items-center
 `
 
-const ProjectBoxWrap = tw(VerticalBetween)`
+const CommunityBoxWrap = tw(VerticalBetween)`
   cursor-pointer
   p-5
   border
@@ -62,7 +62,7 @@ const ProjectBoxWrap = tw(VerticalBetween)`
   hover:shadow-lg
 `
 
-const PTopBox = tw(Vertical)`
+const Top = tw(Vertical)`
   w-full
   h-full
 `
@@ -78,7 +78,7 @@ text-sm
 font-medium
 `
 
-const TitleProjectBox = tw.p`
+const Title = tw.p`
   mt-3
   text-black
   font-medium
@@ -86,16 +86,16 @@ const TitleProjectBox = tw.p`
   max-lg:text-lg
 `
 
-const CommunityBox: FunctionComponent<{ project: ProjectType }> = ({
-  project,
+const CommunityBox: FunctionComponent<{ community: ProjectType }> = ({
+  community,
 }) => {
   const router = useRouter()
 
   return (
-    <ProjectBoxWrap
-      onClick={() => router.push(RouterConst.PROJECT + project.id)}
+    <CommunityBoxWrap
+      onClick={() => router.push(RouterConst.PROJECT + community.id)}
     >
-      <PTopBox>
+      <Top>
         <ImageProjectBox
           width={60}
           height={60}
@@ -103,19 +103,14 @@ const CommunityBox: FunctionComponent<{ project: ProjectType }> = ({
           alt={'avatar'}
         />
         <ContentProjectBox>
-          <TitleProjectBox>{project.name!}</TitleProjectBox>
-          <PbInfo>
-            <PbInfoBox>{'8 Quests'}</PbInfoBox>
-            <PbInfoBox>{'8 Quests'}</PbInfoBox>
-          </PbInfo>
-          <PbDes>
-            {'Swap platform on Sui blockchain.  Every XP you get in CREW3 can be used to redeem ' +
-              'Suiswap token airdrops Swap platform on Sui blockchain.  Every XP you get in CREW3 ' +
-              'can be used to redeem Suiswap token airdrops'}
-          </PbDes>
+          <Title>{community.name!}</Title>
+          <InfoSection>
+            <Info>{'8 Quests'}</Info>
+          </InfoSection>
+          <Description>{community.introduction}</Description>
         </ContentProjectBox>
-      </PTopBox>
-      <PBottomBox>
+      </Top>
+      <Bottom>
         <RewardBox>
           <Image
             width={25}
@@ -125,8 +120,8 @@ const CommunityBox: FunctionComponent<{ project: ProjectType }> = ({
           />
           <RewardText>{'300 Gems'}</RewardText>
         </RewardBox>
-      </PBottomBox>
-    </ProjectBoxWrap>
+      </Bottom>
+    </CommunityBoxWrap>
   )
 }
 

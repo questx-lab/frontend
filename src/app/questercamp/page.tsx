@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import tw from 'twin.macro'
 
 import { listQuestApi } from '@/app/api/client/quest'
@@ -14,7 +16,6 @@ import { MainLayout } from '@/widgets/main-layout'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { SearchInput } from '@/widgets/search-input'
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
-import { useEffect, useState } from 'react'
 
 const FSearchWrap = tw(Horizontal)`
   w-full gap-3 py-3
@@ -22,6 +23,7 @@ const FSearchWrap = tw(Horizontal)`
 
 const FWrap = tw(Vertical)`
   py-2
+  w-full
 `
 const FFitlerBox = tw(Horizontal)`
   gap-3
@@ -34,9 +36,11 @@ const FFitlerBox = tw(Horizontal)`
 `
 
 const Main = tw(Vertical)`
-  px-[120px]
+  px-48
+  max-2xl:px-32
   pb-[30px]
   max-xl:px-[100px]
+  w-full
 `
 
 export default function QuestCamp() {
@@ -54,9 +58,9 @@ export default function QuestCamp() {
   }, [])
 
   return (
-    <MainLayout>
+    <MainLayout title='⚡ QuesterCamp'>
       <TitleBox>
-        <TitleCreatedProject>{'👋 Communities'}</TitleCreatedProject>
+        <TitleCreatedProject>{'⚡ QuesterCamp'}</TitleCreatedProject>
       </TitleBox>
       <Divider />
 
@@ -73,15 +77,14 @@ export default function QuestCamp() {
             </FFitlerBox>
           </FSearchWrap>
         </FWrap>
+        <WrapQuestboard>
+          <CommunityStore.Provider>
+            <ActiveQuestStore.Provider>
+              <QuestListView questList={quests} />
+            </ActiveQuestStore.Provider>
+          </CommunityStore.Provider>
+        </WrapQuestboard>
       </Main>
-
-      <WrapQuestboard>
-        <CommunityStore.Provider>
-          <ActiveQuestStore.Provider>
-            <QuestListView questList={quests} />
-          </ActiveQuestStore.Provider>
-        </CommunityStore.Provider>
-      </WrapQuestboard>
     </MainLayout>
   )
 }

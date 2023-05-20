@@ -15,13 +15,15 @@ import { Horizontal, Vertical } from '@/widgets/orientation'
 import { PlusIcon } from '@heroicons/react/24/outline'
 
 const Main = tw(Vertical)`
-  px-[120px]
+  px-48
+  max-2xl:px-32
   pb-[30px]
-  max-xl:px-[100px]
+  w-full
 `
 
 const TitleBox = tw(Horizontal)`
-  px-[120px]
+  px-48
+  max-2xl:px-32
   py-6
   max-xl:px-[100px]
   w-full
@@ -59,7 +61,7 @@ export default function MyProjects() {
   const [isOpen, setOpen] = useState<boolean>(false)
 
   return (
-    <MainLayout>
+    <MainLayout title='👋 Communities'>
       <TitleBox>
         <TitleCreatedProject>{'👋 Communities'}</TitleCreatedProject>
         <CreateCommunity setOpen={setOpen} />

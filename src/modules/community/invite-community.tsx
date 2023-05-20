@@ -171,7 +171,11 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({
     }
   }
 
-  if (user.address !== '' && referral.total_claimable_projects !== 0) {
+  if (
+    user.address !== '' &&
+    referral.total_claimable_projects &&
+    referral.total_claimable_projects !== 0
+  ) {
     block = false
   }
 

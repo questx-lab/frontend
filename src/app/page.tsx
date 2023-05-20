@@ -1,78 +1,32 @@
 'use client'
-
 import { FunctionComponent } from 'react'
 
 import { useStoreState } from 'easy-peasy'
-import tw from 'twin.macro'
 
 import { Layout } from '@/components/layout'
-import CommunityBox from '@/modules/community/community-box'
+import HomePage from '@/modules/home/home'
+import LandingPage from '@/modules/home/landing-page'
 import { GlobalStoreModel } from '@/store/store'
-import { UserType } from '@/types/account.type'
-import { ProjectType } from '@/types/project.type'
-import { Vertical } from '@/widgets/orientation'
 
-const Wrap = tw(Vertical)`
-  min-h-screen
-  pt-[70px]
-`
-
-const Main = tw(Vertical)`
-  pt-8
-  pb-[30px]
-  px-16
-  gap-4
-`
-
-const WrapProjects = tw.div`
-  grid
-  grid-cols-4
-  gap-4
-  max-2xl:grid-cols-3
-  max-xl:grid-cols-2
-  max-sm:grid-cols-1
-`
-
-const TitleBox = tw.div`
-  w-full
-  flex
-  justify-center
-  items-center
-  text-2xl
-  font-medium
-  text-gray-900
-`
-
-export default function Home() {
-  // data
-  const projectsFollowing: ProjectType[] = useStoreState<GlobalStoreModel>(
-    (state) => state.projectsFollowing
-  )
-  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-
-  const renderProject =
-    projectsFollowing &&
-    projectsFollowing.map((e) => <CommunityBox key={e.id} project={e} />)
-
-  const Title: FunctionComponent = () => {
-    if (user && user.name) {
-      return <TitleBox>{`👋 Hi, ${user && user.name}`}</TitleBox>
-    }
-
-    return <></>
+const Content: FunctionComponent<{ isLogin: boolean }> = ({ isLogin }) => {
+  if (isLogin) {
+    return <HomePage />
   }
 
+  return <LandingPage />
+}
+
+export default function Home() {
+  const isLogin: boolean = useStoreState<GlobalStoreModel>(
+    (state) => state.isLogin
+  )
+
   return (
-    <Layout>
+    <Layout isApp={isLogin}>
       <header>
-        <title>{'Home Page'}</title>
+        <title>{'Xquest'}</title>
       </header>
-      <Wrap>
-        <Main>
-          <Title />
-          <WrapProjects>{renderProject}</WrapProjects>
-        </Main>
-      </Wrap>
+      <Content isLogin />
     </Layout>
   )
 }

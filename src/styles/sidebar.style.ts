@@ -4,9 +4,7 @@ import tw from 'twin.macro'
 
 import { Vertical } from '@/widgets/orientation'
 
-export const Wrap = styled.div<{ isShow?: boolean }>(({ isShow = false }) => [
-  isShow
-    ? tw`
+export const Wrap = tw.div`
   w-20
   fixed
   flex
@@ -16,9 +14,9 @@ export const Wrap = styled.div<{ isShow?: boolean }>(({ isShow = false }) => [
   rounded-lg
   bg-gray-100
   h-screen
+  divide-y
+  divide-gray-300
 `
-    : tw`w-0`,
-])
 
 export const BoxContent = tw(Vertical)`
   rounded-lg

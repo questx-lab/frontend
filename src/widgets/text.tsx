@@ -6,6 +6,9 @@ export const PrimaryText = styled.span<{ size?: string; isHover?: boolean }>(
     tw`
     text-primary
     font-normal
+    flex
+    flex-row
+    gap-2
   `,
     size === 'xs' && tw`text-xs`,
     size === 'sm' && tw`text-sm`,
@@ -33,7 +36,7 @@ export const NormalText = tw.p`
 export const MediumText = tw.p`
   text-lg
   text-gray-900
-  font-bold
+  font-medium
   max-sm:text-sm
 `
 
