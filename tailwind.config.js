@@ -2,7 +2,141 @@
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}', './src/**/*.*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      fontSize: {
+        xs: [
+          '0.6rem',
+          {
+            lineHeight: '1.2rem',
+          },
+        ],
+        sm: [
+          '0.8rem',
+          {
+            lineHeight: '1.4rem',
+          },
+        ],
+        lg: [
+          '1rem',
+          {
+            lineHeight: '1.6rem',
+          },
+        ],
+        xl: [
+          '1.25rem',
+          {
+            lineHeight: '1.8rem',
+            letterSpacing: '-0.01em',
+          },
+        ],
+        '2xl': [
+          '1.5rem',
+          {
+            lineHeight: '2rem',
+            letterSpacing: '-0.01em',
+          },
+        ],
+        '3xl': [
+          '1.875rem',
+          {
+            lineHeight: '2.25rem',
+            letterSpacing: '-0.02em',
+          },
+        ],
+        '4xl': [
+          '2rem',
+          {
+            lineHeight: '2.25rem',
+            letterSpacing: '-0.02em',
+          },
+        ],
+        '5xl': [
+          '2.25rem',
+          {
+            lineHeight: '2.25rem',
+            letterSpacing: '-0.02em',
+          },
+        ],
+        '6xl': [
+          '2.5rem',
+          {
+            lineHeight: '2.25rem',
+            letterSpacing: '-0.02em',
+          },
+        ],
+        '7xl': [
+          '2.75rem',
+          {
+            lineHeight: '2.25rem',
+            letterSpacing: '-0.02em',
+          },
+        ],
+        '8xl': [
+          '3rem',
+          {
+            lineHeight: '2.25rem',
+            letterSpacing: '-0.02em',
+          },
+        ],
+        '9xl': [
+          '3.5rem',
+          {
+            lineHeight: '2.7rem',
+            letterSpacing: '-0.035em',
+          },
+        ],
+        '10xl': [
+          '4rem',
+          {
+            lineHeight: '3rem',
+            letterSpacing: '-0.05em',
+          },
+        ],
+        '11xl': [
+          '5rem',
+          {
+            lineHeight: '4rem',
+            letterSpacing: '-0.07em',
+          },
+        ],
+        '12xl': [
+          '6rem',
+          {
+            lineHeight: '5rem',
+            letterSpacing: '-0.02em',
+          },
+        ],
+      },
+    },
+    screens: {
+      sm: { min: '640px' },
+      'max-sm': { max: '767px' },
+      // => @media (min-width: 640px and max-width: 767px) { ... }
+
+      md: { min: '768px' },
+      'max-md': { max: '1023px' },
+      // => @media (min-width: 768px and max-width: 1023px) { ... }
+
+      lg: { min: '1024px' },
+      'max-lg': { max: '1279px' },
+      // => @media (min-width: 1024px and max-width: 1279px) { ... }
+
+      xl: { min: '1280px' },
+      'max-xl': { max: '1535px' },
+      // => @media (min-width: 1280px and max-width: 1535px) { ... }
+
+      '2xl': { min: '1536px' },
+      'max-2xl': { max: '2560px' },
+      // => @media (min-width: 1536px) { ... }
+
+      '3xl': { min: '2560px' },
+      'max-3xl': { max: '3840px' },
+      // => @media (min-width: 2560px) { ... }
+
+      '4xl': { min: '3840px' },
+      'max-4xl': { max: '7680px' },
+      // => @media (min-width: 2560px) { ... }
+    },
     colors: {
       primary: {
         50: '#f5f6ff',

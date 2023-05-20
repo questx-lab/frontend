@@ -8,7 +8,8 @@ import HomePage from '@/modules/home/home'
 import LandingPage from '@/modules/home/landing-page'
 import { GlobalStoreModel } from '@/store/store'
 
-const Content: FunctionComponent<{ isLogin: boolean }> = ({ isLogin }) => {
+const Content: FunctionComponent = () => {
+  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
   if (isLogin) {
     return <HomePage />
   }
@@ -17,16 +18,14 @@ const Content: FunctionComponent<{ isLogin: boolean }> = ({ isLogin }) => {
 }
 
 export default function Home() {
-  const isLogin: boolean = useStoreState<GlobalStoreModel>(
-    (state) => state.isLogin
-  )
+  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
 
   return (
     <Layout isApp={isLogin}>
       <header>
         <title>{'Xquest'}</title>
       </header>
-      <Content isLogin />
+      <Content />
     </Layout>
   )
 }

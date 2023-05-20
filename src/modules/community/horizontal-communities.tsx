@@ -1,11 +1,15 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import Carousel from 'react-multi-carousel'
 import { ArrowProps } from 'react-multi-carousel/lib/types'
+import { MoonLoader } from 'react-spinners'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { listProjectsApi as listCommunities } from '@/app/api/client/project'
+import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { HeaderText } from '@/styles/home.style'
 import { ProjectType } from '@/types/project.type'
@@ -21,11 +25,7 @@ import {
   ChevronRightIcon,
 } from '@heroicons/react/24/outline'
 
-import { listProjectsApi as listCommunities } from '@/app/api/client/project'
-import { MoonLoader } from 'react-spinners'
 import CommunityBox from './community-box'
-import { useRouter } from 'next/navigation'
-import { RouterConst } from '@/constants/router.const'
 
 const Wrap = tw(Vertical)`
   gap-4
@@ -48,11 +48,11 @@ const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
-    items: 6,
+    items: 4,
   },
   desktop: {
     breakpoint: { max: 3000, min: 1450 },
-    items: 5,
+    items: 4,
   },
   mediumDesktop: {
     breakpoint: { max: 1450, min: 1024 },
