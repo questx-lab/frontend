@@ -18,8 +18,9 @@ export const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
   justify-between
   items-center
   h-[70px]
-  px-48
-  max-2xl:px-32
+  px-64
+  3xl:h-[120px]
+  3xl:px-96
   border-b-[1px]
   border-gray-200
   fixed
@@ -77,6 +78,7 @@ export const TitleText = tw.div`
   items-center
   font-normal
   text-lg
+  3xl:text-3xl
 `
 
 export const Underline = tw.div`

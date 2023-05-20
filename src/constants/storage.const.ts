@@ -15,6 +15,14 @@ export const StorageConst = {
     src: '/images/logos/twitter.svg',
     alt: 'Twitter',
   },
+  DISCORD_BLACK_DIR: {
+    src: '/images/logos/discord_black.svg',
+    alt: 'Discord',
+  },
+  TWITTER_BLACK_DIR: {
+    src: '/images/logos/twitter_black.svg',
+    alt: 'Twitter',
+  },
   METAMASK_DIR: {
     src: '/images/logos/metamask.svg',
     alt: 'Metamask',

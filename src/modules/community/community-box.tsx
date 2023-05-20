@@ -16,6 +16,8 @@ const ContentProjectBox = tw(Vertical)`
 
 const ImageProjectBox = styled(Image)(tw`
   rounded-full
+  3xl:w-[100px]
+  3xl:h-[100px]
 `)
 
 const Description = tw.div`
@@ -26,6 +28,7 @@ const Description = tw.div`
   overflow-hidden
   text-ellipsis
   line-clamp-3
+  3xl:text-2xl
 `
 
 const InfoSection = tw(Horizontal)`
@@ -40,6 +43,9 @@ const Info = tw.div`
   text-sm
   font-normal
   text-gray-700
+  3xl:text-xl
+  3xl:px-4
+  3xl:py-2
 `
 
 const Bottom = tw(Horizontal)`
@@ -59,6 +65,7 @@ const CommunityBoxWrap = tw(VerticalBetween)`
   max-sm:w-full
   max-xl:mt-[16px]
   h-[350px]
+  3xl:h-[500px]
   hover:shadow-lg
 `
 
@@ -73,9 +80,10 @@ const RewardBox = tw(Horizontal)`
 `
 
 const RewardText = tw.span`
-text-[#FF7B05]
-text-sm
-font-medium
+  text-[#FF7B05]
+  text-sm
+  font-medium
+  3xl:text-xl
 `
 
 const Title = tw.p`
@@ -84,6 +92,7 @@ const Title = tw.p`
   font-medium
   text-lg
   max-lg:text-lg
+  3xl:text-4xl
 `
 
 const CommunityBox: FunctionComponent<{ community: ProjectType }> = ({

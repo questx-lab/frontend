@@ -113,6 +113,7 @@ export const Layout = ({
       const user = await getUserApi()
       setUserLocal(user.data!)
       setUser(user.data!)
+
       setLogin(true)
     } catch (error) {}
   }

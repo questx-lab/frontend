@@ -11,7 +11,7 @@ const NegativeButtonStyle = styled.button<{
   bg-white
   hover:bg-gray-100
   text-sm
-  text-black
+  text-gray-700
   font-medium
   py-3
   px-6
@@ -25,6 +25,10 @@ const NegativeButtonStyle = styled.button<{
   justify-center
   items-center
   gap-2
+  3xl:text-3xl
+  3xl:rounded-xl
+  3xl:py-4
+  3xl:px-12
 `,
   isFull && tw`w-full`,
 ])

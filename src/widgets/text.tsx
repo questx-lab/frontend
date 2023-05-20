@@ -45,6 +45,7 @@ export const LargeText = tw.p`
   text-black
   font-bold
   max-sm:text-lg
+  3xl:text-4xl
 `
 
 export const Label = tw.div`

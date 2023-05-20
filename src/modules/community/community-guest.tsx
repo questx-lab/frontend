@@ -17,15 +17,15 @@ import { MDialog } from '@/styles/home.style'
 import {
   LHBox,
   LHDes,
+  LHeader,
   LHInfoA,
   LHLogo,
   LHTitle,
   LHTitleBox,
-  LHeader,
   LLbox,
+  LogoP,
   LUImg,
   LUWrap2,
-  LogoP,
   Main,
   QTCard,
   QTWrapC,
@@ -70,6 +70,8 @@ const FollowBtn: FunctionComponent<{
       }
     } catch (error) {
       toast.error('Server error')
+    } finally {
+      setLoading(false)
     }
   }
 
