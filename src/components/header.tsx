@@ -316,6 +316,13 @@ const Header: FunctionComponent<{ isApp?: boolean }> = ({ isApp = true }) => {
     <>
       <Wrap isApp={isApp}>
         <LeftSession>
+          <ImageLogoBox
+            width={150}
+            height={100}
+            onClick={() => router.push(RouterConst.HOME)}
+            src={StorageConst.APP_LOGO_DIR.src}
+            alt={StorageConst.APP_LOGO_DIR.alt}
+          />
           <BoxLink>
             <LinkText href={RouterConst.COMMUNITIES}>
               <TitleText>{'Communities'}</TitleText>
@@ -326,13 +333,6 @@ const Header: FunctionComponent<{ isApp?: boolean }> = ({ isApp = true }) => {
               {navActive === NavBarEnum.QUESTCARD && <Underline />}
             </LinkText>
           </BoxLink>
-          <ImageLogoBox
-            width={150}
-            height={100}
-            onClick={() => router.push(RouterConst.HOME)}
-            src={StorageConst.APP_LOGO_DIR.src}
-            alt={StorageConst.APP_LOGO_DIR.alt}
-          />
         </LeftSession>
         <RightSession>
           <LoginStore.Provider>

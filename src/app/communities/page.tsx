@@ -25,7 +25,6 @@ const TitleBox = tw(Horizontal)`
   px-64
   3xl:px-96
   py-6
-  max-xl:px-[100px]
   w-full
   justify-between
 `

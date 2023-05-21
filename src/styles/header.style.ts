@@ -3,7 +3,12 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
+import {
+  Horizontal,
+  HorizontalCenter,
+  HorizontalStartCenter,
+  Vertical,
+} from '@/widgets/orientation'
 import { Popover } from '@headlessui/react'
 
 type NavBarType = {
@@ -13,8 +18,8 @@ type NavBarType = {
 export const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
   tw`
   w-full
-  xl:flex
-  xl:flex-row
+  flex
+  flex-row
   justify-between
   items-center
   h-[70px]
@@ -36,20 +41,16 @@ export const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
 
 // ============= LEFT SESSION =============
 
-export const LeftSession = tw.div`
+export const LeftSession = tw(HorizontalStartCenter)`
+  gap-4
   h-full
-  w-1/2
-  relative
-  object-center
-  max-xl:w-[calc(100%_-_45px)]
-  max-xl:absolute
+  w-full
 `
 
 export const BoxLink = tw(Horizontal)`
-  absolute
   h-full
   w-full
-  justify-center
+  justify-start
   items-center
   max-lg:hidden
 `
@@ -93,19 +94,13 @@ export const Underline = tw.div`
 // ============= RIGHT SESSION =============
 
 export const RightSession = tw(Horizontal)`
-  w-1/2
+  w-full
   items-center
   justify-end
-  max-xl:absolute
-  max-xl:w-1/4
-  max-xl:right-0
-  max-xl:pr-3
-  max-xl:h-[70px]
 `
 
 // ============= USER INFORMATION =============
 export const UserSession = tw(HorizontalCenter)`
-  px-[20px]
   cursor-pointer
   max-lg:hidden
 `
@@ -117,7 +112,6 @@ export const UserInfo = tw(Vertical)`
 
 export const ImageLogoBox = styled(Image)(tw`
   cursor-pointer
-  absolute
   h-full
   max-sm:w-[100px]
   max-2xl:w-[120px]
