@@ -102,7 +102,7 @@ const CustomLeftArrow = ({ onClick }: ArrowProps) => {
 }
 
 const CommunityList: FunctionComponent<{ byTrending: boolean }> = ({
-  byTrending: highlighted,
+  byTrending,
 }) => {
   const [loading, setLoading] = useState<boolean>(true)
   const [communities, setCommunities] = useState<ProjectType[]>([])
@@ -114,7 +114,7 @@ const CommunityList: FunctionComponent<{ byTrending: boolean }> = ({
   const fetchCommunityList = async () => {
     setLoading(true)
     try {
-      const list = await listCommunities(0, 50)
+      const list = await listCommunities(0, 50, '', byTrending)
       setCommunities(list.data!.projects)
     } catch (error) {
       // TODO: show error (not toast) to indicate that the communities cannot be loaded.
