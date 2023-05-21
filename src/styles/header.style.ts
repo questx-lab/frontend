@@ -50,7 +50,6 @@ export const LeftSession = tw(HorizontalStartCenter)`
 export const BoxLink = tw(Horizontal)`
   h-full
   w-full
-  justify-start
   items-center
   max-lg:hidden
 `
