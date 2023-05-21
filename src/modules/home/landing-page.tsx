@@ -34,7 +34,6 @@ const HeadWrap = tw(Vertical)`
   h-full
   px-64
   3xl:px-96
-
 `
 
 const HeadBox = tw(HorizontalBetweenCenter)`

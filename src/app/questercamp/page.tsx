@@ -36,8 +36,8 @@ const FFitlerBox = tw(Horizontal)`
 `
 
 const Main = tw(Vertical)`
-  px-48
-  max-2xl:px-32
+  px-64
+  3xl:px-96
   pb-[30px]
   max-xl:px-[100px]
   w-full
