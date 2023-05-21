@@ -37,34 +37,28 @@ const PositiveButtonStyle = styled.button<{
   block?: boolean
   isFull?: boolean
 }>(({ block = false, isFull = false }) => [
+  tw`
+      text-lg
+      text-white
+      font-medium
+      py-3
+      px-6
+      rounded-lg
+      max-lg:hidden
+      flex
+      justify-center
+      items-center
+      outline-0
+  `,
+
   !block &&
     tw`
       bg-primary
       hover:bg-primary-300
-      text-sm
-      text-white
-      font-medium
-      py-3
-      px-6
-      rounded-lg
-      max-lg:hidden
-      flex
-      justify-center
-      items-center
     `,
   block &&
     tw`
       bg-primary-300
-      text-sm
-      text-white
-      font-medium
-      py-3
-      px-6
-      rounded-lg
-      max-lg:hidden
-      flex
-      justify-center
-      items-center
     `,
   isFull && tw`w-full`,
 ])

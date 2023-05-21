@@ -12,6 +12,7 @@ export const HorizontalStartCenter = tw.div`
   flex-row
   justify-start
   items-center
+  gap-2
 `
 
 export const HorizontalCenter = tw.div`
@@ -53,6 +54,7 @@ export const VerticalFullWidth = tw(Vertical)`
   w-full
   flex
   flex-col
+  gap-2
 `
 
 export const VerticalBetween = tw.div`

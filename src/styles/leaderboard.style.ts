@@ -2,12 +2,12 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { Tab } from '@headlessui/react'
 import {
   Horizontal,
   HorizontalBetweenCenter,
   VerticalFullWidth,
 } from '@/widgets/orientation'
+import { Tab } from '@headlessui/react'
 
 export const Wrap = tw(Horizontal)`
   min-h-screen

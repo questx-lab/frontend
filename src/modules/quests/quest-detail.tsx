@@ -6,13 +6,16 @@ import { toast } from 'react-hot-toast'
 
 import { claimRewardApi } from '@/app/api/client/reward'
 import { uploadImageApi } from '@/app/api/client/upload'
-import { ProjectRoleEnum, QuestTypeEnum } from '@/constants/project.const'
+import {
+  ProjectRoleEnum,
+  QuestTypeEnum,
+  TwitterEnum,
+} from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { CommunityStore } from '@/store/local/community.store'
-import { DeleteBtn, EditButton, FullWidthBtn } from '@/styles/button.style'
+import { DeleteBtn, EditButton } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
-import { InputBox } from '@/styles/input.style'
 import {
   ContentBox,
   ContentCard,
@@ -24,8 +27,9 @@ import {
   Title,
   WrapBtn,
 } from '@/styles/quest-detail.style'
-import { QuestType } from '@/types/project.type'
+import { QuestTwitterActionType, QuestType } from '@/types/project.type'
 import { getUserLocal } from '@/utils/helper'
+import { PositiveButton } from '@/widgets/button'
 
 import {
   QuestDiscord,
@@ -142,18 +146,10 @@ const SubmitButton: FunctionComponent = () => {
   }
 
   switch (role) {
-    case (ProjectRoleEnum.OWNER, ProjectRoleEnum.EDITOR):
-      return (
-        <WrapBtn>
-          <EditButton> {'Edit'} </EditButton>
-          <DeleteBtn> {'Delete'} </DeleteBtn>
-        </WrapBtn>
-      )
-
     case ProjectRoleEnum.GUEST:
       return (
-        <FullWidthBtn
-          disabled={block}
+        <PositiveButton
+          isFull
           block={block}
           onClick={() =>
             handleSubmit(
@@ -166,16 +162,21 @@ const SubmitButton: FunctionComponent = () => {
           }
         >
           {'Claim Reward'}
-        </FullWidthBtn>
+        </PositiveButton>
       )
 
     default:
-      return <></>
+      return (
+        <WrapBtn>
+          <EditButton> {'Edit'} </EditButton>
+          <DeleteBtn> {'Delete'} </DeleteBtn>
+        </WrapBtn>
+      )
   }
 }
 
 const generateRetweetLink = (status_link: string): string => {
-  const status_id = status_link.split('/').pop()
+  const status_id = status_link.split('/').at(-1)
   return `https://twitter.com/intent/retweet?tweet_id=${status_id}`
 }
 
@@ -190,13 +191,14 @@ const generateReplyLink = (
 const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   const {
     tweet_url,
-    like,
-    reply,
-    retweet,
+    twitter_handle,
     default_reply,
     link,
     discord_invite_url,
     telegram_invite_url,
+    like,
+    reply,
+    retweet,
   } = quest.validation_data || {}
 
   const setReplyUrlSubmit = ActiveQuestStore.useStoreActions(
@@ -216,32 +218,60 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     //   return withQuizzes()
 
     case QuestTypeEnum.TWITTER_TWEET:
-      return <QuestTwitter link={tweet_url || ''} text={'Go to twitter'} />
-    case QuestTypeEnum.TWITTER_FOLLOW:
-      return <QuestTwitter link={tweet_url || ''} text={'Follow'} />
-    case QuestTypeEnum.TWITTER_JOIN_SPACE:
-      return <QuestTwitter link={tweet_url || ''} text={'Join Space'} />
-    case QuestTypeEnum.TWITTER_REACTION:
       return (
-        <>
-          {retweet && (
-            <QuestTwitter
-              link={generateRetweetLink(tweet_url || '')}
-              text={'Retweet'}
-            />
-          )}
-          {like && <QuestTwitter link={tweet_url || ''} text={'Like'} />}
-          {reply && (
-            <>
-              <InputBox onChange={(e) => setReplyUrlSubmit(e.target.value)} />
-              <QuestTwitter
-                link={generateReplyLink(tweet_url || '', default_reply || '')}
-                text={'Reply'}
-              />
-            </>
-          )}
-        </>
+        <QuestTwitter
+          actions={[
+            {
+              link: tweet_url || '',
+              action: TwitterEnum.TWEET,
+            },
+          ]}
+        />
       )
+    case QuestTypeEnum.TWITTER_FOLLOW:
+      return (
+        <QuestTwitter
+          actions={[
+            {
+              action: TwitterEnum.FOLLOW,
+              link: twitter_handle || '',
+            },
+          ]}
+        />
+      )
+    case QuestTypeEnum.TWITTER_JOIN_SPACE:
+      return (
+        <QuestTwitter
+          actions={[
+            {
+              action: TwitterEnum.JOIN_SPACE,
+              link: tweet_url ?? '',
+            },
+          ]}
+        />
+      )
+    case QuestTypeEnum.TWITTER_REACTION:
+      let actions: QuestTwitterActionType[] = []
+      if (retweet) {
+        actions.push({
+          action: TwitterEnum.RETWEET,
+          link: generateRetweetLink(tweet_url ?? ''),
+        })
+      }
+      if (like) {
+        actions.push({
+          action: TwitterEnum.LIKE,
+          link: tweet_url ?? '',
+        })
+      }
+      if (reply) {
+        actions.push({
+          action: TwitterEnum.REPLY,
+          link: generateReplyLink(twitter_handle || '', default_reply || ''),
+        })
+      }
+
+      return <QuestTwitter actions={actions} />
     case QuestTypeEnum.EMPTY:
       return <></>
     // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
@@ -278,7 +308,9 @@ export const QuestDetail: FunctionComponent<{
               alt={StorageConst.POINT_ICON.alt}
             />
             <Gap width={2} />
-            <PointText>{'300 Points'}</PointText>
+            <PointText>{`${
+              quest.rewards?.length && quest.rewards[0].data.points
+            } Points`}</PointText>
           </HeaderBox>
         </RewardBox>
         <SubmitButton />
