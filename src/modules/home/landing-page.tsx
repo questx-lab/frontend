@@ -1,9 +1,11 @@
 import { FunctionComponent } from 'react'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NegativeButton } from '@/widgets/button'
 import {
@@ -15,8 +17,6 @@ import {
 import { LargeText } from '@/widgets/text'
 
 import HorizontalCommunities from '../community/horizontal-communities'
-import { RouterConst } from '@/constants/router.const'
-import { useRouter } from 'next/navigation'
 
 const Wrap = tw(Vertical)`
   min-h-screen
@@ -36,7 +36,6 @@ const HeadWrap = tw(Vertical)`
   h-full
   px-64
   3xl:px-96
-
 `
 
 const HeadBox = tw(HorizontalBetweenCenter)`

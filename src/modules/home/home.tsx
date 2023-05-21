@@ -18,8 +18,8 @@ import HorizontalCommunities from '../community/horizontal-communities'
 const Wrap = tw(Vertical)`
   min-h-screen
   pt-[70px]
-  px-48
-  max-2xl:px-32
+  px-64
+  3xl:px-96
 `
 
 const Main = tw(Vertical)`
