@@ -101,7 +101,9 @@ const CustomLeftArrow = ({ onClick }: ArrowProps) => {
   )
 }
 
-const CommunityList: FunctionComponent = () => {
+const CommunityList: FunctionComponent<{ byTrending: boolean }> = ({
+  byTrending,
+}) => {
   const [loading, setLoading] = useState<boolean>(true)
   const [communities, setCommunities] = useState<ProjectType[]>([])
 
@@ -112,7 +114,7 @@ const CommunityList: FunctionComponent = () => {
   const fetchCommunityList = async () => {
     setLoading(true)
     try {
-      const list = await listCommunities(0, 50)
+      const list = await listCommunities(0, 50, '', byTrending)
       setCommunities(list.data!.projects)
     } catch (error) {
       // TODO: show error (not toast) to indicate that the communities cannot be loaded.
@@ -163,7 +165,8 @@ const CommunityList: FunctionComponent = () => {
 
 const HorizontalCommunities: FunctionComponent<{
   title: string
-}> = ({ title }) => {
+  byTrending: boolean
+}> = ({ title, byTrending }) => {
   const router = useRouter()
 
   const onShowAllClicked = () => {
@@ -179,7 +182,7 @@ const HorizontalCommunities: FunctionComponent<{
           <ArrowSmallRightIcon className='text-primary w-7 h-7' />
         </PrimaryText>
       </HeaderBox>
-      <CommunityList />
+      <CommunityList byTrending />
     </Wrap>
   )
 }

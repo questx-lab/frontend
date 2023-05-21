@@ -106,8 +106,14 @@ const HomePage: FunctionComponent = () => {
     <Wrap>
       <Main>
         <Title />
-        <HorizontalCommunities title={'🔥 Trending Quests'} />
-        <HorizontalCommunities title={'⭐ Popular Communities'} />
+        <HorizontalCommunities
+          title={'🔥 Trending Communities'}
+          byTrending={true}
+        />
+        <HorizontalCommunities
+          title={'⭐ Popular Communities'}
+          byTrending={false}
+        />
         <WrapProjects>{renderProject}</WrapProjects>
       </Main>
     </Wrap>

@@ -206,8 +206,14 @@ const LandingPage: FunctionComponent = () => {
             />
           </RewardSession>
           <Main>
-            <HorizontalCommunities title={'🔥 Trending Quests'} />
-            <HorizontalCommunities title={'⭐ Popular Communities'} />
+            <HorizontalCommunities
+              title={'🔥 Trending Communities'}
+              byTrending={true}
+            />
+            <HorizontalCommunities
+              title={'⭐ Popular Communities'}
+              byTrending={false}
+            />
           </Main>
           <Footer />
         </HeadWrap>
