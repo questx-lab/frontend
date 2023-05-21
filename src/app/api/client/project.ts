@@ -45,12 +45,17 @@ export const updateProjectApi = async (
 export const listProjectsApi = async (
   offset: number = 0,
   limit: number = 12,
-  search?: string
+  search?: string,
+  byTrending: boolean = false
 ): Promise<Rsp<ListProjectsType>> => {
   let url = `/getListProject?offset=${offset}&limit=${limit}`
   if (search && search.length > 2) {
-    url = `/getListProject?offset=${offset}&limit=${limit}&q=${search}`
+    url = url + `&q=${search}`
   }
+  if (byTrending) {
+    url = url + `&by_trending=${byTrending}`
+  }
+
   const rs = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + url)
   return rs.data
 }

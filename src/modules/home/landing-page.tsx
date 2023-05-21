@@ -1,9 +1,11 @@
 import { FunctionComponent } from 'react'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NegativeButton } from '@/widgets/button'
 import {
@@ -157,6 +159,8 @@ const Footer: FunctionComponent = () => {
 }
 
 const LandingPage: FunctionComponent = () => {
+  const router = useRouter()
+
   return (
     <Wrap>
       <Head>
@@ -170,7 +174,11 @@ const LandingPage: FunctionComponent = () => {
                   'XQuest is the best way to help community projects while earning incredible rewards.'
                 }
               </Description>
-              <NegativeButton>{'Explore'}</NegativeButton>
+              <NegativeButton
+                onClick={() => router.push(RouterConst.COMMUNITIES)}
+              >
+                {'Explore'}
+              </NegativeButton>
             </InfoBox>
             <MainImage
               width={680}
@@ -197,8 +205,14 @@ const LandingPage: FunctionComponent = () => {
             />
           </RewardSession>
           <Main>
-            <HorizontalCommunities title={'🔥 Trending Quests'} />
-            <HorizontalCommunities title={'⭐ Popular Communities'} />
+            <HorizontalCommunities
+              title={'🔥 Trending Communities'}
+              byTrending={true}
+            />
+            <HorizontalCommunities
+              title={'⭐ Popular Communities'}
+              byTrending={false}
+            />
           </Main>
           <Footer />
         </HeadWrap>
