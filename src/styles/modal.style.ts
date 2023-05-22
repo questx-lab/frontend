@@ -44,7 +44,7 @@ export const MDHead = tw(Horizontal)`
 export const ModalContent = styled(Dialog.Panel)(
   tw`
   w-1/2
-  max-2xl:w-[calc(100%_-_70px)]
+  max-xl:w-2/3
   h-full
   bg-white
   text-center

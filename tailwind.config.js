@@ -138,6 +138,7 @@ module.exports = {
       // => @media (min-width: 2560px) { ... }
     },
     colors: {
+      transparent: '#F5F6FF00',
       primary: {
         50: '#f5f6ff',
         100: '#ECEDFF',

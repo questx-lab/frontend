@@ -42,7 +42,7 @@ export default function Editor({
 }) {
   return (
     <QuillNoSSRWrapper
-      className='rounded-lg'
+      className='rounded-lg w-full'
       modules={modules}
       formats={formats}
       theme='snow'

@@ -1,9 +1,9 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
 import { AnswerStatusEnum } from '@/constants/project.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
-import { LabelInput, RequireSignal } from '@/styles/input.style'
+import { RequireSignal } from '@/styles/input.style'
 import {
   AnswerBox,
   AnswerInput,
@@ -12,26 +12,38 @@ import {
   QuestQuizBox,
   SquareBox,
 } from '@/styles/quest.style'
-import { LabelDes } from '@/styles/questboard.style'
 import { MultipleTextField } from '@/widgets/form'
+import { HorizontalBetweenCenterFullWidth } from '@/widgets/orientation'
+import { Label, NormalText } from '@/widgets/text'
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
-const Alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K']
+export const Alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K']
 
-const AnswerItem: FunctionComponent = () => {
-  // data
-  const quizAnswers = NewQuestStore.useStoreState((state) => state.quizAnswers)
-  const quizCorrectAnswers = NewQuestStore.useStoreState(
-    (state) => state.quizCorrectAnswers
+const AnswerItem: FunctionComponent<{ id: number }> = ({ id }) => {
+  const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
+  const setQuizzes = NewQuestStore.useStoreActions(
+    (action) => action.setQuizzes
   )
 
-  // action
-  const setQuizAnswers = NewQuestStore.useStoreActions(
-    (action) => action.setQuizAnswers
-  )
-  const setQuizCorrectAnswers = NewQuestStore.useStoreActions(
-    (action) => action.setQuizCorrectAnswers
-  )
+  // hook
+  const [quizAnswers, setQuizAnswers] = useState<string[]>([])
+  const [quizCorrectAnswers, setQuizCorrectAnswers] = useState<string[]>([])
+
+  useEffect(() => {
+    const copyQuizz = quizzes
+    copyQuizz.forEach((quiz, i) => {
+      if (i === id) {
+        quiz.answers = quizCorrectAnswers
+        quiz.options = quizAnswers
+      }
+    })
+    setQuizzes([...copyQuizz])
+  }, [quizAnswers, quizCorrectAnswers])
+
+  useEffect(() => {
+    setQuizCorrectAnswers(quizzes[id].answers)
+    setQuizAnswers(quizzes[id].options)
+  }, [quizzes])
 
   // handler
   const handleCorrectAnswers = (value: string) => {
@@ -112,42 +124,55 @@ const AnswerItem: FunctionComponent = () => {
   )
 }
 
-const QuestQuiz: FunctionComponent = () => {
-  // data
-  const quizQuestion = NewQuestStore.useStoreState(
-    (state) => state.quizQuestion
+const QuestQuiz: FunctionComponent<{ id: number }> = ({ id }) => {
+  const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
+  const setQuizzes = NewQuestStore.useStoreActions(
+    (action) => action.setQuizzes
   )
 
-  // action
-  const setQuizQuestion = NewQuestStore.useStoreActions(
-    (action) => action.setQuizQuestion
-  )
+  const onRemove = () => {
+    const copyQuizz = quizzes.filter((e) => e.id !== quizzes[id].id)
+    setQuizzes([...copyQuizz])
+  }
+
+  const onChange = (e: string) => {
+    const copyQuizz = quizzes
+    copyQuizz.forEach((quiz) => {
+      if (quiz.id === quizzes[id].id) {
+        quiz.question = e
+      }
+    })
+    setQuizzes([...copyQuizz])
+  }
 
   return (
     <QuestQuizBox>
-      <LabelInput>
-        {'QUESTION'}
-        <RequireSignal>{'*'}</RequireSignal>
-      </LabelInput>
+      <HorizontalBetweenCenterFullWidth>
+        <Label>
+          {'QUESTION'}
+          <RequireSignal>{'*'}</RequireSignal>
+        </Label>
+        <XMarkIcon onClick={onRemove} className='w-6 h-6 cursor-pointer' />
+      </HorizontalBetweenCenterFullWidth>
       <MultipleTextField
         required
-        value={quizQuestion}
-        onChange={(e) => setQuizQuestion(e.target.value)}
+        value={quizzes[id].question ?? ''}
+        onChange={(e) => onChange(e.target.value)}
         placeholder='Write a question'
         errorMsg='You must have a question to create this quest.'
       />
       <Gap />
-      <LabelInput>
+      <Label>
         {'ANSWERS'}
         <RequireSignal>{'*'}</RequireSignal>
-      </LabelInput>
-      <LabelDes>
+      </Label>
+      <NormalText>
         {
           'Click to select a correct answer, otherwise any answer will be accepted e.g. for a vote.'
         }
-      </LabelDes>
+      </NormalText>
       <Gap />
-      <AnswerItem />
+      <AnswerItem id={id} />
     </QuestQuizBox>
   )
 }
