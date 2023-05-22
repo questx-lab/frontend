@@ -11,6 +11,8 @@ export const verifyOAuth2 = async (
     EnvVariables.NEXT_PUBLIC_API_URL +
       `/oauth2/verify?type=${type}&access_token=${access_token}`
   )
+  console.log(result)
+
   return result.data
 }
 
