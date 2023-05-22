@@ -20,10 +20,12 @@ import {
 } from '@/styles/questboard.style'
 import { QuestType } from '@/utils/type'
 
-const OuterBox = styled.div<{ isTemplate: boolean; manage: boolean }>(
-  ({ isTemplate, manage }) => {
-    if (!isTemplate) {
-      return tw`
+const OuterBox = styled.div<{
+  isTemplate: boolean
+  manage: boolean
+}>(({ isTemplate, manage }) => {
+  if (!isTemplate) {
+    return tw`
         cursor-pointer
         border
         rounded-lg
@@ -39,10 +41,10 @@ const OuterBox = styled.div<{ isTemplate: boolean; manage: boolean }>(
         justify-center
         items-center
       `
-    }
+  }
 
-    if (manage) {
-      return tw`
+  if (manage) {
+    return tw`
         cursor-pointer
         border
         rounded-lg
@@ -58,9 +60,9 @@ const OuterBox = styled.div<{ isTemplate: boolean; manage: boolean }>(
         mr-4
         hover:shadow-lg
       `
-    }
+  }
 
-    return tw`
+  return tw`
       cursor-pointer
       border
       rounded-lg
@@ -75,8 +77,7 @@ const OuterBox = styled.div<{ isTemplate: boolean; manage: boolean }>(
       mr-4
       hover:shadow-lg
     `
-  }
-)
+})
 
 export const QuestCard: FunctionComponent<{
   quest: QuestType

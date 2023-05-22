@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import tw from 'twin.macro';
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
-import { Horizontal } from '@/widgets/orientation';
+import { Horizontal } from '@/widgets/orientation'
 
 export const WrapBtn = tw.div`
   w-full
@@ -142,7 +142,7 @@ export const ConnectedTwitterBtn = tw.button`
   max-xl:text-sm
 `
 
-export const CreateProjectBtn = styled.button<{isBlock?:boolean}>(
+export const CreateProjectBtn = styled.button<{ isBlock?: boolean }>(
   ({ isBlock = true }) => [
     isBlock
       ? tw`
@@ -199,9 +199,10 @@ export const Pcancel = tw.button`
   max-lg:text-sm
 `
 
-export const PSave = styled.button<{isBlock?:boolean}>(({ isBlock = true }) => [
-  isBlock
-    ? tw`
+export const PSave = styled.button<{ isBlock?: boolean }>(
+  ({ isBlock = true }) => [
+    isBlock
+      ? tw`
           bg-gray-200
           border
           border-0
@@ -218,7 +219,7 @@ export const PSave = styled.button<{isBlock?:boolean}>(({ isBlock = true }) => [
           shadow-lg
           max-lg:text-sm
         `
-    : tw`
+      : tw`
           bg-primary-500
           border
           hover:bg-primary-400
@@ -232,7 +233,8 @@ export const PSave = styled.button<{isBlock?:boolean}>(({ isBlock = true }) => [
           shadow-lg
           max-lg:text-sm
         `,
-])
+  ]
+)
 
 export const PFollow = styled.button<{ isFollow?: boolean }>(({ isFollow }) => [
   isFollow
