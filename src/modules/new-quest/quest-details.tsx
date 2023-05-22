@@ -45,7 +45,7 @@ const QuestDetails = () => {
   )
 
   const onConnectDiscord = () => {
-    signIn('discord')
+    signIn('discord', {}, { withDiscordServer: 'true' })
   }
   switch (questType) {
     case QuestTypeEnum.URL:
