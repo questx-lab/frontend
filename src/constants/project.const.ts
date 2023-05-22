@@ -262,3 +262,19 @@ export const SocialDisplayMap = new Map<SocialDisplay, string>([
   [SocialDisplay.DISCORD, 'Discord profile'],
   [SocialDisplay.EMAIL, 'Email address'],
 ])
+
+export enum SizeEnum {
+  x32,
+  x48,
+  x64,
+  x96,
+}
+
+export enum ColorEnum {
+  NONE,
+  PRIMARY,
+  WARNING,
+  INFO,
+  SUCCESS,
+  DANGER,
+}

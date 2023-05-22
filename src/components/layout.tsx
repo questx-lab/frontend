@@ -55,9 +55,11 @@ export const LayoutDefault = ({ children }: { children: ReactNode }) => {
 export const Layout = ({
   children,
   isApp = true,
+  isFull = true,
 }: {
   children: ReactNode
   isApp?: boolean
+  isFull?: boolean
 }) => {
   // data
   const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
@@ -162,7 +164,7 @@ export const Layout = ({
       <body>
         <Main>
           <div className='overflow-scroll'>{children}</div>
-          <Header isApp={isApp} />
+          <Header isFull={isFull} isApp={isApp} />
         </Main>
         <Toaster position='top-center' reverseOrder={false} />
       </body>

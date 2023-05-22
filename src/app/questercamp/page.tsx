@@ -6,7 +6,6 @@ import tw from 'twin.macro'
 
 import { listQuestApi } from '@/app/api/client/quest'
 import { QuestListView } from '@/modules/quests/quest-list'
-import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { CommunityStore } from '@/store/local/community.store'
 import { Divider } from '@/styles/common.style'
 import { TitleCreatedProject } from '@/styles/myProjects.style'
@@ -79,9 +78,7 @@ export default function QuestCamp() {
         </FWrap>
         <WrapQuestboard>
           <CommunityStore.Provider>
-            <ActiveQuestStore.Provider>
-              <QuestListView questList={quests} />
-            </ActiveQuestStore.Provider>
+            <QuestListView questList={quests} />
           </CommunityStore.Provider>
         </WrapQuestboard>
       </Main>

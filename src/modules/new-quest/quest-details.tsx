@@ -1,17 +1,63 @@
 'use client'
 
+import { FunctionComponent } from 'react'
+
+import { signIn } from 'next-auth/react'
+
 import { QuestTypeEnum } from '@/constants/project.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
+import { FullWidthBtn } from '@/styles/button.style'
 import { Divider, Gap } from '@/styles/common.style'
 import { InputInviteBox } from '@/styles/input.style'
-import { LabelInput } from '@/styles/myProjects.style'
 import { TBox, TCheckBox } from '@/styles/quest.style'
 import { LabelCheckText, LabelDes, PICard } from '@/styles/questboard.style'
+import { NegativeButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
+import { Label, NormalText } from '@/widgets/text'
+import { PlusIcon } from '@heroicons/react/24/outline'
+
 import QuestQuiz from './quest-quiz'
 import TwitterList from './twitter-list'
-import { FullWidthBtn } from '@/styles/button.style'
-import { signIn } from 'next-auth/react'
+
+const AddQuestQuiz: FunctionComponent = () => {
+  const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
+  const setQuizzes = NewQuestStore.useStoreActions(
+    (action) => action.setQuizzes
+  )
+
+  let block = true
+  const quiz = quizzes[quizzes.length - 1]
+
+  // Validate quest before add more
+  if (quiz.question !== '' && quiz.answers.length && quiz.question.length) {
+    block = false
+  }
+
+  const AddQuiz = () => {
+    setQuizzes([
+      ...quizzes,
+      {
+        id: quizzes.length,
+        question: '',
+        answers: [],
+        options: [],
+      },
+    ])
+  }
+
+  return (
+    <NegativeButton block={block} isFull onClick={AddQuiz}>
+      {'Add more Quiz'}
+      <PlusIcon className='w-5 h-5' />
+    </NegativeButton>
+  )
+}
+
+const ListQuizzes: FunctionComponent = () => {
+  const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
+  const renderQuizzes = quizzes.map((e, i) => <QuestQuiz key={i} id={i} />)
+  return <>{renderQuizzes}</>
+}
 
 const QuestDetails = () => {
   // Data
@@ -75,7 +121,7 @@ const QuestDetails = () => {
           {textAutoValid && (
             <>
               <Gap height={4} />
-              <LabelInput>{'Correct Answer'}</LabelInput>
+              <Label>{'Correct Answer'}</Label>
               <Gap height={2} />
               <TextField
                 onChange={(e) => setAnswer(e.target.value)}
@@ -93,7 +139,8 @@ const QuestDetails = () => {
     case QuestTypeEnum.QUIZ:
       return (
         <PICard>
-          <QuestQuiz />
+          <ListQuizzes />
+          <AddQuestQuiz />
         </PICard>
       )
     case QuestTypeEnum.VISIT_LINK:
@@ -101,8 +148,7 @@ const QuestDetails = () => {
         <>
           <Divider />
           <PICard>
-            <LabelInput>{'LINK'}</LabelInput>
-            <Gap height={2} />
+            <Label>{'LINK'}</Label>
             <TextField
               onChange={(e) => setVisitLink(e.target.value)}
               placeholder='https://example.com'
@@ -140,8 +186,7 @@ const QuestDetails = () => {
         <>
           <Divider />
           <PICard>
-            <LabelInput>{'JOIN TELEGRAM'}</LabelInput>
-            <Gap height={2} />
+            <Label>{'JOIN TELEGRAM'}</Label>
             <TextField
               onChange={(e) => setTelegramLink(e.target.value)}
               placeholder='Telegram invite link'
@@ -149,11 +194,9 @@ const QuestDetails = () => {
               required
               errorMsg='You must have a url to telegramLink submission.'
             />
-
-            <Gap height={2} />
-            <LabelDes>
+            <NormalText>
               {'Invite link should be in the format https://t.me/groupid'}
-            </LabelDes>
+            </NormalText>
           </PICard>
         </>
       )
@@ -162,7 +205,7 @@ const QuestDetails = () => {
         <>
           <Divider />
           <PICard>
-            <LabelInput>{'INVITES'}</LabelInput>
+            <Label>{'INVITES'}</Label>
             <Gap height={2} />
             <InputInviteBox
               onChange={(e) => setInvites(parseInt(e.target.value ?? '0'))}

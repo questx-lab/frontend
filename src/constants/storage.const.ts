@@ -7,6 +7,10 @@ export const StorageConst = {
     src: '/images/logos/google.svg',
     alt: 'Google',
   },
+  TELEGRAM_DIR: {
+    src: '/images/logos/telegram.svg',
+    alt: 'Telegram',
+  },
   DISCORD_DIR: {
     src: '/images/logos/discord.svg',
     alt: 'Discord',

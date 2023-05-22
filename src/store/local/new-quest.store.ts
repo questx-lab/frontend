@@ -1,7 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { QuestRecurrence, QuestTypeEnum } from '@/constants/project.const'
-import { QuestType, ProjectType } from '@/types/project.type'
+import { ProjectType, QuestQuizType, QuestType } from '@/types/project.type'
 
 export interface NewQuestModel {
   title: string
@@ -27,9 +27,7 @@ export interface NewQuestModel {
   chooseQuestsPending: any[]
 
   questActive: QuestType
-  quizQuestion: string
-  quizAnswers: string[]
-  quizCorrectAnswers: string[]
+  quizzes: QuestQuizType[]
   project: ProjectType
 
   // Actions
@@ -54,9 +52,7 @@ export interface NewQuestModel {
   setSpaceUrl: Action<NewQuestModel, string>
 
   setQuestActive: Action<NewQuestModel, QuestType>
-  setQuizQuestion: Action<NewQuestModel, string>
-  setQuizAnswers: Action<NewQuestModel, string[]>
-  setQuizCorrectAnswers: Action<NewQuestModel, string[]>
+  setQuizzes: Action<NewQuestModel, QuestQuizType[]>
   setProject: Action<NewQuestModel, ProjectType>
 }
 
@@ -83,9 +79,14 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   chooseQuestsHistory: [],
   chooseQuestsPending: [],
   questActive: {},
-  quizQuestion: '',
-  quizAnswers: [''],
-  quizCorrectAnswers: [],
+  quizzes: [
+    {
+      id: 0,
+      question: '',
+      answers: [],
+      options: [],
+    },
+  ],
   project: { id: '' },
 
   setTitle: action((state, newTitle) => {
@@ -168,16 +169,8 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.questActive = quest
   }),
 
-  setQuizQuestion: action((state, question) => {
-    state.quizQuestion = question
-  }),
-
-  setQuizAnswers: action((state, questions) => {
-    state.quizAnswers = questions
-  }),
-
-  setQuizCorrectAnswers: action((state, questions) => {
-    state.quizCorrectAnswers = questions
+  setQuizzes: action((state, quizzes) => {
+    state.quizzes = quizzes
   }),
 
   setProject: action((state, newProject) => {

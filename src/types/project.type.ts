@@ -93,6 +93,7 @@ export type ValidationQuest = {
   telegram_invite_link?: string
   discord_invite_link?: string
   number?: number
+  quizs?: QuestQuizType[]
 }
 
 export interface QuestType {
@@ -106,6 +107,7 @@ export interface QuestType {
   condition_op?: string
   created_at?: string
   updated_at?: string
+  rewards?: RewardType[]
   validation_data?: {
     tweet_url?: string
     like?: boolean
@@ -115,6 +117,9 @@ export interface QuestType {
     link?: string
     discord_invite_url?: string
     telegram_invite_url?: string
+    twitter_handle?: string
+    default_tweet?: string
+    quizs?: QuestQuizType[]
   }
 }
 
@@ -163,4 +168,16 @@ export type RefferalType = {
   total_claimable_projects?: number
   total_pending_projects?: number
   reward_amount?: number
+}
+
+export type QuestTwitterActionType = {
+  action: string
+  link: string
+}
+
+export type QuestQuizType = {
+  id?: number
+  question: string
+  options: string[]
+  answers: string[]
 }

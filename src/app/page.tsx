@@ -21,7 +21,7 @@ export default function Home() {
   const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
 
   return (
-    <Layout isApp={isLogin}>
+    <Layout isApp={isLogin} isFull={false}>
       <header>
         <title>{'Xquest'}</title>
       </header>
