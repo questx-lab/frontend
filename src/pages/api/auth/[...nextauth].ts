@@ -15,6 +15,7 @@ import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum } from '@/constants/key.const'
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+  const { withDiscordServer } = req.query
   return await NextAuth(req, res, {
     providers: [
       GoogleProvider({
@@ -29,9 +30,12 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       DiscordProvider({
         clientId: EnvVariables.DISCORD_ID,
         clientSecret: EnvVariables.DISCORD_SECRET,
-        authorization: {
-          params: { permission: 268435488, scope: 'guilds bot' },
-        },
+        authorization:
+          withDiscordServer === 'true'
+            ? {
+                params: { permission: 268435488, scope: 'guilds bot' },
+              }
+            : {},
       }),
     ],
     callbacks: {
@@ -70,6 +74,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             account?.access_token,
             accessToken
           )
+
           return token
         }
 
