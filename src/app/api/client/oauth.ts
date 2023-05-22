@@ -57,5 +57,7 @@ export const updateProjectDiscord = async (
       },
     }
   )
+  console.log(result)
+
   return result.data
 }
