@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react'
 
 import { signIn } from 'next-auth/react'
 
-import { QuestTypeEnum } from '@/constants/project.const'
+import { QuestTypeEnum } from '@/constants/common.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { FullWidthBtn } from '@/styles/button.style'
 import { Divider, Gap } from '@/styles/common.style'

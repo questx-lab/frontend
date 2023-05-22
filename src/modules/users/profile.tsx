@@ -9,7 +9,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { Divider } from '@/styles/common.style'
 import { ImageQuestBox } from '@/styles/questboard.style'
 import { Badge, InfoText } from '@/styles/settings.style'
-import { UserType } from '@/types/account.type'
+import { UserType } from '@/utils/type'
 import {
   Horizontal,
   HorizontalBetweenCenter,

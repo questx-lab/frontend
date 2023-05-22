@@ -1,14 +1,14 @@
 'use client'
 
 import { Fragment, FunctionComponent, useEffect } from 'react'
+
 import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
-import { TabReviewEnum } from '@/constants/project.const'
+import { TabReviewEnum } from '@/constants/common.const'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
-import { LabelInput } from '@/styles/myProjects.style'
 import {
   CbbBoxInput,
   CbbBtn,
@@ -21,7 +21,8 @@ import {
   RICard,
   WrapIcon,
 } from '@/styles/quest-review.style'
-import { QuestType } from '@/types/project.type'
+import { QuestType } from '@/utils/type'
+import { Label } from '@/widgets/text'
 import { Combobox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
@@ -157,7 +158,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
   return (
     <RCard>
       <RICard>
-        <LabelInput>{'QUEST'}</LabelInput>
+        <Label>{'QUEST'}</Label>
         <Gap height={4} />
         <Combobox
           value={questsSelectState}

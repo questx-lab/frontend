@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
-import { AnswerStatusEnum } from '@/constants/project.const'
+import { AnswerStatusEnum } from '@/constants/common.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { RequireSignal } from '@/styles/input.style'

@@ -6,7 +6,10 @@ import { useRouter } from 'next/navigation'
 import { toast, Toaster } from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { getFollowProjectApi, getMyProjectsApi } from '@/app/api/client/project'
+import {
+  getFollowCommunitiesApi,
+  getMyCommunitiesApi,
+} from '@/app/api/client/community'
 import { getMyReferralInfoApi } from '@/app/api/client/reward'
 import { getUserApi } from '@/app/api/client/user'
 import Header from '@/components/header'
@@ -131,7 +134,7 @@ export const Layout = ({
 
   const getProjectsFollowing = async () => {
     try {
-      const projects = await getFollowProjectApi()
+      const projects = await getFollowCommunitiesApi()
       if (projects.error) {
         toast.error('Error when get your following projects')
       } else {
@@ -146,7 +149,7 @@ export const Layout = ({
 
   const getMyProjects = async () => {
     try {
-      const projects = await getMyProjectsApi()
+      const projects = await getMyCommunitiesApi()
       if (projects.error) {
         toast.error('Error when get your projects')
       } else {

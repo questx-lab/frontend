@@ -1,6 +1,6 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { AuthEnum } from '@/constants/project.const'
+import { AuthEnum } from '@/constants/common.const'
 
 export interface LoginModel {
   username: string

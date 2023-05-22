@@ -8,7 +8,7 @@ import tw from 'twin.macro'
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
 import { BoxContent, CircleRouded, Wrap } from '@/styles/sidebar.style'
-import { CollaboratorType, ProjectType } from '@/types/project.type'
+import { CollaboratorType, CommunityType } from '@/utils/type'
 import { Tooltip } from '@material-tailwind/react'
 
 const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
@@ -24,7 +24,7 @@ const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
 ])
 
 const RenderFollowItems: FunctionComponent<{
-  projects: ProjectType[]
+  projects: CommunityType[]
   projectId?: string
 }> = ({ projects, projectId }) => {
   const router = useRouter()
@@ -81,7 +81,7 @@ const RenderCollabItems: FunctionComponent<{
 const ProjectSide: FunctionComponent<{ projectId?: string }> = ({
   projectId,
 }) => {
-  const projectsFollowing: ProjectType[] = useStoreState<GlobalStoreModel>(
+  const projectsFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectsFollowing
   )
   const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)

@@ -8,7 +8,7 @@ import { getTemplates } from '@/app/api/client/quest'
 import { QuestCard } from '@/modules/community/quest-card'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
-import { QuestType } from '@/types/project.type'
+import { QuestType } from '@/utils/type'
 import { Horizontal } from '@/widgets/orientation'
 
 export const Mtemplate = tw.div`

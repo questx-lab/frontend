@@ -7,7 +7,7 @@ import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { WrapQuestboard } from '@/styles/questboard.style'
-import { QuestType } from '@/types/project.type'
+import { QuestType } from '@/utils/type'
 import { VerticalFullWidth } from '@/widgets/orientation'
 
 export const QuestListView: FunctionComponent<{

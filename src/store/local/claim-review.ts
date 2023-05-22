@@ -4,8 +4,8 @@ import {
   ClaimedQuestStatus,
   QuestRecurrence,
   TabReviewEnum,
-} from '@/constants/project.const'
-import { ClaimQuestType } from '@/types/project.type'
+} from '@/constants/common.const'
+import { ClaimQuestType } from '@/utils/type'
 
 interface ClaimReviewModel {
   pendingClaims: ClaimQuestType[]

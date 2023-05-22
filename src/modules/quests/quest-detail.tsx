@@ -10,7 +10,7 @@ import {
   ProjectRoleEnum,
   QuestTypeEnum,
   TwitterEnum,
-} from '@/constants/project.const'
+} from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { CommunityStore } from '@/store/local/community.store'
@@ -27,8 +27,8 @@ import {
   Title,
   WrapBtn,
 } from '@/styles/quest-detail.style'
-import { QuestTwitterActionType, QuestType } from '@/types/project.type'
 import { getUserLocal } from '@/utils/helper'
+import { QuestTwitterActionType, QuestType } from '@/utils/type'
 import { PositiveButton } from '@/widgets/button'
 
 import { QuestQuiz } from './quest-quiz'

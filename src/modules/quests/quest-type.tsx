@@ -15,7 +15,7 @@ import {
   ProjectRoleEnum,
   SizeEnum,
   TwitterEnum,
-} from '@/constants/project.const'
+} from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { CommunityStore } from '@/store/local/community.store'
@@ -31,8 +31,8 @@ import {
   UrlBox,
   WrapUploadImg,
 } from '@/styles/quest-detail.style'
-import { QuestTwitterActionType } from '@/types/project.type'
 import { getUserLocal } from '@/utils/helper'
+import { QuestTwitterActionType } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
 import {

@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
 
-import { newFollowProjectApi } from '@/app/api/client/project'
+import { newFollowCommunityApi } from '@/app/api/client/community'
 import ProjectSide from '@/components/sidebar'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityStore } from '@/store/local/community.store'
@@ -39,7 +39,7 @@ import {
   TitleModal,
 } from '@/styles/modal.style'
 import { CardBox, QuestText, SCardBox } from '@/styles/questboard.style'
-import { ProjectType } from '@/types/project.type'
+import { CommunityType } from '@/utils/type'
 import { LargeText, NormalText } from '@/widgets/text'
 import { Transition } from '@headlessui/react'
 
@@ -47,10 +47,10 @@ import Leaderboard from './leaderboard'
 import QuestBoardTab from './questboard'
 
 const FollowBtn: FunctionComponent<{
-  project: ProjectType
+  project: CommunityType
 }> = ({ project }) => {
   const [loading, setLoading] = useState<boolean>(false)
-  const projects: ProjectType[] = useStoreState<GlobalStoreModel>(
+  const projects: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectsFollowing
   )
   const setProjectsFollowing = useStoreActions<GlobalStoreModel>(
@@ -60,7 +60,7 @@ const FollowBtn: FunctionComponent<{
   const handleFollow = async () => {
     setLoading(true)
     try {
-      const data = await newFollowProjectApi(project.id)
+      const data = await newFollowCommunityApi(project.id)
       if (data.error) {
         toast.error(data.error)
       } else {

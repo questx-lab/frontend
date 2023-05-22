@@ -25,7 +25,7 @@ import {
   MPadding,
   Wrap,
 } from '@/styles/questboard.style'
-import { QuestType } from '@/types/project.type'
+import { QuestType } from '@/utils/type'
 import { BasicModal } from '@/widgets/modal'
 
 import ControlPanel from '../new-quest/control-panel'

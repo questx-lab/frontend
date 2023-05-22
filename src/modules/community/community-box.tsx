@@ -7,7 +7,7 @@ import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
-import { ProjectType } from '@/types/project.type'
+import { CommunityType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
 
 const ContentProjectBox = tw(Vertical)`
@@ -95,7 +95,7 @@ const Title = tw.p`
   3xl:text-4xl
 `
 
-const CommunityBox: FunctionComponent<{ community: ProjectType }> = ({
+const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({
   community,
 }) => {
   const router = useRouter()

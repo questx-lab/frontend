@@ -1,6 +1,5 @@
 import { EnvVariables } from '@/constants/env.const'
-import { Rsp } from '@/types/common.type'
-import { WalletLoginRes, WalletVerifyRes } from '@/types/metamask.type'
+import { Rsp, WalletLoginRes, WalletVerifyRes } from '@/utils/type'
 
 import { api } from '../config/api'
 
@@ -17,8 +16,8 @@ export const loginMetamask = async (
 export const verifyMetaMask = async (
   signature: string
 ): Promise<WalletVerifyRes> => {
-  const result = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/wallet/verify?signature=${signature}`
+  const result = await api.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + `/verifyWallet?signature=${signature}`
   )
   return result.data
 }

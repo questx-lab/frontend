@@ -5,14 +5,14 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { useStoreState } from 'easy-peasy'
 import { toast } from 'react-hot-toast'
 
-import { getProjectApi } from '@/app/api/client/project'
+import { getCommunityApi } from '@/app/api/client/community'
 import { Layout } from '@/components/layout'
-import { ProjectRoleEnum } from '@/constants/project.const'
-import ManageProject from '@/modules/community/manage'
+import { ProjectRoleEnum } from '@/constants/common.const'
 import CommunityGuest from '@/modules/community/community-guest'
+import ManageProject from '@/modules/community/manage'
 import { CommunityStore } from '@/store/local/community.store'
 import { GlobalStoreModel } from '@/store/store'
-import { CollaboratorType } from '@/types/project.type'
+import { CollaboratorType } from '@/utils/type'
 import { Spinner } from '@/widgets/spinner'
 
 const ProjectBox: FunctionComponent<{ projectId: string }> = ({
@@ -41,7 +41,7 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
   // handler
   const fetchProject = async () => {
     try {
-      const rs = await getProjectApi(projectId)
+      const rs = await getCommunityApi(projectId)
       if (rs.error) {
         toast.error(rs.error)
       } else {

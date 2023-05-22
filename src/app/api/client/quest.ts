@@ -1,13 +1,13 @@
+import { ClaimedQuestStatus } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
-import { ClaimedQuestStatus } from '@/constants/project.const'
-import { Rsp } from '@/types/common.type'
 import {
   ClaimQuestType,
   ListClaimQuestType,
   LQuestType,
   QuestType,
   ReqNewQuestType,
-} from '@/types/project.type'
+  Rsp,
+} from '@/utils/type'
 
 import { api } from '../config/api'
 
@@ -30,7 +30,7 @@ export const listQuestApi = async (
   }
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getListQuest?project_id=${projectId}&limit=40&q=${search}`
+      `/getQuests?project_id=${projectId}&limit=40&q=${search}`
   )
   return data
 }
@@ -61,7 +61,7 @@ export const listClaimedQuestsApi = async (
   const questIds = filterQuestIds.join(',')
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getListClaimedQuest?project_id=${id}&status=${status}&quest_id=${questIds}&offset=${offset}&limit=${limit}`
+      `/getClaimedQuests?project_id=${id}&status=${status}&quest_id=${questIds}&offset=${offset}&limit=${limit}`
   )
   return data
 }

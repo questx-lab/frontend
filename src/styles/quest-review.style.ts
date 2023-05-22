@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { ClaimedQuestStatus, ReviewBtnEnum } from '@/constants/project.const'
-import { Combobox, Dialog } from '@headlessui/react'
+import { ClaimedQuestStatus, ReviewBtnEnum } from '@/constants/common.const'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
+import { Combobox, Dialog } from '@headlessui/react'
 
 export const Main = tw(VerticalFullWidth)`
   items-center

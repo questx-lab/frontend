@@ -1,6 +1,6 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { LeaderboardType } from '@/types/project.type'
+import { LeaderboardType } from '@/utils/type'
 
 export interface LeaderboardModel {
   week: LeaderboardType[]

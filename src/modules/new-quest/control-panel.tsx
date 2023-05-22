@@ -5,7 +5,7 @@ import { FunctionComponent } from 'react'
 import { useStoreState } from 'easy-peasy'
 import { useRouter } from 'next/navigation'
 
-import { SideEnum } from '@/constants/project.const'
+import { SideEnum } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
 import { Divider, Gap } from '@/styles/common.style'

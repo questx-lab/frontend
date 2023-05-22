@@ -1,16 +1,50 @@
-import { UserType } from './account.type'
+export type WalletLoginRes = {
+  error: number
+  data: WalletData
+}
 
-export type ReqNewProject = {
+export type WalletData = {
+  nonce: string
+}
+
+export type WalletVerifyRes = {
+  error: number
+  data: {
+    access_token: string
+  }
+}
+
+export type Rsp<T> = {
+  code: number
+  data?: T
+  error?: string
+}
+
+export type UserType = {
+  id?: string
+  address?: string
+  name?: string
+  services?: {
+    discord?: string
+    twitter?: string
+    google?: string
+  }
+  is_new_user?: boolean
+  role?: string
+  referral_code?: string
+}
+
+export type ReqNewCommunity = {
   name: string
   introduction?: string
   telegram?: string
-  projectUrl?: string
+  websiteUrl?: string
   website?: string
   discord?: string
   twitter?: string
 }
 
-export type ReqUpdateProject = {
+export type ReqUpdateCommunity = {
   id: string
   name?: string
   introduction?: string
@@ -25,13 +59,13 @@ export type ReqUpdateProject = {
 
 export type CollaboratorType = {
   name: string
-  project: ProjectType
+  project: CommunityType
   project_id: string
   user: UserType
   user_id: string
 }
 
-export type ProjectType = {
+export type CommunityType = {
   id: string
   created_at?: string
   updated_at?: string
@@ -44,11 +78,11 @@ export type ProjectType = {
   website_url?: string
 }
 
-export type ListProjectsType = {
-  projects: ProjectType[]
+export type ListCommunitiesType = {
+  projects: CommunityType[]
 }
 
-export type ReqNewRoleProject = {
+export type ReqNewRoleCommunity = {
   project_id: string
   user_id: string
   name: string
@@ -180,4 +214,12 @@ export type QuestQuizType = {
   question: string
   options: string[]
   answers: string[]
+}
+
+export type OAuth2VerifyResp = {
+  error: number
+  data: {
+    access_token: string
+    refresh_token: string
+  }
 }

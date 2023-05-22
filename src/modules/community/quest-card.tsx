@@ -18,7 +18,7 @@ import {
   StartBoarding,
   TitleQuestBox,
 } from '@/styles/questboard.style'
-import { QuestType } from '@/types/project.type'
+import { QuestType } from '@/utils/type'
 
 const OuterBox = styled.div<{ isTemplate: boolean; manage: boolean }>(
   ({ isTemplate, manage }) => {

@@ -6,7 +6,7 @@ import {
   ActiveEnum,
   QuestTypeEnum,
   TwitterEnum,
-} from '@/constants/project.const'
+} from '@/constants/common.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Divider, Gap } from '@/styles/common.style'
 import { MulInputBox } from '@/styles/input.style'

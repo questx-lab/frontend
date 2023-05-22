@@ -1,6 +1,5 @@
 import { EnvVariables } from '@/constants/env.const'
-import { Rsp } from '@/types/common.type'
-import { RefferalType, ReqClaimReward } from '@/types/project.type'
+import { RefferalType, ReqClaimReward, Rsp } from '@/utils/type'
 
 import { api } from '../config/api'
 
@@ -16,7 +15,7 @@ export const claimRewardApi = async (
 
 export const getMyReferralInfoApi = async (): Promise<Rsp<RefferalType>> => {
   const { data } = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + '/getMyReferralInfo'
+    EnvVariables.NEXT_PUBLIC_API_URL + '/getMyReferrals'
   )
   return data
 }

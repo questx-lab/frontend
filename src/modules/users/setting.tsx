@@ -8,7 +8,7 @@ import { Achievement } from '@/modules/users/setting-achievement'
 import { General } from '@/modules/users/setting-general'
 import { UserStore } from '@/store/local/user.store'
 import { GlobalStoreModel } from '@/store/store'
-import { UserType } from '@/types/account.type'
+import { UserType } from '@/utils/type'
 
 import {
   Asside,

@@ -1,20 +1,20 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { ProjectRoleEnum } from '@/constants/project.const'
-import { CategoryType, ProjectType } from '@/types/project.type'
+import { ProjectRoleEnum } from '@/constants/common.const'
+import { CategoryType, CommunityType } from '@/utils/type'
 
 interface CommunityModel {
-  project: ProjectType
-  projects: ProjectType[]
+  project: CommunityType
+  projects: CommunityType[]
   query: string
-  searchProjects: ProjectType[]
+  searchProjects: CommunityType[]
   role: number
   categories: CategoryType[]
 
-  setProject: Action<CommunityModel, ProjectType>
-  setProjects: Action<CommunityModel, ProjectType[]>
+  setProject: Action<CommunityModel, CommunityType>
+  setProjects: Action<CommunityModel, CommunityType[]>
   setQuery: Action<CommunityModel, string>
-  setSearchProjects: Action<CommunityModel, ProjectType[]>
+  setSearchProjects: Action<CommunityModel, CommunityType[]>
   setRole: Action<CommunityModel, number>
   setCategories: Action<CommunityModel, CategoryType[]>
 }

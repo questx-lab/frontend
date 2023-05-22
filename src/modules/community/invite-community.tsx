@@ -11,9 +11,8 @@ import { StorageConst } from '@/constants/storage.const'
 import { signWallet } from '@/handler/auth/metamask'
 import { GlobalStoreModel } from '@/store/store'
 import { InputBox } from '@/styles/input.style'
-import { UserType } from '@/types/account.type'
-import { RefferalType } from '@/types/project.type'
 import { setUserLocal } from '@/utils/helper'
+import { RefferalType, UserType } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/button'
 import {
   Horizontal,

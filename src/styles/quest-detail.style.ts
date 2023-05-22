@@ -2,7 +2,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { ButtonSocialType } from '@/constants/project.const'
+import { ButtonSocialType } from '@/constants/common.const'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 
 export const Title = tw.div`
