@@ -1,6 +1,6 @@
 'use client'
 
-import { FunctionComponent, useState, useEffect } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
 import {
   EasyPeasyConfig,
@@ -12,7 +12,9 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
+import tw from 'twin.macro'
 
+import { getProjectApi } from '@/app/api/client/project'
 import { newQuestApi } from '@/app/api/client/quest'
 import {
   QuestStatusEnum,
@@ -26,9 +28,8 @@ import QuestTemplate from '@/modules/new-quest/quest-template'
 import QuestTypeView from '@/modules/new-quest/quest-type'
 import Recurrence from '@/modules/new-quest/recurrence'
 import { NewQuestModel, NewQuestStore } from '@/store/local/new-quest.store'
-import { BtnCreateQuest, BtnDraft } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
-import { LabelInput, RequireSignal } from '@/styles/input.style'
+import { RequireSignal } from '@/styles/input.style'
 import {
   BtnWrap,
   CBox,
@@ -37,13 +38,20 @@ import {
   CWrap,
   ICard,
   PICard,
-  TitleBox,
 } from '@/styles/questboard.style'
 import { ReqNewQuestType, ValidationQuest } from '@/types/project.type'
+import { NegativeButton, PositiveButton } from '@/widgets/button'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
 import { ProgressModal } from '@/widgets/modal'
-import { getProjectApi } from '@/app/api/client/project'
+import { HorizontalStartCenter } from '@/widgets/orientation'
+import { Label } from '@/widgets/text'
+
+const TitleBox = tw(HorizontalStartCenter)`
+  px-12
+  py-6
+  w-full
+`
 
 const CreateQuestLabel: FunctionComponent<{
   id: string
@@ -84,13 +92,7 @@ const ButtonSubmit: FunctionComponent<{
     (state) => state.actionTwitter
   )
   const visitLink = NewQuestStore.useStoreState((state) => state.visitLink)
-  const quizQuestion = NewQuestStore.useStoreState(
-    (state) => state.quizQuestion
-  )
-  const quizAnswers = NewQuestStore.useStoreState((state) => state.quizAnswers)
-  const quizCorrectAnswers = NewQuestStore.useStoreState(
-    (state) => state.quizCorrectAnswers
-  )
+  const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
   const accountUrl = NewQuestStore.useStoreState((state) => state.accountUrl)
   const tweetUrl = NewQuestStore.useStoreState((state) => state.tweetUrl)
   const contentTw = NewQuestStore.useStoreState((state) => state.contentTw)
@@ -131,15 +133,14 @@ const ButtonSubmit: FunctionComponent<{
         }
         break
       case QuestTypeEnum.QUIZ:
-        const validQuest = quizAnswers.filter((e) => e === '')
+        const quiz = quizzes[quizzes.length - 1]
         if (
-          quizQuestion !== '' &&
-          !validQuest.length &&
-          quizCorrectAnswers.length > 0
+          quiz.question !== '' &&
+          quiz.answers.length &&
+          quiz.question.length
         ) {
           disable = false
         }
-
         break
       case QuestTypeEnum.VISIT_LINK:
         if (visitLink !== '') {
@@ -202,20 +203,20 @@ const ButtonSubmit: FunctionComponent<{
 
   return (
     <BtnWrap>
-      <BtnDraft
-        disabled={disable}
+      <NegativeButton
+        isFull
         block={disable}
         onClick={() => submitAction(QuestStatusEnum.DRAFT)}
       >
         {'Draft'}
-      </BtnDraft>
-      <BtnCreateQuest
-        disabled={disable}
+      </NegativeButton>
+      <PositiveButton
+        isFull
         block={disable}
         onClick={() => submitAction(QuestStatusEnum.ACTIVE)}
       >
         {'Publish'}
-      </BtnCreateQuest>
+      </PositiveButton>
     </BtnWrap>
   )
 }
@@ -256,6 +257,11 @@ const handleSubmit = async (
       validations.answer = state.anwser
       break
     case QuestTypeEnum.QUIZ:
+      validations.quizs = state.quizzes.map((e) => ({
+        question: e.question,
+        answers: e.answers,
+        options: e.options,
+      }))
       break
     case QuestTypeEnum.VISIT_LINK:
       validations.link = state.visitLink
@@ -389,11 +395,10 @@ const QuestFrame: FunctionComponent<{
           <CCard>
             <ICard>
               <PICard>
-                <LabelInput>
+                <Label>
                   {'QUEST TITLE'}
                   <RequireSignal>{'*'}</RequireSignal>
-                </LabelInput>
-                <Gap />
+                </Label>
                 <TextField
                   required
                   value={title}
@@ -401,9 +406,8 @@ const QuestFrame: FunctionComponent<{
                   onChange={(e) => onTitleChanged(e.target.value)}
                   errorMsg='You must have a quest title to create this quest.'
                 />
-                <Gap height={6} />
-                <LabelInput>{'QUEST DESCRIPTION'}</LabelInput>
                 <Gap />
+                <Label>{'QUEST DESCRIPTION'}</Label>
                 <Editor onChange={(value) => onDescriptionChanged(value)} />
               </PICard>
             </ICard>

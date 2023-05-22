@@ -4,13 +4,17 @@ import { MoonLoader } from 'react-spinners'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { SizeEnum } from '@/constants/project.const'
+
 const NegativeButtonStyle = styled.button<{
   isFull?: boolean
-}>(({ isFull = false }) => [
+  width?: number
+  block?: boolean
+}>(({ isFull = false, width, block = false }) => [
   tw`
   bg-white
   hover:bg-gray-100
-  text-sm
+  text-lg
   text-gray-700
   font-medium
   py-3
@@ -29,14 +33,22 @@ const NegativeButtonStyle = styled.button<{
   3xl:rounded-xl
   3xl:py-4
   3xl:px-12
+  outline-0
 `,
+  block &&
+    tw`hover:cursor-not-allowed  hover:bg-gray-50 bg-gray-50 border-gray-200 text-gray-300`,
   isFull && tw`w-full`,
+  width === SizeEnum.x32 && tw`w-32`,
+  width === SizeEnum.x48 && tw`w-48`,
+  width === SizeEnum.x64 && tw`w-64`,
+  width === SizeEnum.x96 && tw`w-96`,
 ])
 
 const PositiveButtonStyle = styled.button<{
   block?: boolean
   isFull?: boolean
-}>(({ block = false, isFull = false }) => [
+  width?: number
+}>(({ block = false, isFull = false, width }) => [
   tw`
       text-lg
       text-white
@@ -50,7 +62,10 @@ const PositiveButtonStyle = styled.button<{
       items-center
       outline-0
   `,
-
+  width === SizeEnum.x32 && tw`w-32`,
+  width === SizeEnum.x48 && tw`w-48`,
+  width === SizeEnum.x64 && tw`w-64`,
+  width === SizeEnum.x96 && tw`w-96`,
   !block &&
     tw`
       bg-primary
@@ -59,6 +74,7 @@ const PositiveButtonStyle = styled.button<{
   block &&
     tw`
       bg-primary-300
+      hover:cursor-not-allowed
     `,
   isFull && tw`w-full`,
 ])
@@ -69,16 +85,18 @@ export const PositiveButton: FunctionComponent<{
   onClick?: () => void
   block?: boolean
   isFull?: boolean
+  width?: number
 }> = ({
   loading = false,
   children,
   onClick = () => {},
   block = false,
   isFull = false,
+  width,
 }) => {
   if (loading) {
     return (
-      <PositiveButtonStyle isFull={isFull}>
+      <PositiveButtonStyle isFull={isFull} width={width}>
         <MoonLoader
           color='hsla(168, 0%, 100%, 1)'
           loading
@@ -95,6 +113,7 @@ export const PositiveButton: FunctionComponent<{
       disabled={block}
       block={block}
       onClick={onClick}
+      width={width}
     >
       {children}
     </PositiveButtonStyle>
@@ -107,23 +126,31 @@ export const NegativeButton: FunctionComponent<{
   onClick?: () => void
   block?: boolean
   isFull?: boolean
+  width?: number
 }> = ({
   loading = false,
   children,
   onClick = () => {},
   block = false,
   isFull = false,
+  width,
 }) => {
   if (loading) {
     return (
-      <NegativeButtonStyle isFull={isFull}>
+      <NegativeButtonStyle block={block} width={width} isFull={isFull}>
         <MoonLoader color='#000' loading speedMultiplier={0.8} size={20} />
       </NegativeButtonStyle>
     )
   }
 
   return (
-    <NegativeButtonStyle isFull={isFull} disabled={block} onClick={onClick}>
+    <NegativeButtonStyle
+      block={block}
+      width={width}
+      isFull={isFull}
+      disabled={block}
+      onClick={onClick}
+    >
       {children}
     </NegativeButtonStyle>
   )

@@ -1,15 +1,19 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Dropzone from 'react-dropzone'
+import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import {
   ButtonSocialType,
+  ColorEnum,
   ProjectRoleEnum,
+  SizeEnum,
   TwitterEnum,
 } from '@/constants/project.const'
 import { StorageConst } from '@/constants/storage.const'
@@ -29,7 +33,7 @@ import {
 } from '@/styles/quest-detail.style'
 import { QuestTwitterActionType } from '@/types/project.type'
 import { getUserLocal } from '@/utils/helper'
-import { PositiveButton } from '@/widgets/button'
+import { NegativeButton, PositiveButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
 import {
   HorizontalBetweenCenter,
@@ -37,13 +41,16 @@ import {
   VerticalBetween,
   VerticalCenter,
   VerticalFullWidth,
+  VerticalFullWidthBetween,
+  VerticalFullWidthCenter,
 } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import {
-  ArrowPathIcon,
-  ChatBubbleBottomCenterIcon,
-  HandThumbDownIcon,
-  HandThumbUpIcon,
+  ArrowPathRoundedSquareIcon,
+  ChatBubbleLeftRightIcon,
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+  HeartIcon,
   LinkIcon,
 } from '@heroicons/react/24/outline'
 
@@ -58,6 +65,44 @@ const ConnectBox = tw(VerticalCenter)`
 `
 
 const ActionTwitterBox = tw(HorizontalBetweenCenter)`
+  gap-4
+  w-full
+`
+
+const WarningBox = styled(HorizontalStartCenter)<{ boxColor?: number }>(
+  ({ boxColor = ColorEnum.NONE }) => [
+    tw`
+  w-full
+  rounded-lg
+  bg-white
+  border
+  border-solid
+  border-gray-300
+  p-3
+  text-lg
+  font-normal
+  text-gray-700
+  text-start
+`,
+    boxColor === ColorEnum.PRIMARY &&
+      tw`
+        bg-primary-50
+        border-primary
+      `,
+    boxColor === ColorEnum.WARNING &&
+      tw`
+        bg-warning-50
+        border-warning
+      `,
+    boxColor === ColorEnum.DANGER &&
+      tw`
+        bg-danger-50
+        border-danger
+      `,
+  ]
+)
+
+const VerticalAction = tw(VerticalFullWidthCenter)`
   gap-4
 `
 
@@ -197,11 +242,11 @@ export const QuestDiscord: FunctionComponent<{ link: string }> = ({ link }) => {
           {'Connect Discord'}
         </SocialBtn>
       )}
-      <a href={link} target='_blank' className='w-full'>
+      <Link href={link} target='_blank' className='w-full'>
         <SocialBtn btnType={ButtonSocialType.DISCORD}>
           {'Go to Discord'}
         </SocialBtn>
-      </a>
+      </Link>
     </WrapBtn>
   )
 }
@@ -209,108 +254,182 @@ export const QuestDiscord: FunctionComponent<{ link: string }> = ({ link }) => {
 export const QuestTwitterAction: FunctionComponent<{
   actions: QuestTwitterActionType[]
 }> = ({ actions }) => {
-  const router = useRouter()
+  // hook
+  const [warningRetweet, setWarningRetweet] = useState<boolean>(false)
+  const [inputReply, setInputReply] = useState<boolean>(false)
+
+  // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const replyUrlSubmit = ActiveQuestStore.useStoreState(
+    (state) => state.replyUrlSubmit
+  )
+
+  // action
+  const setReplyUrlSubmit = ActiveQuestStore.useStoreActions(
+    (action) => action.setReplyUrlSubmit
+  )
+
+  const WarnigRetweetBox: FunctionComponent = () => {
+    if (warningRetweet) {
+      return (
+        <WarningBox boxColor={ColorEnum.DANGER}>
+          <ExclamationTriangleIcon className='w-7 h-7 text-danger' />
+          {
+            'Be sure to claim this quest right after your retweet, as we are only looking at your 50 last retweets'
+          }
+        </WarningBox>
+      )
+    }
+    return <></>
+  }
+
+  const InputReplyPost: FunctionComponent = () => {
+    if (inputReply) {
+      return (
+        <TextField
+          required
+          value={replyUrlSubmit}
+          onChange={(e) => setReplyUrlSubmit(e.target.value)}
+          placeholder='https://twitter.com/abc/status/1660098343148699649'
+          errorMsg='Input your Link after reply success'
+        />
+      )
+    }
+    return <></>
+  }
+
+  if (!user.services?.twitter) {
+    return <></>
+  }
 
   const renderActions = actions.map((e) => {
     switch (e.action) {
       case TwitterEnum.FOLLOW:
         return (
-          <ActionTwitterBox>
-            <HorizontalStartCenter>
-              <LinkIcon className='h-5 w-5' />
-              <NormalText>{e.link}</NormalText>
-            </HorizontalStartCenter>
-            <PositiveButton
-              block={!user.services?.twitter}
-              onClick={() => router.push(e.link)}
-            >
-              {e.action}
-            </PositiveButton>
-          </ActionTwitterBox>
+          <Link href={e.link} target='_blank'>
+            <ActionTwitterBox>
+              <HorizontalStartCenter>
+                <LinkIcon className='h-5 w-5' />
+                <NormalText>{e.link}</NormalText>
+              </HorizontalStartCenter>
+              <PositiveButton block={!user.services?.twitter}>
+                {e.action}
+              </PositiveButton>
+            </ActionTwitterBox>
+          </Link>
         )
       case TwitterEnum.TWEET:
         return (
-          <VerticalFullWidth>
-            <HorizontalStartCenter>
-              <NormalText>
-                {'Be sure to include the following words :'}
-              </NormalText>
-            </HorizontalStartCenter>
-            <PositiveButton
-              block={!user.services?.twitter}
-              onClick={() => router.push(e.link)}
-              isFull
-            >
-              {'Tweet about us'}
-            </PositiveButton>
-          </VerticalFullWidth>
+          <div onClick={() => setInputReply(true)}>
+            <VerticalFullWidth>
+              <Link className='w-full' href={e.link} target='_blank'>
+                <VerticalFullWidth>
+                  <HorizontalStartCenter>
+                    <NormalText>
+                      {'Be sure to include the following words :'}
+                    </NormalText>
+                  </HorizontalStartCenter>
+                  <PositiveButton block={!user.services?.twitter} isFull>
+                    {'Tweet about us'}
+                  </PositiveButton>
+                </VerticalFullWidth>
+              </Link>
+              <InputReplyPost />
+            </VerticalFullWidth>
+          </div>
         )
       case TwitterEnum.LIKE:
         return (
-          <ActionTwitterBox>
-            <HorizontalStartCenter>
-              <HandThumbUpIcon className='h-5 w-5' />
-              <NormalText>{'Like this post'}</NormalText>
-            </HorizontalStartCenter>
-            <PositiveButton
-              block={!user.services?.twitter}
-              onClick={() => router.push(e.link)}
-            >
-              {e.action}
-            </PositiveButton>
-          </ActionTwitterBox>
+          <Link href={e.link} target='_blank'>
+            <ActionTwitterBox>
+              <HorizontalStartCenter>
+                <HeartIcon className='h-7 w-7 text-info' />
+                <NormalText>{'Like this post'}</NormalText>
+              </HorizontalStartCenter>
+              <NegativeButton
+                block={!user.services?.twitter}
+                width={SizeEnum.x32}
+              >
+                {e.action}
+              </NegativeButton>
+            </ActionTwitterBox>
+          </Link>
         )
       case TwitterEnum.REPLY:
         return (
-          <ActionTwitterBox>
-            <HorizontalStartCenter>
-              <ChatBubbleBottomCenterIcon className='h-5 w-5' />
-              <NormalText>{'Replay to this post'}</NormalText>
-            </HorizontalStartCenter>
+          <div onClick={() => setInputReply(true)}>
+            <VerticalFullWidth>
+              <Link href={e.link} target='_blank' className='w-full'>
+                <ActionTwitterBox>
+                  <HorizontalStartCenter>
+                    <ChatBubbleLeftRightIcon className='h-7 w-7 text-info' />
+                    <NormalText>{'Reply to this post'}</NormalText>
+                  </HorizontalStartCenter>
 
-            <PositiveButton
-              block={!user.services?.twitter}
-              onClick={() => router.push(e.link)}
-            >
-              {e.action}
-            </PositiveButton>
-          </ActionTwitterBox>
+                  <NegativeButton
+                    block={!user.services?.twitter}
+                    width={SizeEnum.x32}
+                  >
+                    {e.action}
+                  </NegativeButton>
+                </ActionTwitterBox>
+              </Link>
+              <InputReplyPost />
+            </VerticalFullWidth>
+          </div>
         )
       case TwitterEnum.RETWEET:
         return (
-          <ActionTwitterBox>
-            <HorizontalStartCenter>
-              <ArrowPathIcon className='h-5 w-5' />
-              <NormalText>{'Retweet this post'}</NormalText>
-            </HorizontalStartCenter>
-            <PositiveButton
-              block={!user.services?.twitter}
-              onClick={() => router.push(e.link)}
-            >
-              {e.action}
-            </PositiveButton>
-          </ActionTwitterBox>
+          <div onClick={() => setWarningRetweet(true)}>
+            <VerticalFullWidth>
+              <Link href={e.link} target='_blank' className='w-full'>
+                <ActionTwitterBox>
+                  <HorizontalStartCenter>
+                    <ArrowPathRoundedSquareIcon className='h-7 w-7 text-info' />
+                    <NormalText>{'Retweet this post'}</NormalText>
+                  </HorizontalStartCenter>
+                  <NegativeButton
+                    block={!user.services?.twitter}
+                    width={SizeEnum.x32}
+                  >
+                    {e.action}
+                  </NegativeButton>
+                </ActionTwitterBox>
+              </Link>
+
+              <WarnigRetweetBox />
+            </VerticalFullWidth>
+          </div>
         )
       default:
         return (
-          <ActionTwitterBox>
-            <HorizontalStartCenter>
-              <HandThumbDownIcon className='h-5 w-5' />
-              <NormalText>{'join space'}</NormalText>
-            </HorizontalStartCenter>
-            <PositiveButton
-              block={!user.services?.twitter}
-              onClick={() => router.push(e.link)}
-            >
-              {e.action}
-            </PositiveButton>
-          </ActionTwitterBox>
+          <Link href={e.link} target='_blank'>
+            <ActionTwitterBox>
+              <HorizontalStartCenter>
+                <NormalText>{'join space'}</NormalText>
+              </HorizontalStartCenter>
+              <NegativeButton
+                block={!user.services?.twitter}
+                width={SizeEnum.x48}
+              >
+                {e.action}
+              </NegativeButton>
+            </ActionTwitterBox>
+          </Link>
         )
     }
   })
 
-  return <>{renderActions}</>
+  return (
+    <VerticalAction>
+      <NormalText>{'To complete this challenge:'}</NormalText>
+      <VerticalFullWidthBetween>{renderActions}</VerticalFullWidthBetween>
+      <WarningBox boxColor={ColorEnum.WARNING}>
+        <ExclamationCircleIcon className='w-7 h-7 text-warning' />
+        {'After completion, it can take up to 10s before your claim succeeds.'}
+      </WarningBox>
+    </VerticalAction>
+  )
 }
 
 export const QuestTwitter: FunctionComponent<{
@@ -321,25 +440,32 @@ export const QuestTwitter: FunctionComponent<{
   }
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
+  const TwitterConnectBox: FunctionComponent = () => {
+    if (user.services?.twitter) {
+      return <></>
+    }
+
+    return (
+      <ConnectBox>
+        <SocialBtn btnType={ButtonSocialType.TWITTER} onClick={onConnect}>
+          <Image
+            width={30}
+            height={30}
+            src={StorageConst.TWITTER_DIR.src}
+            alt={StorageConst.TWITTER_DIR.alt}
+          />
+          {'Connect Twitter'}
+        </SocialBtn>
+        <NormalText>
+          {'You need to connect Twitter to access this quest'}
+        </NormalText>
+      </ConnectBox>
+    )
+  }
+
   return (
     <WrapBtn>
-      {!user.services?.twitter && (
-        <ConnectBox>
-          <SocialBtn btnType={ButtonSocialType.TWITTER} onClick={onConnect}>
-            <Image
-              width={30}
-              height={30}
-              src={StorageConst.TWITTER_DIR.src}
-              alt={StorageConst.TWITTER_DIR.alt}
-            />
-            {'Connect Twitter'}
-          </SocialBtn>
-          <NormalText>
-            {'You need to connect Twitter to access this quest'}
-          </NormalText>
-        </ConnectBox>
-      )}
-
+      <TwitterConnectBox />
       <QuestTwitterAction actions={actions} />
     </WrapBtn>
   )
@@ -348,12 +474,18 @@ export const QuestTwitter: FunctionComponent<{
 export const QuestVisitLink: FunctionComponent<{ link: string }> = ({
   link,
 }) => {
+  const setVisitLink = ActiveQuestStore.useStoreActions(
+    (action) => action.setVisitLink
+  )
+
   return (
-    <a href={link} target='_blank'>
-      <SocialBtn btnType={ButtonSocialType.VISIT_LINK}>
-        {'Visit link'}
-      </SocialBtn>
-    </a>
+    <VerticalFullWidth onClick={() => setVisitLink(true)}>
+      <Link href={link} target='_blank' className='w-full'>
+        <SocialBtn btnType={ButtonSocialType.VISIT_LINK} isFull>
+          {'Visit link'}
+        </SocialBtn>
+      </Link>
+    </VerticalFullWidth>
   )
 }
 

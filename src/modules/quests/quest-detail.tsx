@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState } from 'react'
 
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
@@ -31,6 +31,7 @@ import { QuestTwitterActionType, QuestType } from '@/types/project.type'
 import { getUserLocal } from '@/utils/helper'
 import { PositiveButton } from '@/widgets/button'
 
+import { QuestQuiz } from './quest-quiz'
 import {
   QuestDiscord,
   QuestImage,
@@ -46,8 +47,11 @@ const handleSubmit = async (
   fileUpload: File[],
   urlSubmit: string,
   textSubmit: string,
-  replyUrlSubmit: string
+  replyUrlSubmit: string,
+  quizAnswers: string[],
+  setLoading: (e: boolean) => void
 ) => {
+  setLoading(true)
   let inp = ''
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
@@ -77,9 +81,14 @@ const handleSubmit = async (
       inp = textSubmit
       break
     case QuestTypeEnum.QUIZ:
-    // inp = JSON.stringify(chosenAnswers)
+      inp = JSON.stringify({ answers: quizAnswers })
+      break
     case QuestTypeEnum.TWITTER_REACTION:
       inp = replyUrlSubmit
+      break
+    case QuestTypeEnum.TWITTER_TWEET:
+      inp = replyUrlSubmit
+      break
     default:
       break
   }
@@ -95,20 +104,28 @@ const handleSubmit = async (
     toast.success('Claim reward successfully')
   } catch (error) {
     toast.error('Server error')
+  } finally {
+    setLoading(false)
   }
 }
 
 const SubmitButton: FunctionComponent = () => {
+  // hook
+  const [loading, setLoading] = useState<boolean>(false)
+
+  // data
   const role = CommunityStore.useStoreState((state) => state.role)
   const quest = ActiveQuestStore.useStoreState((state) => state.quest)
-
   const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
   const urlSubmit = ActiveQuestStore.useStoreState((state) => state.urlSubmit)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
-
   const replyUrlSubmit = ActiveQuestStore.useStoreState(
     (state) => state.replyUrlSubmit
   )
+  const quizAnswers = ActiveQuestStore.useStoreState(
+    (state) => state.quizAnswers
+  )
+  const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
 
   let block = true
 
@@ -123,13 +140,26 @@ const SubmitButton: FunctionComponent = () => {
         block = false
       }
       break
+    case QuestTypeEnum.VISIT_LINK:
+      if (visitLink) {
+        block = false
+      }
+
+      break
+    case QuestTypeEnum.EMPTY:
+      block = false
+
+      break
     case QuestTypeEnum.TEXT:
       if (textSubmit !== '') {
         block = false
       }
       break
     case QuestTypeEnum.QUIZ:
-    // inp = JSON.stringify(chosenAnswers)
+      if (quizAnswers.length === quest.validation_data?.quizs?.length) {
+        block = false
+      }
+      break
 
     case QuestTypeEnum.TWITTER:
     case QuestTypeEnum.TWITTER_FOLLOW:
@@ -151,13 +181,16 @@ const SubmitButton: FunctionComponent = () => {
         <PositiveButton
           isFull
           block={block}
+          loading={loading}
           onClick={() =>
             handleSubmit(
               quest,
               fileUpload,
               urlSubmit,
               textSubmit,
-              replyUrlSubmit
+              replyUrlSubmit,
+              quizAnswers,
+              setLoading
             )
           }
         >
@@ -175,6 +208,10 @@ const SubmitButton: FunctionComponent = () => {
   }
 }
 
+const generateTweetLink = (defaultTweet: string): string => {
+  return `https://twitter.com/compose/tweet?text=${defaultTweet}`
+}
+
 const generateRetweetLink = (status_link: string): string => {
   const status_id = status_link.split('/').at(-1)
   return `https://twitter.com/intent/retweet?tweet_id=${status_id}`
@@ -184,7 +221,7 @@ const generateReplyLink = (
   status_link: string,
   default_reply: string
 ): string => {
-  const status_id = status_link.split('/').pop()
+  const status_id = status_link.split('/').at(-1)
   return `https://twitter.com/intent/tweet?in_reply_to=${status_id}&text=${default_reply}`
 }
 
@@ -199,12 +236,9 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     like,
     reply,
     retweet,
+    default_tweet,
+    quizs,
   } = quest.validation_data || {}
-
-  const setReplyUrlSubmit = ActiveQuestStore.useStoreActions(
-    (action) => action.setReplyUrlSubmit
-  )
-
   switch (quest?.type) {
     case QuestTypeEnum.URL:
       return <QuestUrl />
@@ -222,7 +256,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
         <QuestTwitter
           actions={[
             {
-              link: tweet_url || '',
+              link: generateTweetLink(default_tweet || ''),
               action: TwitterEnum.TWEET,
             },
           ]}
@@ -267,11 +301,13 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
       if (reply) {
         actions.push({
           action: TwitterEnum.REPLY,
-          link: generateReplyLink(twitter_handle || '', default_reply || ''),
+          link: generateReplyLink(tweet_url || '', default_reply || ''),
         })
       }
 
       return <QuestTwitter actions={actions} />
+    case QuestTypeEnum.QUIZ:
+      return <QuestQuiz quizs={quizs!} />
     case QuestTypeEnum.EMPTY:
       return <></>
     // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):

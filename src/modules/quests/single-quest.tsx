@@ -23,14 +23,42 @@ export const QuestView: FunctionComponent<{
 }> = ({ quest }) => {
   const [isOpen, setOpen] = useState<boolean>(false)
   const setQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
+  const setUrlSubmit = ActiveQuestStore.useStoreActions(
+    (action) => action.setUrlSubmit
+  )
+  const setTextSubmit = ActiveQuestStore.useStoreActions(
+    (action) => action.setTextSubmit
+  )
+  const setReplyUrlSubmit = ActiveQuestStore.useStoreActions(
+    (action) => action.setReplyUrlSubmit
+  )
+  const setFileUpload = ActiveQuestStore.useStoreActions(
+    (action) => action.setFileUpload
+  )
+  const setVisitLink = ActiveQuestStore.useStoreActions(
+    (action) => action.setVisitLink
+  )
+  const setQuizAnswers = ActiveQuestStore.useStoreActions(
+    (action) => action.setQuizAnswers
+  )
 
   const onOpenModal = () => {
     setQuest(quest)
     setOpen(true)
+    initActiveQuest()
   }
 
   const onCloseModal = () => {
     setOpen(false)
+  }
+
+  const initActiveQuest = () => {
+    setUrlSubmit('')
+    setTextSubmit('')
+    setReplyUrlSubmit('')
+    setFileUpload([])
+    setVisitLink(false)
+    setQuizAnswers([])
   }
 
   return (

@@ -173,11 +173,10 @@ export const UploadImgBox = tw(VerticalFullWidth)`
   gap-3
 `
 
-export const SocialBtn = styled.button<{ btnType?: number }>(
-  ({ btnType = ButtonSocialType.DISCORD }) => [
+export const SocialBtn = styled.button<{ btnType?: number; isFull?: boolean }>(
+  ({ btnType = ButtonSocialType.DISCORD, isFull = true }) => [
     tw`
       text-lg
-      w-full
       font-medium
       bg-white
       py-2
@@ -188,6 +187,7 @@ export const SocialBtn = styled.button<{ btnType?: number }>(
       items-center
       outline-0
       gap-3
+      px-3
     `,
     btnType === ButtonSocialType.DISCORD &&
       tw`
@@ -213,5 +213,6 @@ export const SocialBtn = styled.button<{ btnType?: number }>(
         hover:bg-warning-100
         text-warning
       `,
+    isFull && tw`w-full`,
   ]
 )

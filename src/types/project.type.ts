@@ -93,6 +93,7 @@ export type ValidationQuest = {
   telegram_invite_link?: string
   discord_invite_link?: string
   number?: number
+  quizs?: QuestQuizType[]
 }
 
 export interface QuestType {
@@ -117,6 +118,8 @@ export interface QuestType {
     discord_invite_url?: string
     telegram_invite_url?: string
     twitter_handle?: string
+    default_tweet?: string
+    quizs?: QuestQuizType[]
   }
 }
 
@@ -170,4 +173,11 @@ export type RefferalType = {
 export type QuestTwitterActionType = {
   action: string
   link: string
+}
+
+export type QuestQuizType = {
+  id?: number
+  question: string
+  options: string[]
+  answers: string[]
 }

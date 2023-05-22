@@ -15,29 +15,32 @@ type NavBarType = {
   isActive: boolean
 }
 
-export const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
-  tw`
+export const Wrap = styled.nav<{ isApp?: boolean; isFull?: boolean }>(
+  ({ isApp = true, isFull = true }) => [
+    tw`
   w-full
   flex
   flex-row
   justify-between
   items-center
   h-[70px]
-  px-64
   3xl:h-[120px]
-  3xl:px-96
   border-b-[1px]
   border-gray-200
   fixed
   max-sm:h-[65px]
   `,
-  isApp && tw`bg-white`,
-  !isApp &&
-    tw`
+    isApp && tw`bg-white`,
+    !isApp &&
+      tw`
     border-0
     backdrop-blur-lg
   `,
-])
+
+    !isFull && tw`px-64 3xl:px-96`,
+    isFull && tw`px-6 3xl:px-6`,
+  ]
+)
 
 // ============= LEFT SESSION =============
 

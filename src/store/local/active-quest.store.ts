@@ -9,12 +9,16 @@ export interface ActiveQuestModel {
   textSubmit: string
   replyUrlSubmit: string
   fileUpload: File[]
+  visitLink: boolean
+  quizAnswers: string[]
 
   setQuest: Action<ActiveQuestModel, QuestType>
   setUrlSubmit: Action<ActiveQuestModel, string>
   setTextSubmit: Action<ActiveQuestModel, string>
   setReplyUrlSubmit: Action<ActiveQuestModel, string>
   setFileUpload: Action<ActiveQuestModel, File[]>
+  setVisitLink: Action<ActiveQuestModel, boolean>
+  setQuizAnswers: Action<ActiveQuestModel, string[]>
 }
 
 export const ActiveQuestStore = createContextStore<ActiveQuestModel>({
@@ -23,6 +27,8 @@ export const ActiveQuestStore = createContextStore<ActiveQuestModel>({
   textSubmit: '',
   replyUrlSubmit: '',
   fileUpload: [],
+  visitLink: false,
+  quizAnswers: [],
 
   setQuest: action((state, quest) => {
     state.quest = quest
@@ -42,5 +48,13 @@ export const ActiveQuestStore = createContextStore<ActiveQuestModel>({
 
   setReplyUrlSubmit: action((state, url) => {
     state.replyUrlSubmit = url
+  }),
+
+  setVisitLink: action((state, visiLink) => {
+    state.visitLink = visiLink
+  }),
+
+  setQuizAnswers: action((state, answers) => {
+    state.quizAnswers = answers
   }),
 })
