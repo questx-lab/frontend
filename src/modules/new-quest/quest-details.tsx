@@ -12,6 +12,7 @@ import QuestQuiz from './quest-quiz'
 import TwitterList from './twitter-list'
 import { FullWidthBtn } from '@/styles/button.style'
 import { signIn } from 'next-auth/react'
+import { Oauth2ProviderEnum } from '@/constants/key.const'
 
 const QuestDetails = () => {
   // Data
@@ -45,7 +46,7 @@ const QuestDetails = () => {
   )
 
   const onConnectDiscord = () => {
-    signIn('discord', {}, { withDiscordServer: 'true' })
+    signIn(Oauth2ProviderEnum.DISCORD_BOT_PROVIDER)
   }
   switch (questType) {
     case QuestTypeEnum.URL:

@@ -8,3 +8,7 @@ export enum NavBarEnum {
   COMMUNITY,
   QUESTCARD,
 }
+
+export enum Oauth2ProviderEnum {
+  DISCORD_BOT_PROVIDER = 'discord-provider-bot',
+}
