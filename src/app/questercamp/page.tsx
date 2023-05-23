@@ -35,10 +35,12 @@ const FFitlerBox = tw(Horizontal)`
 `
 
 const Main = tw(Vertical)`
-  px-64
-  3xl:px-96
+  max-md:px-8
+  md:px-16
+  lg:px-32
+  2xl:px-48
+  3xl:px-64
   pb-[30px]
-  max-xl:px-[100px]
   w-full
 `
 
@@ -62,7 +64,6 @@ export default function QuestCamp() {
         <Large3xlText>{'⚡ QuesterCamp'}</Large3xlText>
       </TitleBox>
       <Divider />
-
       <Main>
         <FWrap>
           <FSearchWrap>

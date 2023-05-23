@@ -118,15 +118,15 @@ module.exports = {
       // => @media (min-width: 768px and max-width: 1023px) { ... }
 
       lg: { min: '1024px' },
-      'max-lg': { max: '1279px' },
+      'max-lg': { max: '1439px' },
       // => @media (min-width: 1024px and max-width: 1279px) { ... }
 
-      xl: { min: '1280px' },
-      'max-xl': { max: '1535px' },
+      xl: { min: '1440px' },
+      'max-xl': { max: '1919px' },
       // => @media (min-width: 1280px and max-width: 1535px) { ... }
 
-      '2xl': { min: '1536px' },
-      'max-2xl': { max: '2560px' },
+      '2xl': { min: '1920px' },
+      'max-2xl': { max: '2559px' },
       // => @media (min-width: 1536px) { ... }
 
       '3xl': { min: '2560px' },

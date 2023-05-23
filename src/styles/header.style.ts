@@ -37,7 +37,14 @@ export const Wrap = styled.nav<{ isApp?: boolean; isFull?: boolean }>(
     backdrop-blur-lg
   `,
 
-    !isFull && tw`px-64 3xl:px-96`,
+    !isFull &&
+      tw`
+      max-md:px-8
+      md:px-16
+      lg:px-32
+      2xl:px-48
+      3xl:px-64
+    `,
     isFull && tw`px-6 3xl:px-6`,
   ]
 )
@@ -54,7 +61,7 @@ export const BoxLink = tw(Horizontal)`
   h-full
   w-full
   items-center
-  max-lg:hidden
+  max-md:hidden
 `
 
 export const LinkText = styled(Link)(
@@ -104,7 +111,7 @@ export const RightSession = tw(Horizontal)`
 // ============= USER INFORMATION =============
 export const UserSession = tw(HorizontalCenter)`
   cursor-pointer
-  max-lg:hidden
+  max-md:hidden
 `
 
 export const UserInfo = tw(Vertical)`

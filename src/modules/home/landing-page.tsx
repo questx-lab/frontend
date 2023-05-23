@@ -34,12 +34,17 @@ const HeadWrap = tw(Vertical)`
   w-full
   gap-6
   h-full
-  px-64
-  3xl:px-96
+  max-md:px-8
+  md:px-16
+  lg:px-32
+  2xl:px-48
+  3xl:px-64
 `
 
 const HeadBox = tw(HorizontalBetweenCenter)`
   w-full
+  max-md:pt-[70px]
+  max-md:flex-col-reverse
 `
 
 const Bg = styled(Image)(tw`
@@ -51,7 +56,9 @@ const InfoBox = tw(VerticalCenter)`
   items-start
   w-2/5
   gap-4
+  max-md:w-full
   3xl:gap-8
+  max-md:items-center
 `
 
 const Title = tw.span`
@@ -59,16 +66,19 @@ const Title = tw.span`
   font-medium
   text-gray-900
   3xl:text-12xl
+  max-md:text-4xl
 `
 
 const Description = tw(LargeText)`
   text-gray-700
   font-normal
   3xl:text-3xl
+  max-md:text-center
 `
 
 const RewardSession = tw(HorizontalBetweenCenter)`
   gap-6
+  max-md:flex-col
 `
 
 const RewardTextText = tw(LargeText)`
@@ -120,6 +130,8 @@ const SocialLogin = styled(Image)(tw`
 const MainImage = styled(Image)(tw`
   3xl:w-[1000px]
   3xl:h-[1000px]
+  max-md:w-full
+  max-md:h-full
 `)
 
 const RewardView: FunctionComponent<{
