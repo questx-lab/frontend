@@ -36,7 +36,10 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         clientId: EnvVariables.DISCORD_ID,
         clientSecret: EnvVariables.DISCORD_SECRET,
         authorization: {
-          params: { permission: 268435488, scope: 'guilds bot' },
+          params: {
+            permission: EnvVariables.DISCORD_PERMISSION,
+            scope: 'guilds bot',
+          },
         },
       }),
     ],
@@ -54,7 +57,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         const accessToken = req.cookies['access_token']
         const matcher = '.*/communities/projects/.*/create'
         if (
-          Oauth2ProviderEnum.DISCORD_BOT_PROVIDER &&
+          account?.provider === Oauth2ProviderEnum.DISCORD_BOT_PROVIDER &&
           url &&
           url.match(matcher)
         ) {
