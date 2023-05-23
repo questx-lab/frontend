@@ -2,7 +2,7 @@
 import 'react-multi-carousel/lib/styles.css'
 import './globals.css'
 
-import { FunctionComponent, ReactNode } from 'react'
+import { FunctionComponent, ReactNode, useEffect } from 'react'
 
 import { StoreProvider, useStoreActions } from 'easy-peasy'
 
@@ -16,7 +16,10 @@ const Content: FunctionComponent<{
   const localUser = getUserLocal()
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
-  setUser(localUser)
+  // hook
+  useEffect(() => {
+    setUser(localUser)
+  }, [])
 
   return <>{children}</>
 }
