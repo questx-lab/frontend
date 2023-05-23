@@ -15,7 +15,6 @@ import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum, Oauth2ProviderEnum } from '@/constants/key.const'
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-  const { withDiscordServer } = req.query
   return await NextAuth(req, res, {
     providers: [
       GoogleProvider({
