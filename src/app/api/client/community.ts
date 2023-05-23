@@ -25,7 +25,7 @@ export const newCommunityApi = async (
 
 export const getCommunityApi = async (
   id: string
-): Promise<Rsp<{ project: CommunityType }>> => {
+): Promise<Rsp<{ community: CommunityType }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL + `/getCommunity?id=${id}`
   )
@@ -80,7 +80,7 @@ export const getMyCommunitiesApi = async (): Promise<
 }
 
 export const getFollowCommunitiesApi = async (): Promise<
-  Rsp<{ projects: CommunityType[] }>
+  Rsp<{ communities: CommunityType[] }>
 > => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL + '/getFollowingCommunities'
@@ -92,7 +92,7 @@ export const newFollowCommunityApi = async (
   projectId: string
 ): Promise<Rsp<{}>> => {
   const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/follow', {
-    project_id: projectId,
+    community_id: projectId,
   })
   return rs.data
 }
@@ -104,7 +104,7 @@ export const createCategoryApi = async (
   const rs = await api.post(
     EnvVariables.NEXT_PUBLIC_API_URL + '/createCategory',
     {
-      project_id: projectId,
+      community_id: projectId,
       name,
     }
   )
@@ -115,7 +115,8 @@ export const getCategoriesApi = async (
   projectId: string
 ): Promise<Rsp<{ categories: CategoryType[] }>> => {
   const rs = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/getCategories?project_id=${projectId}`
+    EnvVariables.NEXT_PUBLIC_API_URL +
+      `/getCategories?community_id=${projectId}`
   )
   return rs.data
 }
@@ -127,7 +128,7 @@ export const getLeaderboardApi = async (
 ): Promise<Rsp<{ leaderboard: LeaderboardType[] }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getLeaderBoard?project_id=${projectId}&range=${range}&type=${type}`
+      `/getLeaderBoard?community_id=${projectId}&range=${range}&type=${type}`
   )
   return rs.data
 }
@@ -138,7 +139,7 @@ export const generateCommunityKeyApi = async (
   const { data } = await api.post(
     EnvVariables.NEXT_PUBLIC_API_URL + '/generateAPIKey',
     {
-      project_id: projectId,
+      community_id: projectId,
     }
   )
   return data

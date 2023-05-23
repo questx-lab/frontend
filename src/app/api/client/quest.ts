@@ -30,7 +30,7 @@ export const listQuestApi = async (
   }
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getQuests?project_id=${projectId}&limit=40&q=${search}`
+      `/getQuests?community_id=${projectId}&limit=40&q=${search}`
   )
   return data
 }
@@ -61,7 +61,7 @@ export const listClaimedQuestsApi = async (
   const questIds = filterQuestIds.join(',')
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getClaimedQuests?project_id=${id}&status=${status}&quest_id=${questIds}&offset=${offset}&limit=${limit}`
+      `/getClaimedQuests?community_id=${id}&status=${status}&quest_id=${questIds}&offset=${offset}&limit=${limit}`
   )
   return data
 }
@@ -91,7 +91,7 @@ export const updateAllClaimedQuestApi = async (
     EnvVariables.NEXT_PUBLIC_API_URL + `/reviewAll`,
     {
       action,
-      project_id,
+      community_id: project_id,
       filter_quest_id,
       filter_user_id,
       excludes,

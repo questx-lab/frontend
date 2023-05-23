@@ -10,8 +10,11 @@ export const verifyOAuth2 = async (
   access_token: string
 ): Promise<OAuth2VerifyResp> => {
   const result = await api.post(
-    EnvVariables.NEXT_PUBLIC_API_URL +
-      `/verifyOAuth2?type=${type}&access_token=${access_token}`
+    EnvVariables.NEXT_PUBLIC_API_URL + `/verifyOAuth2`,
+    {
+      type,
+      access_token,
+    }
   )
   return result.data
 }

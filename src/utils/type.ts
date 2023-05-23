@@ -59,8 +59,8 @@ export type ReqUpdateCommunity = {
 
 export type CollaboratorType = {
   name: string
-  project: CommunityType
-  project_id: string
+  community: CommunityType
+  community_id: string
   user: UserType
   user_id: string
 }
@@ -79,17 +79,17 @@ export type CommunityType = {
 }
 
 export type ListCommunitiesType = {
-  projects: CommunityType[]
+  communities: CommunityType[]
 }
 
 export type ReqNewRoleCommunity = {
-  project_id: string
+  community_id: string
   user_id: string
   name: string
 }
 
 export type ReqNewQuestType = {
-  project_id: string
+  community_id: string
   type: string
   title: string
   description: string
@@ -132,7 +132,7 @@ export type ValidationQuest = {
 
 export interface QuestType {
   id?: string
-  project_id?: string
+  community_id?: string
   title?: string
   type?: string
   status?: string
@@ -199,8 +199,8 @@ export type LeaderboardType = {
 }
 
 export type RefferalType = {
-  total_claimable_projects?: number
-  total_pending_projects?: number
+  total_claimable_communities?: number
+  total_pending_communities?: number
   reward_amount?: number
 }
 

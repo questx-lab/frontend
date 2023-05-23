@@ -77,7 +77,7 @@ const HomePage: FunctionComponent = () => {
     setLoading(true)
     try {
       const list = await listCommunitiesApi(0, 50)
-      setProjectsTrending(list.data!.projects)
+      setProjectsTrending(list.data!.communities)
     } catch (error) {
       toast.error('Network error')
     } finally {

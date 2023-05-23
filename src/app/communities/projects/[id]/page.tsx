@@ -45,10 +45,10 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
       if (rs.error) {
         toast.error(rs.error)
       } else {
-        setProject(rs.data?.project!)
+        setProject(rs.data?.community!)
         if (projectCollab) {
           const filter = projectCollab.filter(
-            (e) => e.project_id === rs.data?.project.id
+            (e) => e.community_id === rs.data?.community.id
           )
           if (filter.length === 0) {
             setRole(ProjectRoleEnum.GUEST)

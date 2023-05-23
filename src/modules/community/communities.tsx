@@ -83,10 +83,10 @@ export default function Communities() {
     try {
       if (isSearch) {
         const list = await listCommunitiesApi(0, 50, query)
-        setSearchProjects(list.data!.projects)
+        setSearchProjects(list.data!.communities)
       } else {
         const list = await listCommunitiesApi()
-        setProjects(list.data!.projects)
+        setProjects(list.data!.communities)
       }
 
       setLoading(false)
