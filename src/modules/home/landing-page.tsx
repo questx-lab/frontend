@@ -2,7 +2,6 @@ import { FunctionComponent, useEffect, useState } from 'react'
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { MoonLoader } from 'react-spinners'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -10,7 +9,6 @@ import { listCommunitiesApi } from '@/app/api/client/community'
 import { CarouselType } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
-import { FullScreen } from '@/styles/common.style'
 import { CommunityType } from '@/utils/type'
 import { NegativeButton } from '@/widgets/button'
 import CarouselList from '@/widgets/carousel'
@@ -200,12 +198,6 @@ const LandingPage: FunctionComponent = () => {
     router.push(RouterConst.COMMUNITIES)
   }
 
-  if (loading) {
-    ;<FullScreen>
-      <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />
-    </FullScreen>
-  }
-
   return (
     <Wrap>
       <Head>
@@ -253,12 +245,14 @@ const LandingPage: FunctionComponent = () => {
             <CategoryBox
               title='🔥 Trending Communities'
               onClick={onShowAllClicked}
+              loading={loading}
             >
               <CarouselList data={communities} type={CarouselType.COMMUNITY} />
             </CategoryBox>
             <CategoryBox
               title='⭐ Popular Communities'
               onClick={onShowAllClicked}
+              loading={loading}
             >
               <CarouselList data={communities} type={CarouselType.COMMUNITY} />
             </CategoryBox>
