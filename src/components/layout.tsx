@@ -3,7 +3,7 @@ import { FunctionComponent, ReactNode, useEffect } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Head from 'next/head'
 import { useRouter } from 'next/navigation'
-import { toast, Toaster } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import {

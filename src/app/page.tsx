@@ -9,8 +9,8 @@ import LandingPage from '@/modules/home/landing-page'
 import { GlobalStoreModel } from '@/store/store'
 
 const Content: FunctionComponent = () => {
-  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
-  if (isLogin) {
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  if (user) {
     return <HomePage />
   }
 

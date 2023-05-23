@@ -46,9 +46,13 @@ export const setUserLocal = (data: UserType) => {
   localStorage.setItem('user', JSON.stringify(data))
 }
 
-export const getUserLocal = (): UserType => {
+export const getUserLocal = (): UserType | undefined => {
   const user = localStorage.getItem('user')
-  return JSON.parse(user || '{}')
+  if (!user) {
+    return undefined
+  }
+
+  return JSON.parse(user)
 }
 
 export const delUserLocal = () => {
