@@ -242,8 +242,12 @@ const InviteCommunity: FunctionComponent<{}> = () => {
   }
 
   const onLinkWallet = async () => {
-    await signWallet()
-    await getUserData()
+    try {
+      await signWallet()
+      await getUserData()
+    } catch (err) {
+      // Do nothing here.
+    }
   }
 
   const getUserData = async () => {

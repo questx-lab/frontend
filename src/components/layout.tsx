@@ -11,14 +11,13 @@ import {
   getMyCommunitiesApi,
 } from '@/app/api/client/community'
 import { getMyReferralInfoApi } from '@/app/api/client/reward'
-import { getUserApi } from '@/app/api/client/user'
 import Header from '@/components/header'
 import Login from '@/modules/login/login'
 import ControlPanel from '@/modules/new-quest/control-panel'
 import { GlobalStoreModel } from '@/store/store'
 import { Html, Main } from '@/styles/layout.style'
 import { ModalBox } from '@/styles/modal.style'
-import { getAccessToken, getRefreshToken, setUserLocal } from '@/utils/helper'
+import { getAccessToken, getRefreshToken } from '@/utils/helper'
 import { BaseModal } from '@/widgets/modal'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 
@@ -109,18 +108,9 @@ export const Layout = ({
   }, [router])
 
   const handleInit = () => {
-    getUserData()
     getProjectsFollowing()
     getMyProjects()
     getMyReferralInfo()
-  }
-
-  const getUserData = async () => {
-    try {
-      const user = await getUserApi()
-      setUserLocal(user.data!)
-      setUser(user.data!)
-    } catch (error) {}
   }
 
   const getMyReferralInfo = async () => {
