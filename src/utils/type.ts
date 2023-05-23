@@ -89,6 +89,7 @@ export type ReqNewRoleCommunity = {
 }
 
 export type ReqNewQuestType = {
+  id: string
   community_id: string
   type: string
   title: string

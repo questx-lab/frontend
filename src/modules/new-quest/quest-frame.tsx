@@ -15,7 +15,11 @@ import { toast } from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { getCommunityApi } from '@/app/api/client/community'
-import { newQuestApi, getQuestApi } from '@/app/api/client/quest'
+import {
+  newQuestApi,
+  getQuestApi,
+  updateQuestApi,
+} from '@/app/api/client/quest'
 import {
   QuestStatusEnum,
   QuestTypeEnum,
@@ -86,7 +90,8 @@ const CreateQuestLabel: FunctionComponent<{
 const ButtonSubmit: FunctionComponent<{
   setIsOpen: (e: boolean) => any
   id: string
-}> = ({ setIsOpen, id }) => {
+  editId: string
+}> = ({ setIsOpen, id, editId = '' }) => {
   const store = NewQuestStore.useStore()
   const router = useRouter()
   const title = NewQuestStore.useStoreState((state) => state.title)
@@ -108,9 +113,13 @@ const ButtonSubmit: FunctionComponent<{
   )
   const anwser = NewQuestStore.useStoreState((state) => state.anwser)
 
-  const submitAction = async (status: string) => {
+  const submitAction = async (
+    status: string,
+    community_id: string,
+    editId: string
+  ) => {
     setIsOpen(true)
-    const rs = await handleSubmit(store, id, status)
+    const rs = await handleSubmit(store, id, status, editId)
     if (rs) {
       router.push(RouterConst.PROJECT + id)
     } else {
@@ -209,14 +218,14 @@ const ButtonSubmit: FunctionComponent<{
       <NegativeButton
         isFull
         block={disable}
-        onClick={() => submitAction(QuestStatusEnum.DRAFT)}
+        onClick={() => submitAction(QuestStatusEnum.DRAFT, id, editId)}
       >
         {'Draft'}
       </NegativeButton>
       <PositiveButton
         isFull
         block={disable}
-        onClick={() => submitAction(QuestStatusEnum.ACTIVE)}
+        onClick={() => submitAction(QuestStatusEnum.ACTIVE, id, editId)}
       >
         {'Publish'}
       </PositiveButton>
@@ -234,8 +243,9 @@ const errorMessage = (state: StateMapper<FilterActionTypes<NewQuestModel>>) => {
 
 const handleSubmit = async (
   store: Store<NewQuestModel, EasyPeasyConfig<undefined, {}>>,
-  id: string,
-  status: string
+  community_id: string,
+  status: string,
+  editId: string
 ): Promise<boolean> => {
   const state = store.getState()
   const error = errorMessage(state)
@@ -317,7 +327,8 @@ const handleSubmit = async (
   }
 
   const payload: ReqNewQuestType = {
-    community_id: id,
+    id: editId,
+    community_id: community_id,
     type,
     title: state.title,
     description: state.description,
@@ -338,7 +349,10 @@ const handleSubmit = async (
   }
 
   try {
-    const data = await newQuestApi(payload)
+    let data
+    if (editId) {
+      data = await updateQuestApi(payload)
+    } else data = await newQuestApi(payload)
     if (data.error) {
       toast.error(data.error)
     }
@@ -360,6 +374,7 @@ const QuestFrame: FunctionComponent<{
 
   // Data
   const title = NewQuestStore.useStoreState((state) => state.title)
+  const project = NewQuestStore.useStoreState((state) => state.project)
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   // Actions
@@ -520,7 +535,7 @@ const QuestFrame: FunctionComponent<{
             <Recurrence />
             <Gap height={8} />
 
-            <ButtonSubmit setIsOpen={setIsOpen} id={id} />
+            <ButtonSubmit setIsOpen={setIsOpen} id={project.id} editId={id} />
           </CCard>
           <QuestReward />
         </CBox>
