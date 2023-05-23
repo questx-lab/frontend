@@ -22,7 +22,7 @@ export const newQuestApi = async (
 }
 
 export const listQuestApi = async (
-  projectId: string,
+  communityId: string,
   search: string
 ): Promise<Rsp<LQuestType>> => {
   if (search == undefined) {
@@ -30,7 +30,7 @@ export const listQuestApi = async (
   }
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getQuests?community_id=${projectId}&limit=40&q=${search}`
+      `/getQuests?community_id=${communityId}&limit=40&q=${search}`
   )
   return data
 }
@@ -82,7 +82,7 @@ export const updateClaimedQuestApi = async (
 
 export const updateAllClaimedQuestApi = async (
   action: string,
-  project_id: string,
+  community_id: string,
   filter_quest_id: string,
   filter_user_id: string,
   excludes: string[]
@@ -91,7 +91,7 @@ export const updateAllClaimedQuestApi = async (
     EnvVariables.NEXT_PUBLIC_API_URL + `/reviewAll`,
     {
       action,
-      community_id: project_id,
+      community_id,
       filter_quest_id,
       filter_user_id,
       excludes,

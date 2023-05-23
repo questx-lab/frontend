@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast'
 import { claimRewardApi } from '@/app/api/client/reward'
 import { uploadImageApi } from '@/app/api/client/upload'
 import {
-  ProjectRoleEnum,
+  CommunityRoleEnum,
   QuestTypeEnum,
   TwitterEnum,
 } from '@/constants/common.const'
@@ -176,7 +176,7 @@ const SubmitButton: FunctionComponent = () => {
   }
 
   switch (role) {
-    case ProjectRoleEnum.GUEST:
+    case CommunityRoleEnum.GUEST:
       return (
         <PositiveButton
           isFull

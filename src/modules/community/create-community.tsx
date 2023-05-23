@@ -809,7 +809,7 @@ const RenderTitle: FunctionComponent = () => {
   return <TitleBox>{'LET START!'}</TitleBox>
 }
 
-const CreateProject: FunctionComponent<{
+const CreateCommunity: FunctionComponent<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   return (
@@ -830,4 +830,4 @@ const CreateProject: FunctionComponent<{
   )
 }
 
-export default CreateProject
+export default CreateCommunity

@@ -125,8 +125,8 @@ const RenderBody: FunctionComponent<{
   )
 }
 
-const PendingTab: FunctionComponent<{ projectId: string }> = ({
-  projectId,
+const PendingTab: FunctionComponent<{ communityId: string }> = ({
+  communityId,
 }) => {
   // Data
   const chooseQuestsState = NewClaimReviewStore.useStoreState(
@@ -164,7 +164,7 @@ const PendingTab: FunctionComponent<{ projectId: string }> = ({
   const getClaimsQuest = async () => {
     onLoadingModalChanged(true)
     await getListClaimQuest(
-      projectId,
+      communityId,
       'pending',
       setPendingClaims,
       questsSelect.map((e) => e.id!)
@@ -245,7 +245,7 @@ const PendingTab: FunctionComponent<{ projectId: string }> = ({
               <PHeaderInfo>{'Filter'}</PHeaderInfo>
             </PTabHeader>
             {/* <Recurrence /> */}
-            <QuestSearch projectId={projectId} />
+            <QuestSearch communityId={communityId} />
           </PRWrap>
         </PRSide>
       </PBox>

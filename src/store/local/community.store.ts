@@ -1,6 +1,6 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { ProjectRoleEnum } from '@/constants/common.const'
+import { CommunityRoleEnum } from '@/constants/common.const'
 import { CategoryType, CommunityType } from '@/utils/type'
 
 interface CommunityModel {
@@ -24,7 +24,7 @@ const CommunityStore = createContextStore<CommunityModel>({
   projects: [],
   query: '',
   searchProjects: [],
-  role: ProjectRoleEnum.GUEST,
+  role: CommunityRoleEnum.GUEST,
   categories: [],
 
   setProject: action((state, newProject) => {

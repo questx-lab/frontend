@@ -168,18 +168,18 @@ export default function NewProject() {
       }
     } catch (error) {
       setIsOpen(false)
-      toast.error('Error while create project')
+      toast.error('Error while create community')
     }
   }
 
   return (
     <Layout>
       <header>
-        <title>{'New Project'}</title>
+        <title>{'New Community'}</title>
       </header>
       <Wrap>
         <Gap />
-        <TitleCreatedProject>{'Create New Project'}</TitleCreatedProject>
+        <TitleCreatedProject>{'Create New Community'}</TitleCreatedProject>
         <Gap />
         <DescriptionCreatedProject>
           {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sem eros, scelerisque' +
@@ -190,18 +190,18 @@ export default function NewProject() {
           <ElementBox>
             <WrapElementBox>
               <LabelInput>
-                {'Project Name* (You can change it later)'}
+                {'Community Name* (You can change it later)'}
               </LabelInput>
               <Gap height={1} />
-              <InputBox ref={nameRef} placeholder='Enter Project Name' />
+              <InputBox ref={nameRef} placeholder='Enter Community Name' />
               <Gap height={9} />
               <LabelInput>
-                {'Project Introduction (You can change it later)'}
+                {'Community Introduction (You can change it later)'}
               </LabelInput>
               <Gap height={1} />
               <InputBox
                 ref={introRef}
-                placeholder='Enter Project Introduction'
+                placeholder='Enter Community Introduction'
               />
               <Gap height={9} />
               <LabelInput>{'Telegram (You can change it later)'}</LabelInput>
@@ -209,7 +209,7 @@ export default function NewProject() {
               <InputBox ref={telRef} placeholder='Enter Telegram URL' />
               <Gap height={9} />
               <LabelInput>
-                {'Project Category* (It cannot be changed after creation)'}
+                {'Community Category* (It cannot be changed after creation)'}
               </LabelInput>
               <Gap height={2} />
               <CategoryBox>{listCategory}</CategoryBox>
@@ -219,10 +219,10 @@ export default function NewProject() {
           <ElementBox position={1}>
             <WrapElementBox>
               <LabelInput>
-                {'Project URL* (It cannot be changed after creation)'}
+                {'Community URL* (It cannot be changed after creation)'}
               </LabelInput>
               <Gap height={1} />
-              <InputBox ref={urlRef} placeholder='Enter Project URL' />
+              <InputBox ref={urlRef} placeholder='Enter Community URL' />
               <Gap height={9} />
               <LabelInput>{'Website (You can change it later)'}</LabelInput>
               <Gap height={1} />
@@ -259,7 +259,7 @@ export default function NewProject() {
         <Gap height={9} />
         <WrapBtn>
           <CreateProjectBtn isBlock={false} onClick={handleSubmit}>
-            {'create project'.toUpperCase()}
+            {'create Community'.toUpperCase()}
           </CreateProjectBtn>
         </WrapBtn>
       </Wrap>
@@ -267,7 +267,10 @@ export default function NewProject() {
       <ProgressModal
         isOpen={isOpen}
         title={`Hang in there!`}
-        lines={[`We're creating project.`, 'This might take a few seconds...']}
+        lines={[
+          `We're creating Community.`,
+          'This might take a few seconds...',
+        ]}
       />
     </Layout>
   )

@@ -1,26 +1,29 @@
-import { FunctionComponent, useState } from 'react'
+import {
+  FunctionComponent,
+  useState,
+} from 'react';
 
-import { useStoreState } from 'easy-peasy'
-import { signIn } from 'next-auth/react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import Dropzone from 'react-dropzone'
-import styled from 'styled-components'
-import tw from 'twin.macro'
+import { useStoreState } from 'easy-peasy';
+import { signIn } from 'next-auth/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Dropzone from 'react-dropzone';
+import styled from 'styled-components';
+import tw from 'twin.macro';
 
 import {
   ButtonSocialType,
   ColorEnum,
-  ProjectRoleEnum,
+  CommunityRoleEnum,
   SizeEnum,
   TwitterEnum,
-} from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
-import { ActiveQuestStore } from '@/store/local/active-quest.store'
-import { CommunityStore } from '@/store/local/community.store'
-import { GlobalStoreModel } from '@/store/store'
-import { DeleteBtn } from '@/styles/button.style'
+} from '@/constants/common.const';
+import { StorageConst } from '@/constants/storage.const';
+import { ActiveQuestStore } from '@/store/local/active-quest.store';
+import { CommunityStore } from '@/store/local/community.store';
+import { GlobalStoreModel } from '@/store/store';
+import { DeleteBtn } from '@/styles/button.style';
 import {
   AddFileBtn,
   SectionUploadImg,
@@ -30,11 +33,14 @@ import {
   UploadInput,
   UrlBox,
   WrapUploadImg,
-} from '@/styles/quest-detail.style'
-import { getUserLocal } from '@/utils/helper'
-import { QuestTwitterActionType } from '@/utils/type'
-import { NegativeButton, PositiveButton } from '@/widgets/button'
-import { TextField } from '@/widgets/form'
+} from '@/styles/quest-detail.style';
+import { getUserLocal } from '@/utils/helper';
+import { QuestTwitterActionType } from '@/utils/type';
+import {
+  NegativeButton,
+  PositiveButton,
+} from '@/widgets/button';
+import { TextField } from '@/widgets/form';
 import {
   HorizontalBetweenCenter,
   HorizontalStartCenter,
@@ -43,8 +49,8 @@ import {
   VerticalFullWidth,
   VerticalFullWidthBetween,
   VerticalFullWidthCenter,
-} from '@/widgets/orientation'
-import { NormalText } from '@/widgets/text'
+} from '@/widgets/orientation';
+import { NormalText } from '@/widgets/text';
 import {
   ArrowPathRoundedSquareIcon,
   ChatBubbleLeftRightIcon,
@@ -52,7 +58,7 @@ import {
   ExclamationTriangleIcon,
   HeartIcon,
   LinkIcon,
-} from '@heroicons/react/24/outline'
+} from '@heroicons/react/24/outline';
 
 const WrapBtn = tw(VerticalBetween)`
   w-full
@@ -116,7 +122,7 @@ export const QuestText: FunctionComponent = () => {
     (action) => action.setTextSubmit
   )
 
-  if (role === ProjectRoleEnum.GUEST) {
+  if (role === CommunityRoleEnum.GUEST) {
     return (
       <TextField
         errorMsg='This field is required'
@@ -141,7 +147,7 @@ export const QuestUrl: FunctionComponent = () => {
     (action) => action.setUrlSubmit
   )
 
-  if (role === ProjectRoleEnum.GUEST) {
+  if (role === CommunityRoleEnum.GUEST) {
     return (
       <TextField
         errorMsg='This field is required'
@@ -213,7 +219,7 @@ export const QuestImage: FunctionComponent = () => {
     )
   }
 
-  if (role === ProjectRoleEnum.GUEST) {
+  if (role === CommunityRoleEnum.GUEST) {
     return <ShowImage />
   }
 

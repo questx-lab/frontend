@@ -40,8 +40,8 @@ export const linkOAuth2 = async (
   return result.data
 }
 
-export const updateProjectDiscord = async (
-  project_id: string,
+export const updateCommunityDiscord = async (
+  community_id: string,
   server_id: string,
   oauth_access_token: string,
   access_token: string
@@ -49,7 +49,7 @@ export const updateProjectDiscord = async (
   const result = await axios.post(
     EnvVariables.NEXT_PUBLIC_API_URL + `/updateCommunityDiscord`,
     {
-      id: project_id,
+      id: community_id,
       access_token: oauth_access_token,
       server_id: server_id,
     },

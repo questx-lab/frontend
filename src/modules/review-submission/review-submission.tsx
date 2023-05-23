@@ -17,14 +17,14 @@ import PendingTab from './pending'
 
 // Handler
 export const getListClaimQuest = async (
-  projectId: string,
+  communityId: string,
   filterQuest: string = 'rejected,accepted',
   onAction: (action: ClaimQuestType[]) => void,
   filterQuestIds?: string[]
 ) => {
   try {
     const data = await listClaimedQuestsApi(
-      projectId,
+      communityId,
       filterQuest,
       filterQuestIds ?? []
     )
@@ -38,7 +38,11 @@ export const getListClaimQuest = async (
   }
 }
 
-export default function ReviewSubmission({ projectId }: { projectId: string }) {
+export default function ReviewSubmission({
+  communityId,
+}: {
+  communityId: string
+}) {
   // Data
   const tabReviewState = NewClaimReviewStore.useStoreState(
     (state) => state.tabReview
@@ -54,7 +58,7 @@ export default function ReviewSubmission({ projectId }: { projectId: string }) {
   )
 
   return (
-    <PanelLayout projectId={projectId} active={SideEnum.REVIEW_SUBMISSION}>
+    <PanelLayout communityId={communityId} active={SideEnum.REVIEW_SUBMISSION}>
       <Head>{'Review Submission'}</Head>
       <Tab>
         <TabItem
@@ -75,10 +79,10 @@ export default function ReviewSubmission({ projectId }: { projectId: string }) {
       <Gap height={6} />
       <NewQuestSearchStore.Provider>
         {tabReviewState === TabReviewEnum.PENDING && (
-          <PendingTab projectId={projectId} />
+          <PendingTab communityId={communityId} />
         )}
         {tabReviewState === TabReviewEnum.HISTORY && (
-          <HistoryTab projectId={projectId} />
+          <HistoryTab communityId={communityId} />
         )}
       </NewQuestSearchStore.Provider>
 

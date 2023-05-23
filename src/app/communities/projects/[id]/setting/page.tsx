@@ -11,7 +11,7 @@ export default function Setting(props: { params: { id: string } }) {
         <title>{'Setting'}</title>
       </header>
       <CommunityStore.Provider>
-        <SettingCommunity projectId={props.params.id} />
+        <SettingCommunity communityId={props.params.id} />
       </CommunityStore.Provider>
     </Layout>
   )

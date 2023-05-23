@@ -273,8 +273,8 @@ const General: FunctionComponent = () => {
   )
 }
 
-const SettingCommunity: FunctionComponent<{ projectId: string }> = ({
-  projectId,
+const SettingCommunity: FunctionComponent<{ communityId: string }> = ({
+  communityId,
 }) => {
   // hook
   const [tab, setTab] = useState<number>(SettingTab.GENERAL)
@@ -291,7 +291,7 @@ const SettingCommunity: FunctionComponent<{ projectId: string }> = ({
 
   const fetchProject = async () => {
     try {
-      const rs = await getCommunityApi(projectId)
+      const rs = await getCommunityApi(communityId)
       if (rs.error) {
         toast.error(rs.error)
       } else {
@@ -326,7 +326,7 @@ const SettingCommunity: FunctionComponent<{ projectId: string }> = ({
   }
 
   return (
-    <PanelLayout projectId={projectId} active={SideEnum.SETTINGS}>
+    <PanelLayout communityId={communityId} active={SideEnum.SETTINGS}>
       <Head>{'Review Submission'}</Head>
       <Tab>
         <TabItem

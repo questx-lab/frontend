@@ -176,15 +176,15 @@ export const Layout = ({
 }
 
 export const PanelLayout: FunctionComponent<{
-  projectId: string
+  communityId: string
   active: number
   children: ReactNode
-}> = ({ projectId, active, children }) => {
+}> = ({ communityId, active, children }) => {
   return (
     <Wrap>
-      <ProjectSide projectId={projectId} />
+      <ProjectSide communityId={communityId} />
       <MainPanel>
-        <ControlPanel projectId={projectId} active={active} />
+        <ControlPanel communityId={communityId} active={active} />
         <Content>{children}</Content>
       </MainPanel>
     </Wrap>

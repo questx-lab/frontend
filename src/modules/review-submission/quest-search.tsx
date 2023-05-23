@@ -60,8 +60,8 @@ const ResultBox: FunctionComponent<{ quest: QuestType[]; query: string }> = ({
   )
 }
 
-const QuestSearch: FunctionComponent<{ projectId: string }> = ({
-  projectId,
+const QuestSearch: FunctionComponent<{ communityId: string }> = ({
+  communityId,
 }) => {
   // data
   const questsQuery = NewQuestSearchStore.useStoreState(
@@ -108,7 +108,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
 
   const getQuests = async () => {
     try {
-      const data = await listQuestApi(projectId, '')
+      const data = await listQuestApi(communityId, '')
       if (data.error) {
         toast.error(data.error)
       }
@@ -138,7 +138,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
     onLoadingModalChanged(true)
     if (tabReviewState === TabReviewEnum.HISTORY) {
       await getListClaimQuest(
-        projectId,
+        communityId,
         reviewStatus,
         setHistoryClaims,
         e.map((e) => e.id!)
@@ -146,7 +146,7 @@ const QuestSearch: FunctionComponent<{ projectId: string }> = ({
     }
     if (tabReviewState === TabReviewEnum.PENDING) {
       await getListClaimQuest(
-        projectId,
+        communityId,
         'pending',
         setPendingClaims,
         e.map((e) => e.id!)

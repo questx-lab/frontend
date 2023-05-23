@@ -4,7 +4,7 @@ import { FunctionComponent, useState } from 'react'
 import tw from 'twin.macro'
 
 import Communities from '@/modules/community/communities'
-import CreateProject from '@/modules/community/create-community'
+import CreateCommunity from '@/modules/community/create-community'
 import { CommunityStore } from '@/store/local/community.store'
 import { Divider } from '@/styles/common.style'
 import { ModalBox } from '@/styles/quest-review.style'
@@ -51,7 +51,7 @@ const CreateProjectBtn = tw(Horizontal)`
   cursor-pointer
 `
 
-const CreateCommunity: FunctionComponent<{
+const NewCommunity: FunctionComponent<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   return (
@@ -69,7 +69,7 @@ export default function MyProjects() {
     <MainLayout title='👋 Communities'>
       <TitleBox>
         <SuperLargeText>{'👋 Communities'}</SuperLargeText>
-        <CreateCommunity setOpen={setOpen} />
+        <NewCommunity setOpen={setOpen} />
       </TitleBox>
       <Divider />
       <Main>
@@ -80,7 +80,7 @@ export default function MyProjects() {
 
       <BaseModal isOpen={isOpen}>
         <ModalBox>
-          <CreateProject setOpen={setOpen} />
+          <CreateCommunity setOpen={setOpen} />
         </ModalBox>
       </BaseModal>
     </MainLayout>
