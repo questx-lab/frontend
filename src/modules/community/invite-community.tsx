@@ -173,8 +173,8 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({
 
   if (
     user.address !== '' &&
-    referral.total_claimable_projects &&
-    referral.total_claimable_projects !== 0
+    referral.total_claimable_communities &&
+    referral.total_claimable_communities !== 0
   ) {
     block = false
   }
@@ -209,7 +209,7 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({
               src={StorageConst.COIN.src}
               alt={StorageConst.COIN.alt}
             />
-            {(referral.total_claimable_projects ?? 0) *
+            {(referral.total_claimable_communities ?? 0) *
               (referral.reward_amount ?? 0)}
           </CoinBox>
         </RewardBox>

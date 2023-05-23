@@ -135,8 +135,8 @@ export const Layout = ({
       if (projects.error) {
         toast.error('Error when get your following projects')
       } else {
-        if (projects.data?.projects) {
-          setProjectsFollowing(projects.data?.projects)
+        if (projects.data?.communities) {
+          setProjectsFollowing(projects.data?.communities)
         }
       }
     } catch (error) {

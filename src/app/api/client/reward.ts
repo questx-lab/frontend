@@ -16,7 +16,7 @@ export const claimRewardApi = async (
 
 export const getMyReferralInfoApi = async (): Promise<Rsp<RefferalType>> => {
   const { data } = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + '/getMyReferralInfo'
+    EnvVariables.NEXT_PUBLIC_API_URL + '/getMyReferrals'
   )
   return data
 }

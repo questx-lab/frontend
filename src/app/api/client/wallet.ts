@@ -17,8 +17,11 @@ export const loginMetamask = async (
 export const verifyMetaMask = async (
   signature: string
 ): Promise<WalletVerifyRes> => {
-  const result = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/wallet/verify?signature=${signature}`
+  const result = await api.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + `/verifyWallet`,
+    {
+      signature,
+    }
   )
   return result.data
 }

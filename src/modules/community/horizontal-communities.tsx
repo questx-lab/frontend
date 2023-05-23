@@ -115,7 +115,7 @@ const CommunityList: FunctionComponent<{ byTrending: boolean }> = ({
     setLoading(true)
     try {
       const list = await listCommunities(0, 50, '', byTrending)
-      setCommunities(list.data!.projects)
+      setCommunities(list.data!.communities)
     } catch (error) {
       // TODO: show error (not toast) to indicate that the communities cannot be loaded.
     } finally {
@@ -125,6 +125,10 @@ const CommunityList: FunctionComponent<{ byTrending: boolean }> = ({
 
   if (loading) {
     return <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />
+  }
+
+  if (!communities) {
+    return <></>
   }
 
   const renderCarousel = communities.map((e) => (
