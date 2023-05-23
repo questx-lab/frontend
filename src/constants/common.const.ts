@@ -141,7 +141,7 @@ export enum AnswerStatusEnum {
   BLOCK,
 }
 
-export enum ProjectRoleEnum {
+export enum CommunityRoleEnum {
   NONE,
   GUEST,
   OWNER,

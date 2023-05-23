@@ -8,7 +8,7 @@ import { QuestCard } from '@/modules/community/quest-card'
 import { QuestDetail } from '@/modules/quests/quest-detail'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { DesQ } from '@/styles/questboard.style'
-import { QuestType } from '@/types/project.type'
+import { QuestType } from '@/utils/type'
 import { BasicModal } from '@/widgets/modal'
 
 const DescriptionBox: FunctionComponent<{ des?: string }> = ({ des }) => {

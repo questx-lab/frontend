@@ -1,6 +1,6 @@
 'use client'
 
-import { QuestTypeEnum, QuestTypeStringMap } from '@/constants/project.const'
+import { QuestTypeEnum, QuestTypeStringMap } from '@/constants/common.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { ICard, ITypeBox, PICard, TypeBox } from '@/styles/questboard.style'
 import { Label } from '@/widgets/text'

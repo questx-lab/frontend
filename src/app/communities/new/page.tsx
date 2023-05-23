@@ -4,8 +4,10 @@ import { useRef, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
-import { newProjectApi } from '@/app/api/client/project'
+import { newCommunityApi } from '@/app/api/client/community'
 import { Layout } from '@/components/layout'
 import { RouterConst } from '@/constants/router.const'
 import {
@@ -15,21 +17,110 @@ import {
 } from '@/styles/button.style'
 import { Divider, Gap } from '@/styles/common.style'
 import { InputBox } from '@/styles/input.style'
-import {
-  CategoryBox,
-  CategoryItem,
-  DescriptionCreatedProject,
-  DivBox,
-  ElementBox,
-  FormBox,
-  LabelInput,
-  TitleCreatedProject,
-  Wrap,
-  WrapElementBox,
-} from '@/styles/myProjects.style'
-import { ReqNewProject } from '@/types/project.type'
+import { ReqNewCommunity } from '@/utils/type'
 import { ProgressModal } from '@/widgets/modal'
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
+type DirectType = {
+  position?: number
+}
+
+const Wrap = tw(Vertical)`
+  min-h-screen
+  px-[80px]
+  pt-[80px]
+  pb-[30px]
+  max-lg:px-[20px]
+`
+
+// ========== Created project style ==========
+
+const DescriptionCreatedProject = tw.p`
+  text-sm
+  text-black
+  font-light
+`
+
+// ========== New project style ==========
+const FormBox = tw.form`
+  w-full
+  flex
+  flex-row
+  max-sm:flex-col
+`
+
+const DivBox = tw(Horizontal)`
+  w-full
+  max-sm:flex-col
+`
+
+const ElementBox = styled.div<DirectType>(({ position = 0 }) => [
+  position
+    ? tw`
+  w-full
+  flex
+  flex-col
+  justify-start
+  items-end
+  max-sm:items-start
+  `
+    : tw`
+  w-full
+  flex
+  flex-col
+  justify-start
+  items-start
+`,
+])
+
+const WrapElementBox = tw(Vertical)`
+  w-[calc(97%)]
+  justify-center
+  max-sm:items-start
+  max-sm:w-full
+`
+
+const LabelInput = tw.label`
+  text-black
+  font-normal
+  text-sm
+`
+
+const CategoryBox = tw.div`
+  w-full
+  flex
+  flex-wrap
+  justify-start
+  items-start
+`
+
+const CategoryItem = tw.div`
+  border
+  border-[1.5px]
+  rounded-full
+  mr-3
+  mb-3
+  border-black
+  bg-white
+  flex
+  justify-center
+  items-center
+  px-5
+  py-0.5
+  text-lg
+  text-black
+  font-light
+  cursor-pointer
+  hover:bg-gray-700
+  hover:text-white
+`
+
+const TitleCreatedProject = tw.p`
+  text-3xl
+  text-black
+  font-bold
+  max-sm:text-2xl
+`
 const categories = [
   'NFT',
   'GameFi',
@@ -61,13 +152,13 @@ export default function NewProject() {
   const handleSubmit = async () => {
     setIsOpen(true)
     try {
-      const payload: ReqNewProject = {
+      const payload: ReqNewCommunity = {
         name: nameRef.current?.value ?? '',
         telegram: telRef.current?.value ?? '',
         introduction: introRef.current?.value ?? '',
       }
 
-      const data = await newProjectApi(payload)
+      const data = await newCommunityApi(payload)
       if (data.data) {
         router.push(RouterConst.PROJECT + data.data?.id + '/create')
       }
@@ -77,18 +168,18 @@ export default function NewProject() {
       }
     } catch (error) {
       setIsOpen(false)
-      toast.error('Error while create project')
+      toast.error('Error while create community')
     }
   }
 
   return (
     <Layout>
       <header>
-        <title>{'New Project'}</title>
+        <title>{'New Community'}</title>
       </header>
       <Wrap>
         <Gap />
-        <TitleCreatedProject>{'Create New Project'}</TitleCreatedProject>
+        <TitleCreatedProject>{'Create New Community'}</TitleCreatedProject>
         <Gap />
         <DescriptionCreatedProject>
           {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sem eros, scelerisque' +
@@ -99,18 +190,18 @@ export default function NewProject() {
           <ElementBox>
             <WrapElementBox>
               <LabelInput>
-                {'Project Name* (You can change it later)'}
+                {'Community Name* (You can change it later)'}
               </LabelInput>
               <Gap height={1} />
-              <InputBox ref={nameRef} placeholder='Enter Project Name' />
+              <InputBox ref={nameRef} placeholder='Enter Community Name' />
               <Gap height={9} />
               <LabelInput>
-                {'Project Introduction (You can change it later)'}
+                {'Community Introduction (You can change it later)'}
               </LabelInput>
               <Gap height={1} />
               <InputBox
                 ref={introRef}
-                placeholder='Enter Project Introduction'
+                placeholder='Enter Community Introduction'
               />
               <Gap height={9} />
               <LabelInput>{'Telegram (You can change it later)'}</LabelInput>
@@ -118,7 +209,7 @@ export default function NewProject() {
               <InputBox ref={telRef} placeholder='Enter Telegram URL' />
               <Gap height={9} />
               <LabelInput>
-                {'Project Category* (It cannot be changed after creation)'}
+                {'Community Category* (It cannot be changed after creation)'}
               </LabelInput>
               <Gap height={2} />
               <CategoryBox>{listCategory}</CategoryBox>
@@ -128,10 +219,10 @@ export default function NewProject() {
           <ElementBox position={1}>
             <WrapElementBox>
               <LabelInput>
-                {'Project URL* (It cannot be changed after creation)'}
+                {'Community URL* (It cannot be changed after creation)'}
               </LabelInput>
               <Gap height={1} />
-              <InputBox ref={urlRef} placeholder='Enter Project URL' />
+              <InputBox ref={urlRef} placeholder='Enter Community URL' />
               <Gap height={9} />
               <LabelInput>{'Website (You can change it later)'}</LabelInput>
               <Gap height={1} />
@@ -168,7 +259,7 @@ export default function NewProject() {
         <Gap height={9} />
         <WrapBtn>
           <CreateProjectBtn isBlock={false} onClick={handleSubmit}>
-            {'create project'.toUpperCase()}
+            {'create Community'.toUpperCase()}
           </CreateProjectBtn>
         </WrapBtn>
       </Wrap>
@@ -176,7 +267,10 @@ export default function NewProject() {
       <ProgressModal
         isOpen={isOpen}
         title={`Hang in there!`}
-        lines={[`We're creating project.`, 'This might take a few seconds...']}
+        lines={[
+          `We're creating Community.`,
+          'This might take a few seconds...',
+        ]}
       />
     </Layout>
   )

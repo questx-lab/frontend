@@ -14,13 +14,13 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { getProjectApi } from '@/app/api/client/project'
+import { getCommunityApi } from '@/app/api/client/community'
 import { newQuestApi } from '@/app/api/client/quest'
 import {
   QuestStatusEnum,
   QuestTypeEnum,
   TwitterEnum,
-} from '@/constants/project.const'
+} from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import QuestReward from '@/modules/new-quest/quest-reward'
@@ -39,7 +39,7 @@ import {
   ICard,
   PICard,
 } from '@/styles/questboard.style'
-import { ReqNewQuestType, ValidationQuest } from '@/types/project.type'
+import { ReqNewQuestType, ValidationQuest } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/button'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
@@ -376,7 +376,7 @@ const QuestFrame: FunctionComponent<{
 
   const fetchProject = async () => {
     try {
-      const rs = await getProjectApi(id)
+      const rs = await getCommunityApi(id)
       setProject(rs.data!.community)
       // setLoading(false)
     } catch (error) {

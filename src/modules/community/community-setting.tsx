@@ -2,7 +2,7 @@ import { useRef } from 'react'
 
 import { toast } from 'react-hot-toast'
 
-import { updateProjectApi } from '@/app/api/client/project'
+import { updateCommunityApi } from '@/app/api/client/community'
 import { CommunityStore } from '@/store/local/community.store'
 import {
   ConnectedTwitterBtn,
@@ -28,7 +28,7 @@ import {
   QuestWrap,
 } from '@/styles/home.style'
 import { InputBox, MulInputBox } from '@/styles/input.style'
-import { ReqUpdateProject } from '@/types/project.type'
+import { ReqUpdateCommunity } from '@/utils/type'
 import { VerticalFullWidth } from '@/widgets/orientation'
 
 const categories = [
@@ -58,12 +58,12 @@ export default function CommunitySetting() {
 
   const handleSave = async () => {
     try {
-      const payload: ReqUpdateProject = {
+      const payload: ReqUpdateCommunity = {
         id: projectState.id ?? '',
         discord: discordRef.current?.value,
         telegram: telRef.current?.value,
       }
-      const rs = await updateProjectApi(payload)
+      const rs = await updateCommunityApi(payload)
       if (rs.error) {
         toast.error(rs.error)
       } else {

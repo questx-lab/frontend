@@ -5,18 +5,18 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { useStoreState } from 'easy-peasy'
 import { toast } from 'react-hot-toast'
 
-import { getProjectApi } from '@/app/api/client/project'
+import { getCommunityApi } from '@/app/api/client/community'
 import { Layout } from '@/components/layout'
-import { ProjectRoleEnum } from '@/constants/project.const'
+import { CommunityRoleEnum } from '@/constants/common.const'
 import CommunityGuest from '@/modules/community/community-guest'
 import ManageProject from '@/modules/community/manage'
 import { CommunityStore } from '@/store/local/community.store'
 import { GlobalStoreModel } from '@/store/store'
-import { CollaboratorType } from '@/types/project.type'
+import { CollaboratorType } from '@/utils/type'
 import { Spinner } from '@/widgets/spinner'
 
-const ProjectBox: FunctionComponent<{ projectId: string }> = ({
-  projectId,
+const ProjectBox: FunctionComponent<{ communityId: string }> = ({
+  communityId,
 }) => {
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -35,13 +35,13 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
 
   // hook
   useEffect(() => {
-    fetchProject()
+    fetchCommunity()
   }, [projectCollab])
 
   // handler
-  const fetchProject = async () => {
+  const fetchCommunity = async () => {
     try {
-      const rs = await getProjectApi(projectId)
+      const rs = await getCommunityApi(communityId)
       if (rs.error) {
         toast.error(rs.error)
       } else {
@@ -51,16 +51,16 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
             (e) => e.community_id === rs.data?.community.id
           )
           if (filter.length === 0) {
-            setRole(ProjectRoleEnum.GUEST)
+            setRole(CommunityRoleEnum.GUEST)
           } else {
-            setRole(ProjectRoleEnum.OWNER)
+            setRole(CommunityRoleEnum.OWNER)
           }
         }
       }
 
       setLoading(false)
     } catch (error) {
-      toast.error('Error while fetch project')
+      toast.error('Error while fetch community')
       setLoading(false)
     }
   }
@@ -69,7 +69,7 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
     return <Spinner />
   }
 
-  if (role === ProjectRoleEnum.GUEST) {
+  if (role === CommunityRoleEnum.GUEST) {
     return <CommunityGuest />
   }
 
@@ -80,10 +80,10 @@ export default function ProjectPage(props: { params: { id: string } }) {
   return (
     <Layout>
       <header>
-        <title>{'Project'}</title>
+        <title>{'Community'}</title>
       </header>
       <CommunityStore.Provider>
-        <ProjectBox projectId={props.params.id} />
+        <ProjectBox communityId={props.params.id} />
       </CommunityStore.Provider>
     </Layout>
   )

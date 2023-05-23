@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { AnswerStatusEnum } from '@/constants/project.const'
+import { AnswerStatusEnum } from '@/constants/common.const'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 
 export const TWrap = tw(Horizontal)`

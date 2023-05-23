@@ -1,6 +1,5 @@
 import { EnvVariables } from '@/constants/env.const'
-import { Rsp } from '@/types/common.type'
-import { WalletLoginRes, WalletVerifyRes } from '@/types/metamask.type'
+import { Rsp, WalletLoginRes, WalletVerifyRes } from '@/utils/type'
 
 import { api } from '../config/api'
 

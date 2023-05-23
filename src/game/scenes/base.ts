@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
 import { w3cwebsocket as W3CWebSocket } from 'websocket'
 
-import { UserType } from '@/types/account.type'
 import { getAccessToken } from '@/utils/helper'
+import { UserType } from '@/utils/type'
 
 import { Playee } from '../interactive/playee'
 

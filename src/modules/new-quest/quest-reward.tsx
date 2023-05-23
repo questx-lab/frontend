@@ -1,10 +1,9 @@
 import Image from 'next/image'
 
-import { QuestRewards } from '@/constants/project.const'
+import { QuestRewards } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
-import { LabelInput } from '@/styles/myProjects.style'
 import {
   CSideCard,
   ICard,
@@ -15,6 +14,7 @@ import {
   TypeBox,
   UnderText,
 } from '@/styles/questboard.style'
+import { Label } from '@/widgets/text'
 
 export default function QuestReward() {
   // Data
@@ -46,7 +46,7 @@ export default function QuestReward() {
     <CSideCard>
       <ICard>
         <PICard>
-          <LabelInput>{'REWARD'}</LabelInput>
+          <Label>{'REWARD'}</Label>
           <Gap height={2} />
           <ITypeBox>{listRewards}</ITypeBox>
           <Gap height={6} />

@@ -4,7 +4,7 @@ import { MoonLoader } from 'react-spinners'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { SizeEnum } from '@/constants/project.const'
+import { SizeEnum } from '@/constants/common.const'
 
 const NegativeButtonStyle = styled.button<{
   isFull?: boolean

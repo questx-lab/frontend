@@ -1,6 +1,6 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { QuestType } from '@/types/project.type'
+import { QuestType } from '@/utils/type'
 
 export interface ActiveQuestModel {
   quest: QuestType

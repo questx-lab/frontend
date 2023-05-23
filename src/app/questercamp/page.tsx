@@ -8,12 +8,12 @@ import { listQuestApi } from '@/app/api/client/quest'
 import { QuestListView } from '@/modules/quests/quest-list'
 import { CommunityStore } from '@/store/local/community.store'
 import { Divider } from '@/styles/common.style'
-import { TitleCreatedProject } from '@/styles/myProjects.style'
 import { TitleBox, WrapQuestboard } from '@/styles/questboard.style'
-import { QuestType } from '@/types/project.type'
+import { QuestType } from '@/utils/type'
 import { MainLayout } from '@/widgets/main-layout'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { SearchInput } from '@/widgets/search-input'
+import { Large3xlText } from '@/widgets/text'
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 
 const FSearchWrap = tw(Horizontal)`
@@ -59,7 +59,7 @@ export default function QuestCamp() {
   return (
     <MainLayout title='⚡ QuesterCamp'>
       <TitleBox>
-        <TitleCreatedProject>{'⚡ QuesterCamp'}</TitleCreatedProject>
+        <Large3xlText>{'⚡ QuesterCamp'}</Large3xlText>
       </TitleBox>
       <Divider />
 

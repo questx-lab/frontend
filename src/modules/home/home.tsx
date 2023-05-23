@@ -5,12 +5,11 @@ import toast from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
-import { listProjectsApi } from '@/app/api/client/project'
+import { listCommunitiesApi } from '@/app/api/client/community'
 import CommunityBox from '@/modules/community/community-box'
 import { GlobalStoreModel } from '@/store/store'
 import { FullScreen } from '@/styles/common.style'
-import { UserType } from '@/types/account.type'
-import { ProjectType } from '@/types/project.type'
+import { CommunityType, UserType } from '@/utils/type'
 import { Vertical } from '@/widgets/orientation'
 
 import HorizontalCommunities from '../community/horizontal-communities'
@@ -56,7 +55,7 @@ const HomePage: FunctionComponent = () => {
   }, [])
 
   // data
-  const projectsFollowing: ProjectType[] = useStoreState<GlobalStoreModel>(
+  const projectsFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectsFollowing
   )
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
@@ -77,7 +76,7 @@ const HomePage: FunctionComponent = () => {
   const fetchListProjects = async () => {
     setLoading(true)
     try {
-      const list = await listProjectsApi(0, 50)
+      const list = await listCommunitiesApi(0, 50)
       setProjectsTrending(list.data!.communities)
     } catch (error) {
       toast.error('Network error')

@@ -1,6 +1,5 @@
 import { EnvVariables } from '@/constants/env.const'
-import { Rsp } from '@/types/common.type'
-import { RefferalType, ReqClaimReward } from '@/types/project.type'
+import { RefferalType, ReqClaimReward, Rsp } from '@/utils/type'
 
 import { api } from '../config/api'
 

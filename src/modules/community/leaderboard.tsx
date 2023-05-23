@@ -5,17 +5,17 @@ import { toast } from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { getLeaderboardApi } from '@/app/api/client/project'
+import { getLeaderboardApi } from '@/app/api/client/community'
 import {
   LeaderboardConst,
   LeaderboardRangeEnum,
   LeaderboardRangeMap,
-} from '@/constants/project.const'
+} from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityStore } from '@/store/local/community.store'
 import { LeaderboardStore } from '@/store/local/leaderboard.store'
 import { PointText } from '@/styles/questboard.style'
-import { LeaderboardType } from '@/types/project.type'
+import { LeaderboardType } from '@/utils/type'
 import { Horizontal, VerticalCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { Tab } from '@headlessui/react'

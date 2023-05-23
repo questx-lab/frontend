@@ -8,7 +8,7 @@ import {
   ClaimedQuestStatus,
   ReviewBtnEnum,
   TabReviewEnum,
-} from '@/constants/project.const'
+} from '@/constants/common.const'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
@@ -28,7 +28,7 @@ import {
   PTabHeader,
   PWrap,
 } from '@/styles/quest-review.style'
-import { ClaimQuestType } from '@/types/project.type'
+import { ClaimQuestType } from '@/utils/type'
 import { BarsArrowDownIcon } from '@heroicons/react/24/solid'
 
 import QuestSearch from './quest-search'
@@ -114,8 +114,8 @@ const RenderBody: FunctionComponent<{
   )
 }
 
-const HistoryTab: FunctionComponent<{ projectId: string }> = ({
-  projectId,
+const HistoryTab: FunctionComponent<{ communityId: string }> = ({
+  communityId,
 }) => {
   // Data
   const chooseQuestsState = NewClaimReviewStore.useStoreState(
@@ -153,7 +153,7 @@ const HistoryTab: FunctionComponent<{ projectId: string }> = ({
   const getClaimsQuest = async () => {
     onLoadingModalChanged(true)
     getListClaimQuest(
-      projectId,
+      communityId,
       'rejected,accepted',
       setHistoryClaims,
       questsSelect.map((e) => e.id!)
@@ -212,9 +212,9 @@ const HistoryTab: FunctionComponent<{ projectId: string }> = ({
             <PTabHeader>
               <PHeaderInfo>{'Filter'}</PHeaderInfo>
             </PTabHeader>
-            <Status projectId={projectId} />
+            <Status communityId={communityId} />
             {/* <Recurrence /> */}
-            <QuestSearch projectId={projectId} />
+            <QuestSearch communityId={communityId} />
           </PRWrap>
           <Gap height={6} />
           <Btn btnType={ReviewBtnEnum.EXPORT}>{'Export CSV'}</Btn>

@@ -8,7 +8,7 @@ import TwitterProvider from 'next-auth/providers/twitter'
 
 import {
   linkOAuth2,
-  updateProjectDiscord,
+  updateCommunityDiscord,
   verifyOAuth2,
 } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
@@ -52,13 +52,13 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         const matcher = '.*/communities/projects/.*/create'
         if (url && url.match(matcher)) {
           const arr = url.split('/')
-          const project_id = arr[arr.length - 2]
+          const community_id = arr[arr.length - 2]
           type Guild = {
             id: string
           }
           const guild = account.guild as Guild
-          const resp = await updateProjectDiscord(
-            project_id,
+          const resp = await updateCommunityDiscord(
+            community_id,
             guild.id,
 
             account?.access_token,

@@ -3,10 +3,6 @@ import tw from 'twin.macro'
 
 import { Horizontal } from '@/widgets/orientation'
 
-type CreateProjectType = {
-  isBlock?: boolean
-}
-
 export const WrapBtn = tw.div`
   w-full
   flex
@@ -146,7 +142,7 @@ export const ConnectedTwitterBtn = tw.button`
   max-xl:text-sm
 `
 
-export const CreateProjectBtn = styled.button<CreateProjectType>(
+export const CreateProjectBtn = styled.button<{ isBlock?: boolean }>(
   ({ isBlock = true }) => [
     isBlock
       ? tw`
@@ -203,9 +199,10 @@ export const Pcancel = tw.button`
   max-lg:text-sm
 `
 
-export const PSave = styled.button<CreateProjectType>(({ isBlock = true }) => [
-  isBlock
-    ? tw`
+export const PSave = styled.button<{ isBlock?: boolean }>(
+  ({ isBlock = true }) => [
+    isBlock
+      ? tw`
           bg-gray-200
           border
           border-0
@@ -222,7 +219,7 @@ export const PSave = styled.button<CreateProjectType>(({ isBlock = true }) => [
           shadow-lg
           max-lg:text-sm
         `
-    : tw`
+      : tw`
           bg-primary-500
           border
           hover:bg-primary-400
@@ -236,7 +233,8 @@ export const PSave = styled.button<CreateProjectType>(({ isBlock = true }) => [
           shadow-lg
           max-lg:text-sm
         `,
-])
+  ]
+)
 
 export const PFollow = styled.button<{ isFollow?: boolean }>(({ isFollow }) => [
   isFollow

@@ -7,19 +7,19 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import {
-  generateProjectKeyApi,
-  getProjectApi,
-  updateProjectApi,
-} from '@/app/api/client/project'
+  generateCommunityKeyApi,
+  getCommunityApi,
+  updateCommunityApi,
+} from '@/app/api/client/community'
 import { PanelLayout } from '@/components/layout'
-import { SideEnum } from '@/constants/project.const'
+import { SideEnum } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityStore } from '@/store/local/community.store'
 import { NewCommunityStore } from '@/store/local/new-community.store'
 import { Divider, FullScreen } from '@/styles/common.style'
 import { RequireSignal } from '@/styles/input.style'
 import { Head, Tab, TabItem } from '@/styles/quest-review.style'
-import { ReqUpdateProject } from '@/types/project.type'
+import { ReqUpdateCommunity } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/button'
 import { MultipleTextField, TextField } from '@/widgets/form'
 import {
@@ -110,7 +110,7 @@ const ApiKey: FunctionComponent = () => {
   const handleGenerate = async () => {
     setLoading(true)
     try {
-      const { error, data } = await generateProjectKeyApi(project.id)
+      const { error, data } = await generateCommunityKeyApi(project.id)
       if (error) {
         toast.error(error)
       } else {
@@ -199,13 +199,13 @@ const General: FunctionComponent = () => {
   const handleUpdate = async () => {
     setLoading(true)
     try {
-      const payload: ReqUpdateProject = {
+      const payload: ReqUpdateCommunity = {
         id: project.id ?? '',
         name: title,
         introduction: description,
         website_url: websiteUrl,
       }
-      const rs = await updateProjectApi(payload)
+      const rs = await updateCommunityApi(payload)
       if (rs.error) {
         toast.error(rs.error)
       } else {
@@ -273,8 +273,8 @@ const General: FunctionComponent = () => {
   )
 }
 
-const SettingCommunity: FunctionComponent<{ projectId: string }> = ({
-  projectId,
+const SettingCommunity: FunctionComponent<{ communityId: string }> = ({
+  communityId,
 }) => {
   // hook
   const [tab, setTab] = useState<number>(SettingTab.GENERAL)
@@ -291,7 +291,7 @@ const SettingCommunity: FunctionComponent<{ projectId: string }> = ({
 
   const fetchProject = async () => {
     try {
-      const rs = await getProjectApi(projectId)
+      const rs = await getCommunityApi(communityId)
       if (rs.error) {
         toast.error(rs.error)
       } else {
@@ -326,7 +326,7 @@ const SettingCommunity: FunctionComponent<{ projectId: string }> = ({
   }
 
   return (
-    <PanelLayout projectId={projectId} active={SideEnum.SETTINGS}>
+    <PanelLayout communityId={communityId} active={SideEnum.SETTINGS}>
       <Head>{'Review Submission'}</Head>
       <Tab>
         <TabItem

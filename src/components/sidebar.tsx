@@ -8,7 +8,7 @@ import tw from 'twin.macro'
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
 import { BoxContent, CircleRouded, Wrap } from '@/styles/sidebar.style'
-import { CollaboratorType, ProjectType } from '@/types/project.type'
+import { CollaboratorType, CommunityType } from '@/utils/type'
 import { Tooltip } from '@material-tailwind/react'
 
 const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
@@ -24,15 +24,15 @@ const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
 ])
 
 const RenderFollowItems: FunctionComponent<{
-  projects: ProjectType[]
-  projectId?: string
-}> = ({ projects, projectId }) => {
+  projects: CommunityType[]
+  communityId?: string
+}> = ({ projects, communityId }) => {
   const router = useRouter()
   const listItems =
     projects &&
     projects.map((e) => (
       <Tooltip key={e.id} content={e.name} placement='right'>
-        <ActiveAvatar active={e.id === projectId}>
+        <ActiveAvatar active={e.id === communityId}>
           <CircleRouded
             onClick={() => router.push(RouterConst.PROJECT + e.id)}
             width={45}
@@ -53,8 +53,8 @@ const RenderFollowItems: FunctionComponent<{
 
 const RenderCollabItems: FunctionComponent<{
   collaborator: CollaboratorType[]
-  projectId?: string
-}> = ({ collaborator, projectId }) => {
+  communityId?: string
+}> = ({ collaborator, communityId }) => {
   const router = useRouter()
   const listItems =
     collaborator &&
@@ -64,7 +64,7 @@ const RenderCollabItems: FunctionComponent<{
         content={e.community.name}
         placement='right'
       >
-        <ActiveAvatar active={e.community_id === projectId}>
+        <ActiveAvatar active={e.community_id === communityId}>
           <CircleRouded
             onClick={() => router.push(RouterConst.PROJECT + e.community_id)}
             width={45}
@@ -82,10 +82,10 @@ const RenderCollabItems: FunctionComponent<{
 
   return <BoxContent>{listItems}</BoxContent>
 }
-const ProjectSide: FunctionComponent<{ projectId?: string }> = ({
-  projectId,
+const ProjectSide: FunctionComponent<{ communityId?: string }> = ({
+  communityId,
 }) => {
-  const projectsFollowing: ProjectType[] = useStoreState<GlobalStoreModel>(
+  const projectsFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectsFollowing
   )
   const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
@@ -103,8 +103,14 @@ const ProjectSide: FunctionComponent<{ projectId?: string }> = ({
 
   return (
     <Wrap>
-      <RenderCollabItems projectId={projectId} collaborator={projectCollab} />
-      <RenderFollowItems projectId={projectId} projects={projectsFollowing} />
+      <RenderCollabItems
+        communityId={communityId}
+        collaborator={projectCollab}
+      />
+      <RenderFollowItems
+        communityId={communityId}
+        projects={projectsFollowing}
+      />
     </Wrap>
   )
 }

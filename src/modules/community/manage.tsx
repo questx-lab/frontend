@@ -25,7 +25,7 @@ import {
   MPadding,
   Wrap,
 } from '@/styles/questboard.style'
-import { QuestType } from '@/types/project.type'
+import { QuestType } from '@/utils/type'
 import { BasicModal } from '@/widgets/modal'
 
 import ControlPanel from '../new-quest/control-panel'
@@ -61,9 +61,9 @@ export default function ManageProject() {
 
   return (
     <Wrap>
-      <ProjectSide projectId={project.id} />
+      <ProjectSide communityId={project.id} />
       <MMain>
-        <ControlPanel projectId={project.id} />
+        <ControlPanel communityId={project.id} />
         <CCBox>
           <MBox>
             <MPadding>

@@ -1,11 +1,11 @@
 'use client'
 
-import { QuestRecurrence, QuestRecurrencesMap } from '@/constants/project.const'
+import { QuestRecurrence, QuestRecurrencesMap } from '@/constants/common.const'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { Gap } from '@/styles/common.style'
-import { LabelInput } from '@/styles/myProjects.style'
 import { RCard, RICard } from '@/styles/quest-review.style'
 import { ITypeBox, TypeBox } from '@/styles/questboard.style'
+import { Label } from '@/widgets/text'
 
 export default function Recurrence() {
   // Data
@@ -39,7 +39,7 @@ export default function Recurrence() {
   return (
     <RCard>
       <RICard>
-        <LabelInput>{'RECURRENCE'}</LabelInput>
+        <Label>{'RECURRENCE'}</Label>
         <Gap height={2} />
         <ITypeBox>{items}</ITypeBox>
       </RICard>
