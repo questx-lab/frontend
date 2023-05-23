@@ -314,7 +314,7 @@ const handleSubmit = async (
   }
 
   const payload: ReqNewQuestType = {
-    project_id: id,
+    community_id: id,
     type,
     title: state.title,
     description: state.description,
@@ -377,7 +377,7 @@ const QuestFrame: FunctionComponent<{
   const fetchProject = async () => {
     try {
       const rs = await getProjectApi(id)
-      setProject(rs.data!.project)
+      setProject(rs.data!.community)
       // setLoading(false)
     } catch (error) {
       toast.error('Error while fetch project')

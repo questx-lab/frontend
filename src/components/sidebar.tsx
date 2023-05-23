@@ -59,10 +59,14 @@ const RenderCollabItems: FunctionComponent<{
   const listItems =
     collaborator &&
     collaborator.map((e) => (
-      <Tooltip key={e.project_id} content={e.project.name} placement='right'>
-        <ActiveAvatar active={e.project_id === projectId}>
+      <Tooltip
+        key={e.community_id}
+        content={e.community.name}
+        placement='right'
+      >
+        <ActiveAvatar active={e.community_id === projectId}>
           <CircleRouded
-            onClick={() => router.push(RouterConst.PROJECT + e.project_id)}
+            onClick={() => router.push(RouterConst.PROJECT + e.community_id)}
             width={45}
             height={45}
             src={'/images/dummy/4.svg'}

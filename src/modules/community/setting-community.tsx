@@ -295,7 +295,7 @@ const SettingCommunity: FunctionComponent<{ projectId: string }> = ({
       if (rs.error) {
         toast.error(rs.error)
       } else {
-        setProject(rs.data!.project)
+        setProject(rs.data!.community)
       }
       setLoading(false)
     } catch (error) {

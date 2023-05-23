@@ -8,8 +8,8 @@ import { toast } from 'react-hot-toast'
 import { getProjectApi } from '@/app/api/client/project'
 import { Layout } from '@/components/layout'
 import { ProjectRoleEnum } from '@/constants/project.const'
-import ManageProject from '@/modules/community/manage'
 import CommunityGuest from '@/modules/community/community-guest'
+import ManageProject from '@/modules/community/manage'
 import { CommunityStore } from '@/store/local/community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/types/project.type'
@@ -45,10 +45,10 @@ const ProjectBox: FunctionComponent<{ projectId: string }> = ({
       if (rs.error) {
         toast.error(rs.error)
       } else {
-        setProject(rs.data?.project!)
+        setProject(rs.data?.community!)
         if (projectCollab) {
           const filter = projectCollab.filter(
-            (e) => e.project_id === rs.data?.project.id
+            (e) => e.community_id === rs.data?.community.id
           )
           if (filter.length === 0) {
             setRole(ProjectRoleEnum.GUEST)
