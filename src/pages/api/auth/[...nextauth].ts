@@ -65,11 +65,11 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     ],
     callbacks: {
       async jwt({ token, account }) {
-        if (!account || account.provider == undefined) {
-          return token
-        }
-
-        if (account.access_token == undefined) {
+        if (
+          !account ||
+          account.provider == undefined ||
+          account.access_token == undefined
+        ) {
           return token
         }
 
@@ -99,12 +99,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         }
 
         if (accessToken) {
-          const resp = await linkOAuth2(
-            account.provider,
-            account.access_token,
-            accessToken
-          )
-
+          await linkOAuth2(account.provider, account.access_token, accessToken)
           return token
         }
 

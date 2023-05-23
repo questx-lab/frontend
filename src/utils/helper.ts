@@ -71,3 +71,15 @@ export const delUserLocal = () => {
 export const clearLocalStorage = () => {
   localStorage.clear()
 }
+
+export const isLogin = (user: UserType): boolean => {
+  if (!user) {
+    return false
+  }
+
+  if (!Object.values(user).length) {
+    return false
+  }
+
+  return true
+}

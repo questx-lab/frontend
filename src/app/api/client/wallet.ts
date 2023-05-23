@@ -7,7 +7,7 @@ export const loginMetamask = async (
   account: string
 ): Promise<WalletLoginRes> => {
   const result = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/wallet/login?address=${account}`
+    EnvVariables.NEXT_PUBLIC_API_URL + `/loginWallet?address=${account}`
   )
 
   return result.data

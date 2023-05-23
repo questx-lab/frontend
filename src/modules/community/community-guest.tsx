@@ -7,11 +7,12 @@ import { MoonLoader } from 'react-spinners'
 
 import { newFollowCommunityApi } from '@/app/api/client/community'
 import ProjectSide from '@/components/sidebar'
+import { ErrorCodes } from '@/constants/code.const'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityStore } from '@/store/local/community.store'
 import { LeaderboardStore } from '@/store/local/leaderboard.store'
 import { GlobalStoreModel } from '@/store/store'
-import { PFollow, PSave, PShare } from '@/styles/button.style'
+import { PFollow } from '@/styles/button.style'
 import { CloseIcon, Divider, EndWrap, Gap } from '@/styles/common.style'
 import { MDialog } from '@/styles/home.style'
 import {
@@ -19,7 +20,6 @@ import {
   LHDes,
   LHeader,
   LHInfoA,
-  LHLogo,
   LHTitle,
   LHTitleBox,
   LLbox,
@@ -38,7 +38,7 @@ import {
   ModalWrap,
   TitleModal,
 } from '@/styles/modal.style'
-import { CardBox, QuestText, SCardBox } from '@/styles/questboard.style'
+import { CardBox } from '@/styles/questboard.style'
 import { CommunityType } from '@/utils/type'
 import { LargeText, NormalText } from '@/widgets/text'
 import { Transition } from '@headlessui/react'
@@ -50,19 +50,28 @@ const FollowBtn: FunctionComponent<{
   project: CommunityType
 }> = ({ project }) => {
   const [loading, setLoading] = useState<boolean>(false)
+
+  // data
   const projects: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectsFollowing
   )
+
+  // action
   const setProjectsFollowing = useStoreActions<GlobalStoreModel>(
     (action) => action.setProjectsFollowing
   )
+  const setShowLoginModal = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowLoginModal
+  )
+
+  // handler
   const projectExist = projects && projects.filter((e) => e.id === project.id)
   const handleFollow = async () => {
     setLoading(true)
     try {
       const data = await newFollowCommunityApi(project.id)
-      if (data.error) {
-        toast.error(data.error)
+      if (data.code === ErrorCodes.UNAUTHOR) {
+        setShowLoginModal(true)
       } else {
         if (projects) {
           setProjectsFollowing([...projects, project])
@@ -158,59 +167,13 @@ export default function CommunityGuest() {
               <LHBox>
                 <LHTitle>{projectState.name}</LHTitle>
                 <Gap height={1} />
-                <LHDes>
-                  {projectState.introduction ??
-                    'Manta Network is the zk layer 1 blockchain with the fastest prover speed and most decentralized trusted setup that brings programmable privacy to web3. Its suite of core products and technologies, including zkNFTs and MantaPay, offers user-friendly access to powerful ZK-enabled use cases.'}
-                </LHDes>
-                <Gap height={3} />
-                <LHLogo>
-                  <Image
-                    width={30}
-                    height={30}
-                    src={StorageConst.TWITTER_DIR.src}
-                    alt={StorageConst.TWITTER_DIR.alt}
-                  />
-                  <Gap width={4} height={0} />
-                  <Image
-                    width={30}
-                    height={30}
-                    src={StorageConst.DISCORD_DIR.src}
-                    alt={StorageConst.DISCORD_DIR.alt}
-                  />
-                  <Gap width={4} height={0} />
-                  <Image
-                    width={30}
-                    height={30}
-                    src={StorageConst.METAMASK_DIR.src}
-                    alt={StorageConst.METAMASK_DIR.alt}
-                  />
-                  <Gap width={4} height={0} />
-                  <Image
-                    width={30}
-                    height={30}
-                    src={StorageConst.METAMASK_DIR.src}
-                    alt={StorageConst.METAMASK_DIR.alt}
-                  />
-                </LHLogo>
-                <Gap height={5} />
+                <LHDes>{projectState.introduction}</LHDes>
+
                 {userState && projectState && (
                   <LHTitleBox>
-                    <SCardBox>
-                      <PSave isBlock={false}>{'Join Townhall'}</PSave>
-                      <Gap width={4} height={0} />
-                      <QuestText>{'with 287.6K questers 👋'}</QuestText>
-                    </SCardBox>
+                    <div />
                     <CardBox>
                       <FollowBtn project={projectState} />
-                      <Gap height={8} />
-                      <PShare>
-                        <Image
-                          width={20}
-                          height={20}
-                          src={StorageConst.SHARE_ICON.src}
-                          alt={StorageConst.SHARE_ICON.alt}
-                        />
-                      </PShare>
                     </CardBox>
                   </LHTitleBox>
                 )}

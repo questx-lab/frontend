@@ -1,13 +1,18 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { listCommunitiesApi } from '@/app/api/client/community'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
+import CommunityBox from '@/modules/community/community-box'
+import { CommunityType } from '@/utils/type'
+import CategoryBox from '@/widgets/CategoryBox'
 import { NegativeButton } from '@/widgets/button'
+import CarouselList from '@/widgets/carousel'
 import {
   HorizontalBetweenCenter,
   HorizontalCenter,
@@ -15,8 +20,6 @@ import {
   VerticalCenter,
 } from '@/widgets/orientation'
 import { LargeText } from '@/widgets/text'
-
-import HorizontalCommunities from '../community/horizontal-communities'
 
 const Wrap = tw(Vertical)`
   min-h-screen
@@ -172,6 +175,28 @@ const Footer: FunctionComponent = () => {
 
 const LandingPage: FunctionComponent = () => {
   const router = useRouter()
+  const [loading, setLoading] = useState<boolean>(true)
+  const [communities, setCommunities] = useState<CommunityType[]>([])
+
+  useEffect(() => {
+    fetchCommunityList()
+  }, [])
+
+  const fetchCommunityList = async () => {
+    setLoading(true)
+    try {
+      const list = await listCommunitiesApi(0, 50, '', true)
+      setCommunities(list.data!.communities)
+    } catch (error) {
+      // TODO: show error (not toast) to indicate that the communities cannot be loaded.
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onShowAllClicked = () => {
+    router.push(RouterConst.COMMUNITIES)
+  }
 
   return (
     <Wrap>
@@ -217,14 +242,30 @@ const LandingPage: FunctionComponent = () => {
             />
           </RewardSession>
           <Main>
-            <HorizontalCommunities
-              title={'🔥 Trending Communities'}
-              byTrending={true}
-            />
-            <HorizontalCommunities
-              title={'⭐ Popular Communities'}
-              byTrending={false}
-            />
+            <CategoryBox
+              title='🔥 Trending Communities'
+              onClick={onShowAllClicked}
+              loading={loading}
+            >
+              <CarouselList
+                data={communities}
+                renderItemFunc={(community: CommunityType) => {
+                  return <CommunityBox community={community} />
+                }}
+              />
+            </CategoryBox>
+            <CategoryBox
+              title='⭐ Popular Communities'
+              onClick={onShowAllClicked}
+              loading={loading}
+            >
+              <CarouselList
+                data={communities}
+                renderItemFunc={(community: CommunityType) => {
+                  return <CommunityBox community={community} />
+                }}
+              />
+            </CategoryBox>
           </Main>
           <Footer />
         </HeadWrap>
