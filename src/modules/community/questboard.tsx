@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
+import { CarouselType } from '@/constants/common.const'
+import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { Quests } from '@/modules/quests/quest-list'
+import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { Gap } from '@/styles/common.style'
 import {
   BoardingCard,
@@ -20,9 +23,9 @@ import {
   TitleQuestBox,
 } from '@/styles/questboard.style'
 import { QuestType } from '@/utils/type'
+import CarouselList from '@/widgets/carousel'
+import CategoryBox from '@/widgets/CategoryBox'
 import { VerticalFullWidth } from '@/widgets/orientation'
-
-import HorizontalQuests from '../quests/horizontal-quests'
 
 const categories = [
   'NFT',
@@ -40,6 +43,11 @@ export default function QuestBoardTab() {
   const pathName = usePathname()
   const [questList, setListQuests] = useState<QuestType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const router = useRouter()
+
+  const onShowAllClicked = () => {
+    router.push(RouterConst.QUESTBOARD)
+  }
 
   useEffect(() => {
     getQuests()
@@ -94,12 +102,11 @@ export default function QuestBoardTab() {
 
   return (
     <VerticalFullWidth>
-      {/* <QuestWrapCat>
-        <CateTitle>{'View Category'}</CateTitle>
-        <Gap height={2} width={0} />
-        <CategoryBox>{listCategory}</CategoryBox>
-      </QuestWrapCat> */}
-      <HorizontalQuests title='🔥 Trending Quests' quests={questList} />
+      <CategoryBox title='🔥 Trending Quests' onClick={onShowAllClicked}>
+        <ActiveQuestStore.Provider>
+          <CarouselList data={questList} type={CarouselType.QUEST} />
+        </ActiveQuestStore.Provider>
+      </CategoryBox>
       <Gap height={6} />
       <Quests questList={questList} show={!loading} />
     </VerticalFullWidth>

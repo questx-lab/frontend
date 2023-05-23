@@ -69,16 +69,12 @@ export const Layout = ({
 }) => {
   // data
   const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
-  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
-  const userState = useStoreState<GlobalStoreModel>((state) => state.user)
-  const requireLogin = useStoreState<GlobalStoreModel>(
-    (state) => state.requireLogin
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const showLoginModal = useStoreState<GlobalStoreModel>(
+    (state) => state.showLoginModal
   )
 
   // action
-  const setLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setLogin
-  )
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
   const setReferral = useStoreActions<GlobalStoreModel>(
     (action) => action.setReferral
@@ -89,8 +85,8 @@ export const Layout = ({
   const setProjectCollab = useStoreActions<GlobalStoreModel>(
     (action) => action.setProjectCollab
   )
-  const setRequireLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setRequireLogin
+  const setShowLoginModal = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowLoginModal
   )
 
   const router = useRouter()
@@ -103,14 +99,11 @@ export const Layout = ({
     }
 
     if (accessToken) {
-      if (!isLogin) {
-        setLogin(true)
-      }
-      if (userState && !Object.keys(userState).length) {
+      if (user && !Object.keys(user).length) {
         handleInit()
       }
     } else {
-      setLogin(false)
+      setUser({})
       // router.push(RouterConst.EXPLORE)
     }
   }, [router])
@@ -127,8 +120,6 @@ export const Layout = ({
       const user = await getUserApi()
       setUserLocal(user.data!)
       setUser(user.data!)
-
-      setLogin(true)
     } catch (error) {}
   }
 
@@ -179,9 +170,9 @@ export const Layout = ({
           <Header isFull={isFull} isApp={isApp} />
         </Main>
         <Toaster position='top-center' reverseOrder={false} />
-        <BaseModal isOpen={requireLogin}>
+        <BaseModal isOpen={showLoginModal}>
           <ModalBox>
-            <Login setOpen={setRequireLogin} />
+            <Login setOpen={setShowLoginModal} />
           </ModalBox>
         </BaseModal>
       </body>

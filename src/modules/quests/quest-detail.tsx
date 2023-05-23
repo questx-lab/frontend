@@ -1,6 +1,5 @@
 import { FunctionComponent, useState } from 'react'
 
-import { useStoreActions, useStoreState } from 'easy-peasy'
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
@@ -15,7 +14,6 @@ import {
 import { StorageConst } from '@/constants/storage.const'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { CommunityStore } from '@/store/local/community.store'
-import { GlobalStoreModel } from '@/store/store'
 import { DeleteBtn, EditButton } from '@/styles/button.style'
 import { Gap } from '@/styles/common.style'
 import {
@@ -116,7 +114,6 @@ const SubmitButton: FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   // data
-  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
   const role = CommunityStore.useStoreState((state) => state.role)
   const quest = ActiveQuestStore.useStoreState((state) => state.quest)
   const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
@@ -130,27 +127,17 @@ const SubmitButton: FunctionComponent = () => {
   )
   const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
 
-  // action
-  const setRequireLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setRequireLogin
-  )
-
   // handler
-
   const onSubmit = () => {
-    if (!isLogin) {
-      setRequireLogin(true)
-    } else {
-      handleSubmit(
-        quest,
-        fileUpload,
-        urlSubmit,
-        textSubmit,
-        replyUrlSubmit,
-        quizAnswers,
-        setLoading
-      )
-    }
+    handleSubmit(
+      quest,
+      fileUpload,
+      urlSubmit,
+      textSubmit,
+      replyUrlSubmit,
+      quizAnswers,
+      setLoading
+    )
   }
 
   let block = true
@@ -209,6 +196,7 @@ const SubmitButton: FunctionComponent = () => {
           block={block}
           loading={loading}
           onClick={onSubmit}
+          requireLogin
         >
           {'Claim Reward'}
         </PositiveButton>

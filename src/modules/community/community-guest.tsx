@@ -60,8 +60,8 @@ const FollowBtn: FunctionComponent<{
   const setProjectsFollowing = useStoreActions<GlobalStoreModel>(
     (action) => action.setProjectsFollowing
   )
-  const setRequireLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setRequireLogin
+  const setShowLoginModal = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowLoginModal
   )
 
   // handler
@@ -71,7 +71,7 @@ const FollowBtn: FunctionComponent<{
     try {
       const data = await newFollowCommunityApi(project.id)
       if (data.code === ErrorCodes.UNAUTHOR) {
-        setRequireLogin(true)
+        setShowLoginModal(true)
       } else {
         if (projects) {
           setProjectsFollowing([...projects, project])
@@ -167,10 +167,7 @@ export default function CommunityGuest() {
               <LHBox>
                 <LHTitle>{projectState.name}</LHTitle>
                 <Gap height={1} />
-                <LHDes>
-                  {projectState.introduction ??
-                    'Manta Network is the zk layer 1 blockchain with the fastest prover speed and most decentralized trusted setup that brings programmable privacy to web3. Its suite of core products and technologies, including zkNFTs and MantaPay, offers user-friendly access to powerful ZK-enabled use cases.'}
-                </LHDes>
+                <LHDes>{projectState.introduction}</LHDes>
 
                 {userState && projectState && (
                   <LHTitleBox>

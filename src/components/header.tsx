@@ -104,16 +104,11 @@ const UserPopover: FunctionComponent = () => {
   // data
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
-  // action
-  const setLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setLogin
-  )
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   // handler
   const handleLogout = () => {
     router.push(RouterConst.HOME)
-    setLogin(false)
     setUser({})
     delCookies()
     clearLocalStorage()
@@ -169,33 +164,29 @@ const UserPopover: FunctionComponent = () => {
 
 const UserInfoBox: FunctionComponent = () => {
   // data
-  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
-  const requireLogin = useStoreState<GlobalStoreModel>(
-    (state) => state.requireLogin
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const showLoginModal = useStoreState<GlobalStoreModel>(
+    (state) => state.showLoginModal
   )
-  const userState: UserType = useStoreState<GlobalStoreModel>(
-    (state) => state.user
-  )
-
   //action
   const setAuthBox = useStoreActions<GlobalStoreModel>(
     (action) => action.setAuthBox
   )
-  const setRequireLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setRequireLogin
+  const setShowLoginModal = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowLoginModal
   )
 
   // hook
   const [isInvite, setInvite] = useState<boolean>(false)
 
   useEffect(() => {
-    if (userState && userState.is_new_user) {
-      setRequireLogin(true)
+    if (user && user.is_new_user) {
+      setShowLoginModal(true)
       setAuthBox(AuthEnum.INPUT_FORM)
     }
-  }, [userState])
+  }, [user])
 
-  if (isLogin && userState) {
+  if (user && Object.values(user).length) {
     return (
       <UserSession>
         <GiftIcon onClick={() => setInvite(true)} className='h-7 w-7' />
@@ -218,7 +209,7 @@ const UserInfoBox: FunctionComponent = () => {
         <LoginBtn
           onClick={() => {
             setAuthBox(AuthEnum.LOGIN)
-            setRequireLogin(true)
+            setShowLoginModal(true)
           }}
         >
           {'Log in'}
@@ -226,15 +217,15 @@ const UserInfoBox: FunctionComponent = () => {
         <SignUpBtn
           onClick={() => {
             setAuthBox(AuthEnum.REGISTER)
-            setRequireLogin(true)
+            setShowLoginModal(true)
           }}
         >
           {'Sign up'}
         </SignUpBtn>
       </AuthBox>
-      <BaseModal isOpen={requireLogin}>
+      <BaseModal isOpen={showLoginModal}>
         <ModalBox>
-          <Login setOpen={setRequireLogin} />
+          <Login setOpen={setShowLoginModal} />
         </ModalBox>
       </BaseModal>
     </>

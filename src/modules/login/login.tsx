@@ -419,9 +419,6 @@ const LoginBox: FunctionComponent = () => {
   const setAuthBox = useStoreActions<GlobalStoreModel>(
     (action) => action.setAuthBox
   )
-  const setLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setLogin
-  )
 
   return (
     <BoxContent>
@@ -453,7 +450,7 @@ const LoginBox: FunctionComponent = () => {
         />
         {'Log in with Discord'}
       </SocialBox>
-      <SocialBox onClick={() => handleMetamask(setLogin)}>
+      <SocialBox onClick={() => handleMetamask()}>
         <Image
           width={40}
           height={40}

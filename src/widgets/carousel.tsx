@@ -1,42 +1,22 @@
 import { FunctionComponent } from 'react'
 
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import Carousel from 'react-multi-carousel'
 import { ArrowProps } from 'react-multi-carousel/lib/types'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { RouterConst } from '@/constants/router.const'
+import { CarouselType } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
-import { ActiveQuestStore } from '@/store/local/active-quest.store'
-import { HeaderText } from '@/styles/home.style'
-import { QuestType } from '@/utils/type'
-import {
-  HorizontalBetweenCenter,
-  Vertical,
-  VerticalCenter,
-} from '@/widgets/orientation'
-import { NormalText, PrimaryText } from '@/widgets/text'
-import {
-  ArrowSmallRightIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from '@heroicons/react/24/outline'
-
-import { QuestView } from './single-quest'
-
-const Wrap = tw(Vertical)`
-  gap-4
-  w-full
-`
+import CommunityBox from '@/modules/community/community-box'
+import { QuestView } from '@/modules/quests/single-quest'
+import { CommunityType, QuestType } from '@/utils/type'
+import { VerticalCenter } from '@/widgets/orientation'
+import { NormalText } from '@/widgets/text'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 
 const Card = tw.div`
   mx-2
-`
-
-const HeaderBox = tw(HorizontalBetweenCenter)`
-  w-full
 `
 
 const EmptyBox = tw(VerticalCenter)`
@@ -100,14 +80,28 @@ const CustomLeftArrow = ({ onClick }: ArrowProps) => {
   )
 }
 
-const QuestsList: FunctionComponent<{ quests: QuestType[] }> = ({ quests }) => {
-  const renderCarousel = quests.map((quest) => (
-    <Card key={quest.id}>
-      <QuestView quest={quest} />
-    </Card>
-  ))
+const CarouselList: FunctionComponent<{
+  data: (QuestType | CommunityType)[]
+  type: CarouselType
+}> = ({ data, type }) => {
+  let renderCarousel
+  if (type === CarouselType.QUEST) {
+    renderCarousel = data.map((quest) => (
+      <Card key={quest.id}>
+        <QuestView quest={quest} />
+      </Card>
+    ))
+  }
 
-  if (!quests.length) {
+  if (type === CarouselType.COMMUNITY) {
+    renderCarousel = data.map((community) => (
+      <Card key={community.id}>
+        <CommunityBox community={community as CommunityType} />
+      </Card>
+    ))
+  }
+
+  if (!data.length) {
     return (
       <EmptyBox>
         <Image
@@ -118,7 +112,7 @@ const QuestsList: FunctionComponent<{ quests: QuestType[] }> = ({ quests }) => {
         />
         <NormalText>
           {
-            "Ohhh! This doesn't have any quests yet. Please follow and come back at a later time."
+            "Ohhh! This doesn't have any data yet. Please follow and come back at a later time."
           }
         </NormalText>
       </EmptyBox>
@@ -137,30 +131,4 @@ const QuestsList: FunctionComponent<{ quests: QuestType[] }> = ({ quests }) => {
   )
 }
 
-const HorizontalQuests: FunctionComponent<{
-  title: string
-  quests: QuestType[]
-}> = ({ title, quests }) => {
-  const router = useRouter()
-
-  const onShowAllClicked = () => {
-    router.push(RouterConst.COMMUNITIES)
-  }
-
-  return (
-    <Wrap>
-      <HeaderBox>
-        <HeaderText>{title}</HeaderText>
-        <PrimaryText isHover size='lg' onClick={onShowAllClicked}>
-          {'Show all'}
-          <ArrowSmallRightIcon className='text-primary w-7 h-7' />
-        </PrimaryText>
-      </HeaderBox>
-      <ActiveQuestStore.Provider>
-        <QuestsList quests={quests} />
-      </ActiveQuestStore.Provider>
-    </Wrap>
-  )
-}
-
-export default HorizontalQuests
+export default CarouselList

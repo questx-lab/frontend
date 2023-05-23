@@ -10,7 +10,6 @@ import {
 
 export interface GlobalStoreModel {
   navBar: boolean
-  isLogin: boolean
   user: UserType
   projectsFollowing: CommunityType[]
   projectsTrending: CommunityType[]
@@ -18,10 +17,9 @@ export interface GlobalStoreModel {
   referral: RefferalType
   authBox: number
   username: string
-  requireLogin: boolean
+  showLoginModal: boolean
 
   setNavBar: Action<GlobalStoreModel, boolean>
-  setLogin: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
   setProjectsFollowing: Action<GlobalStoreModel, CommunityType[]>
   setProjectCollab: Action<GlobalStoreModel, CollaboratorType[]>
@@ -29,12 +27,11 @@ export interface GlobalStoreModel {
   setProjectsTrending: Action<GlobalStoreModel, CommunityType[]>
   setAuthBox: Action<GlobalStoreModel, number>
   setUserName: Action<GlobalStoreModel, string>
-  setRequireLogin: Action<GlobalStoreModel, boolean>
+  setShowLoginModal: Action<GlobalStoreModel, boolean>
 }
 
 const store = createStore<GlobalStoreModel>({
   navBar: false,
-  isLogin: false,
   user: {},
   projectsFollowing: [],
   projectCollab: [],
@@ -42,14 +39,10 @@ const store = createStore<GlobalStoreModel>({
   referral: {},
   authBox: AuthEnum.LOGIN,
   username: '',
-  requireLogin: false,
+  showLoginModal: false,
 
   setNavBar: action((state, navBar) => {
     state.navBar = navBar
-  }),
-
-  setLogin: action((state, isLogin) => {
-    state.isLogin = isLogin
   }),
 
   setUser: action((state, user) => {
@@ -80,8 +73,8 @@ const store = createStore<GlobalStoreModel>({
     state.username = username
   }),
 
-  setRequireLogin: action((state, require) => {
-    state.requireLogin = require
+  setShowLoginModal: action((state, require) => {
+    state.showLoginModal = require
   }),
 })
 
