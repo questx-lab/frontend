@@ -9,12 +9,13 @@ import { StoreProvider, useStoreActions } from 'easy-peasy'
 import StyledComponentsRegistry from '@/components/styled-components'
 import store, { GlobalStoreModel } from '@/store/store'
 import { getUserLocal } from '@/utils/helper'
+import { isServer } from '@/app/api/config/api'
 
 const Content: FunctionComponent<{
   children: ReactNode
 }> = ({ children }) => {
-  const localUser = getUserLocal()
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
+  const localUser = isServer() ? undefined : getUserLocal()
 
   // hook
   useEffect(() => {

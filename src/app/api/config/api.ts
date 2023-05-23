@@ -13,7 +13,7 @@ import {
 
 import { refreshTokenApi } from '../client/user'
 
-const isServer = () => {
+export const isServer = () => {
   return typeof window === 'undefined'
 }
 const mutex = new Mutex()

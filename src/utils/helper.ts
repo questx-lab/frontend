@@ -43,7 +43,6 @@ export const setRefreshToken = (cookie: string) => {
 }
 
 export const setUserLocal = (data: UserType) => {
-  console.log('setting user local....')
   localStorage.setItem('user', JSON.stringify(data))
 }
 

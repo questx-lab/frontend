@@ -17,20 +17,12 @@ import { Rsp, UserType } from '@/utils/type'
 import axios from 'axios'
 
 const getUser = async (accessToken: string): Promise<Rsp<UserType>> => {
-  console.log('aaaa accessToken = ', accessToken)
-  console.log(
-    'EnvVariables.NEXT_PUBLIC_API_URL = ',
-    EnvVariables.NEXT_PUBLIC_API_URL
-  )
-
   const result = await axios.get(EnvVariables.NEXT_PUBLIC_API_URL + '/getMe', {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   })
-
-  console.log('result = ', result.data)
 
   return result.data
 }
@@ -112,10 +104,8 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         const refreshExpiration =
           dRefreshToken['exp'] - parseInt((Date.now() / 1000).toFixed(0))
 
-        console.log('account.access_token = ', account.access_token)
-
         // Make a request to API server to get user
-        let user = await getUser(account.access_token)
+        let user = await getUser(resp.data.access_token)
 
         res.setHeader('Set-Cookie', [
           serialize(KeysEnum.ACCESS_TOKEN, resp.data.access_token, {
