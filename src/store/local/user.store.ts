@@ -1,6 +1,6 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { SocialDisplay } from '@/constants/project.const'
+import { SocialDisplay } from '@/constants/common.const'
 
 export interface UserStoreModel {
   username: string

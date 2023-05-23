@@ -15,9 +15,9 @@ import {
   RowSWrap,
 } from '@/styles/common.style'
 import { InputBBox } from '@/styles/input.style'
-import { LabelInput } from '@/styles/myProjects.style'
 import { UPWrap } from '@/styles/user.style'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
+import { Label } from '@/widgets/text'
 
 export default function UserProfileTab({ userId }: { userId: string }) {
   const userState = useStoreState<GlobalStoreModel>((state) => state.user)
@@ -48,35 +48,30 @@ export default function UserProfileTab({ userId }: { userId: string }) {
           <ImgBox />
           <Gap width={6} height={0} />
           <ColSWrap>
-            <LabelInput>{'Username'}</LabelInput>
-            <Gap height={2} />
+            <Label>{'Username'}</Label>
             <InputBBox
               defaultValue={userState && userState.name}
               placeholder='Username'
             />
             <Gap height={6} />
-            <LabelInput>{'Email'}</LabelInput>
-            <Gap height={2} />
+            <Label>{'Email'}</Label>
             <InputBBox placeholder='Email' />
           </ColSWrap>
         </RowSWrap>
         <Gap height={8} />
         <RowBWrap>
           <ColSWrap>
-            <LabelInput>{'Twitter'}</LabelInput>
-            <Gap height={2} />
+            <Label>{'Twitter'}</Label>
             <InputBBox placeholder='Twitter handle' />
           </ColSWrap>
           <Gap width={12} />
           <ColSWrap>
-            <LabelInput>{'Telegram'}</LabelInput>
-            <Gap height={2} />
+            <Label>{'Telegram'}</Label>
             <InputBBox placeholder='Telegram handle' />
           </ColSWrap>
           <Gap width={12} />
           <ColSWrap>
-            <LabelInput>{'Discord'}</LabelInput>
-            <Gap height={2} />
+            <Label>{'Discord'}</Label>
             <InputBBox placeholder='Discord handle' />
           </ColSWrap>
         </RowBWrap>

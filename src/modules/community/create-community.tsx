@@ -9,7 +9,10 @@ import { MoonLoader } from 'react-spinners'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { getMyProjectsApi, newProjectApi } from '@/app/api/client/project'
+import {
+  getMyCommunitiesApi,
+  newCommunityApi,
+} from '@/app/api/client/community'
 import {
   ButtonSocialType,
   ConnectSocialPlatformEnum,
@@ -19,7 +22,7 @@ import {
   NewCommunityStep,
   NewCommunityTypeShare,
   NewCommunityTypeShareMap,
-} from '@/constants/project.const'
+} from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NewCommunityStore } from '@/store/local/new-community.store'
@@ -27,7 +30,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { FullWidthBtn } from '@/styles/button.style'
 import { LabelInput, RequireSignal } from '@/styles/input.style'
 import { SocialBtn } from '@/styles/quest-detail.style'
-import { ReqNewProject } from '@/types/project.type'
+import { ReqNewCommunity } from '@/utils/type'
 import { MultipleTextField, TextField } from '@/widgets/form'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
@@ -274,12 +277,12 @@ const FifthStep: FunctionComponent = () => {
   const onDone = async () => {
     setLoading(true)
     try {
-      const payload: ReqNewProject = {
+      const payload: ReqNewCommunity = {
         name: title,
         introduction: description,
       }
 
-      const data = await newProjectApi(payload)
+      const data = await newCommunityApi(payload)
       if (data.error) {
         toast.error(data.error)
       } else {
@@ -294,7 +297,7 @@ const FifthStep: FunctionComponent = () => {
 
   const getMyProjects = async () => {
     try {
-      const projects = await getMyProjectsApi()
+      const projects = await getMyCommunitiesApi()
       if (projects.error) {
         toast.error('Error when get your projects')
       } else {
@@ -806,7 +809,7 @@ const RenderTitle: FunctionComponent = () => {
   return <TitleBox>{'LET START!'}</TitleBox>
 }
 
-const CreateProject: FunctionComponent<{
+const CreateCommunity: FunctionComponent<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   return (
@@ -827,4 +830,4 @@ const CreateProject: FunctionComponent<{
   )
 }
 
-export default CreateProject
+export default CreateCommunity

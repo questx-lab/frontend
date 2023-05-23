@@ -5,7 +5,7 @@ import {
   NewCommunityStage,
   NewCommunityStep,
   NewCommunityTypeShare,
-} from '@/constants/project.const'
+} from '@/constants/common.const'
 
 export interface NewCommunityModel {
   stageCheckBoxQuiz: number

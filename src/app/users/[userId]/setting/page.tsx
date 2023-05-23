@@ -10,7 +10,7 @@ import { Layout } from '@/components/layout'
 import UserSetting from '@/modules/users/setting'
 import { GlobalStoreModel } from '@/store/store'
 import { FullScreen } from '@/styles/common.style'
-import { UserType } from '@/types/account.type'
+import { UserType } from '@/utils/type'
 
 export default function Setting({ params }: { params: { userId: string } }) {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)

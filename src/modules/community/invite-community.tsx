@@ -11,9 +11,8 @@ import { StorageConst } from '@/constants/storage.const'
 import { signWallet } from '@/handler/auth/metamask'
 import { GlobalStoreModel } from '@/store/store'
 import { InputBox } from '@/styles/input.style'
-import { UserType } from '@/types/account.type'
-import { RefferalType } from '@/types/project.type'
 import { setUserLocal } from '@/utils/helper'
+import { RefferalType, UserType } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/button'
 import {
   Horizontal,
@@ -173,8 +172,8 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({
 
   if (
     user.address !== '' &&
-    referral.total_claimable_projects &&
-    referral.total_claimable_projects !== 0
+    referral.total_claimable_communities &&
+    referral.total_claimable_communities !== 0
   ) {
     block = false
   }
@@ -209,7 +208,7 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({
               src={StorageConst.COIN.src}
               alt={StorageConst.COIN.alt}
             />
-            {(referral.total_claimable_projects ?? 0) *
+            {(referral.total_claimable_communities ?? 0) *
               (referral.reward_amount ?? 0)}
           </CoinBox>
         </RewardBox>

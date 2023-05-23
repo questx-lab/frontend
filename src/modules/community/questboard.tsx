@@ -20,7 +20,7 @@ import {
   StartBoarding,
   TitleQuestBox,
 } from '@/styles/questboard.style'
-import { QuestType } from '@/types/project.type'
+import { QuestType } from '@/utils/type'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 
 const categories = [

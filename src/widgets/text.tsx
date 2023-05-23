@@ -58,3 +58,10 @@ export const Label = tw.div`
   font-medium
   text-gray-900
 `
+
+export const Large3xlText = tw.p`
+  text-3xl
+  text-black
+  font-bold
+  max-sm:text-2xl
+`

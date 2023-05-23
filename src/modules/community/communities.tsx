@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { listProjectsApi } from '@/app/api/client/project'
+import { listCommunitiesApi } from '@/app/api/client/community'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityStore } from '@/store/local/community.store'
 import { Horizontal, Vertical, VerticalCenter } from '@/widgets/orientation'
@@ -82,11 +82,11 @@ export default function Communities() {
   const fetchListProjects = async (query: string = '', isSearch = false) => {
     try {
       if (isSearch) {
-        const list = await listProjectsApi(0, 50, query)
-        setSearchProjects(list.data!.projects)
+        const list = await listCommunitiesApi(0, 50, query)
+        setSearchProjects(list.data!.communities)
       } else {
-        const list = await listProjectsApi()
-        setProjects(list.data!.projects)
+        const list = await listCommunitiesApi()
+        setProjects(list.data!.communities)
       }
 
       setLoading(false)

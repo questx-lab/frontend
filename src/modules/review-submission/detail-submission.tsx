@@ -8,7 +8,7 @@ import {
   ClaimedQuestMap,
   ClaimedQuestStatus,
   ReviewBtnEnum,
-} from '@/constants/project.const'
+} from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { Divider, Gap } from '@/styles/common.style'
@@ -33,7 +33,7 @@ import {
   SName,
   STag,
 } from '@/styles/quest-review.style'
-import { ClaimQuestType } from '@/types/project.type'
+import { ClaimQuestType } from '@/utils/type'
 import { BaseModal } from '@/widgets/modal'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 

@@ -4,11 +4,11 @@ import { toast } from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { createCategoryApi, getCategoriesApi } from '@/app/api/client/project'
+import { createCategoryApi, getCategoriesApi } from '@/app/api/client/community'
 import { CommunityStore } from '@/store/local/community.store'
+import { Horizontal } from '@/widgets/orientation'
 import { Menu } from '@headlessui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
-import { Horizontal } from '@/widgets/orientation'
 
 // Css in js
 const Main = tw.div`

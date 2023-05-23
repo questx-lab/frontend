@@ -5,7 +5,7 @@ import { FunctionComponent } from 'react'
 import { useStoreState } from 'easy-peasy'
 import { useRouter } from 'next/navigation'
 
-import { SideEnum } from '@/constants/project.const'
+import { SideEnum } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
 import { Divider, Gap } from '@/styles/common.style'
@@ -26,9 +26,9 @@ import {
 } from '@heroicons/react/24/outline'
 
 const ControlPanel: FunctionComponent<{
-  projectId: string
+  communityId: string
   active?: number
-}> = ({ projectId, active = SideEnum.QUEST }) => {
+}> = ({ communityId, active = SideEnum.QUEST }) => {
   // Data
   const userState = useStoreState<GlobalStoreModel>((state) => state.user)
   const router = useRouter()
@@ -53,7 +53,7 @@ const ControlPanel: FunctionComponent<{
       <CPBox>
         <ItemSide
           onClick={() => {
-            router.push(RouterConst.PROJECT + projectId)
+            router.push(RouterConst.PROJECT + communityId)
           }}
           active={active === SideEnum.QUEST}
         >
@@ -62,7 +62,7 @@ const ControlPanel: FunctionComponent<{
         </ItemSide>
         <ItemSide
           onClick={() => {
-            router.push(RouterConst.PROJECT + projectId + '/review')
+            router.push(RouterConst.PROJECT + communityId + '/review')
           }}
           active={active === SideEnum.REVIEW_SUBMISSION}
         >
@@ -71,7 +71,7 @@ const ControlPanel: FunctionComponent<{
         </ItemSide>
         <ItemSide
           onClick={() => {
-            router.push(RouterConst.PROJECT + projectId + '/setting')
+            router.push(RouterConst.PROJECT + communityId + '/setting')
           }}
           active={active === SideEnum.SETTINGS}
         >

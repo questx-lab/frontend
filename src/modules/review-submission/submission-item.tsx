@@ -9,7 +9,7 @@ import {
   ClaimedQuestStatus,
   ReviewBtnEnum,
   TabReviewEnum,
-} from '@/constants/project.const'
+} from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import {
@@ -26,7 +26,7 @@ import {
   STextInfo,
   SubmitItem,
 } from '@/styles/quest-review.style'
-import { ClaimQuestType } from '@/types/project.type'
+import { ClaimQuestType } from '@/utils/type'
 
 const Action: FunctionComponent<{
   claimQuest: ClaimQuestType

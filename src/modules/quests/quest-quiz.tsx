@@ -2,10 +2,10 @@ import { FunctionComponent, useState } from 'react'
 
 import tw from 'twin.macro'
 
-import { AnswerStatusEnum } from '@/constants/project.const'
+import { AnswerStatusEnum } from '@/constants/common.const'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { AnswerBox, SquareBox } from '@/styles/quest.style'
-import { QuestQuizType } from '@/types/project.type'
+import { QuestQuizType } from '@/utils/type'
 import {
   HorizontalCenter,
   HorizontalStartCenter,

@@ -2,7 +2,7 @@ import { deleteCookie, getCookie, hasCookie, setCookie } from 'cookies-next'
 import jwt from 'jwt-decode'
 
 import { KeysEnum } from '@/constants/key.const'
-import { UserType } from '@/types/account.type'
+import { UserType } from '@/utils/type'
 
 export const getAccessToken = (): string => {
   const exist = hasCookie(KeysEnum.QUESTX_TOKEN)

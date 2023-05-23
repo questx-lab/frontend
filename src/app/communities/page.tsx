@@ -4,10 +4,9 @@ import { FunctionComponent, useState } from 'react'
 import tw from 'twin.macro'
 
 import Communities from '@/modules/community/communities'
-import CreateProject from '@/modules/community/create-community'
+import CreateCommunity from '@/modules/community/create-community'
 import { CommunityStore } from '@/store/local/community.store'
 import { Divider } from '@/styles/common.style'
-import { TitleCreatedProject } from '@/styles/myProjects.style'
 import { ModalBox } from '@/styles/quest-review.style'
 import { MainLayout } from '@/widgets/main-layout'
 import { BaseModal } from '@/widgets/modal'
@@ -19,6 +18,13 @@ const Main = tw(Vertical)`
   3xl:px-96
   pb-[30px]
   w-full
+`
+
+const SuperLargeText = tw.p`
+  text-3xl
+  text-black
+  font-bold
+  max-sm:text-2xl
 `
 
 const TitleBox = tw(Horizontal)`
@@ -45,7 +51,7 @@ const CreateProjectBtn = tw(Horizontal)`
   cursor-pointer
 `
 
-const CreateCommunity: FunctionComponent<{
+const NewCommunity: FunctionComponent<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   return (
@@ -62,8 +68,8 @@ export default function MyProjects() {
   return (
     <MainLayout title='👋 Communities'>
       <TitleBox>
-        <TitleCreatedProject>{'👋 Communities'}</TitleCreatedProject>
-        <CreateCommunity setOpen={setOpen} />
+        <SuperLargeText>{'👋 Communities'}</SuperLargeText>
+        <NewCommunity setOpen={setOpen} />
       </TitleBox>
       <Divider />
       <Main>
@@ -74,7 +80,7 @@ export default function MyProjects() {
 
       <BaseModal isOpen={isOpen}>
         <ModalBox>
-          <CreateProject setOpen={setOpen} />
+          <CreateCommunity setOpen={setOpen} />
         </ModalBox>
       </BaseModal>
     </MainLayout>

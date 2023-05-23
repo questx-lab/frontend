@@ -1,13 +1,13 @@
+import { ClaimedQuestStatus } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
-import { ClaimedQuestStatus } from '@/constants/project.const'
-import { Rsp } from '@/types/common.type'
 import {
   ClaimQuestType,
   ListClaimQuestType,
   LQuestType,
   QuestType,
   ReqNewQuestType,
-} from '@/types/project.type'
+  Rsp,
+} from '@/utils/type'
 
 import { api } from '../config/api'
 
@@ -22,7 +22,7 @@ export const newQuestApi = async (
 }
 
 export const listQuestApi = async (
-  projectId: string,
+  communityId: string,
   search: string
 ): Promise<Rsp<LQuestType>> => {
   if (search == undefined) {
@@ -30,7 +30,7 @@ export const listQuestApi = async (
   }
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getListQuest?project_id=${projectId}&limit=40&q=${search}`
+      `/getQuests?community_id=${communityId}&limit=40&q=${search}`
   )
   return data
 }
@@ -61,7 +61,7 @@ export const listClaimedQuestsApi = async (
   const questIds = filterQuestIds.join(',')
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getListClaimedQuest?project_id=${id}&status=${status}&quest_id=${questIds}&offset=${offset}&limit=${limit}`
+      `/getClaimedQuests?community_id=${id}&status=${status}&quest_id=${questIds}&offset=${offset}&limit=${limit}`
   )
   return data
 }
@@ -82,7 +82,7 @@ export const updateClaimedQuestApi = async (
 
 export const updateAllClaimedQuestApi = async (
   action: string,
-  project_id: string,
+  community_id: string,
   filter_quest_id: string,
   filter_user_id: string,
   excludes: string[]
@@ -91,7 +91,7 @@ export const updateAllClaimedQuestApi = async (
     EnvVariables.NEXT_PUBLIC_API_URL + `/reviewAll`,
     {
       action,
-      project_id,
+      community_id,
       filter_quest_id,
       filter_user_id,
       excludes,
