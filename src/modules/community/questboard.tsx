@@ -8,7 +8,6 @@ import { listQuestApi } from '@/app/api/client/quest'
 import { StorageConst } from '@/constants/storage.const'
 import { Quests } from '@/modules/quests/quest-list'
 import { Gap } from '@/styles/common.style'
-import { HeaderText } from '@/styles/home.style'
 import {
   BoardingCard,
   Card,
@@ -21,7 +20,9 @@ import {
   TitleQuestBox,
 } from '@/styles/questboard.style'
 import { QuestType } from '@/utils/type'
-import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
+import { VerticalFullWidth } from '@/widgets/orientation'
+
+import HorizontalQuests from '../quests/horizontal-quests'
 
 const categories = [
   'NFT',
@@ -98,9 +99,7 @@ export default function QuestBoardTab() {
         <Gap height={2} width={0} />
         <CategoryBox>{listCategory}</CategoryBox>
       </QuestWrapCat> */}
-      <HeaderText>{'🔥 Trending Quests'}</HeaderText>
-      <Gap height={6} />
-      <Horizontal>{listBoarding}</Horizontal>
+      <HorizontalQuests title='🔥 Trending Quests' quests={questList} />
       <Gap height={6} />
       <Quests questList={questList} show={!loading} />
     </VerticalFullWidth>

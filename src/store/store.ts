@@ -1,5 +1,6 @@
 import { action, Action, createStore } from 'easy-peasy'
 
+import { AuthEnum } from '@/constants/common.const'
 import {
   CollaboratorType,
   CommunityType,
@@ -15,6 +16,9 @@ export interface GlobalStoreModel {
   projectsTrending: CommunityType[]
   projectCollab: CollaboratorType[]
   referral: RefferalType
+  authBox: number
+  username: string
+  requireLogin: boolean
 
   setNavBar: Action<GlobalStoreModel, boolean>
   setLogin: Action<GlobalStoreModel, boolean>
@@ -23,6 +27,9 @@ export interface GlobalStoreModel {
   setProjectCollab: Action<GlobalStoreModel, CollaboratorType[]>
   setReferral: Action<GlobalStoreModel, RefferalType>
   setProjectsTrending: Action<GlobalStoreModel, CommunityType[]>
+  setAuthBox: Action<GlobalStoreModel, number>
+  setUserName: Action<GlobalStoreModel, string>
+  setRequireLogin: Action<GlobalStoreModel, boolean>
 }
 
 const store = createStore<GlobalStoreModel>({
@@ -33,6 +40,9 @@ const store = createStore<GlobalStoreModel>({
   projectCollab: [],
   projectsTrending: [],
   referral: {},
+  authBox: AuthEnum.LOGIN,
+  username: '',
+  requireLogin: false,
 
   setNavBar: action((state, navBar) => {
     state.navBar = navBar
@@ -60,6 +70,18 @@ const store = createStore<GlobalStoreModel>({
 
   setReferral: action((state, referral) => {
     state.referral = referral
+  }),
+
+  setAuthBox: action((state, auth) => {
+    state.authBox = auth
+  }),
+
+  setUserName: action((state, username) => {
+    state.username = username
+  }),
+
+  setRequireLogin: action((state, require) => {
+    state.requireLogin = require
   }),
 })
 

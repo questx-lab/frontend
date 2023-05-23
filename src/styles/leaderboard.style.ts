@@ -51,6 +51,7 @@ export const LHBox = tw(VerticalFullWidth)`
   h-full
   justify-center
   max-sm:items-center
+  gap-3
 `
 
 export const LHTitleBox = tw(HorizontalBetweenCenter)`

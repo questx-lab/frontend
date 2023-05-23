@@ -13,10 +13,13 @@ import {
 import { getMyReferralInfoApi } from '@/app/api/client/reward'
 import { getUserApi } from '@/app/api/client/user'
 import Header from '@/components/header'
+import Login from '@/modules/login/login'
 import ControlPanel from '@/modules/new-quest/control-panel'
 import { GlobalStoreModel } from '@/store/store'
 import { Html, Main } from '@/styles/layout.style'
+import { ModalBox } from '@/styles/modal.style'
 import { getAccessToken, getRefreshToken, setUserLocal } from '@/utils/helper'
+import { BaseModal } from '@/widgets/modal'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 
 import ProjectSide from './sidebar'
@@ -68,6 +71,9 @@ export const Layout = ({
   const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
   const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
   const userState = useStoreState<GlobalStoreModel>((state) => state.user)
+  const requireLogin = useStoreState<GlobalStoreModel>(
+    (state) => state.requireLogin
+  )
 
   // action
   const setLogin = useStoreActions<GlobalStoreModel>(
@@ -82,6 +88,9 @@ export const Layout = ({
   )
   const setProjectCollab = useStoreActions<GlobalStoreModel>(
     (action) => action.setProjectCollab
+  )
+  const setRequireLogin = useStoreActions<GlobalStoreModel>(
+    (action) => action.setRequireLogin
   )
 
   const router = useRouter()
@@ -170,6 +179,11 @@ export const Layout = ({
           <Header isFull={isFull} isApp={isApp} />
         </Main>
         <Toaster position='top-center' reverseOrder={false} />
+        <BaseModal isOpen={requireLogin}>
+          <ModalBox>
+            <Login setOpen={setRequireLogin} />
+          </ModalBox>
+        </BaseModal>
       </body>
     </Html>
   )
