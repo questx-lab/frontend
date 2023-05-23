@@ -22,9 +22,6 @@ import { Label } from '@/widgets/text'
 export default function UserProfileTab({ userId }: { userId: string }) {
   const userState = useStoreState<GlobalStoreModel>((state) => state.user)
   const [isPerson, setIsPerson] = useState<boolean>(false)
-  const setLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setLogin
-  )
 
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
@@ -35,7 +32,6 @@ export default function UserProfileTab({ userId }: { userId: string }) {
   }, [])
 
   const handleLogout = () => {
-    setLogin(false)
     setUser({})
     delCookies()
     clearLocalStorage()

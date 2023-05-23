@@ -13,7 +13,6 @@ import { StorageConst } from '@/constants/storage.const'
 import InviteCommunity from '@/modules/community/invite-community'
 import AuthType from '@/modules/login/auth-type'
 import Login from '@/modules/login/login'
-import { LoginStore } from '@/store/local/login.store'
 import { GlobalStoreModel } from '@/store/store'
 import { AuthBox, LoginBtn, MenuBtn, SignUpBtn } from '@/styles/button.style'
 import { Divider, Gap } from '@/styles/common.style'
@@ -105,16 +104,11 @@ const UserPopover: FunctionComponent = () => {
   // data
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
-  // action
-  const setLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setLogin
-  )
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   // handler
   const handleLogout = () => {
     router.push(RouterConst.HOME)
-    setLogin(false)
     setUser({})
     delCookies()
     clearLocalStorage()
@@ -170,36 +164,34 @@ const UserPopover: FunctionComponent = () => {
 
 const UserInfoBox: FunctionComponent = () => {
   // data
-  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
-  const userState: UserType = useStoreState<GlobalStoreModel>(
-    (state) => state.user
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const showLoginModal = useStoreState<GlobalStoreModel>(
+    (state) => state.showLoginModal
+  )
+  //action
+  const setAuthBox = useStoreActions<GlobalStoreModel>(
+    (action) => action.setAuthBox
+  )
+  const setShowLoginModal = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowLoginModal
   )
 
-  //action
-  const setAuthBox = LoginStore.useStoreActions((action) => action.setAuthBox)
-
   // hook
-  const router = useRouter()
-  const [isOpen, setOpen] = useState<boolean>(false)
   const [isInvite, setInvite] = useState<boolean>(false)
 
   useEffect(() => {
-    if (userState && userState.is_new_user) {
-      setOpen(true)
+    if (user && user.is_new_user) {
+      setShowLoginModal(true)
       setAuthBox(AuthEnum.INPUT_FORM)
     }
-  }, [userState])
+  }, [user])
 
-  if (isLogin && userState) {
+  if (user && Object.values(user).length) {
     return (
       <UserSession>
         <GiftIcon onClick={() => setInvite(true)} className='h-7 w-7' />
         <UserPopover />
-        <BaseModal isOpen={isOpen}>
-          <ModalBox>
-            <Login setOpen={setOpen} />
-          </ModalBox>
-        </BaseModal>
+
         <BasicModal
           title={`Invite Friend to create project 👋`}
           isOpen={isInvite}
@@ -217,7 +209,7 @@ const UserInfoBox: FunctionComponent = () => {
         <LoginBtn
           onClick={() => {
             setAuthBox(AuthEnum.LOGIN)
-            setOpen(true)
+            setShowLoginModal(true)
           }}
         >
           {'Log in'}
@@ -225,15 +217,15 @@ const UserInfoBox: FunctionComponent = () => {
         <SignUpBtn
           onClick={() => {
             setAuthBox(AuthEnum.REGISTER)
-            setOpen(true)
+            setShowLoginModal(true)
           }}
         >
           {'Sign up'}
         </SignUpBtn>
       </AuthBox>
-      <BaseModal isOpen={isOpen}>
+      <BaseModal isOpen={showLoginModal}>
         <ModalBox>
-          <Login setOpen={setOpen} />
+          <Login setOpen={setShowLoginModal} />
         </ModalBox>
       </BaseModal>
     </>
@@ -338,9 +330,7 @@ const Header: FunctionComponent<{ isApp?: boolean; isFull?: boolean }> = ({
           </BoxLink>
         </LeftSession>
         <RightSession>
-          <LoginStore.Provider>
-            <UserInfoBox />
-          </LoginStore.Provider>
+          <UserInfoBox />
           <MenuBtn onClick={() => setNavBar(!navBarState)}>
             <Image
               width={40}

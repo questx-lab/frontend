@@ -44,11 +44,11 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     ],
     callbacks: {
       async jwt({ token, account }) {
-        if (account?.provider == undefined) {
-          return token
-        }
-
-        if (account?.access_token == undefined) {
+        if (
+          !account ||
+          account.provider == undefined ||
+          account.access_token == undefined
+        ) {
           return token
         }
 
@@ -56,7 +56,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         const accessToken = req.cookies['access_token']
         const matcher = '.*/communities/projects/.*/create'
         if (
-          account?.provider === Oauth2ProviderEnum.DISCORD_BOT_PROVIDER &&
+          account.provider === Oauth2ProviderEnum.DISCORD_BOT_PROVIDER &&
           url &&
           url.match(matcher)
         ) {
@@ -70,7 +70,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             community_id,
             guild.id,
 
-            account?.access_token,
+            account.access_token,
             accessToken || ''
           )
 
@@ -78,19 +78,12 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         }
 
         if (accessToken) {
-          const resp = await linkOAuth2(
-            account?.provider,
-            account?.access_token,
-            accessToken
-          )
+          await linkOAuth2(account.provider, account.access_token, accessToken)
 
           return token
         }
 
-        const resp = await verifyOAuth2(
-          account?.provider,
-          account?.access_token
-        )
+        const resp = await verifyOAuth2(account.provider, account.access_token)
 
         const dAccessToken: any = jwt(resp.data.access_token)
         const dRefreshToken: any = jwt(resp.data.refresh_token)

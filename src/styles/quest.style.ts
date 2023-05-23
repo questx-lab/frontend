@@ -117,7 +117,6 @@ export const AnswerBox = styled.button<{ status?: number; block?: boolean }>(
     status === AnswerStatusEnum.DEFAULT &&
       tw`
       border-gray-300
-      hover:bg-gray-100
     `,
     status === AnswerStatusEnum.ACTIVE &&
       tw`

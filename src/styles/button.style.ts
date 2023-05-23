@@ -237,40 +237,33 @@ export const PSave = styled.button<{ isBlock?: boolean }>(
 )
 
 export const PFollow = styled.button<{ isFollow?: boolean }>(({ isFollow }) => [
+  tw` 
+  px-4
+  py-2
+  text-gray-900
+  font-normal
+  text-sm
+  rounded-lg
+  max-lg:text-sm
+  flex
+  flex-row
+  justify-center
+  items-center
+  w-32
+  `,
   isFollow
     ? tw`
-        px-4
-        py-2
+        text-gray-900
         bg-white
         border
-        border-solid
         border-[1px]
         border-gray-300
         hover:bg-gray-200
-        text-gray-900
-        font-normal
-        text-sm
-        rounded-lg
-        max-lg:text-sm
-        flex
-        flex-row
-        justify-center
-        items-center
       `
     : tw`
-        px-4
-        py-2
         bg-primary
         hover:bg-primary-200
         text-white
-        font-normal
-        text-sm
-        rounded-lg
-        max-lg:text-sm
-        flex
-        flex-row
-        justify-center
-        items-center
       `,
 ])
 
