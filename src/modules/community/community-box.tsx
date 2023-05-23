@@ -18,6 +18,8 @@ const ImageProjectBox = styled(Image)(tw`
   rounded-full
   3xl:w-[100px]
   3xl:h-[100px]
+  max-md:w-[40px]
+  max-md:h-[40px]
 `)
 
 const Description = tw.div`
@@ -66,6 +68,7 @@ const CommunityBoxWrap = tw(VerticalBetween)`
   max-xl:mt-[16px]
   h-[350px]
   3xl:h-[500px]
+  max-md:h-[280px]
   hover:shadow-lg
 `
 

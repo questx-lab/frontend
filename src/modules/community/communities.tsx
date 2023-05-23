@@ -37,10 +37,10 @@ const FWrap = tw(Vertical)`
 
 const WrapProjects = tw.div`
   grid
-  grid-cols-4
   gap-4
-  max-2xl:grid-cols-3
-  max-xl:grid-cols-2
+  2xl:grid-cols-4
+  xl:grid-cols-3
+  sm:grid-cols-2
   max-sm:grid-cols-1
   w-full
 `

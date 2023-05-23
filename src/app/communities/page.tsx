@@ -14,8 +14,11 @@ import { Horizontal, Vertical } from '@/widgets/orientation'
 import { PlusIcon } from '@heroicons/react/24/outline'
 
 const Main = tw(Vertical)`
-  px-64
-  3xl:px-96
+  max-md:px-8
+  md:px-16
+  lg:px-32
+  2xl:px-48
+  3xl:px-64
   pb-[30px]
   w-full
 `
@@ -28,8 +31,11 @@ const SuperLargeText = tw.p`
 `
 
 const TitleBox = tw(Horizontal)`
-  px-64
-  3xl:px-96
+  max-md:px-8
+  md:px-16
+  lg:px-32
+  2xl:px-48
+  3xl:px-64
   py-6
   w-full
   justify-between

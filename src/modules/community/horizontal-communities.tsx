@@ -47,24 +47,24 @@ const EmptyBox = tw(VerticalCenter)`
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 3000 },
+    breakpoint: { max: 4000, min: 1921 },
     items: 4,
   },
   desktop: {
-    breakpoint: { max: 3000, min: 1450 },
+    breakpoint: { max: 1920, min: 1441 },
     items: 4,
   },
   mediumDesktop: {
-    breakpoint: { max: 1450, min: 1024 },
+    breakpoint: { max: 1440, min: 1025 },
     items: 4,
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
+    breakpoint: { max: 1025, min: 769 },
     items: 3,
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 3,
+    breakpoint: { max: 768, min: 0 },
+    items: 2,
   },
 }
 

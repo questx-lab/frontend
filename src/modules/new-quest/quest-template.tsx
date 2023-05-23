@@ -51,7 +51,7 @@ const listPanel = [0, 1, 2, 3, 4].map((e) => (
 ))
 
 const listClosure = ['COMMUNITY', 'SOCIAL NETWORK'].map((e, i) => (
-  <Disclosure key={i} as='div'>
+  <Disclosure defaultOpen key={i} as='div'>
     {({ open }) => (
       <>
         <DisclosureBtn>
