@@ -12,10 +12,9 @@ import {
   verifyOAuth2,
 } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
-import { KeysEnum } from '@/constants/key.const'
+import { KeysEnum, Oauth2ProviderEnum } from '@/constants/key.const'
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-  const { withDiscordServer } = req.query
   return await NextAuth(req, res, {
     providers: [
       GoogleProvider({
@@ -30,12 +29,17 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       DiscordProvider({
         clientId: EnvVariables.DISCORD_ID,
         clientSecret: EnvVariables.DISCORD_SECRET,
-        authorization:
-          withDiscordServer === 'true'
-            ? {
-                params: { permission: 268435488, scope: 'guilds bot' },
-              }
-            : {},
+      }),
+      DiscordProvider({
+        id: Oauth2ProviderEnum.DISCORD_BOT_PROVIDER,
+        clientId: EnvVariables.DISCORD_ID,
+        clientSecret: EnvVariables.DISCORD_SECRET,
+        authorization: {
+          params: {
+            permission: EnvVariables.DISCORD_PERMISSION,
+            scope: 'guilds bot',
+          },
+        },
       }),
     ],
     callbacks: {
@@ -47,10 +51,15 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         if (account?.access_token == undefined) {
           return token
         }
+
         const url = req.cookies['next-auth.callback-url']
         const accessToken = req.cookies['access_token']
         const matcher = '.*/communities/projects/.*/create'
-        if (url && url.match(matcher)) {
+        if (
+          account?.provider === Oauth2ProviderEnum.DISCORD_BOT_PROVIDER &&
+          url &&
+          url.match(matcher)
+        ) {
           const arr = url.split('/')
           const community_id = arr[arr.length - 2]
           type Guild = {

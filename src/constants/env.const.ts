@@ -8,4 +8,5 @@ export const EnvVariables = {
   TWITTER_SECRET: process.env.TWITTER_SECRET,
   DISCORD_ID: process.env.DISCORD_ID,
   DISCORD_SECRET: process.env.DISCORD_SECRET,
+  DISCORD_PERMISSION: process.env.DISCORD_PERMISSION,
 }

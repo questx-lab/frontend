@@ -15,6 +15,7 @@ import { NegativeButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
 import { Label, NormalText } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
+import { Oauth2ProviderEnum } from '@/constants/key.const'
 
 import QuestQuiz from './quest-quiz'
 import TwitterList from './twitter-list'
@@ -91,7 +92,7 @@ const QuestDetails = () => {
   )
 
   const onConnectDiscord = () => {
-    signIn('discord', {}, { withDiscordServer: 'true' })
+    signIn(Oauth2ProviderEnum.DISCORD_BOT_PROVIDER)
   }
   switch (questType) {
     case QuestTypeEnum.URL:
