@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, ReactNode } from 'react'
 
 import Image from 'next/image'
 import Carousel from 'react-multi-carousel'
@@ -6,11 +6,7 @@ import { ArrowProps } from 'react-multi-carousel/lib/types'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { CarouselType } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
-import CommunityBox from '@/modules/community/community-box'
-import { QuestView } from '@/modules/quests/single-quest'
-import { CommunityType, QuestType } from '@/utils/type'
 import { VerticalCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
@@ -81,25 +77,12 @@ const CustomLeftArrow = ({ onClick }: ArrowProps) => {
 }
 
 const CarouselList: FunctionComponent<{
-  data: (QuestType | CommunityType)[]
-  type: CarouselType
-}> = ({ data, type }) => {
-  let renderCarousel
-  if (type === CarouselType.QUEST) {
-    renderCarousel = data.map((quest) => (
-      <Card key={quest.id}>
-        <QuestView quest={quest} />
-      </Card>
-    ))
-  }
-
-  if (type === CarouselType.COMMUNITY) {
-    renderCarousel = data.map((community) => (
-      <Card key={community.id}>
-        <CommunityBox community={community as CommunityType} />
-      </Card>
-    ))
-  }
+  data: any[]
+  renderItemFunc: (item: any, index?: number) => ReactNode
+}> = ({ data, renderItemFunc }) => {
+  const renderCarousel = data.map((item, index) => (
+    <Card key={index}>{renderItemFunc(item, index)}</Card>
+  ))
 
   if (!data.length) {
     return (

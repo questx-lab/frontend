@@ -7,7 +7,6 @@ import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
 import { listCommunitiesApi } from '@/app/api/client/community'
-import { CarouselType } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import CommunityBox from '@/modules/community/community-box'
 import { GlobalStoreModel } from '@/store/store'
@@ -128,10 +127,20 @@ const HomePage: FunctionComponent = () => {
       <Main>
         <Title />
         <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked}>
-          <CarouselList data={communities} type={CarouselType.COMMUNITY} />
+          <CarouselList
+            data={communities}
+            renderItemFunc={(community: CommunityType) => {
+              return <CommunityBox community={community} />
+            }}
+          />
         </CategoryBox>
         <CategoryBox title='⭐ Popular Communities' onClick={onShowAllClicked}>
-          <CarouselList data={communities} type={CarouselType.COMMUNITY} />
+          <CarouselList
+            data={communities}
+            renderItemFunc={(community: CommunityType) => {
+              return <CommunityBox community={community} />
+            }}
+          />
         </CategoryBox>
         <WrapProjects>{renderProject}</WrapProjects>
       </Main>

@@ -5,10 +5,10 @@ import { usePathname, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
-import { CarouselType } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { Quests } from '@/modules/quests/quest-list'
+import { QuestView } from '@/modules/quests/single-quest'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
 import { Gap } from '@/styles/common.style'
 import {
@@ -23,8 +23,8 @@ import {
   TitleQuestBox,
 } from '@/styles/questboard.style'
 import { QuestType } from '@/utils/type'
-import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/CategoryBox'
+import CarouselList from '@/widgets/carousel'
 import { VerticalFullWidth } from '@/widgets/orientation'
 
 const categories = [
@@ -104,7 +104,12 @@ export default function QuestBoardTab() {
     <VerticalFullWidth>
       <CategoryBox title='🔥 Trending Quests' onClick={onShowAllClicked}>
         <ActiveQuestStore.Provider>
-          <CarouselList data={questList} type={CarouselType.QUEST} />
+          <CarouselList
+            data={questList}
+            renderItemFunc={(quest: QuestType) => {
+              return <QuestView quest={quest} />
+            }}
+          />
         </ActiveQuestStore.Provider>
       </CategoryBox>
       <Gap height={6} />

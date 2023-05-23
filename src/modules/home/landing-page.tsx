@@ -6,13 +6,13 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { listCommunitiesApi } from '@/app/api/client/community'
-import { CarouselType } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
+import CommunityBox from '@/modules/community/community-box'
 import { CommunityType } from '@/utils/type'
+import CategoryBox from '@/widgets/CategoryBox'
 import { NegativeButton } from '@/widgets/button'
 import CarouselList from '@/widgets/carousel'
-import CategoryBox from '@/widgets/CategoryBox'
 import {
   HorizontalBetweenCenter,
   HorizontalCenter,
@@ -247,14 +247,24 @@ const LandingPage: FunctionComponent = () => {
               onClick={onShowAllClicked}
               loading={loading}
             >
-              <CarouselList data={communities} type={CarouselType.COMMUNITY} />
+              <CarouselList
+                data={communities}
+                renderItemFunc={(community: CommunityType) => {
+                  return <CommunityBox community={community} />
+                }}
+              />
             </CategoryBox>
             <CategoryBox
               title='⭐ Popular Communities'
               onClick={onShowAllClicked}
               loading={loading}
             >
-              <CarouselList data={communities} type={CarouselType.COMMUNITY} />
+              <CarouselList
+                data={communities}
+                renderItemFunc={(community: CommunityType) => {
+                  return <CommunityBox community={community} />
+                }}
+              />
             </CategoryBox>
           </Main>
           <Footer />
