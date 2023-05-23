@@ -80,70 +80,52 @@ export const TEText = tw.p`
   text-black
 `
 
-export const QuestQuizBox = tw(Vertical)`
+export const QuestQuizBox = tw(VerticalFullWidth)`
   gap-2
   mt-4
+  border
+  border-solid
+  border-gray-300
+  rounded-lg
+  p-4
 `
 
-export const AnswerWrap = tw(Vertical)`
+export const AnswerWrap = tw(VerticalFullWidth)`
   gap-3
 `
 
-export const AnswerBox = styled.div<{ status?: number }>(
-  ({ status = AnswerStatusEnum.DEFAULT }) => [
+export const AnswerBox = styled.button<{ status?: number; block?: boolean }>(
+  ({ status = AnswerStatusEnum.DEFAULT, block = false }) => [
+    tw`
+      outline-0
+      p-2
+      flex
+      flex-row
+      items-center
+      gap-2
+      rounded-lg
+      border
+      border-solid
+      border-gray-300
+      cursor-pointer
+      w-full
+    `,
     status === AnswerStatusEnum.DANGER &&
       tw`
-    p-2
-    flex
-    flex-row
-    items-center
-    gap-2
-    rounded-lg
-    border
-    border-solid
-    border-danger-500
-    cursor-pointer
-  `,
+      border-danger-500
+      `,
     status === AnswerStatusEnum.DEFAULT &&
       tw`
-    p-2
-    flex
-    flex-row
-    items-center
-    gap-2
-    rounded-lg
-    border
-    border-solid
-    border-gray-300
-    cursor-pointer
-  `,
+      border-gray-300
+      hover:bg-gray-100
+    `,
     status === AnswerStatusEnum.ACTIVE &&
       tw`
-    p-2
-    flex
-    flex-row
-    items-center
-    gap-2
-    rounded-lg
-    border-2
-    border-solid
-    border-success-500
-    cursor-pointer
-  `,
-    status === AnswerStatusEnum.BLOCK &&
-      tw`
-
-    p-2
-    flex
-    flex-row
-    items-center
-    gap-2
-    rounded-lg
-    border
-    border-solid
-    border-gray-300
-    cursor-not-allowed
+      border-success-500
+      border-2
     `,
+
+    block && tw`text-gray-300 bg-gray-50 hover:cursor-not-allowed`,
   ]
 )
 

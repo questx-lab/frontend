@@ -101,7 +101,9 @@ export const QuestCard: FunctionComponent<{
             alt={StorageConst.POINT_ICON.alt}
           />
           <Gap width={2} />
-          <PointText>{'N/A'}</PointText>
+          <PointText>
+            {quest.rewards?.length && quest.rewards[0].data.points}
+          </PointText>
         </HeaderBox>
         <CardBox>
           {quest.recurrence && (

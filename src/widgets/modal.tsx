@@ -49,7 +49,7 @@ export const BasicModal: FunctionComponent<{
   title?: string
   onClose: () => void
   styled?: string
-}> = ({ isOpen, children, title = '', onClose, styled = 'w-2/3' }) => {
+}> = ({ isOpen, children, title = '', onClose, styled }) => {
   return (
     <BaseModal isOpen={isOpen}>
       <ModalBox>

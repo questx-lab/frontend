@@ -270,7 +270,10 @@ const NavBarBox: FunctionComponent<{
   return <></>
 }
 
-const Header: FunctionComponent<{ isApp?: boolean }> = ({ isApp = true }) => {
+const Header: FunctionComponent<{ isApp?: boolean; isFull?: boolean }> = ({
+  isApp = true,
+  isFull = true,
+}) => {
   const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
 
   const router = useRouter()
@@ -314,7 +317,7 @@ const Header: FunctionComponent<{ isApp?: boolean }> = ({ isApp = true }) => {
 
   return (
     <>
-      <Wrap isApp={isApp}>
+      <Wrap isApp={isApp} isFull={isFull}>
         <LeftSession>
           <ImageLogoBox
             width={150}

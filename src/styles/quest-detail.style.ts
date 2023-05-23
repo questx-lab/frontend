@@ -173,55 +173,46 @@ export const UploadImgBox = tw(VerticalFullWidth)`
   gap-3
 `
 
-export const SocialBtn = styled.button<{ btnType?: number }>(
-  ({ btnType = ButtonSocialType.DISCORD }) => [
+export const SocialBtn = styled.button<{ btnType?: number; isFull?: boolean }>(
+  ({ btnType = ButtonSocialType.DISCORD, isFull = true }) => [
+    tw`
+      text-lg
+      font-medium
+      bg-white
+      py-2
+      rounded-lg
+      flex
+      flex-row
+      justify-center
+      items-center
+      outline-0
+      gap-3
+      px-3
+    `,
     btnType === ButtonSocialType.DISCORD &&
       tw`
-        w-full
-        bg-primary
-        text-lg
-        font-medium
-        text-white
-        hover:bg-primary-300
-        py-2
-        rounded-lg
-        flex
-        flex-row
-        justify-center
-        items-center
-        outline-0
+        border
+        border-solid
+        border-primary
+        hover:bg-primary-100
+        text-primary
       `,
     btnType === ButtonSocialType.TWITTER &&
       tw`
-        w-full
-        bg-info
-        text-lg
-        font-medium
-        text-white
-        hover:bg-info-500
-        py-2
-        rounded-lg
-        flex
-        flex-row
-        justify-center
-        items-center
-        outline-0
+        border
+        border-solid
+        border-info
+        hover:bg-info-100
+        text-info
       `,
     btnType === ButtonSocialType.VISIT_LINK &&
       tw`
-        w-full
-        bg-warning
-        text-lg
-        font-medium
-        text-white
-        hover:bg-warning-300
-        py-2
-        rounded-lg
-        flex
-        flex-row
-        justify-center
-        items-center
-        outline-0
+        border
+        border-solid
+        border-warning
+        hover:bg-warning-100
+        text-warning
       `,
+    isFull && tw`w-full`,
   ]
 )

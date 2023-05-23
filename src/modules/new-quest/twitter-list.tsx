@@ -10,7 +10,6 @@ import {
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Divider, Gap } from '@/styles/common.style'
 import { MulInputBox } from '@/styles/input.style'
-import { LabelInput } from '@/styles/myProjects.style'
 import {
   ITypeBox,
   LabelDes,
@@ -18,6 +17,7 @@ import {
   TwitterBox,
 } from '@/styles/questboard.style'
 import { TextField } from '@/widgets/form'
+import { Label } from '@/widgets/text'
 
 const TwitterList: FunctionComponent = () => {
   // Data
@@ -147,16 +147,14 @@ const TwitterList: FunctionComponent = () => {
     <>
       <Divider />
       <PICard>
-        <LabelInput>{'ACTION'}</LabelInput>
-        <Gap height={2} />
+        <Label>{'ACTION'}</Label>
         <ITypeBox>{listTwitterAction}</ITypeBox>
       </PICard>
       {actionTwitter.includes(TwitterEnum.FOLLOW) && (
         <>
           <Divider />
           <PICard>
-            <LabelInput>{'ACCOUNT URL'}</LabelInput>
-            <Gap height={3} />
+            <Label>{'ACCOUNT URL'}</Label>
             <TextField
               onChange={(e) => setAccountLink(e.target.value)}
               placeholder='https://twitter.com/elon.musk'
@@ -173,8 +171,7 @@ const TwitterList: FunctionComponent = () => {
         <>
           <Divider />
           <PICard>
-            <LabelInput>{'TWEET URL'}</LabelInput>
-            <Gap height={3} />
+            <Label>{'TWEET URL'}</Label>
             <TextField
               onChange={(e) => setTweetUrl(e.target.value)}
               placeholder='https://twitter.com/abc'
@@ -191,8 +188,7 @@ const TwitterList: FunctionComponent = () => {
         <>
           <Divider />
           <PICard>
-            <LabelInput>{'DEFAULT REPLY'}</LabelInput>
-            <Gap height={3} />
+            <Label>{'DEFAULT REPLY'}</Label>
             <MulInputBox
               onChange={(e) => setReplyTwitter(e.target.value)}
               rows={3}
@@ -209,8 +205,7 @@ const TwitterList: FunctionComponent = () => {
         <>
           <Divider />
           <PICard>
-            <LabelInput>{'TWEET CONTENT'}</LabelInput>
-            <Gap height={3} />
+            <Label>{'TWEET CONTENT'}</Label>
             <MulInputBox
               onChange={(e) => setContentTwitter(e.target.value)}
               rows={3}
@@ -223,8 +218,7 @@ const TwitterList: FunctionComponent = () => {
         <>
           <Divider />
           <PICard>
-            <LabelInput>{'SPACE URL'}</LabelInput>
-            <Gap height={3} />
+            <Label>{'SPACE URL'}</Label>
             <TextField
               onChange={(e) => setSpaceUrl(e.target.value)}
               placeholder='Empty'

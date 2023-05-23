@@ -174,8 +174,10 @@ export const ICard = tw.div`
   py-6
 `
 
-export const PICard = tw.div`
+export const PICard = tw(VerticalFullWidth)`
+  py-2
   px-6
+  gap-4
 `
 
 export const ITypeBox = tw.div`

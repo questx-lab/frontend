@@ -2,9 +2,8 @@
 
 import { QuestTypeEnum, QuestTypeStringMap } from '@/constants/project.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
-import { Gap } from '@/styles/common.style'
-import { LabelInput } from '@/styles/myProjects.style'
 import { ICard, ITypeBox, PICard, TypeBox } from '@/styles/questboard.style'
+import { Label } from '@/widgets/text'
 
 import QuestDetails from './quest-details'
 
@@ -45,8 +44,7 @@ const QuestTypeView = () => {
   return (
     <ICard>
       <PICard>
-        <LabelInput>{'SUBMISSION TYPE'}</LabelInput>
-        <Gap height={2} />
+        <Label>{'SUBMISSION TYPE'}</Label>
         <ITypeBox>{listTypeItems}</ITypeBox>
       </PICard>
       <QuestDetails />

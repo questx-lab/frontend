@@ -54,3 +54,8 @@
 p {
   font-size: medium;
 }
+
+a {
+  outline: 0;
+  ring: 0;
+}
