@@ -32,6 +32,23 @@ export const QuestTypes = [
   QuestTypeEnum.INVITES,
 ]
 
+export const QuestTypeMap = new Map<String, QuestTypeEnum>([
+  ['url', QuestTypeEnum.URL],
+  ['image', QuestTypeEnum.IMAGE],
+  ['text', QuestTypeEnum.TEXT],
+  ['quiz', QuestTypeEnum.QUIZ],
+  ['visit_link', QuestTypeEnum.VISIT_LINK],
+  ['empty', QuestTypeEnum.EMPTY],
+  ['twitter', QuestTypeEnum.TWITTER],
+  ['twitter_follow', QuestTypeEnum.TWITTER_FOLLOW],
+  ['twitter_reaction', QuestTypeEnum.TWITTER_REACTION],
+  ['twitter_tweet', QuestTypeEnum.TWITTER_TWEET],
+  ['twitter_join_space', QuestTypeEnum.TWITTER_JOIN_SPACE],
+  ['join_discord', QuestTypeEnum.DISCORD],
+  ['join_telegram', QuestTypeEnum.JOIN_TELEGRAM],
+  ['invite', QuestTypeEnum.INVITES],
+])
+
 export const QuestTypeStringMap = new Map<QuestTypeEnum, String>([
   [QuestTypeEnum.URL, 'URL'],
   [QuestTypeEnum.IMAGE, 'Image'],
@@ -91,6 +108,13 @@ export const QuestRecurrencesMap = new Map<QuestRecurrence, String>([
   [QuestRecurrence.DAILY, 'Daily'],
   [QuestRecurrence.WEEKLY, 'Weekly'],
   [QuestRecurrence.MONTHLY, 'Monthly'],
+])
+
+export const QuestRecurrencesStringMap = new Map<String, QuestRecurrence>([
+  ['once', QuestRecurrence.ONCE],
+  ['daily', QuestRecurrence.DAILY],
+  ['weekly', QuestRecurrence.WEEKLY],
+  ['monthly', QuestRecurrence.MONTHLY],
 ])
 
 export const QuestRewards = ['Gem', 'Discord Role', 'Other']

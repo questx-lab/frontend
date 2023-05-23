@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react'
-
+import { useRouter } from 'next/navigation'
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
@@ -110,6 +110,7 @@ const handleSubmit = async (
 }
 
 const SubmitButton: FunctionComponent = () => {
+  const router = useRouter()
   // hook
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -128,6 +129,10 @@ const SubmitButton: FunctionComponent = () => {
   const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
 
   let block = true
+
+  const onEdit = () => {
+    router.push(`/quests/${quest.id}/edit`)
+  }
 
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
@@ -201,7 +206,7 @@ const SubmitButton: FunctionComponent = () => {
     default:
       return (
         <WrapBtn>
-          <EditButton> {'Edit'} </EditButton>
+          <EditButton onClick={onEdit}> {'Edit2'} </EditButton>
           <DeleteBtn> {'Delete'} </DeleteBtn>
         </WrapBtn>
       )

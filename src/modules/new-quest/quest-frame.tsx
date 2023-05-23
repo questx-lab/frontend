@@ -15,11 +15,14 @@ import { toast } from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { getCommunityApi } from '@/app/api/client/community'
-import { newQuestApi } from '@/app/api/client/quest'
+import { newQuestApi, getQuestApi } from '@/app/api/client/quest'
 import {
   QuestStatusEnum,
   QuestTypeEnum,
   TwitterEnum,
+  QuestRecurrencesStringMap,
+  QuestRecurrence,
+  QuestTypeMap,
 } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
@@ -349,9 +352,10 @@ const handleSubmit = async (
 }
 
 const QuestFrame: FunctionComponent<{
-  id: string
+  id: string // edit mean quest_id and create is project_id
   isTemplate?: boolean
-}> = ({ id, isTemplate = false }) => {
+  isEdit?: boolean
+}> = ({ id, isTemplate = false, isEdit = false }) => {
   const router = useRouter()
 
   // Data
@@ -370,14 +374,111 @@ const QuestFrame: FunctionComponent<{
     (action) => action.setProject
   )
 
+  const setRecurrence = NewQuestStore.useStoreActions(
+    (actions) => actions.setRecurrence
+  )
+
+  const setQuestType = NewQuestStore.useStoreActions(
+    (actions) => actions.setQuestType
+  )
+
+  const setTextAutoValidation = NewQuestStore.useStoreActions(
+    (actions) => actions.setTextAutoValidation
+  )
+  const setAnswer = NewQuestStore.useStoreActions(
+    (actions) => actions.setAnswer
+  )
+  const setVisitLink = NewQuestStore.useStoreActions(
+    (actions) => actions.setVisitLink
+  )
+  const setTelegramLink = NewQuestStore.useStoreActions(
+    (actions) => actions.setTelegramLink
+  )
+  const setInvites = NewQuestStore.useStoreActions(
+    (actions) => actions.setInvites
+  )
+
+  const setActionTwitter = NewQuestStore.useStoreActions(
+    (actions) => actions.setActionTwitter
+  )
+  const setAccountLink = NewQuestStore.useStoreActions(
+    (actions) => actions.setAccountLink
+  )
+  const setTweetUrl = NewQuestStore.useStoreActions(
+    (actions) => actions.setTweetUrl
+  )
+  const setReplyTwitter = NewQuestStore.useStoreActions(
+    (actions) => actions.setReplyTwitter
+  )
+  const setContentTwitter = NewQuestStore.useStoreActions(
+    (actions) => actions.setContentTwitter
+  )
+  const setTwitterType = NewQuestStore.useStoreActions(
+    (actions) => actions.setTwitterType
+  )
+  const setSpaceUrl = NewQuestStore.useStoreActions(
+    (actions) => actions.setSpaceUrl
+  )
+
   useEffect(() => {
-    fetchProject()
+    if (isEdit) {
+      fetchQuestByID(id)
+    } else {
+      fetchProjectByID(id)
+    }
   }, [])
 
-  const fetchProject = async () => {
+  const fetchProjectByID = async (id: string) => {
     try {
       const rs = await getCommunityApi(id)
       setProject(rs.data!.community)
+      // setLoading(false)
+    } catch (error) {
+      toast.error('Error while fetch project')
+      // setLoading(false)
+    }
+  }
+
+  const fetchQuestByID = async (id: string) => {
+    try {
+      const res = await getQuestApi(id)
+      const {
+        community_id,
+        title,
+        type,
+        description,
+        recurrence,
+        rewards,
+        validation_data,
+      } = res.data || {}
+
+      const {
+        tweet_url,
+        like,
+        reply,
+        retweet,
+        default_reply,
+        link,
+        discord_invite_url,
+        telegram_invite_url,
+        twitter_handle,
+        default_tweet,
+        quizs,
+      } = validation_data || {}
+
+      onTitleChanged(title || '')
+      onDescriptionChanged(description || '')
+      setRecurrence(
+        QuestRecurrencesStringMap.get(recurrence || '') || QuestRecurrence.ONCE
+      )
+      setTweetUrl(tweet_url || '')
+
+      setQuestType(QuestTypeMap.get(type || '') || QuestTypeEnum.URL)
+
+      fetchProjectByID(community_id || '')
+      setVisitLink(link || '')
+      setTelegramLink(telegram_invite_url || '')
+      setAccountLink(twitter_handle || '')
       // setLoading(false)
     } catch (error) {
       toast.error('Error while fetch project')
