@@ -1,16 +1,13 @@
-import {
-  FunctionComponent,
-  useState,
-} from 'react';
+import { FunctionComponent, useState } from 'react'
 
-import { useStoreState } from 'easy-peasy';
-import { signIn } from 'next-auth/react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import Dropzone from 'react-dropzone';
-import styled from 'styled-components';
-import tw from 'twin.macro';
+import { useStoreState } from 'easy-peasy'
+import { signIn } from 'next-auth/react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import Dropzone from 'react-dropzone'
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
 import {
   ButtonSocialType,
@@ -18,12 +15,12 @@ import {
   CommunityRoleEnum,
   SizeEnum,
   TwitterEnum,
-} from '@/constants/common.const';
-import { StorageConst } from '@/constants/storage.const';
-import { ActiveQuestStore } from '@/store/local/active-quest.store';
-import { CommunityStore } from '@/store/local/community.store';
-import { GlobalStoreModel } from '@/store/store';
-import { DeleteBtn } from '@/styles/button.style';
+} from '@/constants/common.const'
+import { StorageConst } from '@/constants/storage.const'
+import { ActiveQuestStore } from '@/store/local/active-quest.store'
+import { CommunityStore } from '@/store/local/community.store'
+import { GlobalStoreModel } from '@/store/store'
+import { DeleteBtn } from '@/styles/button.style'
 import {
   AddFileBtn,
   SectionUploadImg,
@@ -33,14 +30,11 @@ import {
   UploadInput,
   UrlBox,
   WrapUploadImg,
-} from '@/styles/quest-detail.style';
-import { getUserLocal } from '@/utils/helper';
-import { QuestTwitterActionType } from '@/utils/type';
-import {
-  NegativeButton,
-  PositiveButton,
-} from '@/widgets/button';
-import { TextField } from '@/widgets/form';
+} from '@/styles/quest-detail.style'
+import { getUserLocal } from '@/utils/helper'
+import { QuestTwitterActionType } from '@/utils/type'
+import { NegativeButton, PositiveButton } from '@/widgets/button'
+import { TextField } from '@/widgets/form'
 import {
   HorizontalBetweenCenter,
   HorizontalStartCenter,
@@ -49,8 +43,8 @@ import {
   VerticalFullWidth,
   VerticalFullWidthBetween,
   VerticalFullWidthCenter,
-} from '@/widgets/orientation';
-import { NormalText } from '@/widgets/text';
+} from '@/widgets/orientation'
+import { NormalText } from '@/widgets/text'
 import {
   ArrowPathRoundedSquareIcon,
   ChatBubbleLeftRightIcon,
@@ -58,7 +52,7 @@ import {
   ExclamationTriangleIcon,
   HeartIcon,
   LinkIcon,
-} from '@heroicons/react/24/outline';
+} from '@heroicons/react/24/outline'
 
 const WrapBtn = tw(VerticalBetween)`
   w-full
@@ -237,7 +231,7 @@ export const QuestDiscord: FunctionComponent<{ link: string }> = ({ link }) => {
   const user = getUserLocal()
   return (
     <WrapBtn>
-      {!user.services?.discord && (
+      {user && user.services && !user.services.discord && (
         <SocialBtn btnType={ButtonSocialType.DISCORD} onClick={onConnect}>
           <Image
             width={30}

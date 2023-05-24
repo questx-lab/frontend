@@ -99,11 +99,11 @@ const SocialConnect: FunctionComponent<{
 
   switch (type) {
     case SocialType.DISCORD: // Discord
-      if (user.services?.discord) {
+      if (user && user.services && user.services.discord) {
         return (
           <SocialBox active>
             <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
-            <SocialText>{user.services?.discord}</SocialText>
+            <SocialText>{user.services.discord}</SocialText>
           </SocialBox>
         )
       }

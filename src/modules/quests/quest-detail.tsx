@@ -180,7 +180,7 @@ const SubmitButton: FunctionComponent = () => {
     case QuestTypeEnum.TWITTER_REACTION:
     case QuestTypeEnum.TWITTER_TWEET:
       const user = getUserLocal()
-      if (user.services) {
+      if (user && user.services) {
         block = !user.services.twitter
       }
       break
