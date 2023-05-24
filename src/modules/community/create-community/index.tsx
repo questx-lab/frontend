@@ -5,14 +5,10 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import Dropzone from 'react-dropzone'
 import toast from 'react-hot-toast'
-import { MoonLoader } from 'react-spinners'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import {
-  getMyCommunitiesApi,
-  newCommunityApi,
-} from '@/app/api/client/community'
+import { getMyCommunitiesApi } from '@/app/api/client/community'
 import {
   ButtonSocialType,
   ConnectSocialPlatformEnum,
@@ -21,17 +17,19 @@ import {
 } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
+import { CreateCommunityStep } from '@/modules/community/create-community/create-community-step'
 import {
   BackButton,
+  HorizotalFlex,
   NextButton,
-} from '@/modules/community/create-community/next-button'
+  Title,
+} from '@/modules/community/create-community/mini-widget'
 import { NewCommunityStore } from '@/store/local/new-community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { FullWidthBtn } from '@/styles/button.style'
 import { LabelInput, RequireSignal } from '@/styles/input.style'
 import { SocialBtn } from '@/styles/quest-detail.style'
 import { uploadFileForCommunity } from '@/utils/file'
-import { ReqNewCommunity } from '@/utils/type'
 import { MultipleTextField, TextField } from '@/widgets/form'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
@@ -46,13 +44,6 @@ import {
 const Body = tw.div`
   w-full
   h-full
-`
-
-const Title = tw.span`
-  text-2xl
-  font-normal
-  text-black
-  text-start
 `
 
 const Main = tw(Vertical)`
@@ -119,20 +110,6 @@ const TitleBox = tw.div`
   text-white
 `
 
-const DescriptionText = tw.span`
-  text-lg
-  font-normal
-  text-gray-700
-  text-start
-`
-
-const WarningText = tw.span`
-  text-sm
-  font-normal
-  text-warning-700
-  text-start
-`
-
 const Card = tw(Vertical)`
   w-full
 `
@@ -149,11 +126,6 @@ const StageTitle = tw.span`
   font-normal
   text-gray-700
   text-lg
-`
-
-const HorizotalFlex = tw(Horizontal)`
-  w-full
-  gap-3
 `
 
 export const UploadImgBox = tw(Horizontal)`
@@ -206,94 +178,6 @@ const InputOtherThirdStep: FunctionComponent = () => {
 }
 
 // ********* CREATE COMMUNITY STEP ***********
-const CreateCommunityStep: FunctionComponent = () => {
-  // data
-  const currentStep = NewCommunityStore.useStoreState(
-    (state) => state.currentStep
-  )
-  const inviteCode = NewCommunityStore.useStoreState(
-    (state) => state.inviteCode
-  )
-  const title = NewCommunityStore.useStoreState((state) => state.title)
-  const description = NewCommunityStore.useStoreState(
-    (state) => state.description
-  )
-
-  // action
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
-  const setInviteCode = NewCommunityStore.useStoreActions(
-    (action) => action.setInviteCode
-  )
-  const setCreatedCommunityId = NewCommunityStore.useStoreActions(
-    (action) => action.setCreatedCommunityId
-  )
-
-  // hook
-  let [isLoading, setLoading] = useState<boolean>(false)
-  const router = useRouter()
-
-  // handler
-  const onDone = async () => {
-    setLoading(true)
-    try {
-      const payload: ReqNewCommunity = {
-        name: title,
-        introduction: description,
-      }
-
-      const data = await newCommunityApi(payload)
-      if (data.error) {
-        toast.error(data.error)
-      }
-      if (!data || !data.data || !data.data.id) {
-        toast.error('Cannot create new community')
-      } else {
-        setCurrentStep(currentStep + 1)
-        setCreatedCommunityId(data.data.id)
-      }
-    } catch (error) {
-      setLoading(false)
-      console.log('There is error = ', error)
-      toast.error('Server error')
-    }
-  }
-
-  const LoadingBtn: FunctionComponent = () => {
-    if (isLoading) {
-      return <MoonLoader color='#fff' loading speedMultiplier={0.8} size={25} />
-    }
-    return <>{'Done'}</>
-  }
-
-  return (
-    <Main>
-      <Title>{'How did you hear about us?'}</Title>
-      <DescriptionText>
-        {
-          "Enter someone else's invite code so they can claim a reward. After creating a community, you can also have these codes."
-        }
-      </DescriptionText>
-      <LabelInput>{'INVITE CODE'}</LabelInput>
-      <TextField
-        value={inviteCode}
-        onChange={(e) => setInviteCode(e.target.value)}
-        placeholder='Code Invite'
-      />
-      <WarningText>
-        {"* If you don't have a invite code, leave the input field blank."}
-      </WarningText>
-      <HorizotalFlex>
-        <BackButton />
-        <FullWidthBtn onClick={onDone}>
-          <LoadingBtn />
-        </FullWidthBtn>
-      </HorizotalFlex>
-    </Main>
-  )
-}
-
 // ********* FOURTH STEP ***********
 const SetTwitterDiscordStep: FunctionComponent = () => {
   // data

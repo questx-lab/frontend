@@ -3,6 +3,19 @@ import tw from 'twin.macro'
 
 import { NewCommunityStore } from '@/store/local/new-community.store'
 import { FullWidthBtn } from '@/styles/button.style'
+import { Horizontal } from '@/widgets/orientation'
+
+export const Title = tw.span`
+  text-2xl
+  font-normal
+  text-black
+  text-start
+`
+
+export const HorizotalFlex = tw(Horizontal)`
+  w-full
+  gap-3
+`
 
 const BackBtn = tw.button`
   w-full
