@@ -7,7 +7,7 @@ import tw from 'twin.macro'
 
 import { listCommunitiesApi } from '@/app/api/client/community'
 import { RouterConst } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
+import { RewardsData, StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/modules/community/community-box'
 import { CommunityType } from '@/utils/type'
 import { NegativeButton } from '@/widgets/button'
@@ -220,19 +220,19 @@ const LandingPage: FunctionComponent = () => {
             </HeadBox>
             <RewardSession>
               <RewardView
-                name='Join a Community'
-                des='Join a vibrant community, connect with like-minded individuals, and unlock endless possibilities for collaboration and growth.'
-                imgSrc={StorageConst.JOIN_COMMUNITY.src}
+                name={RewardsData[0].name}
+                des={RewardsData[0].des}
+                imgSrc={RewardsData[0].image}
               />
               <RewardView
-                name='X a Quest'
-                des='Take on the challenge, push your limits, and triumph over obstacles. Dare to X a Quest and achieve greatness!'
-                imgSrc={StorageConst.X_A_QUEST.src}
+                name={RewardsData[1].name}
+                des={RewardsData[1].des}
+                imgSrc={RewardsData[1].image}
               />
               <RewardView
-                name='Earn Reward'
-                des='Unlock exciting incentives and reap the rewards of your accomplishments. Embrace the journey and earn your well-deserved recognition. Claim your rewards now!'
-                imgSrc={StorageConst.EARN_REWARD.src}
+                name={RewardsData[2].name}
+                des={RewardsData[2].des}
+                imgSrc={RewardsData[2].image}
               />
             </RewardSession>
             <Main>

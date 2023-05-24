@@ -263,12 +263,64 @@ const NavBarBox: FunctionComponent<{
   return <></>
 }
 
-const Header: FunctionComponent<{ isApp?: boolean }> = ({ isApp = true }) => {
+const HeadBox: FunctionComponent<{
+  isApp: boolean
+  navActive: number
+  setNavBar: (e: boolean) => void
+}> = ({ isApp, navActive, setNavBar }) => {
+  const router = useRouter()
   const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
+  const navBarState = useStoreState<GlobalStoreModel>((state) => state.navBar)
 
+  return (
+    <Wrap isApp={isApp}>
+      <Body isApp={isApp}>
+        <LeftSession>
+          <ImageLogoBox
+            width={150}
+            height={100}
+            onClick={() => router.push(RouterConst.HOME)}
+            src={StorageConst.APP_LOGO_DIR.src}
+            alt={StorageConst.APP_LOGO_DIR.alt}
+          />
+          <BoxLink>
+            <LinkText href={RouterConst.COMMUNITIES}>
+              <TitleText>{'Communities'}</TitleText>
+              {navActive === NavBarEnum.COMMUNITY && <Underline />}
+            </LinkText>
+            <LinkText href={RouterConst.QUESTBOARD}>
+              <TitleText>{'QuesterCamp'}</TitleText>
+              {navActive === NavBarEnum.QUESTCARD && <Underline />}
+            </LinkText>
+          </BoxLink>
+        </LeftSession>
+        <RightSession>
+          <UserInfoBox />
+          <MenuBtn onClick={() => setNavBar(!navBarState)}>
+            <Image
+              width={40}
+              height={40}
+              src={
+                isNavBar
+                  ? StorageConst.CLOSE_ICON.src
+                  : StorageConst.MENU_ICON.src
+              }
+              alt={
+                isNavBar
+                  ? StorageConst.CLOSE_ICON.alt
+                  : StorageConst.MENU_ICON.alt
+              }
+            />
+          </MenuBtn>
+        </RightSession>
+      </Body>
+    </Wrap>
+  )
+}
+
+const Header: FunctionComponent<{ isApp?: boolean }> = ({ isApp = true }) => {
   const router = useRouter()
 
-  const navBarState = useStoreState<GlobalStoreModel>((state) => state.navBar)
   const [hydrated, setHydrated] = useState(false)
 
   const setNavBar = useStoreActions<GlobalStoreModel>(
@@ -307,48 +359,7 @@ const Header: FunctionComponent<{ isApp?: boolean }> = ({ isApp = true }) => {
 
   return (
     <>
-      <Wrap isApp={isApp}>
-        <Body isApp={isApp}>
-          <LeftSession>
-            <ImageLogoBox
-              width={150}
-              height={100}
-              onClick={() => router.push(RouterConst.HOME)}
-              src={StorageConst.APP_LOGO_DIR.src}
-              alt={StorageConst.APP_LOGO_DIR.alt}
-            />
-            <BoxLink>
-              <LinkText href={RouterConst.COMMUNITIES}>
-                <TitleText>{'Communities'}</TitleText>
-                {navActive === NavBarEnum.COMMUNITY && <Underline />}
-              </LinkText>
-              <LinkText href={RouterConst.QUESTBOARD}>
-                <TitleText>{'QuesterCamp'}</TitleText>
-                {navActive === NavBarEnum.QUESTCARD && <Underline />}
-              </LinkText>
-            </BoxLink>
-          </LeftSession>
-          <RightSession>
-            <UserInfoBox />
-            <MenuBtn onClick={() => setNavBar(!navBarState)}>
-              <Image
-                width={40}
-                height={40}
-                src={
-                  isNavBar
-                    ? StorageConst.CLOSE_ICON.src
-                    : StorageConst.MENU_ICON.src
-                }
-                alt={
-                  isNavBar
-                    ? StorageConst.CLOSE_ICON.alt
-                    : StorageConst.MENU_ICON.alt
-                }
-              />
-            </MenuBtn>
-          </RightSession>
-        </Body>
-      </Wrap>
+      <HeadBox navActive={navActive} isApp={isApp} setNavBar={setNavBar} />
       <NavBarBox navActive={navActive} handleClick={handleClick} />
     </>
   )
