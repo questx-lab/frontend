@@ -500,7 +500,6 @@ const QuestFrame: FunctionComponent<{
       } = validation_data || {}
 
       onTitleChanged(title || '')
-      console.log(description)
 
       onDescriptionChanged(description || '')
       setRecurrence(
@@ -517,7 +516,7 @@ const QuestFrame: FunctionComponent<{
       setAnswer(answer || '')
       setSpaceUrl(space_url || '')
       setContentTwitter(default_tweet || '')
-      if (!quizs) {
+      if (!quizs || quizs.length == 0) {
         setQuizzes([
           {
             id: 0,
@@ -527,15 +526,7 @@ const QuestFrame: FunctionComponent<{
           },
         ])
       } else {
-        setQuizzes([
-          ...(quizs || []),
-          {
-            id: quizs.length,
-            question: '',
-            answers: [],
-            options: [],
-          },
-        ])
+        setQuizzes(quizs)
       }
 
       setInvites(number || 0)
