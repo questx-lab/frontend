@@ -350,7 +350,9 @@ const handleSubmit = async (
 
   try {
     let data
-    if (editId) {
+    if (editId && editId != '') {
+      console.log('editId', editId)
+
       data = await updateQuestApi(payload)
     } else data = await newQuestApi(payload)
     if (data.error) {
@@ -375,6 +377,8 @@ const QuestFrame: FunctionComponent<{
   // Data
   const title = NewQuestStore.useStoreState((state) => state.title)
   const project = NewQuestStore.useStoreState((state) => state.project)
+  const description = NewQuestStore.useStoreState((state) => state.description)
+
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   // Actions
@@ -435,6 +439,17 @@ const QuestFrame: FunctionComponent<{
     (actions) => actions.setSpaceUrl
   )
 
+  const setActiveReward = NewQuestStore.useStoreActions(
+    (actions) => actions.setActiveReward
+  )
+  const setPointReward = NewQuestStore.useStoreActions(
+    (actions) => actions.setPointReward
+  )
+
+  const setQuizzes = NewQuestStore.useStoreActions(
+    (action) => action.setQuizzes
+  )
+
   useEffect(() => {
     if (isEdit) {
       fetchQuestByID(id)
@@ -474,26 +489,84 @@ const QuestFrame: FunctionComponent<{
         retweet,
         default_reply,
         link,
-        discord_invite_url,
-        telegram_invite_url,
+        invite_url,
         twitter_handle,
         default_tweet,
         quizs,
+        auto_validate,
+        answer,
+        space_url,
+        number,
       } = validation_data || {}
 
       onTitleChanged(title || '')
+      console.log(description)
+
       onDescriptionChanged(description || '')
       setRecurrence(
         QuestRecurrencesStringMap.get(recurrence || '') || QuestRecurrence.ONCE
       )
       setTweetUrl(tweet_url || '')
-
       setQuestType(QuestTypeMap.get(type || '') || QuestTypeEnum.URL)
-
       fetchProjectByID(community_id || '')
       setVisitLink(link || '')
-      setTelegramLink(telegram_invite_url || '')
+      setTelegramLink(invite_url || '')
       setAccountLink(twitter_handle || '')
+      setReplyTwitter(default_reply || '')
+      setTextAutoValidation(auto_validate || true)
+      setAnswer(answer || '')
+      setSpaceUrl(space_url || '')
+      setContentTwitter(default_tweet || '')
+      if (!quizs) {
+        setQuizzes([
+          {
+            id: 0,
+            question: '',
+            answers: [],
+            options: [],
+          },
+        ])
+      } else {
+        setQuizzes([
+          ...(quizs || []),
+          {
+            id: quizs.length,
+            question: '',
+            answers: [],
+            options: [],
+          },
+        ])
+      }
+
+      setInvites(number || 0)
+      if (rewards) {
+        for (let i = 0; i < rewards?.length; i++) {
+          const val = rewards[i]
+          if (val.type === 'point') {
+            setPointReward(val.data.points ?? 0)
+          }
+        }
+      }
+
+      switch (type) {
+        case QuestTypeEnum.TWITTER_FOLLOW:
+        case QuestTypeEnum.TWITTER_TWEET:
+        case QuestTypeEnum.TWITTER_JOIN_SPACE:
+        case QuestTypeEnum.TWITTER_REACTION:
+          setTwitterType(type)
+          break
+
+        default:
+          break
+      }
+
+      let actions: TwitterEnum[] = []
+      if (like) actions.push(TwitterEnum.LIKE)
+      if (reply) actions.push(TwitterEnum.REPLY)
+      if (retweet) actions.push(TwitterEnum.RETWEET)
+
+      setActionTwitter(actions)
+
       // setLoading(false)
     } catch (error) {
       toast.error('Error while fetch project')
@@ -524,7 +597,10 @@ const QuestFrame: FunctionComponent<{
                 />
                 <Gap />
                 <Label>{'QUEST DESCRIPTION'}</Label>
-                <Editor onChange={(value) => onDescriptionChanged(value)} />
+                <Editor
+                  onChange={(value) => onDescriptionChanged(value)}
+                  value={description}
+                />
               </PICard>
             </ICard>
             <Gap height={8} />
@@ -535,7 +611,11 @@ const QuestFrame: FunctionComponent<{
             <Recurrence />
             <Gap height={8} />
 
-            <ButtonSubmit setIsOpen={setIsOpen} id={project.id} editId={id} />
+            <ButtonSubmit
+              setIsOpen={setIsOpen}
+              id={project.id}
+              editId={isEdit ? id : ''}
+            />
           </CCard>
           <QuestReward />
         </CBox>

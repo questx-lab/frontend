@@ -74,6 +74,8 @@ const QuestDetails = () => {
 
   const project = NewQuestStore.useStoreState((state) => state.project)
 
+  const invites = NewQuestStore.useStoreState((state) => state.invites)
+
   // Actions
   const setTextAutoValidation = NewQuestStore.useStoreActions(
     (actions) => actions.setTextAutoValidation
@@ -211,6 +213,7 @@ const QuestDetails = () => {
             <InputInviteBox
               onChange={(e) => setInvites(parseInt(e.target.value ?? '0'))}
               defaultValue={10}
+              value={invites}
               type='number'
             />
             <Gap height={2} />

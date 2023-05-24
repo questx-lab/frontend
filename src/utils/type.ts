@@ -150,11 +150,14 @@ export interface QuestType {
     retweet?: boolean
     default_reply?: string
     link?: string
-    discord_invite_url?: string
-    telegram_invite_url?: string
+    invite_url?: string
     twitter_handle?: string
     default_tweet?: string
+    auto_validate?: boolean
+    answer?: string
     quizs?: QuestQuizType[]
+    space_url?: string
+    number?: number
   }
 }
 
