@@ -212,8 +212,7 @@ const QuestDetails = () => {
             <Gap height={2} />
             <InputInviteBox
               onChange={(e) => setInvites(parseInt(e.target.value ?? '0'))}
-              defaultValue={10}
-              value={invites}
+              defaultValue={invites}
               type='number'
             />
             <Gap height={2} />

@@ -210,7 +210,7 @@ const SubmitButton: FunctionComponent = () => {
     default:
       return (
         <WrapBtn>
-          <EditButton onClick={onEdit}> {'Edit2'} </EditButton>
+          <EditButton onClick={onEdit}> {'Edit'} </EditButton>
           <DeleteBtn> {'Delete'} </DeleteBtn>
         </WrapBtn>
       )
