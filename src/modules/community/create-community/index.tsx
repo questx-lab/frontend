@@ -16,12 +16,15 @@ import {
 import {
   ButtonSocialType,
   ConnectSocialPlatformEnum,
-  NewCommunityStage,
   NewCommunityStep,
   NewCommunityTypeShare,
 } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
+import {
+  BackButton,
+  NextButton,
+} from '@/modules/community/create-community/next-button'
 import { NewCommunityStore } from '@/store/local/new-community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { FullWidthBtn } from '@/styles/button.style'
@@ -153,21 +156,6 @@ const HorizotalFlex = tw(Horizontal)`
   gap-3
 `
 
-const BackBtn = tw.button`
-  w-full
-  outline-0
-  bg-white
-  hover:bg-gray-200
-  rounded-lg
-  border
-  border-gray-300
-  border-solid
-  py-2
-  text-gray-700
-  font-medium
-  text-lg
-`
-
 export const UploadImgBox = tw(Horizontal)`
   items-end
   gap-3
@@ -188,52 +176,6 @@ export const RemoveAvt = tw.button`
   outline-0
   px-4
 `
-
-const NextButton: FunctionComponent<{ block?: boolean }> = ({
-  block = false,
-}) => {
-  const currentStep = NewCommunityStore.useStoreState(
-    (state) => state.currentStep
-  )
-
-  // action
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
-
-  return (
-    <>
-      <FullWidthBtn
-        disabled={block}
-        block={block}
-        onClick={() => {
-          setCurrentStep(currentStep + 1)
-        }}
-      >
-        {'Next'}
-      </FullWidthBtn>
-    </>
-  )
-}
-
-const BackButton: FunctionComponent = () => {
-  const currentStep = NewCommunityStore.useStoreState(
-    (state) => state.currentStep
-  )
-
-  // action
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
-
-  return (
-    <>
-      <BackBtn onClick={() => setCurrentStep(currentStep - 1)}>
-        {'Back'}
-      </BackBtn>
-    </>
-  )
-}
 
 const InputOtherThirdStep: FunctionComponent = () => {
   // data
