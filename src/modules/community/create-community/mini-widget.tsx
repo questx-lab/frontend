@@ -3,7 +3,12 @@ import tw from 'twin.macro'
 
 import { NewCommunityStore } from '@/store/local/new-community.store'
 import { FullWidthBtn } from '@/styles/button.style'
-import { Horizontal } from '@/widgets/orientation'
+import { Horizontal, Vertical } from '@/widgets/orientation'
+
+export const Main = tw(Vertical)`
+  gap-5
+  p-5
+`
 
 export const Title = tw.span`
   text-2xl
