@@ -65,25 +65,34 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
   }
 
   if (loading) {
-    return <Spinner />
+    return (
+      <Layout>
+        <header>
+          <title>{'Community'}</title>
+        </header>
+        <Spinner />
+      </Layout>
+    )
   }
 
   if (role === CommunityRoleEnum.GUEST) {
     return <CommunityGuest />
   }
 
-  return <ManageProject />
-}
-
-export default function ProjectPage(props: { params: { id: string } }) {
   return (
     <Layout>
       <header>
         <title>{'Community'}</title>
       </header>
-      <CommunityStore.Provider>
-        <ProjectBox communityId={props.params.id} />
-      </CommunityStore.Provider>
+      <ManageProject />
     </Layout>
+  )
+}
+
+export default function ProjectPage(props: { params: { id: string } }) {
+  return (
+    <CommunityStore.Provider>
+      <ProjectBox communityId={props.params.id} />
+    </CommunityStore.Provider>
   )
 }

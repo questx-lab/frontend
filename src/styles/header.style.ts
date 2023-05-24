@@ -5,6 +5,7 @@ import tw from 'twin.macro'
 
 import {
   Horizontal,
+  HorizontalBetweenCenter,
   HorizontalCenter,
   HorizontalStartCenter,
   Vertical,
@@ -15,37 +16,45 @@ type NavBarType = {
   isActive: boolean
 }
 
-export const Wrap = styled.nav<{ isApp?: boolean; isFull?: boolean }>(
-  ({ isApp = true, isFull = true }) => [
-    tw`
+export const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
+  tw`
   w-full
   flex
   flex-row
   justify-between
   items-center
   h-[70px]
-  3xl:h-[120px]
   border-b-[1px]
   border-gray-200
   fixed
-  max-sm:h-[65px]
   `,
-    isApp && tw`bg-white`,
-    !isApp &&
-      tw`
+  isApp && tw`bg-white px-6 3xl:px-6`,
+  !isApp &&
+    tw`
     border-0
     backdrop-blur-lg
+    flex
+    flex-row
+    justify-center
+    items-center
   `,
+])
 
-    !isFull &&
+export const Body = styled(HorizontalBetweenCenter)<{ isApp?: boolean }>(
+  ({ isApp = true }) => [
+    !isApp &&
       tw`
-      max-md:px-8
-      md:px-16
-      lg:px-32
-      2xl:px-48
-      3xl:px-64
-    `,
-    isFull && tw`px-6 3xl:px-6`,
+        h-full
+        max-sm:px-2
+        md:px-8
+        w-full
+        xl:w-[1180px]
+      `,
+    isApp &&
+      tw`
+        w-full
+        h-full
+      `,
   ]
 )
 
@@ -88,7 +97,7 @@ export const TitleText = tw.div`
   items-center
   font-normal
   text-lg
-  3xl:text-3xl
+  3xl:text-xl
 `
 
 export const Underline = tw.div`

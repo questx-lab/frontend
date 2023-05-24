@@ -71,6 +71,11 @@ export const VerticalFullWidthCenter = tw(VerticalCenter)`
   gap-2
 `
 
+export const VerticalFullWidthStartCenter = tw(VerticalFullWidth)`
+  justify-start
+  items-center
+`
+
 export const VerticalBetween = tw.div`
   flex
   flex-col

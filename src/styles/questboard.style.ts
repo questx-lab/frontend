@@ -343,7 +343,6 @@ export const WrapQuestboard = tw.div`
   w-full
   grid
   gap-4
-  2xl:grid-cols-4
   xl:grid-cols-3
   sm:grid-cols-2
   max-sm:grid-cols-1

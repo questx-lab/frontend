@@ -20,13 +20,10 @@ const Content: FunctionComponent = () => {
 export default function Home() {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
-  const isApp = user && Object.values(user).length
+  const isApp = user !== undefined
 
   return (
-    <Layout isApp={isApp} isFull={false}>
-      <header>
-        <title>{'Xquest'}</title>
-      </header>
+    <Layout isApp={isApp}>
       <Content />
     </Layout>
   )

@@ -22,7 +22,6 @@ const NegativeButtonStyle = styled.button<{
   py-3
   px-6
   rounded-lg
-  max-lg:hidden
   border
   border-gray-300
   border-solid
@@ -58,7 +57,6 @@ const PositiveButtonStyle = styled.button<{
       py-3
       px-6
       rounded-lg
-      max-lg:hidden
       flex
       justify-center
       items-center

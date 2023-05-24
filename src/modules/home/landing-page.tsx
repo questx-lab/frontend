@@ -10,16 +10,17 @@ import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/modules/community/community-box'
 import { CommunityType } from '@/utils/type'
-import CategoryBox from '@/widgets/CategoryBox'
 import { NegativeButton } from '@/widgets/button'
 import CarouselList from '@/widgets/carousel'
+import CategoryBox from '@/widgets/CategoryBox'
 import {
   HorizontalBetweenCenter,
   HorizontalCenter,
   Vertical,
   VerticalCenter,
+  VerticalFullWidthCenter,
 } from '@/widgets/orientation'
-import { LargeText } from '@/widgets/text'
+import { LargeText, NormalText } from '@/widgets/text'
 
 const Wrap = tw(Vertical)`
   min-h-screen
@@ -32,16 +33,19 @@ const Head = tw.div`
   min-h-screen
 `
 
-const HeadWrap = tw(Vertical)`
+const HeadWrap = tw(VerticalFullWidthCenter)`
   absolute
   w-full
   gap-6
   h-full
-  max-md:px-8
-  md:px-16
-  lg:px-32
-  2xl:px-48
-  3xl:px-64
+`
+
+const HeadBody = tw(Vertical)`
+  max-sm:px-2
+  md:px-8
+  w-full
+  xl:w-[1180px]
+  h-full
 `
 
 const HeadBox = tw(HorizontalBetweenCenter)`
@@ -65,10 +69,9 @@ const InfoBox = tw(VerticalCenter)`
 `
 
 const Title = tw.span`
-  text-7xl
+  text-8xl
   font-medium
   text-gray-900
-  3xl:text-12xl
   max-md:text-4xl
 `
 
@@ -84,11 +87,9 @@ const RewardSession = tw(HorizontalBetweenCenter)`
   max-md:flex-col
 `
 
-const RewardTextText = tw(LargeText)`
+const RewardTextText = tw(NormalText)`
   text-gray-500
-  font-normal
   text-center
-  3xl:text-3xl
 `
 
 const RewardBox = tw(VerticalCenter)`
@@ -99,7 +100,6 @@ const RewardBox = tw(VerticalCenter)`
   h-full
   gap-4
   shadow-lg
-  3xl:p-16
   3xl:rounded-2xl
 `
 
@@ -128,13 +128,6 @@ const SocialBox = tw(HorizontalCenter)`
 const SocialLogin = styled(Image)(tw`
   3xl:w-[40px]
   3xl:h-[40px]
-`)
-
-const MainImage = styled(Image)(tw`
-  3xl:w-[1000px]
-  3xl:h-[1000px]
-  max-md:w-full
-  max-md:h-full
 `)
 
 const RewardView: FunctionComponent<{
@@ -202,76 +195,78 @@ const LandingPage: FunctionComponent = () => {
     <Wrap>
       <Head>
         <HeadWrap>
-          <HeadBox>
-            <InfoBox>
-              <Title>{'X a Quests,'}</Title>
-              <Title>{'Earn Rewards'}</Title>
-              <Description>
-                {
-                  'XQuest is the best way to help community projects while earning incredible rewards.'
-                }
-              </Description>
-              <NegativeButton
-                onClick={() => router.push(RouterConst.COMMUNITIES)}
+          <HeadBody>
+            <HeadBox>
+              <InfoBox>
+                <Title>{'X a Quests,'}</Title>
+                <Title>{'Earn Rewards'}</Title>
+                <Description>
+                  {
+                    'XQuest is the best way to help community projects while earning incredible rewards.'
+                  }
+                </Description>
+                <NegativeButton
+                  onClick={() => router.push(RouterConst.COMMUNITIES)}
+                >
+                  {'Explore'}
+                </NegativeButton>
+              </InfoBox>
+              <Image
+                width={680}
+                height={680}
+                src={'/images/logos/cat.svg'}
+                alt={'background'}
+              />
+            </HeadBox>
+            <RewardSession>
+              <RewardView
+                name='Join a Community'
+                des='Join a vibrant community, connect with like-minded individuals, and unlock endless possibilities for collaboration and growth.'
+                imgSrc={StorageConst.JOIN_COMMUNITY.src}
+              />
+              <RewardView
+                name='X a Quest'
+                des='Take on the challenge, push your limits, and triumph over obstacles. Dare to X a Quest and achieve greatness!'
+                imgSrc={StorageConst.X_A_QUEST.src}
+              />
+              <RewardView
+                name='Earn Reward'
+                des='Unlock exciting incentives and reap the rewards of your accomplishments. Embrace the journey and earn your well-deserved recognition. Claim your rewards now!'
+                imgSrc={StorageConst.EARN_REWARD.src}
+              />
+            </RewardSession>
+            <Main>
+              <CategoryBox
+                title='🔥 Trending Communities'
+                onClick={onShowAllClicked}
+                loading={loading}
               >
-                {'Explore'}
-              </NegativeButton>
-            </InfoBox>
-            <MainImage
-              width={680}
-              height={680}
-              src={'/images/logos/cat.svg'}
-              alt={'background'}
-            />
-          </HeadBox>
-          <RewardSession>
-            <RewardView
-              name='Join a Community'
-              des='Join a vibrant community, connect with like-minded individuals, and unlock endless possibilities for collaboration and growth.'
-              imgSrc={StorageConst.JOIN_COMMUNITY.src}
-            />
-            <RewardView
-              name='X a Quest'
-              des='Take on the challenge, push your limits, and triumph over obstacles. Dare to X a Quest and achieve greatness!'
-              imgSrc={StorageConst.X_A_QUEST.src}
-            />
-            <RewardView
-              name='Earn Reward'
-              des='Unlock exciting incentives and reap the rewards of your accomplishments. Embrace the journey and earn your well-deserved recognition. Claim your rewards now!'
-              imgSrc={StorageConst.EARN_REWARD.src}
-            />
-          </RewardSession>
-          <Main>
-            <CategoryBox
-              title='🔥 Trending Communities'
-              onClick={onShowAllClicked}
-              loading={loading}
-            >
-              <CarouselList
-                data={communities}
-                renderItemFunc={(community: CommunityType) => {
-                  return <CommunityBox community={community} />
-                }}
-              />
-            </CategoryBox>
-            <CategoryBox
-              title='⭐ Popular Communities'
-              onClick={onShowAllClicked}
-              loading={loading}
-            >
-              <CarouselList
-                data={communities}
-                renderItemFunc={(community: CommunityType) => {
-                  return <CommunityBox community={community} />
-                }}
-              />
-            </CategoryBox>
-          </Main>
-          <Footer />
+                <CarouselList
+                  data={communities}
+                  renderItemFunc={(community: CommunityType) => {
+                    return <CommunityBox community={community} />
+                  }}
+                />
+              </CategoryBox>
+              <CategoryBox
+                title='⭐ Popular Communities'
+                onClick={onShowAllClicked}
+                loading={loading}
+              >
+                <CarouselList
+                  data={communities}
+                  renderItemFunc={(community: CommunityType) => {
+                    return <CommunityBox community={community} />
+                  }}
+                />
+              </CategoryBox>
+            </Main>
+            <Footer />
+          </HeadBody>
         </HeadWrap>
         <Bg
-          width={200}
-          height={200}
+          width={1600}
+          height={1200}
           src={StorageConst.BACKGROUND.src}
           alt={'background'}
         />

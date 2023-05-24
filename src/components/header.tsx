@@ -18,6 +18,7 @@ import { AuthBox, LoginBtn, MenuBtn, SignUpBtn } from '@/styles/button.style'
 import { Divider, Gap } from '@/styles/common.style'
 import {
   AvatarBox,
+  Body,
   BoxLink,
   ImageLogoBox,
   LeftSession,
@@ -113,6 +114,8 @@ const UserPopover: FunctionComponent = () => {
     delCookies()
     clearLocalStorage()
   }
+
+  console.log('user', user)
 
   return (
     <PopWrap>
@@ -262,10 +265,7 @@ const NavBarBox: FunctionComponent<{
   return <></>
 }
 
-const Header: FunctionComponent<{ isApp?: boolean; isFull?: boolean }> = ({
-  isApp = true,
-  isFull = true,
-}) => {
+const Header: FunctionComponent<{ isApp?: boolean }> = ({ isApp = true }) => {
   const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
 
   const router = useRouter()
@@ -309,45 +309,47 @@ const Header: FunctionComponent<{ isApp?: boolean; isFull?: boolean }> = ({
 
   return (
     <>
-      <Wrap isApp={isApp} isFull={isFull}>
-        <LeftSession>
-          <ImageLogoBox
-            width={150}
-            height={100}
-            onClick={() => router.push(RouterConst.HOME)}
-            src={StorageConst.APP_LOGO_DIR.src}
-            alt={StorageConst.APP_LOGO_DIR.alt}
-          />
-          <BoxLink>
-            <LinkText href={RouterConst.COMMUNITIES}>
-              <TitleText>{'Communities'}</TitleText>
-              {navActive === NavBarEnum.COMMUNITY && <Underline />}
-            </LinkText>
-            <LinkText href={RouterConst.QUESTBOARD}>
-              <TitleText>{'QuesterCamp'}</TitleText>
-              {navActive === NavBarEnum.QUESTCARD && <Underline />}
-            </LinkText>
-          </BoxLink>
-        </LeftSession>
-        <RightSession>
-          <UserInfoBox />
-          <MenuBtn onClick={() => setNavBar(!navBarState)}>
-            <Image
-              width={40}
-              height={40}
-              src={
-                isNavBar
-                  ? StorageConst.CLOSE_ICON.src
-                  : StorageConst.MENU_ICON.src
-              }
-              alt={
-                isNavBar
-                  ? StorageConst.CLOSE_ICON.alt
-                  : StorageConst.MENU_ICON.alt
-              }
+      <Wrap isApp={isApp}>
+        <Body isApp={isApp}>
+          <LeftSession>
+            <ImageLogoBox
+              width={150}
+              height={100}
+              onClick={() => router.push(RouterConst.HOME)}
+              src={StorageConst.APP_LOGO_DIR.src}
+              alt={StorageConst.APP_LOGO_DIR.alt}
             />
-          </MenuBtn>
-        </RightSession>
+            <BoxLink>
+              <LinkText href={RouterConst.COMMUNITIES}>
+                <TitleText>{'Communities'}</TitleText>
+                {navActive === NavBarEnum.COMMUNITY && <Underline />}
+              </LinkText>
+              <LinkText href={RouterConst.QUESTBOARD}>
+                <TitleText>{'QuesterCamp'}</TitleText>
+                {navActive === NavBarEnum.QUESTCARD && <Underline />}
+              </LinkText>
+            </BoxLink>
+          </LeftSession>
+          <RightSession>
+            <UserInfoBox />
+            <MenuBtn onClick={() => setNavBar(!navBarState)}>
+              <Image
+                width={40}
+                height={40}
+                src={
+                  isNavBar
+                    ? StorageConst.CLOSE_ICON.src
+                    : StorageConst.MENU_ICON.src
+                }
+                alt={
+                  isNavBar
+                    ? StorageConst.CLOSE_ICON.alt
+                    : StorageConst.MENU_ICON.alt
+                }
+              />
+            </MenuBtn>
+          </RightSession>
+        </Body>
       </Wrap>
       <NavBarBox navActive={navActive} handleClick={handleClick} />
     </>
