@@ -42,6 +42,16 @@ export const getQuestApi = async (id: string): Promise<Rsp<QuestType>> => {
   return data
 }
 
+export const updateQuestApi = async (
+  body: ReqNewQuestType
+): Promise<Rsp<{ id: string }>> => {
+  const { data } = await api.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + '/updateQuest',
+    body
+  )
+  return data
+}
+
 export const getClaimedQuestApi = async (
   id: string
 ): Promise<Rsp<ClaimQuestType>> => {

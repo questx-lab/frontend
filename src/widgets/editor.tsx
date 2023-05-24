@@ -37,8 +37,10 @@ const formats = [
 
 export default function Editor({
   onChange,
+  value,
 }: {
   onChange: (value: string) => void
+  value: string
 }) {
   return (
     <QuillNoSSRWrapper
@@ -47,6 +49,7 @@ export default function Editor({
       formats={formats}
       theme='snow'
       onChange={onChange}
+      value={value}
     />
   )
 }
