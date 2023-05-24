@@ -31,9 +31,6 @@ export const NormalText = tw.p`
   text-lg
   text-gray-700
   font-normal
-  max-sm:text-xs
-  text-start
-  max-md:text-center
 `
 
 export const MediumText = tw.p`
@@ -48,7 +45,6 @@ export const LargeText = tw.p`
   text-black
   font-bold
   max-md:text-xl
-  3xl:text-4xl
 `
 
 export const Label = tw.div`

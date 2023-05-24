@@ -18,6 +18,7 @@ import { AuthBox, LoginBtn, MenuBtn, SignUpBtn } from '@/styles/button.style'
 import { Divider, Gap } from '@/styles/common.style'
 import {
   AvatarBox,
+  Body,
   BoxLink,
   ImageLogoBox,
   LeftSession,
@@ -262,54 +263,18 @@ const NavBarBox: FunctionComponent<{
   return <></>
 }
 
-const Header: FunctionComponent<{ isApp?: boolean; isFull?: boolean }> = ({
-  isApp = true,
-  isFull = true,
-}) => {
-  const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
-
+const HeadBox: FunctionComponent<{
+  isApp: boolean
+  navActive: number
+  setNavBar: (e: boolean) => void
+}> = ({ isApp, navActive, setNavBar }) => {
   const router = useRouter()
-
+  const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
   const navBarState = useStoreState<GlobalStoreModel>((state) => state.navBar)
-  const [hydrated, setHydrated] = useState(false)
-
-  const setNavBar = useStoreActions<GlobalStoreModel>(
-    (action) => action.setNavBar
-  )
-
-  const path = usePathname()
-  const [navActive, setNavActive] = useState<number>(-1)
-
-  useEffect(() => {
-    if (
-      path &&
-      (path.includes(RouterConst.COMMUNITIES) ||
-        path.includes(RouterConst.PROJECT))
-    ) {
-      setNavActive(NavBarEnum.COMMUNITY)
-    }
-
-    if (path && path.includes(RouterConst.QUESTBOARD)) {
-      setNavActive(NavBarEnum.QUESTCARD)
-    }
-  }, [path])
-
-  useEffect(() => {
-    setHydrated(true)
-  }, [])
-
-  if (!hydrated) {
-    return null
-  }
-
-  const handleClick = (url: string) => {
-    router.push(url)
-    setNavBar(false)
-  }
 
   return (
-    <>
-      <Wrap isApp={isApp} isFull={isFull}>
+    <Wrap isApp={isApp}>
+      <Body isApp={isApp}>
         <LeftSession>
           <ImageLogoBox
             width={150}
@@ -348,7 +313,53 @@ const Header: FunctionComponent<{ isApp?: boolean; isFull?: boolean }> = ({
             />
           </MenuBtn>
         </RightSession>
-      </Wrap>
+      </Body>
+    </Wrap>
+  )
+}
+
+const Header: FunctionComponent<{ isApp?: boolean }> = ({ isApp = true }) => {
+  const router = useRouter()
+
+  const [hydrated, setHydrated] = useState(false)
+
+  const setNavBar = useStoreActions<GlobalStoreModel>(
+    (action) => action.setNavBar
+  )
+
+  const path = usePathname()
+  const [navActive, setNavActive] = useState<number>(-1)
+
+  useEffect(() => {
+    if (
+      path &&
+      (path.includes(RouterConst.COMMUNITIES) ||
+        path.includes(RouterConst.PROJECT))
+    ) {
+      setNavActive(NavBarEnum.COMMUNITY)
+    }
+
+    if (path && path.includes(RouterConst.QUESTBOARD)) {
+      setNavActive(NavBarEnum.QUESTCARD)
+    }
+  }, [path])
+
+  useEffect(() => {
+    setHydrated(true)
+  }, [])
+
+  if (!hydrated) {
+    return null
+  }
+
+  const handleClick = (url: string) => {
+    router.push(url)
+    setNavBar(false)
+  }
+
+  return (
+    <>
+      <HeadBox navActive={navActive} isApp={isApp} setNavBar={setNavBar} />
       <NavBarBox navActive={navActive} handleClick={handleClick} />
     </>
   )

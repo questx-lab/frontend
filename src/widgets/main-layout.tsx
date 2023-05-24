@@ -6,9 +6,9 @@ import tw from 'twin.macro'
 
 import { Layout } from '@/components/layout'
 import ProjectSide from '@/components/sidebar'
-import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
+import { Horizontal, VerticalFullWidthStartCenter } from '@/widgets/orientation'
 
-export const Main = tw(VerticalFullWidth)`
+export const Main = tw(VerticalFullWidthStartCenter)`
   py-2
 `
 

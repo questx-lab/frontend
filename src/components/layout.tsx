@@ -2,8 +2,7 @@ import { FunctionComponent, ReactNode, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Head from 'next/head'
-import { useRouter } from 'next/navigation'
-import { Toaster, toast } from 'react-hot-toast'
+import { toast, Toaster } from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import {
@@ -17,7 +16,6 @@ import ControlPanel from '@/modules/new-quest/control-panel'
 import { GlobalStoreModel } from '@/store/store'
 import { Html, Main } from '@/styles/layout.style'
 import { ModalBox } from '@/styles/modal.style'
-import { getAccessToken, getRefreshToken } from '@/utils/helper'
 import { BaseModal } from '@/widgets/modal'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 
@@ -60,7 +58,6 @@ export const LayoutDefault = ({ children }: { children: ReactNode }) => {
 export const Layout = ({
   children,
   isApp = true,
-  isFull = true,
 }: {
   children: ReactNode
   isApp?: boolean
@@ -141,7 +138,7 @@ export const Layout = ({
       <body>
         <Main>
           <div className='overflow-scroll'>{children}</div>
-          <Header isFull={isFull} isApp={isApp} />
+          <Header isApp={isApp} />
         </Main>
         <Toaster position='top-center' reverseOrder={false} />
         <BaseModal isOpen={showLoginModal}>

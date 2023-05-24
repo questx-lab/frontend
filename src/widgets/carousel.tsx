@@ -93,7 +93,7 @@ const CarouselList: FunctionComponent<{
           src={StorageConst.CHICKEN.src}
           alt={StorageConst.CHICKEN.alt}
         />
-        <NormalText>
+        <NormalText className='text-center'>
           {
             "Ohhh! This doesn't have any data yet. Please follow and come back at a later time."
           }

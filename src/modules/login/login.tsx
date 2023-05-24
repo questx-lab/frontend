@@ -23,8 +23,8 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
-  w-1/3
-  max-xl:w-2/3
+  w-[480px]
+  max-sm:w-[335px]
   bg-white
   text-center
   align-middle
