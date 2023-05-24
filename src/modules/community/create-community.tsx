@@ -204,15 +204,12 @@ const NextButton: FunctionComponent<{ block?: boolean }> = ({
     (action) => action.setCurrentStep
   )
 
-  console.log('setCurrentStep NextButton = ', setCurrentStep)
-
   return (
     <>
       <FullWidthBtn
         disabled={block}
         block={block}
         onClick={() => {
-          console.log('setCurrentStep In NextButton 2 = ', setCurrentStep)
           setCurrentStep(currentStep + 1)
         }}
       >
@@ -298,7 +295,6 @@ const InputOtherThirdStep: FunctionComponent = () => {
 }
 
 const UploadImageStep: FunctionComponent = () => {
-  console.log('AAAAAA UploadImageStep')
   // data
   const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
 
@@ -342,17 +338,17 @@ const CreateCommunityStep: FunctionComponent = () => {
   )
 
   // action
+  // const setProjectCollab = useStoreActions<GlobalStoreModel>(
+  //   (action) => action.setProjectCollab
+  // )
+
   const setInviteCode = NewCommunityStore.useStoreActions(
     (action) => action.setInviteCode
-  )
-  const setProjectCollab = useStoreActions<GlobalStoreModel>(
-    (action) => action.setProjectCollab
   )
   const setCurrentStep = useStoreActions<NewCommunityModel>(
     (action) => action.setCurrentStep
   )
-  console.log('setCurrentStep 1111 = ', setCurrentStep)
-  console.log('setProjectCollab 1111 = ', setProjectCollab)
+  // console.log('setProjectCollab 1111 = ', setProjectCollab)
   const setCreatedCommunityId = useStoreActions<NewCommunityModel>(
     (action) => action.setCreatedCommunityId
   )
@@ -370,7 +366,6 @@ const CreateCommunityStep: FunctionComponent = () => {
       }
 
       const data = await newCommunityApi(payload)
-      console.log('data = ', data)
       if (data.error) {
         toast.error(data.error)
       }
@@ -400,7 +395,7 @@ const CreateCommunityStep: FunctionComponent = () => {
         toast.error('Error when get your projects')
       } else {
         if (projects.data?.collaborators) {
-          setProjectCollab(projects.data?.collaborators)
+          // setProjectCollab(projects.data?.collaborators)
         }
       }
     } catch (error) {
@@ -639,11 +634,6 @@ const RenderStep: FunctionComponent = () => {
     (state) => state.currentStep
   )
 
-  const setCurrentStep = useStoreActions<NewCommunityModel>(
-    (action) => action.setCurrentStep
-  )
-  console.log('setCurrentStep RenderStep = ', setCurrentStep)
-
   switch (currentStep) {
     case NewCommunityStep.BEGIN:
       return <BasicInfo />
@@ -661,9 +651,15 @@ const RenderStep: FunctionComponent = () => {
 
 const RenderTitle: FunctionComponent = () => {
   //data
-  const currentStep = NewCommunityStore.useStoreState(
-    (state) => state.currentStep
-  )
+  const currentStep = NewCommunityStore.useStoreState((state) => {
+    console.log('RenderTitle: state = ', state)
+    return state.currentStep
+  })
+  const setCurrentStep = useStoreActions<NewCommunityModel>((action) => {
+    console.log('RenderTitle: action = ', action)
+    console.log('RenderTitle: action.setCurrentStep = ', action.setCurrentStep)
+    return action.setCurrentStep
+  })
 
   switch (currentStep) {
     case NewCommunityStep.BEGIN:
