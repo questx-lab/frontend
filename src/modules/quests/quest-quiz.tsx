@@ -106,12 +106,12 @@ export const QuizItem: FunctionComponent<{
   )
 }
 
-export const QuestQuiz: FunctionComponent<{ quizs: QuestQuizType[] }> = ({
-  quizs,
+export const QuestQuiz: FunctionComponent<{ quizzes: QuestQuizType[] }> = ({
+  quizzes,
 }) => {
   const [quizNum, setQuizNum] = useState<number>(0)
 
-  if (quizNum === quizs.length) {
+  if (quizNum === quizzes.length) {
     return (
       <HorizontalCenter>
         <CheckCircleIcon className='w-10 h-10 text-success' />
@@ -123,9 +123,9 @@ export const QuestQuiz: FunctionComponent<{ quizs: QuestQuizType[] }> = ({
   return (
     <QuizBox>
       <HeaderQuizBox>
-        <Label>{`${quizNum + 1} of ${quizs.length} quests completed`}</Label>
+        <Label>{`${quizNum + 1} of ${quizzes.length} quests completed`}</Label>
         <QuizItem
-          quiz={quizs[quizNum]}
+          quiz={quizzes[quizNum]}
           quizNum={quizNum}
           setQuizNum={setQuizNum}
         />

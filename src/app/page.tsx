@@ -9,8 +9,8 @@ import LandingPage from '@/modules/home/landing-page'
 import { GlobalStoreModel } from '@/store/store'
 
 const Content: FunctionComponent = () => {
-  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
-  if (isLogin) {
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  if (user) {
     return <HomePage />
   }
 
@@ -18,10 +18,12 @@ const Content: FunctionComponent = () => {
 }
 
 export default function Home() {
-  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+
+  const isApp = user && Object.values(user).length
 
   return (
-    <Layout isApp={isLogin} isFull={false}>
+    <Layout isApp={isApp} isFull={false}>
       <header>
         <title>{'Xquest'}</title>
       </header>

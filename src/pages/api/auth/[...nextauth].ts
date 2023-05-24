@@ -13,6 +13,19 @@ import {
 } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum, Oauth2ProviderEnum } from '@/constants/key.const'
+import { Rsp, UserType } from '@/utils/type'
+import axios from 'axios'
+
+const getUser = async (accessToken: string): Promise<Rsp<UserType>> => {
+  const result = await axios.get(EnvVariables.NEXT_PUBLIC_API_URL + '/getMe', {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+
+  return result.data
+}
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   return await NextAuth(req, res, {
@@ -44,11 +57,11 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     ],
     callbacks: {
       async jwt({ token, account }) {
-        if (account?.provider == undefined) {
-          return token
-        }
-
-        if (account?.access_token == undefined) {
+        if (
+          !account ||
+          account.provider == undefined ||
+          account.access_token == undefined
+        ) {
           return token
         }
 
@@ -56,7 +69,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         const accessToken = req.cookies['access_token']
         const matcher = '.*/communities/projects/.*/create'
         if (
-          account?.provider === Oauth2ProviderEnum.DISCORD_BOT_PROVIDER &&
+          account.provider === Oauth2ProviderEnum.DISCORD_BOT_PROVIDER &&
           url &&
           url.match(matcher)
         ) {
@@ -70,7 +83,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             community_id,
             guild.id,
 
-            account?.access_token,
+            account.access_token,
             accessToken || ''
           )
 
@@ -78,33 +91,34 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         }
 
         if (accessToken) {
-          const resp = await linkOAuth2(
-            account?.provider,
-            account?.access_token,
-            accessToken
-          )
-
+          await linkOAuth2(account.provider, account.access_token, accessToken)
           return token
         }
 
-        const resp = await verifyOAuth2(
-          account?.provider,
-          account?.access_token
-        )
+        const resp = await verifyOAuth2(account.provider, account.access_token)
 
         const dAccessToken: any = jwt(resp.data.access_token)
         const dRefreshToken: any = jwt(resp.data.refresh_token)
+        const accessExpiration =
+          dAccessToken['exp'] - parseInt((Date.now() / 1000).toFixed(0))
+        const refreshExpiration =
+          dRefreshToken['exp'] - parseInt((Date.now() / 1000).toFixed(0))
+
+        // Make a request to API server to get user
+        let user = await getUser(resp.data.access_token)
 
         res.setHeader('Set-Cookie', [
-          serialize(KeysEnum.QUESTX_TOKEN, resp.data.access_token, {
+          serialize(KeysEnum.ACCESS_TOKEN, resp.data.access_token, {
             path: '/',
-            maxAge:
-              dAccessToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
+            maxAge: accessExpiration,
           }),
           serialize(KeysEnum.REFRESH_TOKEN, resp.data.refresh_token, {
             path: '/',
-            maxAge:
-              dRefreshToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
+            maxAge: refreshExpiration,
+          }),
+          serialize(KeysEnum.USER, JSON.stringify(user || {}), {
+            path: '/',
+            maxAge: accessExpiration,
           }),
         ])
 

@@ -99,11 +99,11 @@ const SocialConnect: FunctionComponent<{
 
   switch (type) {
     case SocialType.DISCORD: // Discord
-      if (user.services?.discord) {
+      if (user && user.services && user.services.discord) {
         return (
           <SocialBox active>
             <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
-            <SocialText>{user.services?.discord}</SocialText>
+            <SocialText>{user.services.discord}</SocialText>
           </SocialBox>
         )
       }
@@ -195,8 +195,10 @@ export const General: FunctionComponent = () => {
         return toast.error(update.error)
       }
       const user = await getUserApi()
-      setUserLocal(user.data!)
-      setUser(user.data!)
+      if (user.data) {
+        setUserLocal(user.data)
+        setUser(user.data)
+      }
     } catch (error) {
       toast.error('Network error')
     } finally {

@@ -302,3 +302,7 @@ export enum ColorEnum {
   SUCCESS,
   DANGER,
 }
+export enum CarouselType {
+  QUEST,
+  COMMUNITY,
+}

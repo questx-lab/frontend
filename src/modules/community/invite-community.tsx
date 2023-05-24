@@ -242,8 +242,12 @@ const InviteCommunity: FunctionComponent<{}> = () => {
   }
 
   const onLinkWallet = async () => {
-    await signWallet()
-    await getUserData()
+    try {
+      await signWallet()
+      await getUserData()
+    } catch (err) {
+      // Do nothing here.
+    }
   }
 
   const getUserData = async () => {
@@ -252,8 +256,10 @@ const InviteCommunity: FunctionComponent<{}> = () => {
       if (user.error) {
         toast.error(user.error)
       } else {
-        setUser(user.data!)
-        setUserLocal(user.data!)
+        if (user.data) {
+          setUser(user.data)
+          setUserLocal(user.data)
+        }
       }
     } catch (error) {}
   }

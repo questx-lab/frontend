@@ -88,14 +88,15 @@ const ProjectSide: FunctionComponent<{ communityId?: string }> = ({
   const projectsFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectsFollowing
   )
-  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
   const projectCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectCollab
   )
 
   if (
-    !isLogin ||
+    !user ||
+    !Object.values(user).length ||
     (projectsFollowing.length === 0 && projectCollab.length === 0)
   ) {
     return <></>

@@ -270,7 +270,7 @@ const handleSubmit = async (
       validations.answer = state.anwser
       break
     case QuestTypeEnum.QUIZ:
-      validations.quizs = state.quizzes.map((e) => ({
+      validations.quizzes = state.quizzes.map((e) => ({
         question: e.question,
         answers: e.answers,
         options: e.options,

@@ -12,7 +12,6 @@ import { getUserApi, updateUserApi } from '@/app/api/client/user'
 import { AuthEnum } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { handleMetamask } from '@/handler/auth/metamask'
-import { LoginStore } from '@/store/local/login.store'
 import { GlobalStoreModel } from '@/store/store'
 import { RequireSignal } from '@/styles/input.style'
 import { setUserLocal } from '@/utils/helper'
@@ -263,10 +262,12 @@ const RegisterForm: FunctionComponent<{
   const [loading, setLoading] = useState<boolean>(false)
 
   // data
-  const username = LoginStore.useStoreState((state) => state.username)
+  const username = useStoreState<GlobalStoreModel>((state) => state.username)
 
   // action
-  const setUsername = LoginStore.useStoreActions((action) => action.setUserName)
+  const setUsername = useStoreActions<GlobalStoreModel>(
+    (action) => action.setUserName
+  )
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   // handler
@@ -278,8 +279,10 @@ const RegisterForm: FunctionComponent<{
         return toast.error(update.error)
       }
       const user = await getUserApi()
-      setUserLocal(user.data!)
-      setUser(user.data!)
+      if (user.data) {
+        setUserLocal(user.data)
+        setUser(user.data)
+      }
       setOpen(false)
     } catch (error) {
       toast.error('Network error')
@@ -340,7 +343,9 @@ const RegisterForm: FunctionComponent<{
 
 const RegisterBox: FunctionComponent = () => {
   // action
-  const setAuthBox = LoginStore.useStoreActions((action) => action.setAuthBox)
+  const setAuthBox = useStoreActions<GlobalStoreModel>(
+    (action) => action.setAuthBox
+  )
 
   return (
     <BoxContent>
@@ -413,9 +418,8 @@ const LoginBox: FunctionComponent = () => {
   }
 
   // action
-  const setAuthBox = LoginStore.useStoreActions((action) => action.setAuthBox)
-  const setLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setLogin
+  const setAuthBox = useStoreActions<GlobalStoreModel>(
+    (action) => action.setAuthBox
   )
 
   return (
@@ -448,7 +452,7 @@ const LoginBox: FunctionComponent = () => {
         />
         {'Log in with Discord'}
       </SocialBox>
-      <SocialBox onClick={() => handleMetamask(setLogin)}>
+      <SocialBox onClick={() => handleMetamask()}>
         <Image
           width={40}
           height={40}
@@ -471,7 +475,7 @@ const Login: FunctionComponent<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   // data
-  const authBox = LoginStore.useStoreState((state) => state.authBox)
+  const authBox = useStoreState<GlobalStoreModel>((state) => state.authBox)
 
   const Content: FunctionComponent = () => {
     switch (authBox) {

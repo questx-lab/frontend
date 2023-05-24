@@ -128,6 +128,19 @@ const SubmitButton: FunctionComponent = () => {
   )
   const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
 
+  // handler
+  const onSubmit = () => {
+    handleSubmit(
+      quest,
+      fileUpload,
+      urlSubmit,
+      textSubmit,
+      replyUrlSubmit,
+      quizAnswers,
+      setLoading
+    )
+  }
+
   let block = true
 
   const onEdit = () => {
@@ -161,7 +174,7 @@ const SubmitButton: FunctionComponent = () => {
       }
       break
     case QuestTypeEnum.QUIZ:
-      if (quizAnswers.length === quest.validation_data?.quizs?.length) {
+      if (quizAnswers.length === quest.validation_data?.quizzes?.length) {
         block = false
       }
       break
@@ -172,7 +185,7 @@ const SubmitButton: FunctionComponent = () => {
     case QuestTypeEnum.TWITTER_REACTION:
     case QuestTypeEnum.TWITTER_TWEET:
       const user = getUserLocal()
-      if (user.services) {
+      if (user && user.services) {
         block = !user.services.twitter
       }
       break
@@ -187,17 +200,8 @@ const SubmitButton: FunctionComponent = () => {
           isFull
           block={block}
           loading={loading}
-          onClick={() =>
-            handleSubmit(
-              quest,
-              fileUpload,
-              urlSubmit,
-              textSubmit,
-              replyUrlSubmit,
-              quizAnswers,
-              setLoading
-            )
-          }
+          onClick={onSubmit}
+          requireLogin
         >
           {'Claim Reward'}
         </PositiveButton>
@@ -241,7 +245,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     reply,
     retweet,
     default_tweet,
-    quizs,
+    quizzes,
   } = quest.validation_data || {}
   switch (quest?.type) {
     case QuestTypeEnum.URL:
@@ -311,7 +315,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
 
       return <QuestTwitter actions={actions} />
     case QuestTypeEnum.QUIZ:
-      return <QuestQuiz quizs={quizs!} />
+      return <QuestQuiz quizzes={quizzes!} />
     case QuestTypeEnum.EMPTY:
       return <></>
     // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
