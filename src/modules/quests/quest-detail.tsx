@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 
 import { claimRewardApi } from '@/app/api/client/reward'
-import { uploadImageApi } from '@/app/api/client/upload'
 import {
   CommunityRoleEnum,
   QuestTypeEnum,
@@ -31,6 +30,7 @@ import { getUserLocal } from '@/utils/helper'
 import { QuestTwitterActionType, QuestType } from '@/utils/type'
 import { PositiveButton } from '@/widgets/button'
 
+import { uploadFile } from '@/utils/file'
 import { QuestQuiz } from './quest-quiz'
 import {
   QuestDiscord,
@@ -41,7 +41,6 @@ import {
   QuestUrl,
   QuestVisitLink,
 } from './quest-type'
-import { uploadFile } from '@/utils/file'
 
 const handleSubmit = async (
   quest: QuestType,

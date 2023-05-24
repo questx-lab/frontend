@@ -41,20 +41,7 @@ import {
   ListItem,
   ListItemPrefix,
 } from '@material-tailwind/react'
-
-const next = (
-  setCurrentStep: ActionCreator<number>,
-  currentStep: NewCommunityStep
-) => {
-  setCurrentStep(currentStep + 1)
-}
-
-const back = (
-  setCurrentStep: ActionCreator<number>,
-  currentStep: NewCommunityStep
-) => {
-  setCurrentStep(currentStep - 1)
-}
+import { uploadFile, uploadFileForCommunity } from '@/utils/file'
 
 const Body = tw.div`
   w-full
@@ -217,12 +204,17 @@ const NextButton: FunctionComponent<{ block?: boolean }> = ({
     (action) => action.setCurrentStep
   )
 
+  console.log('setCurrentStep NextButton = ', setCurrentStep)
+
   return (
     <>
       <FullWidthBtn
         disabled={block}
         block={block}
-        onClick={() => next(setCurrentStep, currentStep)}
+        onClick={() => {
+          console.log('setCurrentStep In NextButton 2 = ', setCurrentStep)
+          setCurrentStep(currentStep + 1)
+        }}
       >
         {'Next'}
       </FullWidthBtn>
@@ -242,7 +234,7 @@ const BackButton: FunctionComponent = () => {
 
   return (
     <>
-      <BackBtn onClick={() => back(setCurrentStep, currentStep)}>
+      <BackBtn onClick={() => setCurrentStep(currentStep - 1)}>
         {'Back'}
       </BackBtn>
     </>
@@ -306,7 +298,33 @@ const InputOtherThirdStep: FunctionComponent = () => {
 }
 
 const UploadImageStep: FunctionComponent = () => {
-  return <></>
+  console.log('AAAAAA UploadImageStep')
+  // data
+  const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
+
+  // action
+  const createdCommunityId = NewCommunityStore.useStoreState(
+    (state) => state.createdCommunityId
+  )
+
+  const onUploadFile = async () => {
+    const tuple = await uploadFileForCommunity(avatar[0], createdCommunityId)
+    if (tuple.error) {
+      toast.error(tuple.error)
+    } else {
+      console.log('tuple.value = ', tuple.value)
+    }
+  }
+
+  return (
+    <>
+      <LabelInput>{'UPLOAD COMMUNITY IMAGE'}</LabelInput>
+      <AvatarUpload />
+      <FullWidthBtn onClick={onUploadFile}>
+        Upload Community Profile
+      </FullWidthBtn>
+    </>
+  )
 }
 
 // ********* CREATE COMMUNITY STEP ***********
@@ -333,12 +351,17 @@ const CreateCommunityStep: FunctionComponent = () => {
   const setCurrentStep = useStoreActions<NewCommunityModel>(
     (action) => action.setCurrentStep
   )
+  console.log('setCurrentStep 1111 = ', setCurrentStep)
+  console.log('setProjectCollab 1111 = ', setProjectCollab)
+  const setCreatedCommunityId = useStoreActions<NewCommunityModel>(
+    (action) => action.setCreatedCommunityId
+  )
 
   // hook
   let [isLoading, setLoading] = useState<boolean>(false)
 
   // handler
-  const onDone = async () => {
+  const onCreateCommunity = async () => {
     setLoading(true)
     try {
       const payload: ReqNewCommunity = {
@@ -347,15 +370,25 @@ const CreateCommunityStep: FunctionComponent = () => {
       }
 
       const data = await newCommunityApi(payload)
+      console.log('data = ', data)
       if (data.error) {
         toast.error(data.error)
+      }
+      if (!data || !data.data || !data.data.id) {
+        toast.error('Cannot create new community')
       } else {
-        getMyProjects()
-        next(setCurrentStep, currentStep)
+        console.log('Moving to final step, currentStep = ', currentStep)
+        setCurrentStep(currentStep + 1)
+
+        console.log('data.data = ', data.data.id)
+        console.log(' setCreatedCommunityId = ', setCreatedCommunityId)
+        setCreatedCommunityId(data.data.id)
+        // getMyProjects()
         // router.push(RouterConst.PROJECT + data.data?.id + '/create')
       }
     } catch (error) {
       setLoading(false)
+      console.log('There is error = ', error)
       toast.error('Server error')
     }
   }
@@ -371,6 +404,7 @@ const CreateCommunityStep: FunctionComponent = () => {
         }
       }
     } catch (error) {
+      console.log('Server error = ', error)
       toast.error('Server error')
     }
   }
@@ -401,7 +435,7 @@ const CreateCommunityStep: FunctionComponent = () => {
       </WarningText>
       <HorizotalFlex>
         <BackButton />
-        <FullWidthBtn onClick={onDone}>
+        <FullWidthBtn onClick={onCreateCommunity}>
           <LoadingBtn />
         </FullWidthBtn>
       </HorizotalFlex>
@@ -567,6 +601,11 @@ const BasicInfo: FunctionComponent = () => {
     (action) => action.setDescription
   )
 
+  const setCurrentStep = useStoreActions<NewCommunityModel>(
+    (action) => action.setCurrentStep
+  )
+  console.log('setCurrentStep 0000 = ', setCurrentStep)
+
   return (
     <Main>
       <Title>{'👋 Create your community'}</Title>
@@ -600,6 +639,11 @@ const RenderStep: FunctionComponent = () => {
     (state) => state.currentStep
   )
 
+  const setCurrentStep = useStoreActions<NewCommunityModel>(
+    (action) => action.setCurrentStep
+  )
+  console.log('setCurrentStep RenderStep = ', setCurrentStep)
+
   switch (currentStep) {
     case NewCommunityStep.BEGIN:
       return <BasicInfo />
@@ -608,6 +652,7 @@ const RenderStep: FunctionComponent = () => {
     case NewCommunityStep.SECOND:
       return <CreateCommunityStep />
     case NewCommunityStep.THIRD:
+      console.log('Third step.....')
       return <UploadImageStep />
   }
 
@@ -643,18 +688,16 @@ const CreateCommunity: FunctionComponent<{
 }> = ({ setOpen }) => {
   return (
     <Wrap>
-      <NewCommunityStore.Provider>
-        <Header>
-          <RenderTitle />
-          <XMarkIcon
-            onClick={() => setOpen(false)}
-            className='w-7 h-7 cursor-pointer'
-          />
-        </Header>
-        <Body>
-          <RenderStep />
-        </Body>
-      </NewCommunityStore.Provider>
+      <Header>
+        <RenderTitle />
+        <XMarkIcon
+          onClick={() => setOpen(false)}
+          className='w-7 h-7 cursor-pointer'
+        />
+      </Header>
+      <Body>
+        <RenderStep />
+      </Body>
     </Wrap>
   )
 }

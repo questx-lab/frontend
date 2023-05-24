@@ -29,3 +29,33 @@ export async function uploadFile(
     }
   }
 }
+
+export async function uploadFileForCommunity(
+  file: File,
+  communityId: string
+): Promise<ReturnTuple<string>> {
+  let formData = new FormData()
+  if (file.length === 0) {
+    return {
+      error: 'Must upload file',
+    }
+  }
+
+  formData.append('image', file || '')
+  formData.append('community_id', communityId)
+  try {
+    const data = await uploadImageApi(formData)
+    if (data.error) {
+      return {
+        error: data.error,
+      }
+    }
+    return {
+      value: data?.data?.url || '',
+    }
+  } catch (error) {
+    return {
+      error: 'Error while upload file',
+    }
+  }
+}
