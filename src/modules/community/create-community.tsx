@@ -287,9 +287,6 @@ const CreateCommunityStep: FunctionComponent = () => {
   const setCreatedCommunityId = NewCommunityStore.useStoreActions(
     (action) => action.setCreatedCommunityId
   )
-  const setProjectCollab = useStoreActions<GlobalStoreModel>(
-    (action) => action.setProjectCollab
-  )
 
   // hook
   let [isLoading, setLoading] = useState<boolean>(false)
@@ -321,10 +318,6 @@ const CreateCommunityStep: FunctionComponent = () => {
     }
   }
 
-  const onBack = () => {
-    setCurrentStep(NewCommunityStep.FOURTH)
-  }
-
   const LoadingBtn: FunctionComponent = () => {
     if (isLoading) {
       return <MoonLoader color='#fff' loading speedMultiplier={0.8} size={25} />
@@ -350,7 +343,7 @@ const CreateCommunityStep: FunctionComponent = () => {
         {"* If you don't have a invite code, leave the input field blank."}
       </WarningText>
       <HorizotalFlex>
-        <BackBtn onClick={onBack}>{'Back'}</BackBtn>
+        <BackButton />
         <FullWidthBtn onClick={onDone}>
           <LoadingBtn />
         </FullWidthBtn>
@@ -520,19 +513,12 @@ const BasicInfo: FunctionComponent = () => {
   )
 
   //action
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
   const setTitle = NewCommunityStore.useStoreActions(
     (action) => action.setTitle
   )
   const setDescription = NewCommunityStore.useStoreActions(
     (action) => action.setDescription
   )
-
-  const onNext = () => {
-    setCurrentStep(NewCommunityStep.FIRST)
-  }
 
   return (
     <Main>
@@ -618,11 +604,6 @@ const RenderStep: FunctionComponent = () => {
   const currentStep = NewCommunityStore.useStoreState(
     (state) => state.currentStep
   )
-
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
-  console.log('RenderStep: setCurrentStep = ', setCurrentStep)
 
   switch (currentStep) {
     case NewCommunityStep.BEGIN:
