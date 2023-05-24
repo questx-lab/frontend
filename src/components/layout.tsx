@@ -159,7 +159,7 @@ export const PanelLayout: FunctionComponent<{
 }> = ({ communityId, active, children }) => {
   return (
     <Wrap>
-      <ProjectSide communityId={communityId} />
+      <ProjectSide activeCommunityId={communityId} />
       <MainPanel>
         <ControlPanel communityId={communityId} active={active} />
         <Content>{children}</Content>

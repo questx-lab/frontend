@@ -152,7 +152,7 @@ export default function CommunityGuest() {
 
   return (
     <Wrap>
-      <ProjectSide communityId={projectState.id} />
+      <ProjectSide activeCommunityId={projectState.id} />
       <Main>
         {projectState && (
           <LHeader>

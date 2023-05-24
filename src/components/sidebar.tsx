@@ -26,14 +26,14 @@ const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
 
 const RenderFollowItems: FunctionComponent<{
   projects: CommunityType[]
-  activeCommunity: CommunityType
-}> = ({ projects, activeCommunity }) => {
+  activeCommunityId: string | undefined
+}> = ({ projects, activeCommunityId }) => {
   const router = useRouter()
   const listItems =
     projects &&
     projects.map((community) => (
       <Tooltip key={community.id} content={community.name} placement='right'>
-        <ActiveAvatar active={community.id === activeCommunity.id}>
+        <ActiveAvatar active={community.id === activeCommunityId}>
           <CircleRouded
             onClick={() => router.push(RouterConst.PROJECT + community.id)}
             width={45}
@@ -54,23 +54,27 @@ const RenderFollowItems: FunctionComponent<{
 
 const RenderCollabItems: FunctionComponent<{
   collaborator: CollaboratorType[]
-  activeCommunity: CommunityType
-}> = ({ collaborator, activeCommunity }) => {
+  activeCommunityId: string | undefined
+}> = ({ collaborator, activeCommunityId }) => {
   const router = useRouter()
   const listItems =
     collaborator &&
-    collaborator.map((e) => (
+    collaborator.map((community) => (
       <Tooltip
-        key={e.community_id}
-        content={e.community.name}
+        key={community.community_id}
+        content={community.community.name}
         placement='right'
       >
-        <ActiveAvatar active={e.community_id === activeCommunity.id}>
+        <ActiveAvatar active={community.community_id === activeCommunityId}>
           <CircleRouded
-            onClick={() => router.push(RouterConst.PROJECT + e.community_id)}
+            onClick={() =>
+              router.push(RouterConst.PROJECT + community.community_id)
+            }
             width={45}
             height={45}
-            src={IMAGES_SOURCE.community_default}
+            src={
+              community.community.logo_url || IMAGES_SOURCE.community_default
+            }
             alt='logo'
           />
         </ActiveAvatar>
@@ -83,9 +87,9 @@ const RenderCollabItems: FunctionComponent<{
 
   return <BoxContent>{listItems}</BoxContent>
 }
-const ProjectSide: FunctionComponent<{ activeCommunity: CommunityType }> = ({
-  activeCommunity,
-}) => {
+const ProjectSide: FunctionComponent<{
+  activeCommunityId: string | undefined
+}> = ({ activeCommunityId }) => {
   const projectsFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectsFollowing
   )
@@ -102,11 +106,11 @@ const ProjectSide: FunctionComponent<{ activeCommunity: CommunityType }> = ({
   return (
     <Wrap>
       <RenderCollabItems
-        activeCommunity={activeCommunity}
+        activeCommunityId={activeCommunityId}
         collaborator={projectCollab}
       />
       <RenderFollowItems
-        activeCommunity={activeCommunity}
+        activeCommunityId={activeCommunityId}
         projects={projectsFollowing}
       />
     </Wrap>
