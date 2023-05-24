@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 
-import { useStoreActions } from 'easy-peasy'
+import { ActionCreator, useStoreActions } from 'easy-peasy'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import Dropzone from 'react-dropzone'
@@ -41,6 +41,20 @@ import {
   ListItem,
   ListItemPrefix,
 } from '@material-tailwind/react'
+
+const next = (
+  setCurrentStep: ActionCreator<number>,
+  currentStep: NewCommunityStep
+) => {
+  setCurrentStep(currentStep + 1)
+}
+
+const back = (
+  setCurrentStep: ActionCreator<number>,
+  currentStep: NewCommunityStep
+) => {
+  setCurrentStep(currentStep - 1)
+}
 
 const Body = tw.div`
   w-full
@@ -191,6 +205,50 @@ export const RemoveAvt = tw.button`
   px-4
 `
 
+const NextButton: FunctionComponent<{ block?: boolean }> = ({
+  block = false,
+}) => {
+  const currentStep = NewCommunityStore.useStoreState(
+    (state) => state.currentStep
+  )
+
+  // action
+  const setCurrentStep = NewCommunityStore.useStoreActions(
+    (action) => action.setCurrentStep
+  )
+
+  return (
+    <>
+      <FullWidthBtn
+        disabled={block}
+        block={block}
+        onClick={() => next(setCurrentStep, currentStep)}
+      >
+        {'Next'}
+      </FullWidthBtn>
+    </>
+  )
+}
+
+const BackButton: FunctionComponent = () => {
+  const currentStep = NewCommunityStore.useStoreState(
+    (state) => state.currentStep
+  )
+
+  // action
+  const setCurrentStep = NewCommunityStore.useStoreActions(
+    (action) => action.setCurrentStep
+  )
+
+  return (
+    <>
+      <BackBtn onClick={() => back(setCurrentStep, currentStep)}>
+        {'Back'}
+      </BackBtn>
+    </>
+  )
+}
+
 const InputOtherFirstStep: FunctionComponent = () => {
   // data
   const stageCheckBoxQuiz = NewCommunityStore.useStoreState(
@@ -259,9 +317,6 @@ const FifthStep: FunctionComponent = () => {
   )
 
   // action
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
   const setInviteCode = NewCommunityStore.useStoreActions(
     (action) => action.setInviteCode
   )
@@ -310,10 +365,6 @@ const FifthStep: FunctionComponent = () => {
     }
   }
 
-  const onBack = () => {
-    setCurrentStep(NewCommunityStep.FOURTH)
-  }
-
   const LoadingBtn: FunctionComponent = () => {
     if (isLoading) {
       return <MoonLoader color='#fff' loading speedMultiplier={0.8} size={25} />
@@ -339,7 +390,7 @@ const FifthStep: FunctionComponent = () => {
         {"* If you don't have a invite code, leave the input field blank."}
       </WarningText>
       <HorizotalFlex>
-        <BackBtn onClick={onBack}>{'Back'}</BackBtn>
+        <BackButton />
         <FullWidthBtn onClick={onDone}>
           <LoadingBtn />
         </FullWidthBtn>
@@ -359,9 +410,6 @@ const FourthStep: FunctionComponent = () => {
   )
 
   // action
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
   const setDiscordUrl = NewCommunityStore.useStoreActions(
     (action) => action.setDiscordUrl
   )
@@ -371,14 +419,6 @@ const FourthStep: FunctionComponent = () => {
 
   // hook
   const [social, setSocial] = useState<string>(ConnectSocialPlatformEnum.NONE)
-
-  // handler
-  const onNext = () => {
-    setCurrentStep(NewCommunityStep.FIFTH)
-  }
-  const onBack = () => {
-    setCurrentStep(NewCommunityStep.THIRD)
-  }
 
   const InputUrl: FunctionComponent = () => {
     switch (social) {
@@ -435,10 +475,8 @@ const FourthStep: FunctionComponent = () => {
       <InputUrl />
 
       <HorizotalFlex>
-        <BackBtn onClick={onBack}>{'Back'}</BackBtn>
-        <FullWidthBtn disabled={block} block={block} onClick={onNext}>
-          {'Next'}
-        </FullWidthBtn>
+        <BackButton />
+        <NextButton block={block} />
       </HorizotalFlex>
     </Main>
   )
@@ -459,18 +497,7 @@ const ThirdStep: FunctionComponent = () => {
     (action) => action.setTypeShareQuiz
   )
 
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
-
   // handler
-  const onNext = () => {
-    setCurrentStep(NewCommunityStep.FOURTH)
-  }
-
-  const onBack = () => {
-    setCurrentStep(NewCommunityStep.SECOND)
-  }
   const renderItems = Array.from(NewCommunityTypeShareMap.values()).map(
     (stage, i) => (
       <ListItem className='p-0' key={i}>
@@ -508,10 +535,8 @@ const ThirdStep: FunctionComponent = () => {
         <InputOtherThirdStep />
       </Card>
       <HorizotalFlex>
-        <BackBtn onClick={onBack}>{'Back'}</BackBtn>
-        <FullWidthBtn block={active} disabled={active} onClick={onNext}>
-          {'Next'}
-        </FullWidthBtn>
+        <BackButton />
+        <NextButton block={active} />
       </HorizotalFlex>
     </Main>
   )
@@ -528,18 +553,6 @@ const SecondStep: FunctionComponent = () => {
   const setDescribeSizeQuiz = NewCommunityStore.useStoreActions(
     (action) => action.setDescribeSizeQuiz
   )
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
-
-  // handler
-  const onNext = () => {
-    setCurrentStep(NewCommunityStep.THIRD)
-  }
-
-  const onBack = () => {
-    setCurrentStep(NewCommunityStep.FIRST)
-  }
 
   const renderItems = Array.from(NewCommunityDescribeSizeMap.values()).map(
     (stage, i) => (
@@ -570,16 +583,19 @@ const SecondStep: FunctionComponent = () => {
         <List>{renderItems}</List>
       </Card>
       <HorizotalFlex>
-        <BackBtn onClick={onBack}>{'Back'}</BackBtn>
-        <FullWidthBtn onClick={onNext}>{'Next'}</FullWidthBtn>
+        <BackButton />
+        <NextButton />
       </HorizotalFlex>
     </Main>
   )
 }
 
 // ********* FIRST STEP ***********
-const FirstStep: FunctionComponent = () => {
+const SetNameStep: FunctionComponent = () => {
   // data
+  const currentStep = NewCommunityStore.useStoreState(
+    (state) => state.currentStep
+  )
   const stageCheckBoxQuiz = NewCommunityStore.useStoreState(
     (state) => state.stageCheckBoxQuiz
   )
@@ -713,19 +729,12 @@ const BasicInfo: FunctionComponent = () => {
   )
 
   //action
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
   const setTitle = NewCommunityStore.useStoreActions(
     (action) => action.setTitle
   )
   const setDescription = NewCommunityStore.useStoreActions(
     (action) => action.setDescription
   )
-
-  const onNext = () => {
-    setCurrentStep(NewCommunityStep.FIRST)
-  }
 
   return (
     <Main>
@@ -748,15 +757,8 @@ const BasicInfo: FunctionComponent = () => {
         rows={4}
         placeholder='The description of the quest is written here.'
       />
-      <LabelInput>{'UPLOAD COMMUNITY IMAGE'}</LabelInput>
-      <AvatarUpload />
-      <FullWidthBtn
-        disabled={title === ''}
-        block={title === ''}
-        onClick={onNext}
-      >
-        {'Next'}
-      </FullWidthBtn>
+
+      <NextButton block={title === ''} />
     </Main>
   )
 }
@@ -771,7 +773,7 @@ const RenderStep: FunctionComponent = () => {
     case NewCommunityStep.BEGIN:
       return <BasicInfo />
     case NewCommunityStep.FIRST:
-      return <FirstStep />
+      return <SetNameStep />
     case NewCommunityStep.SECOND:
       return <SecondStep />
     case NewCommunityStep.THIRD:
