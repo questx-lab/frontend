@@ -7,7 +7,7 @@ import tw from 'twin.macro'
 
 import { listCommunitiesApi } from '@/app/api/client/community'
 import { RouterConst } from '@/constants/router.const'
-import { RewardsData, StorageConst } from '@/constants/storage.const'
+import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/modules/community/community-box'
 import { CommunityType } from '@/utils/type'
 import { NegativeButton } from '@/widgets/button'
@@ -130,6 +130,45 @@ const SocialLogin = styled(Image)(tw`
   3xl:h-[40px]
 `)
 
+type RewardDataType = {
+  name: string
+  des: string
+  image: string
+}
+
+enum RewardBoxEnum {
+  JOIN_COMMUNITY,
+  X_A_QUEST,
+  EARN_REWARD,
+}
+
+const RewardMapData = new Map<RewardBoxEnum, RewardDataType>([
+  [
+    RewardBoxEnum.JOIN_COMMUNITY,
+    {
+      name: 'Join a Community',
+      des: 'Join a vibrant community, connect with like-minded individuals, and unlock endless possibilities for collaboration and growth.',
+      image: StorageConst.JOIN_COMMUNITY.src,
+    },
+  ],
+  [
+    RewardBoxEnum.X_A_QUEST,
+    {
+      name: 'X a Quest',
+      des: 'Take on the challenge, push your limits, and triumph over obstacles. Dare to X a Quest and achieve greatness!',
+      image: StorageConst.X_A_QUEST.src,
+    },
+  ],
+  [
+    RewardBoxEnum.EARN_REWARD,
+    {
+      name: 'Earn Reward',
+      des: 'Unlock exciting incentives and reap the rewards of your accomplishments. Embrace the journey and earn your well-deserved recognition. Claim your rewards now!',
+      image: StorageConst.EARN_REWARD.src,
+    },
+  ],
+])
+
 const RewardView: FunctionComponent<{
   name: string
   imgSrc: string
@@ -220,19 +259,25 @@ const LandingPage: FunctionComponent = () => {
             </HeadBox>
             <RewardSession>
               <RewardView
-                name={RewardsData[0].name}
-                des={RewardsData[0].des}
-                imgSrc={RewardsData[0].image}
+                name={
+                  RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.name ?? ''
+                }
+                des={RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.des ?? ''}
+                imgSrc={
+                  RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.image ?? ''
+                }
               />
               <RewardView
-                name={RewardsData[1].name}
-                des={RewardsData[1].des}
-                imgSrc={RewardsData[1].image}
+                name={RewardMapData.get(RewardBoxEnum.X_A_QUEST)?.name ?? ''}
+                des={RewardMapData.get(RewardBoxEnum.X_A_QUEST)?.des ?? ''}
+                imgSrc={RewardMapData.get(RewardBoxEnum.X_A_QUEST)?.image ?? ''}
               />
               <RewardView
-                name={RewardsData[2].name}
-                des={RewardsData[2].des}
-                imgSrc={RewardsData[2].image}
+                name={RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.name ?? ''}
+                des={RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.des ?? ''}
+                imgSrc={
+                  RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.image ?? ''
+                }
               />
             </RewardSession>
             <Main>

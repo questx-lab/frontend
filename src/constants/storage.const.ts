@@ -120,27 +120,3 @@ export const StorageConst = {
     alt: 'Husky',
   },
 }
-
-type RewardDataType = {
-  name: string
-  des: string
-  image: string
-}
-
-export const RewardsData: RewardDataType[] = [
-  {
-    name: 'Join a Community',
-    des: 'Join a vibrant community, connect with like-minded individuals, and unlock endless possibilities for collaboration and growth.',
-    image: StorageConst.JOIN_COMMUNITY.src,
-  },
-  {
-    name: 'X a Quest',
-    des: 'Take on the challenge, push your limits, and triumph over obstacles. Dare to X a Quest and achieve greatness!',
-    image: StorageConst.X_A_QUEST.src,
-  },
-  {
-    name: 'Earn Reward',
-    des: 'Unlock exciting incentives and reap the rewards of your accomplishments. Embrace the journey and earn your well-deserved recognition. Claim your rewards now!',
-    image: StorageConst.EARN_REWARD.src,
-  },
-]
