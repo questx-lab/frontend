@@ -236,8 +236,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     twitter_handle,
     default_reply,
     link,
-    discord_invite_url,
-    telegram_invite_url,
+    invite_url,
     like,
     reply,
     retweet,
@@ -318,9 +317,9 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
     //   return withText()
     case QuestTypeEnum.DISCORD:
-      return <QuestDiscord link={discord_invite_url || ''} />
+      return <QuestDiscord link={invite_url || ''} />
     case QuestTypeEnum.JOIN_TELEGRAM:
-      return <QuestTelegram link={telegram_invite_url || ''} />
+      return <QuestTelegram link={invite_url || ''} />
     default:
       return <></>
   }
