@@ -492,7 +492,7 @@ const QuestFrame: FunctionComponent<{
         invite_url,
         twitter_handle,
         default_tweet,
-        quizs,
+        quizzes,
         auto_validate,
         answer,
         space_url,
@@ -516,7 +516,7 @@ const QuestFrame: FunctionComponent<{
       setAnswer(answer || '')
       setSpaceUrl(space_url || '')
       setContentTwitter(default_tweet || '')
-      if (!quizs || quizs.length == 0) {
+      if (!quizzes || quizzes.length == 0) {
         setQuizzes([
           {
             id: 0,
@@ -526,7 +526,7 @@ const QuestFrame: FunctionComponent<{
           },
         ])
       } else {
-        setQuizzes(quizs)
+        setQuizzes(quizzes)
       }
 
       setInvites(number || 0)
