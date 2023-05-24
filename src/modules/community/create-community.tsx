@@ -41,6 +41,7 @@ import {
   ListItem,
   ListItemPrefix,
 } from '@material-tailwind/react'
+import { uploadCommunityLogoApi } from '@/app/api/client/upload'
 
 const Body = tw.div`
   w-full
@@ -269,6 +270,8 @@ const FifthStep: FunctionComponent = () => {
     (action) => action.setProjectCollab
   )
 
+  const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
+
   // hook
   let [isLoading, setLoading] = useState<boolean>(false)
   const router = useRouter()
@@ -286,8 +289,14 @@ const FifthStep: FunctionComponent = () => {
       if (data.error) {
         toast.error(data.error)
       } else {
+        const projectId = data?.data?.id || ''
+        let formData = new FormData()
+        const file = avatar[0]
+        formData.append('logo', file || '')
+        formData.append('project_id', projectId)
+        await uploadCommunityLogoApi(formData)
         getMyProjects()
-        router.push(RouterConst.PROJECT + data.data?.id + '/create')
+        router.push(RouterConst.PROJECT + projectId + '/create')
       }
     } catch (error) {
       setLoading(false)

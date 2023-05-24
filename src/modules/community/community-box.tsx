@@ -111,7 +111,11 @@ const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({
         <ImageProjectBox
           width={60}
           height={60}
-          src={'/images/dummy/1.svg'}
+          src={
+            community.logo_pictures
+              ? `${community.logo_pictures['56x56'].url}`
+              : '/images/dummy/4.svg'
+          }
           alt={'avatar'}
         />
         <ContentProjectBox>

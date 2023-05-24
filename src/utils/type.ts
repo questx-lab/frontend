@@ -76,6 +76,13 @@ export type CommunityType = {
   telegram?: string
   introduction?: string
   website_url?: string
+  logo_pictures?: Record<
+    string,
+    {
+      name?: string
+      url?: string
+    }
+  >
 }
 
 export type ListCommunitiesType = {

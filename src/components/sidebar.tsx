@@ -30,19 +30,27 @@ const RenderFollowItems: FunctionComponent<{
   const router = useRouter()
   const listItems =
     projects &&
-    projects.map((e) => (
-      <Tooltip key={e.id} content={e.name} placement='right'>
-        <ActiveAvatar active={e.id === communityId}>
-          <CircleRouded
-            onClick={() => router.push(RouterConst.PROJECT + e.id)}
-            width={45}
-            height={45}
-            src={'/images/dummy/4.svg'}
-            alt='logo'
-          />
-        </ActiveAvatar>
-      </Tooltip>
-    ))
+    projects.map((e) => {
+      console.log(e)
+
+      return (
+        <Tooltip key={e.id} content={e.name} placement='right'>
+          <ActiveAvatar active={e.id === communityId}>
+            <CircleRouded
+              onClick={() => router.push(RouterConst.PROJECT + e.id)}
+              width={45}
+              height={45}
+              src={
+                e.logo_pictures
+                  ? e.logo_pictures['56x56'].url || ''
+                  : '/images/dummy/4.svg'
+              }
+              alt='logo'
+            />
+          </ActiveAvatar>
+        </Tooltip>
+      )
+    })
 
   if (!projects.length) {
     return <></>
