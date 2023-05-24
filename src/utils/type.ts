@@ -1,3 +1,8 @@
+export type ReturnTuple<T> = {
+  value?: T
+  error?: string
+}
+
 export type WalletLoginRes = {
   error: number
   data: WalletData
@@ -76,6 +81,7 @@ export type CommunityType = {
   telegram?: string
   introduction?: string
   website_url?: string
+  image?: string
 }
 
 export type ListCommunitiesType = {

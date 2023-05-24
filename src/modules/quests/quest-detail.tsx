@@ -41,6 +41,7 @@ import {
   QuestUrl,
   QuestVisitLink,
 } from './quest-type'
+import { uploadFile } from '@/utils/file'
 
 const handleSubmit = async (
   quest: QuestType,
@@ -55,23 +56,11 @@ const handleSubmit = async (
   let inp = ''
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
-      let formData = new FormData()
-      if (fileUpload.length === 0) {
-        toast.error('Must upload file')
-        return
-      }
-      const file = fileUpload[0]
-      formData.append('image', file || '')
-      try {
-        const data = await uploadImageApi(formData)
-        if (data.error) {
-          toast.error(data.error)
-          return
-        }
-        inp = data?.data?.url || ''
-      } catch (error) {
-        toast.error('Error while upload file')
-        return
+      const tuple = await uploadFile(fileUpload)
+      if (tuple.error) {
+        toast.error(tuple.error)
+      } else {
+        inp = tuple.value || ''
       }
       break
     case QuestTypeEnum.URL:
