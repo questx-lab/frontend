@@ -17,10 +17,8 @@ const Content: FunctionComponent<{
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
   const localUser = isServer() ? undefined : getUserLocal()
 
-  console.log('AAA 000')
   // hook
   useEffect(() => {
-    console.log('AAA 1111 localUser = ', localUser)
     setUser(localUser)
   }, [])
 

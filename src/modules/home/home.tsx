@@ -1,16 +1,15 @@
+'use client'
 import { FunctionComponent, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
-import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
 import { listCommunitiesApi } from '@/app/api/client/community'
 import { RouterConst } from '@/constants/router.const'
 import CommunityBox from '@/modules/community/community-box'
 import { GlobalStoreModel } from '@/store/store'
-import { FullScreen } from '@/styles/common.style'
 import { CommunityType, UserType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/CategoryBox'

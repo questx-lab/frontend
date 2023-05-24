@@ -34,7 +34,6 @@ export interface GlobalStoreModel {
 
 const store = createStore<GlobalStoreModel>({
   navBar: false,
-  // user: isServer() ? undefined : getUserLocal(),
   user: undefined,
   projectsFollowing: [],
   projectCollab: [],
@@ -49,7 +48,6 @@ const store = createStore<GlobalStoreModel>({
   }),
 
   setUser: action((state, user) => {
-    console.log('Setting user = ', user)
     state.user = user
   }),
 

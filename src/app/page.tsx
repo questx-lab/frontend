@@ -10,8 +10,6 @@ import { GlobalStoreModel } from '@/store/store'
 
 const Content: FunctionComponent = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  console.log('AAA 2222 user = ', user)
-
   if (user) {
     return <HomePage />
   }

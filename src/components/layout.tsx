@@ -90,7 +90,6 @@ export const Layout = ({
 
   // Called only once to load initial data.
   useEffect(() => {
-    console.log('user = ', user)
     if (user) {
       getProjectsFollowing()
       getMyProjects()

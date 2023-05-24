@@ -53,7 +53,6 @@ export const getUserLocal = (): UserType | undefined => {
     // Try to get user from cookie
     if (hasCookie(KeysEnum.USER)) {
       const userCookie = getCookie(KeysEnum.USER)
-      console.log('userCookie = ', userCookie)
       if (userCookie) {
         return JSON.parse(userCookie.toString())
       }
