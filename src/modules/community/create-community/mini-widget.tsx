@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 import tw from 'twin.macro'
 
 import { NewCommunityStore } from '@/store/local/new-community.store'
-import { FullWidthBtn } from '@/styles/button.style'
+import { PositiveButton } from '@/widgets/button'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 
 export const Main = tw(Vertical)`
@@ -50,17 +50,15 @@ export const NextButton: FunctionComponent<{ block?: boolean }> = ({
   )
 
   return (
-    <>
-      <FullWidthBtn
-        disabled={block}
-        block={block}
-        onClick={() => {
-          setCurrentStep(currentStep + 1)
-        }}
-      >
-        {'Next'}
-      </FullWidthBtn>
-    </>
+    <PositiveButton
+      isFull={true}
+      block={block}
+      onClick={() => {
+        setCurrentStep(currentStep + 1)
+      }}
+    >
+      {'Next'}
+    </PositiveButton>
   )
 }
 
@@ -75,10 +73,6 @@ export const BackButton: FunctionComponent = () => {
   )
 
   return (
-    <>
-      <BackBtn onClick={() => setCurrentStep(currentStep - 1)}>
-        {'Back'}
-      </BackBtn>
-    </>
+    <BackBtn onClick={() => setCurrentStep(currentStep - 1)}>{'Back'}</BackBtn>
   )
 }

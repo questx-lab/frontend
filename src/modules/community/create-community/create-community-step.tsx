@@ -5,18 +5,18 @@ import toast from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
 
 import { newCommunityApi } from '@/app/api/client/community'
-import { NewCommunityStore } from '@/store/local/new-community.store'
-import tw from 'twin.macro'
-import { Vertical } from '@/widgets/orientation'
-import { ReqNewCommunity } from '@/utils/type'
-import { FullWidthBtn } from '@/styles/button.style'
 import {
   BackButton,
   HorizotalFlex,
   Title,
 } from '@/modules/community/create-community/mini-widget'
+import { NewCommunityStore } from '@/store/local/new-community.store'
 import { LabelInput } from '@/styles/input.style'
+import { ReqNewCommunity } from '@/utils/type'
+import { PositiveButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
+import { Vertical } from '@/widgets/orientation'
+import tw from 'twin.macro'
 
 const Main = tw(Vertical)`
   gap-5
@@ -62,7 +62,7 @@ export const CreateCommunityStep: FunctionComponent = () => {
   )
 
   // hook
-  let [isLoading, setLoading] = useState<boolean>(false)
+  let [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
 
   // handler
@@ -92,7 +92,7 @@ export const CreateCommunityStep: FunctionComponent = () => {
   }
 
   const LoadingBtn: FunctionComponent = () => {
-    if (isLoading) {
+    if (loading) {
       return <MoonLoader color='#fff' loading speedMultiplier={0.8} size={25} />
     }
     return <>{'Done'}</>
@@ -117,9 +117,9 @@ export const CreateCommunityStep: FunctionComponent = () => {
       </WarningText>
       <HorizotalFlex>
         <BackButton />
-        <FullWidthBtn onClick={onDone}>
-          <LoadingBtn />
-        </FullWidthBtn>
+        <PositiveButton isFull={true} loading={loading} onClick={onDone}>
+          Done
+        </PositiveButton>
       </HorizotalFlex>
     </Main>
   )
