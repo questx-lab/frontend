@@ -115,8 +115,6 @@ const UserPopover: FunctionComponent = () => {
     clearLocalStorage()
   }
 
-  console.log('user', user)
-
   return (
     <PopWrap>
       <Popover.Button className={'outline-0'}>
