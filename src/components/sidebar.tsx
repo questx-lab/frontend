@@ -69,7 +69,7 @@ const RenderCollabItems: FunctionComponent<{
             onClick={() => router.push(RouterConst.PROJECT + e.community_id)}
             width={45}
             height={45}
-            src={'/images/dummy/4.svg'}
+            src={'/images/community_default_avatar.svg'}
             alt='logo'
           />
         </ActiveAvatar>
@@ -94,11 +94,7 @@ const ProjectSide: FunctionComponent<{ communityId?: string }> = ({
     (state) => state.projectCollab
   )
 
-  if (
-    !user ||
-    !Object.values(user).length ||
-    (projectsFollowing.length === 0 && projectCollab.length === 0)
-  ) {
+  if (!user || (projectsFollowing.length === 0 && projectCollab.length === 0)) {
     return <></>
   }
 
