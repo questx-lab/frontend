@@ -351,8 +351,6 @@ const handleSubmit = async (
   try {
     let data
     if (editId && editId != '') {
-      console.log('editId', editId)
-
       data = await updateQuestApi(payload)
     } else data = await newQuestApi(payload)
     if (data.error) {
