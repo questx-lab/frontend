@@ -32,7 +32,7 @@ export default function UserProfileTab({ userId }: { userId: string }) {
   }, [])
 
   const handleLogout = () => {
-    setUser({})
+    setUser(undefined)
     delCookies()
     clearLocalStorage()
   }

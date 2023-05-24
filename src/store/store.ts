@@ -7,10 +7,12 @@ import {
   RefferalType,
   UserType,
 } from '@/utils/type'
+import { getUserLocal } from '@/utils/helper'
+import { isServer } from '@/app/api/config/api'
 
 export interface GlobalStoreModel {
   navBar: boolean
-  user: UserType
+  user: UserType | undefined
   projectsFollowing: CommunityType[]
   projectsTrending: CommunityType[]
   projectCollab: CollaboratorType[]
@@ -32,7 +34,7 @@ export interface GlobalStoreModel {
 
 const store = createStore<GlobalStoreModel>({
   navBar: false,
-  user: {},
+  user: undefined,
   projectsFollowing: [],
   projectCollab: [],
   projectsTrending: [],

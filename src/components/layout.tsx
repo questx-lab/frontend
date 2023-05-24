@@ -3,7 +3,7 @@ import { FunctionComponent, ReactNode, useEffect } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Head from 'next/head'
 import { useRouter } from 'next/navigation'
-import { toast, Toaster } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import {
@@ -11,14 +11,13 @@ import {
   getMyCommunitiesApi,
 } from '@/app/api/client/community'
 import { getMyReferralInfoApi } from '@/app/api/client/reward'
-import { getUserApi } from '@/app/api/client/user'
 import Header from '@/components/header'
 import Login from '@/modules/login/login'
 import ControlPanel from '@/modules/new-quest/control-panel'
 import { GlobalStoreModel } from '@/store/store'
 import { Html, Main } from '@/styles/layout.style'
 import { ModalBox } from '@/styles/modal.style'
-import { getAccessToken, getRefreshToken, setUserLocal } from '@/utils/helper'
+import { getAccessToken, getRefreshToken } from '@/utils/helper'
 import { BaseModal } from '@/widgets/modal'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 
@@ -89,39 +88,14 @@ export const Layout = ({
     (action) => action.setShowLoginModal
   )
 
-  const router = useRouter()
+  // Called only once to load initial data.
   useEffect(() => {
-    const refreshToken = getRefreshToken()
-    const accessToken = getAccessToken()
-
-    if (refreshToken && !accessToken) {
-      handleInit()
+    if (user) {
+      getProjectsFollowing()
+      getMyProjects()
+      getMyReferralInfo()
     }
-
-    if (accessToken) {
-      if (user && !Object.keys(user).length) {
-        handleInit()
-      }
-    } else {
-      setUser({})
-      // router.push(RouterConst.EXPLORE)
-    }
-  }, [router])
-
-  const handleInit = () => {
-    getUserData()
-    getProjectsFollowing()
-    getMyProjects()
-    getMyReferralInfo()
-  }
-
-  const getUserData = async () => {
-    try {
-      const user = await getUserApi()
-      setUserLocal(user.data!)
-      setUser(user.data!)
-    } catch (error) {}
-  }
+  }, [user])
 
   const getMyReferralInfo = async () => {
     try {

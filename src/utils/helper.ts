@@ -5,9 +5,9 @@ import { KeysEnum } from '@/constants/key.const'
 import { UserType } from '@/utils/type'
 
 export const getAccessToken = (): string => {
-  const exist = hasCookie(KeysEnum.QUESTX_TOKEN)
+  const exist = hasCookie(KeysEnum.ACCESS_TOKEN)
   if (exist) {
-    const rs = getCookie(KeysEnum.QUESTX_TOKEN)
+    const rs = getCookie(KeysEnum.ACCESS_TOKEN)
     return rs!.toString()
   }
   return ''
@@ -24,13 +24,14 @@ export const getRefreshToken = (): string => {
 
 export const delCookies = () => {
   deleteCookie(KeysEnum.AUTH_SESSION)
-  deleteCookie(KeysEnum.QUESTX_TOKEN)
+  deleteCookie(KeysEnum.ACCESS_TOKEN)
   deleteCookie(KeysEnum.REFRESH_TOKEN)
+  deleteCookie(KeysEnum.USER)
 }
 
 export const setAccessToken = (cookie: string) => {
   const dToken: any = jwt(cookie)
-  setCookie(KeysEnum.QUESTX_TOKEN, cookie, {
+  setCookie(KeysEnum.ACCESS_TOKEN, cookie, {
     maxAge: dToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
   })
 }
@@ -46,9 +47,21 @@ export const setUserLocal = (data: UserType) => {
   localStorage.setItem('user', JSON.stringify(data))
 }
 
-export const getUserLocal = (): UserType => {
+export const getUserLocal = (): UserType | undefined => {
   const user = localStorage.getItem('user')
-  return JSON.parse(user || '{}')
+  if (!user) {
+    // Try to get user from cookie
+    if (hasCookie(KeysEnum.USER)) {
+      const userCookie = getCookie(KeysEnum.USER)
+      if (userCookie) {
+        return JSON.parse(userCookie.toString())
+      }
+    }
+
+    return undefined
+  }
+
+  return JSON.parse(user)
 }
 
 export const delUserLocal = () => {

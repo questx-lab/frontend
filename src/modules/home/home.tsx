@@ -1,16 +1,15 @@
+'use client'
 import { FunctionComponent, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
-import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
 import { listCommunitiesApi } from '@/app/api/client/community'
 import { RouterConst } from '@/constants/router.const'
 import CommunityBox from '@/modules/community/community-box'
 import { GlobalStoreModel } from '@/store/store'
-import { FullScreen } from '@/styles/common.style'
 import { CommunityType, UserType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/CategoryBox'
@@ -110,14 +109,6 @@ const HomePage: FunctionComponent = () => {
     return <></>
   }
 
-  if (loading) {
-    return (
-      <FullScreen>
-        <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />
-      </FullScreen>
-    )
-  }
-
   const onShowAllClicked = () => {
     router.push(RouterConst.COMMUNITIES)
   }
@@ -126,7 +117,11 @@ const HomePage: FunctionComponent = () => {
     <Wrap>
       <Main>
         <Title />
-        <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked}>
+        <CategoryBox
+          title='🔥 Trending Communities'
+          onClick={onShowAllClicked}
+          loading={loading}
+        >
           <CarouselList
             data={communities}
             renderItemFunc={(community: CommunityType) => {

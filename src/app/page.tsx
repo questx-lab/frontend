@@ -10,7 +10,7 @@ import { GlobalStoreModel } from '@/store/store'
 
 const Content: FunctionComponent = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  if (user && Object.values(user).length) {
+  if (user) {
     return <HomePage />
   }
 

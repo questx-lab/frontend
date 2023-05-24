@@ -279,8 +279,10 @@ const RegisterForm: FunctionComponent<{
         return toast.error(update.error)
       }
       const user = await getUserApi()
-      setUserLocal(user.data!)
-      setUser(user.data!)
+      if (user.data) {
+        setUserLocal(user.data)
+        setUser(user.data)
+      }
       setOpen(false)
     } catch (error) {
       toast.error('Network error')

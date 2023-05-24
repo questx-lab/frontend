@@ -1,18 +1,36 @@
 'use client'
-import './globals.css'
 import 'react-multi-carousel/lib/styles.css'
+import './globals.css'
 
-import { ReactNode } from 'react'
+import { FunctionComponent, ReactNode, useEffect } from 'react'
 
-import { StoreProvider } from 'easy-peasy'
+import { StoreProvider, useStoreActions } from 'easy-peasy'
 
 import StyledComponentsRegistry from '@/components/styled-components'
-import store from '@/store/store'
+import store, { GlobalStoreModel } from '@/store/store'
+import { getUserLocal } from '@/utils/helper'
+import { isServer } from '@/app/api/config/api'
+
+const Content: FunctionComponent<{
+  children: ReactNode
+}> = ({ children }) => {
+  const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
+  const localUser = isServer() ? undefined : getUserLocal()
+
+  // hook
+  useEffect(() => {
+    setUser(localUser)
+  }, [])
+
+  return <>{children}</>
+}
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <StyledComponentsRegistry>
-      <StoreProvider store={store}>{children}</StoreProvider>
+      <StoreProvider store={store}>
+        <Content>{children}</Content>
+      </StoreProvider>
     </StyledComponentsRegistry>
   )
 }
