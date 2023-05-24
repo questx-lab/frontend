@@ -41,6 +41,7 @@ import {
   ListItem,
   ListItemPrefix,
 } from '@material-tailwind/react'
+import { uploadFileForCommunity } from '@/utils/file'
 
 const Body = tw.div`
   w-full
@@ -560,9 +561,33 @@ const BasicInfo: FunctionComponent = () => {
 }
 
 const UploadImageStep: FunctionComponent = () => {
-  return <></>
-}
+  // data
+  const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
 
+  // action
+  const createdCommunityId = NewCommunityStore.useStoreState(
+    (state) => state.createdCommunityId
+  )
+
+  const onUploadFile = async () => {
+    const tuple = await uploadFileForCommunity(avatar[0], createdCommunityId)
+    if (tuple.error) {
+      toast.error(tuple.error)
+    } else {
+      console.log('tuple.value = ', tuple.value)
+    }
+  }
+
+  return (
+    <>
+      <LabelInput>{'UPLOAD COMMUNITY IMAGE'}</LabelInput>
+      <AvatarUpload />
+      <FullWidthBtn onClick={onUploadFile}>
+        Upload Community Profile
+      </FullWidthBtn>
+    </>
+  )
+}
 const RenderStep: FunctionComponent = () => {
   //data
   const currentStep = NewCommunityStore.useStoreState(
@@ -572,8 +597,7 @@ const RenderStep: FunctionComponent = () => {
   const setCurrentStep = NewCommunityStore.useStoreActions(
     (action) => action.setCurrentStep
   )
-
-  console.log('setCurrentStep = 1', setCurrentStep)
+  console.log('RenderStep: setCurrentStep = ', setCurrentStep)
 
   switch (currentStep) {
     case NewCommunityStep.BEGIN:
