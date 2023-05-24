@@ -16,12 +16,9 @@ import {
 import {
   ButtonSocialType,
   ConnectSocialPlatformEnum,
-  NewCommunityDescribeSizeMap,
   NewCommunityStage,
-  NewCommunityStageMap,
   NewCommunityStep,
   NewCommunityTypeShare,
-  NewCommunityTypeShareMap,
 } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
@@ -30,6 +27,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { FullWidthBtn } from '@/styles/button.style'
 import { LabelInput, RequireSignal } from '@/styles/input.style'
 import { SocialBtn } from '@/styles/quest-detail.style'
+import { uploadFileForCommunity } from '@/utils/file'
 import { ReqNewCommunity } from '@/utils/type'
 import { MultipleTextField, TextField } from '@/widgets/form'
 import { Horizontal, Vertical } from '@/widgets/orientation'
@@ -41,7 +39,6 @@ import {
   ListItem,
   ListItemPrefix,
 } from '@material-tailwind/react'
-import { uploadFileForCommunity } from '@/utils/file'
 
 const Body = tw.div`
   w-full
@@ -192,32 +189,50 @@ export const RemoveAvt = tw.button`
   px-4
 `
 
-const InputOtherFirstStep: FunctionComponent = () => {
-  // data
-  const stageCheckBoxQuiz = NewCommunityStore.useStoreState(
-    (state) => state.stageCheckBoxQuiz
+const NextButton: FunctionComponent<{ block?: boolean }> = ({
+  block = false,
+}) => {
+  const currentStep = NewCommunityStore.useStoreState(
+    (state) => state.currentStep
   )
-  const inputOtherStage = NewCommunityStore.useStoreState(
-    (state) => state.inputOtherStage
-  )
+
   // action
-  const setInputOtherStage = NewCommunityStore.useStoreActions(
-    (action) => action.setInputOtherStage
+  const setCurrentStep = NewCommunityStore.useStoreActions(
+    (action) => action.setCurrentStep
   )
 
-  if (stageCheckBoxQuiz === NewCommunityStage.OTHER) {
-    return (
-      <TextField
-        required
-        placeholder=''
-        value={inputOtherStage}
-        errorMsg='Please input your project currently'
-        onChange={(e) => setInputOtherStage(e.target.value)}
-      />
-    )
-  }
+  return (
+    <>
+      <FullWidthBtn
+        disabled={block}
+        block={block}
+        onClick={() => {
+          setCurrentStep(currentStep + 1)
+        }}
+      >
+        {'Next'}
+      </FullWidthBtn>
+    </>
+  )
+}
 
-  return <></>
+const BackButton: FunctionComponent = () => {
+  const currentStep = NewCommunityStore.useStoreState(
+    (state) => state.currentStep
+  )
+
+  // action
+  const setCurrentStep = NewCommunityStore.useStoreActions(
+    (action) => action.setCurrentStep
+  )
+
+  return (
+    <>
+      <BackBtn onClick={() => setCurrentStep(currentStep - 1)}>
+        {'Back'}
+      </BackBtn>
+    </>
+  )
 }
 
 const InputOtherThirdStep: FunctionComponent = () => {
@@ -436,10 +451,8 @@ const SetTwitterDiscordStep: FunctionComponent = () => {
       <InputUrl />
 
       <HorizotalFlex>
-        <BackBtn onClick={onBack}>{'Back'}</BackBtn>
-        <FullWidthBtn disabled={block} block={block} onClick={onNext}>
-          {'Next'}
-        </FullWidthBtn>
+        <BackButton />
+        <NextButton block={block} />
       </HorizotalFlex>
     </Main>
   )
@@ -549,13 +562,8 @@ const BasicInfo: FunctionComponent = () => {
       />
       <LabelInput>{'UPLOAD COMMUNITY IMAGE'}</LabelInput>
       <AvatarUpload />
-      <FullWidthBtn
-        disabled={title === ''}
-        block={title === ''}
-        onClick={onNext}
-      >
-        {'Next'}
-      </FullWidthBtn>
+
+      <NextButton block={title === ''} />
     </Main>
   )
 }
