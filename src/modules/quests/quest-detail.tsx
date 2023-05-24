@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast'
 import { claimRewardApi } from '@/app/api/client/reward'
 import { uploadImageApi } from '@/app/api/client/upload'
 import {
+  ClaimedQuestStatus,
   CommunityRoleEnum,
   QuestTypeEnum,
   TwitterEnum,
@@ -100,8 +101,22 @@ const handleSubmit = async (
     if (data.error) {
       toast.error(data.error)
       return
+    } else {
+      if (data.data === undefined) {
+        toast.error('Claim quest failed')
+        return
+      }
+      switch (data.data.status) {
+        case ClaimedQuestStatus.PENDING:
+          toast.success('Submit quest success, we will consider your submition')
+          break
+        case ClaimedQuestStatus.AUTO_REJECTED:
+          toast.error('Submit failed')
+          break
+        default:
+          toast.success('Claim reward successfully')
+      }
     }
-    toast.success('Claim reward successfully')
   } catch (error) {
     toast.error('Server error')
   } finally {
