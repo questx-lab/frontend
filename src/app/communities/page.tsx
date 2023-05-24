@@ -1,26 +1,17 @@
 'use client'
-import {
-  FunctionComponent,
-  useState,
-} from 'react';
+import { FunctionComponent, useState } from 'react'
 
-import tw from 'twin.macro';
+import tw from 'twin.macro'
 
-import Communities from '@/modules/community/communities';
-import CreateCommunity from '@/modules/community/create-community';
-import { CommunityStore } from '@/store/local/community.store';
-import {
-  Divider,
-  TitleBox,
-} from '@/styles/common.style';
-import { ModalBox } from '@/styles/quest-review.style';
-import { MainLayout } from '@/widgets/main-layout';
-import { BaseModal } from '@/widgets/modal';
-import {
-  Horizontal,
-  Vertical,
-} from '@/widgets/orientation';
-import { PlusIcon } from '@heroicons/react/24/outline';
+import Communities from '@/modules/community/communities'
+import CreateCommunity from '@/modules/community/create-community'
+import { CommunityStore } from '@/store/local/community.store'
+import { Divider, TitleBox } from '@/styles/common.style'
+import { ModalBox } from '@/styles/quest-review.style'
+import { MainLayout } from '@/widgets/main-layout'
+import { BaseModal } from '@/widgets/modal'
+import { Horizontal, Vertical } from '@/widgets/orientation'
+import { PlusIcon } from '@heroicons/react/24/outline'
 
 const Main = tw(Vertical)`
   max-sm:px-2
@@ -36,7 +27,6 @@ const SuperLargeText = tw.p`
   font-bold
   max-sm:text-2xl
 `
-
 
 const CreateProjectBtn = tw(Horizontal)`
   gap-2
