@@ -263,9 +263,12 @@ const InputOtherThirdStep: FunctionComponent = () => {
   return <></>
 }
 
-// ********* FIFTH STEP ***********
+// ********* CREATE COMMUNITY STEP ***********
 const CreateCommunityStep: FunctionComponent = () => {
   // data
+  const currentStep = NewCommunityStore.useStoreState(
+    (state) => state.currentStep
+  )
   const inviteCode = NewCommunityStore.useStoreState(
     (state) => state.inviteCode
   )
@@ -280,6 +283,9 @@ const CreateCommunityStep: FunctionComponent = () => {
   )
   const setInviteCode = NewCommunityStore.useStoreActions(
     (action) => action.setInviteCode
+  )
+  const setCreatedCommunityId = NewCommunityStore.useStoreActions(
+    (action) => action.setCreatedCommunityId
   )
   const setProjectCollab = useStoreActions<GlobalStoreModel>(
     (action) => action.setProjectCollab
@@ -301,27 +307,16 @@ const CreateCommunityStep: FunctionComponent = () => {
       const data = await newCommunityApi(payload)
       if (data.error) {
         toast.error(data.error)
+      }
+      if (!data || !data.data || !data.data.id) {
+        toast.error('Cannot create new community')
       } else {
-        getMyProjects()
-        router.push(RouterConst.PROJECT + data.data?.id + '/create')
+        setCurrentStep(currentStep + 1)
+        setCreatedCommunityId(data.data.id)
       }
     } catch (error) {
       setLoading(false)
-      toast.error('Server error')
-    }
-  }
-
-  const getMyProjects = async () => {
-    try {
-      const projects = await getMyCommunitiesApi()
-      if (projects.error) {
-        toast.error('Error when get your projects')
-      } else {
-        if (projects.data?.collaborators) {
-          setProjectCollab(projects.data?.collaborators)
-        }
-      }
-    } catch (error) {
+      console.log('There is error = ', error)
       toast.error('Server error')
     }
   }
@@ -571,11 +566,31 @@ const BasicInfo: FunctionComponent = () => {
 const UploadImageStep: FunctionComponent = () => {
   // data
   const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
-
-  // action
   const createdCommunityId = NewCommunityStore.useStoreState(
     (state) => state.createdCommunityId
   )
+
+  // action
+  const setProjectCollab = useStoreActions<GlobalStoreModel>(
+    (action) => action.setProjectCollab
+  )
+
+  const router = useRouter()
+
+  const getMyProjects = async () => {
+    try {
+      const projects = await getMyCommunitiesApi()
+      if (projects.error) {
+        toast.error('Error when get your projects')
+      } else {
+        if (projects.data?.collaborators) {
+          setProjectCollab(projects.data?.collaborators)
+        }
+      }
+    } catch (error) {
+      toast.error('Server error')
+    }
+  }
 
   const onUploadFile = async () => {
     const tuple = await uploadFileForCommunity(avatar[0], createdCommunityId)
@@ -583,6 +598,8 @@ const UploadImageStep: FunctionComponent = () => {
       toast.error(tuple.error)
     } else {
       console.log('tuple.value = ', tuple.value)
+      getMyProjects()
+      router.push(RouterConst.PROJECT + createdCommunityId + '/create')
     }
   }
 
