@@ -81,7 +81,7 @@ export type CommunityType = {
   telegram?: string
   introduction?: string
   website_url?: string
-  image?: string
+  logo_url?: string
 }
 
 export type ListCommunitiesType = {

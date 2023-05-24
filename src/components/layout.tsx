@@ -2,7 +2,6 @@ import { FunctionComponent, ReactNode, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Head from 'next/head'
-import { useRouter } from 'next/navigation'
 import { Toaster, toast } from 'react-hot-toast'
 import tw from 'twin.macro'
 
@@ -17,7 +16,6 @@ import ControlPanel from '@/modules/new-quest/control-panel'
 import { GlobalStoreModel } from '@/store/store'
 import { Html, Main } from '@/styles/layout.style'
 import { ModalBox } from '@/styles/modal.style'
-import { getAccessToken, getRefreshToken } from '@/utils/helper'
 import { BaseModal } from '@/widgets/modal'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 

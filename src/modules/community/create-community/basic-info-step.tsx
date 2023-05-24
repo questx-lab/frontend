@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react'
 
-import { AvatarUpload } from '@/modules/community/create-community/avatar-upload'
 import {
   Main,
   NextButton,
@@ -47,7 +46,6 @@ export const BasicInfo: FunctionComponent = () => {
         placeholder='The description of the quest is written here.'
       />
       <LabelInput>{'UPLOAD COMMUNITY IMAGE'}</LabelInput>
-      <AvatarUpload />
 
       <NextButton block={title === ''} />
     </Main>
