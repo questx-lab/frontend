@@ -16,16 +16,16 @@ import {
 import {
   ButtonSocialType,
   ConnectSocialPlatformEnum,
-  NewCommunityDescribeSizeMap,
   NewCommunityStage,
-  NewCommunityStageMap,
   NewCommunityStep,
   NewCommunityTypeShare,
-  NewCommunityTypeShareMap,
 } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
-import { NewCommunityStore } from '@/store/local/new-community.store'
+import {
+  NewCommunityModel,
+  NewCommunityStore,
+} from '@/store/local/new-community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { FullWidthBtn } from '@/styles/button.style'
 import { LabelInput, RequireSignal } from '@/styles/input.style'
@@ -189,7 +189,7 @@ export const UploadImgBox = tw(Horizontal)`
   gap-3
 `
 
-export const RemoveAvt = tw.button`
+const RemoveAvt = tw.button`
   text-sm
   text-danger-700
   py-1
@@ -305,9 +305,16 @@ const InputOtherThirdStep: FunctionComponent = () => {
   return <></>
 }
 
-// ********* FIFTH STEP ***********
-const FifthStep: FunctionComponent = () => {
+const UploadImageStep: FunctionComponent = () => {
+  return <></>
+}
+
+// ********* CREATE COMMUNITY STEP ***********
+const CreateCommunityStep: FunctionComponent = () => {
   // data
+  const currentStep = NewCommunityStore.useStoreState(
+    (state) => state.currentStep
+  )
   const inviteCode = NewCommunityStore.useStoreState(
     (state) => state.inviteCode
   )
@@ -323,10 +330,12 @@ const FifthStep: FunctionComponent = () => {
   const setProjectCollab = useStoreActions<GlobalStoreModel>(
     (action) => action.setProjectCollab
   )
+  const setCurrentStep = useStoreActions<NewCommunityModel>(
+    (action) => action.setCurrentStep
+  )
 
   // hook
   let [isLoading, setLoading] = useState<boolean>(false)
-  const router = useRouter()
 
   // handler
   const onDone = async () => {
@@ -342,7 +351,8 @@ const FifthStep: FunctionComponent = () => {
         toast.error(data.error)
       } else {
         getMyProjects()
-        router.push(RouterConst.PROJECT + data.data?.id + '/create')
+        next(setCurrentStep, currentStep)
+        // router.push(RouterConst.PROJECT + data.data?.id + '/create')
       }
     } catch (error) {
       setLoading(false)
@@ -369,12 +379,12 @@ const FifthStep: FunctionComponent = () => {
     if (isLoading) {
       return <MoonLoader color='#fff' loading speedMultiplier={0.8} size={25} />
     }
-    return <>{'Done'}</>
+    return <>{'Create Community'}</>
   }
 
   return (
     <Main>
-      <Title>{'How did you hear of us?'}</Title>
+      <Title>{'How did you hear about us?'}</Title>
       <DescriptionText>
         {
           "Enter someone else's invite code so they can claim a reward. After creating a community, you can also have these codes."
@@ -399,8 +409,8 @@ const FifthStep: FunctionComponent = () => {
   )
 }
 
-// ********* FOURTH STEP ***********
-const FourthStep: FunctionComponent = () => {
+// ********* SET TWITTER DISCORD STEP ***********
+const SetTwitterDiscordStep: FunctionComponent = () => {
   // data
   const discordUrl = NewCommunityStore.useStoreState(
     (state) => state.discordUrl
@@ -482,186 +492,6 @@ const FourthStep: FunctionComponent = () => {
   )
 }
 
-// ********* THIRD STEP ***********
-const ThirdStep: FunctionComponent = () => {
-  // data
-  const typeShareQuiz = NewCommunityStore.useStoreState(
-    (state) => state.typeShareQuiz
-  )
-  const inputOtherTypeShare = NewCommunityStore.useStoreState(
-    (state) => state.inputOtherTypeShare
-  )
-
-  // action
-  const setTypeShareQuiz = NewCommunityStore.useStoreActions(
-    (action) => action.setTypeShareQuiz
-  )
-
-  // handler
-  const renderItems = Array.from(NewCommunityTypeShareMap.values()).map(
-    (stage, i) => (
-      <ListItem className='p-0' key={i}>
-        <Label htmlFor={stage}>
-          <ListItemPrefix className='mr-3'>
-            <Checkbox
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setTypeShareQuiz(i)
-                }
-              }}
-              checked={typeShareQuiz === i}
-              id={stage}
-              ripple={false}
-            />
-          </ListItemPrefix>
-          <StageTitle>{stage}</StageTitle>
-        </Label>
-      </ListItem>
-    )
-  )
-
-  const active =
-    typeShareQuiz === NewCommunityTypeShare.OTHER && inputOtherTypeShare === ''
-
-  return (
-    <Main>
-      <Title>
-        {
-          'What types of content do you plan to share with your community? (Select all that apply)'
-        }
-      </Title>
-      <Card className='w-full shadow-0'>
-        <List>{renderItems}</List>
-        <InputOtherThirdStep />
-      </Card>
-      <HorizotalFlex>
-        <BackButton />
-        <NextButton block={active} />
-      </HorizotalFlex>
-    </Main>
-  )
-}
-
-// ********* SECOND STEP ***********
-const SecondStep: FunctionComponent = () => {
-  // data
-  const describeSizeQuiz = NewCommunityStore.useStoreState(
-    (state) => state.describeSizeQuiz
-  )
-
-  // action
-  const setDescribeSizeQuiz = NewCommunityStore.useStoreActions(
-    (action) => action.setDescribeSizeQuiz
-  )
-
-  const renderItems = Array.from(NewCommunityDescribeSizeMap.values()).map(
-    (stage, i) => (
-      <ListItem className='p-0' key={i}>
-        <Label htmlFor={stage}>
-          <ListItemPrefix className='mr-3'>
-            <Checkbox
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setDescribeSizeQuiz(i)
-                }
-              }}
-              checked={describeSizeQuiz === i}
-              id={stage}
-              ripple={false}
-            />
-          </ListItemPrefix>
-          <StageTitle>{stage}</StageTitle>
-        </Label>
-      </ListItem>
-    )
-  )
-
-  return (
-    <Main>
-      <Title>{'How would you describe the size of your project team?'}</Title>
-      <Card className='w-full shadow-0'>
-        <List>{renderItems}</List>
-      </Card>
-      <HorizotalFlex>
-        <BackButton />
-        <NextButton />
-      </HorizotalFlex>
-    </Main>
-  )
-}
-
-// ********* FIRST STEP ***********
-const SetNameStep: FunctionComponent = () => {
-  // data
-  const currentStep = NewCommunityStore.useStoreState(
-    (state) => state.currentStep
-  )
-  const stageCheckBoxQuiz = NewCommunityStore.useStoreState(
-    (state) => state.stageCheckBoxQuiz
-  )
-  const inputOtherStage = NewCommunityStore.useStoreState(
-    (state) => state.inputOtherStage
-  )
-
-  // action
-  const setStageCheckBoxQuiz = NewCommunityStore.useStoreActions(
-    (action) => action.setStageCheckBoxQuiz
-  )
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
-
-  // handler
-  const onNext = () => {
-    setCurrentStep(NewCommunityStep.SECOND)
-  }
-
-  const onBack = () => {
-    setCurrentStep(NewCommunityStep.BEGIN)
-  }
-
-  const renderItems = Array.from(NewCommunityStageMap.values()).map(
-    (stage, i) => (
-      <ListItem className='p-0' key={i}>
-        <Label htmlFor={stage}>
-          <ListItemPrefix className='mr-3'>
-            <Checkbox
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setStageCheckBoxQuiz(i)
-                }
-              }}
-              checked={stageCheckBoxQuiz === i}
-              id={stage}
-              ripple={false}
-            />
-          </ListItemPrefix>
-          <StageTitle>{stage}</StageTitle>
-        </Label>
-      </ListItem>
-    )
-  )
-
-  const active =
-    stageCheckBoxQuiz === NewCommunityStage.OTHER && inputOtherStage === ''
-
-  return (
-    <Main>
-      <Title>{'What stage is your project currently in?'}</Title>
-      <Card className='w-full shadow-0'>
-        <List>{renderItems}</List>
-        <InputOtherFirstStep />
-      </Card>
-      <HorizotalFlex>
-        <BackBtn onClick={onBack}>{'Back'}</BackBtn>
-        <FullWidthBtn block={active} disabled={active} onClick={onNext}>
-          {'Next'}
-        </FullWidthBtn>
-      </HorizotalFlex>
-    </Main>
-  )
-}
-
 const AvatarUpload: FunctionComponent = () => {
   // data
   const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
@@ -721,6 +551,7 @@ const AvatarUpload: FunctionComponent = () => {
   )
 }
 
+// ********* BASIC INFO ***********
 const BasicInfo: FunctionComponent = () => {
   // data
   const title = NewCommunityStore.useStoreState((state) => state.title)
@@ -773,15 +604,11 @@ const RenderStep: FunctionComponent = () => {
     case NewCommunityStep.BEGIN:
       return <BasicInfo />
     case NewCommunityStep.FIRST:
-      return <SetNameStep />
+      return <SetTwitterDiscordStep />
     case NewCommunityStep.SECOND:
-      return <SecondStep />
+      return <CreateCommunityStep />
     case NewCommunityStep.THIRD:
-      return <ThirdStep />
-    case NewCommunityStep.FOURTH:
-      return <FourthStep />
-    case NewCommunityStep.FIFTH:
-      return <FifthStep />
+      return <UploadImageStep />
   }
 
   return <BasicInfo />
