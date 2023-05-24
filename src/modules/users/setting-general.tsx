@@ -195,8 +195,10 @@ export const General: FunctionComponent = () => {
         return toast.error(update.error)
       }
       const user = await getUserApi()
-      setUserLocal(user.data!)
-      setUser(user.data!)
+      if (user.data) {
+        setUserLocal(user.data)
+        setUser(user.data)
+      }
     } catch (error) {
       toast.error('Network error')
     } finally {

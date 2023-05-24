@@ -88,30 +88,15 @@ export const Layout = ({
     (action) => action.setShowLoginModal
   )
 
-  const router = useRouter()
+  // Called only once to load initial data.
   useEffect(() => {
-    const refreshToken = getRefreshToken()
-    const accessToken = getAccessToken()
-
-    if (refreshToken && !accessToken) {
-      handleInit()
+    console.log('user = ', user)
+    if (user) {
+      getProjectsFollowing()
+      getMyProjects()
+      getMyReferralInfo()
     }
-
-    if (accessToken) {
-      if (user && !Object.keys(user).length) {
-        handleInit()
-      }
-    } else {
-      setUser({})
-      // router.push(RouterConst.EXPLORE)
-    }
-  }, [router])
-
-  const handleInit = () => {
-    getProjectsFollowing()
-    getMyProjects()
-    getMyReferralInfo()
-  }
+  }, [user])
 
   const getMyReferralInfo = async () => {
     try {

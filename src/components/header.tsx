@@ -109,7 +109,7 @@ const UserPopover: FunctionComponent = () => {
   // handler
   const handleLogout = () => {
     router.push(RouterConst.HOME)
-    setUser({})
+    setUser(undefined)
     delCookies()
     clearLocalStorage()
   }

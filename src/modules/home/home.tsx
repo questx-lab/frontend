@@ -110,14 +110,6 @@ const HomePage: FunctionComponent = () => {
     return <></>
   }
 
-  if (loading) {
-    return (
-      <FullScreen>
-        <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />
-      </FullScreen>
-    )
-  }
-
   const onShowAllClicked = () => {
     router.push(RouterConst.COMMUNITIES)
   }
@@ -126,7 +118,11 @@ const HomePage: FunctionComponent = () => {
     <Wrap>
       <Main>
         <Title />
-        <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked}>
+        <CategoryBox
+          title='🔥 Trending Communities'
+          onClick={onShowAllClicked}
+          loading={loading}
+        >
           <CarouselList
             data={communities}
             renderItemFunc={(community: CommunityType) => {

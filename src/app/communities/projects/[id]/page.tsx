@@ -21,7 +21,6 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
   const [loading, setLoading] = useState<boolean>(true)
 
   // data
-
   const projectCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectCollab
   )

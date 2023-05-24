@@ -26,6 +26,7 @@ export const delCookies = () => {
   deleteCookie(KeysEnum.AUTH_SESSION)
   deleteCookie(KeysEnum.ACCESS_TOKEN)
   deleteCookie(KeysEnum.REFRESH_TOKEN)
+  deleteCookie(KeysEnum.USER)
 }
 
 export const setAccessToken = (cookie: string) => {
@@ -52,6 +53,7 @@ export const getUserLocal = (): UserType | undefined => {
     // Try to get user from cookie
     if (hasCookie(KeysEnum.USER)) {
       const userCookie = getCookie(KeysEnum.USER)
+      console.log('userCookie = ', userCookie)
       if (userCookie) {
         return JSON.parse(userCookie.toString())
       }

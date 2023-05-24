@@ -95,7 +95,8 @@ const ProjectSide: FunctionComponent<{ communityId?: string }> = ({
   )
 
   if (
-    (user && !Object.values(user).length) ||
+    !user ||
+    !Object.values(user).length ||
     (projectsFollowing.length === 0 && projectCollab.length === 0)
   ) {
     return <></>

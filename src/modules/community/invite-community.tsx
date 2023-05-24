@@ -256,8 +256,10 @@ const InviteCommunity: FunctionComponent<{}> = () => {
       if (user.error) {
         toast.error(user.error)
       } else {
-        setUser(user.data!)
-        setUserLocal(user.data!)
+        if (user.data) {
+          setUser(user.data)
+          setUserLocal(user.data)
+        }
       }
     } catch (error) {}
   }
