@@ -1,10 +1,12 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 
 import { claimRewardApi } from '@/app/api/client/reward'
+import { getMyFollowerInfoApi } from '@/app/api/client/community'
+
 import {
   ClaimedQuestStatus,
   CommunityRoleEnum,
@@ -41,7 +43,9 @@ import {
   QuestTwitter,
   QuestUrl,
   QuestVisitLink,
+  QuestInvites,
 } from './quest-type'
+import { EnvVariables } from '@/constants/env.const'
 
 const handleSubmit = async (
   quest: QuestType,
@@ -219,6 +223,9 @@ const SubmitButton: FunctionComponent = () => {
       )
   }
 }
+const generateInviteLink = (code: string): string => {
+  return `${EnvVariables.NEXTAUTH_URL}/invites/${code}`
+}
 
 const generateTweetLink = (defaultTweet: string): string => {
   return `https://twitter.com/compose/tweet?text=${defaultTweet}`
@@ -238,6 +245,8 @@ const generateReplyLink = (
 }
 
 const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+  const [inviteCode, setInviteCode] = useState<string>('')
+
   const {
     tweet_url,
     twitter_handle,
@@ -250,6 +259,28 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     default_tweet,
     quizzes,
   } = quest.validation_data || {}
+
+  const fetchMyFollowerInfo = async () => {
+    try {
+      const resp = await getMyFollowerInfoApi(quest.community_id || '')
+      if (resp.error) {
+        toast.error(resp.error)
+        return
+      }
+      if (!resp.data) {
+        toast.error('Can not get follower info')
+        return
+      }
+      setInviteCode(resp.data.invite_code || '')
+    } catch (error) {
+      toast.error(error as string)
+    }
+  }
+  useEffect(() => {
+    if (quest && quest.type === QuestTypeEnum.INVITES) {
+      fetchMyFollowerInfo()
+    }
+  }, [])
   switch (quest?.type) {
     case QuestTypeEnum.URL:
       return <QuestUrl />
@@ -259,6 +290,8 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
       return <QuestText />
     case QuestTypeEnum.VISIT_LINK:
       return <QuestVisitLink link={link || ''} />
+    case QuestTypeEnum.INVITES:
+      return <QuestInvites link={generateInviteLink(inviteCode) || ''} />
     // case QuestTypeEnum.QUIZ:
     //   return withQuizzes()
 

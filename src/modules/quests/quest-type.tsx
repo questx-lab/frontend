@@ -53,6 +53,8 @@ import {
   HeartIcon,
   LinkIcon,
 } from '@heroicons/react/24/outline'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { toast } from 'react-hot-toast'
 
 const WrapBtn = tw(VerticalBetween)`
   w-full
@@ -486,6 +488,30 @@ export const QuestVisitLink: FunctionComponent<{ link: string }> = ({
         </SocialBtn>
       </Link>
     </VerticalFullWidth>
+  )
+}
+
+export const QuestInvites: FunctionComponent<{ link: string }> = ({ link }) => {
+  const onCopy = () => {
+    toast.success('Copy to clipboard successfully')
+  }
+  return (
+    <CopyToClipboard text={link} onCopy={onCopy}>
+      <div className='flex justify-between w-full'>
+        <div>
+          Invite link:
+          <div className='text-info-700'> {link} </div>
+        </div>
+        <div>
+          <Image
+            width={30}
+            height={30}
+            src={StorageConst.COPY_ICON.src}
+            alt={StorageConst.COPY_ICON.alt}
+          />
+        </div>
+      </div>
+    </CopyToClipboard>
   )
 }
 
