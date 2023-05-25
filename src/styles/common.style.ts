@@ -1,6 +1,7 @@
-import { Horizontal, Vertical } from '@/widgets/orientation'
 import styled, { CSSProperties } from 'styled-components'
 import tw from 'twin.macro'
+
+import { Horizontal, Vertical } from '@/widgets/orientation'
 
 type GapProps = {
   width?: number
@@ -187,4 +188,20 @@ export const FullScreen = tw.div`
   flex
   justify-center
   items-center
+`
+export const Main = tw(Vertical)`
+  max-sm:px-2
+  md:px-8
+  xl:w-[980px]
+  pb-[30px]
+  w-full
+`
+
+export const TitleBox = tw(Horizontal)`
+  max-sm:px-2
+  md:px-8
+  xl:w-[980px]
+  py-6
+  w-full
+  justify-between
 `

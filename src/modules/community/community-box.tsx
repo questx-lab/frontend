@@ -96,7 +96,7 @@ const Title = tw.p`
   font-medium
   text-lg
   max-lg:text-lg
-  3xl:text-4xl
+  3xl:text-xl
 `
 
 const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({

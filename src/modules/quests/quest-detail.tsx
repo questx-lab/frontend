@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react'
-
+import { useRouter } from 'next/navigation'
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
@@ -98,6 +98,7 @@ const handleSubmit = async (
 }
 
 const SubmitButton: FunctionComponent = () => {
+  const router = useRouter()
   // hook
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -129,6 +130,10 @@ const SubmitButton: FunctionComponent = () => {
   }
 
   let block = true
+
+  const onEdit = () => {
+    router.push(`/quests/${quest.id}/edit`)
+  }
 
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
@@ -193,7 +198,7 @@ const SubmitButton: FunctionComponent = () => {
     default:
       return (
         <WrapBtn>
-          <EditButton> {'Edit'} </EditButton>
+          <EditButton onClick={onEdit}> {'Edit'} </EditButton>
           <DeleteBtn> {'Delete'} </DeleteBtn>
         </WrapBtn>
       )
@@ -223,8 +228,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     twitter_handle,
     default_reply,
     link,
-    discord_invite_url,
-    telegram_invite_url,
+    invite_url,
     like,
     reply,
     retweet,
@@ -305,9 +309,9 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
     //   return withText()
     case QuestTypeEnum.DISCORD:
-      return <QuestDiscord link={discord_invite_url || ''} />
+      return <QuestDiscord link={invite_url || ''} />
     case QuestTypeEnum.JOIN_TELEGRAM:
-      return <QuestTelegram link={telegram_invite_url || ''} />
+      return <QuestTelegram link={invite_url || ''} />
     default:
       return <></>
   }

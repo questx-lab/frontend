@@ -15,11 +15,18 @@ import { toast } from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { getCommunityApi } from '@/app/api/client/community'
-import { newQuestApi } from '@/app/api/client/quest'
+import {
+  newQuestApi,
+  getQuestApi,
+  updateQuestApi,
+} from '@/app/api/client/quest'
 import {
   QuestStatusEnum,
   QuestTypeEnum,
   TwitterEnum,
+  QuestRecurrencesStringMap,
+  QuestRecurrence,
+  QuestTypeMap,
 } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
@@ -83,7 +90,8 @@ const CreateQuestLabel: FunctionComponent<{
 const ButtonSubmit: FunctionComponent<{
   setIsOpen: (e: boolean) => any
   id: string
-}> = ({ setIsOpen, id }) => {
+  editId: string
+}> = ({ setIsOpen, id, editId = '' }) => {
   const store = NewQuestStore.useStore()
   const router = useRouter()
   const title = NewQuestStore.useStoreState((state) => state.title)
@@ -105,9 +113,13 @@ const ButtonSubmit: FunctionComponent<{
   )
   const anwser = NewQuestStore.useStoreState((state) => state.anwser)
 
-  const submitAction = async (status: string) => {
+  const submitAction = async (
+    status: string,
+    community_id: string,
+    editId: string
+  ) => {
     setIsOpen(true)
-    const rs = await handleSubmit(store, id, status)
+    const rs = await handleSubmit(store, id, status, editId)
     if (rs) {
       router.push(RouterConst.PROJECT + id)
     } else {
@@ -206,14 +218,14 @@ const ButtonSubmit: FunctionComponent<{
       <NegativeButton
         isFull
         block={disable}
-        onClick={() => submitAction(QuestStatusEnum.DRAFT)}
+        onClick={() => submitAction(QuestStatusEnum.DRAFT, id, editId)}
       >
         {'Draft'}
       </NegativeButton>
       <PositiveButton
         isFull
         block={disable}
-        onClick={() => submitAction(QuestStatusEnum.ACTIVE)}
+        onClick={() => submitAction(QuestStatusEnum.ACTIVE, id, editId)}
       >
         {'Publish'}
       </PositiveButton>
@@ -231,8 +243,9 @@ const errorMessage = (state: StateMapper<FilterActionTypes<NewQuestModel>>) => {
 
 const handleSubmit = async (
   store: Store<NewQuestModel, EasyPeasyConfig<undefined, {}>>,
-  id: string,
-  status: string
+  community_id: string,
+  status: string,
+  editId: string
 ): Promise<boolean> => {
   const state = store.getState()
   const error = errorMessage(state)
@@ -314,7 +327,8 @@ const handleSubmit = async (
   }
 
   const payload: ReqNewQuestType = {
-    community_id: id,
+    id: editId,
+    community_id: community_id,
     type,
     title: state.title,
     description: state.description,
@@ -335,7 +349,10 @@ const handleSubmit = async (
   }
 
   try {
-    const data = await newQuestApi(payload)
+    let data
+    if (editId && editId != '') {
+      data = await updateQuestApi(payload)
+    } else data = await newQuestApi(payload)
     if (data.error) {
       toast.error(data.error)
     }
@@ -349,13 +366,17 @@ const handleSubmit = async (
 }
 
 const QuestFrame: FunctionComponent<{
-  id: string
+  id: string // edit mean quest_id and create is project_id
   isTemplate?: boolean
-}> = ({ id, isTemplate = false }) => {
+  isEdit?: boolean
+}> = ({ id, isTemplate = false, isEdit = false }) => {
   const router = useRouter()
 
   // Data
   const title = NewQuestStore.useStoreState((state) => state.title)
+  const project = NewQuestStore.useStoreState((state) => state.project)
+  const description = NewQuestStore.useStoreState((state) => state.description)
+
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   // Actions
@@ -370,14 +391,171 @@ const QuestFrame: FunctionComponent<{
     (action) => action.setProject
   )
 
+  const setRecurrence = NewQuestStore.useStoreActions(
+    (actions) => actions.setRecurrence
+  )
+
+  const setQuestType = NewQuestStore.useStoreActions(
+    (actions) => actions.setQuestType
+  )
+
+  const setTextAutoValidation = NewQuestStore.useStoreActions(
+    (actions) => actions.setTextAutoValidation
+  )
+  const setAnswer = NewQuestStore.useStoreActions(
+    (actions) => actions.setAnswer
+  )
+  const setVisitLink = NewQuestStore.useStoreActions(
+    (actions) => actions.setVisitLink
+  )
+  const setTelegramLink = NewQuestStore.useStoreActions(
+    (actions) => actions.setTelegramLink
+  )
+  const setInvites = NewQuestStore.useStoreActions(
+    (actions) => actions.setInvites
+  )
+
+  const setActionTwitter = NewQuestStore.useStoreActions(
+    (actions) => actions.setActionTwitter
+  )
+  const setAccountLink = NewQuestStore.useStoreActions(
+    (actions) => actions.setAccountLink
+  )
+  const setTweetUrl = NewQuestStore.useStoreActions(
+    (actions) => actions.setTweetUrl
+  )
+  const setReplyTwitter = NewQuestStore.useStoreActions(
+    (actions) => actions.setReplyTwitter
+  )
+  const setContentTwitter = NewQuestStore.useStoreActions(
+    (actions) => actions.setContentTwitter
+  )
+  const setTwitterType = NewQuestStore.useStoreActions(
+    (actions) => actions.setTwitterType
+  )
+  const setSpaceUrl = NewQuestStore.useStoreActions(
+    (actions) => actions.setSpaceUrl
+  )
+
+  const setActiveReward = NewQuestStore.useStoreActions(
+    (actions) => actions.setActiveReward
+  )
+  const setPointReward = NewQuestStore.useStoreActions(
+    (actions) => actions.setPointReward
+  )
+
+  const setQuizzes = NewQuestStore.useStoreActions(
+    (action) => action.setQuizzes
+  )
+
   useEffect(() => {
-    fetchProject()
+    if (isEdit) {
+      fetchQuestByID(id)
+    } else {
+      fetchProjectByID(id)
+    }
   }, [])
 
-  const fetchProject = async () => {
+  const fetchProjectByID = async (id: string) => {
     try {
       const rs = await getCommunityApi(id)
       setProject(rs.data!.community)
+      // setLoading(false)
+    } catch (error) {
+      toast.error('Error while fetch project')
+      // setLoading(false)
+    }
+  }
+
+  const fetchQuestByID = async (id: string) => {
+    try {
+      const res = await getQuestApi(id)
+      const {
+        community_id,
+        title,
+        type,
+        description,
+        recurrence,
+        rewards,
+        validation_data,
+      } = res.data || {}
+
+      const {
+        tweet_url,
+        like,
+        reply,
+        retweet,
+        default_reply,
+        link,
+        invite_url,
+        twitter_handle,
+        default_tweet,
+        quizzes,
+        auto_validate,
+        answer,
+        space_url,
+        number,
+      } = validation_data || {}
+
+      onTitleChanged(title || '')
+
+      onDescriptionChanged(description || '')
+      setRecurrence(
+        QuestRecurrencesStringMap.get(recurrence || '') || QuestRecurrence.ONCE
+      )
+      setTweetUrl(tweet_url || '')
+      setQuestType(QuestTypeMap.get(type || '') || QuestTypeEnum.URL)
+      fetchProjectByID(community_id || '')
+      setVisitLink(link || '')
+      setTelegramLink(invite_url || '')
+      setAccountLink(twitter_handle || '')
+      setReplyTwitter(default_reply || '')
+      setTextAutoValidation(auto_validate || true)
+      setAnswer(answer || '')
+      setSpaceUrl(space_url || '')
+      setContentTwitter(default_tweet || '')
+      if (!quizzes || quizzes.length == 0) {
+        setQuizzes([
+          {
+            id: 0,
+            question: '',
+            answers: [],
+            options: [],
+          },
+        ])
+      } else {
+        setQuizzes(quizzes)
+      }
+
+      setInvites(number || 0)
+      if (rewards) {
+        for (let i = 0; i < rewards?.length; i++) {
+          const val = rewards[i]
+          if (val.type === 'point') {
+            setPointReward(val.data.points ?? 0)
+          }
+        }
+      }
+
+      switch (type) {
+        case QuestTypeEnum.TWITTER_FOLLOW:
+        case QuestTypeEnum.TWITTER_TWEET:
+        case QuestTypeEnum.TWITTER_JOIN_SPACE:
+        case QuestTypeEnum.TWITTER_REACTION:
+          setTwitterType(type)
+          break
+
+        default:
+          break
+      }
+
+      let actions: TwitterEnum[] = []
+      if (like) actions.push(TwitterEnum.LIKE)
+      if (reply) actions.push(TwitterEnum.REPLY)
+      if (retweet) actions.push(TwitterEnum.RETWEET)
+
+      setActionTwitter(actions)
+
       // setLoading(false)
     } catch (error) {
       toast.error('Error while fetch project')
@@ -408,7 +586,10 @@ const QuestFrame: FunctionComponent<{
                 />
                 <Gap />
                 <Label>{'QUEST DESCRIPTION'}</Label>
-                <Editor onChange={(value) => onDescriptionChanged(value)} />
+                <Editor
+                  onChange={(value) => onDescriptionChanged(value)}
+                  value={description}
+                />
               </PICard>
             </ICard>
             <Gap height={8} />
@@ -419,7 +600,11 @@ const QuestFrame: FunctionComponent<{
             <Recurrence />
             <Gap height={8} />
 
-            <ButtonSubmit setIsOpen={setIsOpen} id={id} />
+            <ButtonSubmit
+              setIsOpen={setIsOpen}
+              id={project.id}
+              editId={isEdit ? id : ''}
+            />
           </CCard>
           <QuestReward />
         </CBox>

@@ -60,10 +60,7 @@ export const LoginBtn = tw.button`
   border
   border-gray-300
   border-solid
-  3xl:text-3xl
-  3xl:py-4
-  3xl:px-12
-  3xl:rounded-2xl
+  3xl:text-xl
 `
 
 export const SignUpBtn = tw.button`
@@ -76,10 +73,7 @@ export const SignUpBtn = tw.button`
   px-6
   rounded-lg
   max-lg:hidden
-  3xl:text-3xl
-  3xl:py-4
-  3xl:px-12
-  3xl:rounded-2xl
+  3xl:text-xl
 `
 
 export const AuthBox = tw(Horizontal)`

@@ -11,6 +11,7 @@ import tw from 'twin.macro'
 
 import { getUserApi, updateUserApi } from '@/app/api/client/user'
 import { StorageConst } from '@/constants/storage.const'
+import { signWallet } from '@/handler/auth/metamask'
 import { UserStore } from '@/store/local/user.store'
 import { GlobalStoreModel } from '@/store/store'
 import { setUserLocal } from '@/utils/helper'
@@ -85,6 +86,9 @@ const SocialConnect: FunctionComponent<{
 }> = ({ logoSrc, logoAlt, type }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
+  // action
+  const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
+
   const signInTwitter = async () => {
     await signIn('twitter')
   }
@@ -95,6 +99,29 @@ const SocialConnect: FunctionComponent<{
 
   const signInGoogle = async () => {
     await signIn('google')
+  }
+
+  const onLinkWallet = async () => {
+    try {
+      await signWallet()
+      await getUserData()
+    } catch (err) {
+      // Do nothing here.
+    }
+  }
+
+  const getUserData = async () => {
+    try {
+      const user = await getUserApi()
+      if (user.error) {
+        toast.error(user.error)
+      } else {
+        if (user.data) {
+          setUser(user.data)
+          setUserLocal(user.data)
+        }
+      }
+    } catch (error) {}
   }
 
   switch (type) {
@@ -114,7 +141,7 @@ const SocialConnect: FunctionComponent<{
         </SocialBox>
       )
     case SocialType.TWITTER: // Twitter
-      if (user.services?.twitter) {
+      if (user && user.services && user.services?.twitter) {
         return (
           <SocialBox active>
             <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
@@ -130,7 +157,7 @@ const SocialConnect: FunctionComponent<{
       )
 
     case SocialType.GOOGLE: // Google
-      if (user.services?.google) {
+      if (user && user.services && user.services?.google) {
         return (
           <SocialBox active>
             <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
@@ -146,7 +173,7 @@ const SocialConnect: FunctionComponent<{
       )
 
     default: // Metamask
-      if (user.address !== '') {
+      if (user && user.address !== '') {
         return (
           <SocialBox active>
             <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
@@ -155,7 +182,7 @@ const SocialConnect: FunctionComponent<{
         )
       }
       return (
-        <SocialBox>
+        <SocialBox onClick={onLinkWallet}>
           <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
           <SocialText>{`Connect ${type}`}</SocialText>
         </SocialBox>

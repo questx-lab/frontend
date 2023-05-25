@@ -10,27 +10,11 @@ import { listCommunitiesApi } from '@/app/api/client/community'
 import { RouterConst } from '@/constants/router.const'
 import CommunityBox from '@/modules/community/community-box'
 import { GlobalStoreModel } from '@/store/store'
+import { Main } from '@/styles/common.style'
 import { CommunityType, UserType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/CategoryBox'
-import { Vertical } from '@/widgets/orientation'
-
-const Wrap = tw(Vertical)`
-  min-h-screen
-  pt-[70px]
-  max-md:px-8
-  md:px-16
-  lg:px-32
-  2xl:px-48
-  3xl:px-64
-`
-
-const Main = tw(Vertical)`
-  pt-8
-  pb-[30px]
-  gap-4
-  w-full
-`
+import { VerticalFullWidthCenter } from '@/widgets/orientation'
 
 const WrapProjects = tw.div`
   grid
@@ -49,6 +33,10 @@ const TitleBox = tw.div`
   text-2xl
   font-medium
   text-gray-900
+`
+
+const Wrap = tw(VerticalFullWidthCenter)`
+  pt-[90px]
 `
 
 const HomePage: FunctionComponent = () => {

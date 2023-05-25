@@ -7,8 +7,8 @@ import tw from 'twin.macro'
 import { listQuestApi } from '@/app/api/client/quest'
 import { QuestListView } from '@/modules/quests/quest-list'
 import { CommunityStore } from '@/store/local/community.store'
-import { Divider } from '@/styles/common.style'
-import { TitleBox, WrapQuestboard } from '@/styles/questboard.style'
+import { Divider, Main, TitleBox } from '@/styles/common.style'
+import { WrapQuestboard } from '@/styles/questboard.style'
 import { QuestType } from '@/utils/type'
 import { MainLayout } from '@/widgets/main-layout'
 import { Horizontal, Vertical } from '@/widgets/orientation'
@@ -32,16 +32,6 @@ const FFitlerBox = tw(Horizontal)`
   py-2 px-3
   rounded-lg
   items-center
-`
-
-const Main = tw(Vertical)`
-  max-md:px-8
-  md:px-16
-  lg:px-32
-  2xl:px-48
-  3xl:px-64
-  pb-[30px]
-  w-full
 `
 
 export default function QuestCamp() {

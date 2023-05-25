@@ -95,6 +95,7 @@ export type ReqNewRoleCommunity = {
 }
 
 export type ReqNewQuestType = {
+  id: string
   community_id: string
   type: string
   title: string
@@ -155,10 +156,13 @@ export interface QuestType {
     retweet?: boolean
     default_reply?: string
     link?: string
-    discord_invite_url?: string
-    telegram_invite_url?: string
+    invite_url?: string
     twitter_handle?: string
     default_tweet?: string
+    auto_validate?: boolean
+    answer?: string
+    space_url?: string
+    number?: number
     quizzes?: QuestQuizType[]
   }
 }

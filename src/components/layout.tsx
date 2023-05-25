@@ -58,7 +58,6 @@ export const LayoutDefault = ({ children }: { children: ReactNode }) => {
 export const Layout = ({
   children,
   isApp = true,
-  isFull = true,
 }: {
   children: ReactNode
   isApp?: boolean
@@ -139,7 +138,7 @@ export const Layout = ({
       <body>
         <Main>
           <div className='overflow-scroll'>{children}</div>
-          <Header isFull={isFull} isApp={isApp} />
+          <Header isApp={isApp} />
         </Main>
         <Toaster position='top-center' reverseOrder={false} />
         <BaseModal isOpen={showLoginModal}>

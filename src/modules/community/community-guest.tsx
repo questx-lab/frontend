@@ -13,23 +13,21 @@ import { CommunityStore } from '@/store/local/community.store'
 import { LeaderboardStore } from '@/store/local/leaderboard.store'
 import { GlobalStoreModel } from '@/store/store'
 import { PFollow } from '@/styles/button.style'
-import { CloseIcon, Divider, EndWrap, Gap } from '@/styles/common.style'
+import { CloseIcon, Divider, EndWrap, Gap, Main } from '@/styles/common.style'
 import { MDialog } from '@/styles/home.style'
 import {
   LHBox,
   LHDes,
-  LHeader,
   LHInfoA,
   LHTitle,
   LHTitleBox,
+  LHeader,
   LLbox,
-  LogoP,
   LUImg,
   LUWrap2,
-  Main,
+  LogoP,
   QTCard,
   QTWrapC,
-  Wrap,
 } from '@/styles/leaderboard.style'
 import {
   LDDP,
@@ -40,6 +38,7 @@ import {
 } from '@/styles/modal.style'
 import { CardBox } from '@/styles/questboard.style'
 import { CommunityType } from '@/utils/type'
+import { MainLayout } from '@/widgets/main-layout'
 import { LargeText, NormalText } from '@/widgets/text'
 import { Transition } from '@headlessui/react'
 
@@ -151,7 +150,7 @@ export default function CommunityGuest() {
   ))
 
   return (
-    <Wrap>
+    <MainLayout>
       <ProjectSide activeCommunityId={projectState.id} />
       <Main>
         {projectState && (
@@ -252,6 +251,6 @@ export default function CommunityGuest() {
           </ModalWrap>
         </MDialog>
       </Transition>
-    </Wrap>
+    </MainLayout>
   )
 }

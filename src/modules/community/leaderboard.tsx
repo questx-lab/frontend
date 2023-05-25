@@ -31,6 +31,7 @@ export const TabWrap = tw.div`
   bg-white
   border-gray-200
   overflow-y-scroll
+  max-lg:hidden
 `
 
 export const TabBox = tw.div`

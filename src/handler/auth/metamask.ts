@@ -40,7 +40,12 @@ const linkWallet = async (
     const data = await loginMetamask(account)
     const w3 = new Web3(ethereum as provider)
     const signature = await w3.eth.personal.sign(data.data.nonce, account, '')
-    await linkWalletApi(signature)
+    const rs = await linkWalletApi(signature)
+    if (rs.error) {
+      toast(rs.error)
+    } else {
+      toast.success('Link wallet success')
+    }
   } catch (error) {
     toast.error('Error when connect to account')
   }
