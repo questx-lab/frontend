@@ -221,37 +221,6 @@ export enum NewCommunityTypeShare {
   OTHER,
 }
 
-export const NewCommunityStageMap = new Map<NewCommunityStage, string>([
-  [NewCommunityStage.IDEA, 'Idea/Concept stage'],
-  [NewCommunityStage.DEVELOPMENT, 'Development stage'],
-  [NewCommunityStage.TESTING, 'Beta testing stage'],
-  [NewCommunityStage.LAUNCH, 'Launch/Deployment stage'],
-  [NewCommunityStage.OTHER, 'Other'],
-])
-
-export const NewCommunityDescribeSizeMap = new Map<
-  NewCommunityDescribeSize,
-  string
->([
-  [NewCommunityDescribeSize.SOLO, 'Solo developer'],
-  [NewCommunityDescribeSize.SMALL, 'Small team (2-5 members)'],
-  [NewCommunityDescribeSize.MEDIUM, 'Medium-sized team (6-10 members)'],
-  [NewCommunityDescribeSize.LARGE, 'Large team (11+ members)'],
-])
-
-export const NewCommunityTypeShareMap = new Map<NewCommunityTypeShare, string>([
-  [NewCommunityTypeShare.PROJECT, 'Project updates and milestones'],
-  [NewCommunityTypeShare.EDUCATION, 'Educational articles and tutorials'],
-  [NewCommunityTypeShare.COMMUNITY, 'Community spotlights and success stories'],
-  [NewCommunityTypeShare.DEVELOPMENT, 'Behind-the-scenes development insights'],
-  [
-    NewCommunityTypeShare.EVENT,
-    'Event announcements and participation opportunities',
-  ],
-  [NewCommunityTypeShare.CONTENT, 'Memes and light-hearted content'],
-  [NewCommunityTypeShare.OTHER, 'Other'],
-])
-
 export enum NewCommunityStep {
   BEGIN,
   FIRST,

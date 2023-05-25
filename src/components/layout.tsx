@@ -2,7 +2,7 @@ import { FunctionComponent, ReactNode, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Head from 'next/head'
-import { toast, Toaster } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import {
@@ -158,7 +158,7 @@ export const PanelLayout: FunctionComponent<{
 }> = ({ communityId, active, children }) => {
   return (
     <Wrap>
-      <ProjectSide communityId={communityId} />
+      <ProjectSide activeCommunityId={communityId} />
       <MainPanel>
         <ControlPanel communityId={communityId} active={active} />
         <Content>{children}</Content>

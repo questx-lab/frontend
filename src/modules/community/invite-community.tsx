@@ -149,7 +149,9 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({
   setScreen,
 }) => {
   // data
-  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+  const user: UserType | undefined = useStoreState<GlobalStoreModel>(
+    (state) => state.user
+  )
   const referral: RefferalType = useStoreState<GlobalStoreModel>(
     (state) => state.referral
   )
@@ -171,6 +173,7 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({
   }
 
   if (
+    user &&
     user.address !== '' &&
     referral.total_claimable_communities &&
     referral.total_claimable_communities !== 0

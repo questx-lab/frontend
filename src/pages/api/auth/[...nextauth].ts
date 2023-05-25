@@ -16,7 +16,9 @@ import { KeysEnum, Oauth2ProviderEnum } from '@/constants/key.const'
 import { Rsp, UserType } from '@/utils/type'
 import axios from 'axios'
 
-const getUser = async (accessToken: string): Promise<Rsp<UserType>> => {
+const getUser = async (
+  accessToken: string
+): Promise<Rsp<UserType> | undefined> => {
   const result = await axios.get(EnvVariables.NEXT_PUBLIC_API_URL + '/getMe', {
     headers: {
       'Content-Type': 'application/json',
@@ -24,7 +26,12 @@ const getUser = async (accessToken: string): Promise<Rsp<UserType>> => {
     },
   })
 
-  return result.data
+  let data = result.data
+  if (data && data.code == 0) {
+    return data.data
+  }
+
+  return undefined
 }
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
@@ -104,10 +111,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         const refreshExpiration =
           dRefreshToken['exp'] - parseInt((Date.now() / 1000).toFixed(0))
 
-        // Make a request to API server to get user
-        let user = await getUser(resp.data.access_token)
-
-        res.setHeader('Set-Cookie', [
+        let headers = [
           serialize(KeysEnum.ACCESS_TOKEN, resp.data.access_token, {
             path: '/',
             maxAge: accessExpiration,
@@ -116,11 +120,20 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             path: '/',
             maxAge: refreshExpiration,
           }),
-          serialize(KeysEnum.USER, JSON.stringify(user || {}), {
-            path: '/',
-            maxAge: accessExpiration,
-          }),
-        ])
+        ]
+
+        // Make a request to API server to get user
+        let user = await getUser(resp.data.access_token)
+        if (user) {
+          headers.push(
+            serialize(KeysEnum.USER, JSON.stringify(user || {}), {
+              path: '/',
+              maxAge: accessExpiration,
+            })
+          )
+        }
+
+        res.setHeader('Set-Cookie', headers)
 
         return token
       },

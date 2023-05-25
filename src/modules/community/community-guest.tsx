@@ -18,14 +18,14 @@ import { MDialog } from '@/styles/home.style'
 import {
   LHBox,
   LHDes,
-  LHeader,
   LHInfoA,
   LHTitle,
   LHTitleBox,
+  LHeader,
   LLbox,
-  LogoP,
   LUImg,
   LUWrap2,
+  LogoP,
   QTCard,
   QTWrapC,
 } from '@/styles/leaderboard.style'
@@ -151,7 +151,7 @@ export default function CommunityGuest() {
 
   return (
     <MainLayout>
-      <ProjectSide communityId={projectState.id} />
+      <ProjectSide activeCommunityId={projectState.id} />
       <Main>
         {projectState && (
           <LHeader>

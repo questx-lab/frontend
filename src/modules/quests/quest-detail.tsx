@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 
 import { claimRewardApi } from '@/app/api/client/reward'
-import { uploadImageApi } from '@/app/api/client/upload'
 import {
   CommunityRoleEnum,
   QuestTypeEnum,
@@ -31,6 +30,7 @@ import { getUserLocal } from '@/utils/helper'
 import { QuestTwitterActionType, QuestType } from '@/utils/type'
 import { PositiveButton } from '@/widgets/button'
 
+import { uploadFile } from '@/utils/file'
 import { QuestQuiz } from './quest-quiz'
 import {
   QuestDiscord,
@@ -55,23 +55,11 @@ const handleSubmit = async (
   let inp = ''
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
-      let formData = new FormData()
-      if (fileUpload.length === 0) {
-        toast.error('Must upload file')
-        return
-      }
-      const file = fileUpload[0]
-      formData.append('image', file || '')
-      try {
-        const data = await uploadImageApi(formData)
-        if (data.error) {
-          toast.error(data.error)
-          return
-        }
-        inp = data?.data?.url || ''
-      } catch (error) {
-        toast.error('Error while upload file')
-        return
+      const tuple = await uploadFile(fileUpload)
+      if (tuple.error) {
+        toast.error(tuple.error)
+      } else {
+        inp = tuple.value || ''
       }
       break
     case QuestTypeEnum.URL:

@@ -12,6 +12,7 @@ import { MainLayout } from '@/widgets/main-layout'
 import { BaseModal } from '@/widgets/modal'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { PlusIcon } from '@heroicons/react/24/outline'
+import { NewCommunityStore } from '@/store/local/new-community.store'
 
 const Main = tw(Vertical)`
   max-sm:px-2
@@ -73,7 +74,9 @@ export default function MyProjects() {
 
       <BaseModal isOpen={isOpen}>
         <ModalBox>
-          <CreateCommunity setOpen={setOpen} />
+          <NewCommunityStore.Provider>
+            <CreateCommunity setOpen={setOpen} />
+          </NewCommunityStore.Provider>
         </ModalBox>
       </BaseModal>
     </MainLayout>

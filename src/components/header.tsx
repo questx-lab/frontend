@@ -105,6 +105,7 @@ const UserPopover: FunctionComponent = () => {
   // data
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
+  // action
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   // handler
