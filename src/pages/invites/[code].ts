@@ -1,10 +1,12 @@
-import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { ParsedUrlQuery } from 'querystring'
 import { getInviteApi } from '@/app/api/client/community'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const code = context?.params?.code as string
+  const params = context.params || {}
+  const code = params.code
   try {
-    const resp = await getInviteApi(code)
+    const resp = await getInviteApi(code as string)
 
     if (resp.error) {
       return {
