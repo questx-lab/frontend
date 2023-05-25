@@ -41,7 +41,7 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
 
   useEffect(() => {
     setInviteBy(searchParams.get('invited_by') as string)
-  }, [searchParams?.get('invited_by')])
+  }, [searchParams.get('invited_by')])
 
   // hook
   useEffect(() => {

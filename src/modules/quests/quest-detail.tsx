@@ -267,13 +267,17 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
         toast.error(resp.error)
         return
       }
-      setInviteCode(resp.data?.invite_code || '')
+      if (!resp.data) {
+        toast.error('Can not get follower info')
+        return
+      }
+      setInviteCode(resp.data.invite_code || '')
     } catch (error) {
       toast.error(error as string)
     }
   }
   useEffect(() => {
-    if (quest?.type === QuestTypeEnum.INVITES) {
+    if (quest && quest.type === QuestTypeEnum.INVITES) {
       fetchMyFollowerInfo()
     }
   }, [])

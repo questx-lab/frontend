@@ -8,7 +8,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const resp = await getInviteApi(code as string)
 
-    if (resp.error) {
+    if (resp.error || !resp.data) {
       return {
         redirect: {
           permanent: false,
@@ -17,8 +17,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     }
 
-    const communityId = resp.data?.community.id
-    const userId = resp.data?.user.id
+    const communityId = resp.data.community.id
+    const userId = resp.data.user.id
     return {
       redirect: {
         permanent: false,
