@@ -262,6 +262,8 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
 
   const fetchMyFollowerInfo = async () => {
     const resp = await getMyFollowerInfoApi(quest.community_id || '')
+    console.log(resp)
+
     setInviteCode(resp.data?.invite_code || '')
   }
   useEffect(() => {

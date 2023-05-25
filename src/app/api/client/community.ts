@@ -166,11 +166,8 @@ export const getInviteApi = async (
     user: UserType
   }>
 > => {
-  const resp = await axios.post(
-    EnvVariables.NEXT_PUBLIC_API_URL + '/getInvite',
-    {
-      invite_code: inviteCode,
-    }
+  const resp = await axios.get(
+    EnvVariables.NEXT_PUBLIC_API_URL + `/getInvite?invite_code=${inviteCode}`
   )
   return resp.data
 }

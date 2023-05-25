@@ -5,6 +5,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const code = context?.params?.code as string
   try {
     const resp = await getInviteApi(code)
+    console.log(resp)
+
     if (resp.error) {
       return {
         redirect: {
