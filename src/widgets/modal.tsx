@@ -55,7 +55,7 @@ export const BasicModal: FunctionComponent<{
       <ModalBox>
         <ModalContent className={styled}>
           <MDHead>
-            {title}
+            {title || <div></div>}
             <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} />
           </MDHead>
           {children}

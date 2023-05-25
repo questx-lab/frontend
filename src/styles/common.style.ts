@@ -195,6 +195,7 @@ export const Main = tw(Vertical)`
   xl:w-[980px]
   pb-[30px]
   w-full
+  gap-6
 `
 
 export const TitleBox = tw(Horizontal)`

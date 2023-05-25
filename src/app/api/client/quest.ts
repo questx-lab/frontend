@@ -111,10 +111,11 @@ export const updateAllClaimedQuestApi = async (
 }
 
 // Templates
-export const getTemplates = async () => {
+export const getTemplatesApi = async (): Promise<
+  Rsp<{ templates: QuestType[] }>
+> => {
   const { data } = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/getTemplates`,
-    {}
+    EnvVariables.NEXT_PUBLIC_API_URL + `/getTemplates`
   )
   return data
 }

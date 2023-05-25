@@ -2,13 +2,14 @@ import { FunctionComponent, ReactNode, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Head from 'next/head'
-import { Toaster, toast } from 'react-hot-toast'
+import { toast, Toaster } from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import {
   getFollowCommunitiesApi,
   getMyCommunitiesApi,
 } from '@/app/api/client/community'
+import { getTemplatesApi } from '@/app/api/client/quest'
 import { getMyReferralInfoApi } from '@/app/api/client/reward'
 import Header from '@/components/header'
 import Login from '@/modules/login/login'
@@ -84,6 +85,9 @@ export const Layout = ({
   const setShowLoginModal = useStoreActions<GlobalStoreModel>(
     (action) => action.setShowLoginModal
   )
+  const setTemplates = useStoreActions<GlobalStoreModel>(
+    (action) => action.setTemplates
+  )
 
   // Called only once to load initial data.
   useEffect(() => {
@@ -91,6 +95,7 @@ export const Layout = ({
       getProjectsFollowing()
       getMyProjects()
       getMyReferralInfo()
+      getTemplates()
     }
   }, [user])
 
@@ -128,8 +133,20 @@ export const Layout = ({
           setProjectCollab(projects.data?.collaborators)
         }
       }
+    } catch (error) {}
+  }
+
+  const getTemplates = async () => {
+    try {
+      const data = await getTemplatesApi()
+      if (data.error) {
+        toast.error(data.error)
+      }
+      if (data.data) {
+        setTemplates(data.data.templates)
+      }
     } catch (error) {
-      toast.error('Server error')
+      toast.error('error')
     }
   }
 

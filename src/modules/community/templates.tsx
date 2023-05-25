@@ -1,15 +1,17 @@
 'use client'
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent } from 'react'
 
-import toast from 'react-hot-toast'
+import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
-import { getTemplates } from '@/app/api/client/quest'
-import { QuestCard } from '@/modules/community/quest-card'
-import { Gap } from '@/styles/common.style'
-import { HeaderText } from '@/styles/home.style'
+import { ActiveQuestStore } from '@/store/local/active-quest.store'
+import { GlobalStoreModel } from '@/store/store'
 import { QuestType } from '@/utils/type'
+import CarouselList from '@/widgets/carousel'
+import CategoryBox from '@/widgets/CategoryBox'
 import { Horizontal } from '@/widgets/orientation'
+
+import { QuestView } from '../quests/single-quest'
 
 export const Mtemplate = tw.div`
   px-16
@@ -33,42 +35,33 @@ export const SeeAllText = tw.p`
   cursor-pointer
 `
 
-export const Templates: FunctionComponent<{}> = ({}) => {
-  const [templates, setTemplates] = useState<QuestType[]>([])
+export const Templates: FunctionComponent<{
+  setOpenTemplate?: (e: boolean) => void
+}> = ({ setOpenTemplate }) => {
+  const templates = useStoreState<GlobalStoreModel>((state) => state.templates)
 
-  useEffect(() => {
-    getQuests()
-  }, [])
-
-  const getQuests = async () => {
-    try {
-      const data = await getTemplates()
-      if (data.error) {
-        toast.error(data.error)
-      }
-      if (data.data) {
-        setTemplates(data.data.quests)
-      }
-    } catch (error) {
-      toast.error('error')
-    }
+  if (templates === undefined || templates.length === 0) {
+    return <></>
   }
-
-  const cardList =
-    templates &&
-    templates.map((e, i) => (
-      <QuestCard quest={e} manage={true} isTemplate={true} key={i}></QuestCard>
-    ))
 
   return (
     <Mtemplate>
-      <MTitleBox>
-        <HeaderText>{'🌟 Templates'}</HeaderText>
-        <SeeAllText>{'See all Templates'}</SeeAllText>
-      </MTitleBox>
-      <Gap height={6} />
-
-      {cardList}
+      <CategoryBox title='🌟 Templates' onClick={() => {}}>
+        <ActiveQuestStore.Provider>
+          <CarouselList
+            data={templates}
+            renderItemFunc={(quest: QuestType) => {
+              return (
+                <QuestView
+                  quest={quest}
+                  isTemplate
+                  setOpenTemplateModel={setOpenTemplate}
+                />
+              )
+            }}
+          />
+        </ActiveQuestStore.Provider>
+      </CategoryBox>
     </Mtemplate>
   )
 }

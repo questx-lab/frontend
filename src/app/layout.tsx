@@ -6,10 +6,10 @@ import { FunctionComponent, ReactNode, useEffect } from 'react'
 
 import { StoreProvider, useStoreActions } from 'easy-peasy'
 
+import { isServer } from '@/app/api/config/api'
 import StyledComponentsRegistry from '@/components/styled-components'
 import store, { GlobalStoreModel } from '@/store/store'
 import { getUserLocal } from '@/utils/helper'
-import { isServer } from '@/app/api/config/api'
 
 const Content: FunctionComponent<{
   children: ReactNode

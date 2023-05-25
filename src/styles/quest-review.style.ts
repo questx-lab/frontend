@@ -559,4 +559,5 @@ export const NothingBox = tw.div`
   items-center
   w-full
   h-full
+  min-h-[270px]
 `

@@ -62,50 +62,52 @@ export default function ManageProject() {
   return (
     <Wrap>
       <ProjectSide activeCommunityId={project.id} />
-      <MMain>
-        <ControlPanel communityId={project.id} />
-        <CCBox>
-          <MBox>
-            <MPadding>
-              <MHeader>
-                <CHeadling>{'Quest'}</CHeadling>
-                <CardBox>
-                  <BtnUseT onClick={() => setOpenTemplate(true)}>
-                    {'Use Template'}
-                  </BtnUseT>
-                  <Gap width={4} />
-                  <PSave
-                    onClick={() =>
-                      router.push(RouterConst.PROJECT + project.id + '/create')
-                    }
-                    isBlock={false}
-                  >
-                    {'+  Create Quest'}
-                  </PSave>
-                </CardBox>
-              </MHeader>
-            </MPadding>
-            <Gap height={6} />
-            <Templates />
+      <NewQuestStore.Provider>
+        <MMain>
+          <ControlPanel communityId={project.id} />
+          <CCBox>
+            <MBox>
+              <MPadding>
+                <MHeader>
+                  <CHeadling>{'Quest'}</CHeadling>
+                  <CardBox>
+                    <BtnUseT onClick={() => setOpenTemplate(true)}>
+                      {'Use Template'}
+                    </BtnUseT>
+                    <Gap width={4} />
+                    <PSave
+                      onClick={() =>
+                        router.push(
+                          RouterConst.PROJECT + project.id + '/create'
+                        )
+                      }
+                      isBlock={false}
+                    >
+                      {'+  Create Quest'}
+                    </PSave>
+                  </CardBox>
+                </MHeader>
+              </MPadding>
+              <Gap height={6} />
+              <Templates setOpenTemplate={setOpenTemplate} />
 
-            <Gap height={6} />
-            <MPadding>
-              <Category />
-              <Quests questList={questList} show={!loading} />
-            </MPadding>
-          </MBox>
-        </CCBox>
-      </MMain>
-      <BasicModal
-        title={`🎉 Template`}
-        isOpen={openTemplate}
-        onClose={() => setOpenTemplate(false)}
-        styled='w-5/6 flex items-start'
-      >
-        <NewQuestStore.Provider>
+              <Gap height={6} />
+              <MPadding>
+                <Category />
+                <Quests questList={questList} show={!loading} />
+              </MPadding>
+            </MBox>
+          </CCBox>
+        </MMain>
+        <BasicModal
+          title={`🎉 Template`}
+          isOpen={openTemplate}
+          onClose={() => setOpenTemplate(false)}
+          styled='flex flex-col !justify-start !items-start !w-5/6'
+        >
           <QuestFrame isTemplate id={project.id} />
-        </NewQuestStore.Provider>
-      </BasicModal>
+        </BasicModal>
+      </NewQuestStore.Provider>
     </Wrap>
   )
 }
