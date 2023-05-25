@@ -5,7 +5,7 @@ import { api } from '../config/api'
 
 export const claimRewardApi = async (
   body: ReqClaimReward
-): Promise<Rsp<{ id: string }>> => {
+): Promise<Rsp<{ id: string; status: string }>> => {
   const { data } = await api.post(
     EnvVariables.NEXT_PUBLIC_API_URL + '/claim',
     body

@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactNode } from 'react'
 
-import { useStoreActions } from 'easy-peasy'
+import { useStoreActions, useStoreState } from 'easy-peasy'
 import { MoonLoader } from 'react-spinners'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -96,11 +96,13 @@ export const PositiveButton: FunctionComponent<{
   width,
   requireLogin = false,
 }) => {
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+
   const setShowLoginModel = useStoreActions<GlobalStoreModel>(
     (action) => action.setShowLoginModal
   )
 
-  if (requireLogin) {
+  if (requireLogin && user === undefined) {
     return (
       <PositiveButtonStyle
         isFull={isFull}
