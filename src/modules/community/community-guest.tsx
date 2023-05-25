@@ -50,6 +50,8 @@ const FollowBtn: FunctionComponent<{
 }> = ({ project }) => {
   const [loading, setLoading] = useState<boolean>(false)
 
+  const invitedBy = CommunityStore.useStoreState((state) => state.invitedBy)
+
   // data
   const projects: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectsFollowing
@@ -68,7 +70,7 @@ const FollowBtn: FunctionComponent<{
   const handleFollow = async () => {
     setLoading(true)
     try {
-      const data = await newFollowCommunityApi(project.id)
+      const data = await newFollowCommunityApi(project.id, invitedBy)
       if (data.code === ErrorCodes.UNAUTHOR) {
         setShowLoginModal(true)
       } else {

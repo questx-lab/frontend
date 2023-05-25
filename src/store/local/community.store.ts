@@ -10,6 +10,7 @@ interface CommunityModel {
   searchProjects: CommunityType[]
   role: number
   categories: CategoryType[]
+  invitedBy: string
 
   setProject: Action<CommunityModel, CommunityType>
   setProjects: Action<CommunityModel, CommunityType[]>
@@ -17,6 +18,7 @@ interface CommunityModel {
   setSearchProjects: Action<CommunityModel, CommunityType[]>
   setRole: Action<CommunityModel, number>
   setCategories: Action<CommunityModel, CategoryType[]>
+  setInviteBy: Action<CommunityModel, string>
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
@@ -26,6 +28,7 @@ const CommunityStore = createContextStore<CommunityModel>({
   searchProjects: [],
   role: CommunityRoleEnum.GUEST,
   categories: [],
+  invitedBy: '',
 
   setProject: action((state, newProject) => {
     state.project = newProject
@@ -49,6 +52,10 @@ const CommunityStore = createContextStore<CommunityModel>({
 
   setCategories: action((state, categories) => {
     state.categories = categories
+  }),
+
+  setInviteBy: action((state, invitedBy) => {
+    state.invitedBy = invitedBy
   }),
 })
 export { CommunityStore }

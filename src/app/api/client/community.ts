@@ -9,8 +9,9 @@ import {
   ReqNewRoleCommunity,
   ReqUpdateCommunity,
   Rsp,
+  UserType,
 } from '@/utils/type'
-
+import axios from 'axios'
 import { api } from '../config/api'
 
 export const newCommunityApi = async (
@@ -89,10 +90,12 @@ export const getFollowCommunitiesApi = async (): Promise<
 }
 
 export const newFollowCommunityApi = async (
-  communityId: string
+  communityId: string,
+  invitedBy: string
 ): Promise<Rsp<{}>> => {
   const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/follow', {
     community_id: communityId,
+    invited_by: invitedBy,
   })
   return rs.data
 }
@@ -143,4 +146,21 @@ export const generateCommunityKeyApi = async (
     }
   )
   return data
+}
+
+export const getInviteApi = async (
+  inviteCode: string
+): Promise<
+  Rsp<{
+    community: CommunityType
+    user: UserType
+  }>
+> => {
+  const resp = await axios.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + '/getInvite',
+    {
+      invite_code: inviteCode,
+    }
+  )
+  return resp.data
 }
