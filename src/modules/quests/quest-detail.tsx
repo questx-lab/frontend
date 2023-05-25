@@ -261,10 +261,16 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   } = quest.validation_data || {}
 
   const fetchMyFollowerInfo = async () => {
-    const resp = await getMyFollowerInfoApi(quest.community_id || '')
-    console.log(resp)
-
-    setInviteCode(resp.data?.invite_code || '')
+    try {
+      const resp = await getMyFollowerInfoApi(quest.community_id || '')
+      if (resp.error) {
+        toast.error(resp.error)
+        return
+      }
+      setInviteCode(resp.data?.invite_code || '')
+    } catch (error) {
+      toast.error(error as string)
+    }
   }
   useEffect(() => {
     if (quest?.type === QuestTypeEnum.INVITES) {
