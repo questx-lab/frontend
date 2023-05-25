@@ -39,6 +39,51 @@ const ModelBox = tw(VerticalFullWidthCenter)`
   gap-6
 `
 
+type ClosureType = {
+  name: string
+  quests: QuestType[]
+}
+
+const RenderPanelItems: FunctionComponent<{
+  quests: QuestType[]
+  onClickItem: (e: QuestType) => void
+}> = ({ quests, onClickItem }) => {
+  if (!quests || quests.length === 0) {
+    return <Fragment />
+  }
+  const listPanel = quests.map((e) => (
+    <DisclosurePanel key={e.id} onClick={() => onClickItem(e)}>
+      <TBoardingCard>
+        <StartBoarding>
+          <TitleQuestBox>{e.title}</TitleQuestBox>
+          <Gap height={4} />
+          <DesQ>{e.description}</DesQ>
+        </StartBoarding>
+        <EndBoarding>
+          <HeaderBox>
+            <Image
+              width={25}
+              height={25}
+              src={StorageConst.POINT_ICON.src}
+              alt={StorageConst.POINT_ICON.alt}
+            />
+            <Gap width={2} />
+            <PointText>
+              {e.rewards && e.rewards.length > 0 && e.rewards[0].data.points}
+            </PointText>
+          </HeaderBox>
+          <CardBox>
+            <Card>{e.recurrence}</Card>
+            <Gap width={2} />
+          </CardBox>
+        </EndBoarding>
+      </TBoardingCard>
+    </DisclosurePanel>
+  ))
+
+  return <Fragment>{listPanel}</Fragment>
+}
+
 const Panel: FunctionComponent<{ quests: QuestType[] }> = ({ quests }) => {
   // Actions
   const setTitle = NewQuestStore.useStoreActions((actions) => actions.setTitle)
@@ -115,61 +160,55 @@ const Panel: FunctionComponent<{ quests: QuestType[] }> = ({ quests }) => {
     setQuestTemplate(quest)
   }
 
-  if (quests && quests.length !== 0) {
-    const listPanel = quests.map((e) => (
-      <DisclosurePanel key={e.id} onClick={() => onOpenModal(e)}>
-        <TBoardingCard>
-          <StartBoarding>
-            <TitleQuestBox>{e.title}</TitleQuestBox>
-            <Gap height={4} />
-            <DesQ>{e.description}</DesQ>
-          </StartBoarding>
-          <EndBoarding>
-            <HeaderBox>
-              <Image
-                width={25}
-                height={25}
-                src={StorageConst.POINT_ICON.src}
-                alt={StorageConst.POINT_ICON.alt}
-              />
-              <Gap width={2} />
-              <PointText>
-                {e.rewards && e.rewards.length > 0 && e.rewards[0].data.points}
-              </PointText>
-            </HeaderBox>
-            <CardBox>
-              <Card>{e.recurrence}</Card>
-              <Gap width={2} />
-            </CardBox>
-          </EndBoarding>
-        </TBoardingCard>
-      </DisclosurePanel>
-    ))
+  return (
+    <Fragment>
+      <RenderPanelItems quests={quests} onClickItem={onOpenModal} />
+      <BasicModal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+        styled='!h-[400px]'
+      >
+        <ModelBox>
+          <VerticalFullWidthCenter>
+            <NormalText>{'Do you want to replace this quest'}</NormalText>
+            <NormalText>{'Feel free press Use Template below'}</NormalText>
+          </VerticalFullWidthCenter>
 
-    return (
-      <Fragment>
-        {listPanel}
-        <BasicModal
-          isOpen={openModal}
-          onClose={() => setOpenModal(false)}
-          styled='!h-[400px]'
-        >
-          <ModelBox>
-            <VerticalFullWidthCenter>
-              <NormalText>{'Do you want to replace this quest'}</NormalText>
-              <NormalText>{'Feel free press Use Template below'}</NormalText>
-            </VerticalFullWidthCenter>
+          <PositiveButton onClick={onTemplate} width={SizeEnum.x48}>
+            {'Use Template'}
+          </PositiveButton>
+        </ModelBox>
+      </BasicModal>
+    </Fragment>
+  )
+}
 
-            <PositiveButton onClick={onTemplate} width={SizeEnum.x48}>
-              {'Use Template'}
-            </PositiveButton>
-          </ModelBox>
-        </BasicModal>
-      </Fragment>
-    )
+const Closures: FunctionComponent<{ closures: ClosureType[] }> = ({
+  closures,
+}) => {
+  if (closures.length === 0) {
+    return <Fragment />
   }
 
-  return <Fragment />
+  const listClosure = closures.map((e, i) => (
+    <Disclosure defaultOpen key={i} as='div'>
+      {({ open }) => (
+        <>
+          <DisclosureBtn>
+            <DisclosureTitle>{e.name}</DisclosureTitle>
+            <ChevronUpIcon
+              className={`${
+                open ? 'rotate-180 transform' : ''
+              } h-5 w-5 text-primary`}
+            />
+          </DisclosureBtn>
+          <Panel quests={e.quests} />
+        </>
+      )}
+    </Disclosure>
+  ))
+
+  return <Fragment>{listClosure}</Fragment>
 }
 
 export default function QuestTemplate() {
@@ -177,8 +216,8 @@ export default function QuestTemplate() {
     (state) => state.templates
   )
 
-  let closures: { name: string; quests: QuestType[] }[] = []
-  if (templates) {
+  let closures: ClosureType[] = []
+  if (templates && templates.length !== 0) {
     const names = Array.from(
       new Set(
         templates.map((e) => {
@@ -199,24 +238,9 @@ export default function QuestTemplate() {
     })
   }
 
-  const listClosure = closures.map((e, i) => (
-    <Disclosure defaultOpen key={i} as='div'>
-      {({ open }) => (
-        <>
-          <DisclosureBtn>
-            <DisclosureTitle>{e.name}</DisclosureTitle>
-            <ChevronUpIcon
-              className={`${
-                open ? 'rotate-180 transform' : ''
-              } h-5 w-5 text-primary`}
-            />
-          </DisclosureBtn>
-          <Panel quests={e.quests} />
-          {/* {listPanel} */}
-        </>
-      )}
-    </Disclosure>
-  ))
-
-  return <TLSide>{listClosure}</TLSide>
+  return (
+    <TLSide>
+      <Closures closures={closures} />
+    </TLSide>
+  )
 }
