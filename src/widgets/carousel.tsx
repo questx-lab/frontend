@@ -31,7 +31,7 @@ const responsive = {
   },
   mediumDesktop: {
     breakpoint: { max: 1440, min: 1025 },
-    items: 4,
+    items: 3,
   },
   tablet: {
     breakpoint: { max: 1025, min: 769 },

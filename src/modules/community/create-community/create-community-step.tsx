@@ -3,6 +3,7 @@ import { FunctionComponent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
+import tw from 'twin.macro'
 
 import { newCommunityApi } from '@/app/api/client/community'
 import {
@@ -16,7 +17,6 @@ import { ReqNewCommunity } from '@/utils/type'
 import { PositiveButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
 import { Vertical } from '@/widgets/orientation'
-import tw from 'twin.macro'
 
 const Main = tw(Vertical)`
   gap-5
@@ -86,7 +86,6 @@ export const CreateCommunityStep: FunctionComponent = () => {
       }
     } catch (error) {
       setLoading(false)
-      console.log('There is error = ', error)
       toast.error('Server error')
     }
   }

@@ -1,30 +1,18 @@
 import { useEffect, useState } from 'react'
 
-import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/app/api/client/quest'
 import { RouterConst } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
 import { Quests } from '@/modules/quests/quest-list'
 import { QuestView } from '@/modules/quests/single-quest'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
-import {
-  BoardingCard,
-  Card,
-  CardBox,
-  DesQ,
-  EndBoarding,
-  HeaderBox,
-  PointText,
-  StartBoarding,
-  TitleQuestBox,
-} from '@/styles/questboard.style'
 import { QuestType } from '@/utils/type'
-import CategoryBox from '@/widgets/CategoryBox'
 import CarouselList from '@/widgets/carousel'
+import CategoryBox from '@/widgets/CategoryBox'
 import { VerticalFullWidth } from '@/widgets/orientation'
 
 const categories = [
@@ -71,45 +59,18 @@ export default function QuestBoardTab() {
     }
   }
 
-  const listBoarding = [0, 1, 2, 3].map((e) => (
-    <BoardingCard key={e}>
-      <StartBoarding>
-        <TitleQuestBox>{'Join Discord 👾'}</TitleQuestBox>
-        <Gap height={4} />
-        <DesQ>
-          {'Get a Discord Role and introduce yourself to the community.'}
-        </DesQ>
-      </StartBoarding>
-
-      <EndBoarding>
-        <HeaderBox>
-          <Image
-            width={25}
-            height={25}
-            src={StorageConst.POINT_ICON.src}
-            alt={StorageConst.POINT_ICON.alt}
-          />
-          <Gap width={2} />
-          <PointText>{'300 Gems'}</PointText>
-        </HeaderBox>
-        <CardBox>
-          <Card>{'DAILY'}</Card>
-          <Gap width={2} />
-        </CardBox>
-      </EndBoarding>
-    </BoardingCard>
-  ))
-
   return (
     <VerticalFullWidth>
       <CategoryBox title='🔥 Trending Quests' onClick={onShowAllClicked}>
         <ActiveQuestStore.Provider>
-          <CarouselList
-            data={questList}
-            renderItemFunc={(quest: QuestType) => {
-              return <QuestView quest={quest} />
-            }}
-          />
+          <NewQuestStore.Provider>
+            <CarouselList
+              data={questList}
+              renderItemFunc={(quest: QuestType) => {
+                return <QuestView quest={quest} />
+              }}
+            />
+          </NewQuestStore.Provider>
         </ActiveQuestStore.Provider>
       </CategoryBox>
       <Gap height={6} />

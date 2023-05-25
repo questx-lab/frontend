@@ -188,7 +188,7 @@ const UserInfoBox: FunctionComponent = () => {
     }
   }, [user])
 
-  if (user && Object.values(user).length) {
+  if (user !== undefined) {
     return (
       <UserSession>
         <GiftIcon onClick={() => setInvite(true)} className='h-7 w-7' />

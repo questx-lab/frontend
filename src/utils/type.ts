@@ -149,6 +149,7 @@ export interface QuestType {
   created_at?: string
   updated_at?: string
   rewards?: RewardType[]
+  category?: CategoryType
   validation_data?: {
     tweet_url?: string
     like?: boolean

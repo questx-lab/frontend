@@ -16,7 +16,7 @@ export const Wrap = tw.div`
   h-screen
   divide-y
   divide-gray-300
-  max-lg:hidden
+  max-sm:hidden
 `
 
 export const BoxContent = tw(Vertical)`
