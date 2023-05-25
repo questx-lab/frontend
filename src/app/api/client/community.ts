@@ -100,6 +100,16 @@ export const newFollowCommunityApi = async (
   return rs.data
 }
 
+export const getMyFollowerInfoApi = async (
+  communityId: string
+): Promise<Rsp<{ invite_code: string }>> => {
+  const rs = await api.get(
+    EnvVariables.NEXT_PUBLIC_API_URL +
+      `/getMyFollowerInfo?community_id=${communityId}`
+  )
+  return rs.data
+}
+
 export const createCategoryApi = async (
   communityId: string,
   name: string

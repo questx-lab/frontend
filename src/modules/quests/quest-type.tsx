@@ -53,6 +53,7 @@ import {
   HeartIcon,
   LinkIcon,
 } from '@heroicons/react/24/outline'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 const WrapBtn = tw(VerticalBetween)`
   w-full
@@ -486,6 +487,14 @@ export const QuestVisitLink: FunctionComponent<{ link: string }> = ({
         </SocialBtn>
       </Link>
     </VerticalFullWidth>
+  )
+}
+
+export const QuestInvites: FunctionComponent<{ link: string }> = ({ link }) => {
+  return (
+    <CopyToClipboard text={link}>
+      <span>Copy to clipboard with span</span>
+    </CopyToClipboard>
   )
 }
 
