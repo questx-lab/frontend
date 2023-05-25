@@ -14,10 +14,13 @@ import { CommunityStore } from '@/store/local/community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/utils/type'
 import { Spinner } from '@/widgets/spinner'
-
+import { useSearchParams, ReadonlyURLSearchParams } from 'next/navigation'
 const ProjectBox: FunctionComponent<{ communityId: string }> = ({
   communityId,
 }) => {
+  const searchParams =
+    useSearchParams() || new ReadonlyURLSearchParams(new URLSearchParams())
+
   const [loading, setLoading] = useState<boolean>(true)
 
   // data
@@ -31,6 +34,14 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
   const setProject = CommunityStore.useStoreActions(
     (action) => action.setProject
   )
+
+  const setInviteBy = CommunityStore.useStoreActions(
+    (action) => action.setInviteBy
+  )
+
+  useEffect(() => {
+    setInviteBy(searchParams.get('invited_by') as string)
+  }, [searchParams.get('invited_by')])
 
   // hook
   useEffect(() => {
