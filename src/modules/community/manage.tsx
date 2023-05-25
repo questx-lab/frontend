@@ -61,7 +61,7 @@ export default function ManageProject() {
 
   return (
     <Wrap>
-      <ProjectSide communityId={project.id} />
+      <ProjectSide activeCommunityId={project.id} />
       <MMain>
         <ControlPanel communityId={project.id} />
         <CCBox>

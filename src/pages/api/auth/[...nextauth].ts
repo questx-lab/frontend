@@ -12,10 +12,29 @@ import {
   verifyOAuth2,
 } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
-import { KeysEnum } from '@/constants/key.const'
+import { KeysEnum, Oauth2ProviderEnum } from '@/constants/key.const'
+import { Rsp, UserType } from '@/utils/type'
+import axios from 'axios'
+
+const getUser = async (
+  accessToken: string
+): Promise<Rsp<UserType> | undefined> => {
+  const result = await axios.get(EnvVariables.NEXT_PUBLIC_API_URL + '/getMe', {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+
+  let data = result.data
+  if (data && data.code == 0) {
+    return data.data
+  }
+
+  return undefined
+}
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-  const { withDiscordServer } = req.query
   return await NextAuth(req, res, {
     providers: [
       GoogleProvider({
@@ -30,27 +49,37 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       DiscordProvider({
         clientId: EnvVariables.DISCORD_ID,
         clientSecret: EnvVariables.DISCORD_SECRET,
-        authorization:
-          withDiscordServer === 'true'
-            ? {
-                params: { permission: 268435488, scope: 'guilds bot' },
-              }
-            : {},
+      }),
+      DiscordProvider({
+        id: Oauth2ProviderEnum.DISCORD_BOT_PROVIDER,
+        clientId: EnvVariables.DISCORD_ID,
+        clientSecret: EnvVariables.DISCORD_SECRET,
+        authorization: {
+          params: {
+            permission: EnvVariables.DISCORD_PERMISSION,
+            scope: 'guilds bot',
+          },
+        },
       }),
     ],
     callbacks: {
       async jwt({ token, account }) {
-        if (account?.provider == undefined) {
+        if (
+          !account ||
+          account.provider == undefined ||
+          account.access_token == undefined
+        ) {
           return token
         }
 
-        if (account?.access_token == undefined) {
-          return token
-        }
         const url = req.cookies['next-auth.callback-url']
         const accessToken = req.cookies['access_token']
         const matcher = '.*/communities/projects/.*/create'
-        if (url && url.match(matcher)) {
+        if (
+          account.provider === Oauth2ProviderEnum.DISCORD_BOT_PROVIDER &&
+          url &&
+          url.match(matcher)
+        ) {
           const arr = url.split('/')
           const community_id = arr[arr.length - 2]
           type Guild = {
@@ -61,7 +90,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             community_id,
             guild.id,
 
-            account?.access_token,
+            account.access_token,
             accessToken || ''
           )
 
@@ -69,35 +98,42 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         }
 
         if (accessToken) {
-          const resp = await linkOAuth2(
-            account?.provider,
-            account?.access_token,
-            accessToken
-          )
-
+          await linkOAuth2(account.provider, account.access_token, accessToken)
           return token
         }
 
-        const resp = await verifyOAuth2(
-          account?.provider,
-          account?.access_token
-        )
+        const resp = await verifyOAuth2(account.provider, account.access_token)
 
         const dAccessToken: any = jwt(resp.data.access_token)
         const dRefreshToken: any = jwt(resp.data.refresh_token)
+        const accessExpiration =
+          dAccessToken['exp'] - parseInt((Date.now() / 1000).toFixed(0))
+        const refreshExpiration =
+          dRefreshToken['exp'] - parseInt((Date.now() / 1000).toFixed(0))
 
-        res.setHeader('Set-Cookie', [
-          serialize(KeysEnum.QUESTX_TOKEN, resp.data.access_token, {
+        let headers = [
+          serialize(KeysEnum.ACCESS_TOKEN, resp.data.access_token, {
             path: '/',
-            maxAge:
-              dAccessToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
+            maxAge: accessExpiration,
           }),
           serialize(KeysEnum.REFRESH_TOKEN, resp.data.refresh_token, {
             path: '/',
-            maxAge:
-              dRefreshToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
+            maxAge: refreshExpiration,
           }),
-        ])
+        ]
+
+        // Make a request to API server to get user
+        let user = await getUser(resp.data.access_token)
+        if (user) {
+          headers.push(
+            serialize(KeysEnum.USER, JSON.stringify(user || {}), {
+              path: '/',
+              maxAge: accessExpiration,
+            })
+          )
+        }
+
+        res.setHeader('Set-Cookie', headers)
 
         return token
       },

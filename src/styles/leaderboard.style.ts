@@ -15,11 +15,11 @@ export const Wrap = tw(Horizontal)`
 `
 
 export const Main = tw(VerticalFullWidth)`
-  pl-[200px]
-  pr-[480px]
-  max-2xl:pr-[320px]
-  max-2xl:pl-[120px]
-  py-5
+  max-sm:px-2
+  md:px-8
+  xl:w-[980px]
+  pb-[30px]
+  w-full
 `
 
 export const LHeader = tw(Horizontal)`
@@ -51,6 +51,7 @@ export const LHBox = tw(VerticalFullWidth)`
   h-full
   justify-center
   max-sm:items-center
+  gap-3
 `
 
 export const LHTitleBox = tw(HorizontalBetweenCenter)`

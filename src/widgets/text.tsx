@@ -1,22 +1,24 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-export const PrimaryText = styled.span<{ size?: string; isHover?: boolean }>(
-  ({ size = 'sm', isHover = false }) => [
-    tw`
+import { HorizontalCenter } from './orientation'
+
+export const PrimaryText = styled(HorizontalCenter)<{
+  size?: string
+  isHover?: boolean
+}>(({ size = 'sm', isHover = false }) => [
+  tw`
     text-primary
     font-normal
-    flex
-    flex-row
     gap-2
+    max-md:text-sm
   `,
-    size === 'xs' && tw`text-xs`,
-    size === 'sm' && tw`text-sm`,
-    size === 'lg' && tw`text-lg`,
-    size === 'xl' && tw`text-xl`,
-    isHover && tw`cursor-pointer`,
-  ]
-)
+  size === 'xs' && tw`text-xs`,
+  size === 'sm' && tw`text-sm`,
+  size === 'lg' && tw`text-lg`,
+  size === 'xl' && tw`text-xl`,
+  isHover && tw`cursor-pointer`,
+])
 
 export const LightText = tw.p`
   text-sm
@@ -29,8 +31,6 @@ export const NormalText = tw.p`
   text-lg
   text-gray-700
   font-normal
-  max-sm:text-xs
-  text-start
 `
 
 export const MediumText = tw.p`
@@ -44,8 +44,7 @@ export const LargeText = tw.p`
   text-xl
   text-black
   font-bold
-  max-sm:text-lg
-  3xl:text-4xl
+  max-md:text-xl
 `
 
 export const Label = tw.div`

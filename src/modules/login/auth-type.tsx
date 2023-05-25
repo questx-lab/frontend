@@ -1,16 +1,10 @@
-import { useStoreActions } from 'easy-peasy'
 import { signIn } from 'next-auth/react'
 
 import { StorageConst } from '@/constants/storage.const'
 import { handleMetamask } from '@/handler/auth/metamask'
-import { GlobalStoreModel } from '@/store/store'
 import { ImageBox, ListLogos } from '@/styles/login.style'
 
 export default function AuthType() {
-  const setLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setLogin
-  )
-
   const handleLoginGoogle = async (e: React.MouseEvent<HTMLImageElement>) => {
     e.preventDefault()
     await signIn('google')
@@ -50,7 +44,7 @@ export default function AuthType() {
         alt={StorageConst.DISCORD_DIR.alt}
       />
       <ImageBox
-        onClick={() => handleMetamask(setLogin)}
+        onClick={() => handleMetamask()}
         width={50}
         height={50}
         src={StorageConst.METAMASK_DIR.src}

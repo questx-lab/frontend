@@ -149,7 +149,9 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({
   setScreen,
 }) => {
   // data
-  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+  const user: UserType | undefined = useStoreState<GlobalStoreModel>(
+    (state) => state.user
+  )
   const referral: RefferalType = useStoreState<GlobalStoreModel>(
     (state) => state.referral
   )
@@ -171,6 +173,7 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({
   }
 
   if (
+    user &&
     user.address !== '' &&
     referral.total_claimable_communities &&
     referral.total_claimable_communities !== 0
@@ -242,8 +245,12 @@ const InviteCommunity: FunctionComponent<{}> = () => {
   }
 
   const onLinkWallet = async () => {
-    await signWallet()
-    await getUserData()
+    try {
+      await signWallet()
+      await getUserData()
+    } catch (err) {
+      // Do nothing here.
+    }
   }
 
   const getUserData = async () => {
@@ -252,8 +259,10 @@ const InviteCommunity: FunctionComponent<{}> = () => {
       if (user.error) {
         toast.error(user.error)
       } else {
-        setUser(user.data!)
-        setUserLocal(user.data!)
+        if (user.data) {
+          setUser(user.data)
+          setUserLocal(user.data)
+        }
       }
     } catch (error) {}
   }

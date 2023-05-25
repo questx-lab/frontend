@@ -1,3 +1,8 @@
+export type ReturnTuple<T> = {
+  value?: T
+  error?: string
+}
+
 export type WalletLoginRes = {
   error: number
   data: WalletData
@@ -76,6 +81,7 @@ export type CommunityType = {
   telegram?: string
   introduction?: string
   website_url?: string
+  logo_url?: string
 }
 
 export type ListCommunitiesType = {
@@ -89,6 +95,7 @@ export type ReqNewRoleCommunity = {
 }
 
 export type ReqNewQuestType = {
+  id: string
   community_id: string
   type: string
   title: string
@@ -127,7 +134,7 @@ export type ValidationQuest = {
   telegram_invite_link?: string
   discord_invite_link?: string
   number?: number
-  quizs?: QuestQuizType[]
+  quizzes?: QuestQuizType[]
 }
 
 export interface QuestType {
@@ -149,11 +156,14 @@ export interface QuestType {
     retweet?: boolean
     default_reply?: string
     link?: string
-    discord_invite_url?: string
-    telegram_invite_url?: string
+    invite_url?: string
     twitter_handle?: string
     default_tweet?: string
-    quizs?: QuestQuizType[]
+    auto_validate?: boolean
+    answer?: string
+    space_url?: string
+    number?: number
+    quizzes?: QuestQuizType[]
   }
 }
 

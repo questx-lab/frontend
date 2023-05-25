@@ -32,6 +32,23 @@ export const QuestTypes = [
   QuestTypeEnum.INVITES,
 ]
 
+export const QuestTypeMap = new Map<String, QuestTypeEnum>([
+  ['url', QuestTypeEnum.URL],
+  ['image', QuestTypeEnum.IMAGE],
+  ['text', QuestTypeEnum.TEXT],
+  ['quiz', QuestTypeEnum.QUIZ],
+  ['visit_link', QuestTypeEnum.VISIT_LINK],
+  ['empty', QuestTypeEnum.EMPTY],
+  ['twitter', QuestTypeEnum.TWITTER],
+  ['twitter_follow', QuestTypeEnum.TWITTER],
+  ['twitter_reaction', QuestTypeEnum.TWITTER],
+  ['twitter_tweet', QuestTypeEnum.TWITTER],
+  ['twitter_join_space', QuestTypeEnum.TWITTER],
+  ['join_discord', QuestTypeEnum.DISCORD],
+  ['join_telegram', QuestTypeEnum.JOIN_TELEGRAM],
+  ['invite', QuestTypeEnum.INVITES],
+])
+
 export const QuestTypeStringMap = new Map<QuestTypeEnum, String>([
   [QuestTypeEnum.URL, 'URL'],
   [QuestTypeEnum.IMAGE, 'Image'],
@@ -91,6 +108,13 @@ export const QuestRecurrencesMap = new Map<QuestRecurrence, String>([
   [QuestRecurrence.DAILY, 'Daily'],
   [QuestRecurrence.WEEKLY, 'Weekly'],
   [QuestRecurrence.MONTHLY, 'Monthly'],
+])
+
+export const QuestRecurrencesStringMap = new Map<String, QuestRecurrence>([
+  ['once', QuestRecurrence.ONCE],
+  ['daily', QuestRecurrence.DAILY],
+  ['weekly', QuestRecurrence.WEEKLY],
+  ['monthly', QuestRecurrence.MONTHLY],
 ])
 
 export const QuestRewards = ['Gem', 'Discord Role', 'Other']
@@ -197,37 +221,6 @@ export enum NewCommunityTypeShare {
   OTHER,
 }
 
-export const NewCommunityStageMap = new Map<NewCommunityStage, string>([
-  [NewCommunityStage.IDEA, 'Idea/Concept stage'],
-  [NewCommunityStage.DEVELOPMENT, 'Development stage'],
-  [NewCommunityStage.TESTING, 'Beta testing stage'],
-  [NewCommunityStage.LAUNCH, 'Launch/Deployment stage'],
-  [NewCommunityStage.OTHER, 'Other'],
-])
-
-export const NewCommunityDescribeSizeMap = new Map<
-  NewCommunityDescribeSize,
-  string
->([
-  [NewCommunityDescribeSize.SOLO, 'Solo developer'],
-  [NewCommunityDescribeSize.SMALL, 'Small team (2-5 members)'],
-  [NewCommunityDescribeSize.MEDIUM, 'Medium-sized team (6-10 members)'],
-  [NewCommunityDescribeSize.LARGE, 'Large team (11+ members)'],
-])
-
-export const NewCommunityTypeShareMap = new Map<NewCommunityTypeShare, string>([
-  [NewCommunityTypeShare.PROJECT, 'Project updates and milestones'],
-  [NewCommunityTypeShare.EDUCATION, 'Educational articles and tutorials'],
-  [NewCommunityTypeShare.COMMUNITY, 'Community spotlights and success stories'],
-  [NewCommunityTypeShare.DEVELOPMENT, 'Behind-the-scenes development insights'],
-  [
-    NewCommunityTypeShare.EVENT,
-    'Event announcements and participation opportunities',
-  ],
-  [NewCommunityTypeShare.CONTENT, 'Memes and light-hearted content'],
-  [NewCommunityTypeShare.OTHER, 'Other'],
-])
-
 export enum NewCommunityStep {
   BEGIN,
   FIRST,
@@ -277,4 +270,8 @@ export enum ColorEnum {
   INFO,
   SUCCESS,
   DANGER,
+}
+export enum CarouselType {
+  QUEST,
+  COMMUNITY,
 }

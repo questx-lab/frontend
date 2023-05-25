@@ -1,12 +1,12 @@
 import { FunctionComponent, useState } from 'react'
-
+import { useRouter } from 'next/navigation'
 import parseHtml from 'html-react-parser'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 
 import { claimRewardApi } from '@/app/api/client/reward'
-import { uploadImageApi } from '@/app/api/client/upload'
 import {
+  ClaimedQuestStatus,
   CommunityRoleEnum,
   QuestTypeEnum,
   TwitterEnum,
@@ -31,6 +31,7 @@ import { getUserLocal } from '@/utils/helper'
 import { QuestTwitterActionType, QuestType } from '@/utils/type'
 import { PositiveButton } from '@/widgets/button'
 
+import { uploadFile } from '@/utils/file'
 import { QuestQuiz } from './quest-quiz'
 import {
   QuestDiscord,
@@ -55,23 +56,11 @@ const handleSubmit = async (
   let inp = ''
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
-      let formData = new FormData()
-      if (fileUpload.length === 0) {
-        toast.error('Must upload file')
-        return
-      }
-      const file = fileUpload[0]
-      formData.append('image', file || '')
-      try {
-        const data = await uploadImageApi(formData)
-        if (data.error) {
-          toast.error(data.error)
-          return
-        }
-        inp = data?.data?.url || ''
-      } catch (error) {
-        toast.error('Error while upload file')
-        return
+      const tuple = await uploadFile(fileUpload)
+      if (tuple.error) {
+        toast.error(tuple.error)
+      } else {
+        inp = tuple.value || ''
       }
       break
     case QuestTypeEnum.URL:
@@ -100,8 +89,22 @@ const handleSubmit = async (
     if (data.error) {
       toast.error(data.error)
       return
+    } else {
+      if (data.data === undefined) {
+        toast.error('Claim quest failed')
+        return
+      }
+      switch (data.data.status) {
+        case ClaimedQuestStatus.PENDING:
+          toast.success('Submit quest success, we will consider your submition')
+          break
+        case ClaimedQuestStatus.AUTO_REJECTED:
+          toast.error('Submit failed')
+          break
+        default:
+          toast.success('Claim reward successfully')
+      }
     }
-    toast.success('Claim reward successfully')
   } catch (error) {
     toast.error('Server error')
   } finally {
@@ -110,6 +113,7 @@ const handleSubmit = async (
 }
 
 const SubmitButton: FunctionComponent = () => {
+  const router = useRouter()
   // hook
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -127,7 +131,24 @@ const SubmitButton: FunctionComponent = () => {
   )
   const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
 
+  // handler
+  const onSubmit = () => {
+    handleSubmit(
+      quest,
+      fileUpload,
+      urlSubmit,
+      textSubmit,
+      replyUrlSubmit,
+      quizAnswers,
+      setLoading
+    )
+  }
+
   let block = true
+
+  const onEdit = () => {
+    router.push(`/quests/${quest.id}/edit`)
+  }
 
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
@@ -156,7 +177,7 @@ const SubmitButton: FunctionComponent = () => {
       }
       break
     case QuestTypeEnum.QUIZ:
-      if (quizAnswers.length === quest.validation_data?.quizs?.length) {
+      if (quizAnswers.length === quest.validation_data?.quizzes?.length) {
         block = false
       }
       break
@@ -167,7 +188,7 @@ const SubmitButton: FunctionComponent = () => {
     case QuestTypeEnum.TWITTER_REACTION:
     case QuestTypeEnum.TWITTER_TWEET:
       const user = getUserLocal()
-      if (user.services) {
+      if (user && user.services) {
         block = !user.services.twitter
       }
       break
@@ -182,17 +203,8 @@ const SubmitButton: FunctionComponent = () => {
           isFull
           block={block}
           loading={loading}
-          onClick={() =>
-            handleSubmit(
-              quest,
-              fileUpload,
-              urlSubmit,
-              textSubmit,
-              replyUrlSubmit,
-              quizAnswers,
-              setLoading
-            )
-          }
+          onClick={onSubmit}
+          requireLogin
         >
           {'Claim Reward'}
         </PositiveButton>
@@ -201,7 +213,7 @@ const SubmitButton: FunctionComponent = () => {
     default:
       return (
         <WrapBtn>
-          <EditButton> {'Edit'} </EditButton>
+          <EditButton onClick={onEdit}> {'Edit'} </EditButton>
           <DeleteBtn> {'Delete'} </DeleteBtn>
         </WrapBtn>
       )
@@ -231,13 +243,12 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     twitter_handle,
     default_reply,
     link,
-    discord_invite_url,
-    telegram_invite_url,
+    invite_url,
     like,
     reply,
     retweet,
     default_tweet,
-    quizs,
+    quizzes,
   } = quest.validation_data || {}
   switch (quest?.type) {
     case QuestTypeEnum.URL:
@@ -307,15 +318,15 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
 
       return <QuestTwitter actions={actions} />
     case QuestTypeEnum.QUIZ:
-      return <QuestQuiz quizs={quizs!} />
+      return <QuestQuiz quizzes={quizzes!} />
     case QuestTypeEnum.EMPTY:
       return <></>
     // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
     //   return withText()
     case QuestTypeEnum.DISCORD:
-      return <QuestDiscord link={discord_invite_url || ''} />
+      return <QuestDiscord link={invite_url || ''} />
     case QuestTypeEnum.JOIN_TELEGRAM:
-      return <QuestTelegram link={telegram_invite_url || ''} />
+      return <QuestTelegram link={invite_url || ''} />
     default:
       return <></>
   }

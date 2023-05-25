@@ -60,10 +60,7 @@ export const LoginBtn = tw.button`
   border
   border-gray-300
   border-solid
-  3xl:text-3xl
-  3xl:py-4
-  3xl:px-12
-  3xl:rounded-2xl
+  3xl:text-xl
 `
 
 export const SignUpBtn = tw.button`
@@ -76,10 +73,7 @@ export const SignUpBtn = tw.button`
   px-6
   rounded-lg
   max-lg:hidden
-  3xl:text-3xl
-  3xl:py-4
-  3xl:px-12
-  3xl:rounded-2xl
+  3xl:text-xl
 `
 
 export const AuthBox = tw(Horizontal)`
@@ -237,40 +231,33 @@ export const PSave = styled.button<{ isBlock?: boolean }>(
 )
 
 export const PFollow = styled.button<{ isFollow?: boolean }>(({ isFollow }) => [
+  tw` 
+  px-4
+  py-2
+  text-gray-900
+  font-normal
+  text-sm
+  rounded-lg
+  max-lg:text-sm
+  flex
+  flex-row
+  justify-center
+  items-center
+  w-32
+  `,
   isFollow
     ? tw`
-        px-4
-        py-2
+        text-gray-900
         bg-white
         border
-        border-solid
         border-[1px]
         border-gray-300
         hover:bg-gray-200
-        text-gray-900
-        font-normal
-        text-sm
-        rounded-lg
-        max-lg:text-sm
-        flex
-        flex-row
-        justify-center
-        items-center
       `
     : tw`
-        px-4
-        py-2
         bg-primary
         hover:bg-primary-200
         text-white
-        font-normal
-        text-sm
-        rounded-lg
-        max-lg:text-sm
-        flex
-        flex-row
-        justify-center
-        items-center
       `,
 ])
 

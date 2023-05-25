@@ -5,6 +5,7 @@ import tw from 'twin.macro'
 
 import {
   Horizontal,
+  HorizontalBetweenCenter,
   HorizontalCenter,
   HorizontalStartCenter,
   Vertical,
@@ -15,30 +16,45 @@ type NavBarType = {
   isActive: boolean
 }
 
-export const Wrap = styled.nav<{ isApp?: boolean; isFull?: boolean }>(
-  ({ isApp = true, isFull = true }) => [
-    tw`
+export const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
+  tw`
   w-full
   flex
   flex-row
   justify-between
   items-center
   h-[70px]
-  3xl:h-[120px]
   border-b-[1px]
   border-gray-200
   fixed
-  max-sm:h-[65px]
   `,
-    isApp && tw`bg-white`,
-    !isApp &&
-      tw`
+  isApp && tw`bg-white px-6 3xl:px-6`,
+  !isApp &&
+    tw`
     border-0
     backdrop-blur-lg
+    flex
+    flex-row
+    justify-center
+    items-center
   `,
+])
 
-    !isFull && tw`px-64 3xl:px-96`,
-    isFull && tw`px-6 3xl:px-6`,
+export const Body = styled(HorizontalBetweenCenter)<{ isApp?: boolean }>(
+  ({ isApp = true }) => [
+    !isApp &&
+      tw`
+        h-full
+        max-sm:px-2
+        md:px-8
+        w-full
+        xl:w-[1180px]
+      `,
+    isApp &&
+      tw`
+        w-full
+        h-full
+      `,
   ]
 )
 
@@ -54,7 +70,7 @@ export const BoxLink = tw(Horizontal)`
   h-full
   w-full
   items-center
-  max-lg:hidden
+  max-md:hidden
 `
 
 export const LinkText = styled(Link)(
@@ -81,7 +97,7 @@ export const TitleText = tw.div`
   items-center
   font-normal
   text-lg
-  3xl:text-3xl
+  3xl:text-xl
 `
 
 export const Underline = tw.div`
@@ -104,7 +120,7 @@ export const RightSession = tw(Horizontal)`
 // ============= USER INFORMATION =============
 export const UserSession = tw(HorizontalCenter)`
   cursor-pointer
-  max-lg:hidden
+  max-md:hidden
 `
 
 export const UserInfo = tw(Vertical)`

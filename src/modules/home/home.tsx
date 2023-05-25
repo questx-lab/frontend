@@ -1,32 +1,20 @@
+'use client'
 import { FunctionComponent, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
-import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
 import { listCommunitiesApi } from '@/app/api/client/community'
+import { RouterConst } from '@/constants/router.const'
 import CommunityBox from '@/modules/community/community-box'
 import { GlobalStoreModel } from '@/store/store'
-import { FullScreen } from '@/styles/common.style'
+import { Main } from '@/styles/common.style'
 import { CommunityType, UserType } from '@/utils/type'
-import { Vertical } from '@/widgets/orientation'
-
-import HorizontalCommunities from '../community/horizontal-communities'
-
-const Wrap = tw(Vertical)`
-  min-h-screen
-  pt-[70px]
-  px-64
-  3xl:px-96
-`
-
-const Main = tw(Vertical)`
-  pt-8
-  pb-[30px]
-  gap-4
-  w-full
-`
+import CarouselList from '@/widgets/carousel'
+import CategoryBox from '@/widgets/CategoryBox'
+import { VerticalFullWidthCenter } from '@/widgets/orientation'
 
 const WrapProjects = tw.div`
   grid
@@ -47,11 +35,18 @@ const TitleBox = tw.div`
   text-gray-900
 `
 
+const Wrap = tw(VerticalFullWidthCenter)`
+  pt-[90px]
+`
+
 const HomePage: FunctionComponent = () => {
   // hook
   const [loading, setLoading] = useState<boolean>(true)
+  const [communities, setCommunities] = useState<CommunityType[]>([])
+  const router = useRouter()
   useEffect(() => {
     fetchListProjects()
+    fetchCommunityList()
   }, [])
 
   // data
@@ -59,9 +54,6 @@ const HomePage: FunctionComponent = () => {
     (state) => state.projectsFollowing
   )
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-  const projectsTrending = useStoreState<GlobalStoreModel>(
-    (state) => state.projectsTrending
-  )
 
   // action
   const setProjectsTrending = useStoreActions<GlobalStoreModel>(
@@ -85,6 +77,18 @@ const HomePage: FunctionComponent = () => {
     }
   }
 
+  const fetchCommunityList = async () => {
+    setLoading(true)
+    try {
+      const list = await listCommunitiesApi(0, 50, '', true)
+      setCommunities(list.data!.communities)
+    } catch (error) {
+      // TODO: show error (not toast) to indicate that the communities cannot be loaded.
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const Title: FunctionComponent = () => {
     if (user && user.name) {
       return <TitleBox>{`👋 Hi, ${user && user.name}`}</TitleBox>
@@ -93,26 +97,34 @@ const HomePage: FunctionComponent = () => {
     return <></>
   }
 
-  if (loading) {
-    return (
-      <FullScreen>
-        <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />
-      </FullScreen>
-    )
+  const onShowAllClicked = () => {
+    router.push(RouterConst.COMMUNITIES)
   }
 
   return (
     <Wrap>
       <Main>
         <Title />
-        <HorizontalCommunities
-          title={'🔥 Trending Communities'}
-          byTrending={true}
-        />
-        <HorizontalCommunities
-          title={'⭐ Popular Communities'}
-          byTrending={false}
-        />
+        <CategoryBox
+          title='🔥 Trending Communities'
+          onClick={onShowAllClicked}
+          loading={loading}
+        >
+          <CarouselList
+            data={communities}
+            renderItemFunc={(community: CommunityType) => {
+              return <CommunityBox community={community} />
+            }}
+          />
+        </CategoryBox>
+        <CategoryBox title='⭐ Popular Communities' onClick={onShowAllClicked}>
+          <CarouselList
+            data={communities}
+            renderItemFunc={(community: CommunityType) => {
+              return <CommunityBox community={community} />
+            }}
+          />
+        </CategoryBox>
         <WrapProjects>{renderProject}</WrapProjects>
       </Main>
     </Wrap>

@@ -37,10 +37,9 @@ const FWrap = tw(Vertical)`
 
 const WrapProjects = tw.div`
   grid
-  grid-cols-4
   gap-4
-  max-2xl:grid-cols-3
-  max-xl:grid-cols-2
+  xl:grid-cols-3
+  sm:grid-cols-2
   max-sm:grid-cols-1
   w-full
 `
@@ -120,7 +119,7 @@ export default function Communities() {
           src={StorageConst.HUSKY.src}
           alt={StorageConst.HUSKY.alt}
         />
-        <NormalText>
+        <NormalText className='text-center'>
           {
             "Ohhh! This doesn't have any communities yet. Please follow and come back at a later time."
           }

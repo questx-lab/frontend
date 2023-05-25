@@ -9,6 +9,7 @@ import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
+import { IMAGES_SOURCE } from '@/constants/images'
 
 const ContentProjectBox = tw(Vertical)`
   justify-between
@@ -18,6 +19,8 @@ const ImageProjectBox = styled(Image)(tw`
   rounded-full
   3xl:w-[100px]
   3xl:h-[100px]
+  max-md:w-[40px]
+  max-md:h-[40px]
 `)
 
 const Description = tw.div`
@@ -66,6 +69,7 @@ const CommunityBoxWrap = tw(VerticalBetween)`
   max-xl:mt-[16px]
   h-[350px]
   3xl:h-[500px]
+  max-md:h-[280px]
   hover:shadow-lg
 `
 
@@ -92,7 +96,7 @@ const Title = tw.p`
   font-medium
   text-lg
   max-lg:text-lg
-  3xl:text-4xl
+  3xl:text-xl
 `
 
 const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({
@@ -108,7 +112,7 @@ const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({
         <ImageProjectBox
           width={60}
           height={60}
-          src={'/images/dummy/1.svg'}
+          src={community.logo_url || IMAGES_SOURCE.community_default}
           alt={'avatar'}
         />
         <ContentProjectBox>

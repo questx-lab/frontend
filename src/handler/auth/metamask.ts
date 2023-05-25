@@ -1,4 +1,3 @@
-import { ActionCreator } from 'easy-peasy'
 import { toast } from 'react-hot-toast'
 import Web3 from 'web3'
 import { provider } from 'web3-core'
@@ -41,14 +40,19 @@ const linkWallet = async (
     const data = await loginMetamask(account)
     const w3 = new Web3(ethereum as provider)
     const signature = await w3.eth.personal.sign(data.data.nonce, account, '')
-    await linkWalletApi(signature)
+    const rs = await linkWalletApi(signature)
+    if (rs.error) {
+      toast(rs.error)
+    } else {
+      toast.success('Link wallet success')
+    }
   } catch (error) {
     toast.error('Error when connect to account')
   }
 }
 
 // *************** For Register New Account MetaMask ***************
-export const handleMetamask = async (action: ActionCreator<boolean>) => {
+export const handleMetamask = async () => {
   const provider = await detectEthereumProvider()
   if (provider) {
     if (window && window.ethereum) {
@@ -65,7 +69,6 @@ export const handleMetamask = async (action: ActionCreator<boolean>) => {
         }
       }
       ethereum.removeListener('accountsChanged', getConnectedAccounts)
-      action(true)
     }
   } else {
     toast.error('Please Install MetaMask.')

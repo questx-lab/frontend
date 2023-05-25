@@ -2,8 +2,7 @@ import { FunctionComponent, ReactNode, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import Head from 'next/head'
-import { useRouter } from 'next/navigation'
-import { toast, Toaster } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import {
@@ -11,12 +10,13 @@ import {
   getMyCommunitiesApi,
 } from '@/app/api/client/community'
 import { getMyReferralInfoApi } from '@/app/api/client/reward'
-import { getUserApi } from '@/app/api/client/user'
 import Header from '@/components/header'
+import Login from '@/modules/login/login'
 import ControlPanel from '@/modules/new-quest/control-panel'
 import { GlobalStoreModel } from '@/store/store'
 import { Html, Main } from '@/styles/layout.style'
-import { getAccessToken, getRefreshToken, setUserLocal } from '@/utils/helper'
+import { ModalBox } from '@/styles/modal.style'
+import { BaseModal } from '@/widgets/modal'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 
 import ProjectSide from './sidebar'
@@ -58,7 +58,6 @@ export const LayoutDefault = ({ children }: { children: ReactNode }) => {
 export const Layout = ({
   children,
   isApp = true,
-  isFull = true,
 }: {
   children: ReactNode
   isApp?: boolean
@@ -66,13 +65,12 @@ export const Layout = ({
 }) => {
   // data
   const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
-  const isLogin = useStoreState<GlobalStoreModel>((state) => state.isLogin)
-  const userState = useStoreState<GlobalStoreModel>((state) => state.user)
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const showLoginModal = useStoreState<GlobalStoreModel>(
+    (state) => state.showLoginModal
+  )
 
   // action
-  const setLogin = useStoreActions<GlobalStoreModel>(
-    (action) => action.setLogin
-  )
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
   const setReferral = useStoreActions<GlobalStoreModel>(
     (action) => action.setReferral
@@ -83,45 +81,18 @@ export const Layout = ({
   const setProjectCollab = useStoreActions<GlobalStoreModel>(
     (action) => action.setProjectCollab
   )
+  const setShowLoginModal = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowLoginModal
+  )
 
-  const router = useRouter()
+  // Called only once to load initial data.
   useEffect(() => {
-    const refreshToken = getRefreshToken()
-    const accessToken = getAccessToken()
-
-    if (refreshToken && !accessToken) {
-      handleInit()
+    if (user) {
+      getProjectsFollowing()
+      getMyProjects()
+      getMyReferralInfo()
     }
-
-    if (accessToken) {
-      if (!isLogin) {
-        setLogin(true)
-      }
-      if (userState && !Object.keys(userState).length) {
-        handleInit()
-      }
-    } else {
-      setLogin(false)
-      // router.push(RouterConst.EXPLORE)
-    }
-  }, [router])
-
-  const handleInit = () => {
-    getUserData()
-    getProjectsFollowing()
-    getMyProjects()
-    getMyReferralInfo()
-  }
-
-  const getUserData = async () => {
-    try {
-      const user = await getUserApi()
-      setUserLocal(user.data!)
-      setUser(user.data!)
-
-      setLogin(true)
-    } catch (error) {}
-  }
+  }, [user])
 
   const getMyReferralInfo = async () => {
     try {
@@ -167,9 +138,14 @@ export const Layout = ({
       <body>
         <Main>
           <div className='overflow-scroll'>{children}</div>
-          <Header isFull={isFull} isApp={isApp} />
+          <Header isApp={isApp} />
         </Main>
         <Toaster position='top-center' reverseOrder={false} />
+        <BaseModal isOpen={showLoginModal}>
+          <ModalBox>
+            <Login setOpen={setShowLoginModal} />
+          </ModalBox>
+        </BaseModal>
       </body>
     </Html>
   )
@@ -182,7 +158,7 @@ export const PanelLayout: FunctionComponent<{
 }> = ({ communityId, active, children }) => {
   return (
     <Wrap>
-      <ProjectSide communityId={communityId} />
+      <ProjectSide activeCommunityId={communityId} />
       <MainPanel>
         <ControlPanel communityId={communityId} active={active} />
         <Content>{children}</Content>

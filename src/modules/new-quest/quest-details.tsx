@@ -15,6 +15,7 @@ import { NegativeButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
 import { Label, NormalText } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
+import { Oauth2ProviderEnum } from '@/constants/key.const'
 
 import QuestQuiz from './quest-quiz'
 import TwitterList from './twitter-list'
@@ -73,6 +74,8 @@ const QuestDetails = () => {
 
   const project = NewQuestStore.useStoreState((state) => state.project)
 
+  const invites = NewQuestStore.useStoreState((state) => state.invites)
+
   // Actions
   const setTextAutoValidation = NewQuestStore.useStoreActions(
     (actions) => actions.setTextAutoValidation
@@ -91,7 +94,7 @@ const QuestDetails = () => {
   )
 
   const onConnectDiscord = () => {
-    signIn('discord', {}, { withDiscordServer: 'true' })
+    signIn(Oauth2ProviderEnum.DISCORD_BOT_PROVIDER)
   }
   switch (questType) {
     case QuestTypeEnum.URL:
@@ -209,7 +212,7 @@ const QuestDetails = () => {
             <Gap height={2} />
             <InputInviteBox
               onChange={(e) => setInvites(parseInt(e.target.value ?? '0'))}
-              defaultValue={10}
+              defaultValue={invites}
               type='number'
             />
             <Gap height={2} />

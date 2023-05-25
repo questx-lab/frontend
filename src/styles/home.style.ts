@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { Dialog, Listbox } from '@headlessui/react'
 import {
   Horizontal,
   HorizontalBetweenCenter,
   Vertical,
 } from '@/widgets/orientation'
+import { Dialog, Listbox } from '@headlessui/react'
 
 type TabActive = {
   isActive: boolean
@@ -95,8 +95,9 @@ export const NotifyText = tw.span`
 
 export const HeaderText = tw.h2`
   text-2xl
-  text-black
-  font-bold
+  text-gray-900
+  font-medium
+  max-md:text-lg
 `
 
 // ================== PROJECT SETTING STYLE ==================

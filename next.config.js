@@ -32,6 +32,30 @@ const nextConfig = {
 
     DISCORD_ID: process.env.DISCORD_ID,
     DISCORD_SECRET: process.env.DISCORD_SECRET,
+    DISCORD_PERMISSION: process.env.DISCORD_PERMISSION,
+  },
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'questx.app',
+        port: '',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'xquest.xyz',
+        port: '',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '9000',
+        pathname: '/images/**',
+      },
+    ],
   },
 }
 

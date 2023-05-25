@@ -10,7 +10,6 @@ export class Player extends Phaser.GameObjects.Sprite {
     frame: string | number | undefined
   ) {
     super(scene, x, y, texture, frame)
-    console.log('create player')
     // Add the sprite and the physics body to the scene
     scene.add.existing(this)
     scene.physics.add.existing(this)

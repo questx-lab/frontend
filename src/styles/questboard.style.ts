@@ -342,10 +342,10 @@ export const FilterBox = tw.div`
 export const WrapQuestboard = tw.div`
   w-full
   grid
-  grid-cols-3
   gap-4
-  max-xl:grid-cols-3
-  max-lg:grid-cols-2
+  xl:grid-cols-3
+  sm:grid-cols-2
+  max-sm:grid-cols-1
   justify-between
   items-center
 `
@@ -363,10 +363,12 @@ export const HeaderBox = tw(Horizontal)`
 `
 
 export const TitleBox = tw(Horizontal)`
-  px-64
-  3xl:px-96
+  max-md:px-8
+  md:px-16
+  lg:px-32
+  2xl:px-48
+  3xl:px-64
   py-6
-  max-xl:px-[100px]
   w-full
   justify-between
 `

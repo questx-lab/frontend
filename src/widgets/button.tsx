@@ -1,10 +1,12 @@
 import { FunctionComponent, ReactNode } from 'react'
 
+import { useStoreActions, useStoreState } from 'easy-peasy'
 import { MoonLoader } from 'react-spinners'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { SizeEnum } from '@/constants/common.const'
+import { GlobalStoreModel } from '@/store/store'
 
 const NegativeButtonStyle = styled.button<{
   isFull?: boolean
@@ -20,7 +22,6 @@ const NegativeButtonStyle = styled.button<{
   py-3
   px-6
   rounded-lg
-  max-lg:hidden
   border
   border-gray-300
   border-solid
@@ -56,7 +57,6 @@ const PositiveButtonStyle = styled.button<{
       py-3
       px-6
       rounded-lg
-      max-lg:hidden
       flex
       justify-center
       items-center
@@ -86,6 +86,7 @@ export const PositiveButton: FunctionComponent<{
   block?: boolean
   isFull?: boolean
   width?: number
+  requireLogin?: boolean
 }> = ({
   loading = false,
   children,
@@ -93,7 +94,28 @@ export const PositiveButton: FunctionComponent<{
   block = false,
   isFull = false,
   width,
+  requireLogin = false,
 }) => {
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+
+  const setShowLoginModel = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowLoginModal
+  )
+
+  if (requireLogin && user === undefined) {
+    return (
+      <PositiveButtonStyle
+        isFull={isFull}
+        disabled={block}
+        block={block}
+        onClick={() => setShowLoginModel(true)}
+        width={width}
+      >
+        {children}
+      </PositiveButtonStyle>
+    )
+  }
+
   if (loading) {
     return (
       <PositiveButtonStyle isFull={isFull} width={width}>
@@ -127,6 +149,7 @@ export const NegativeButton: FunctionComponent<{
   block?: boolean
   isFull?: boolean
   width?: number
+  requireLogin?: boolean
 }> = ({
   loading = false,
   children,
@@ -134,11 +157,30 @@ export const NegativeButton: FunctionComponent<{
   block = false,
   isFull = false,
   width,
+  requireLogin = false,
 }) => {
+  const setShowLoginModel = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowLoginModal
+  )
+
   if (loading) {
     return (
       <NegativeButtonStyle block={block} width={width} isFull={isFull}>
         <MoonLoader color='#000' loading speedMultiplier={0.8} size={20} />
+      </NegativeButtonStyle>
+    )
+  }
+
+  if (requireLogin) {
+    return (
+      <NegativeButtonStyle
+        block={block}
+        width={width}
+        isFull={isFull}
+        disabled={block}
+        onClick={() => setShowLoginModel(true)}
+      >
+        {children}
       </NegativeButtonStyle>
     )
   }
