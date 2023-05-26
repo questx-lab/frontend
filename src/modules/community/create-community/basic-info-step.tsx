@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { Fragment, FunctionComponent, useState } from 'react'
 
 import { useDebouncedCallback } from 'use-debounce'
 
@@ -13,24 +13,11 @@ import { NewCommunityStore } from '@/store/local/new-community.store'
 import { LabelInput, RequireSignal } from '@/styles/input.style'
 import { MultipleTextField, TextField } from '@/widgets/form'
 
-export const BasicInfo: FunctionComponent = () => {
+const HandleNameBox: FunctionComponent = () => {
   const [isValid, setValid] = useState<boolean | undefined>(undefined)
   const [msg, setMsg] = useState<string>('')
-
-  // data
-  const title = NewCommunityStore.useStoreState((state) => state.title)
   const urlName = NewCommunityStore.useStoreState((state) => state.urlName)
-  const description = NewCommunityStore.useStoreState(
-    (state) => state.description
-  )
 
-  //action
-  const setTitle = NewCommunityStore.useStoreActions(
-    (action) => action.setTitle
-  )
-  const setDescription = NewCommunityStore.useStoreActions(
-    (action) => action.setDescription
-  )
   const setUrlName = NewCommunityStore.useStoreActions(
     (action) => action.setUrlName
   )
@@ -67,6 +54,36 @@ export const BasicInfo: FunctionComponent = () => {
   }
 
   return (
+    <Fragment>
+      <LabelInput>{'XQUEST HANDLE'}</LabelInput>
+      <TextField
+        value={urlName}
+        onChange={(e) => onChangeUrlName(e.target.value)}
+        placeholder='The url name of the quest is written here.'
+        isValid={isValid}
+        msg={msg}
+        min={4}
+      />
+    </Fragment>
+  )
+}
+
+export const BasicInfo: FunctionComponent = () => {
+  // data
+  const title = NewCommunityStore.useStoreState((state) => state.title)
+  const description = NewCommunityStore.useStoreState(
+    (state) => state.description
+  )
+
+  //action
+  const setTitle = NewCommunityStore.useStoreActions(
+    (action) => action.setTitle
+  )
+  const setDescription = NewCommunityStore.useStoreActions(
+    (action) => action.setDescription
+  )
+
+  return (
     <Main>
       <Title>{'👋 Create your community'}</Title>
       <LabelInput>
@@ -79,15 +96,7 @@ export const BasicInfo: FunctionComponent = () => {
         onChange={(e) => setTitle(e.target.value)}
         placeholder='The name of the quest is written here.'
       />
-      <LabelInput>{'XQUEST HANDLE'}</LabelInput>
-      <TextField
-        value={urlName}
-        onChange={(e) => onChangeUrlName(e.target.value)}
-        placeholder='The url name of the quest is written here.'
-        isValid={isValid}
-        msg={msg}
-        min={4}
-      />
+      <HandleNameBox />
       <LabelInput>{'DESCRIPTION'}</LabelInput>
       <MultipleTextField
         value={description}
