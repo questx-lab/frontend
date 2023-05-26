@@ -18,14 +18,14 @@ import { MDialog } from '@/styles/home.style'
 import {
   LHBox,
   LHDes,
+  LHeader,
   LHInfoA,
   LHTitle,
   LHTitleBox,
-  LHeader,
   LLbox,
+  LogoP,
   LUImg,
   LUWrap2,
-  LogoP,
   QTCard,
   QTWrapC,
 } from '@/styles/leaderboard.style'
@@ -166,7 +166,7 @@ export default function CommunityGuest() {
             <Gap width={8} />
             <LHInfoA>
               <LHBox>
-                <LHTitle>{projectState.name}</LHTitle>
+                <LHTitle>{projectState.display_name}</LHTitle>
                 <Gap height={1} />
                 <LHDes>{projectState.introduction}</LHDes>
 
