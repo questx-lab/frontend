@@ -600,6 +600,7 @@ export const TLSide = tw.div`
   pb-24
   px-6
   pt-2
+  rounded-l-lg
 `
 
 export const DisclosureBtn = styled(Disclosure.Button)(tw`

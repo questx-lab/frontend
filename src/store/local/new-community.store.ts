@@ -1,75 +1,43 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import {
-  NewCommunityDescribeSize,
-  NewCommunityStage,
-  NewCommunityStep,
-  NewCommunityTypeShare,
-} from '@/constants/common.const'
+import { NewCommunityStep } from '@/constants/common.const'
 
 export interface NewCommunityModel {
-  stageCheckBoxQuiz: number
-  describeSizeQuiz: number
-  typeShareQuiz: number
-  inputOtherStage: string
-  inputOtherTypeShare: string
   currentStep: number
   title: string
   description: string
   inviteCode: string
   avatar: File[]
-  discordUrl: string
   twitterUrl: string
   websiteUrl: string
+  createdCommunityHandle: string
   createdCommunityId: string
+  urlName: string
 
-  setStageCheckBoxQuiz: Action<NewCommunityModel, number>
-  setDescribeSizeQuiz: Action<NewCommunityModel, number>
-  setTypeShareQuiz: Action<NewCommunityModel, number>
-  setInputOtherStage: Action<NewCommunityModel, string>
-  setInputOtherTypeShare: Action<NewCommunityModel, string>
   setCurrentStep: Action<NewCommunityModel, number>
   setTitle: Action<NewCommunityModel, string>
   setDescription: Action<NewCommunityModel, string>
   setInviteCode: Action<NewCommunityModel, string>
   setAvatar: Action<NewCommunityModel, File[]>
-  setDiscordUrl: Action<NewCommunityModel, string>
   setTwitterUrl: Action<NewCommunityModel, string>
   setWebsiteUrl: Action<NewCommunityModel, string>
+  setCreatedCommunityHandle: Action<NewCommunityModel, string>
   setCreatedCommunityId: Action<NewCommunityModel, string>
+  setUrlName: Action<NewCommunityModel, string>
 }
 
 export const NewCommunityStore = createContextStore<NewCommunityModel>({
-  stageCheckBoxQuiz: NewCommunityStage.IDEA,
-  describeSizeQuiz: NewCommunityDescribeSize.SOLO,
-  typeShareQuiz: NewCommunityTypeShare.PROJECT,
-  inputOtherStage: '',
-  inputOtherTypeShare: '',
   currentStep: NewCommunityStep.BEGIN,
   title: '',
+  urlName: '',
   description: '',
   inviteCode: '',
   avatar: [],
-  discordUrl: '',
   twitterUrl: '',
   websiteUrl: '',
+  createdCommunityHandle: '',
   createdCommunityId: '',
 
-  setStageCheckBoxQuiz: action((state, stage) => {
-    state.stageCheckBoxQuiz = stage
-  }),
-  setDescribeSizeQuiz: action((state, size) => {
-    state.describeSizeQuiz = size
-  }),
-  setTypeShareQuiz: action((state, type) => {
-    state.typeShareQuiz = type
-  }),
-  setInputOtherStage: action((state, input) => {
-    state.inputOtherStage = input
-  }),
-  setInputOtherTypeShare: action((state, input) => {
-    state.inputOtherTypeShare = input
-  }),
   setCurrentStep: action((state, step) => {
     state.currentStep = step
   }),
@@ -85,16 +53,23 @@ export const NewCommunityStore = createContextStore<NewCommunityModel>({
   setAvatar: action((state, avatar) => {
     state.avatar = avatar
   }),
-  setDiscordUrl: action((state, url) => {
-    state.discordUrl = url
-  }),
+
   setTwitterUrl: action((state, url) => {
     state.twitterUrl = url
   }),
   setWebsiteUrl: action((state, url) => {
     state.websiteUrl = url
   }),
+
+  setCreatedCommunityHandle: action((state, id) => {
+    state.createdCommunityHandle = id
+  }),
+
   setCreatedCommunityId: action((state, id) => {
     state.createdCommunityId = id
+  }),
+
+  setUrlName: action((state, url) => {
+    state.urlName = url
   }),
 })

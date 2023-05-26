@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import { EnvVariables } from '@/constants/env.const'
 import {
   CategoryType,
@@ -11,12 +13,12 @@ import {
   Rsp,
   UserType,
 } from '@/utils/type'
-import axios from 'axios'
+
 import { api } from '../config/api'
 
 export const newCommunityApi = async (
   body: ReqNewCommunity
-): Promise<Rsp<{ id: string }>> => {
+): Promise<Rsp<{ id: string; handle: string }>> => {
   const rs = await api.post(
     EnvVariables.NEXT_PUBLIC_API_URL + '/createCommunity',
     body
@@ -28,7 +30,7 @@ export const getCommunityApi = async (
   id: string
 ): Promise<Rsp<{ community: CommunityType }>> => {
   const rs = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/getCommunity?id=${id}`
+    EnvVariables.NEXT_PUBLIC_API_URL + `/getCommunity?id=@${id}`
   )
   return rs.data
 }

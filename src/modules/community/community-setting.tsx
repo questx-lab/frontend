@@ -93,7 +93,7 @@ export default function CommunitySetting() {
               <InputBox
                 disabled
                 ref={nameRef}
-                defaultValue={projectState.name}
+                defaultValue={projectState.display_name}
               />
               <Gap height={8} />
               <PLabel>{'Project URL*'}</PLabel>

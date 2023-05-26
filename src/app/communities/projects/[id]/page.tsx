@@ -3,6 +3,7 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
+import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 
 import { getCommunityApi } from '@/app/api/client/community'
@@ -14,7 +15,7 @@ import { CommunityStore } from '@/store/local/community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/utils/type'
 import { Spinner } from '@/widgets/spinner'
-import { useSearchParams, ReadonlyURLSearchParams } from 'next/navigation'
+
 const ProjectBox: FunctionComponent<{ communityId: string }> = ({
   communityId,
 }) => {

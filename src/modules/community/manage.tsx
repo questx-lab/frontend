@@ -61,10 +61,10 @@ export default function ManageProject() {
 
   return (
     <Wrap>
-      <ProjectSide activeCommunityId={project.id} />
+      <ProjectSide activeCommunityId={project.handle} />
       <NewQuestStore.Provider>
         <MMain>
-          <ControlPanel communityId={project.id} />
+          <ControlPanel communityId={project.handle || ''} />
           <CCBox>
             <MBox>
               <MPadding>
@@ -78,7 +78,7 @@ export default function ManageProject() {
                     <PSave
                       onClick={() =>
                         router.push(
-                          RouterConst.PROJECT + project.id + '/create'
+                          RouterConst.PROJECT + project.handle + '/create'
                         )
                       }
                       isBlock={false}
@@ -105,7 +105,7 @@ export default function ManageProject() {
           onClose={() => setOpenTemplate(false)}
           styled='flex flex-col !justify-start !items-start !w-5/6'
         >
-          <QuestFrame isTemplate id={project.id} />
+          <QuestFrame isTemplate id={project.handle ?? ''} />
         </BasicModal>
       </NewQuestStore.Provider>
     </Wrap>
