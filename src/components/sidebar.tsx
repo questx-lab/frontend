@@ -37,7 +37,7 @@ const RenderFollowItems: FunctionComponent<{
         content={community.display_name}
         placement='right'
       >
-        <ActiveAvatar active={community.id === activeCommunityId}>
+        <ActiveAvatar active={community.handle === activeCommunityId}>
           <CircleRouded
             onClick={() => router.push(RouterConst.PROJECT + community.id)}
             width={45}
@@ -69,7 +69,7 @@ const RenderCollabItems: FunctionComponent<{
         content={community.community.display_name}
         placement='right'
       >
-        <ActiveAvatar active={community.community_id === activeCommunityId}>
+        <ActiveAvatar active={community.community.handle === activeCommunityId}>
           <CircleRouded
             onClick={() =>
               router.push(RouterConst.PROJECT + community.community.handle)

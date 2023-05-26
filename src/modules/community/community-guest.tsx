@@ -6,7 +6,6 @@ import { toast } from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
 
 import { newFollowCommunityApi } from '@/app/api/client/community'
-import ProjectSide from '@/components/sidebar'
 import { ErrorCodes } from '@/constants/code.const'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityStore } from '@/store/local/community.store'
@@ -153,7 +152,6 @@ export default function CommunityGuest() {
 
   return (
     <MainLayout>
-      <ProjectSide activeCommunityId={projectState.id} />
       <Main>
         {projectState && (
           <LHeader>
