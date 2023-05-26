@@ -37,6 +37,12 @@ export type UserType = {
   is_new_user?: boolean
   role?: string
   referral_code?: string
+  points?: number
+  gems?: number
+  avatar_url?: string
+  level?: string
+  quest_completed?: number
+  community_joined?: number
 }
 
 export type ReqNewCommunity = {
@@ -233,4 +239,36 @@ export type OAuth2VerifyResp = {
     access_token: string
     refresh_token: string
   }
+}
+
+export type BadgeType = {
+  user_id: string
+  community: CommunityType
+  name: string
+  level: string
+  was_notified: boolean
+  logo: string
+  tags: string[]
+  gems: string
+}
+
+export type UserProfileType = {
+  level: string
+  gems: string
+  xp: string
+  quest_completed: number
+  community_joined: number
+  badges: BadgeType[]
+  user_image_url: string
+}
+
+export type FollowerType = {
+  user_id: string
+  points: number
+  invite_code: string
+  invited_by: string
+  invite_count: number
+  avatar_url: string
+  community_name: string
+  tags: string[]
 }
