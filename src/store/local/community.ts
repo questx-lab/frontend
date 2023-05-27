@@ -5,8 +5,7 @@ import { CategoryType, CommunityType } from '@/utils/type'
 import { ControlPanelTab } from '@/types/community'
 
 interface CommunityModel {
-  project: CommunityType
-  projects: CommunityType[]
+  selectedCommunity: CommunityType | undefined
   query: string
   searchProjects: CommunityType[]
   role: number
@@ -14,8 +13,7 @@ interface CommunityModel {
   invitedBy: string
   activeControlPanelTab: number
 
-  setProject: Action<CommunityModel, CommunityType>
-  setProjects: Action<CommunityModel, CommunityType[]>
+  setSelectedCommunity: Action<CommunityModel, CommunityType>
   setQuery: Action<CommunityModel, string>
   setSearchProjects: Action<CommunityModel, CommunityType[]>
   setRole: Action<CommunityModel, number>
@@ -25,8 +23,7 @@ interface CommunityModel {
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
-  project: { id: '' },
-  projects: [],
+  selectedCommunity: undefined,
   query: '',
   searchProjects: [],
   role: CommunityRoleEnum.GUEST,
@@ -34,12 +31,8 @@ const CommunityStore = createContextStore<CommunityModel>({
   invitedBy: '',
   activeControlPanelTab: ControlPanelTab.QUESTS,
 
-  setProject: action((state, newProject) => {
-    state.project = newProject
-  }),
-
-  setProjects: action((state, projects) => {
-    state.projects = projects
+  setSelectedCommunity: action((state, newProject) => {
+    state.selectedCommunity = newProject
   }),
 
   setQuery: action((state, query) => {

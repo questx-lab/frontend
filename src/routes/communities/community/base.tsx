@@ -7,6 +7,7 @@ import { ControlPanelTab } from '@/types/community'
 import { CollaboratorType, CommunityType } from '@/utils/type'
 import { Horizontal } from '@/widgets/orientation'
 import { useStoreState } from 'easy-peasy'
+import { useEffect } from 'react'
 import { json, Outlet, Params, useLoaderData } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -51,9 +52,17 @@ export const Community = () => {
 
   // action
   const setRole = CommunityStore.useStoreActions((action) => action.setRole)
+  const setSelectedCommunity = CommunityStore.useStoreActions(
+    (action) => action.setSelectedCommunity
+  )
   const setActiveControlPanelTab = CommunityStore.useStoreActions(
     (action) => action.setActiveControlPanelTab
   )
+
+  // hook
+  useEffect(() => {
+    setSelectedCommunity(data.community)
+  }, [setSelectedCommunity, data.community])
 
   if (!community) {
     return <>Failed to load community data</>

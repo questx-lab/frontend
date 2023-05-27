@@ -1,8 +1,12 @@
 import { TabReviewEnum } from '@/constants/common.const'
+import { HistoryTab } from '@/modules/review-submission/history'
+import PendingTab from '@/modules/review-submission/pending'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CommunityStore } from '@/store/local/community'
+import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
 import { ControlPanelTab } from '@/types/community'
+import { Vertical } from '@/widgets/orientation'
 import { Tab, TabItem } from '@/widgets/tab-group'
 import { ArrowPathIcon, ClockIcon } from '@heroicons/react/24/outline'
 import { FunctionComponent } from 'react'
@@ -19,10 +23,19 @@ const Head = tw.div`
   text-black
 `
 
+const ContentPadding = tw(Vertical)`
+  gap-6
+  px-36
+  max-2xl:px-12
+  max-lg:px-6
+  w-full
+`
+
 export const Index: FunctionComponent = () => {
   // data
   const tabReviewState = NewClaimReviewStore.useStoreState((state) => state.tabReview)
   const loadingModal = NewClaimReviewStore.useStoreState((state) => state.loadingModal)
+  const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   // action
   const setTabReview = NewClaimReviewStore.useStoreActions((actions) => actions.setTabReview)
@@ -32,6 +45,11 @@ export const Index: FunctionComponent = () => {
   )
 
   setActiveControlPanelTab(ControlPanelTab.REVIEW_SUBMISSION)
+
+  if (selectedCommunity === undefined) {
+    // TODO: redirect from there.
+    return <></>
+  }
 
   return (
     <>
@@ -53,6 +71,14 @@ export const Index: FunctionComponent = () => {
         </TabItem>
       </Tab>
       <Gap height={6} />
+      <NewQuestSearchStore.Provider>
+        <ContentPadding>
+          {tabReviewState === TabReviewEnum.PENDING && (
+            <PendingTab communityId={selectedCommunity.id} />
+          )}
+          {/* {tabReviewState === TabReviewEnum.HISTORY && <HistoryTab communityId={communityId} />} */}
+        </ContentPadding>
+      </NewQuestSearchStore.Provider>
     </>
   )
 }
