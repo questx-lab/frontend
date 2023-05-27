@@ -1,7 +1,12 @@
 import { getCommunityApi } from '@/app/api/client/communitiy'
+import { CommunityRoleEnum } from '@/constants/common.const'
 import { ControlPanel } from '@/modules/community/control-panel'
-import { CommunityType } from '@/utils/type'
-import { json, Params, useLoaderData } from 'react-router-dom'
+import { CommunityStore } from '@/store/local/community'
+import { GlobalStoreModel } from '@/store/store'
+import { ControlPanelTab } from '@/types/community'
+import { CollaboratorType, CommunityType } from '@/utils/type'
+import { useStoreState } from 'easy-peasy'
+import { json, Outlet, Params, useLoaderData } from 'react-router-dom'
 
 export const Loader = async (args: { params: Params }) => {
   const communityResult = await getCommunityApi(args.params['communityId'] || '')
@@ -18,18 +23,42 @@ export const Loader = async (args: { params: Params }) => {
 }
 
 export const Community = () => {
+  // loader data
   let data = useLoaderData() as {
     community: CommunityType
   }
-  console.log('community = ', data.community)
+  const community = data.community
 
-  if (!data.community) {
+  // data
+  const myCommunities: CollaboratorType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.projectCollab
+  )
+
+  // action
+  const setRole = CommunityStore.useStoreActions((action) => action.setRole)
+  const setActiveControlPanelTab = CommunityStore.useStoreActions(
+    (action) => action.setActiveControlPanelTab
+  )
+
+  if (!community) {
     return <>Failed to load community data</>
+  }
+
+  setActiveControlPanelTab(ControlPanelTab.QUESTS)
+
+  // Check if user is the admin of this community
+  const filter = myCommunities.filter((e) => e.community_id === community.id)
+  const isOwner = filter.length > 0
+  if (isOwner) {
+    setRole(CommunityRoleEnum.OWNER)
+  } else {
+    setRole(CommunityRoleEnum.GUEST)
   }
 
   return (
     <>
-      <ControlPanel communityId={data.community.id} />
+      <ControlPanel community={community} show={isOwner} />
+      <Outlet />
     </>
   )
 }

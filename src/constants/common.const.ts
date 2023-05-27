@@ -119,12 +119,6 @@ export const QuestRecurrencesStringMap = new Map<String, QuestRecurrence>([
 
 export const QuestRewards = ['Gem', 'Discord Role', 'Other']
 
-export enum SideEnum {
-  QUEST,
-  REVIEW_SUBMISSION,
-  SETTINGS,
-}
-
 export enum TabReviewEnum {
   PENDING,
   HISTORY,

@@ -1,11 +1,11 @@
-import { SideEnum } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
-import { GlobalStoreModel } from '@/store/store'
+import { CommunityStore } from '@/store/local/community'
 import { Divider, Gap } from '@/styles/common.style'
+import { ControlPanelTab } from '@/types/community'
+import { CommunityType } from '@/utils/type'
 import { CircularImage } from '@/widgets/circular-image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { ArrowUpOnSquareIcon, BoltIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
-import { useStoreState } from 'easy-peasy'
 import { FunctionComponent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -79,12 +79,18 @@ const Tab = styled.div<{ active?: boolean }>(({ active = false }) => {
 })
 
 export const ControlPanel: FunctionComponent<{
-  communityId: string
-  active?: number
-}> = ({ communityId, active = SideEnum.QUEST }) => {
-  // Data
-  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  community: CommunityType
+  show: boolean
+}> = ({ community, show }) => {
+  // hook
   const navigate = useNavigate()
+
+  // data
+  const activeControlPanelTab = CommunityStore.useStoreState((state) => state.activeControlPanelTab)
+
+  if (!show) {
+    return <></>
+  }
 
   return (
     <CSide>
@@ -93,7 +99,7 @@ export const ControlPanel: FunctionComponent<{
         <Gap height={6} />
 
         <HorizontalCenter>
-          <TextName>{user.name}</TextName>
+          <TextName>{community.name}</TextName>
           <Gap width={1} />
         </HorizontalCenter>
       </PersonWrap>
@@ -101,27 +107,27 @@ export const ControlPanel: FunctionComponent<{
       <Padding>
         <Tab
           onClick={() => {
-            navigate(RouterConst.PROJECT + communityId)
+            navigate(RouterConst.PROJECT + community.id)
           }}
-          active={active === SideEnum.QUEST}
+          active={activeControlPanelTab === ControlPanelTab.QUESTS}
         >
           <BoltIcon className='w-6 h-6 mr-2' />
           {'QUESTS'}
         </Tab>
         <Tab
           onClick={() => {
-            navigate(RouterConst.PROJECT + communityId + '/review')
+            navigate(RouterConst.PROJECT + community.id + '/review')
           }}
-          active={active === SideEnum.REVIEW_SUBMISSION}
+          active={activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION}
         >
           <ArrowUpOnSquareIcon className='w-6 h-6 mr-2' />
           {'REVIEW SUBMISSION'}
         </Tab>
         <Tab
           onClick={() => {
-            navigate(RouterConst.PROJECT + communityId + '/setting')
+            navigate(RouterConst.PROJECT + community.id + '/setting')
           }}
-          active={active === SideEnum.SETTINGS}
+          active={activeControlPanelTab === ControlPanelTab.SETTINGS}
         >
           <Cog6ToothIcon className='w-6 h-6 mr-2' />
           {'SETTINGS'}

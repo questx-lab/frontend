@@ -1,4 +1,4 @@
-import { Index as CommunitiesIndex } from '@/modules/community/communities'
+import { Index as CommunitiesIndex } from '@/modules/communities'
 import { Home as HomeIndex } from '@/modules/root/homepage'
 import { Communities } from '@/routes/communities/base'
 import { Community, Loader as CommunityLoader } from '@/routes/communities/community/base'

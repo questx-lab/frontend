@@ -1,5 +1,5 @@
 import { listCommunitiesApi } from '@/app/api/client/communitiy'
-import { List } from '@/modules/community/communities/list'
+import { List } from '@/modules/communities/list'
 import { CommunityStore } from '@/store/local/community'
 import { CommunityType } from '@/utils/type'
 import { Horizontal, Vertical } from '@/widgets/orientation'

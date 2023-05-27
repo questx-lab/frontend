@@ -12,7 +12,7 @@ import { Header } from '@/modules/header/header'
 import Login from '@/modules/header/login'
 import { HomeOrLandingPage } from '@/modules/root'
 import { GlobalStoreModel } from '@/store/store'
-import { delCookies, delUserLocal, getUserLocal } from '@/utils/helper'
+import { getUserLocal } from '@/utils/helper'
 import { CollaboratorType, CommunityType, RefferalType } from '@/utils/type'
 import { BasicModal } from '@/widgets/modal'
 

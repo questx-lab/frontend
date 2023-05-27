@@ -2,6 +2,7 @@ import { action, Action, createContextStore } from 'easy-peasy'
 
 import { CommunityRoleEnum } from '@/constants/common.const'
 import { CategoryType, CommunityType } from '@/utils/type'
+import { ControlPanelTab } from '@/types/community'
 
 interface CommunityModel {
   project: CommunityType
@@ -11,6 +12,7 @@ interface CommunityModel {
   role: number
   categories: CategoryType[]
   invitedBy: string
+  activeControlPanelTab: number
 
   setProject: Action<CommunityModel, CommunityType>
   setProjects: Action<CommunityModel, CommunityType[]>
@@ -19,6 +21,7 @@ interface CommunityModel {
   setRole: Action<CommunityModel, number>
   setCategories: Action<CommunityModel, CategoryType[]>
   setInviteBy: Action<CommunityModel, string>
+  setActiveControlPanelTab: Action<CommunityModel, number>
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
@@ -29,6 +32,7 @@ const CommunityStore = createContextStore<CommunityModel>({
   role: CommunityRoleEnum.GUEST,
   categories: [],
   invitedBy: '',
+  activeControlPanelTab: ControlPanelTab.QUESTS,
 
   setProject: action((state, newProject) => {
     state.project = newProject
@@ -56,6 +60,10 @@ const CommunityStore = createContextStore<CommunityModel>({
 
   setInviteBy: action((state, invitedBy) => {
     state.invitedBy = invitedBy
+  }),
+
+  setActiveControlPanelTab: action((state, activeControlPanelTab) => {
+    state.activeControlPanelTab = activeControlPanelTab
   }),
 })
 export { CommunityStore }
