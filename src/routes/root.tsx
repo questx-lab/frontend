@@ -1,6 +1,6 @@
-import { GoogleOAuthProvider } from '@react-oauth/google'
-import { useStoreActions, useStoreState } from 'easy-peasy'
 import { FunctionComponent } from 'react'
+
+import { useStoreActions } from 'easy-peasy'
 import { Toaster } from 'react-hot-toast'
 import { json, useLoaderData } from 'react-router-dom'
 import tw from 'twin.macro'
@@ -9,12 +9,11 @@ import { getFollowCommunitiesApi, getMyCommunitiesApi } from '@/app/api/client/c
 import { getMyReferralInfoApi } from '@/app/api/client/reward'
 import { EnvVariables } from '@/constants/env.const'
 import { Header } from '@/modules/header/header'
-import Login from '@/modules/header/login'
 import { HomeOrLandingPage } from '@/modules/root'
 import { GlobalStoreModel } from '@/store/store'
 import { getUserLocal } from '@/utils/helper'
 import { CollaboratorType, CommunityType, RefferalType } from '@/utils/type'
-import { BasicModal } from '@/widgets/modal'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export const RootLoader = async () => {
   const localUser = getUserLocal()
@@ -52,11 +51,7 @@ export const Root: FunctionComponent = () => {
     referral: RefferalType
   }
 
-  // data
-  const showLoginModal = useStoreState<GlobalStoreModel>((state) => state.showLoginModal)
-
   // action
-  const setShowLoginModal = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
   const setReferral = useStoreActions<GlobalStoreModel>((action) => action.setReferral)
   const setProjectCollab = useStoreActions<GlobalStoreModel>((action) => action.setProjectCollab)
   const setProjectsFollowing = useStoreActions<GlobalStoreModel>(
@@ -80,9 +75,6 @@ export const Root: FunctionComponent = () => {
         <Header />
       </Main>
       <Toaster position='top-center' reverseOrder={false} />
-      <BasicModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)}>
-        <Login setOpen={setShowLoginModal} />
-      </BasicModal>
     </GoogleOAuthProvider>
   )
 }
