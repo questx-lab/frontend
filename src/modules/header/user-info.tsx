@@ -1,14 +1,15 @@
+import { FunctionComponent, useEffect, useState } from 'react'
+
+import { useStoreActions, useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
-import { GlobalStoreModel } from '@/store/store'
-import { useStoreActions, useStoreState } from 'easy-peasy'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { GiftIcon } from '@heroicons/react/24/outline'
-import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
-import { UserPopover } from '@/modules/header/user-popover'
-import { BaseModal, BasicModal } from '@/widgets/modal'
 import { AuthEnum } from '@/constants/common.const'
 import Login from '@/modules/header/login'
+import { UserPopover } from '@/modules/header/user-popover'
+import { GlobalStoreModel } from '@/store/store'
+import { BaseModal, BasicModal } from '@/widgets/modal'
+import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
+import { GiftIcon } from '@heroicons/react/24/outline'
 
 const AuthBox = tw(Horizontal)`
   gap-2
@@ -60,16 +61,10 @@ const ModalBox = tw(HorizontalCenter)`
 export const UserInfoBox: FunctionComponent = () => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  const showLoginModal = useStoreState<GlobalStoreModel>(
-    (state) => state.showLoginModal
-  )
+  const showLoginModal = useStoreState<GlobalStoreModel>((state) => state.showLoginModal)
   //action
-  const setAuthBox = useStoreActions<GlobalStoreModel>(
-    (action) => action.setAuthBox
-  )
-  const setShowLoginModal = useStoreActions<GlobalStoreModel>(
-    (action) => action.setShowLoginModal
-  )
+  const setAuthBox = useStoreActions<GlobalStoreModel>((action) => action.setAuthBox)
+  const setShowLoginModal = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
 
   // hook
   const [isInvite, setInvite] = useState<boolean>(false)

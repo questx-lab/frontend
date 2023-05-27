@@ -1,6 +1,5 @@
 import { FunctionComponent, useState } from 'react'
 
-import { useGoogleLogin } from '@react-oauth/google'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { toast } from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
@@ -20,6 +19,8 @@ import { TextField } from '@/widgets/form'
 import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
+import { XMarkIcon } from '@heroicons/react/24/outline'
+import { useGoogleLogin } from '@react-oauth/google'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
@@ -442,8 +443,9 @@ const Login: FunctionComponent<{
 
   return (
     <Wrap>
-      <Header></Header>
-      BBBB
+      <Header>
+        <XMarkIcon onClick={() => setOpen(false)} className='w-7 h-7 cursor-pointer' />
+      </Header>
       <Content />
     </Wrap>
   )
