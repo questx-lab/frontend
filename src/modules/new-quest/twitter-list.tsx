@@ -160,7 +160,7 @@ const TwitterList: FunctionComponent = () => {
               placeholder='https://twitter.com/elon.musk'
               value={accountUrl}
               required
-              errorMsg='This field is required'
+              msg='This field is required'
             />
           </PICard>
         </>
@@ -177,7 +177,7 @@ const TwitterList: FunctionComponent = () => {
               placeholder='https://twitter.com/abc'
               value={tweetUrl}
               required
-              errorMsg='This field is required'
+              msg='This field is required'
             />
             <Gap height={3} />
             <LabelDes>{'Post to like/reply/retweet'}</LabelDes>
@@ -224,7 +224,7 @@ const TwitterList: FunctionComponent = () => {
               placeholder='Empty'
               value={spaceUrlTw}
               required
-              errorMsg='This field is required'
+              msg='This field is required'
             />
           </PICard>
         </>

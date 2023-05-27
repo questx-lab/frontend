@@ -3,10 +3,13 @@ import tw from 'twin.macro'
 
 import { VerticalFullWidth } from '@/widgets/orientation'
 
-export const InputBox = styled.input<{ danger?: boolean; block?: boolean }>(
-  ({ danger = false, block = false }) => [
-    danger
-      ? tw`
+export const InputBox = styled.input<{
+  danger?: boolean
+  block?: boolean
+  isValid?: boolean
+}>(({ danger = false, block = false, isValid }) => [
+  danger
+    ? tw`
         w-full
         border
         border-[1px]
@@ -19,7 +22,7 @@ export const InputBox = styled.input<{ danger?: boolean; block?: boolean }>(
         focus:outline
         focus:ring-danger-500
       `
-      : tw`
+    : tw`
         w-full
         border
         border-[1px]
@@ -32,13 +35,34 @@ export const InputBox = styled.input<{ danger?: boolean; block?: boolean }>(
         focus:ring-primary
         font-normal
       `,
-    block &&
-      tw`
+  block &&
+    tw`
         border-gray-300
-        bg-gray-100
       `,
-  ]
-)
+  isValid &&
+    tw`
+        border-success
+        rounded-lg
+        focus:border-success-500
+        focus:outline-success-500
+        focus:outline
+        focus:ring-success-500
+      `,
+  isValid === false &&
+    tw`
+    w-full
+    border
+    border-[1px]
+    border-solid
+    border-danger-700
+    p-3
+    rounded-lg
+    focus:border-danger-500
+    focus:outline-danger-500
+    focus:outline
+    focus:ring-danger-500
+  `,
+])
 
 export const InputInviteBox = tw.input`
   w-full
@@ -54,11 +78,23 @@ export const ErrorBox = tw(VerticalFullWidth)`
   gap-2
 `
 
-export const ErrorMsg = tw.span`
-  text-sm
-  font-normal
-  text-danger-500
-`
+export const ErrorMsg = styled.span<{ danger: boolean; isValid?: boolean }>(
+  ({ danger, isValid }) => [
+    tw`
+    text-sm
+    font-normal
+    text-danger-500
+  `,
+    danger &&
+      tw`
+    text-danger-500
+  `,
+    isValid &&
+      tw`
+    text-success
+  `,
+  ]
+)
 
 export const InputBBox = tw.input`
   w-full

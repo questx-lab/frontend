@@ -1,6 +1,5 @@
 import { FunctionComponent, useState } from 'react'
 
-import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
@@ -46,9 +45,16 @@ export const CreateCommunityStep: FunctionComponent = () => {
     (state) => state.inviteCode
   )
   const title = NewCommunityStore.useStoreState((state) => state.title)
+  const websiteUrl = NewCommunityStore.useStoreState(
+    (state) => state.websiteUrl
+  )
+  const twitterUrl = NewCommunityStore.useStoreState(
+    (state) => state.twitterUrl
+  )
   const description = NewCommunityStore.useStoreState(
     (state) => state.description
   )
+  const urlName = NewCommunityStore.useStoreState((state) => state.urlName)
 
   // action
   const setCurrentStep = NewCommunityStore.useStoreActions(
@@ -57,21 +63,25 @@ export const CreateCommunityStep: FunctionComponent = () => {
   const setInviteCode = NewCommunityStore.useStoreActions(
     (action) => action.setInviteCode
   )
+  const setCreatedCommunityHandle = NewCommunityStore.useStoreActions(
+    (action) => action.setCreatedCommunityHandle
+  )
   const setCreatedCommunityId = NewCommunityStore.useStoreActions(
     (action) => action.setCreatedCommunityId
   )
-
   // hook
   let [loading, setLoading] = useState<boolean>(false)
-  const router = useRouter()
 
   // handler
   const onDone = async () => {
     setLoading(true)
     try {
       const payload: ReqNewCommunity = {
-        name: title,
+        display_name: title,
         introduction: description,
+        handle: urlName,
+        website_url: websiteUrl,
+        twitter: twitterUrl,
       }
 
       const data = await newCommunityApi(payload)
@@ -82,11 +92,13 @@ export const CreateCommunityStep: FunctionComponent = () => {
         toast.error('Cannot create new community')
       } else {
         setCurrentStep(currentStep + 1)
+        setCreatedCommunityHandle(data.data.handle)
         setCreatedCommunityId(data.data.id)
       }
     } catch (error) {
-      setLoading(false)
       toast.error('Server error')
+    } finally {
+      setLoading(false)
     }
   }
 

@@ -2,12 +2,21 @@ import { FunctionComponent } from 'react'
 
 import { ErrorBox, ErrorMsg, InputBox, MulInputBox } from '@/styles/input.style'
 
-const Error: FunctionComponent<{ danger: boolean; errorMsg: string }> = ({
-  danger,
-  errorMsg,
-}) => {
+const MsgBox: FunctionComponent<{
+  danger: boolean
+  msg: string
+  isValid?: boolean
+}> = ({ danger, msg, isValid }) => {
   if (danger) {
-    return <ErrorMsg>{errorMsg}</ErrorMsg>
+    return <ErrorMsg danger={danger}>{msg}</ErrorMsg>
+  }
+
+  if (isValid === true) {
+    return (
+      <ErrorMsg danger={false} isValid={isValid}>
+        {msg}
+      </ErrorMsg>
+    )
   }
   return <></>
 }
@@ -15,11 +24,32 @@ const Error: FunctionComponent<{ danger: boolean; errorMsg: string }> = ({
 export const TextField: FunctionComponent<{
   required?: boolean
   placeholder: string
-  value: string
+  value?: string
   onChange: (e: any) => void
-  errorMsg?: string
-}> = ({ required = false, placeholder, value, onChange, errorMsg = '' }) => {
-  const danger = required && value === ''
+  msg?: string
+  isValid?: boolean
+  min?: number
+}> = ({
+  required = false,
+  placeholder,
+  value,
+  onChange,
+  msg = '',
+  isValid,
+  min,
+}) => {
+  let danger = required && value === ''
+
+  if (min && value) {
+    if (value.length <= min) {
+      danger = true
+      msg = `Require more than ${min} charactors`
+    }
+  }
+
+  // if (msg && !isValid) {
+  //   danger = true
+  // }
 
   return (
     <ErrorBox>
@@ -28,8 +58,9 @@ export const TextField: FunctionComponent<{
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        isValid={isValid}
       />
-      <Error danger={danger} errorMsg={errorMsg} />
+      <MsgBox danger={danger} msg={msg} isValid={isValid} />
     </ErrorBox>
   )
 }
@@ -60,7 +91,7 @@ export const MultipleTextField: FunctionComponent<{
         onChange={onChange}
         rows={rows}
       />
-      <Error danger={danger} errorMsg={errorMsg} />
+      <MsgBox danger={danger} msg={errorMsg} />
     </ErrorBox>
   )
 }

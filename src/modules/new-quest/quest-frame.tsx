@@ -665,7 +665,7 @@ const QuestFrame: FunctionComponent<{
                   value={title}
                   placeholder='The name of the quest is written here.'
                   onChange={(e) => setTitle(e.target.value)}
-                  errorMsg='You must have a quest title to create this quest.'
+                  msg='You must have a quest title to create this quest.'
                 />
                 <Gap />
                 <Label>{'QUEST DESCRIPTION'}</Label>

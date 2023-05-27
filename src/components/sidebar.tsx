@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { IMAGES_SOURCE } from '@/constants/images'
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
 import { BoxContent, CircleRouded, Wrap } from '@/styles/sidebar.style'
 import { CollaboratorType, CommunityType } from '@/utils/type'
 import { Tooltip } from '@material-tailwind/react'
-import { IMAGES_SOURCE } from '@/constants/images'
 
 const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
   active
@@ -32,8 +32,12 @@ const RenderFollowItems: FunctionComponent<{
   const listItems =
     projects &&
     projects.map((community) => (
-      <Tooltip key={community.id} content={community.name} placement='right'>
-        <ActiveAvatar active={community.id === activeCommunityId}>
+      <Tooltip
+        key={community.id}
+        content={community.display_name}
+        placement='right'
+      >
+        <ActiveAvatar active={community.handle === activeCommunityId}>
           <CircleRouded
             onClick={() => router.push(RouterConst.PROJECT + community.id)}
             width={45}
@@ -62,13 +66,13 @@ const RenderCollabItems: FunctionComponent<{
     collaborator.map((community) => (
       <Tooltip
         key={community.community_id}
-        content={community.community.name}
+        content={community.community.display_name}
         placement='right'
       >
-        <ActiveAvatar active={community.community_id === activeCommunityId}>
+        <ActiveAvatar active={community.community.handle === activeCommunityId}>
           <CircleRouded
             onClick={() =>
-              router.push(RouterConst.PROJECT + community.community_id)
+              router.push(RouterConst.PROJECT + community.community.handle)
             }
             width={45}
             height={45}

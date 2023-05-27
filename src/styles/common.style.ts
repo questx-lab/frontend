@@ -193,6 +193,7 @@ export const Main = tw(Vertical)`
   max-sm:px-2
   md:px-8
   xl:w-[980px]
+  md:w-[780px]
   pb-[30px]
   w-full
   gap-6
@@ -202,6 +203,7 @@ export const TitleBox = tw(Horizontal)`
   max-sm:px-2
   md:px-8
   xl:w-[980px]
+  md:w-[780px]
   py-6
   w-full
   justify-between

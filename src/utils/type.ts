@@ -40,18 +40,18 @@ export type UserType = {
 }
 
 export type ReqNewCommunity = {
-  name: string
+  display_name: string
+  handle?: string
   introduction?: string
   telegram?: string
-  websiteUrl?: string
-  website?: string
+  website_url?: string
   discord?: string
   twitter?: string
 }
 
 export type ReqUpdateCommunity = {
   id: string
-  name?: string
+  display_name?: string
   introduction?: string
   twitter?: string
   discord?: string
@@ -75,7 +75,8 @@ export type CommunityType = {
   created_at?: string
   updated_at?: string
   created_by?: string
-  name?: string
+  display_name?: string
+  handle?: string
   twitter?: string
   discord?: string
   telegram?: string
@@ -95,17 +96,17 @@ export type ReqNewRoleCommunity = {
 }
 
 export type ReqNewQuestType = {
-  id: string
-  community_id: string
-  type: string
-  title: string
-  description: string
+  id?: string
+  community_id?: string
+  type?: string
+  title?: string
+  description?: string
   categories?: string[]
-  recurrence: string
-  validation_data: ValidationQuest
-  rewards: RewardType[]
-  condition_op: string
-  conditions: []
+  recurrence?: string
+  validation_data?: ValidationQuest
+  rewards?: RewardType[]
+  condition_op?: string
+  conditions?: []
   status?: string
 }
 
@@ -140,6 +141,7 @@ export type ValidationQuest = {
 export interface QuestType {
   id?: string
   community_id?: string
+  category_id?: string
   title?: string
   type?: string
   status?: string

@@ -1,23 +1,24 @@
 'use client'
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 
 import tw from 'twin.macro'
 
 import Communities from '@/modules/community/communities'
 import CreateCommunity from '@/modules/community/create-community'
 import { CommunityStore } from '@/store/local/community.store'
+import { NewCommunityStore } from '@/store/local/new-community.store'
 import { Divider, TitleBox } from '@/styles/common.style'
 import { ModalBox } from '@/styles/quest-review.style'
 import { MainLayout } from '@/widgets/main-layout'
 import { BaseModal } from '@/widgets/modal'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { PlusIcon } from '@heroicons/react/24/outline'
-import { NewCommunityStore } from '@/store/local/new-community.store'
 
 const Main = tw(Vertical)`
   max-sm:px-2
   md:px-8
   xl:w-[980px]
+  md:w-[780px]
   pb-[30px]
   w-full
 `
@@ -51,7 +52,7 @@ const NewCommunity: FunctionComponent<{
   return (
     <CreateProjectBtn onClick={() => setOpen(true)}>
       <PlusIcon className={'w-5 h-5 text-black'} />
-      {'Create Project'}
+      {'Create Community'}
     </CreateProjectBtn>
   )
 }

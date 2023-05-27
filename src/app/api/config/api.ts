@@ -9,9 +9,10 @@ import {
   getRefreshToken,
   setAccessToken,
   setRefreshToken,
+  setUserCookie,
 } from '@/utils/helper'
 
-import { refreshTokenApi } from '../client/user'
+import { getUserApi, refreshTokenApi } from '../client/user'
 
 export const isServer = () => {
   return typeof window === 'undefined'
@@ -68,8 +69,15 @@ api.interceptors.response.use(
                 'Bearer ' + data.data.access_token
               setAccessToken(data.data.access_token)
               setRefreshToken(data.data.refresh_token)
-
-              // 6. Recall request
+              // 6. get User data
+              const user = await getUserApi()
+              if (user.error) {
+                return response
+              }
+              if (user.data) {
+                setUserCookie(user.data, data.data.access_token)
+              }
+              // 7. Recall request
               return await axios.request(originalRequest)
             }
           } catch (error) {
@@ -78,7 +86,7 @@ api.interceptors.response.use(
         }
 
         if (refreshToken && accessToken) {
-          // 7. Recall request
+          // 8. Recall request
 
           return await axios.request(originalRequest)
         }

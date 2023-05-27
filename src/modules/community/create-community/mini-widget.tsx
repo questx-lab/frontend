@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react'
+
 import tw from 'twin.macro'
 
 import { NewCommunityStore } from '@/store/local/new-community.store'
@@ -37,9 +38,10 @@ const BackBtn = tw.button`
   text-lg
 `
 
-export const NextButton: FunctionComponent<{ block?: boolean }> = ({
-  block = false,
-}) => {
+export const NextButton: FunctionComponent<{
+  block?: boolean
+  onClick?: () => void
+}> = ({ block = false, onClick }) => {
   const currentStep = NewCommunityStore.useStoreState(
     (state) => state.currentStep
   )
@@ -54,6 +56,9 @@ export const NextButton: FunctionComponent<{ block?: boolean }> = ({
       isFull={true}
       block={block}
       onClick={() => {
+        if (onClick) {
+          onClick()
+        }
         setCurrentStep(currentStep + 1)
       }}
     >

@@ -5,6 +5,8 @@ import { MoonLoader } from 'react-spinners'
 import { SpinnerStyle } from '@/styles/common.style'
 import { Wrap } from '@/styles/spinner.style'
 
+import { VerticalBetween } from './orientation'
+
 export const Spinner = () => (
   <Wrap>
     <MoonLoader
@@ -19,12 +21,14 @@ export const Spinner = () => (
 )
 
 export const SmallSpinner = () => (
-  <MoonLoader
-    color={'#000'}
-    loading={true}
-    cssOverride={SpinnerStyle}
-    size={30}
-    aria-label='Loading Spinner'
-    data-testid='loader'
-  />
+  <VerticalBetween>
+    <MoonLoader
+      color={'#000'}
+      loading={true}
+      cssOverride={SpinnerStyle}
+      size={30}
+      aria-label='Loading Spinner'
+      data-testid='loader'
+    />
+  </VerticalBetween>
 )

@@ -36,6 +36,13 @@ export const setAccessToken = (cookie: string) => {
   })
 }
 
+export const setUserCookie = (user: UserType, cookie: string) => {
+  const dToken: any = jwt(cookie)
+  setCookie(KeysEnum.USER, user, {
+    maxAge: dToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
+  })
+}
+
 export const setRefreshToken = (cookie: string) => {
   const dToken: any = jwt(cookie)
   setCookie(KeysEnum.REFRESH_TOKEN, cookie, {

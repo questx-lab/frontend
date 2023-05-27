@@ -3,6 +3,7 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
+import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 
 import { getCommunityApi } from '@/app/api/client/community'
@@ -13,8 +14,9 @@ import ManageProject from '@/modules/community/manage'
 import { CommunityStore } from '@/store/local/community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/utils/type'
+import ErrorPage from '@/widgets/error'
 import { Spinner } from '@/widgets/spinner'
-import { useSearchParams, ReadonlyURLSearchParams } from 'next/navigation'
+
 const ProjectBox: FunctionComponent<{ communityId: string }> = ({
   communityId,
 }) => {
@@ -22,6 +24,7 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
     useSearchParams() || new ReadonlyURLSearchParams(new URLSearchParams())
 
   const [loading, setLoading] = useState<boolean>(true)
+  const [errorPage, setErrorPage] = useState<boolean>(false)
 
   // data
   const projectCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
@@ -53,7 +56,8 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
     try {
       const rs = await getCommunityApi(communityId)
       if (rs.error) {
-        toast.error(rs.error)
+        // toast.error(rs.error)
+        setErrorPage(true)
       } else {
         setProject(rs.data?.community!)
         if (projectCollab) {
@@ -73,6 +77,10 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
       toast.error('Error while fetch community')
       setLoading(false)
     }
+  }
+
+  if (errorPage) {
+    return <ErrorPage />
   }
 
   if (loading) {
