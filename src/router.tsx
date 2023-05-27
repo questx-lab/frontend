@@ -1,6 +1,6 @@
 import { Index as CommunitiesIndex } from '@/modules/communities'
 import { Index as CommunityIndex } from '@/modules/community'
-import { Index as ReviewSubmissionIndex } from '@/modules/review-submission'
+import { Index as ReviewSubmissionIndex } from '@/modules/community/review-submission'
 import { Home as HomeIndex } from '@/modules/root/homepage'
 import { Communities } from '@/routes/communities/base'
 import { Community, Loader as CommunityLoader } from '@/routes/communities/community/base'

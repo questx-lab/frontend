@@ -1,6 +1,6 @@
 import { TabReviewEnum } from '@/constants/common.const'
-import { HistoryTab } from '@/modules/review-submission/history'
-import PendingTab from '@/modules/review-submission/pending'
+import { HistoryTab } from '@/modules/community/review-submission/history'
+import PendingTab from '@/modules/community/review-submission/pending'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'

@@ -40,8 +40,6 @@ export const Index: FunctionComponent = () => {
   let data = useLoaderData() as {
     community: CommunityType
   }
-  // console.log('data = ', data)
-  // const community = data.community
 
   // hook
   const navigate = useNavigate()

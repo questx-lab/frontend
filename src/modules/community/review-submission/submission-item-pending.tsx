@@ -15,7 +15,7 @@ import { Image } from '@/widgets/image'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Horizontal, Vertical } from '@/widgets/orientation'
-import { CheckBox } from '@/modules/review-submission/mini-widget'
+import { CheckBox } from '@/modules/community/review-submission/mini-widget'
 import {
   Details,
   FullWidth,
@@ -25,7 +25,7 @@ import {
   Time,
   Title,
   VerticalLeftMargin,
-} from '@/modules/review-submission/row-item'
+} from '@/modules/community/review-submission/row-item'
 
 const SubmissionItemPending: FunctionComponent<{
   tab: number
