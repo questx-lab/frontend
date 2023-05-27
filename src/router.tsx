@@ -1,10 +1,12 @@
 import { Index as CommunitiesIndex } from '@/modules/communities'
 import { Index as CommunityIndex } from '@/modules/community'
+import { Index as CreateCommunityIndex } from '@/modules/community/create'
 import { Index as ReviewSubmissionIndex } from '@/modules/community/review-submission'
 import { Index as CommunitySettingsIndex } from '@/modules/community/settings'
 import { Home as HomeIndex } from '@/modules/root/homepage'
 import { Communities } from '@/routes/communities/base'
 import { Community, Loader as CommunityLoader } from '@/routes/communities/community/base'
+import { CreateCommunity } from '@/routes/communities/community/create/base'
 import { ReviewSubmissions } from '@/routes/communities/community/review-submissions/base'
 import { Settings } from '@/routes/communities/community/settings/base'
 import { Root, RootLoader } from '@/routes/root'
@@ -38,6 +40,11 @@ const router = createBrowserRouter([
                 path: 'settings',
                 element: <Settings />,
                 children: [{ index: true, element: <CommunitySettingsIndex /> }],
+              },
+              {
+                path: 'create',
+                element: <CreateCommunity />,
+                children: [{ index: true, element: <CreateCommunityIndex /> }],
               },
             ],
           },

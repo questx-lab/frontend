@@ -1,13 +1,11 @@
-import { RouterConst } from '@/constants/router.const'
 import { CommunityStore } from '@/store/local/community'
 import { Gap } from '@/styles/common.style'
 import { ControlPanelTab } from '@/types/community'
-import { CommunityType } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/button'
 import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
 import { Large3xlText } from '@/widgets/text'
 import { FunctionComponent, useEffect } from 'react'
-import { useLoaderData, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
 const CCBox = tw(Horizontal)`
@@ -38,11 +36,6 @@ const ButtonAlignment = tw(Horizontal)`
 `
 
 export const Index: FunctionComponent = () => {
-  // loader data
-  let data = useLoaderData() as {
-    community: CommunityType
-  }
-
   const setActiveControlPanelTab = CommunityStore.useStoreActions(
     (action) => action.setActiveControlPanelTab
   )
@@ -70,9 +63,7 @@ export const Index: FunctionComponent = () => {
                 {'Use Template'}
               </NegativeButton>
               <Gap width={4} />
-              <PositiveButton
-                onClick={() => navigate(RouterConst.PROJECT + data.community.id + '/create')}
-              >
+              <PositiveButton onClick={() => navigate('./create')}>
                 {'+  Create Quest'}
               </PositiveButton>
             </ButtonAlignment>

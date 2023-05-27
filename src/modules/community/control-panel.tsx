@@ -1,4 +1,3 @@
-import { RouterConst } from '@/constants/router.const'
 import { CommunityStore } from '@/store/local/community'
 import { Divider, Gap } from '@/styles/common.style'
 import { ControlPanelTab } from '@/types/community'
@@ -111,7 +110,7 @@ export const ControlPanel: FunctionComponent<{
               return
             }
 
-            navigate(RouterConst.PROJECT + community.id)
+            navigate('./')
           }}
           active={activeControlPanelTab === ControlPanelTab.QUESTS}
         >
@@ -123,8 +122,7 @@ export const ControlPanel: FunctionComponent<{
             if (activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION) {
               return
             }
-
-            navigate(RouterConst.PROJECT + community.id + '/review')
+            navigate('./review')
           }}
           active={activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION}
         >
@@ -133,7 +131,11 @@ export const ControlPanel: FunctionComponent<{
         </Tab>
         <Tab
           onClick={() => {
-            navigate(RouterConst.PROJECT + community.id + '/settings')
+            if (activeControlPanelTab === ControlPanelTab.SETTINGS) {
+              return
+            }
+
+            navigate('./settings')
           }}
           active={activeControlPanelTab === ControlPanelTab.SETTINGS}
         >
