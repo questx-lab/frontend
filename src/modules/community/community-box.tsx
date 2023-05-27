@@ -1,15 +1,13 @@
 import { FunctionComponent } from 'react'
 
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { RouterConst } from '@/constants/router.const'
+import { IMAGES_SOURCE } from '@/constants/images'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
-import { IMAGES_SOURCE } from '@/constants/images'
+import { Image } from '@/widgets/image'
 
 const ContentProjectBox = tw(Vertical)`
   justify-between
@@ -99,14 +97,12 @@ const Title = tw.p`
   3xl:text-xl
 `
 
-const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({
-  community,
-}) => {
-  const router = useRouter()
+const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({ community }) => {
+  // const router = useRouter()
 
   return (
     <CommunityBoxWrap
-      onClick={() => router.push(RouterConst.PROJECT + community.id)}
+    // onClick={() => router.push(RouterConst.PROJECT + community.id)}
     >
       <Top>
         <ImageProjectBox

@@ -1,6 +1,5 @@
 import { Mutex } from 'async-mutex'
 import axios, { AxiosError } from 'axios'
-import { GetServerSidePropsContext } from 'next'
 
 import { ErrorCodes } from '@/constants/code.const'
 import {
@@ -13,11 +12,7 @@ import {
 
 import { refreshTokenApi } from '../client/user'
 
-export const isServer = () => {
-  return typeof window === 'undefined'
-}
 const mutex = new Mutex()
-let context = <GetServerSidePropsContext>{}
 const baseURL = process.env.NEXT_PUBLIC_API_URL!
 
 export const api = axios.create({
@@ -35,9 +30,6 @@ api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${accessToken}`
   }
 
-  if (isServer() && context?.req?.cookies) {
-    config.headers.Cookie = `gid=${context.req.cookies.gid};`
-  }
   return config
 })
 
@@ -64,8 +56,7 @@ api.interceptors.response.use(
 
             if (!data.error) {
               // 5. set header and cookies
-              originalRequest.headers['Authorization'] =
-                'Bearer ' + data.data.access_token
+              originalRequest.headers['Authorization'] = 'Bearer ' + data.data.access_token
               setAccessToken(data.data.access_token)
               setRefreshToken(data.data.refresh_token)
 

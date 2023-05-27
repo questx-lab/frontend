@@ -1,59 +1,61 @@
 {
-  "name": "questx-front",
+  "name": "test-app",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "prepare": "husky install",
-    "check-types": "tsc --pretty --noEmit",
-    "check-lint": "eslint . --ext ts --ext tsx --ext js"
-  },
   "dependencies": {
-    "@headlessui/react": "^1.7.13",
-    "@heroicons/react": "^2.0.17",
-    "@material-tailwind/react": "^2.0.0",
+    "@craco/craco": "^7.1.0",
+    "@headlessui/react": "^1.7.14",
+    "@heroicons/react": "^2.0.18",
     "@metamask/detect-provider": "^2.0.0",
-    "@metamask/providers": "^10.2.1",
+    "@metamask/providers": "^11.0.0",
+    "@react-oauth/google": "^0.11.0",
     "@tailwindcss/line-clamp": "^0.4.4",
-    "@types/node": "18.15.10",
-    "@types/react": "18.0.29",
-    "@types/react-copy-to-clipboard": "^5.0.4",
-    "@types/react-dom": "18.0.11",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
     "async-mutex": "^0.4.0",
-    "autoprefixer": "^10.4.14",
-    "axios": "^1.3.4",
-    "babel-plugin-styled-components": "^2.0.7",
+    "axios": "^1.4.0",
+    "babel-plugin-styled-components": "^2.1.3",
     "cookies-next": "^2.1.1",
-    "easy-peasy": "^5.2.0",
-    "eslint": "8.22.0",
-    "eslint-config-next": "13.2.4",
-    "html-react-parser": "^3.0.16",
+    "easy-peasy": "^6.0.0",
     "jwt-decode": "^3.1.2",
-    "next": "13.2.4",
-    "next-auth": "^4.20.1",
-    "phaser": "3.55.2",
-    "phaser3spectorjs": "^0.0.8",
-    "postcss": "^8.4.21",
-    "react": "18.2.0",
-    "react-copy-to-clipboard": "^5.1.0",
-    "react-dom": "18.2.0",
-    "react-dropzone": "^14.2.3",
-    "react-hot-toast": "^2.4.0",
-    "react-multi-carousel": "^2.8.3",
-    "react-quill": "^2.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.1",
+    "react-multi-carousel": "^2.8.4",
+    "react-router-dom": "^6.11.2",
+    "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
-    "react-virtualized-auto-sizer": "^1.0.15",
-    "react-window": "^1.8.9",
     "styled-components": "^5.3.9",
-    "tailwindcss": "^3.2.7",
-    "twin.macro": "^3.1.0",
-    "typescript": "5.0.2",
-    "use-debounce": "^9.0.4",
-    "web3": "^1.9.0",
-    "websocket": "^1.0.34"
+    "twin.macro": "^3.3.1",
+    "typescript": "^5.0.4",
+    "web-vitals": "^2.1.0",
+    "web3": "^1.10.0"
+  },
+  "scripts": {
+    "dev": "PORT=4000 craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
+    "check-types": "tsc --pretty --noEmit"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "babelMacros": {
     "twin": {
@@ -63,12 +65,14 @@
     }
   },
   "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "@types/node": "^20.2.3",
+    "@types/react": "^18.2.7",
+    "@types/react-dom": "^18.0.11",
     "@types/react-window": "^1.8.5",
     "@types/styled-components": "^5.1.26",
     "@types/websocket": "^1.0.5",
     "@types/ws": "^8.5.4",
-    "babel-plugin-twin": "^1.1.0",
-    "encoding": "^0.1.13",
-    "husky": "^8.0.0"
+    "babel-plugin-module-resolver": "^5.0.0"
   }
 }

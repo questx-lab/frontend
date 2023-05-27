@@ -149,7 +149,6 @@ export interface QuestType {
   created_at?: string
   updated_at?: string
   rewards?: RewardType[]
-  category?: CategoryType
   validation_data?: {
     tweet_url?: string
     like?: boolean
@@ -229,8 +228,10 @@ export type QuestQuizType = {
 
 export type OAuth2VerifyResp = {
   error: number
+  code: number
   data: {
     access_token: string
     refresh_token: string
+    user: UserType
   }
 }

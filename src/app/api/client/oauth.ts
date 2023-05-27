@@ -1,64 +1,32 @@
-import axios from 'axios'
-
 import { EnvVariables } from '@/constants/env.const'
+import axios from 'axios'
+import { VerifyOAuth2IDResp } from '@/utils/request-response'
 import { OAuth2VerifyResp } from '@/utils/type'
+import { api } from '@/app/api/config/api'
 
-import { api } from '../config/api'
+export const verifyOAuth2ID = async (type: string, token: string): Promise<VerifyOAuth2IDResp> => {
+  const result = await axios.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + `/verifyOAuth2ID`,
+    {
+      type: type,
+      id_token: token,
+    },
+    {
+      headers: {
+        ContentType: 'application/json',
+      },
+    }
+  )
+  return result.data
+}
 
 export const verifyOAuth2 = async (
   type: string,
   access_token: string
 ): Promise<OAuth2VerifyResp> => {
-  const result = await api.post(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/verifyOAuth2`,
-    {
-      type,
-      access_token,
-    }
-  )
-  return result.data
-}
-
-export const linkOAuth2 = async (
-  type: string,
-  oauth_access_token: string,
-  access_token: string
-): Promise<OAuth2VerifyResp> => {
-  const result = await axios.post(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/linkOAuth2`,
-    {
-      type: type,
-      access_token: oauth_access_token,
-    },
-    {
-      headers: {
-        ContentType: 'application/json',
-        Authorization: `Bearer ${access_token}`,
-      },
-    }
-  )
-  return result.data
-}
-
-export const updateCommunityDiscord = async (
-  community_id: string,
-  server_id: string,
-  oauth_access_token: string,
-  access_token: string
-): Promise<OAuth2VerifyResp> => {
-  const result = await axios.post(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/updateCommunityDiscord`,
-    {
-      id: community_id,
-      access_token: oauth_access_token,
-      server_id: server_id,
-    },
-    {
-      headers: {
-        ContentType: 'application/json',
-        Authorization: `Bearer ${access_token}`,
-      },
-    }
-  )
+  const result = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + `/verifyOAuth2`, {
+    type,
+    access_token,
+  })
   return result.data
 }

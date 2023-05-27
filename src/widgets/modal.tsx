@@ -1,22 +1,159 @@
 import { Fragment, FunctionComponent, ReactNode } from 'react'
-
+import styled from 'styled-components'
 import { MoonLoader } from 'react-spinners'
 
 import { Gap, SpinnerStyle } from '@/styles/common.style'
-import {
-  CenterWrap,
-  DesModal,
-  DialogPannel,
-  MDHead,
-  ModalBg,
-  ModalBox,
-  ModalContent,
-  ModalWrap,
-  TitleModal,
-  WrapProgressBar,
-} from '@/styles/modal.style'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import tw from 'twin.macro'
+import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
+
+const ModalBg = tw.div`
+  fixed
+  inset-0
+  bg-black
+  bg-opacity-80
+  backdrop-blur-sm
+`
+
+const ModalWrap = tw.div`
+  fixed
+  inset-0
+  overflow-y-auto
+`
+
+const ModalBox = tw(HorizontalCenter)`
+  flex
+  h-full
+  items-center
+  justify-center
+  text-center
+  py-6
+`
+
+const MDHead = tw(Horizontal)`
+  w-full
+  justify-between
+  items-center
+  px-8
+  py-4
+  text-2xl
+  font-normal
+  text-black
+  border
+  border-solid
+  border-gray-200
+`
+
+const ModalContent = styled(Dialog.Panel)(
+  tw`
+  w-1/2
+  max-xl:w-2/3
+  h-full
+  bg-white
+  text-center
+  align-middle
+  overflow-y-scroll
+  shadow-xl
+  transition-all
+  flex
+  flex-col
+  justify-start
+  items-center
+  rounded-lg
+  `
+)
+const TMContent = tw.div`
+  flex
+  h-full
+  items-center
+  justify-end
+  text-center
+`
+
+const TMWrap = styled(Dialog.Panel)(
+  tw`
+  w-5/6
+  max-2xl:w-[calc(100%_-_70px)]
+  h-full
+  bg-white
+  text-left
+  align-middle
+  overflow-hidden
+  shadow-xl
+  transition-all
+  flex
+  flex-col
+  justify-start
+  items-center
+  `
+)
+
+const CenterWrap = tw.div`
+  flex
+  h-full
+  items-center
+  justify-center
+  text-center
+`
+const DialogPannel = styled(Dialog.Panel)(
+  tw`
+  w-full
+  max-w-md
+  transform
+  overflow-hidden
+  rounded-2xl
+  bg-white
+  p-10
+  text-left
+  align-middle
+  shadow-xl
+  transition-all
+  flex
+  flex-col
+  justify-center
+  items-center
+  `
+)
+
+const LDDP = styled(Dialog.Panel)(
+  tw`
+  w-2/3
+  h-[720px]
+  overflow-hidden
+  rounded-2xl
+  bg-white
+  p-6
+  text-left
+  align-middle
+  shadow-xl
+  transition-all
+  flex
+  flex-col
+  justify-start
+  items-center
+  `
+)
+
+const TitleModal = tw.h2`
+  text-black
+  font-bold
+  text-3xl
+`
+
+const DesModal = tw.h4`
+  text-lg
+  text-gray-500
+  font-normal
+`
+
+const WrapProgressBar = tw.div`
+  w-[200px]
+  h-[200px]
+  flex
+  justify-center
+  items-center
+`
 
 export const BaseModal: FunctionComponent<{
   isOpen: boolean
@@ -55,8 +192,8 @@ export const BasicModal: FunctionComponent<{
       <ModalBox>
         <ModalContent className={styled}>
           <MDHead>
-            {title || <div></div>}
-            <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} />
+            {title}
+            {/* <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} /> */}
           </MDHead>
           {children}
         </ModalContent>

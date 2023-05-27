@@ -4,22 +4,12 @@ import jwt from 'jwt-decode'
 import { KeysEnum } from '@/constants/key.const'
 import { UserType } from '@/utils/type'
 
-export const getAccessToken = (): string => {
-  const exist = hasCookie(KeysEnum.ACCESS_TOKEN)
-  if (exist) {
-    const rs = getCookie(KeysEnum.ACCESS_TOKEN)
-    return rs!.toString()
-  }
-  return ''
+export const getAccessToken = (): string | null => {
+  return localStorage.getItem(KeysEnum.ACCESS_TOKEN)
 }
 
-export const getRefreshToken = (): string => {
-  const exist = hasCookie(KeysEnum.REFRESH_TOKEN)
-  if (exist) {
-    const rs = getCookie(KeysEnum.REFRESH_TOKEN)
-    return rs!.toString()
-  }
-  return ''
+export const getRefreshToken = (): string | null => {
+  return localStorage.getItem(KeysEnum.REFRESH_TOKEN)
 }
 
 export const delCookies = () => {
@@ -55,7 +45,7 @@ export const getUserLocal = (): UserType | undefined => {
       const userCookie = getCookie(KeysEnum.USER)
       if (userCookie) {
         const json = JSON.parse(userCookie.toString())
-        return json
+        return json.data
       }
     }
 

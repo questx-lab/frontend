@@ -1,6 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react'
 
-import Image from 'next/image'
 import Carousel from 'react-multi-carousel'
 import { ArrowProps } from 'react-multi-carousel/lib/types'
 import styled from 'styled-components'
@@ -9,6 +8,7 @@ import tw from 'twin.macro'
 import { StorageConst } from '@/constants/storage.const'
 import { VerticalCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
+import { Image } from '@/widgets/image'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 
 const Card = tw.div`
@@ -31,7 +31,7 @@ const responsive = {
   },
   mediumDesktop: {
     breakpoint: { max: 1440, min: 1025 },
-    items: 3,
+    items: 4,
   },
   tablet: {
     breakpoint: { max: 1025, min: 769 },

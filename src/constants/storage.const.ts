@@ -119,8 +119,4 @@ export const StorageConst = {
     src: '/images/logos/husky.svg',
     alt: 'Husky',
   },
-  COPY_ICON: {
-    src: '/images/logos/copy.svg',
-    alt: 'Copy',
-  },
 }

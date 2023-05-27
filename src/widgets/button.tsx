@@ -9,9 +9,9 @@ import { SizeEnum } from '@/constants/common.const'
 import { GlobalStoreModel } from '@/store/store'
 
 const NegativeButtonStyle = styled.button<{
-  isFull?: boolean
+  isFull: boolean | undefined
   width?: number
-  block?: boolean
+  block: boolean | undefined
 }>(({ isFull = false, width, block = false }) => [
   tw`
   bg-white
@@ -187,9 +187,9 @@ export const NegativeButton: FunctionComponent<{
 
   return (
     <NegativeButtonStyle
-      block={block}
+      block={block || undefined}
       width={width}
-      isFull={isFull}
+      isFull={isFull || undefined}
       disabled={block}
       onClick={onClick}
     >

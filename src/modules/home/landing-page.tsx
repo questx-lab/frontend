@@ -1,11 +1,8 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { listCommunitiesApi } from '@/app/api/client/community'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/modules/community/community-box'
@@ -13,6 +10,7 @@ import { CommunityType } from '@/utils/type'
 import { NegativeButton } from '@/widgets/button'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/CategoryBox'
+import { Image } from '@/widgets/image'
 import {
   HorizontalBetweenCenter,
   HorizontalCenter,
@@ -21,6 +19,7 @@ import {
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
 import { LargeText, NormalText } from '@/widgets/text'
+import { useNavigate } from 'react-router-dom'
 
 const Wrap = tw(Vertical)`
   min-h-screen
@@ -205,29 +204,31 @@ const Footer: FunctionComponent = () => {
   )
 }
 
-const LandingPage: FunctionComponent = () => {
-  const router = useRouter()
+const Content: FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [communities, setCommunities] = useState<CommunityType[]>([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchCommunityList()
   }, [])
 
   const fetchCommunityList = async () => {
-    setLoading(true)
-    try {
-      const list = await listCommunitiesApi(0, 50, '', true)
-      setCommunities(list.data!.communities)
-    } catch (error) {
-      // TODO: show error (not toast) to indicate that the communities cannot be loaded.
-    } finally {
-      setLoading(false)
-    }
+    setCommunities([])
+
+    // setLoading(true)
+    // try {
+    //   const list = await listCommunitiesApi(0, 50, '', true)
+    //   setCommunities(list.data!.communities)
+    // } catch (error) {
+    //   // TODO: show error (not toast) to indicate that the communities cannot be loaded.
+    // } finally {
+    //   setLoading(false)
+    // }
   }
 
   const onShowAllClicked = () => {
-    router.push(RouterConst.COMMUNITIES)
+    navigate(RouterConst.COMMUNITIES)
   }
 
   return (
@@ -245,27 +246,20 @@ const LandingPage: FunctionComponent = () => {
                   }
                 </Description>
                 <NegativeButton
-                  onClick={() => router.push(RouterConst.COMMUNITIES)}
+                  onClick={() => {
+                    // TODO: router.push(RouterConst.COMMUNITIES)}
+                  }}
                 >
                   {'Explore'}
                 </NegativeButton>
               </InfoBox>
-              <Image
-                width={680}
-                height={680}
-                src={'/images/logos/cat.svg'}
-                alt={'background'}
-              />
+              <Image width={680} height={680} src={'/images/logos/cat.svg'} alt={'background'} />
             </HeadBox>
             <RewardSession>
               <RewardView
-                name={
-                  RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.name ?? ''
-                }
+                name={RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.name ?? ''}
                 des={RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.des ?? ''}
-                imgSrc={
-                  RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.image ?? ''
-                }
+                imgSrc={RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.image ?? ''}
               />
               <RewardView
                 name={RewardMapData.get(RewardBoxEnum.X_A_QUEST)?.name ?? ''}
@@ -275,9 +269,7 @@ const LandingPage: FunctionComponent = () => {
               <RewardView
                 name={RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.name ?? ''}
                 des={RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.des ?? ''}
-                imgSrc={
-                  RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.image ?? ''
-                }
+                imgSrc={RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.image ?? ''}
               />
             </RewardSession>
             <Main>
@@ -309,15 +301,14 @@ const LandingPage: FunctionComponent = () => {
             <Footer />
           </HeadBody>
         </HeadWrap>
-        <Bg
-          width={1600}
-          height={1200}
-          src={StorageConst.BACKGROUND.src}
-          alt={'background'}
-        />
+        <Bg width={1600} height={1200} src={StorageConst.BACKGROUND.src} alt={'background'} />
       </Head>
     </Wrap>
   )
+}
+
+const LandingPage: FunctionComponent = () => {
+  return <Content />
 }
 
 export default LandingPage

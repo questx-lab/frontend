@@ -1,20 +1,29 @@
-'use client'
-import { FunctionComponent, useEffect, useState } from 'react'
-
-import { useStoreActions, useStoreState } from 'easy-peasy'
-import { useRouter } from 'next/navigation'
-import toast from 'react-hot-toast'
-import tw from 'twin.macro'
-
-import { listCommunitiesApi } from '@/app/api/client/community'
+import { getTrendingCommunities } from '@/app/api/client/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import CommunityBox from '@/modules/community/community-box'
 import { GlobalStoreModel } from '@/store/store'
-import { Main } from '@/styles/common.style'
-import { CommunityType, UserType } from '@/utils/type'
+import { TitleBox } from '@/styles/common.style'
+import { CommunityType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/CategoryBox'
-import { VerticalFullWidthCenter } from '@/widgets/orientation'
+import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
+import { useStoreState } from 'easy-peasy'
+import { FunctionComponent, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import tw from 'twin.macro'
+
+const Wrap = tw(VerticalFullWidthCenter)`
+  pt-[90px]
+`
+
+export const Main = tw(Vertical)`
+  max-sm:px-2
+  md:px-8
+  xl:w-[980px]
+  pb-[30px]
+  w-full
+  gap-6
+`
 
 const WrapProjects = tw.div`
   grid
@@ -25,91 +34,58 @@ const WrapProjects = tw.div`
   max-sm:grid-cols-1
 `
 
-const TitleBox = tw.div`
-  w-full
-  flex
-  justify-center
-  items-center
-  text-2xl
-  font-medium
-  text-gray-900
-`
+const Title: FunctionComponent = () => {
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  return <TitleBox>{`👋 Hi, ${user && user.name}`}</TitleBox>
+}
 
-const Wrap = tw(VerticalFullWidthCenter)`
-  pt-[90px]
-`
-
-const HomePage: FunctionComponent = () => {
-  // hook
-  const [loading, setLoading] = useState<boolean>(true)
-  const [communities, setCommunities] = useState<CommunityType[]>([])
-  const router = useRouter()
-  useEffect(() => {
-    fetchListProjects()
-    fetchCommunityList()
-  }, [])
-
-  // data
-  const projectsFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
-    (state) => state.projectsFollowing
-  )
-  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-
-  // action
-  const setProjectsTrending = useStoreActions<GlobalStoreModel>(
-    (action) => action.setProjectsTrending
-  )
-
-  //handler
-  const renderProject =
-    projectsFollowing &&
-    projectsFollowing.map((e) => <CommunityBox key={e.id} community={e} />)
-
-  const fetchListProjects = async () => {
-    setLoading(true)
-    try {
-      const list = await listCommunitiesApi(0, 50)
-      setProjectsTrending(list.data!.communities)
-    } catch (error) {
-      toast.error('Network error')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const fetchCommunityList = async () => {
-    setLoading(true)
-    try {
-      const list = await listCommunitiesApi(0, 50, '', true)
-      setCommunities(list.data!.communities)
-    } catch (error) {
-      // TODO: show error (not toast) to indicate that the communities cannot be loaded.
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const Title: FunctionComponent = () => {
-    if (user && user.name) {
-      return <TitleBox>{`👋 Hi, ${user && user.name}`}</TitleBox>
-    }
-
+const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({ communities }) => {
+  console.log('communities = ', communities)
+  if (!communities || communities.length === 0) {
     return <></>
   }
 
+  return (
+    <WrapProjects>
+      {communities.map((e) => (
+        <CommunityBox key={e.id} community={e} />
+      ))}
+    </WrapProjects>
+  )
+}
+
+export const Home: FunctionComponent = () => {
+  const [communities, setCommunities] = useState<CommunityType[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const navigate = useNavigate()
+
+  // global data
+  const projectsFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.projectsFollowing
+  )
+
+  useEffect(() => {
+    fetchTrending()
+  }, [])
+
+  const fetchTrending = async () => {
+    const result = await getTrendingCommunities()
+    if (result.code === 0 && result.data) {
+      setCommunities(result.data.communities)
+    }
+
+    setLoading(false)
+  }
+
   const onShowAllClicked = () => {
-    router.push(RouterConst.COMMUNITIES)
+    navigate(RouterConst.COMMUNITIES)
   }
 
   return (
     <Wrap>
       <Main>
         <Title />
-        <CategoryBox
-          title='🔥 Trending Communities'
-          onClick={onShowAllClicked}
-          loading={loading}
-        >
+        <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked} loading={loading}>
           <CarouselList
             data={communities}
             renderItemFunc={(community: CommunityType) => {
@@ -125,10 +101,8 @@ const HomePage: FunctionComponent = () => {
             }}
           />
         </CategoryBox>
-        <WrapProjects>{renderProject}</WrapProjects>
+        <OtherCommunities communities={projectsFollowing} />
       </Main>
     </Wrap>
   )
 }
-
-export default HomePage

@@ -9,12 +9,9 @@ export const getUserApi = async (): Promise<Rsp<UserType>> => {
 }
 
 export const updateUserApi = async (name: string): Promise<Rsp<{}>> => {
-  const result = await api.post(
-    EnvVariables.NEXT_PUBLIC_API_URL + '/updateUser',
-    {
-      name,
-    }
-  )
+  const result = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/updateUser', {
+    name,
+  })
   return result.data
 }
 

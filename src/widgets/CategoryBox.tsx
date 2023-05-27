@@ -32,7 +32,7 @@ const CategoryBox: FunctionComponent<{
       <Wrap>
         <HeaderBox>
           <HeaderText>{title}</HeaderText>
-          <PrimaryText isHover size='lg' onClick={onClick}>
+          <PrimaryText size='lg' onClick={onClick}>
             {'Show all'}
             <ArrowSmallRightIcon className='text-primary w-7 h-7' />
           </PrimaryText>
@@ -48,7 +48,7 @@ const CategoryBox: FunctionComponent<{
     <Wrap>
       <HeaderBox>
         <HeaderText>{title}</HeaderText>
-        <PrimaryText isHover size='lg' onClick={onClick}>
+        <PrimaryText size='lg' onClick={onClick}>
           {'Show all'}
           <ArrowSmallRightIcon className='text-primary w-7 h-7' />
         </PrimaryText>

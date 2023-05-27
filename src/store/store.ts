@@ -4,7 +4,6 @@ import { AuthEnum } from '@/constants/common.const'
 import {
   CollaboratorType,
   CommunityType,
-  QuestType,
   RefferalType,
   UserType,
 } from '@/utils/type'
@@ -19,7 +18,6 @@ export interface GlobalStoreModel {
   authBox: number
   username: string
   showLoginModal: boolean
-  templates: QuestType[]
 
   setNavBar: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
@@ -30,7 +28,6 @@ export interface GlobalStoreModel {
   setAuthBox: Action<GlobalStoreModel, number>
   setUserName: Action<GlobalStoreModel, string>
   setShowLoginModal: Action<GlobalStoreModel, boolean>
-  setTemplates: Action<GlobalStoreModel, QuestType[]>
 }
 
 const store = createStore<GlobalStoreModel>({
@@ -43,7 +40,6 @@ const store = createStore<GlobalStoreModel>({
   authBox: AuthEnum.LOGIN,
   username: '',
   showLoginModal: false,
-  templates: [],
 
   setNavBar: action((state, navBar) => {
     state.navBar = navBar
@@ -79,10 +75,6 @@ const store = createStore<GlobalStoreModel>({
 
   setShowLoginModal: action((state, require) => {
     state.showLoginModal = require
-  }),
-
-  setTemplates: action((state, templates) => {
-    state.templates = templates
   }),
 })
 
