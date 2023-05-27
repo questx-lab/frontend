@@ -54,8 +54,6 @@ export const ProjectSide: FunctionComponent = () => {
   )
 
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  console.log('projectCollab = ', projectCollab)
-
   if (!user) {
     return <></>
   }

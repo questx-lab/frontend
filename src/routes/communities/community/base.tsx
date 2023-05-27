@@ -3,7 +3,6 @@ import { CommunityRoleEnum } from '@/constants/common.const'
 import { ControlPanel } from '@/modules/community/control-panel'
 import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
-import { ControlPanelTab } from '@/types/community'
 import { CollaboratorType, CommunityType } from '@/utils/type'
 import { Horizontal } from '@/widgets/orientation'
 import { useStoreState } from 'easy-peasy'
@@ -55,20 +54,15 @@ export const Community = () => {
   const setSelectedCommunity = CommunityStore.useStoreActions(
     (action) => action.setSelectedCommunity
   )
-  const setActiveControlPanelTab = CommunityStore.useStoreActions(
-    (action) => action.setActiveControlPanelTab
-  )
 
   // hook
   useEffect(() => {
     setSelectedCommunity(data.community)
-  }, [setSelectedCommunity, data.community])
+  }, [setSelectedCommunity, data])
 
   if (!community) {
     return <>Failed to load community data</>
   }
-
-  setActiveControlPanelTab(ControlPanelTab.QUESTS)
 
   // Check if user is the admin of this community
   const filter = myCommunities.filter((e) => e.community_id === community.id)

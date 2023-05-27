@@ -1,10 +1,12 @@
 import { RouterConst } from '@/constants/router.const'
+import { CommunityStore } from '@/store/local/community'
 import { Gap } from '@/styles/common.style'
+import { ControlPanelTab } from '@/types/community'
 import { CommunityType } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/button'
 import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
 import { Large3xlText } from '@/widgets/text'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
@@ -40,6 +42,15 @@ export const Index: FunctionComponent = () => {
   let data = useLoaderData() as {
     community: CommunityType
   }
+
+  const setActiveControlPanelTab = CommunityStore.useStoreActions(
+    (action) => action.setActiveControlPanelTab
+  )
+
+  // hook
+  useEffect(() => {
+    setActiveControlPanelTab(ControlPanelTab.QUESTS)
+  }, [setActiveControlPanelTab])
 
   // hook
   const navigate = useNavigate()

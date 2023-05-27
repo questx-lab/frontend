@@ -1,11 +1,9 @@
 import { TabReviewEnum } from '@/constants/common.const'
-import { HistoryTab } from '@/modules/community/review-submission/history'
 import PendingTab from '@/modules/community/review-submission/pending'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
-import { ControlPanelTab } from '@/types/community'
 import { Vertical } from '@/widgets/orientation'
 import { Tab, TabItem } from '@/widgets/tab-group'
 import { ArrowPathIcon, ClockIcon } from '@heroicons/react/24/outline'
@@ -39,12 +37,6 @@ export const Index: FunctionComponent = () => {
 
   // action
   const setTabReview = NewClaimReviewStore.useStoreActions((actions) => actions.setTabReview)
-
-  const setActiveControlPanelTab = CommunityStore.useStoreActions(
-    (action) => action.setActiveControlPanelTab
-  )
-
-  setActiveControlPanelTab(ControlPanelTab.REVIEW_SUBMISSION)
 
   if (selectedCommunity === undefined) {
     // TODO: redirect from there.

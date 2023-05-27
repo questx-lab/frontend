@@ -1,13 +1,15 @@
 import { CommunityStore } from '@/store/local/community'
 import { ControlPanelTab } from '@/types/community'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 
 export const Index: FunctionComponent = () => {
   const setActiveControlPanelTab = CommunityStore.useStoreActions(
     (action) => action.setActiveControlPanelTab
   )
 
-  setActiveControlPanelTab(ControlPanelTab.SETTINGS)
+  useEffect(() => {
+    setActiveControlPanelTab(ControlPanelTab.SETTINGS)
+  }, [setActiveControlPanelTab])
 
   return <>This is settings view</>
 }

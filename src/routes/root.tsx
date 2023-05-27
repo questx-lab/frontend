@@ -60,7 +60,6 @@ export const Root: FunctionComponent = () => {
 
   // set data
   if (data) {
-    console.log('Setting data, data.myCommunities = ', data.myCommunities)
     setReferral(data.referral)
     setProjectCollab(data.myCommunities)
     setProjectsFollowing(data.followingCommunities)

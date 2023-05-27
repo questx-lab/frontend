@@ -107,6 +107,10 @@ export const ControlPanel: FunctionComponent<{
       <Padding>
         <Tab
           onClick={() => {
+            if (activeControlPanelTab === ControlPanelTab.QUESTS) {
+              return
+            }
+
             navigate(RouterConst.PROJECT + community.id)
           }}
           active={activeControlPanelTab === ControlPanelTab.QUESTS}
@@ -116,6 +120,10 @@ export const ControlPanel: FunctionComponent<{
         </Tab>
         <Tab
           onClick={() => {
+            if (activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION) {
+              return
+            }
+
             navigate(RouterConst.PROJECT + community.id + '/review')
           }}
           active={activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION}

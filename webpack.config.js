@@ -1,12 +1,10 @@
-const path = require(`path`);
-
-console.log("ASAAAA");
+const path = require(`path`)
 
 module.exports = {
   resolve: {
-    extensions: ["ts", "tsx", "js", "jsx"],
+    extensions: ['ts', 'tsx', 'js', 'jsx'],
     alias: {
-      "@/*": path.resolve(__dirname, "src/*"),
+      '@/*': path.resolve(__dirname, 'src/*'),
     },
   },
-};
+}
