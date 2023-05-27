@@ -52,6 +52,12 @@ export const ProjectSide: FunctionComponent<{
     (state) => state.projectCollab
   )
 
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+
+  if (!user) {
+    return <></>
+  }
+
   return (
     <Wrap>
       <CommunityItems collaborator={projectCollab} />

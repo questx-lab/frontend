@@ -4,6 +4,6 @@ export enum RouterConst {
   EXPLORE = '/explore',
   COMMUNITIES = '/communities',
   CREATE_PROJECTS = '/communities/new ',
-  PROJECT = '/communities/projects/',
+  PROJECT = '/communities/',
   USER = '/users/',
 }
