@@ -8,6 +8,8 @@ import { StorageConst } from '@/constants/storage.const'
 import { CommunityType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
 import { Image } from '@/widgets/image'
+import { useNavigate } from 'react-router-dom'
+import { RouterConst } from '@/constants/router.const'
 
 const ContentProjectBox = tw(Vertical)`
   justify-between
@@ -98,12 +100,9 @@ const Title = tw.p`
 `
 
 const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({ community }) => {
-  // const router = useRouter()
-
+  const navigate = useNavigate()
   return (
-    <CommunityBoxWrap
-    // onClick={() => router.push(RouterConst.PROJECT + community.id)}
-    >
+    <CommunityBoxWrap onClick={() => navigate(RouterConst.PROJECT + community.id)}>
       <Top>
         <ImageProjectBox
           width={60}

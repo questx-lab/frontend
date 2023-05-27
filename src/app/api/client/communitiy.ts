@@ -38,7 +38,7 @@ export const listCommunitiesApi = async (
   }
 
   const rs = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + url)
-  return rs.data
+  return rs.data as Rsp<ListCommunitiesType>
 }
 
 export const getMyCommunitiesApi = async (): Promise<

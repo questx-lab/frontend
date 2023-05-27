@@ -1,3 +1,4 @@
+import { Index as CommunitiesIndex } from '@/modules/community/communities'
 import { Index as HomeIndex } from '@/modules/home'
 import { Communities } from '@/routes/communities'
 import { Root, RootLoader } from '@/routes/root'
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
       {
         path: '/communities',
         element: <Communities />,
+        children: [{ index: true, element: <CommunitiesIndex /> }],
       },
     ],
   },

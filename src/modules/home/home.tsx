@@ -9,12 +9,18 @@ const TopMargin = tw(Horizontal)`
   pt-[70px]
 `
 
+const LeftMargin = tw.div`
+  pl-20
+`
+
 export const Home: FunctionComponent = () => {
   return (
     <>
       <TopMargin>
         <ProjectSide />
-        <Outlet />
+        <LeftMargin>
+          <Outlet />
+        </LeftMargin>
       </TopMargin>
     </>
   )
