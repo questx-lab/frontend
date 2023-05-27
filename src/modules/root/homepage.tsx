@@ -26,7 +26,7 @@ export const Main = tw(Vertical)`
   gap-6
 `
 
-const WrapProjects = tw.div`
+const CommunityGrid = tw.div`
   grid
   grid-cols-4
   gap-4
@@ -47,11 +47,11 @@ const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({
   }
 
   return (
-    <WrapProjects>
+    <CommunityGrid>
       {communities.map((e) => (
         <CommunityBox key={e.id} community={e} />
       ))}
-    </WrapProjects>
+    </CommunityGrid>
   )
 }
 
