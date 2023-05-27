@@ -1,4 +1,5 @@
 import { Item } from '@/modules/root/project-side/item'
+import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/utils/type'
 import { Vertical } from '@/widgets/orientation'
@@ -30,24 +31,24 @@ const BoxContent = tw(Vertical)`
 
 const CommunityItems: FunctionComponent<{
   collaborator: CollaboratorType[]
-  activeCommunityId?: string | undefined
-}> = ({ collaborator, activeCommunityId = undefined }) => {
+}> = ({ collaborator }) => {
+  const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  const selectedId = selectedCommunity === undefined ? undefined : selectedCommunity.id
+
   return (
     <BoxContent>
       {collaborator.map((community) => (
         <Item
           key={community.community_id}
           community={community}
-          active={community.community_id === activeCommunityId}
+          active={community.community_id === selectedId}
         />
       ))}
     </BoxContent>
   )
 }
 
-export const ProjectSide: FunctionComponent<{
-  activeCommunityId?: string | undefined
-}> = ({ activeCommunityId }) => {
+export const ProjectSide: FunctionComponent = () => {
   const projectCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectCollab
   )

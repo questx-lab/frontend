@@ -94,6 +94,7 @@ export const Home: FunctionComponent = () => {
               }}
             />
           </CategoryBox>
+
           <CategoryBox title='⭐ Popular Communities' onClick={onShowAllClicked}>
             <CarouselList
               data={communities}
@@ -102,6 +103,7 @@ export const Home: FunctionComponent = () => {
               }}
             />
           </CategoryBox>
+
           <OtherCommunities communities={projectsFollowing} />
         </Main>
       </PaddingTop>

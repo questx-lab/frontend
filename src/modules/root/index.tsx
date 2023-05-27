@@ -1,4 +1,5 @@
 import LandingPage from '@/modules/root/landing-page'
+import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { useStoreState } from 'easy-peasy'
 import { FunctionComponent } from 'react'
@@ -10,5 +11,9 @@ export const HomeOrLandingPage: FunctionComponent = () => {
     return <LandingPage />
   }
 
-  return <Outlet />
+  return (
+    <CommunityStore.Provider>
+      <Outlet />
+    </CommunityStore.Provider>
+  )
 }
