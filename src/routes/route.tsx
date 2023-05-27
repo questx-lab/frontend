@@ -9,7 +9,7 @@ import { getFollowCommunitiesApi, getMyCommunitiesApi } from '@/app/api/client/c
 import { getMyReferralInfoApi } from '@/app/api/client/reward'
 import { EnvVariables } from '@/constants/env.const'
 import { Header } from '@/modules/header/header'
-import { HomeOrLandingPage } from '@/modules/root'
+import { HomeOrLandingPage } from '@/routes'
 import { GlobalStoreModel } from '@/store/store'
 import { getUserLocal } from '@/utils/helper'
 import { CollaboratorType, CommunityType, RefferalType } from '@/utils/type'

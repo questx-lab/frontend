@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
-import CommunityBox from '@/modules/community/community-box'
+import CommunityBox from '@/routes/communities/community/community-box'
 import { CommunityType } from '@/utils/type'
 import { NegativeButton } from '@/widgets/button'
 import CarouselList from '@/widgets/carousel'

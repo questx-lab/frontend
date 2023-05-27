@@ -1,6 +1,6 @@
 import { getCommunityApi } from '@/app/api/client/communitiy'
 import { CommunityRoleEnum } from '@/constants/common.const'
-import { ControlPanel } from '@/modules/community/control-panel'
+import { ControlPanel } from '@/routes/communities/community/control-panel'
 import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType, CommunityType } from '@/utils/type'

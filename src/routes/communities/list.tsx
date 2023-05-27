@@ -1,4 +1,4 @@
-import CommunityBox from '@/modules/community/community-box'
+import CommunityBox from '@/routes/communities/community/community-box'
 import { CommunityType } from '@/utils/type'
 import { VerticalFullWidthCenter } from '@/widgets/orientation'
 import { FunctionComponent } from 'react'

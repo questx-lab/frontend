@@ -1,6 +1,6 @@
 import { getTrendingCommunities } from '@/app/api/client/communitiy'
 import { RouterConst } from '@/constants/router.const'
-import CommunityBox from '@/modules/community/community-box'
+import CommunityBox from '@/routes/communities/community/community-box'
 import { GlobalStoreModel } from '@/store/store'
 import { TitleBox } from '@/styles/common.style'
 import { CommunityType } from '@/utils/type'

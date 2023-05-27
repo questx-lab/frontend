@@ -1,4 +1,4 @@
-import { CheckBox } from '@/modules/community/review-submission/mini-widget'
+import { CheckBox } from '@/routes/communities/community/review-submissions/mini-widget'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { Horizontal } from '@/widgets/orientation'
 import { BarsArrowDownIcon } from '@heroicons/react/24/outline'
