@@ -1,4 +1,4 @@
-import { Index as CommunitiesIndex } from '@/modules/communities'
+import { Index as CommunitiesIndex } from '@/routes/communities'
 import { Index as CommunityIndex } from '@/modules/community'
 import { Index as CreateCommunityIndex } from '@/modules/community/create'
 import { Index as ReviewSubmissionIndex } from '@/modules/community/review-submission'
