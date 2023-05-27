@@ -12,7 +12,7 @@ import { Header } from '@/modules/header/header'
 import Login from '@/modules/header/login'
 import { HomeOrLandingPage } from '@/modules/root'
 import { GlobalStoreModel } from '@/store/store'
-import { getUserLocal } from '@/utils/helper'
+import { delCookies, delUserLocal, getUserLocal } from '@/utils/helper'
 import { CollaboratorType, CommunityType, RefferalType } from '@/utils/type'
 import { BasicModal } from '@/widgets/modal'
 
@@ -35,7 +35,7 @@ export const RootLoader = async () => {
     )
   }
 
-  return null
+  return {}
 }
 
 const Main = tw.main`
@@ -65,6 +65,7 @@ export const Root: FunctionComponent = () => {
 
   // set data
   if (data) {
+    console.log('Setting data, data.myCommunities = ', data.myCommunities)
     setReferral(data.referral)
     setProjectCollab(data.myCommunities)
     setProjectsFollowing(data.followingCommunities)

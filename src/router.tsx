@@ -20,7 +20,7 @@ const router = createBrowserRouter([
           { index: true, element: <CommunitiesIndex /> },
           {
             loader: CommunityLoader,
-            path: ':community_id',
+            path: ':communityId',
             element: <Community />,
           },
         ],

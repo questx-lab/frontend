@@ -12,8 +12,8 @@ const TopMargin = tw(Horizontal)`
   pt-[70px]
 `
 
-const LeftMargin = styled.div<{ user: UserType }>(({ user }) => {
-  if (user) {
+const LeftMargin = styled.div<{ hasUser: boolean }>(({ hasUser }) => {
+  if (hasUser) {
     return tw`
       pl-20
     `
@@ -29,7 +29,7 @@ export const LayoutWithLeftPanel: FunctionComponent<{ children: ReactNode }> = (
     <>
       <TopMargin>
         <ProjectSide />
-        <LeftMargin user={user}>{children}</LeftMargin>
+        <LeftMargin hasUser={user !== undefined}>{children}</LeftMargin>
       </TopMargin>
     </>
   )
