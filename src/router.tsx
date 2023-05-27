@@ -1,10 +1,12 @@
 import { Index as CommunitiesIndex } from '@/modules/communities'
 import { Index as CommunityIndex } from '@/modules/community'
 import { Index as ReviewSubmissionIndex } from '@/modules/community/review-submission'
+import { Index as CommunitySettingsIndex } from '@/modules/community/settings'
 import { Home as HomeIndex } from '@/modules/root/homepage'
 import { Communities } from '@/routes/communities/base'
 import { Community, Loader as CommunityLoader } from '@/routes/communities/community/base'
 import { ReviewSubmissions } from '@/routes/communities/community/review-submissions/base'
+import { Settings } from '@/routes/communities/community/settings/base'
 import { Root, RootLoader } from '@/routes/root'
 import { FunctionComponent } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -31,6 +33,11 @@ const router = createBrowserRouter([
                 path: 'review',
                 element: <ReviewSubmissions />,
                 children: [{ index: true, element: <ReviewSubmissionIndex /> }],
+              },
+              {
+                path: 'settings',
+                element: <Settings />,
+                children: [{ index: true, element: <CommunitySettingsIndex /> }],
               },
             ],
           },

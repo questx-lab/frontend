@@ -125,7 +125,7 @@ export const ControlPanel: FunctionComponent<{
         </Tab>
         <Tab
           onClick={() => {
-            navigate(RouterConst.PROJECT + community.id + '/setting')
+            navigate(RouterConst.PROJECT + community.id + '/settings')
           }}
           active={activeControlPanelTab === ControlPanelTab.SETTINGS}
         >
