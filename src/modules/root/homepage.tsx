@@ -41,7 +41,6 @@ const Title: FunctionComponent = () => {
 }
 
 const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({ communities }) => {
-  console.log('communities = ', communities)
   if (!communities || communities.length === 0) {
     return <></>
   }

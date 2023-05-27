@@ -8,12 +8,6 @@ import { FunctionComponent } from 'react'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-const PaddingLeft = tw(Horizontal)`
-  min-h-screen
-  pt-[70px]
-  pl-80
-`
-
 const CCBox = tw(Horizontal)`
   w-full
   justify-center
@@ -53,31 +47,29 @@ export const Index: FunctionComponent = () => {
   const navigate = useNavigate()
 
   return (
-    <PaddingLeft>
-      <CCBox>
-        <FullWidthHeight>
-          <Padding16>
-            <MHeader>
-              <Large3xlText>Quest</Large3xlText>
-              <ButtonAlignment>
-                <NegativeButton
-                  onClick={() => {
-                    // TODO: Open Use Template here
-                  }}
-                >
-                  {'Use Template'}
-                </NegativeButton>
-                <Gap width={4} />
-                <PositiveButton
-                  onClick={() => navigate(RouterConst.PROJECT + data.community.id + '/create')}
-                >
-                  {'+  Create Quest'}
-                </PositiveButton>
-              </ButtonAlignment>
-            </MHeader>
-          </Padding16>
-        </FullWidthHeight>
-      </CCBox>
-    </PaddingLeft>
+    <CCBox>
+      <FullWidthHeight>
+        <Padding16>
+          <MHeader>
+            <Large3xlText>Quest</Large3xlText>
+            <ButtonAlignment>
+              <NegativeButton
+                onClick={() => {
+                  // TODO: Open Use Template here
+                }}
+              >
+                {'Use Template'}
+              </NegativeButton>
+              <Gap width={4} />
+              <PositiveButton
+                onClick={() => navigate(RouterConst.PROJECT + data.community.id + '/create')}
+              >
+                {'+  Create Quest'}
+              </PositiveButton>
+            </ButtonAlignment>
+          </MHeader>
+        </Padding16>
+      </FullWidthHeight>
+    </CCBox>
   )
 }

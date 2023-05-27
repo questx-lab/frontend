@@ -5,8 +5,11 @@ import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { ControlPanelTab } from '@/types/community'
 import { CollaboratorType, CommunityType } from '@/utils/type'
+import { Horizontal } from '@/widgets/orientation'
 import { useStoreState } from 'easy-peasy'
 import { json, Outlet, Params, useLoaderData } from 'react-router-dom'
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
 export const Loader = async (args: { params: Params }) => {
   const communityResult = await getCommunityApi(args.params['communityId'] || '')
@@ -21,6 +24,18 @@ export const Loader = async (args: { params: Params }) => {
 
   return {}
 }
+
+const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true }) => {
+  if (hasPanel) {
+    return tw`
+      min-h-screen
+      pt-[70px]
+      pl-80
+    `
+  }
+
+  return tw``
+})
 
 export const Community = () => {
   // loader data
@@ -58,7 +73,9 @@ export const Community = () => {
   return (
     <>
       <ControlPanel community={community} show={isOwner} />
-      <Outlet />
+      <PaddingLeft hasPanel={isOwner}>
+        <Outlet />
+      </PaddingLeft>
     </>
   )
 }
