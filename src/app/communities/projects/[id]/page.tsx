@@ -14,7 +14,7 @@ import ManageProject from '@/modules/community/manage'
 import { CommunityStore } from '@/store/local/community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/utils/type'
-import ErrorP from '@/widgets/error'
+import ErrorPage from '@/widgets/error'
 import { Spinner } from '@/widgets/spinner'
 
 const ProjectBox: FunctionComponent<{ communityId: string }> = ({
@@ -80,7 +80,7 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
   }
 
   if (errorPage) {
-    return <ErrorP />
+    return <ErrorPage />
   }
 
   if (loading) {

@@ -1,14 +1,14 @@
-import ErrorPage from 'next/error'
+import NextError from 'next/error'
 
 import { Layout } from '@/components/layout'
 
-export default function ErrorP() {
+export default function ErrorPage() {
   return (
     <Layout>
       <header>
         <title>{'Page Not Found'}</title>
       </header>
-      <ErrorPage statusCode={404} />
+      <NextError statusCode={404} />
     </Layout>
   )
 }
