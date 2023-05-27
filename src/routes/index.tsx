@@ -1,4 +1,4 @@
-import LandingPage from '@/modules/root/landing-page'
+import LandingPage from '@/routes/landing-page'
 import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { useStoreState } from 'easy-peasy'

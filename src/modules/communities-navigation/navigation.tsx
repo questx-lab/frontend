@@ -1,4 +1,4 @@
-import { Item } from '@/modules/root/project-side/item'
+import { Item } from '@/modules/communities-navigation/item'
 import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/utils/type'
@@ -48,7 +48,7 @@ const CommunityItems: FunctionComponent<{
   )
 }
 
-export const ProjectSide: FunctionComponent = () => {
+export const CommunitiesNavigationn: FunctionComponent = () => {
   const projectCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectCollab
   )

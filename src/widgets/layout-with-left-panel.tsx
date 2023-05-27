@@ -1,6 +1,5 @@
-import { ProjectSide } from '@/modules/root/project-side/project-side'
+import { CommunitiesNavigationn } from '@/modules/communities-navigation/navigation'
 import { GlobalStoreModel } from '@/store/store'
-import { UserType } from '@/utils/type'
 import { Horizontal } from '@/widgets/orientation'
 import { useStoreState } from 'easy-peasy'
 import { FunctionComponent, ReactNode } from 'react'
@@ -28,7 +27,7 @@ export const LayoutWithLeftPanel: FunctionComponent<{ children: ReactNode }> = (
   return (
     <>
       <TopMargin>
-        <ProjectSide />
+        <CommunitiesNavigationn />
         <LeftMargin hasUser={user !== undefined}>{children}</LeftMargin>
       </TopMargin>
     </>
