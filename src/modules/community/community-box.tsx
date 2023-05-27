@@ -101,6 +101,7 @@ const Title = tw.p`
 
 const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({ community }) => {
   const navigate = useNavigate()
+
   return (
     <CommunityBoxWrap onClick={() => navigate(RouterConst.PROJECT + community.id)}>
       <Top>

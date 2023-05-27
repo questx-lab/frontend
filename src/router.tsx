@@ -1,5 +1,5 @@
 import { Index as CommunitiesIndex } from '@/modules/community/communities'
-import { Index as HomeIndex } from '@/modules/home'
+import { Home as HomeIndex } from '@/modules/root/homepage'
 import { Communities } from '@/routes/communities'
 import { Root, RootLoader } from '@/routes/root'
 import { FunctionComponent } from 'react'

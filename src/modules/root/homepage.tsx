@@ -6,13 +6,14 @@ import { TitleBox } from '@/styles/common.style'
 import { CommunityType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/CategoryBox'
+import { LayoutWithLeftPanel } from '@/widgets/layout-with-left-panel'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { useStoreState } from 'easy-peasy'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-const Wrap = tw(VerticalFullWidthCenter)`
+const PaddingTop = tw(VerticalFullWidthCenter)`
   pt-[90px]
 `
 
@@ -54,7 +55,7 @@ const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({
   )
 }
 
-export const Index: FunctionComponent = () => {
+export const Home: FunctionComponent = () => {
   const [communities, setCommunities] = useState<CommunityType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
@@ -82,27 +83,29 @@ export const Index: FunctionComponent = () => {
   }
 
   return (
-    <Wrap>
-      <Main>
-        <Title />
-        <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked} loading={loading}>
-          <CarouselList
-            data={communities}
-            renderItemFunc={(community: CommunityType) => {
-              return <CommunityBox community={community} />
-            }}
-          />
-        </CategoryBox>
-        <CategoryBox title='⭐ Popular Communities' onClick={onShowAllClicked}>
-          <CarouselList
-            data={communities}
-            renderItemFunc={(community: CommunityType) => {
-              return <CommunityBox community={community} />
-            }}
-          />
-        </CategoryBox>
-        <OtherCommunities communities={projectsFollowing} />
-      </Main>
-    </Wrap>
+    <LayoutWithLeftPanel>
+      <PaddingTop>
+        <Main>
+          <Title />
+          <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked} loading={loading}>
+            <CarouselList
+              data={communities}
+              renderItemFunc={(community: CommunityType) => {
+                return <CommunityBox community={community} />
+              }}
+            />
+          </CategoryBox>
+          <CategoryBox title='⭐ Popular Communities' onClick={onShowAllClicked}>
+            <CarouselList
+              data={communities}
+              renderItemFunc={(community: CommunityType) => {
+                return <CommunityBox community={community} />
+              }}
+            />
+          </CategoryBox>
+          <OtherCommunities communities={projectsFollowing} />
+        </Main>
+      </PaddingTop>
+    </LayoutWithLeftPanel>
   )
 }

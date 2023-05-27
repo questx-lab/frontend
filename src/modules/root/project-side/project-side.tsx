@@ -1,4 +1,4 @@
-import { Item } from '@/modules/home/project-side/item'
+import { Item } from '@/modules/root/project-side/item'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/utils/type'
 import { Vertical } from '@/widgets/orientation'
@@ -35,7 +35,11 @@ const CommunityItems: FunctionComponent<{
   return (
     <BoxContent>
       {collaborator.map((community) => (
-        <Item community={community} active={community.community_id === activeCommunityId} />
+        <Item
+          key={community.community_id}
+          community={community}
+          active={community.community_id === activeCommunityId}
+        />
       ))}
     </BoxContent>
   )
@@ -50,7 +54,6 @@ export const ProjectSide: FunctionComponent<{
 
   return (
     <Wrap>
-      <CommunityItems collaborator={projectCollab} />
       <CommunityItems collaborator={projectCollab} />
     </Wrap>
   )
