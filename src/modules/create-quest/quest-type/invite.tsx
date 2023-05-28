@@ -22,18 +22,16 @@ const Invite: FunctionComponent = () => {
   const setInvites = NewQuestStore.useStoreActions((actions) => actions.setInvites)
 
   return (
-    <>
-      <SubtypeBox
-        title='JOIN TELEGRAM'
-        description='Invited user needs to complete 1 quest for invite to count'
-      >
-        <InputInviteBox
-          onChange={(e: any) => setInvites(parseInt(e.target.value ?? '0'))}
-          defaultValue={invites}
-          type='number'
-        />
-      </SubtypeBox>
-    </>
+    <SubtypeBox
+      title='JOIN TELEGRAM'
+      description='Invited user needs to complete 1 quest for invite to count'
+    >
+      <InputInviteBox
+        onChange={(e: any) => setInvites(parseInt(e.target.value ?? '0'))}
+        defaultValue={invites}
+        type='number'
+      />
+    </SubtypeBox>
   )
 }
 

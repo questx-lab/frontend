@@ -1,4 +1,5 @@
 import { NewQuestStore } from '@/store/local/new-quest.store'
+import { Gap } from '@/styles/common.style'
 import { PositiveButton } from '@/widgets/button'
 import { FunctionComponent } from 'react'
 
@@ -13,7 +14,12 @@ const Discord: FunctionComponent = () => {
   return (
     <>
       {!project.discord && (
-        <PositiveButton onClick={onConnectDiscord}>Connect with Discord</PositiveButton>
+        <>
+          <Gap height={1} />
+          <PositiveButton isFull onClick={onConnectDiscord}>
+            Connect with Discord
+          </PositiveButton>
+        </>
       )}
     </>
   )

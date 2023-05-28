@@ -11,7 +11,6 @@ export const OuterBox = tw(VerticalFullWidth)`
 
 export const Padding = tw(VerticalFullWidth)`
   py-2
-  px-6
   gap-4
 `
 
@@ -33,7 +32,7 @@ export const SubtypeBox: FunctionComponent<{
     <>
       <Divider />
       <Padding>
-        <Label>{'INVITES'}</Label>
+        <Label>{title}</Label>
         <Gap height={2} />
         {children}
         {descriptionView}

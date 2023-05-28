@@ -45,6 +45,7 @@ const QuestQuiz: FunctionComponent<{ quizIndex: number }> = ({ quizIndex }) => {
         <FieldTitle title={'QUESTION'} required={true} />
         <XMarkIcon onClick={onRemove} className='w-6 h-6 cursor-pointer' />
       </HorizontalBetweenCenterFullWidth>
+
       <MultipleTextField
         required
         value={quizzes[quizIndex].question ?? ''}
@@ -53,9 +54,11 @@ const QuestQuiz: FunctionComponent<{ quizIndex: number }> = ({ quizIndex }) => {
         errorMsg='You must have a question to create this quest.'
       />
       <Gap />
+
       <FieldTitle title={'ANSWERS'} required={true} />
       <NormalText>{'Add answer to the quiz.'}</NormalText>
       <Gap />
+
       <AnswerItem quizId={quizIndex} id={quizIndex} />
     </QuestQuizBox>
   )

@@ -12,20 +12,18 @@ const JoinTelegarm: FunctionComponent = () => {
   const setTelegramLink = NewQuestStore.useStoreActions((actions) => actions.setTelegramLink)
 
   return (
-    <>
-      <SubtypeBox
-        title={'JOIN TELEGRAM'}
-        description='Invite link should be in the format https://t.me/groupid'
-      >
-        <TextField
-          onChange={(e) => setTelegramLink(e.target.value)}
-          placeholder='Telegram invite link'
-          value={telegramLink}
-          required
-          errorMsg='You must have a url to telegramLink submission.'
-        />
-      </SubtypeBox>
-    </>
+    <SubtypeBox
+      title={'JOIN TELEGRAM'}
+      description='Invite link should be in the format https://t.me/groupid'
+    >
+      <TextField
+        onChange={(e) => setTelegramLink(e.target.value)}
+        placeholder='Telegram invite link'
+        value={telegramLink}
+        required
+        errorMsg='You must have a url to telegramLink submission.'
+      />
+    </SubtypeBox>
   )
 }
 
