@@ -3,6 +3,7 @@
 import { QuestTypeEnum } from '@/constants/common.const'
 import Quizzes from '@/modules/create-quest/quest-type/quizzes'
 import { QuestTypeText } from '@/modules/create-quest/quest-type/text'
+import TwitterList from '@/modules/create-quest/quest-type/twitter'
 import { VisitLink } from '@/modules/create-quest/quest-type/visit-link'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 
@@ -39,8 +40,7 @@ const QuestType = () => {
     case QuestTypeEnum.EMPTY:
       return <></>
     case QuestTypeEnum.TWITTER:
-      // return <TwitterList />
-      return <></>
+      return <TwitterList />
     case QuestTypeEnum.JOIN_TELEGRAM:
       return <></>
     // return (
