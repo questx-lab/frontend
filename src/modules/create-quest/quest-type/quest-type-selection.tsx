@@ -2,10 +2,10 @@
 
 import { QuestTypeEnum, QuestTypeStringMap } from '@/constants/common.const'
 import { TypeButton, TypeButtonFrame } from '@/modules/create-quest/mini-widget'
-import QuestDetails from '@/modules/create-quest/quest-details'
+import QuestType from '@/modules/create-quest/quest-type'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 
-const QuestTypeView = () => {
+const QuestTypeSelection = () => {
   const display = [
     QuestTypeEnum.URL,
     QuestTypeEnum.IMAGE,
@@ -40,9 +40,9 @@ const QuestTypeView = () => {
   return (
     <>
       <TypeButtonFrame>{listTypeItems}</TypeButtonFrame>
-      <QuestDetails />
+      <QuestType />
     </>
   )
 }
 
-export default QuestTypeView
+export default QuestTypeSelection

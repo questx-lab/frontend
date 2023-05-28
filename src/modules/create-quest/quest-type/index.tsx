@@ -10,7 +10,7 @@ import { NegativeButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
 import { Label, NormalText } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
-import { QuestTypeText } from '@/modules/create-quest/quest-type-text'
+import { QuestTypeText } from '@/modules/create-quest//quest-type/quest-type-text'
 
 // import QuestQuiz from './quest-quiz'
 // import TwitterList from './twitter-list'
@@ -54,7 +54,7 @@ const ListQuizzes: FunctionComponent = () => {
   return <></>
 }
 
-const QuestDetails = () => {
+const QuestType = () => {
   // Data
   const questType = NewQuestStore.useStoreState((state) => state.questType)
   const textAutoValid = NewQuestStore.useStoreState((state) => state.textAutoValid)
@@ -183,4 +183,4 @@ const QuestDetails = () => {
   return <></>
 }
 
-export default QuestDetails
+export default QuestType
