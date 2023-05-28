@@ -11,7 +11,7 @@ import { VisitLink } from '@/modules/create-quest/quest-type/visit-link'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 
 const QuestType = () => {
-  // Data
+  // data
   const questType = NewQuestStore.useStoreState((state) => state.questType)
 
   switch (questType) {
