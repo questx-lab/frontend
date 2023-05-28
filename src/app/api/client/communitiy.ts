@@ -1,6 +1,12 @@
 import { api } from '@/app/api/config/api'
 import { EnvVariables } from '@/constants/env.const'
-import { CollaboratorType, CommunityType, ListCommunitiesType, Rsp } from '@/utils/type'
+import {
+  CollaboratorType,
+  CommunityType,
+  ListCommunitiesType,
+  ReqNewCommunity,
+  Rsp,
+} from '@/utils/type'
 
 class CommunityLoader {
   myCommunities: CollaboratorType[] | undefined
@@ -63,6 +69,13 @@ export const getFollowCommunitiesApi = async (): Promise<Rsp<{ communities: Comm
 }
 
 export const getCommunityApi = async (id: string): Promise<Rsp<{ community: CommunityType }>> => {
-  const rs = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + `/getCommunity?id=${id}`)
+  const rs = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + `/getCommunity?id=@${id}`)
+  return rs.data
+}
+
+export const newCommunityApi = async (
+  body: ReqNewCommunity
+): Promise<Rsp<{ id: string; handle: string }>> => {
+  const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/createCommunity', body)
   return rs.data
 }

@@ -1,20 +1,20 @@
 import { FunctionComponent, useState } from 'react'
-import tw from 'twin.macro'
 
-import { NewQuestStore } from '@/store/local/new-quest.store'
-import { Gap } from '@/styles/common.style'
-import { CommunityType } from '@/utils/type'
-import { Horizontal, HorizontalStartCenter, Vertical } from '@/widgets/orientation'
-import { Label, Large3xlText } from '@/widgets/text'
+import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
 import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
 import QuestTypeSelection from '@/modules/create-quest/quest-type/selection'
+import { NewQuestStore } from '@/store/local/new-quest.store'
+import { Gap } from '@/styles/common.style'
+import { CommunityType } from '@/utils/type'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
 import { Image } from '@/widgets/image'
-import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
+import { Horizontal, HorizontalStartCenter, Vertical } from '@/widgets/orientation'
+import { Label, Large3xlText } from '@/widgets/text'
 
 const Fullscreen = tw(Vertical)`
   w-full
