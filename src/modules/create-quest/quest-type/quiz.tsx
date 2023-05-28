@@ -1,16 +1,16 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { AnswerStatusEnum } from '@/constants/common.const'
+import { FieldTitle } from '@/modules/create-quest/mini-widget'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
-import { RequireSignal } from '@/styles/input.style'
+import { QuestQuizType } from '@/utils/type'
 import { MultipleTextField } from '@/widgets/form'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
-import { Label, NormalText } from '@/widgets/text'
+import { NormalText } from '@/widgets/text'
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { FieldTitle } from '@/modules/create-quest/mini-widget'
 
 export const Alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K']
 
@@ -119,67 +119,43 @@ const QuestQuizBox = tw(VerticalFullWidth)`
   p-4
 `
 
-const AnswerItem: FunctionComponent<{ id: number }> = ({ id }) => {
+const AnswerItem: FunctionComponent<{ quizId: number; id: number }> = ({ quizId, id }) => {
+  // data
   const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
+  const quizAnswers = quizzes[quizId].answers
+
+  // action
   const setQuizzes = NewQuestStore.useStoreActions((action) => action.setQuizzes)
 
-  // hook
-  const [quizAnswers, setQuizAnswers] = useState<string[]>([])
-  const [quizCorrectAnswers, setQuizCorrectAnswers] = useState<string[]>([])
-
-  useEffect(() => {
-    const copyQuizz = quizzes
-    copyQuizz.forEach((quiz, i) => {
-      if (i === id) {
-        quiz.answers = quizCorrectAnswers
-        quiz.options = quizAnswers
-      }
-    })
-    setQuizzes([...copyQuizz])
-  }, [quizAnswers, quizCorrectAnswers])
-
-  useEffect(() => {
-    setQuizCorrectAnswers(quizzes[id].answers)
-    setQuizAnswers(quizzes[id].options)
-  }, [quizzes])
-
-  // handler
-  const handleCorrectAnswers = (value: string) => {
-    if (value !== '') {
-      if (quizCorrectAnswers.includes(value)) {
-        setQuizCorrectAnswers(quizCorrectAnswers.filter((e) => e !== value))
-      } else {
-        setQuizCorrectAnswers([...quizCorrectAnswers, value])
-      }
-    }
-  }
-
+  // called when user types answer
   const onChangeAnswser = (e: string, i: number) => {
-    const shadowAnswer = quizAnswers
-    shadowAnswer[i] = e
-    setQuizAnswers([...shadowAnswer])
+    const copy: QuestQuizType[] = Object.assign([], quizzes)
+    copy[quizId].answers[i] = e
+
+    setQuizzes(copy)
   }
 
   const onRemoveAnswer = (i: number) => {
     const shadowAnswer = quizAnswers
     shadowAnswer.splice(i, 1)
-    setQuizAnswers([...shadowAnswer])
+
+    const copy: QuestQuizType[] = JSON.parse(JSON.stringify(quizzes))
+    copy[quizId].answers = shadowAnswer
+
+    setQuizzes(copy)
   }
 
-  const listAnswer = quizAnswers.map((e, i) => {
+  const listAnswer = quizAnswers.map((answer, i) => {
     let status = AnswerStatusEnum.DEFAULT
-    if (quizCorrectAnswers.includes(e)) {
-      status = AnswerStatusEnum.ACTIVE
-    }
     if (quizAnswers[i] === '') {
       status = AnswerStatusEnum.DANGER
     }
 
     return (
-      <AnswerBox key={i} status={status} onClick={() => handleCorrectAnswers(e)}>
+      <AnswerBox key={i} status={status}>
         <SquareBox>{Alphabet[i]}</SquareBox>
         <AnswerInput
-          value={e}
+          value={answer}
           onChange={(e) => onChangeAnswser(e.target.value, i)}
           onClick={(e) => {
             e.preventDefault()
@@ -202,7 +178,10 @@ const AnswerItem: FunctionComponent<{ id: number }> = ({ id }) => {
         status={addAnswerStatus}
         onClick={() => {
           if (quizAnswers.length < 10) {
-            setQuizAnswers([...quizAnswers, ''])
+            const copy: QuestQuizType[] = Object.assign([], quizzes)
+            copy[quizId].answers.push('')
+
+            setQuizzes(copy)
           }
         }}
       >
@@ -215,19 +194,19 @@ const AnswerItem: FunctionComponent<{ id: number }> = ({ id }) => {
   )
 }
 
-const QuestQuiz: FunctionComponent<{ id: number }> = ({ id }) => {
+const QuestQuiz: FunctionComponent<{ quizIndex: number }> = ({ quizIndex }) => {
   const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
   const setQuizzes = NewQuestStore.useStoreActions((action) => action.setQuizzes)
 
   const onRemove = () => {
-    const copyQuizz = quizzes.filter((e) => e.id !== quizzes[id].id)
+    const copyQuizz = quizzes.filter((e) => e.id !== quizzes[quizIndex].id)
     setQuizzes([...copyQuizz])
   }
 
   const onChange = (e: string) => {
     const copyQuizz = quizzes
     copyQuizz.forEach((quiz) => {
-      if (quiz.id === quizzes[id].id) {
+      if (quiz.id === quizzes[quizIndex].id) {
         quiz.question = e
       }
     })
@@ -242,18 +221,16 @@ const QuestQuiz: FunctionComponent<{ id: number }> = ({ id }) => {
       </HorizontalBetweenCenterFullWidth>
       <MultipleTextField
         required
-        value={quizzes[id].question ?? ''}
+        value={quizzes[quizIndex].question ?? ''}
         onChange={(e) => onChange(e.target.value)}
         placeholder='Write a question'
         errorMsg='You must have a question to create this quest.'
       />
       <Gap />
       <FieldTitle title={'ANSWERS'} required={true} />
-      <NormalText>
-        {'Click to select a correct answer, otherwise any answer will be accepted e.g. for a vote.'}
-      </NormalText>
+      <NormalText>{'Add answer to the quiz.'}</NormalText>
       <Gap />
-      <AnswerItem id={id} />
+      <AnswerItem quizId={quizIndex} id={quizIndex} />
     </QuestQuizBox>
   )
 }
