@@ -40,16 +40,6 @@ export const InputBox = styled.input<{ danger?: boolean; block?: boolean }>(
   ]
 )
 
-export const InputInviteBox = tw.input`
-  w-full
-  border
-  border-[1px]
-  border-solid
-  border-gray-300
-  p-3
-  rounded-lg
-`
-
 export const ErrorBox = tw(VerticalFullWidth)`
   gap-2
 `
@@ -67,10 +57,9 @@ export const InputBBox = tw.input`
   rounded-lg
 `
 
-export const MulInputBox = styled.textarea<{ danger?: boolean }>(
-  ({ danger = false }) => [
-    danger
-      ? tw`
+export const MulInputBox = styled.textarea<{ danger?: boolean }>(({ danger = false }) => [
+  danger
+    ? tw`
         w-full
         border
         border-[1px]
@@ -84,7 +73,7 @@ export const MulInputBox = styled.textarea<{ danger?: boolean }>(
         focus:outline
         focus:ring-danger-500
       `
-      : tw`
+    : tw`
         w-full
         border
         border-[1px]
@@ -98,8 +87,7 @@ export const MulInputBox = styled.textarea<{ danger?: boolean }>(
         focus:outline-primary
         focus:ring-primary
       `,
-  ]
-)
+])
 
 export const LabelInput = tw.label`
   text-gray-700

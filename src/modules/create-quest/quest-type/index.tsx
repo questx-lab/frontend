@@ -1,13 +1,12 @@
 'use client'
 
 import { QuestTypeEnum } from '@/constants/common.const'
+import Invite from '@/modules/create-quest/quest-type/invite'
 import Quizzes from '@/modules/create-quest/quest-type/quizzes'
 import { QuestTypeText } from '@/modules/create-quest/quest-type/text'
 import TwitterList from '@/modules/create-quest/quest-type/twitter'
 import { VisitLink } from '@/modules/create-quest/quest-type/visit-link'
 import { NewQuestStore } from '@/store/local/new-quest.store'
-
-// import TwitterList from './twitter-list'
 
 const QuestType = () => {
   // Data
@@ -16,11 +15,8 @@ const QuestType = () => {
 
   const project = NewQuestStore.useStoreState((state) => state.project)
 
-  const invites = NewQuestStore.useStoreState((state) => state.invites)
-
   // Actions
   const setTelegramLink = NewQuestStore.useStoreActions((actions) => actions.setTelegramLink)
-  const setInvites = NewQuestStore.useStoreActions((actions) => actions.setInvites)
 
   const onConnectDiscord = () => {
     // signIn(Oauth2ProviderEnum.DISCORD_BOT_PROVIDER)
@@ -60,23 +56,7 @@ const QuestType = () => {
     //   </>
     // )
     case QuestTypeEnum.INVITES:
-      return <></>
-    // return (
-    //   <>
-    //     <Divider />
-    //     <PICard>
-    //       <Label>{'INVITES'}</Label>
-    //       <Gap height={2} />
-    //       <InputInviteBox
-    //         onChange={(e) => setInvites(parseInt(e.target.value ?? '0'))}
-    //         defaultValue={invites}
-    //         type='number'
-    //       />
-    //       <Gap height={2} />
-    //       <LabelDes>{'Invited user needs to complete 1 quest for invite to count'}</LabelDes>
-    //     </PICard>
-    //   </>
-    // )
+      return <Invite />
     case QuestTypeEnum.DISCORD:
       return <></>
     // return (
