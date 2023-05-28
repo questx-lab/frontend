@@ -13,48 +13,9 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import { QuestTypeText } from '@/modules/create-quest/quest-type/text'
 import { OuterBox } from '@/modules/create-quest/quest-type/mini-widget'
 import { VisitLink } from '@/modules/create-quest/quest-type/visit-link'
+import Quizzes from '@/modules/create-quest/quest-type/quizzes'
 
-// import QuestQuiz from './quest-quiz'
 // import TwitterList from './twitter-list'
-
-const AddQuestQuiz: FunctionComponent = () => {
-  const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
-  const setQuizzes = NewQuestStore.useStoreActions((action) => action.setQuizzes)
-
-  let block = true
-  const quiz = quizzes[quizzes.length - 1]
-
-  // Validate quest before add more
-  if (quiz.question !== '' && quiz.answers.length && quiz.question.length) {
-    block = false
-  }
-
-  const AddQuiz = () => {
-    setQuizzes([
-      ...quizzes,
-      {
-        id: quizzes.length,
-        question: '',
-        answers: [],
-        options: [],
-      },
-    ])
-  }
-
-  return (
-    <NegativeButton block={block} isFull onClick={AddQuiz}>
-      {'Add more Quiz'}
-      <PlusIcon className='w-5 h-5' />
-    </NegativeButton>
-  )
-}
-
-const ListQuizzes: FunctionComponent = () => {
-  // const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
-  // const renderQuizzes = quizzes.map((e, i) => <QuestQuiz key={i} id={i} />)
-  // return <>{renderQuizzes}</>
-  return <></>
-}
 
 const QuestType = () => {
   // Data
@@ -85,13 +46,7 @@ const QuestType = () => {
     case QuestTypeEnum.TEXT:
       return <QuestTypeText />
     case QuestTypeEnum.QUIZ:
-      return <></>
-    // return (
-    //   <PICard>
-    //     <ListQuizzes />
-    //     <AddQuestQuiz />
-    //   </PICard>
-    // )
+      return <Quizzes />
     case QuestTypeEnum.VISIT_LINK:
       return <VisitLink />
     case QuestTypeEnum.EMPTY:

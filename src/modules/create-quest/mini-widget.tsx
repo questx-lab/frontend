@@ -33,15 +33,24 @@ export const QuestFieldsBox: FunctionComponent<{
     <>
       <ThinBorderBox>
         <Padding>
-          <Label>
-            {title}
-            {required && <RequireSignal>{'*'}</RequireSignal>}
-          </Label>
+          <FieldTitle title={title} required={required} />
           {children}
         </Padding>
       </ThinBorderBox>
       <Gap height={8} />
     </>
+  )
+}
+
+export const FieldTitle: FunctionComponent<{ title: string; required?: boolean }> = ({
+  title,
+  required,
+}) => {
+  return (
+    <Label>
+      {title}
+      {required && <RequireSignal>{'*'}</RequireSignal>}
+    </Label>
   )
 }
 

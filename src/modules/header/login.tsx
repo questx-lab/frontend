@@ -21,6 +21,7 @@ import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useGoogleLogin } from '@react-oauth/google'
+import { FieldTitle } from '@/modules/create-quest/mini-widget'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
@@ -298,10 +299,7 @@ const RegisterForm: FunctionComponent<{
       <Title>{'Create your XQuest account'}</Title>
       <FormBox>
         <UserBox />
-        <Label>
-          {'XQUEST USERNAME'}
-          <RequireSignal>{'*'}</RequireSignal>
-        </Label>
+        <FieldTitle title={'XQUEST USERNAME'} required={true} />
         <TextField
           value={username}
           required
