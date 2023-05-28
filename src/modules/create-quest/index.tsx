@@ -64,7 +64,7 @@ const handleSubmit = async (
     return false
   }
 
-  const type = state.type !== QuestTypeEnum.TWITTER ? state.type : state.twitterType
+  const type = state.type
   const validations: ValidationQuest = {}
 
   switch (state.type) {

@@ -27,7 +27,6 @@ export interface NewQuestModel {
   spaceUrlTw: string
   pointReward: number
   activeReward: number
-  twitterType: string
   chooseQuestsHistory: any[]
   chooseQuestsPending: any[]
 
@@ -54,7 +53,6 @@ export interface NewQuestModel {
   setContentTwitter: Action<NewQuestModel, string>
   setPointReward: Action<NewQuestModel, number>
   setActiveReward: Action<NewQuestModel, number>
-  setTwitterType: Action<NewQuestModel, string>
   setSpaceUrl: Action<NewQuestModel, string>
   setQuizzes: Action<NewQuestModel, QuestQuizType[]>
 }
@@ -77,7 +75,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   contentTw: '',
   pointReward: 100,
   activeReward: 0,
-  twitterType: '',
   spaceUrlTw: '',
   chooseQuestsHistory: [],
   chooseQuestsPending: [],
@@ -170,10 +167,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setActiveReward: action((state, newActiveReward) => {
     state.activeReward = newActiveReward
-  }),
-
-  setTwitterType: action((state, newTwitterType) => {
-    state.twitterType = newTwitterType
   }),
 
   setSpaceUrl: action((state, spaceUrlTw) => {
