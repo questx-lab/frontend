@@ -44,12 +44,6 @@ export const ErrorBox = tw(VerticalFullWidth)`
   gap-2
 `
 
-export const ErrorMsg = tw.span`
-  text-sm
-  font-normal
-  text-danger-500
-`
-
 export const InputBBox = tw.input`
   w-full
   border-0

@@ -1,13 +1,138 @@
 import { FunctionComponent } from 'react'
 
-import { ErrorBox, ErrorMsg, InputBox, MulInputBox } from '@/styles/input.style'
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
-const Error: FunctionComponent<{ danger: boolean; errorMsg: string }> = ({
-  danger,
-  errorMsg,
-}) => {
+import { VerticalFullWidth } from './orientation'
+
+const ErrorBox = tw(VerticalFullWidth)`
+  gap-2
+`
+
+const MulInputBox = styled.textarea<{ danger?: boolean }>(({ danger = false }) => [
+  danger
+    ? tw`
+        w-full
+        border
+        border-[1px]
+        border-solid
+        border-danger-500
+        p-3
+        rounded-lg
+        h-full
+        focus:border-danger-500
+        focus:outline-danger-500
+        focus:outline
+        focus:ring-danger-500
+      `
+    : tw`
+        w-full
+        border
+        border-[1px]
+        border-solid
+        border-primary-300
+        p-3
+        rounded-lg
+        h-full
+        font-normal
+        focus:border-primary
+        focus:outline-primary
+        focus:ring-primary
+      `,
+])
+
+const InputBox = styled.input<{
+  danger?: boolean
+  block?: boolean
+  isValid?: boolean
+}>(({ danger = false, block = false, isValid }) => [
+  danger
+    ? tw`
+        w-full
+        border
+        border-[1px]
+        border-solid
+        border-danger-700
+        p-3
+        rounded-lg
+        focus:border-danger-500
+        focus:outline-danger-500
+        focus:outline
+        focus:ring-danger-500
+      `
+    : tw`
+        w-full
+        border
+        border-[1px]
+        border-solid
+        border-primary
+        p-3
+        rounded-lg
+        focus:border-primary
+        focus:outline-primary
+        focus:ring-primary
+        font-normal
+      `,
+  block &&
+    tw`
+        border-gray-300
+      `,
+  isValid &&
+    tw`
+        border-success
+        rounded-lg
+        focus:border-success-500
+        focus:outline-success-500
+        focus:outline
+        focus:ring-success-500
+      `,
+  isValid === false &&
+    tw`
+    w-full
+    border
+    border-[1px]
+    border-solid
+    border-danger-700
+    p-3
+    rounded-lg
+    focus:border-danger-500
+    focus:outline-danger-500
+    focus:outline
+    focus:ring-danger-500
+  `,
+])
+
+const ErrorMsg = styled.span<{ danger: boolean; isValid?: boolean }>(({ danger, isValid }) => [
+  tw`
+    text-sm
+    font-normal
+    text-danger-500
+  `,
+  danger &&
+    tw`
+    text-danger-500
+  `,
+  isValid &&
+    tw`
+    text-success
+  `,
+])
+
+const MsgBox: FunctionComponent<{
+  danger: boolean
+  msg: string
+  isValid?: boolean
+}> = ({ danger, msg, isValid }) => {
   if (danger) {
-    return <ErrorMsg>{errorMsg}</ErrorMsg>
+    return <ErrorMsg danger={danger}>{msg}</ErrorMsg>
+  }
+
+  if (isValid === true) {
+    return (
+      <ErrorMsg danger={false} isValid={isValid}>
+        {msg}
+      </ErrorMsg>
+    )
   }
   return <></>
 }
@@ -15,11 +140,20 @@ const Error: FunctionComponent<{ danger: boolean; errorMsg: string }> = ({
 export const TextField: FunctionComponent<{
   required?: boolean
   placeholder: string
-  value: string
+  value?: string
   onChange: (e: any) => void
   errorMsg?: string
-}> = ({ required = false, placeholder, value, onChange, errorMsg = '' }) => {
-  const danger = required && value === ''
+  isValid?: boolean
+  min?: number
+}> = ({ required = false, placeholder, value, onChange, errorMsg = '', isValid, min }) => {
+  let danger = required && value === ''
+
+  if (min && value) {
+    if (value.length <= min) {
+      danger = true
+      errorMsg = `Require more than ${min} charactors`
+    }
+  }
 
   return (
     <ErrorBox>
@@ -28,8 +162,9 @@ export const TextField: FunctionComponent<{
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        isValid={isValid}
       />
-      <Error danger={danger} errorMsg={errorMsg} />
+      <MsgBox danger={danger} msg={errorMsg} isValid={isValid} />
     </ErrorBox>
   )
 }
@@ -41,14 +176,7 @@ export const MultipleTextField: FunctionComponent<{
   onChange: (e: any) => void
   errorMsg?: string
   rows?: number
-}> = ({
-  required = false,
-  placeholder,
-  value,
-  onChange,
-  errorMsg = '',
-  rows = 3,
-}) => {
+}> = ({ required = false, placeholder, value, onChange, errorMsg = '', rows = 3 }) => {
   const danger = required && value === ''
 
   return (
@@ -60,7 +188,7 @@ export const MultipleTextField: FunctionComponent<{
         onChange={onChange}
         rows={rows}
       />
-      <Error danger={danger} errorMsg={errorMsg} />
+      <MsgBox danger={danger} msg={errorMsg} />
     </ErrorBox>
   )
 }

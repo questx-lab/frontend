@@ -1,5 +1,10 @@
 import tw from 'twin.macro'
 
+export const FullWidthHeight = tw.div`
+  w-full
+  h-full
+`
+
 export const Horizontal = tw.div`
   flex
   flex-row

@@ -19,9 +19,11 @@ export const List: FunctionComponent<{ communities: CommunityType[]; loading: bo
   loading,
 }) => {
   if (loading) {
-    ;<VerticalFullWidthCenter>
-      <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />
-    </VerticalFullWidthCenter>
+    return (
+      <VerticalFullWidthCenter>
+        <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />
+      </VerticalFullWidthCenter>
+    )
   }
 
   if (communities.length === 0) {
