@@ -1,5 +1,5 @@
 import { RouterConst } from '@/constants/router.const'
-import { CreateQuest } from '@/modules/create-quest'
+import { CreateOrEditQuest } from '@/modules/create-quest'
 import { CommunityStore } from '@/store/local/community'
 import { FunctionComponent } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -14,6 +14,9 @@ export const Index: FunctionComponent = () => {
   }
 
   return (
-    <CreateQuest communityId={selectedCommunity.id} community={selectedCommunity}></CreateQuest>
+    <CreateOrEditQuest
+      communityId={selectedCommunity.id}
+      community={selectedCommunity}
+    ></CreateOrEditQuest>
   )
 }

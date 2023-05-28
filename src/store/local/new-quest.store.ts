@@ -1,12 +1,17 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { QuestRecurrence, QuestTypeEnum } from '@/constants/common.const'
-import { CommunityType, QuestQuizType } from '@/utils/type'
+import {
+  QuestRecurrence,
+  QuestRecurrencesStringMap,
+  QuestTypeEnum,
+  QuestTypeMap,
+} from '@/constants/common.const'
+import { CommunityType, QuestQuizType, QuestType } from '@/utils/type'
 
 export interface NewQuestModel {
   title: string
   description: string
-  questType: QuestTypeEnum
+  type: QuestTypeEnum
   textAutoValid: boolean
   recurrence: QuestRecurrence
   anwser: string
@@ -30,9 +35,11 @@ export interface NewQuestModel {
   project: CommunityType
 
   // Actions
+  setQuest: Action<NewQuestModel, QuestType>
+
   setTitle: Action<NewQuestModel, string>
   setDescription: Action<NewQuestModel, string>
-  setQuestType: Action<NewQuestModel, QuestTypeEnum>
+  setType: Action<NewQuestModel, QuestTypeEnum>
   setTextAutoValidation: Action<NewQuestModel, boolean>
   setRecurrence: Action<NewQuestModel, QuestRecurrence>
   setAnswer: Action<NewQuestModel, string>
@@ -49,15 +56,13 @@ export interface NewQuestModel {
   setActiveReward: Action<NewQuestModel, number>
   setTwitterType: Action<NewQuestModel, string>
   setSpaceUrl: Action<NewQuestModel, string>
-
   setQuizzes: Action<NewQuestModel, QuestQuizType[]>
-  setProject: Action<NewQuestModel, CommunityType>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
   title: 'Untitled Quest',
   description: '',
-  questType: QuestTypeEnum.URL,
+  type: QuestTypeEnum.URL,
   textAutoValid: false,
   recurrence: QuestRecurrence.ONCE,
   anwser: '',
@@ -86,6 +91,19 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   ],
   project: { id: '' },
 
+  // Set all the fields for the state
+  setQuest: action((state, quest) => {
+    state.title = quest.title || ''
+    state.description = quest.description || ''
+    state.type = QuestTypeMap.get(quest.type || '') || QuestTypeEnum.URL
+    state.textAutoValid = quest.validation_data.auto_validate || false
+    state.recurrence = QuestRecurrencesStringMap.get(quest.recurrence || '') || QuestRecurrence.ONCE
+    state.visitLink = quest.validation_data.link || ''
+    state.telegramLink = quest.validation_data.link || ''
+    state.discordLink = quest.validation_data.link || ''
+    state.quizzes = quest.validation_data.quizzes || []
+  }),
+
   setTitle: action((state, newTitle) => {
     state.title = newTitle
   }),
@@ -94,8 +112,8 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.description = newDescription
   }),
 
-  setQuestType: action((state, newQuestType) => {
-    state.questType = newQuestType
+  setType: action((state, newQuestType) => {
+    state.type = newQuestType
   }),
 
   setTextAutoValidation: action((state, newTextAutoValid) => {
@@ -164,10 +182,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setQuizzes: action((state, quizzes) => {
     state.quizzes = quizzes
-  }),
-
-  setProject: action((state, newProject) => {
-    state.project = newProject
   }),
 })
 

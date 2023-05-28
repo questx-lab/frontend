@@ -14,7 +14,7 @@ const ActionButtons: FunctionComponent<{
   onSubmit: (status: string) => void
 }> = ({ onSubmit }) => {
   const title = NewQuestStore.useStoreState((state) => state.title)
-  const questType = NewQuestStore.useStoreState((state) => state.questType)
+  const questType = NewQuestStore.useStoreState((state) => state.type)
   const actionTwitter = NewQuestStore.useStoreState((state) => state.actionTwitter)
   const visitLink = NewQuestStore.useStoreState((state) => state.visitLink)
   const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)

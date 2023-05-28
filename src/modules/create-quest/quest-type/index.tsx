@@ -12,7 +12,7 @@ import { NewQuestStore } from '@/store/local/new-quest.store'
 
 const QuestType = () => {
   // data
-  const questType = NewQuestStore.useStoreState((state) => state.questType)
+  const questType = NewQuestStore.useStoreState((state) => state.type)
 
   switch (questType) {
     case QuestTypeEnum.URL:
