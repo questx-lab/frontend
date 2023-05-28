@@ -3,15 +3,18 @@
 import { FunctionComponent } from 'react'
 
 import { ActiveEnum, QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
+import { TypeButtonFrame } from '@/modules/create-quest/mini-widget'
+import { Padding } from '@/modules/create-quest/quest-type/mini-widget'
+import TwitterFollow from '@/modules/create-quest/quest-type/twitter-follow'
+import TwitterJoinSpace from '@/modules/create-quest/quest-type/twitter-join-space'
+import TwitterReaction from '@/modules/create-quest/quest-type/twitter-reaction'
+import TwitterReply from '@/modules/create-quest/quest-type/twitter-reply'
+import TwitterTweet from '@/modules/create-quest/quest-type/twitter-tweet'
 import { NewQuestStore } from '@/store/local/new-quest.store'
-import { Divider, Gap } from '@/styles/common.style'
-import { MulInputBox } from '@/styles/input.style'
-import { TextField } from '@/widgets/form'
-import { Label, SmallText } from '@/widgets/text'
+import { Divider } from '@/styles/common.style'
+import { Label } from '@/widgets/text'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { QuestFieldsBox, TypeButtonFrame } from '@/modules/create-quest/mini-widget'
-import { VerticalFullWidth } from '@/widgets/orientation'
 
 const TwitterBox = styled.div<{ activeType: number }>(({ activeType }) => {
   switch (activeType) {
@@ -66,27 +69,13 @@ const TwitterBox = styled.div<{ activeType: number }>(({ activeType }) => {
   }
 })
 
-const Padding = tw(VerticalFullWidth)`
-  py-2
-  px-6
-  gap-4
-`
-
 const TwitterList: FunctionComponent = () => {
   // Data
   const actionTwitter = NewQuestStore.useStoreState((state) => state.actionTwitter)
-  const accountUrl = NewQuestStore.useStoreState((state) => state.accountUrl)
-  const tweetUrl = NewQuestStore.useStoreState((state) => state.tweetUrl)
-  const spaceUrlTw = NewQuestStore.useStoreState((state) => state.spaceUrlTw)
 
   // Action
   const setActionTwitter = NewQuestStore.useStoreActions((actions) => actions.setActionTwitter)
-  const setAccountLink = NewQuestStore.useStoreActions((actions) => actions.setAccountLink)
-  const setTweetUrl = NewQuestStore.useStoreActions((actions) => actions.setTweetUrl)
-  const setReplyTwitter = NewQuestStore.useStoreActions((actions) => actions.setReplyTwitter)
-  const setContentTwitter = NewQuestStore.useStoreActions((actions) => actions.setContentTwitter)
   const setTwitterType = NewQuestStore.useStoreActions((actions) => actions.setTwitterType)
-  const setSpaceUrl = NewQuestStore.useStoreActions((actions) => actions.setSpaceUrl)
 
   const handleActive = (actionType: string) => {
     if (actionType === TwitterEnum.FOLLOW) {
@@ -183,83 +172,12 @@ const TwitterList: FunctionComponent = () => {
         <Label>{'ACTION'}</Label>
         <TypeButtonFrame>{listTwitterAction}</TypeButtonFrame>
       </Padding>
-      {actionTwitter.includes(TwitterEnum.FOLLOW) && (
-        <>
-          <Divider />
-          <Padding>
-            <Label>{'ACCOUNT URL'}</Label>
-            <TextField
-              onChange={(e) => setAccountLink(e.target.value)}
-              placeholder='https://twitter.com/elon.musk'
-              value={accountUrl}
-              required
-              errorMsg='This field is required'
-            />
-          </Padding>
-        </>
-      )}
-      {(actionTwitter.includes(TwitterEnum.LIKE) ||
-        actionTwitter.includes(TwitterEnum.REPLY) ||
-        actionTwitter.includes(TwitterEnum.RETWEET)) && (
-        <>
-          <Divider />
-          <Padding>
-            <Label>{'TWEET URL'}</Label>
-            <TextField
-              onChange={(e) => setTweetUrl(e.target.value)}
-              placeholder='https://twitter.com/abc'
-              value={tweetUrl}
-              required
-              errorMsg='This field is required'
-            />
-            <Gap height={3} />
-            <SmallText>{'Post to like/reply/retweet'}</SmallText>
-          </Padding>
-        </>
-      )}
-      {actionTwitter.includes(TwitterEnum.REPLY) && (
-        <>
-          <Divider />
-          <Padding>
-            <Label>{'DEFAULT REPLY'}</Label>
-            <MulInputBox
-              onChange={(e) => setReplyTwitter(e.target.value)}
-              rows={3}
-              placeholder='Check this out @mantanetworl, @dzucle, @yugih, so cool!'
-            />
-            <Gap height={3} />
-            <SmallText>{'We will prepare a pre-filled reply for the users'}</SmallText>
-          </Padding>
-        </>
-      )}
-      {actionTwitter.includes(TwitterEnum.TWEET) && (
-        <>
-          <Divider />
-          <Padding>
-            <Label>{'TWEET CONTENT'}</Label>
-            <MulInputBox
-              onChange={(e) => setContentTwitter(e.target.value)}
-              rows={3}
-              placeholder='Check this out @mantanetworl, @dzucle, @yugih, so cool!'
-            />
-          </Padding>
-        </>
-      )}
-      {actionTwitter.includes(TwitterEnum.JOIN_SPACE) && (
-        <>
-          <Divider />
-          <Padding>
-            <Label>{'SPACE URL'}</Label>
-            <TextField
-              onChange={(e) => setSpaceUrl(e.target.value)}
-              placeholder='Empty'
-              value={spaceUrlTw}
-              required
-              errorMsg='This field is required'
-            />
-          </Padding>
-        </>
-      )}
+
+      <TwitterFollow />
+      <TwitterReaction />
+      <TwitterReply />
+      <TwitterTweet />
+      <TwitterJoinSpace />
     </>
   )
 }
