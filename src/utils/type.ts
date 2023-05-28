@@ -148,7 +148,7 @@ export interface QuestType {
   condition_op?: string
   created_at?: string
   updated_at?: string
-  rewards?: RewardType[]
+  rewards: RewardType[]
   validation_data: {
     tweet_url?: string
     like?: boolean

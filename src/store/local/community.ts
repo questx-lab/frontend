@@ -9,7 +9,7 @@ interface CommunityModel {
   query: string
   quests: QuestType[]
   searchProjects: CommunityType[]
-  role: number
+  role: CommunityRoleEnum
   categories: CategoryType[]
   invitedBy: string
   activeControlPanelTab: number

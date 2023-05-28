@@ -5,8 +5,10 @@ import {
   QuestRecurrencesStringMap,
   QuestTypeEnum,
   QuestTypeMap,
+  TwitterEnum,
 } from '@/constants/common.const'
 import { CommunityType, QuestQuizType, QuestType } from '@/utils/type'
+import { isTwitterType } from '@/types/twitter'
 
 export interface NewQuestModel {
   title: string
@@ -99,6 +101,37 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.telegramLink = quest.validation_data.link || ''
     state.discordLink = quest.validation_data.link || ''
     state.quizzes = quest.validation_data.quizzes || []
+
+    // Twitter
+    if (isTwitterType(state.type)) {
+      switch (state.type) {
+        case QuestTypeEnum.TWITTER_FOLLOW:
+          state.accountUrl = quest.validation_data.twitter_handle || ''
+          break
+        case QuestTypeEnum.TWITTER_REACTION:
+          if (
+            quest.validation_data.like ||
+            quest.validation_data.reply ||
+            quest.validation_data.retweet
+          ) {
+            state.tweetUrl = quest.validation_data.tweet_url || ''
+          }
+          break
+        case QuestTypeEnum.TWITTER_TWEET:
+          state.contentTw = quest.validation_data.default_tweet || ''
+          break
+        case QuestTypeEnum.TWITTER_JOIN_SPACE:
+          state.spaceUrlTw = quest.validation_data.space_url || ''
+          break
+      }
+
+      // TODO: Support more than point reward
+      for (let reward of quest.rewards) {
+        if (reward.type === 'points') {
+          state.pointReward = reward.data.points || 0
+        }
+      }
+    }
   }),
 
   setTitle: action((state, newTitle) => {

@@ -64,7 +64,7 @@ export const Community = () => {
   const setSelectedCommunity = CommunityStore.useStoreActions(
     (action) => action.setSelectedCommunity
   )
-  const setQuests = CommunityStore.useStoreActions((action) => action.setQuest)
+  const setQuests = CommunityStore.useStoreActions((action) => action.setQuests)
 
   // hook
   useEffect(() => {

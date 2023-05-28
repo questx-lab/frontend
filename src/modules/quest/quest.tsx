@@ -44,6 +44,8 @@ export const Quest: FunctionComponent<{
       // Set the data in the NewQuest store
       setQuest(quest)
     }
+
+    setOpen(true)
   }
 
   return (
