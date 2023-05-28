@@ -1,19 +1,6 @@
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import tw from 'twin.macro'
 
-export const CheckBox = tw.input`
-  cursor-pointer
-  focus:outline-none
-  focus-visible:outline-none
-  w-5
-  h-5
-  text-white
-  bg-gray-800
-  border-gray-300
-  rounded
-  mr-4
-`
-
 export const SubmissionAndFilterFrame = tw(Horizontal)`
   gap-4
   w-full

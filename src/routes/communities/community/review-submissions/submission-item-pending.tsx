@@ -1,21 +1,6 @@
-import { ChangeEvent, CSSProperties, FunctionComponent, ReactNode } from 'react'
+import { ChangeEvent, FunctionComponent, ReactNode } from 'react'
 
-import toast from 'react-hot-toast'
-
-import {
-  ClaimedQuestMap,
-  ClaimedQuestStatus,
-  ReviewBtnEnum,
-  TabReviewEnum,
-} from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { ClaimQuestType } from '@/utils/type'
-import { Image } from '@/widgets/image'
-import styled from 'styled-components'
-import tw from 'twin.macro'
-import { Horizontal, Vertical } from '@/widgets/orientation'
-import { CheckBox } from '@/routes/communities/community/review-submissions/mini-widget'
 import {
   Details,
   FullWidth,
@@ -26,6 +11,10 @@ import {
   Title,
   VerticalLeftMargin,
 } from '@/routes/communities/community/review-submissions/row-item'
+import { NewClaimReviewStore } from '@/store/local/claim-review'
+import { ClaimQuestType } from '@/utils/type'
+import { Image } from '@/widgets/image'
+import { CheckBox } from '@/widgets/input'
 
 const SubmissionItemPending: FunctionComponent<{
   tab: number

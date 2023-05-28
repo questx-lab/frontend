@@ -11,10 +11,10 @@ export const Row = styled.div<{ active?: boolean }>(({ active = false }) => {
       justify-between
       items-center
       p-4
-      bg-primary-50
       border-t
       border-solid
       border-gray-200
+      bg-primary-50
     `
   }
 
