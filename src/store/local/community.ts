@@ -1,12 +1,13 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { CommunityRoleEnum } from '@/constants/common.const'
-import { CategoryType, CommunityType } from '@/utils/type'
+import { CategoryType, CommunityType, QuestType } from '@/utils/type'
 import { CommunityIndexMode, ControlPanelTab } from '@/types/community'
 
 interface CommunityModel {
   selectedCommunity: CommunityType | undefined
   query: string
+  quests: QuestType[]
   searchProjects: CommunityType[]
   role: number
   categories: CategoryType[]
@@ -22,6 +23,7 @@ interface CommunityModel {
   setInviteBy: Action<CommunityModel, string>
   setActiveControlPanelTab: Action<CommunityModel, number>
   setCommunityIndexMode: Action<CommunityModel, number>
+  setQuests: Action<CommunityModel, QuestType[]>
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
@@ -31,6 +33,8 @@ const CommunityStore = createContextStore<CommunityModel>({
   role: CommunityRoleEnum.GUEST,
   categories: [],
   invitedBy: '',
+  quests: [],
+
   activeControlPanelTab: ControlPanelTab.QUESTS,
   communityIndexMode: CommunityIndexMode.VIEW_COMMUNITY,
 
@@ -57,6 +61,9 @@ const CommunityStore = createContextStore<CommunityModel>({
   }),
   setCommunityIndexMode: action((state, communityIndexMode) => {
     state.communityIndexMode = communityIndexMode
+  }),
+  setQuests: action((state, quests) => {
+    state.quests = quests
   }),
 })
 export { CommunityStore }

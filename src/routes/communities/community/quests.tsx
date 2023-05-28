@@ -9,6 +9,7 @@ import { QuestType } from '@/utils/type'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import tw from 'twin.macro'
 import { QuestView } from '@/modules/quest'
+import { CommunityStore } from '@/store/local/community'
 
 const Grid = tw.div`
   w-full
@@ -22,13 +23,13 @@ const Grid = tw.div`
 `
 
 export const QuestListView: FunctionComponent<{
-  questList: QuestType[]
-}> = ({ questList }) => {
-  if (!questList) {
+  quests: QuestType[]
+}> = ({ quests }) => {
+  if (!quests) {
     return <div>{'There are currently no quests'}</div>
   }
 
-  const questListView = questList.map((quest) => (
+  const questListView = quests.map((quest) => (
     <NewQuestStore.Provider>
       <QuestView quest={quest} />
     </NewQuestStore.Provider>
@@ -38,9 +39,10 @@ export const QuestListView: FunctionComponent<{
 }
 
 export const Quests: FunctionComponent<{
-  questList: QuestType[]
   show: boolean
-}> = ({ questList, show }) => {
+}> = ({ show }) => {
+  const quests = CommunityStore.useStoreState((action) => action.quests)
+
   if (!show) {
     return <></>
   }
@@ -51,7 +53,7 @@ export const Quests: FunctionComponent<{
         <HeaderText>{'👌 Invite'}</HeaderText>
         <Gap height={6} />
         <Grid>
-          <QuestListView questList={questList} />
+          <QuestListView quests={quests} />
         </Grid>
       </VerticalFullWidth>
     </>
