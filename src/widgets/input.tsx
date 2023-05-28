@@ -4,6 +4,7 @@ import tw from 'twin.macro'
 export enum CheckBoxSize {
   SMALL,
   MEDIUM,
+  LARGE,
 }
 
 export const CheckBox = styled.input<{ size?: CheckBoxSize }>(({ size = CheckBoxSize.SMALL }) => {
@@ -21,6 +22,19 @@ export const CheckBox = styled.input<{ size?: CheckBoxSize }>(({ size = CheckBox
         rounded
         mr-4
       `
+    case CheckBoxSize.LARGE:
+      return tw`
+          cursor-pointer
+          focus:outline-none
+          focus-visible:outline-none
+          w-6
+          h-6
+          text-white
+          bg-gray-800
+          border-gray-300
+          rounded
+          mr-4
+        `
     default:
       // default is small size
       return tw`

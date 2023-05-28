@@ -5,7 +5,7 @@ import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
 import { newCommunityApi } from '@/app/api/client/communitiy'
-import { BackButton, HorizotalFlex, Title } from '@/modules/create-community/mini-widget'
+import { BackButton, HorizotalFullWidth, Title } from '@/modules/create-community/mini-widget'
 import { NewCommunityStore } from '@/store/local/new-community.store'
 import { LabelInput } from '@/styles/input.style'
 import { ReqNewCommunity } from '@/utils/type'
@@ -84,13 +84,6 @@ export const CreateCommunityStep: FunctionComponent = () => {
     }
   }
 
-  const LoadingBtn: FunctionComponent = () => {
-    if (loading) {
-      return <MoonLoader color='#fff' loading speedMultiplier={0.8} size={25} />
-    }
-    return <>{'Done'}</>
-  }
-
   return (
     <Main>
       <Title>{'How did you hear about us?'}</Title>
@@ -106,12 +99,12 @@ export const CreateCommunityStep: FunctionComponent = () => {
         placeholder='Code Invite'
       />
       <WarningText>{"* If you don't have a invite code, leave the input field blank."}</WarningText>
-      <HorizotalFlex>
+      <HorizotalFullWidth>
         <BackButton />
         <PositiveButton isFull={true} loading={loading} onClick={onDone}>
           Done
         </PositiveButton>
-      </HorizotalFlex>
+      </HorizotalFullWidth>
     </Main>
   )
 }

@@ -10,7 +10,7 @@ import { CommunityStore } from '@/store/local/community'
 import { NewCommunityStore } from '@/store/local/new-community.store'
 import { CommunityType } from '@/utils/type'
 import { BaseModal } from '@/widgets/modal'
-import { Horizontal, HorizontalBetweenCenterFullWidth } from '@/widgets/orientation'
+import { Horizontal, HorizontalBetweenCenterFullWidth, Vertical } from '@/widgets/orientation'
 import { SearchInput } from '@/widgets/search-input'
 import { PlusIcon } from '@heroicons/react/24/outline'
 
@@ -49,7 +49,7 @@ const NewCommunity: FunctionComponent<{
   return (
     <CreateProjectBtn onClick={() => setOpen(true)}>
       <PlusIcon className={'w-5 h-5 text-black'} />
-      {'Create Project'}
+      {'Create Community'}
     </CreateProjectBtn>
   )
 }
@@ -68,16 +68,16 @@ export const Index: FunctionComponent = () => {
 
   const fetchListProjects = useCallback(async (query: string) => {
     try {
+      setLoading(true)
       const result = await listCommunitiesApi(0, 50, query)
       if (result.code === 0) {
         setCommunities(communities)
       }
-
-      setLoading(false)
     } catch (error) {
       toast.error('Error while fetching projects')
-      setLoading(false)
     }
+
+    setLoading(false)
   }, [])
 
   // First fetch
@@ -100,8 +100,9 @@ export const Index: FunctionComponent = () => {
       </HorizontalBetweenCenterFullWidth>
       <SearchPadding>
         <SearchInput hint={'Search Community'} onChanged={(value) => setQuery(value)} />
-        <List communities={communities} loading />
+        <List communities={communities} loading={loading} />
       </SearchPadding>
+
       <BaseModal isOpen={isOpen}>
         <ModalBox>
           <NewCommunityStore.Provider>

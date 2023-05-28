@@ -18,7 +18,7 @@ export const Title = tw.span`
   text-start
 `
 
-export const HorizotalFlex = tw(Horizontal)`
+export const HorizotalFullWidth = tw(Horizontal)`
   w-full
   gap-3
 `
@@ -42,14 +42,10 @@ export const NextButton: FunctionComponent<{
   block?: boolean
   onClick?: () => void
 }> = ({ block = false, onClick }) => {
-  const currentStep = NewCommunityStore.useStoreState(
-    (state) => state.currentStep
-  )
+  const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
 
   // action
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
+  const setCurrentStep = NewCommunityStore.useStoreActions((action) => action.setCurrentStep)
 
   return (
     <PositiveButton
@@ -68,16 +64,10 @@ export const NextButton: FunctionComponent<{
 }
 
 export const BackButton: FunctionComponent = () => {
-  const currentStep = NewCommunityStore.useStoreState(
-    (state) => state.currentStep
-  )
+  const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
 
   // action
-  const setCurrentStep = NewCommunityStore.useStoreActions(
-    (action) => action.setCurrentStep
-  )
+  const setCurrentStep = NewCommunityStore.useStoreActions((action) => action.setCurrentStep)
 
-  return (
-    <BackBtn onClick={() => setCurrentStep(currentStep - 1)}>{'Back'}</BackBtn>
-  )
+  return <BackBtn onClick={() => setCurrentStep(currentStep - 1)}>{'Back'}</BackBtn>
 }

@@ -37,14 +37,14 @@ export const UploadImageStep: FunctionComponent = () => {
     try {
       const projects = await getMyCommunitiesApi()
       if (projects.error) {
-        toast.error('Error when get your projects')
+        // Don't show a toast here as we will navigate to the community.
       } else {
         if (projects.data?.collaborators) {
           setProjectCollab(projects.data?.collaborators)
         }
       }
     } catch (error) {
-      toast.error('Server error')
+      // Do nothing.
     }
   }
 
@@ -60,6 +60,7 @@ export const UploadImageStep: FunctionComponent = () => {
     }
 
     getMyProjects()
+    setLoading(false)
     navigator(RouterConst.PROJECT + createdCommunityHandle)
   }
 

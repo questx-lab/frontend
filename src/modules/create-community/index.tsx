@@ -9,16 +9,11 @@ import { CreateCommunityStep } from '@/modules/create-community/create-community
 import { SetTwitterDiscordStep } from '@/modules/create-community/set-twitter-discord-step'
 import { UploadImageStep } from '@/modules/create-community/upload-image-step'
 import { NewCommunityStore } from '@/store/local/new-community.store'
-import { Horizontal } from '@/widgets/orientation'
+import { FullWidthHeight, Horizontal } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
 import GenerateQuest from './generate-quest'
-
-const Body = tw.div`
-  w-full
-  h-full
-`
 
 const Wrap = styled(Dialog.Panel)(
   tw`
@@ -86,7 +81,7 @@ const RenderTitle: FunctionComponent = () => {
   const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
 
   if (currentStep === 0) {
-    return <TitleBox>{`Let’s Start!`}</TitleBox>
+    return <TitleBox>{`Let's Start!`}</TitleBox>
   }
 
   return <TitleBox>{`STEP ${currentStep}/4`}</TitleBox>
@@ -97,15 +92,13 @@ const CreateCommunity: FunctionComponent<{
 }> = ({ setOpen }) => {
   return (
     <Wrap>
-      <NewCommunityStore.Provider>
-        <Header>
-          <RenderTitle />
-          <XMarkIcon onClick={() => setOpen(false)} className='w-7 h-7 cursor-pointer' />
-        </Header>
-        <Body>
-          <RenderStep />
-        </Body>
-      </NewCommunityStore.Provider>
+      <Header>
+        <RenderTitle />
+        <XMarkIcon onClick={() => setOpen(false)} className='w-7 h-7 cursor-pointer' />
+      </Header>
+      <FullWidthHeight>
+        <RenderStep />
+      </FullWidthHeight>
     </Wrap>
   )
 }

@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 
 import {
   BackButton,
-  HorizotalFlex,
+  HorizotalFullWidth,
   Main,
   NextButton,
   Title,
@@ -88,10 +88,10 @@ export const SetTwitterDiscordStep: FunctionComponent = () => {
         onChange={(e) => setWebsiteUrl(e.target.value)}
         placeholder=''
       />
-      <HorizotalFlex>
+      <HorizotalFullWidth>
         <BackButton />
         <NextButton />
-      </HorizotalFlex>
+      </HorizotalFullWidth>
     </Main>
   )
 }

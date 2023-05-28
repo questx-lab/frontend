@@ -7,7 +7,7 @@ import { newQuestApi } from '@/app/api/client/quest'
 import { QuestStatusEnum, QuestTypeEnum } from '@/constants/common.const'
 import {
   BackButton,
-  HorizotalFlex,
+  HorizotalFullWidth,
   Main,
   NextButton,
   Title,
@@ -15,20 +15,9 @@ import {
 import { NewCommunityStore } from '@/store/local/new-community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestType, ReqNewQuestType, UserType } from '@/utils/type'
+import { CheckBox, CheckBoxSize } from '@/widgets/input'
 import { HorizontalStartCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
-
-const CheckBox = tw.input`
-  cursor-pointer
-  focus:outline-none
-  focus-visible:outline-none
-  w-6
-  h-6
-  text-gray-600
-  bg-gray-800
-  border-gray-300
-  rounded-lg
-`
 
 const WrapBox = tw(HorizontalStartCenter)`
   p-4
@@ -84,6 +73,7 @@ const ListQuests: FunctionComponent<{
     quests.map((quest, i) => (
       <WrapBox key={quest.id}>
         <CheckBox
+          size={CheckBoxSize.LARGE}
           defaultChecked
           onChange={(e) => onChange(e.target.checked, quest)}
           id='inline-checked-checkbox'
@@ -136,10 +126,10 @@ const GenerateQuest: FunctionComponent = () => {
         {"It's almost done. Would you like us to create some opening quests for you?"}
       </NormalText>
       <Templates questsSelect={questsSelect} setQuestsSelect={setQuestsSelect} />
-      <HorizotalFlex>
+      <HorizotalFullWidth>
         <BackButton />
         <NextButton onClick={() => createQuests(questsSelect, createdCommunityId)} />
-      </HorizotalFlex>
+      </HorizotalFullWidth>
     </Main>
   )
 }
