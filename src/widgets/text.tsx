@@ -64,3 +64,10 @@ export const Large3xlText = tw.p`
   font-bold
   max-sm:text-2xl
 `
+
+// Used for small description
+export const SmallText = tw.p`
+  text-sm
+  font-normal
+  text-gray-700
+`
