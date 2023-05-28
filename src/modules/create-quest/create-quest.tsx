@@ -4,22 +4,17 @@ import tw from 'twin.macro'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { CommunityType } from '@/utils/type'
-import {
-  Horizontal,
-  HorizontalStartCenter,
-  Vertical,
-  VerticalFullWidth,
-} from '@/widgets/orientation'
-import { Large3xlText } from '@/widgets/text'
+import { Horizontal, HorizontalStartCenter, Vertical } from '@/widgets/orientation'
+import { Label, Large3xlText } from '@/widgets/text'
 
 import { StorageConst } from '@/constants/storage.const'
+import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
+import QuestTypeView from '@/modules/create-quest/quest-type'
+import Editor from '@/widgets/editor'
+import { TextField } from '@/widgets/form'
 import { Image } from '@/widgets/image'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { ThinBorderBox } from '@/widgets/box'
-import { RequireSignal } from '@/styles/input.style'
-import { TextField } from '@/widgets/form'
-import Editor from '@/widgets/editor'
 
 const Fullscreen = tw(Vertical)`
   w-full
@@ -54,20 +49,6 @@ const EditInfoFrame = tw.div`
   bg-white
   py-8
   pl-12
-`
-
-const Padding = tw(VerticalFullWidth)`
-  py-2
-  px-6
-  gap-4
-`
-
-const Label = tw(Horizontal)`
-  gap-1
-  items-center
-  text-lg
-  font-medium
-  text-gray-900
 `
 
 const CreateQuestLabel: FunctionComponent<{
@@ -119,26 +100,23 @@ export const CreateQuest: FunctionComponent<{
 
       <BodyFrame isTemplate={isTemplate}>
         <EditInfoFrame>
-          <ThinBorderBox>
-            <Padding>
-              <Label>
-                {'QUEST TITLE'}
-                <RequireSignal>{'*'}</RequireSignal>
-              </Label>
+          <QuestFieldsBox title={'QUEST TITLE'} required={true}>
+            <TextField
+              required
+              value={title}
+              placeholder='The name of the quest is written here.'
+              onChange={(e) => setTitle(e.target.value)}
+              errorMsg='You must have a quest title to create this quest.'
+            />
+            <Gap />
 
-              <TextField
-                required
-                value={title}
-                placeholder='The name of the quest is written here.'
-                onChange={(e) => setTitle(e.target.value)}
-                errorMsg='You must have a quest title to create this quest.'
-              />
-              <Gap />
+            <Label>{'QUEST DESCRIPTION'}</Label>
+            <Editor onChange={(value) => setDescription(value)} value={description} />
+          </QuestFieldsBox>
 
-              <Label>{'QUEST DESCRIPTION'}</Label>
-              <Editor onChange={(value) => setDescription(value)} value={description} />
-            </Padding>
-          </ThinBorderBox>
+          <QuestFieldsBox title={'SUBMISSION TYPE'} required={true}>
+            <QuestTypeView />
+          </QuestFieldsBox>
         </EditInfoFrame>
       </BodyFrame>
     </Fullscreen>
