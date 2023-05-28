@@ -1,26 +1,16 @@
 'use client'
 
-import { FunctionComponent } from 'react'
-
 import { QuestTypeEnum } from '@/constants/common.const'
-import { NewQuestStore } from '@/store/local/new-quest.store'
-import { Divider, Gap } from '@/styles/common.style'
-import { InputInviteBox } from '@/styles/input.style'
-import { NegativeButton } from '@/widgets/button'
-import { TextField } from '@/widgets/form'
-import { Label, NormalText } from '@/widgets/text'
-import { PlusIcon } from '@heroicons/react/24/outline'
-import { QuestTypeText } from '@/modules/create-quest/quest-type/text'
-import { OuterBox } from '@/modules/create-quest/quest-type/mini-widget'
-import { VisitLink } from '@/modules/create-quest/quest-type/visit-link'
 import Quizzes from '@/modules/create-quest/quest-type/quizzes'
+import { QuestTypeText } from '@/modules/create-quest/quest-type/text'
+import { VisitLink } from '@/modules/create-quest/quest-type/visit-link'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 
 // import TwitterList from './twitter-list'
 
 const QuestType = () => {
   // Data
   const questType = NewQuestStore.useStoreState((state) => state.questType)
-  const textAutoValid = NewQuestStore.useStoreState((state) => state.textAutoValid)
   const telegramLink = NewQuestStore.useStoreState((state) => state.telegramLink)
 
   const project = NewQuestStore.useStoreState((state) => state.project)
@@ -28,9 +18,6 @@ const QuestType = () => {
   const invites = NewQuestStore.useStoreState((state) => state.invites)
 
   // Actions
-  const setTextAutoValidation = NewQuestStore.useStoreActions(
-    (actions) => actions.setTextAutoValidation
-  )
   const setTelegramLink = NewQuestStore.useStoreActions((actions) => actions.setTelegramLink)
   const setInvites = NewQuestStore.useStoreActions((actions) => actions.setInvites)
 

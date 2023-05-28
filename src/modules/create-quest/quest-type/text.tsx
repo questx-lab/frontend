@@ -1,12 +1,13 @@
+import { FunctionComponent } from 'react'
+import tw from 'twin.macro'
+
 import { OuterBox } from '@/modules/create-quest/quest-type/mini-widget'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { TextField } from '@/widgets/form'
 import { CheckBox } from '@/widgets/input'
-import { HorizontalCenter, VerticalFullWidth } from '@/widgets/orientation'
+import { HorizontalCenter } from '@/widgets/orientation'
 import { Label, SmallText } from '@/widgets/text'
-import { FunctionComponent } from 'react'
-import tw from 'twin.macro'
 
 const LabelCheckText = tw.span`
   cursor-pointer
