@@ -1,5 +1,5 @@
 import { RouterConst } from '@/constants/router.const'
-import { CreateQuest } from '@/modules/create-quest/create-quest'
+import { CreateQuest } from '@/modules/create-quest'
 import { CommunityStore } from '@/store/local/community'
 import { FunctionComponent } from 'react'
 import { useNavigate } from 'react-router-dom'
