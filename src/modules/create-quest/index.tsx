@@ -10,12 +10,12 @@ import { Label, Large3xlText } from '@/widgets/text'
 import { StorageConst } from '@/constants/storage.const'
 import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
 import QuestTypeSelection from '@/modules/create-quest/quest-type/selection'
+import Recurrence from '@/modules/create-quest/recurrence'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
 import { Image } from '@/widgets/image'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import Recurrence from '@/modules/create-quest/recurrence'
 
 const Fullscreen = tw(Vertical)`
   w-full
