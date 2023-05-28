@@ -5,17 +5,12 @@ import QuestQuiz from '@/modules/create-quest/quest-type/quiz'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { NegativeButton } from '@/widgets/button'
 import { PlusIcon } from '@heroicons/react/24/outline'
+import { QuestQuizType } from '@/utils/type'
 
-const AddQuestQuiz: FunctionComponent = () => {
-  const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
-  const setQuizzes = NewQuestStore.useStoreActions((action) => action.setQuizzes)
-
-  let allowAddMore = true
-
+const canAddMoreQuiz = (quizzes: QuestQuizType[]): boolean => {
   for (var quiz of quizzes) {
     if (quiz.question.length === 0 || quiz.answers.length === 0) {
-      allowAddMore = false
-      break
+      return false
     }
 
     let allAnswerEmpty = true
@@ -27,10 +22,18 @@ const AddQuestQuiz: FunctionComponent = () => {
     }
 
     if (allAnswerEmpty) {
-      allowAddMore = false
-      break
+      return false
     }
   }
+
+  return true
+}
+
+const AddQuestQuiz: FunctionComponent = () => {
+  const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
+  const setQuizzes = NewQuestStore.useStoreActions((action) => action.setQuizzes)
+
+  let allowAddMore = canAddMoreQuiz(quizzes)
 
   const AddQuiz = () => {
     setQuizzes([
