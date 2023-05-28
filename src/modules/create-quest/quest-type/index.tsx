@@ -51,26 +51,8 @@ const QuestType = () => {
       return <VisitLink />
     case QuestTypeEnum.EMPTY:
       return <></>
-    // return (
-    //   <PICard>
-    //     <Gap height={6} />
-    //     <TBox>
-    //       <TCheckBox
-    //         checked={textAutoValid}
-    //         onChange={(e) => setTextAutoValidation(e.target.checked)}
-    //         id='inline-checked-checkbox'
-    //         type='checkbox'
-    //       />
-    //       <Gap width={4} />
-    //       <LabelCheckText onClick={() => setTextAutoValidation(!textAutoValid)}>
-    //         {'Autovalidate'}
-    //       </LabelCheckText>
-    //     </TBox>
-    //   </PICard>
-    // )
     case QuestTypeEnum.TWITTER:
       // return <TwitterList />
-      // TODO: Add twitter list
       return <></>
     case QuestTypeEnum.JOIN_TELEGRAM:
       return <></>
