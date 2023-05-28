@@ -10,7 +10,9 @@ import { NegativeButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
 import { Label, NormalText } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
-import { QuestTypeText } from '@/modules/create-quest//quest-type/quest-type-text'
+import { QuestTypeText } from '@/modules/create-quest/quest-type/text'
+import { OuterBox } from '@/modules/create-quest/quest-type/mini-widget'
+import { VisitLink } from '@/modules/create-quest/quest-type/visit-link'
 
 // import QuestQuiz from './quest-quiz'
 // import TwitterList from './twitter-list'
@@ -58,7 +60,6 @@ const QuestType = () => {
   // Data
   const questType = NewQuestStore.useStoreState((state) => state.questType)
   const textAutoValid = NewQuestStore.useStoreState((state) => state.textAutoValid)
-  const visitLink = NewQuestStore.useStoreState((state) => state.visitLink)
   const telegramLink = NewQuestStore.useStoreState((state) => state.telegramLink)
 
   const project = NewQuestStore.useStoreState((state) => state.project)
@@ -69,7 +70,6 @@ const QuestType = () => {
   const setTextAutoValidation = NewQuestStore.useStoreActions(
     (actions) => actions.setTextAutoValidation
   )
-  const setVisitLink = NewQuestStore.useStoreActions((actions) => actions.setVisitLink)
   const setTelegramLink = NewQuestStore.useStoreActions((actions) => actions.setTelegramLink)
   const setInvites = NewQuestStore.useStoreActions((actions) => actions.setInvites)
 
@@ -93,22 +93,7 @@ const QuestType = () => {
     //   </PICard>
     // )
     case QuestTypeEnum.VISIT_LINK:
-      return <></>
-    // return (
-    //   <>
-    //     <Divider />
-    //     <PICard>
-    //       <Label>{'LINK'}</Label>
-    //       <TextField
-    //         onChange={(e) => setVisitLink(e.target.value)}
-    //         placeholder='https://example.com'
-    //         value={visitLink}
-    //         required
-    //         errorMsg='You must have a url to visit link submission.'
-    //       />
-    //     </PICard>
-    //   </>
-    // )
+      return <VisitLink />
     case QuestTypeEnum.EMPTY:
       return <></>
     // return (

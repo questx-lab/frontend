@@ -1,3 +1,4 @@
+import { OuterBox } from '@/modules/create-quest/quest-type/mini-widget'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { TextField } from '@/widgets/form'
@@ -13,11 +14,6 @@ const LabelCheckText = tw.span`
   text-sm
   font-medium
   text-black
-`
-
-const OuterBox = tw(VerticalFullWidth)`
-  py-2
-  gap-4
 `
 
 export const QuestTypeText: FunctionComponent = () => {

@@ -9,7 +9,7 @@ import { Label, Large3xlText } from '@/widgets/text'
 
 import { StorageConst } from '@/constants/storage.const'
 import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
-import QuestTypeSelection from '@/modules/create-quest/quest-type/quest-type-selection'
+import QuestTypeSelection from '@/modules/create-quest/quest-type/selection'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
 import { Image } from '@/widgets/image'
