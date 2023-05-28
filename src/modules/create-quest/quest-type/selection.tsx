@@ -22,10 +22,10 @@ const QuestTypeSelection = () => {
   ]
 
   // data
-  const questType = NewQuestStore.useStoreState((state) => state.questType)
+  const questType = NewQuestStore.useStoreState((state) => state.type)
 
   // actions
-  const onQuestTypeChanged = NewQuestStore.useStoreActions((actions) => actions.setQuestType)
+  const onQuestTypeChanged = NewQuestStore.useStoreActions((actions) => actions.setType)
 
   const listTypeItems = display.map((e, i) => (
     <TypeButton

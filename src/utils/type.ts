@@ -139,18 +139,18 @@ export type ValidationQuest = {
 
 export interface QuestType {
   id: string
-  community_id?: string
+  community_id: string
   category_id?: string
-  title?: string
-  type?: string
-  status?: string
-  description?: string
-  recurrence?: string
+  title: string
+  type: string
+  status: string
+  description: string
+  recurrence: string
   condition_op?: string
   created_at?: string
   updated_at?: string
-  rewards?: RewardType[]
-  category?: CategoryType
+  rewards: RewardType[]
+  category: CategoryType
   validation_data?: {
     tweet_url?: string
     like?: boolean

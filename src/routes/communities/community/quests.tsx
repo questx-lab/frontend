@@ -8,7 +8,7 @@ import { HeaderText } from '@/styles/home.style'
 import { QuestType } from '@/utils/type'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import tw from 'twin.macro'
-import { QuestView } from '@/modules/quest'
+import { Quest } from '@/modules/quest/quest'
 import { CommunityStore } from '@/store/local/community'
 
 const Grid = tw.div`
@@ -29,11 +29,7 @@ export const QuestListView: FunctionComponent<{
     return <div>{'There are currently no quests'}</div>
   }
 
-  const questListView = quests.map((quest) => (
-    <NewQuestStore.Provider>
-      <QuestView quest={quest} />
-    </NewQuestStore.Provider>
-  ))
+  const questListView = quests.map((quest) => <Quest quest={quest} />)
 
   return <>{questListView}</>
 }

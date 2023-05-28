@@ -64,10 +64,10 @@ const handleSubmit = async (
     return false
   }
 
-  const type = state.questType !== QuestTypeEnum.TWITTER ? state.questType : state.twitterType
+  const type = state.type
   const validations: ValidationQuest = {}
 
-  switch (state.questType) {
+  switch (state.type) {
     case QuestTypeEnum.URL:
       break
     case QuestTypeEnum.IMAGE:
@@ -157,7 +157,7 @@ const handleSubmit = async (
 
   try {
     let data
-    if (questId && questId != '') {
+    if (questId && questId !== '') {
       data = await updateQuestApi(payload)
     } else data = await newQuestApi(payload)
     if (data.error) {
@@ -172,9 +172,8 @@ const handleSubmit = async (
   return false
 }
 
-export const CreateQuest: FunctionComponent<{
+export const CreateOrEditQuest: FunctionComponent<{
   communityId: string
-  community: CommunityType
   isTemplate?: boolean
   isEdit?: boolean
 }> = ({ communityId, isTemplate = false, isEdit = false }) => {

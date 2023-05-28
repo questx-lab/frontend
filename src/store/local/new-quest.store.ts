@@ -1,12 +1,19 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { QuestRecurrence, QuestTypeEnum } from '@/constants/common.const'
-import { CommunityType, QuestQuizType } from '@/utils/type'
+import {
+  QuestRecurrence,
+  QuestRecurrencesStringMap,
+  QuestTypeEnum,
+  QuestTypeMap,
+  TwitterEnum,
+} from '@/constants/common.const'
+import { CommunityType, QuestQuizType, QuestType } from '@/utils/type'
+import { isTwitterType } from '@/types/twitter'
 
 export interface NewQuestModel {
   title: string
   description: string
-  questType: QuestTypeEnum
+  type: QuestTypeEnum
   textAutoValid: boolean
   recurrence: QuestRecurrence
   anwser: string
@@ -22,7 +29,6 @@ export interface NewQuestModel {
   spaceUrlTw: string
   pointReward: number
   activeReward: number
-  twitterType: string
   chooseQuestsHistory: any[]
   chooseQuestsPending: any[]
 
@@ -30,9 +36,11 @@ export interface NewQuestModel {
   project: CommunityType
 
   // Actions
+  setQuest: Action<NewQuestModel, QuestType>
+
   setTitle: Action<NewQuestModel, string>
   setDescription: Action<NewQuestModel, string>
-  setQuestType: Action<NewQuestModel, QuestTypeEnum>
+  setType: Action<NewQuestModel, QuestTypeEnum>
   setTextAutoValidation: Action<NewQuestModel, boolean>
   setRecurrence: Action<NewQuestModel, QuestRecurrence>
   setAnswer: Action<NewQuestModel, string>
@@ -47,17 +55,14 @@ export interface NewQuestModel {
   setContentTwitter: Action<NewQuestModel, string>
   setPointReward: Action<NewQuestModel, number>
   setActiveReward: Action<NewQuestModel, number>
-  setTwitterType: Action<NewQuestModel, string>
   setSpaceUrl: Action<NewQuestModel, string>
-
   setQuizzes: Action<NewQuestModel, QuestQuizType[]>
-  setProject: Action<NewQuestModel, CommunityType>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
   title: 'Untitled Quest',
   description: '',
-  questType: QuestTypeEnum.URL,
+  type: QuestTypeEnum.URL,
   textAutoValid: false,
   recurrence: QuestRecurrence.ONCE,
   anwser: '',
@@ -72,7 +77,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   contentTw: '',
   pointReward: 100,
   activeReward: 0,
-  twitterType: '',
   spaceUrlTw: '',
   chooseQuestsHistory: [],
   chooseQuestsPending: [],
@@ -86,6 +90,50 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   ],
   project: { id: '' },
 
+  // Set all the fields for the state
+  setQuest: action((state, quest) => {
+    state.title = quest.title || ''
+    state.description = quest.description || ''
+    state.type = QuestTypeMap.get(quest.type || '') || QuestTypeEnum.URL
+    state.textAutoValid = quest.validation_data.auto_validate || false
+    state.recurrence = QuestRecurrencesStringMap.get(quest.recurrence || '') || QuestRecurrence.ONCE
+    state.visitLink = quest.validation_data.link || ''
+    state.telegramLink = quest.validation_data.link || ''
+    state.discordLink = quest.validation_data.link || ''
+    state.quizzes = quest.validation_data.quizzes || []
+
+    // Twitter
+    if (isTwitterType(state.type)) {
+      switch (state.type) {
+        case QuestTypeEnum.TWITTER_FOLLOW:
+          state.accountUrl = quest.validation_data.twitter_handle || ''
+          break
+        case QuestTypeEnum.TWITTER_REACTION:
+          if (
+            quest.validation_data.like ||
+            quest.validation_data.reply ||
+            quest.validation_data.retweet
+          ) {
+            state.tweetUrl = quest.validation_data.tweet_url || ''
+          }
+          break
+        case QuestTypeEnum.TWITTER_TWEET:
+          state.contentTw = quest.validation_data.default_tweet || ''
+          break
+        case QuestTypeEnum.TWITTER_JOIN_SPACE:
+          state.spaceUrlTw = quest.validation_data.space_url || ''
+          break
+      }
+
+      // TODO: Support more than point reward
+      for (let reward of quest.rewards) {
+        if (reward.type === 'points') {
+          state.pointReward = reward.data.points || 0
+        }
+      }
+    }
+  }),
+
   setTitle: action((state, newTitle) => {
     state.title = newTitle
   }),
@@ -94,8 +142,8 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.description = newDescription
   }),
 
-  setQuestType: action((state, newQuestType) => {
-    state.questType = newQuestType
+  setType: action((state, newQuestType) => {
+    state.type = newQuestType
   }),
 
   setTextAutoValidation: action((state, newTextAutoValid) => {
@@ -154,20 +202,12 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.activeReward = newActiveReward
   }),
 
-  setTwitterType: action((state, newTwitterType) => {
-    state.twitterType = newTwitterType
-  }),
-
   setSpaceUrl: action((state, spaceUrlTw) => {
     state.spaceUrlTw = spaceUrlTw
   }),
 
   setQuizzes: action((state, quizzes) => {
     state.quizzes = quizzes
-  }),
-
-  setProject: action((state, newProject) => {
-    state.project = newProject
   }),
 })
 

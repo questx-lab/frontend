@@ -75,19 +75,19 @@ const TwitterList: FunctionComponent = () => {
 
   // Action
   const setActionTwitter = NewQuestStore.useStoreActions((actions) => actions.setActionTwitter)
-  const setTwitterType = NewQuestStore.useStoreActions((actions) => actions.setTwitterType)
+  const setType = NewQuestStore.useStoreActions((actions) => actions.setType)
 
   const handleActive = (actionType: string) => {
     if (actionType === TwitterEnum.FOLLOW) {
-      setTwitterType(QuestTypeEnum.TWITTER_FOLLOW)
+      setType(QuestTypeEnum.TWITTER_FOLLOW)
     }
 
     if (actionType === TwitterEnum.TWEET) {
-      setTwitterType(QuestTypeEnum.TWITTER_TWEET)
+      setType(QuestTypeEnum.TWITTER_TWEET)
     }
 
     if (actionType === TwitterEnum.JOIN_SPACE) {
-      setTwitterType(QuestTypeEnum.TWITTER_JOIN_SPACE)
+      setType(QuestTypeEnum.TWITTER_JOIN_SPACE)
     }
 
     if (
@@ -95,7 +95,7 @@ const TwitterList: FunctionComponent = () => {
       actionType === TwitterEnum.REPLY ||
       actionType === TwitterEnum.RETWEET
     ) {
-      setTwitterType(QuestTypeEnum.TWITTER_REACTION)
+      setType(QuestTypeEnum.TWITTER_REACTION)
     }
 
     if (!actionTwitter.includes(actionType)) {
