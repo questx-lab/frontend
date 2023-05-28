@@ -1,7 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { QuestRecurrence, QuestTypeEnum } from '@/constants/common.const'
-import { CommunityType, QuestQuizType, QuestType } from '@/utils/type'
+import { CommunityType, QuestQuizType } from '@/utils/type'
 
 export interface NewQuestModel {
   title: string
@@ -26,7 +26,6 @@ export interface NewQuestModel {
   chooseQuestsHistory: any[]
   chooseQuestsPending: any[]
 
-  questActive: QuestType
   quizzes: QuestQuizType[]
   project: CommunityType
 
@@ -51,7 +50,6 @@ export interface NewQuestModel {
   setTwitterType: Action<NewQuestModel, string>
   setSpaceUrl: Action<NewQuestModel, string>
 
-  setQuestActive: Action<NewQuestModel, QuestType>
   setQuizzes: Action<NewQuestModel, QuestQuizType[]>
   setProject: Action<NewQuestModel, CommunityType>
 }
@@ -78,7 +76,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   spaceUrlTw: '',
   chooseQuestsHistory: [],
   chooseQuestsPending: [],
-  questActive: {},
   quizzes: [
     {
       id: 0,
@@ -163,10 +160,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setSpaceUrl: action((state, spaceUrlTw) => {
     state.spaceUrlTw = spaceUrlTw
-  }),
-
-  setQuestActive: action((state, quest) => {
-    state.questActive = quest
   }),
 
   setQuizzes: action((state, quizzes) => {

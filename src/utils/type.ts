@@ -138,7 +138,7 @@ export type ValidationQuest = {
 }
 
 export interface QuestType {
-  id?: string
+  id: string
   community_id?: string
   category_id?: string
   title?: string

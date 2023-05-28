@@ -1,9 +1,10 @@
 import { getCommunityApi } from '@/app/api/client/communitiy'
+import { listQuestApi } from '@/app/api/client/quest'
 import { CommunityRoleEnum } from '@/constants/common.const'
 import { ControlPanel } from '@/routes/communities/community/control-panel'
 import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
-import { CollaboratorType, CommunityType } from '@/utils/type'
+import { CollaboratorType, CommunityType, QuestType } from '@/utils/type'
 import { Horizontal } from '@/widgets/orientation'
 import { useStoreState } from 'easy-peasy'
 import { useEffect } from 'react'
@@ -12,11 +13,19 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 export const Loader = async (args: { params: Params }) => {
-  const communityResult = await getCommunityApi(args.params['communityId'] || '')
+  const [communityResult, questsResult] = await Promise.all([
+    getCommunityApi(args.params['communityId'] || ''),
+    listQuestApi(args.params['communityId'] || '', ''),
+  ])
+
+  const community = communityResult.code === 0 ? communityResult.data?.community : undefined
+  const quests = questsResult.code === 0 ? questsResult.data?.quests : undefined
+
   if (communityResult.code === 0) {
     return json(
       {
-        community: communityResult.data?.community,
+        community,
+        quests,
       },
       { status: 200 }
     )
@@ -41,6 +50,7 @@ export const Community = () => {
   // loader data
   let data = useLoaderData() as {
     community: CommunityType
+    quests: QuestType[]
   }
   const community = data.community
 
@@ -54,11 +64,13 @@ export const Community = () => {
   const setSelectedCommunity = CommunityStore.useStoreActions(
     (action) => action.setSelectedCommunity
   )
+  const setQuests = CommunityStore.useStoreActions((action) => action.setQuests)
 
   // hook
   useEffect(() => {
     setSelectedCommunity(data.community)
-  }, [setSelectedCommunity, data])
+    setQuests(data.quests || [])
+  }, [setSelectedCommunity, setQuests, data.community, data.quests])
 
   if (!community) {
     return <>Failed to load community data</>

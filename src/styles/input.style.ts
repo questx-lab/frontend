@@ -40,16 +40,6 @@ export const InputBox = styled.input<{ danger?: boolean; block?: boolean }>(
   ]
 )
 
-export const InputInviteBox = tw.input`
-  w-full
-  border
-  border-[1px]
-  border-solid
-  border-gray-300
-  p-3
-  rounded-lg
-`
-
 export const ErrorBox = tw(VerticalFullWidth)`
   gap-2
 `

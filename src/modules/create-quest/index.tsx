@@ -1,30 +1,31 @@
 import { FunctionComponent, useState } from 'react'
-
-import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import { NewQuestModel, NewQuestStore } from '@/store/local/new-quest.store'
+import { Gap } from '@/styles/common.style'
+import { CommunityType, ReqNewQuestType, ValidationQuest } from '@/utils/type'
+import { Horizontal, Vertical } from '@/widgets/orientation'
+import { Label } from '@/widgets/text'
+
 import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
 import QuestTypeSelection from '@/modules/create-quest/quest-type/selection'
-import { NewQuestStore } from '@/store/local/new-quest.store'
-import { Gap } from '@/styles/common.style'
-import { CommunityType } from '@/utils/type'
+import Recurrence from '@/modules/create-quest/recurrence'
+import TopLabel from '@/modules/create-quest/top-label'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
-import { Image } from '@/widgets/image'
-import { Horizontal, HorizontalStartCenter, Vertical } from '@/widgets/orientation'
-import { Label, Large3xlText } from '@/widgets/text'
+import styled from 'styled-components'
+import ActionButtons from '@/modules/create-quest/action-buttons'
+import { QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
+import toast from 'react-hot-toast'
+import { EasyPeasyConfig, Store } from 'easy-peasy'
+import { newQuestApi, updateQuestApi } from '@/app/api/client/quest'
+import { useNavigate } from 'react-router-dom'
+import { RouterConst } from '@/constants/router.const'
+import { ProgressModal } from '@/widgets/modal'
 
 const Fullscreen = tw(Vertical)`
   w-full
   h-full
-`
-
-const TitleBox = tw(HorizontalStartCenter)`
-  px-12
-  py-6
-  w-full
 `
 
 const BodyFrame = styled(Horizontal)<{ isTemplate?: boolean }>(({ isTemplate = false }) => {
@@ -51,30 +52,124 @@ const EditInfoFrame = tw.div`
   pl-12
 `
 
-const CreateQuestLabel: FunctionComponent<{
-  isTemplate?: boolean
-}> = ({ isTemplate = false }) => {
-  const navigate = useNavigate()
-  if (isTemplate) {
-    return <></>
+const handleSubmit = async (
+  store: Store<NewQuestModel, EasyPeasyConfig<undefined, {}>>,
+  community_id: string,
+  status: string,
+  questId: string
+): Promise<boolean> => {
+  const state = store.getState()
+  if (!state.title) {
+    toast.error('Quest title cannot be empty.')
+    return false
   }
 
-  return (
-    <>
-      <TitleBox>
-        <Image
-          className='cursor-pointer'
-          onClick={() => navigate('../')}
-          width={35}
-          height={35}
-          src={StorageConst.ARROW_BACK_ICON.src}
-          alt={StorageConst.ARROW_BACK_ICON.alt}
-        />
-        <Gap width={3} />
-        <Large3xlText>{'Create Quest'}</Large3xlText>
-      </TitleBox>
-    </>
-  )
+  const type = state.questType !== QuestTypeEnum.TWITTER ? state.questType : state.twitterType
+  const validations: ValidationQuest = {}
+
+  switch (state.questType) {
+    case QuestTypeEnum.URL:
+      break
+    case QuestTypeEnum.IMAGE:
+      break
+    case QuestTypeEnum.TEXT:
+      validations.auto_validate = state.textAutoValid
+      validations.answer = state.anwser
+      break
+    case QuestTypeEnum.QUIZ:
+      validations.quizzes = state.quizzes.map((e) => ({
+        question: e.question,
+        answers: e.answers,
+        options: e.options,
+      }))
+      break
+    case QuestTypeEnum.VISIT_LINK:
+      validations.link = state.visitLink
+      break
+    case QuestTypeEnum.EMPTY:
+      validations.auto_validate = state.textAutoValid
+      break
+    case QuestTypeEnum.TWITTER:
+      validations.like = false
+      validations.reply = false
+      validations.retweet = false
+      state.actionTwitter.forEach((e) => {
+        switch (e) {
+          case TwitterEnum.FOLLOW:
+            validations.twitter_handle = state.accountUrl
+            break
+          case TwitterEnum.LIKE:
+            validations.tweet_url = state.tweetUrl
+            validations.like = true
+            break
+          case TwitterEnum.REPLY:
+            validations.reply = true
+            validations.tweet_url = state.tweetUrl
+
+            break
+          case TwitterEnum.RETWEET:
+            validations.retweet = true
+            validations.tweet_url = state.tweetUrl
+            break
+          case TwitterEnum.TWEET:
+            validations.included_words = []
+            validations.default_tweet = state.contentTw
+            break
+          case TwitterEnum.JOIN_SPACE:
+            validations.space_url = state.spaceUrlTw
+            break
+        }
+      })
+
+      break
+    case QuestTypeEnum.DISCORD:
+      validations.discord_invite_link = state.discordLink
+      break
+    case QuestTypeEnum.JOIN_TELEGRAM:
+      validations.telegram_invite_link = state.telegramLink
+      break
+    case QuestTypeEnum.INVITES:
+      validations.number = state.invites
+      break
+  }
+
+  const payload: ReqNewQuestType = {
+    id: questId,
+    community_id: community_id,
+    type,
+    title: state.title,
+    description: state.description,
+    categories: [],
+    recurrence: state.recurrence,
+    rewards: [
+      {
+        type: 'points',
+        data: {
+          points: state.pointReward,
+        },
+      },
+    ],
+    validation_data: validations,
+    condition_op: 'and',
+    conditions: [],
+    status,
+  }
+
+  try {
+    let data
+    if (questId && questId != '') {
+      data = await updateQuestApi(payload)
+    } else data = await newQuestApi(payload)
+    if (data.error) {
+      toast.error(data.error)
+    }
+    if (data.data) {
+      return true
+    }
+  } catch (error) {
+    toast.error('Error while creating quest')
+  }
+  return false
 }
 
 export const CreateQuest: FunctionComponent<{
@@ -83,9 +178,11 @@ export const CreateQuest: FunctionComponent<{
   isTemplate?: boolean
   isEdit?: boolean
 }> = ({ communityId, isTemplate = false, isEdit = false }) => {
-  // Data
+  const navigate = useNavigate()
+
+  // data
+  const store = NewQuestStore.useStore()
   const title = NewQuestStore.useStoreState((state) => state.title)
-  const project = NewQuestStore.useStoreState((state) => state.project)
   const description = NewQuestStore.useStoreState((state) => state.description)
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -94,9 +191,21 @@ export const CreateQuest: FunctionComponent<{
   const setTitle = NewQuestStore.useStoreActions((actions) => actions.setTitle)
   const setDescription = NewQuestStore.useStoreActions((actions) => actions.setDescription)
 
+  const submitAction = async (submitType: string) => {
+    console.log('Quest is submitted.')
+
+    setIsOpen(true)
+    const rs = await handleSubmit(store, communityId, submitType, '')
+    if (rs) {
+      navigate(RouterConst.PROJECT + communityId)
+    } else {
+      setIsOpen(false)
+    }
+  }
+
   return (
     <Fullscreen>
-      <CreateQuestLabel isTemplate={isTemplate} />
+      <TopLabel isTemplate={isTemplate} />
 
       <BodyFrame isTemplate={isTemplate}>
         <EditInfoFrame>
@@ -117,8 +226,20 @@ export const CreateQuest: FunctionComponent<{
           <QuestFieldsBox title={'SUBMISSION TYPE'} required={true}>
             <QuestTypeSelection />
           </QuestFieldsBox>
+
+          <QuestFieldsBox title={'REPEAT'} required={true}>
+            <Recurrence />
+          </QuestFieldsBox>
+
+          <ActionButtons onSubmit={submitAction} />
         </EditInfoFrame>
       </BodyFrame>
+
+      <ProgressModal
+        isOpen={isOpen}
+        title={`Hang in there!`}
+        lines={[`We're creating new quest.`, 'This might take a few seconds...']}
+      />
     </Fullscreen>
   )
 }

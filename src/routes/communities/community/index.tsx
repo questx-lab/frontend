@@ -1,3 +1,4 @@
+import { Quests } from '@/routes/communities/community/quests'
 import { CommunityStore } from '@/store/local/community'
 import { Gap } from '@/styles/common.style'
 import { ControlPanelTab } from '@/types/community'
@@ -8,10 +9,10 @@ import { FunctionComponent, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-const CCBox = tw(Horizontal)`
+const OuterBoxPadding = tw(Horizontal)`
   w-full
   justify-center
-  pl-80
+  pl-10
 `
 
 const FullWidthHeight = tw.div`
@@ -49,7 +50,7 @@ export const Index: FunctionComponent = () => {
   const navigate = useNavigate()
 
   return (
-    <CCBox>
+    <OuterBoxPadding>
       <FullWidthHeight>
         <Padding16>
           <MHeader>
@@ -69,7 +70,10 @@ export const Index: FunctionComponent = () => {
             </ButtonAlignment>
           </MHeader>
         </Padding16>
+
+        <Gap height={6} />
+        <Quests show={true} />
       </FullWidthHeight>
-    </CCBox>
+    </OuterBoxPadding>
   )
 }
