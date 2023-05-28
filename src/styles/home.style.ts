@@ -1,11 +1,7 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import {
-  Horizontal,
-  HorizontalBetweenCenter,
-  Vertical,
-} from '@/widgets/orientation'
+import { Horizontal, HorizontalBetweenCenter, Vertical } from '@/widgets/orientation'
 import { Dialog, Listbox } from '@headlessui/react'
 
 type TabActive = {
@@ -134,13 +130,6 @@ export const PInputBlock = tw.div`
   font-normal
   px-5
   py-4
-`
-
-export const PSessionR = tw(Vertical)`
-  w-2/5
-  pl-5
-  max-lg:w-full
-  max-lg:pl-0
 `
 
 export const PLabel = tw.div`

@@ -15,6 +15,7 @@ const LeftMargin = styled.div<{ hasUser: boolean }>(({ hasUser }) => {
   if (hasUser) {
     return tw`
       pl-20
+      w-full
     `
   }
 

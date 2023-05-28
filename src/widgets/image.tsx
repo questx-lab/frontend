@@ -5,7 +5,17 @@ export const Image: FunctionComponent<{
   width?: number
   src?: string
   alt?: string
+  className?: string
   onClick?: (e: any) => void
-}> = ({ width, height, src, alt, onClick }) => {
-  return <img src={src} width={width} height={height} alt={alt} onClick={onClick} />
+}> = ({ width, height, src, alt, className, onClick }) => {
+  return (
+    <img
+      src={src}
+      width={width}
+      height={height}
+      alt={alt}
+      className={className}
+      onClick={onClick}
+    />
+  )
 }
