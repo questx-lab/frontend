@@ -15,6 +15,7 @@ import { TextField } from '@/widgets/form'
 import { Image } from '@/widgets/image'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import Recurrence from '@/modules/create-quest/recurrence'
 
 const Fullscreen = tw(Vertical)`
   w-full
@@ -116,6 +117,10 @@ export const CreateQuest: FunctionComponent<{
 
           <QuestFieldsBox title={'SUBMISSION TYPE'} required={true}>
             <QuestTypeSelection />
+          </QuestFieldsBox>
+
+          <QuestFieldsBox title={'REPEAT'} required={true}>
+            <Recurrence />
           </QuestFieldsBox>
         </EditInfoFrame>
       </BodyFrame>
