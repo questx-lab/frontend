@@ -1,24 +1,26 @@
 name: Build and Deploy to GKE
 
 on:
+  push:
+    branches: ['staging', 'production']
   pull_request:
     branches: ['staging', 'production']
-    types: ['closed']
+    # types: ['closed']
 
 env:
-  PROJECT_ID: ${{ secrets.PROJECT_ID }} # TODO: update Google Cloud project id
-  GAR_LOCATION: ${{ secrets.GAR_LOCATION }} # TODO: update Artifact Registry location
-  SERVICE: ${{ secrets.SERVICE_NAME }} # TODO: update Cloud Run service name
-  APP_NAME: ${{ secrets.APP_NAME }}
-  GKE_CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
-  CLUSTER_REGION: ${{ secrets.CLUSTER_REGION }}
+  PROJECT_ID: ${{ vars.PROJECT_ID }} # TODO: update Google Cloud project id
+  GAR_LOCATION: ${{ vars.GAR_LOCATION }} # TODO: update Artifact Registry location
+  SERVICE: ${{ vars.SERVICE_NAME }} # TODO: update Cloud Run service name
+  APP_NAME: ${{ vars.APP_NAME }}
+  GKE_CLUSTER_NAME: ${{ vars.GKE_CLUSTER_NAME }}
+  CLUSTER_REGION: ${{ vars.CLUSTER_REGION }}
   ENV_FILE: ${{ secrets.ENV_FILE }}
   GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
   DOMAIN: ${{ vars.DOMAIN }}
 
 jobs:
   deploy:
-    if: ${{ github.event.pull_request.merged }} #! only merged to master
+    # if: ${{ github.event.pull_request.merged }} #! only merged to master
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
