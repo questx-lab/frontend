@@ -413,7 +413,7 @@ const handleSubmit = async (
 
   const payload: ReqNewQuestType = {
     id: editId,
-    community_id: community_id,
+    community_handle: community_id,
     type,
     title: state.title,
     description: state.description,
@@ -554,7 +554,7 @@ const QuestFrame: FunctionComponent<{
     try {
       const res = await getQuestApi(id)
       const {
-        community_id,
+        community_handle: community_id,
         title,
         type,
         description,

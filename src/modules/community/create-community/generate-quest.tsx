@@ -57,7 +57,7 @@ const createQuests = async (quests: QuestType[], communityId: string) => {
           const payload: ReqNewQuestType = {
             ...quest,
             status: QuestStatusEnum.ACTIVE,
-            community_id: communityId,
+            community_handle: communityId,
           }
           await newQuestApi(payload)
         } catch (error) {}

@@ -262,7 +262,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
 
   const fetchMyFollowerInfo = async () => {
     try {
-      const resp = await getMyFollowerInfoApi(quest.community_id || '')
+      const resp = await getMyFollowerInfoApi(quest.community_handle || '')
       if (resp.error) {
         toast.error(resp.error)
         return

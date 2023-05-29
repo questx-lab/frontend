@@ -85,9 +85,7 @@ export const getMyCommunitiesApi = async (): Promise<
 export const getFollowCommunitiesApi = async (): Promise<
   Rsp<{ communities: CommunityType[] }>
 > => {
-  const rs = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + '/getFollowingCommunities'
-  )
+  const rs = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + '/getMyFollowing')
   return rs.data
 }
 
