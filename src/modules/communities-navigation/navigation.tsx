@@ -1,11 +1,13 @@
+import { FunctionComponent } from 'react'
+
+import { useStoreState } from 'easy-peasy'
+import tw from 'twin.macro'
+
 import { Item } from '@/modules/communities-navigation/item'
 import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/utils/type'
 import { Vertical } from '@/widgets/orientation'
-import { useStoreState } from 'easy-peasy'
-import { FunctionComponent } from 'react'
-import tw from 'twin.macro'
 
 const Wrap = tw.div`
   w-20
@@ -49,8 +51,8 @@ const CommunityItems: FunctionComponent<{
 }
 
 export const CommunitiesNavigationn: FunctionComponent = () => {
-  const projectCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
-    (state) => state.projectCollab
+  const communitiesCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.communitiesCollab
   )
 
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
@@ -60,7 +62,7 @@ export const CommunitiesNavigationn: FunctionComponent = () => {
 
   return (
     <Wrap>
-      <CommunityItems collaboration={projectCollab} />
+      <CommunityItems collaboration={communitiesCollab} />
     </Wrap>
   )
 }

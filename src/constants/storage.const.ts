@@ -108,7 +108,7 @@ export const StorageConst = {
     alt: 'logo',
   },
   BACKGROUND: {
-    src: '/images/logos/bg.png',
+    src: '/images/logos/bg.svg',
     alt: 'Background',
   },
   CHICKEN: {

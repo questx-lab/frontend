@@ -6,9 +6,9 @@ import { CollaboratorType, CommunityType, QuestType, RefferalType, UserType } fr
 export interface GlobalStoreModel {
   navBar: boolean
   user: UserType | undefined
-  projectsFollowing: CommunityType[]
-  projectsTrending: CommunityType[]
-  projectCollab: CollaboratorType[]
+  communitiesFollowing: CommunityType[]
+  communitiesTrending: CommunityType[]
+  communitiesCollab: CollaboratorType[]
   referral: RefferalType
   authBox: number
   username: string
@@ -17,10 +17,10 @@ export interface GlobalStoreModel {
 
   setNavBar: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
-  setProjectsFollowing: Action<GlobalStoreModel, CommunityType[]>
-  setProjectCollab: Action<GlobalStoreModel, CollaboratorType[]>
+  setCommunitiesFollowing: Action<GlobalStoreModel, CommunityType[]>
+  setCommunitiesTrending: Action<GlobalStoreModel, CommunityType[]>
+  setCommunitiesCollab: Action<GlobalStoreModel, CollaboratorType[]>
   setReferral: Action<GlobalStoreModel, RefferalType>
-  setProjectsTrending: Action<GlobalStoreModel, CommunityType[]>
   setAuthBox: Action<GlobalStoreModel, number>
   setUserName: Action<GlobalStoreModel, string>
   setShowLoginModal: Action<GlobalStoreModel, boolean>
@@ -30,9 +30,9 @@ export interface GlobalStoreModel {
 const store = createStore<GlobalStoreModel>({
   navBar: false,
   user: undefined,
-  projectsFollowing: [],
-  projectCollab: [],
-  projectsTrending: [],
+  communitiesFollowing: [],
+  communitiesCollab: [],
+  communitiesTrending: [],
   referral: {},
   authBox: AuthEnum.LOGIN,
   username: '',
@@ -47,16 +47,16 @@ const store = createStore<GlobalStoreModel>({
     state.user = user
   }),
 
-  setProjectsFollowing: action((state, projects) => {
-    state.projectsFollowing = projects
+  setCommunitiesFollowing: action((state, projects) => {
+    state.communitiesFollowing = projects
   }),
 
-  setProjectsTrending: action((state, projects) => {
-    state.projectsTrending = projects
+  setCommunitiesTrending: action((state, projects) => {
+    state.communitiesTrending = projects
   }),
 
-  setProjectCollab: action((state, collabs) => {
-    state.projectCollab = collabs
+  setCommunitiesCollab: action((state, collabs) => {
+    state.communitiesCollab = collabs
   }),
 
   setReferral: action((state, referral) => {
