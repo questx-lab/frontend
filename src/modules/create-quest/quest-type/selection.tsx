@@ -1,9 +1,9 @@
 'use client'
 
 import { QuestTypeEnum, QuestTypeStringMap } from '@/constants/common.const'
-import { TypeButton, TypeButtonFrame } from '@/modules/create-quest/mini-widget'
 import QuestType from '@/modules/create-quest/quest-type'
 import { NewQuestStore } from '@/store/local/new-quest.store'
+import TypesSelection from '@/widgets/types-selection'
 
 const QuestTypeSelection = () => {
   const display = [
@@ -27,21 +27,14 @@ const QuestTypeSelection = () => {
   // actions
   const onQuestTypeChanged = NewQuestStore.useStoreActions((actions) => actions.setType)
 
-  const listTypeItems = display.map((e, i) => (
-    <TypeButton
-      active={e === questType}
-      key={i}
-      onClick={() => {
-        onQuestTypeChanged(e)
-      }}
-    >
-      {QuestTypeStringMap.get(e)}
-    </TypeButton>
-  ))
-
   return (
     <>
-      <TypeButtonFrame>{listTypeItems}</TypeButtonFrame>
+      <TypesSelection
+        list={display}
+        activeFunc={(item) => item === questType}
+        onClick={(item: QuestTypeEnum) => onQuestTypeChanged(item)}
+        itemView={(item: QuestTypeEnum) => QuestTypeStringMap.get(item)}
+      />
       <QuestType />
     </>
   )

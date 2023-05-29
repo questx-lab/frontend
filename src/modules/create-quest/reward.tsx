@@ -1,15 +1,15 @@
 import { QuestRewards } from '@/constants/common.const'
-import { TypeButton, TypeButtonFrame } from '@/modules/create-quest/mini-widget'
+import { StorageConst } from '@/constants/storage.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { ThinBorderBox } from '@/widgets/box'
+import { Image } from '@/widgets/image'
 import { InputBox } from '@/widgets/input'
 import { Vertical } from '@/widgets/orientation'
 import { Label, UnderlinedText } from '@/widgets/text'
-import { Image } from '@/widgets/image'
+import TypesSelection from '@/widgets/types-selection'
 import { FunctionComponent } from 'react'
 import tw from 'twin.macro'
-import { StorageConst } from '@/constants/storage.const'
 
 const FrameShape = tw(Vertical)`
   py-8
@@ -38,25 +38,18 @@ const QuestReward: FunctionComponent = () => {
   const onActiveRewardChanged = NewQuestStore.useStoreActions((actions) => actions.setActiveReward)
   const onPointRewardChanged = NewQuestStore.useStoreActions((actions) => actions.setPointReward)
 
-  const listRewards = QuestRewards.map((e, i) => (
-    <TypeButton
-      active={activeReward === i}
-      key={i}
-      onClick={() => {
-        onActiveRewardChanged(i)
-      }}
-    >
-      {e}
-    </TypeButton>
-  ))
-
   return (
     <FrameShape>
       <BorderBox>
         <Label>{'REWARD'}</Label>
         <Gap height={2} />
 
-        <TypeButtonFrame>{listRewards}</TypeButtonFrame>
+        <TypesSelection
+          list={QuestRewards}
+          activeFunc={(item, index) => index === activeReward}
+          onClick={(item, index) => onActiveRewardChanged(index)}
+          itemView={(item: string) => item}
+        />
         <Gap height={6} />
 
         <RewardBox
@@ -69,6 +62,7 @@ const QuestReward: FunctionComponent = () => {
             </>
           }
           type='number'
+          min={0}
           defaultValue={'100'}
         />
         <Gap height={6} />

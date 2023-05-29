@@ -3,7 +3,6 @@
 import { FunctionComponent } from 'react'
 
 import { ActiveEnum, QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
-import { TypeButtonFrame } from '@/modules/create-quest/mini-widget'
 import { Padding } from '@/modules/create-quest/quest-type/mini-widget'
 import TwitterFollow from '@/modules/create-quest/quest-type/twitter-follow'
 import TwitterJoinSpace from '@/modules/create-quest/quest-type/twitter-join-space'
@@ -15,6 +14,14 @@ import { Divider } from '@/styles/common.style'
 import { Label } from '@/widgets/text'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+
+const TypeButtonFrame = tw.div`
+  flex
+  flex-wrap
+  justify-start
+  items-center
+  w-full
+`
 
 const TwitterBox = styled.div<{ activeType: number }>(({ activeType }) => {
   switch (activeType) {
