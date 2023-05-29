@@ -21,25 +21,25 @@ const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
 ])
 
 export const Item: FunctionComponent<{
-  community: CollaboratorType
+  collaboration: CollaboratorType
   active: boolean
-}> = ({ community, active }) => {
+}> = ({ collaboration, active }) => {
   // hook
   const navigate = useNavigate()
 
   return (
     <>
       <Tooltip
-        key={community.community_handle}
-        content={community.community.name}
+        key={collaboration.community.handle}
+        content={collaboration.community.name}
         placement='right'
       >
         <ActiveAvatar active={active}>
           <CircularImage
-            onClick={() => navigate(RouterConst.PROJECT + community.community_handle)}
+            onClick={() => navigate(RouterConst.PROJECT + collaboration.community.handle)}
             width={45}
             height={45}
-            src={community.community.logo_url || IMAGES_SOURCE.community_default}
+            src={collaboration.community.logo_url || IMAGES_SOURCE.community_default}
             alt='logo'
           />
         </ActiveAvatar>

@@ -30,18 +30,18 @@ const BoxContent = tw(Vertical)`
 `
 
 const CommunityItems: FunctionComponent<{
-  collaborator: CollaboratorType[]
-}> = ({ collaborator }) => {
+  collaboration: CollaboratorType[]
+}> = ({ collaboration }) => {
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const selectedId = selectedCommunity === undefined ? undefined : selectedCommunity.handle
 
   return (
     <BoxContent>
-      {collaborator.map((community) => (
+      {collaboration.map((community) => (
         <Item
-          key={community.community_handle}
-          community={community}
-          active={community.community_handle === selectedId}
+          key={community.community.handle}
+          collaboration={community}
+          active={community.community.handle === selectedId}
         />
       ))}
     </BoxContent>
@@ -60,7 +60,7 @@ export const CommunitiesNavigationn: FunctionComponent = () => {
 
   return (
     <Wrap>
-      <CommunityItems collaborator={projectCollab} />
+      <CommunityItems collaboration={projectCollab} />
     </Wrap>
   )
 }
