@@ -48,12 +48,12 @@ export const getMyBadgesApi = async (): Promise<
 //   return data
 // }
 
-export const getMyFollowersInfoApi = async (): Promise<
+export const getMyFollowingApi = async (): Promise<
   Rsp<{
     followers: FollowerType[]
   }>
 > => {
-  const { data } = await api.get('/getMyFollowersInfo')
+  const { data } = await api.get('/getMyFollowing')
 
   return data
 }

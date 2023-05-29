@@ -1,11 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react'
-
-import { useStoreState } from 'easy-peasy'
 import Image from 'next/image'
 import tw from 'twin.macro'
-
 import { StorageConst } from '@/constants/storage.const'
-import { GlobalStoreModel } from '@/store/store'
 import { Divider } from '@/styles/common.style'
 import { ImageQuestBox } from '@/styles/questboard.style'
 import { Badge, InfoText } from '@/styles/settings.style'
@@ -17,7 +13,7 @@ import {
 } from '@/widgets/orientation'
 import {
   getMyBadgesApi,
-  getMyFollowersInfoApi,
+  getMyFollowingApi,
   getUserApi,
 } from '@/app/api/client/user'
 import { toast } from 'react-hot-toast'
@@ -148,7 +144,7 @@ const RankWrap = tw(HorizontalBetweenCenter)`
 `
 
 const UserProfile: FunctionComponent<{ userId: string }> = ({ userId }) => {
-  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+  const [user, setUser] = useState<UserType>({})
 
   const [badges, setBadges] = useState<BadgeType[]>([])
   const [communityFollowers, setCommunityFollowers] = useState<FollowerType[]>(
@@ -170,11 +166,11 @@ const UserProfile: FunctionComponent<{ userId: string }> = ({ userId }) => {
     }
   }
 
-  const fetchCommunityFollowers = async () => {
+  const fetchMyFollowing = async () => {
     try {
-      const resp = await getMyFollowersInfoApi()
+      const resp = await getMyFollowingApi()
       if (!resp.data) {
-        toast.error('Can not get my profile')
+        toast.error('Can not get my community profile')
         return
       }
       if (resp.error) {
@@ -186,9 +182,32 @@ const UserProfile: FunctionComponent<{ userId: string }> = ({ userId }) => {
     }
   }
 
+  const fetchUser = async () => {
+    try {
+      const resp = await getUserApi()
+      if (!resp.data) {
+        toast.error('Can not get my profile')
+        return
+      }
+      if (resp.error) {
+        toast.error(resp.error)
+      }
+      setUser(resp.data)
+    } catch (error) {
+      toast.error(error as string)
+    }
+  }
+
+  const getTotalQuest = () => {
+    return communityFollowers.reduce<number>((total, follower) => {
+      return total + follower.quests
+    }, 0)
+  }
+
   useEffect(() => {
+    fetchUser()
     fetchBadges()
-    fetchCommunityFollowers()
+    fetchMyFollowing()
   }, [])
 
   return (
@@ -201,8 +220,8 @@ const UserProfile: FunctionComponent<{ userId: string }> = ({ userId }) => {
             src={user.avatar_url || ''}
             alt={user.name || ''}
           />
-          <NameText>{user && user.name}</NameText>
-          <LevelBox>{user.level}</LevelBox>
+          <NameText>{user.name}</NameText>
+          {/* <LevelBox>{user.level}</LevelBox> */}
         </AssideInfo>
         <Divider />
         <AssideBadge>
@@ -215,28 +234,17 @@ const UserProfile: FunctionComponent<{ userId: string }> = ({ userId }) => {
                 src={StorageConst.POINT_ICON.src}
                 alt={StorageConst.POINT_ICON.alt}
               />
-              <WarningText> {user.gems} </WarningText>
+              <WarningText> {user.points} </WarningText>
             </RowBox>
           </InfoText>
-          <InfoText>
-            <NormalText>{'XP'}</NormalText>
-            <RowBox>
-              <Image
-                width={24}
-                height={24}
-                src={StorageConst.XP_ICON.src}
-                alt={StorageConst.XP_ICON.alt}
-              />
-              <SuccessText> {user.points} </SuccessText>
-            </RowBox>
-          </InfoText>
+
           <InfoText>
             <NormalText>{'Quest Completed'}</NormalText>
-            <NormalText>{user.quest_completed}</NormalText>
+            <NormalText>{getTotalQuest()}</NormalText>
           </InfoText>
           <InfoText>
             <NormalText>{'Community Joined'}</NormalText>
-            <NormalText>{user.community_joined}</NormalText>
+            <NormalText>{communityFollowers.length}</NormalText>
           </InfoText>
         </AssideBadge>
       </Aside>
@@ -262,20 +270,20 @@ const UserProfile: FunctionComponent<{ userId: string }> = ({ userId }) => {
         </Session>
         <Session>
           <TitleBox>{'👑 Community Ranking'}</TitleBox>
-          {communityFollowers.map((community, idx) => (
+          {communityFollowers.map((follower, idx) => (
             <RankWrap key={idx}>
               <RowBox>
                 <ImageQuestBox
                   width={64}
                   height={64}
-                  src={community.avatar_url || ''}
-                  alt={community.community_name || ''}
+                  src={follower.community.logo_url || ''}
+                  alt={follower.community.name || ''}
                 />
                 <ColBox>
-                  {community.community_name}
+                  {follower.community.name}
                   <RowBox>
-                    {community.tags &&
-                      community.tags.map((tag, idx) => (
+                    {follower.tags &&
+                      follower.tags.map((tag, idx) => (
                         <Badge key={`key-${idx}`}>{tag}</Badge>
                       ))}
                   </RowBox>
@@ -288,7 +296,7 @@ const UserProfile: FunctionComponent<{ userId: string }> = ({ userId }) => {
                   src={StorageConst.POINT_ICON.src}
                   alt={StorageConst.POINT_ICON.alt}
                 />
-                <WarningText> {community.points} </WarningText>
+                <WarningText> {follower.points} </WarningText>
               </RowBox>
             </RankWrap>
           ))}

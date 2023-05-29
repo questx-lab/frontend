@@ -38,11 +38,7 @@ export type UserType = {
   role?: string
   referral_code?: string
   points?: number
-  gems?: number
   avatar_url?: string
-  level?: string
-  quest_completed?: number
-  community_joined?: number
 }
 
 export type ReqNewCommunity = {
@@ -265,10 +261,12 @@ export type UserProfileType = {
 export type FollowerType = {
   user_id: string
   points: number
+  quests: number
   invite_code: string
   invited_by: string
   invite_count: number
   avatar_url: string
-  community_name: string
+  community: CommunityType
+  streaks: number
   tags: string[]
 }
