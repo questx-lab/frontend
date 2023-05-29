@@ -16,7 +16,7 @@ export const StorageConst = {
     alt: 'Discord',
   },
   TWITTER_DIR: {
-    src: '/images/logos/twitter.svg',
+    src: '/images/icons/twitter.svg',
     alt: 'Twitter',
   },
   DISCORD_BLACK_DIR: {
