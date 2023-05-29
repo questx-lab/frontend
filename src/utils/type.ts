@@ -50,7 +50,7 @@ export type ReqNewCommunity = {
 }
 
 export type ReqUpdateCommunity = {
-  id: string
+  handle: string
   display_name?: string
   introduction?: string
   twitter?: string

@@ -76,7 +76,7 @@ const ApiKey: FunctionComponent = () => {
   const handleGenerate = async () => {
     setLoading(true)
     try {
-      const { error, data } = await generateCommunityKeyApi(project.id)
+      const { error, data } = await generateCommunityKeyApi(project.handle)
       if (error) {
         toast.error(error)
       } else {
@@ -166,7 +166,7 @@ const General: FunctionComponent = () => {
     setLoading(true)
     try {
       const payload: ReqUpdateCommunity = {
-        id: project.id ?? '',
+        handle: project.handle ?? '',
         display_name: title,
         introduction: description,
         website_url: websiteUrl,
@@ -232,8 +232,8 @@ const General: FunctionComponent = () => {
   )
 }
 
-const SettingCommunity: FunctionComponent<{ communityId: string }> = ({
-  communityId,
+const SettingCommunity: FunctionComponent<{ communityHandle: string }> = ({
+  communityHandle,
 }) => {
   // hook
   const [tab, setTab] = useState<number>(SettingTab.GENERAL)
@@ -250,7 +250,7 @@ const SettingCommunity: FunctionComponent<{ communityId: string }> = ({
 
   const fetchProject = async () => {
     try {
-      const rs = await getCommunityApi(communityId)
+      const rs = await getCommunityApi(communityHandle)
       if (rs.error) {
         toast.error(rs.error)
       } else {
@@ -285,7 +285,7 @@ const SettingCommunity: FunctionComponent<{ communityId: string }> = ({
   }
 
   return (
-    <PanelLayout communityId={communityId} active={SideEnum.SETTINGS}>
+    <PanelLayout communityHandle={communityHandle} active={SideEnum.SETTINGS}>
       <Head>{'Review Submission'}</Head>
       <Tab>
         <TabItem

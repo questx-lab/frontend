@@ -46,7 +46,7 @@ export default function ManageProject() {
 
   const getQuests = async () => {
     try {
-      const data = await listQuestApi(project.id, '')
+      const data = await listQuestApi(project.handle, '')
       if (data.error) {
         toast.error(data.error)
       }
@@ -61,10 +61,10 @@ export default function ManageProject() {
 
   return (
     <Wrap>
-      <ProjectSide activeCommunityId={project.handle} />
+      <ProjectSide activeCommunityHandle={project.handle} />
       <NewQuestStore.Provider>
         <MMain>
-          <ControlPanel communityId={project.handle || ''} />
+          <ControlPanel communityHandle={project.handle || ''} />
           <CCBox>
             <MBox>
               <MPadding>

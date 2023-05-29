@@ -13,7 +13,7 @@ export default function Review(props: { params: { id: string } }) {
       </header>
       <CommunityStore.Provider>
         <NewClaimReviewStore.Provider>
-          <ReviewSubmission communityId={props.params.id} />
+          <ReviewSubmission communityHandle={props.params.id} />
         </NewClaimReviewStore.Provider>
       </CommunityStore.Provider>
     </Layout>

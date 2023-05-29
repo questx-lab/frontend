@@ -30,7 +30,7 @@ export const getCommunityApi = async (
   id: string
 ): Promise<Rsp<{ community: CommunityType }>> => {
   const rs = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/getCommunity?id=@${id}`
+    EnvVariables.NEXT_PUBLIC_API_URL + `/getCommunity?id=${id}`
   )
   return rs.data
 }
@@ -101,11 +101,11 @@ export const newFollowCommunityApi = async (
 }
 
 export const getMyFollowerInfoApi = async (
-  communityId: string
+  communityHandle: string
 ): Promise<Rsp<{ invite_code: string }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getMyFollowerInfo?community_handle=${communityId}`
+      `/getMyFollowerInfo?community_handle=${communityHandle}`
   )
   return rs.data
 }
@@ -125,23 +125,23 @@ export const createCategoryApi = async (
 }
 
 export const getCategoriesApi = async (
-  communityId: string
+  communityHandle: string
 ): Promise<Rsp<{ categories: CategoryType[] }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getCategories?community_handle=${communityId}`
+      `/getCategories?community_handle=${communityHandle}`
   )
   return rs.data
 }
 
 export const getLeaderboardApi = async (
-  communityId: string,
+  communityHandle: string,
   range: string,
   type: string
 ): Promise<Rsp<{ leaderboard: LeaderboardType[] }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getLeaderBoard?community_handle=${communityId}&range=${range}&type=${type}`
+      `/getLeaderBoard?community_handle=${communityHandle}&range=${range}&type=${type}`
   )
   return rs.data
 }

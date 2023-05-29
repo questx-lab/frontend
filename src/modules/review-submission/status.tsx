@@ -12,8 +12,8 @@ import { Label } from '@/widgets/text'
 
 import { getListClaimQuest } from './review-submission'
 
-const Status: FunctionComponent<{ communityId: string }> = ({
-  communityId,
+const Status: FunctionComponent<{ communityHandle: string }> = ({
+  communityHandle,
 }) => {
   // Data
   const reviewStatus = NewClaimReviewStore.useStoreState(
@@ -44,7 +44,7 @@ const Status: FunctionComponent<{ communityId: string }> = ({
     onLoadingModalChanged(true)
     setReviewStatus(e)
     await getListClaimQuest(
-      communityId,
+      communityHandle,
       e,
       setHistoryClaims,
       questsSelect.map((e) => e.id!)

@@ -26,8 +26,8 @@ const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
 
 const RenderFollowItems: FunctionComponent<{
   projects: CommunityType[]
-  activeCommunityId: string | undefined
-}> = ({ projects, activeCommunityId }) => {
+  activeCommunityHandle: string | undefined
+}> = ({ projects, activeCommunityHandle }) => {
   const router = useRouter()
   const listItems =
     projects &&
@@ -37,7 +37,7 @@ const RenderFollowItems: FunctionComponent<{
         content={community.display_name}
         placement='right'
       >
-        <ActiveAvatar active={community.handle === activeCommunityId}>
+        <ActiveAvatar active={community.handle === activeCommunityHandle}>
           <CircleRouded
             onClick={() => router.push(RouterConst.PROJECT + community.handle)}
             width={45}
@@ -58,8 +58,8 @@ const RenderFollowItems: FunctionComponent<{
 
 const RenderCollabItems: FunctionComponent<{
   collaborator: CollaboratorType[]
-  activeCommunityId: string | undefined
-}> = ({ collaborator, activeCommunityId }) => {
+  activeCommunityHandle: string | undefined
+}> = ({ collaborator, activeCommunityHandle }) => {
   const router = useRouter()
   const listItems =
     collaborator &&
@@ -70,7 +70,7 @@ const RenderCollabItems: FunctionComponent<{
         placement='right'
       >
         <ActiveAvatar
-          active={collaboration.community.handle === activeCommunityId}
+          active={collaboration.community.handle === activeCommunityHandle}
         >
           <CircleRouded
             onClick={() =>
@@ -95,8 +95,8 @@ const RenderCollabItems: FunctionComponent<{
   return <BoxContent>{listItems}</BoxContent>
 }
 const ProjectSide: FunctionComponent<{
-  activeCommunityId: string | undefined
-}> = ({ activeCommunityId }) => {
+  activeCommunityHandle: string | undefined
+}> = ({ activeCommunityHandle }) => {
   const projectsFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectsFollowing
   )
@@ -113,11 +113,11 @@ const ProjectSide: FunctionComponent<{
   return (
     <Wrap>
       <RenderCollabItems
-        activeCommunityId={activeCommunityId}
+        activeCommunityHandle={activeCommunityHandle}
         collaborator={projectCollab}
       />
       <RenderFollowItems
-        activeCommunityId={activeCommunityId}
+        activeCommunityHandle={activeCommunityHandle}
         projects={projectsFollowing}
       />
     </Wrap>
