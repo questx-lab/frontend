@@ -77,7 +77,9 @@ export const Community = () => {
   }
 
   // Check if user is the admin of this community
-  const filter = myCommunities.filter((e) => e.community_handle === community.handle)
+  const filter = myCommunities.filter(
+    (collaboration) => collaboration.community.handle === community.handle
+  )
   const isOwner = filter.length > 0
   if (isOwner) {
     setRole(CommunityRoleEnum.OWNER)
