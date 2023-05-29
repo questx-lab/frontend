@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 
 import { getTwitterAccessTokenApi } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
+import { updateAccessToken } from '@/utils/storage'
 
 // add your client id and secret here:
 const TWITTER_OAUTH_CLIENT_ID = EnvVariables.TWITTER_ID
@@ -28,15 +29,15 @@ export const twitterOauthTokenParams = {
 }
 
 // the shape of the object we should recieve from twitter in the request
-type TwitterTokenResponse = {
-  token_type: 'bearer'
-  expires_in: 7200
-  access_token: string
-  scope: string
+export type TwitterTokenResponse = {
+  token_type?: string
+  expires_in?: number
+  access_token?: string
+  scope?: string
 }
 
 // the main step 1 function, getting the access token from twitter using the code that twitter sent us
-export const getTwitterOAuthToken = async (code: string) => {
+const getTwitterOAuthToken = async (code: string): Promise<TwitterTokenResponse | undefined> => {
   try {
     // POST request to the token url to get the access token
     const data = new URLSearchParams({ ...twitterOauthTokenParams, code }).toString()
@@ -58,10 +59,11 @@ export const getTwitterOAuthToken = async (code: string) => {
     //     },
     //   }
     // )
-    return rs.data
+    return rs
   } catch (err) {
     console.error(err)
   }
+  return undefined
 }
 
 const TwitterCallback: FC = () => {
@@ -71,15 +73,17 @@ const TwitterCallback: FC = () => {
     const searchParams = new URLSearchParams(location.search)
     const authCode = searchParams.get('code')
     if (authCode) {
-      getAccessTokenTwitter(authCode)
+      twitterAuth(authCode)
     }
-    // Gửi authCode lên server để đổi lấy access token
+    // send authCode to twitter server to get access token
   }, [location])
 
-  const getAccessTokenTwitter = async (authCode: string) => {
+  const twitterAuth = async (authCode: string) => {
     try {
       const data = await getTwitterOAuthToken(authCode)
-      console.log(data)
+      if (data && data.access_token) {
+        await updateAccessToken(data.token_type || 'bearer', data.access_token)
+      }
     } catch (error) {}
   }
 

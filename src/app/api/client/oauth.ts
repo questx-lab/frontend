@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import { api } from '@/app/api/config/api'
 import { EnvVariables } from '@/constants/env.const'
+import { TwitterTokenResponse } from '@/modules/callback/twitter'
 import { VerifyOAuth2IDResp } from '@/utils/request-response'
 import { OAuth2VerifyResp } from '@/utils/type'
 
@@ -32,7 +33,10 @@ export const verifyOAuth2 = async (
   return result.data
 }
 
-export const getTwitterAccessTokenApi = async (body: string, headers: any) => {
+export const getTwitterAccessTokenApi = async (
+  body: string,
+  headers: any
+): Promise<TwitterTokenResponse> => {
   const data = {
     url: 'https://api.twitter.com/2/oauth2/token',
     param: '',
