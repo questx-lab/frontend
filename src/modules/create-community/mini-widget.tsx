@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react'
 import tw from 'twin.macro'
 
 import { NewCommunityStore } from '@/store/local/new-community.store'
-import { PositiveButton } from '@/widgets/button'
+import { PositiveButton } from '@/widgets/buttons/button'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 
 export const Main = tw(Vertical)`

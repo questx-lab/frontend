@@ -9,7 +9,7 @@ import { BackButton, HorizotalFullWidth, Title } from '@/modules/create-communit
 import { NewCommunityStore } from '@/store/local/new-community.store'
 import { LabelInput } from '@/styles/input.style'
 import { ReqNewCommunity } from '@/utils/type'
-import { PositiveButton } from '@/widgets/button'
+import { PositiveButton } from '@/widgets/buttons/button'
 import { TextField } from '@/widgets/form'
 import { Vertical } from '@/widgets/orientation'
 

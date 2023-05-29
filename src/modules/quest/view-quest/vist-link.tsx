@@ -1,6 +1,6 @@
 import { ButtonSocialType } from '@/constants/common.const'
 import { ActiveQuestStore } from '@/store/local/active-quest'
-import { SocialButton } from '@/widgets/button-social'
+import { SocialButton } from '@/widgets/buttons/button-social'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
