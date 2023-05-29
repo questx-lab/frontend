@@ -85,6 +85,7 @@ export const InputBox: FunctionComponent<{
   min?: number
   defaultValue: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  value: string
 }> = ({
   onChange,
   full = false,
@@ -92,6 +93,7 @@ export const InputBox: FunctionComponent<{
   type = undefined,
   min = -1000000,
   defaultValue,
+  value,
 }) => {
   return (
     <InputBoxBorder>
@@ -102,6 +104,7 @@ export const InputBox: FunctionComponent<{
         defaultValue={defaultValue}
         min={min}
         type={type}
+        value={value}
       />
     </InputBoxBorder>
   )

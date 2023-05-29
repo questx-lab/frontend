@@ -101,6 +101,7 @@ export type ReqNewQuestType = {
   description?: string
   categories?: string[]
   recurrence?: string
+  points: number
   validation_data?: ValidationQuest
   rewards?: RewardType[]
   condition_op?: string
@@ -149,7 +150,8 @@ export interface QuestType {
   condition_op?: string
   created_at?: string
   updated_at?: string
-  rewards: RewardType[]
+  points: number
+  rewards?: RewardType[]
   category: CategoryType
   validation_data: {
     tweet_url?: string

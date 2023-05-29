@@ -142,14 +142,7 @@ const handleSubmit = async (
     description: state.description,
     categories: [],
     recurrence: state.recurrence,
-    rewards: [
-      {
-        type: 'points',
-        data: {
-          points: state.pointReward,
-        },
-      },
-    ],
+    points: state.pointReward, // Other types of rewards are not supported for now
     validation_data: validations,
     condition_op: 'and',
     conditions: [],

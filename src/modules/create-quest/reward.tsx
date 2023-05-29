@@ -33,10 +33,11 @@ const BorderBox = tw(ThinBorderBox)`
 const QuestReward: FunctionComponent = () => {
   // Data
   const activeReward = NewQuestStore.useStoreState((state) => state.activeReward)
+  const pointReward = NewQuestStore.useStoreState((state) => state.pointReward)
 
   // Actions
   const onActiveRewardChanged = NewQuestStore.useStoreActions((actions) => actions.setActiveReward)
-  const onPointRewardChanged = NewQuestStore.useStoreActions((actions) => actions.setPointReward)
+  const setPointReward = NewQuestStore.useStoreActions((actions) => actions.setPointReward)
 
   return (
     <FrameShape>
@@ -54,7 +55,7 @@ const QuestReward: FunctionComponent = () => {
 
         <FullWidthInput
           full
-          onChange={(e) => onPointRewardChanged(parseFloat(e.target.value ?? '0'))}
+          onChange={(e) => setPointReward(parseFloat(e.target.value ?? '0'))}
           leftChild={
             <>
               <Image width={30} height={30} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
@@ -64,6 +65,7 @@ const QuestReward: FunctionComponent = () => {
           type='number'
           min={0}
           defaultValue={'100'}
+          value={`${pointReward}`}
         />
         <Gap height={6} />
 

@@ -124,13 +124,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
           state.spaceUrlTw = quest.validation_data.space_url || ''
           break
       }
-
-      // TODO: Support more than point reward
-      for (let reward of quest.rewards) {
-        if (reward.type === 'points') {
-          state.pointReward = reward.data.points || 0
-        }
-      }
     }
   }),
 

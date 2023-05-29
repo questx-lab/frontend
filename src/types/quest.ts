@@ -10,6 +10,7 @@ export const emptyQuest = (): QuestType => {
     status: '',
     description: '',
     recurrence: QuestRecurrence.ONCE,
+    points: 100,
     rewards: [],
     category: {
       id: '',
