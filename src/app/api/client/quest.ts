@@ -20,7 +20,8 @@ export const listQuestApi = async (
     search = ''
   }
   const { data } = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/getQuests?community_id=${communityId}&limit=40&q=${search}`
+    EnvVariables.NEXT_PUBLIC_API_URL +
+      `/getQuests?community_handle=${communityId}&limit=40&q=${search}`
   )
   return data
 }

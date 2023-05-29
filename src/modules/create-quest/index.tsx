@@ -54,7 +54,7 @@ const EditInfoFrame = tw.div`
 
 const handleSubmit = async (
   store: Store<NewQuestModel, EasyPeasyConfig<undefined, {}>>,
-  community_id: string,
+  community_handle: string,
   status: string,
   questId: string
 ): Promise<boolean> => {
@@ -135,7 +135,7 @@ const handleSubmit = async (
 
   const payload: ReqNewQuestType = {
     id: questId,
-    community_id: community_id,
+    community_handle: community_handle,
     type,
     title: state.title,
     description: state.description,

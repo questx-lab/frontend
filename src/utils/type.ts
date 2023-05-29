@@ -55,7 +55,7 @@ export type ReqUpdateCommunity = {
 export type CollaboratorType = {
   name: string
   community: CommunityType
-  community_id: string
+  community_handle: string
   user: UserType
   user_id: string
 }
@@ -89,14 +89,14 @@ export type ListCommunitiesType = {
 }
 
 export type ReqNewRoleCommunity = {
-  community_id: string
+  community_handle: string
   user_id: string
   name: string
 }
 
 export type ReqNewQuestType = {
   id?: string
-  community_id?: string
+  community_handle?: string
   type?: string
   title?: string
   description?: string
@@ -139,7 +139,7 @@ export type ValidationQuest = {
 
 export interface QuestType {
   id: string
-  community_id: string
+  community_handle: string
   category_id?: string
   title: string
   type: string
