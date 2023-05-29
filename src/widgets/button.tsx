@@ -8,49 +8,20 @@ import tw from 'twin.macro'
 import { SizeEnum } from '@/constants/common.const'
 import { GlobalStoreModel } from '@/store/store'
 
-const NegativeButtonStyle = styled.button<{
-  isFull: boolean | undefined
-  width?: number
-  block: boolean | undefined
-}>(({ isFull = false, width, block = false }) => [
-  tw`
-  bg-white
-  hover:bg-gray-100
-  text-lg
-  text-gray-700
-  font-medium
-  py-3
-  px-6
-  rounded-lg
-  border
-  border-gray-300
-  border-solid
-  flex
-  flex-row
-  justify-center
-  items-center
-  gap-2
-  3xl:text-3xl
-  3xl:rounded-xl
-  3xl:py-4
-  3xl:px-12
-  outline-0
-`,
-  block &&
-    tw`hover:cursor-not-allowed  hover:bg-gray-50 bg-gray-50 border-gray-200 text-gray-300`,
-  isFull && tw`w-full`,
-  width === SizeEnum.x32 && tw`w-32`,
-  width === SizeEnum.x48 && tw`w-48`,
-  width === SizeEnum.x64 && tw`w-64`,
-  width === SizeEnum.x96 && tw`w-96`,
-])
+enum ButtonTypeEnum {
+  NEGATIVE,
+  POSITVE,
+  DANGEROUS,
+}
 
-const PositiveButtonStyle = styled.button<{
-  block?: boolean
+const BaseStyle = styled.button<{
   isFull?: boolean
   width?: number
-}>(({ block = false, isFull = false, width }) => [
-  tw`
+  block?: boolean
+  buttonType?: ButtonTypeEnum
+}>(({ isFull = false, width, block = false, buttonType = ButtonTypeEnum.NEGATIVE }) => {
+  const style = [
+    tw`
       text-lg
       text-white
       font-medium
@@ -61,27 +32,134 @@ const PositiveButtonStyle = styled.button<{
       justify-center
       items-center
       outline-0
-  `,
-  width === SizeEnum.x32 && tw`w-32`,
-  width === SizeEnum.x48 && tw`w-48`,
-  width === SizeEnum.x64 && tw`w-64`,
-  width === SizeEnum.x96 && tw`w-96`,
-  !block &&
-    tw`
-      bg-primary
-      hover:bg-primary-300
     `,
-  block &&
-    tw`
-      bg-primary-300
-      hover:cursor-not-allowed
-    `,
-  isFull && tw`w-full`,
-])
+  ]
+
+  if (isFull) {
+    style.push(tw`w-full`)
+  }
+
+  if (block) {
+    // disabled
+    switch (buttonType) {
+      case ButtonTypeEnum.NEGATIVE:
+        style.push(
+          tw`hover:cursor-not-allowed  hover:bg-gray-50 bg-gray-50 border-gray-200 text-gray-300`
+        )
+        break
+      case ButtonTypeEnum.POSITVE:
+        style.push(tw`
+          bg-primary-300
+          hover:cursor-not-allowed
+        `)
+        break
+      case ButtonTypeEnum.DANGEROUS:
+        style.push(tw`
+          bg-danger-300
+          hover:cursor-not-allowed
+        `)
+        break
+    }
+  } else {
+    // enabled
+    switch (buttonType) {
+      case ButtonTypeEnum.NEGATIVE:
+        break
+      case ButtonTypeEnum.POSITVE:
+        style.push(tw`
+          bg-primary
+          hover:bg-primary-300
+        `)
+        break
+      case ButtonTypeEnum.DANGEROUS:
+        style.push(tw`
+          bg-danger-100
+          hover:bg-danger-700
+        `)
+        break
+    }
+  }
+
+  switch (width) {
+    case SizeEnum.x32:
+      style.push(tw`w-32`)
+      break
+    case SizeEnum.x48:
+      style.push(tw`w-48`)
+      break
+    case SizeEnum.x64:
+      style.push(tw`w-64`)
+      break
+    case SizeEnum.x96:
+      style.push(tw`w-96`)
+      break
+  }
+
+  return style
+})
+
+export const Button: FunctionComponent<{
+  loading?: boolean
+  children: ReactNode
+  onClick?: () => void
+  block?: boolean
+  isFull?: boolean
+  width?: number
+  requireLogin?: boolean
+  type: ButtonTypeEnum
+}> = ({
+  loading = false,
+  children,
+  onClick = () => {},
+  block = false,
+  isFull = false,
+  width,
+  requireLogin = false,
+  type,
+}) => {
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const setShowLoginModel = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
+
+  if (requireLogin && user === undefined) {
+    return (
+      <BaseStyle
+        isFull={isFull}
+        disabled={block}
+        block={block}
+        onClick={() => setShowLoginModel(true)}
+        width={width}
+        buttonType={type}
+      >
+        {children}
+      </BaseStyle>
+    )
+  }
+
+  if (loading) {
+    return (
+      <BaseStyle isFull={isFull} width={width} buttonType={type}>
+        <MoonLoader color='hsla(168, 0%, 100%, 1)' loading speedMultiplier={0.8} size={20} />
+      </BaseStyle>
+    )
+  }
+
+  return (
+    <BaseStyle
+      block={block || undefined}
+      width={width}
+      isFull={isFull || undefined}
+      disabled={block}
+      onClick={onClick}
+      buttonType={type}
+    >
+      {children}
+    </BaseStyle>
+  )
+}
 
 export const PositiveButton: FunctionComponent<{
   loading?: boolean
-  children: ReactNode
+  children: ReactNode | ReactNode[]
   onClick?: () => void
   block?: boolean
   isFull?: boolean
@@ -96,49 +174,18 @@ export const PositiveButton: FunctionComponent<{
   width,
   requireLogin = false,
 }) => {
-  const user = useStoreState<GlobalStoreModel>((state) => state.user)
-
-  const setShowLoginModel = useStoreActions<GlobalStoreModel>(
-    (action) => action.setShowLoginModal
-  )
-
-  if (requireLogin && user === undefined) {
-    return (
-      <PositiveButtonStyle
-        isFull={isFull}
-        disabled={block}
-        block={block}
-        onClick={() => setShowLoginModel(true)}
-        width={width}
-      >
-        {children}
-      </PositiveButtonStyle>
-    )
-  }
-
-  if (loading) {
-    return (
-      <PositiveButtonStyle isFull={isFull} width={width}>
-        <MoonLoader
-          color='hsla(168, 0%, 100%, 1)'
-          loading
-          speedMultiplier={0.8}
-          size={20}
-        />
-      </PositiveButtonStyle>
-    )
-  }
-
   return (
-    <PositiveButtonStyle
-      isFull={isFull}
-      disabled={block}
+    <Button
       block={block}
-      onClick={onClick}
       width={width}
+      isFull={isFull || undefined}
+      onClick={onClick}
+      requireLogin={requireLogin}
+      loading={loading}
+      type={ButtonTypeEnum.POSITVE}
     >
       {children}
-    </PositiveButtonStyle>
+    </Button>
   )
 }
 
@@ -159,41 +206,49 @@ export const NegativeButton: FunctionComponent<{
   width,
   requireLogin = false,
 }) => {
-  const setShowLoginModel = useStoreActions<GlobalStoreModel>(
-    (action) => action.setShowLoginModal
-  )
-
-  if (loading) {
-    return (
-      <NegativeButtonStyle block={block} width={width} isFull={isFull}>
-        <MoonLoader color='#000' loading speedMultiplier={0.8} size={20} />
-      </NegativeButtonStyle>
-    )
-  }
-
-  if (requireLogin) {
-    return (
-      <NegativeButtonStyle
-        block={block}
-        width={width}
-        isFull={isFull}
-        disabled={block}
-        onClick={() => setShowLoginModel(true)}
-      >
-        {children}
-      </NegativeButtonStyle>
-    )
-  }
-
   return (
-    <NegativeButtonStyle
-      block={block || undefined}
+    <Button
+      block={block}
       width={width}
       isFull={isFull || undefined}
-      disabled={block}
       onClick={onClick}
+      requireLogin={requireLogin}
+      loading={loading}
+      type={ButtonTypeEnum.NEGATIVE}
     >
       {children}
-    </NegativeButtonStyle>
+    </Button>
+  )
+}
+
+export const DangerButton: FunctionComponent<{
+  loading?: boolean
+  children: ReactNode
+  onClick?: () => void
+  block?: boolean
+  isFull?: boolean
+  width?: number
+  requireLogin?: boolean
+}> = ({
+  loading = false,
+  children,
+  onClick = () => {},
+  block = false,
+  isFull = false,
+  width,
+  requireLogin = false,
+}) => {
+  return (
+    <Button
+      block={block}
+      width={width}
+      isFull={isFull || undefined}
+      onClick={onClick}
+      requireLogin={requireLogin}
+      loading={loading}
+      type={ButtonTypeEnum.DANGEROUS}
+    >
+      {children}
+    </Button>
   )
 }
