@@ -1,5 +1,6 @@
 import { QuestTypeEnum } from '@/constants/common.const'
 import QuestImage from '@/modules/quest/view-quest/image'
+import { QuestInvites } from '@/modules/quest/view-quest/invite'
 import QuestReward from '@/modules/quest/view-quest/reward'
 import { QuestText } from '@/modules/quest/view-quest/text'
 import QuestUrl from '@/modules/quest/view-quest/url'
@@ -44,8 +45,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     case QuestTypeEnum.VISIT_LINK:
       return <QuestVisitLink link={quest.validation_data.link || ''} />
     case QuestTypeEnum.INVITES:
-      // return <QuestInvites link={generateInviteLink(inviteCode) || ''} />
-      return <></>
+      return <QuestInvites quest={quest} />
 
     // case QuestTypeEnum.QUIZ:
     //   return withQuizzes()

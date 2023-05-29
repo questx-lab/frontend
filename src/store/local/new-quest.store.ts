@@ -68,7 +68,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   visitLink: '',
   telegramLink: '',
   discordLink: '',
-  invites: 10,
+  invites: 3,
   actionTwitter: [],
   accountUrl: '',
   tweetUrl: '',

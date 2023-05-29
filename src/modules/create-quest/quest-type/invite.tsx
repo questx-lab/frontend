@@ -23,7 +23,7 @@ const Invite: FunctionComponent = () => {
 
   return (
     <SubtypeBox
-      title='JOIN TELEGRAM'
+      title='INVITES'
       description='Invited user needs to complete 1 quest for invite to count'
     >
       <InputInviteBox

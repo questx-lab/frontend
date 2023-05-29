@@ -79,3 +79,12 @@ export const newCommunityApi = async (body: ReqNewCommunity): Promise<Rsp<{ hand
   const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/createCommunity', body)
   return rs.data
 }
+
+export const getMyFollowerInfoApi = async (
+  communityHandle: string
+): Promise<Rsp<{ invite_code: string }>> => {
+  const rs = await api.get(
+    EnvVariables.NEXT_PUBLIC_API_URL + `/getMyFollowerInfo?community_handle=${communityHandle}`
+  )
+  return rs.data
+}
