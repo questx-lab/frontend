@@ -9,7 +9,7 @@ import { FunctionComponent } from 'react'
 import tw from 'twin.macro'
 import { StorageConst } from '@/constants/storage.const'
 import { NormalText } from '@/widgets/text'
-import { QuestTwitterAction } from '@/modules/quest/view-quest/twitter/action'
+import QuestTwitterAction from '@/modules/quest/view-quest/twitter/action'
 
 const FrameWithGap = tw(VerticalBetween)`
   w-full
