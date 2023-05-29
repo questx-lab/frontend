@@ -10,8 +10,8 @@ import { getUserApi, updateUserApi } from '@/app/api/client/user'
 import { AuthEnum } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { handleMetamask } from '@/handler/auth/metamask'
+import { FieldTitle } from '@/modules/create-quest/mini-widget'
 import { GlobalStoreModel } from '@/store/store'
-import { RequireSignal } from '@/styles/input.style'
 import { setUserLocal } from '@/utils/helper'
 import { updateAccessToken } from '@/utils/storage'
 import { UserType } from '@/utils/type'
@@ -21,7 +21,6 @@ import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useGoogleLogin } from '@react-oauth/google'
-import { FieldTitle } from '@/modules/create-quest/mini-widget'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
@@ -375,7 +374,7 @@ const LoginBox: FunctionComponent = () => {
         if (value) {
           // close the modal
           setShowLoginModal(false)
-
+          console.log('value', value)
           // Reload current page
           window.location.reload()
         } else {
