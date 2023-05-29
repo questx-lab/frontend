@@ -16,7 +16,7 @@ const ViewOrEditQuest: FunctionComponent<{ quest: QuestType; role: CommunityRole
 }) => {
   switch (role) {
     case CommunityRoleEnum.OWNER:
-      return <CreateOrEditQuest isEdit={true} communityId={quest.community_id} />
+      return <CreateOrEditQuest isEdit={true} communityId={quest.community_handle} />
   }
 
   return <></>

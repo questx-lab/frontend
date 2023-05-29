@@ -39,9 +39,9 @@ const CommunityItems: FunctionComponent<{
     <BoxContent>
       {collaborator.map((community) => (
         <Item
-          key={community.community_id}
+          key={community.community_handle}
           community={community}
-          active={community.community_id === selectedId}
+          active={community.community_handle === selectedId}
         />
       ))}
     </BoxContent>

@@ -1,9 +1,7 @@
 import { uploadCommunityLogo, uploadImageApi } from '@/app/api/client/upload'
 import { ReturnTuple } from '@/utils/type'
 
-export async function uploadFile(
-  fileUpload: File[]
-): Promise<ReturnTuple<string>> {
+export async function uploadFile(fileUpload: File[]): Promise<ReturnTuple<string>> {
   let formData = new FormData()
   if (fileUpload.length === 0) {
     return {
@@ -42,7 +40,7 @@ export async function uploadFileForCommunity(
   }
 
   formData.append('image', file || '')
-  formData.append('community_id', communityId)
+  formData.append('community_handle', communityId)
   try {
     const data = await uploadCommunityLogo(formData)
     if (data.error) {

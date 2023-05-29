@@ -29,10 +29,14 @@ export const Item: FunctionComponent<{
 
   return (
     <>
-      <Tooltip key={community.community_id} content={community.community.name} placement='right'>
+      <Tooltip
+        key={community.community_handle}
+        content={community.community.name}
+        placement='right'
+      >
         <ActiveAvatar active={active}>
           <CircularImage
-            onClick={() => navigate(RouterConst.PROJECT + community.community_id)}
+            onClick={() => navigate(RouterConst.PROJECT + community.community_handle)}
             width={45}
             height={45}
             src={community.community.logo_url || IMAGES_SOURCE.community_default}
