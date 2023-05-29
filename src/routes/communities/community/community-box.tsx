@@ -103,7 +103,7 @@ const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({ communi
   const navigate = useNavigate()
 
   return (
-    <CommunityBoxWrap onClick={() => navigate(RouterConst.PROJECT + community.id)}>
+    <CommunityBoxWrap onClick={() => navigate(RouterConst.PROJECT + community.handle)}>
       <Top>
         <ImageProjectBox
           width={60}

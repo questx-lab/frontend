@@ -30,7 +30,7 @@ export async function uploadFile(fileUpload: File[]): Promise<ReturnTuple<string
 
 export async function uploadFileForCommunity(
   file: File,
-  communityId: string
+  communityHandle: string
 ): Promise<ReturnTuple<string>> {
   let formData = new FormData()
   if (file.length === 0) {
@@ -40,7 +40,7 @@ export async function uploadFileForCommunity(
   }
 
   formData.append('image', file || '')
-  formData.append('community_handle', communityId)
+  formData.append('community_handle', communityHandle)
   try {
     const data = await uploadCommunityLogo(formData)
     if (data.error) {

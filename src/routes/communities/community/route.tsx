@@ -14,8 +14,8 @@ import tw from 'twin.macro'
 
 export const Loader = async (args: { params: Params }) => {
   const [communityResult, questsResult] = await Promise.all([
-    getCommunityApi(args.params['communityId'] || ''),
-    listQuestApi(args.params['communityId'] || '', ''),
+    getCommunityApi(args.params['communityHandle'] || ''),
+    listQuestApi(args.params['communityHandle'] || '', ''),
   ])
 
   const community = communityResult.code === 0 ? communityResult.data?.community : undefined
@@ -77,7 +77,7 @@ export const Community = () => {
   }
 
   // Check if user is the admin of this community
-  const filter = myCommunities.filter((e) => e.community_handle === community.id)
+  const filter = myCommunities.filter((e) => e.community_handle === community.handle)
   const isOwner = filter.length > 0
   if (isOwner) {
     setRole(CommunityRoleEnum.OWNER)

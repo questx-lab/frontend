@@ -48,9 +48,7 @@ export const CreateCommunityStep: FunctionComponent = () => {
   const setCreatedCommunityHandle = NewCommunityStore.useStoreActions(
     (action) => action.setCreatedCommunityHandle
   )
-  const setCreatedCommunityId = NewCommunityStore.useStoreActions(
-    (action) => action.setCreatedCommunityId
-  )
+
   // hook
   let [loading, setLoading] = useState<boolean>(false)
 
@@ -70,12 +68,11 @@ export const CreateCommunityStep: FunctionComponent = () => {
       if (data.error) {
         toast.error(data.error)
       }
-      if (!data || !data.data || !data.data.id) {
+      if (!data || !data.data || !data.data.handle) {
         toast.error('Cannot create new community')
       } else {
         setCurrentStep(currentStep + 1)
         setCreatedCommunityHandle(data.data.handle)
-        setCreatedCommunityId(data.data.id)
       }
     } catch (error) {
       toast.error('Server error')

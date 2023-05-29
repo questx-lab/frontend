@@ -33,7 +33,7 @@ const CommunityItems: FunctionComponent<{
   collaborator: CollaboratorType[]
 }> = ({ collaborator }) => {
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
-  const selectedId = selectedCommunity === undefined ? undefined : selectedCommunity.id
+  const selectedId = selectedCommunity === undefined ? undefined : selectedCommunity.handle
 
   return (
     <BoxContent>

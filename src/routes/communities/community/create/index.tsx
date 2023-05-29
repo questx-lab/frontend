@@ -14,5 +14,5 @@ export const Index: FunctionComponent = () => {
     return <></>
   }
 
-  return <CreateOrEditQuest communityId={selectedCommunity.id}></CreateOrEditQuest>
+  return <CreateOrEditQuest communityHandle={selectedCommunity.handle}></CreateOrEditQuest>
 }
