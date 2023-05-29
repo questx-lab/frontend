@@ -5,7 +5,9 @@ import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Dropzone from 'react-dropzone'
+import { toast } from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -53,8 +55,6 @@ import {
   HeartIcon,
   LinkIcon,
 } from '@heroicons/react/24/outline'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { toast } from 'react-hot-toast'
 
 const WrapBtn = tw(VerticalBetween)`
   w-full
@@ -121,7 +121,7 @@ export const QuestText: FunctionComponent = () => {
   if (role === CommunityRoleEnum.GUEST) {
     return (
       <TextField
-        errorMsg='This field is required'
+        msg='This field is required'
         placeholder='Input your text'
         required
         onChange={(e) => setTextSubmit(e.target.value)}
@@ -146,7 +146,7 @@ export const QuestUrl: FunctionComponent = () => {
   if (role === CommunityRoleEnum.GUEST) {
     return (
       <TextField
-        errorMsg='This field is required'
+        msg='This field is required'
         placeholder='Input url'
         required
         onChange={(e) => setUrlSubmit(e.target.value)}
@@ -293,7 +293,7 @@ export const QuestTwitterAction: FunctionComponent<{
           value={replyUrlSubmit}
           onChange={(e) => setReplyUrlSubmit(e.target.value)}
           placeholder='https://twitter.com/abc/status/1660098343148699649'
-          errorMsg='Input your Link after reply success'
+          msg='Input your Link after reply success'
         />
       )
     }

@@ -114,8 +114,8 @@ const RenderBody: FunctionComponent<{
   )
 }
 
-const HistoryTab: FunctionComponent<{ communityId: string }> = ({
-  communityId,
+const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({
+  communityHandle,
 }) => {
   // Data
   const chooseQuestsState = NewClaimReviewStore.useStoreState(
@@ -153,7 +153,7 @@ const HistoryTab: FunctionComponent<{ communityId: string }> = ({
   const getClaimsQuest = async () => {
     onLoadingModalChanged(true)
     getListClaimQuest(
-      communityId,
+      communityHandle,
       'rejected,accepted',
       setHistoryClaims,
       questsSelect.map((e) => e.id!)
@@ -212,9 +212,9 @@ const HistoryTab: FunctionComponent<{ communityId: string }> = ({
             <PTabHeader>
               <PHeaderInfo>{'Filter'}</PHeaderInfo>
             </PTabHeader>
-            <Status communityId={communityId} />
+            <Status communityHandle={communityHandle} />
             {/* <Recurrence /> */}
-            <QuestSearch communityId={communityId} />
+            <QuestSearch communityHandle={communityHandle} />
           </PRWrap>
           <Gap height={6} />
           <Btn btnType={ReviewBtnEnum.EXPORT}>{'Export CSV'}</Btn>

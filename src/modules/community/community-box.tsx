@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { IMAGES_SOURCE } from '@/constants/images'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
-import { IMAGES_SOURCE } from '@/constants/images'
 
 const ContentProjectBox = tw(Vertical)`
   justify-between
@@ -106,7 +106,7 @@ const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({
 
   return (
     <CommunityBoxWrap
-      onClick={() => router.push(RouterConst.PROJECT + community.id)}
+      onClick={() => router.push(RouterConst.PROJECT + community.handle)}
     >
       <Top>
         <ImageProjectBox
@@ -116,7 +116,7 @@ const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({
           alt={'avatar'}
         />
         <ContentProjectBox>
-          <Title>{community.name!}</Title>
+          <Title>{community.display_name!}</Title>
           <InfoSection>
             <Info>{'8 Quests'}</Info>
           </InfoSection>

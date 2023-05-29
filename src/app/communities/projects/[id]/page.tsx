@@ -3,6 +3,7 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
+import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 
 import { getCommunityApi } from '@/app/api/client/community'
@@ -13,15 +14,17 @@ import ManageProject from '@/modules/community/manage'
 import { CommunityStore } from '@/store/local/community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/utils/type'
+import ErrorPage from '@/widgets/error'
 import { Spinner } from '@/widgets/spinner'
-import { useSearchParams, ReadonlyURLSearchParams } from 'next/navigation'
-const ProjectBox: FunctionComponent<{ communityId: string }> = ({
-  communityId,
+
+const ProjectBox: FunctionComponent<{ communityHandle: string }> = ({
+  communityHandle,
 }) => {
   const searchParams =
     useSearchParams() || new ReadonlyURLSearchParams(new URLSearchParams())
 
   const [loading, setLoading] = useState<boolean>(true)
+  const [errorPage, setErrorPage] = useState<boolean>(false)
 
   // data
   const projectCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
@@ -51,14 +54,15 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
   // handler
   const fetchCommunity = async () => {
     try {
-      const rs = await getCommunityApi(communityId)
+      const rs = await getCommunityApi(communityHandle)
       if (rs.error) {
-        toast.error(rs.error)
+        // toast.error(rs.error)
+        setErrorPage(true)
       } else {
         setProject(rs.data?.community!)
         if (projectCollab) {
           const filter = projectCollab.filter(
-            (e) => e.community_id === rs.data?.community.id
+            (e) => e.community.handle === rs.data?.community.handle
           )
           if (filter.length === 0) {
             setRole(CommunityRoleEnum.GUEST)
@@ -73,6 +77,10 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
       toast.error('Error while fetch community')
       setLoading(false)
     }
+  }
+
+  if (errorPage) {
+    return <ErrorPage />
   }
 
   if (loading) {
@@ -103,7 +111,7 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
 export default function ProjectPage(props: { params: { id: string } }) {
   return (
     <CommunityStore.Provider>
-      <ProjectBox communityId={props.params.id} />
+      <ProjectBox communityHandle={props.params.id} />
     </CommunityStore.Provider>
   )
 }

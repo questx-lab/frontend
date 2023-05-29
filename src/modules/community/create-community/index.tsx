@@ -13,6 +13,8 @@ import { Horizontal } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
+import GenerateQuest from './generate-quest'
+
 const Body = tw.div`
   w-full
   h-full
@@ -20,8 +22,7 @@ const Body = tw.div`
 
 const Wrap = styled(Dialog.Panel)(
   tw`
-  w-1/3
-  max-xl:w-2/3
+  !w-[480px]
   bg-white
   text-center
   align-middle
@@ -74,6 +75,8 @@ const RenderStep: FunctionComponent = () => {
     case NewCommunityStep.SECOND:
       return <CreateCommunityStep />
     case NewCommunityStep.THIRD:
+      return <GenerateQuest />
+    case NewCommunityStep.FOURTH:
       return <UploadImageStep />
   }
 
@@ -85,6 +88,10 @@ const RenderTitle: FunctionComponent = () => {
   const currentStep = NewCommunityStore.useStoreState(
     (state) => state.currentStep
   )
+
+  if (currentStep === 0) {
+    return <TitleBox>{`Let’s Start!`}</TitleBox>
+  }
 
   return <TitleBox>{`STEP ${currentStep}/4`}</TitleBox>
 }

@@ -17,12 +17,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     }
 
-    const communityId = resp.data.community.id
+    const communityHandle = resp.data.community.handle
     const userId = resp.data.user.id
     return {
       redirect: {
         permanent: false,
-        destination: `/communities/projects/${communityId}?invited_by=${userId}`,
+        destination: `/communities/projects/${communityHandle}?invited_by=${userId}`,
       },
     }
   } catch (error) {

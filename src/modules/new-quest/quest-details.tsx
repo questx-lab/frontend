@@ -5,6 +5,7 @@ import { FunctionComponent } from 'react'
 import { signIn } from 'next-auth/react'
 
 import { QuestTypeEnum } from '@/constants/common.const'
+import { Oauth2ProviderEnum } from '@/constants/key.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { FullWidthBtn } from '@/styles/button.style'
 import { Divider, Gap } from '@/styles/common.style'
@@ -15,7 +16,6 @@ import { NegativeButton } from '@/widgets/button'
 import { TextField } from '@/widgets/form'
 import { Label, NormalText } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
-import { Oauth2ProviderEnum } from '@/constants/key.const'
 
 import QuestQuiz from './quest-quiz'
 import TwitterList from './twitter-list'
@@ -131,7 +131,7 @@ const QuestDetails = () => {
                 placeholder=''
                 value={anwser}
                 required
-                errorMsg='This field is required'
+                msg='This field is required'
               />
               <Gap height={2} />
               <LabelDes>{'Leave empty for accepting any value'}</LabelDes>
@@ -157,7 +157,7 @@ const QuestDetails = () => {
               placeholder='https://example.com'
               value={visitLink}
               required
-              errorMsg='You must have a url to visit link submission.'
+              msg='You must have a url to visit link submission.'
             />
           </PICard>
         </>
@@ -195,7 +195,7 @@ const QuestDetails = () => {
               placeholder='Telegram invite link'
               value={telegramLink}
               required
-              errorMsg='You must have a url to telegramLink submission.'
+              msg='You must have a url to telegramLink submission.'
             />
             <NormalText>
               {'Invite link should be in the format https://t.me/groupid'}

@@ -18,6 +18,7 @@ export const Main = tw(VerticalFullWidth)`
   max-sm:px-2
   md:px-8
   xl:w-[980px]
+  md:w-[780px]
   pb-[30px]
   w-full
 `

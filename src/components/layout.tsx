@@ -169,15 +169,15 @@ export const Layout = ({
 }
 
 export const PanelLayout: FunctionComponent<{
-  communityId: string
+  communityHandle: string
   active: number
   children: ReactNode
-}> = ({ communityId, active, children }) => {
+}> = ({ communityHandle: activeCommunityHandle, active, children }) => {
   return (
     <Wrap>
-      <ProjectSide activeCommunityId={communityId} />
+      <ProjectSide activeCommunityHandle={activeCommunityHandle} />
       <MainPanel>
-        <ControlPanel communityId={communityId} active={active} />
+        <ControlPanel communityHandle={activeCommunityHandle} active={active} />
         <Content>{children}</Content>
       </MainPanel>
     </Wrap>
