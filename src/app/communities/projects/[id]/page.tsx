@@ -17,8 +17,8 @@ import { CollaboratorType } from '@/utils/type'
 import ErrorPage from '@/widgets/error'
 import { Spinner } from '@/widgets/spinner'
 
-const ProjectBox: FunctionComponent<{ communityId: string }> = ({
-  communityId,
+const ProjectBox: FunctionComponent<{ communityHandle: string }> = ({
+  communityHandle,
 }) => {
   const searchParams =
     useSearchParams() || new ReadonlyURLSearchParams(new URLSearchParams())
@@ -54,7 +54,7 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
   // handler
   const fetchCommunity = async () => {
     try {
-      const rs = await getCommunityApi(communityId)
+      const rs = await getCommunityApi(communityHandle)
       if (rs.error) {
         // toast.error(rs.error)
         setErrorPage(true)
@@ -62,7 +62,7 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
         setProject(rs.data?.community!)
         if (projectCollab) {
           const filter = projectCollab.filter(
-            (e) => e.community_id === rs.data?.community.id
+            (e) => e.community.handle === rs.data?.community.handle
           )
           if (filter.length === 0) {
             setRole(CommunityRoleEnum.GUEST)
@@ -111,7 +111,7 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
 export default function ProjectPage(props: { params: { id: string } }) {
   return (
     <CommunityStore.Provider>
-      <ProjectBox communityId={props.params.id} />
+      <ProjectBox communityHandle={props.params.id} />
     </CommunityStore.Provider>
   )
 }

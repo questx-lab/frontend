@@ -26,9 +26,9 @@ import {
 } from '@heroicons/react/24/outline'
 
 const ControlPanel: FunctionComponent<{
-  communityId: string
+  communityHandle: string
   active?: number
-}> = ({ communityId, active = SideEnum.QUEST }) => {
+}> = ({ communityHandle, active = SideEnum.QUEST }) => {
   // Data
   const userState = useStoreState<GlobalStoreModel>((state) => state.user)
   const router = useRouter()
@@ -53,7 +53,7 @@ const ControlPanel: FunctionComponent<{
       <CPBox>
         <ItemSide
           onClick={() => {
-            router.push(RouterConst.PROJECT + communityId)
+            router.push(RouterConst.PROJECT + communityHandle)
           }}
           active={active === SideEnum.QUEST}
         >
@@ -62,7 +62,7 @@ const ControlPanel: FunctionComponent<{
         </ItemSide>
         <ItemSide
           onClick={() => {
-            router.push(RouterConst.PROJECT + communityId + '/review')
+            router.push(RouterConst.PROJECT + communityHandle + '/review')
           }}
           active={active === SideEnum.REVIEW_SUBMISSION}
         >
@@ -71,7 +71,7 @@ const ControlPanel: FunctionComponent<{
         </ItemSide>
         <ItemSide
           onClick={() => {
-            router.push(RouterConst.PROJECT + communityId + '/setting')
+            router.push(RouterConst.PROJECT + communityHandle + '/setting')
           }}
           active={active === SideEnum.SETTINGS}
         >

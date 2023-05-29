@@ -41,7 +41,7 @@ export const linkOAuth2 = async (
 }
 
 export const updateCommunityDiscord = async (
-  community_id: string,
+  community_handle: string,
   server_id: string,
   oauth_access_token: string,
   access_token: string
@@ -49,7 +49,7 @@ export const updateCommunityDiscord = async (
   const result = await axios.post(
     EnvVariables.NEXT_PUBLIC_API_URL + `/updateCommunityDiscord`,
     {
-      id: community_id,
+      handle: community_handle,
       access_token: oauth_access_token,
       server_id: server_id,
     },

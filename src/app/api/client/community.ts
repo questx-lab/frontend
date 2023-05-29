@@ -30,7 +30,7 @@ export const getCommunityApi = async (
   id: string
 ): Promise<Rsp<{ community: CommunityType }>> => {
   const rs = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/getCommunity?id=@${id}`
+    EnvVariables.NEXT_PUBLIC_API_URL + `/getCommunity?community_handle=${id}`
   )
   return rs.data
 }
@@ -85,41 +85,39 @@ export const getMyCommunitiesApi = async (): Promise<
 export const getFollowCommunitiesApi = async (): Promise<
   Rsp<{ communities: CommunityType[] }>
 > => {
-  const rs = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + '/getFollowingCommunities'
-  )
+  const rs = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + '/getMyFollowing')
   return rs.data
 }
 
 export const newFollowCommunityApi = async (
-  communityId: string,
+  communityHandle: string,
   invitedBy: string
 ): Promise<Rsp<{}>> => {
   const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/follow', {
-    community_id: communityId,
+    community_handle: communityHandle,
     invited_by: invitedBy,
   })
   return rs.data
 }
 
 export const getMyFollowerInfoApi = async (
-  communityId: string
+  communityHandle: string
 ): Promise<Rsp<{ invite_code: string }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getMyFollowerInfo?community_id=${communityId}`
+      `/getMyFollowerInfo?community_handle=${communityHandle}`
   )
   return rs.data
 }
 
 export const createCategoryApi = async (
-  communityId: string,
+  communityHandle: string,
   name: string
 ): Promise<Rsp<{}>> => {
   const rs = await api.post(
     EnvVariables.NEXT_PUBLIC_API_URL + '/createCategory',
     {
-      community_id: communityId,
+      community_handle: communityHandle,
       name,
     }
   )
@@ -127,34 +125,34 @@ export const createCategoryApi = async (
 }
 
 export const getCategoriesApi = async (
-  communityId: string
+  communityHandle: string
 ): Promise<Rsp<{ categories: CategoryType[] }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getCategories?community_id=${communityId}`
+      `/getCategories?community_handle=${communityHandle}`
   )
   return rs.data
 }
 
 export const getLeaderboardApi = async (
-  communityId: string,
+  communityHandle: string,
   range: string,
   type: string
 ): Promise<Rsp<{ leaderboard: LeaderboardType[] }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getLeaderBoard?community_id=${communityId}&range=${range}&type=${type}`
+      `/getLeaderBoard?community_handle=${communityHandle}&range=${range}&type=${type}`
   )
   return rs.data
 }
 
 export const generateCommunityKeyApi = async (
-  communityId: string
+  communityHandle: string
 ): Promise<Rsp<{ key: string }>> => {
   const { data } = await api.post(
     EnvVariables.NEXT_PUBLIC_API_URL + '/generateAPIKey',
     {
-      community_id: communityId,
+      community_handle: communityHandle,
     }
   )
   return data

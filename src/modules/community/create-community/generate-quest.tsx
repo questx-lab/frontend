@@ -48,7 +48,7 @@ const Content = tw(VerticalFullWidth)`
   overflow-y-scroll
 `
 
-const createQuests = async (quests: QuestType[], communityId: string) => {
+const createQuests = async (quests: QuestType[], communityHandle: string) => {
   if (quests.length) {
     await Promise.all(
       quests.map(async (quest) => {
@@ -57,7 +57,7 @@ const createQuests = async (quests: QuestType[], communityId: string) => {
           const payload: ReqNewQuestType = {
             ...quest,
             status: QuestStatusEnum.ACTIVE,
-            community_id: communityId,
+            community_handle: communityHandle,
           }
           await newQuestApi(payload)
         } catch (error) {}
@@ -134,8 +134,8 @@ const Templates: FunctionComponent<{
 
 const GenerateQuest: FunctionComponent = () => {
   const [questsSelect, setQuestsSelect] = useState<QuestType[]>([])
-  const createdCommunityId = NewCommunityStore.useStoreState(
-    (state) => state.createdCommunityId
+  const createdCommunityHandle = NewCommunityStore.useStoreState(
+    (state) => state.createdCommunityHandle
   )
 
   return (
@@ -153,7 +153,7 @@ const GenerateQuest: FunctionComponent = () => {
       <HorizotalFlex>
         <BackButton />
         <NextButton
-          onClick={() => createQuests(questsSelect, createdCommunityId)}
+          onClick={() => createQuests(questsSelect, createdCommunityHandle)}
         />
       </HorizotalFlex>
     </Main>

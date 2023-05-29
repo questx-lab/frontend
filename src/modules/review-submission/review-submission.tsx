@@ -17,14 +17,14 @@ import PendingTab from './pending'
 
 // Handler
 export const getListClaimQuest = async (
-  communityId: string,
+  communityHandle: string,
   filterQuest: string = 'rejected,accepted',
   onAction: (action: ClaimQuestType[]) => void,
   filterQuestIds?: string[]
 ) => {
   try {
     const data = await listClaimedQuestsApi(
-      communityId,
+      communityHandle,
       filterQuest,
       filterQuestIds ?? []
     )
@@ -39,9 +39,9 @@ export const getListClaimQuest = async (
 }
 
 export default function ReviewSubmission({
-  communityId,
+  communityHandle,
 }: {
-  communityId: string
+  communityHandle: string
 }) {
   // Data
   const tabReviewState = NewClaimReviewStore.useStoreState(
@@ -58,7 +58,10 @@ export default function ReviewSubmission({
   )
 
   return (
-    <PanelLayout communityId={communityId} active={SideEnum.REVIEW_SUBMISSION}>
+    <PanelLayout
+      communityHandle={communityHandle}
+      active={SideEnum.REVIEW_SUBMISSION}
+    >
       <Head>{'Review Submission'}</Head>
       <Tab>
         <TabItem
@@ -79,10 +82,10 @@ export default function ReviewSubmission({
       <Gap height={6} />
       <NewQuestSearchStore.Provider>
         {tabReviewState === TabReviewEnum.PENDING && (
-          <PendingTab communityId={communityId} />
+          <PendingTab communityHandle={communityHandle} />
         )}
         {tabReviewState === TabReviewEnum.HISTORY && (
-          <HistoryTab communityId={communityId} />
+          <HistoryTab communityHandle={communityHandle} />
         )}
       </NewQuestSearchStore.Provider>
 

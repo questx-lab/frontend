@@ -26,20 +26,20 @@ const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
 
 const RenderFollowItems: FunctionComponent<{
   projects: CommunityType[]
-  activeCommunityId: string | undefined
-}> = ({ projects, activeCommunityId }) => {
+  activeCommunityHandle: string | undefined
+}> = ({ projects, activeCommunityHandle }) => {
   const router = useRouter()
   const listItems =
     projects &&
     projects.map((community) => (
       <Tooltip
-        key={community.id}
+        key={community.handle}
         content={community.display_name}
         placement='right'
       >
-        <ActiveAvatar active={community.handle === activeCommunityId}>
+        <ActiveAvatar active={community.handle === activeCommunityHandle}>
           <CircleRouded
-            onClick={() => router.push(RouterConst.PROJECT + community.id)}
+            onClick={() => router.push(RouterConst.PROJECT + community.handle)}
             width={45}
             height={45}
             src={community.logo_url || IMAGES_SOURCE.community_default}
@@ -58,26 +58,29 @@ const RenderFollowItems: FunctionComponent<{
 
 const RenderCollabItems: FunctionComponent<{
   collaborator: CollaboratorType[]
-  activeCommunityId: string | undefined
-}> = ({ collaborator, activeCommunityId }) => {
+  activeCommunityHandle: string | undefined
+}> = ({ collaborator, activeCommunityHandle }) => {
   const router = useRouter()
   const listItems =
     collaborator &&
-    collaborator.map((community) => (
+    collaborator.map((collaboration) => (
       <Tooltip
-        key={community.community_id}
-        content={community.community.display_name}
+        key={collaboration.community.handle}
+        content={collaboration.community.display_name}
         placement='right'
       >
-        <ActiveAvatar active={community.community.handle === activeCommunityId}>
+        <ActiveAvatar
+          active={collaboration.community.handle === activeCommunityHandle}
+        >
           <CircleRouded
             onClick={() =>
-              router.push(RouterConst.PROJECT + community.community.handle)
+              router.push(RouterConst.PROJECT + collaboration.community.handle)
             }
             width={45}
             height={45}
             src={
-              community.community.logo_url || IMAGES_SOURCE.community_default
+              collaboration.community.logo_url ||
+              IMAGES_SOURCE.community_default
             }
             alt='logo'
           />
@@ -92,8 +95,8 @@ const RenderCollabItems: FunctionComponent<{
   return <BoxContent>{listItems}</BoxContent>
 }
 const ProjectSide: FunctionComponent<{
-  activeCommunityId: string | undefined
-}> = ({ activeCommunityId }) => {
+  activeCommunityHandle: string | undefined
+}> = ({ activeCommunityHandle }) => {
   const projectsFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.projectsFollowing
   )
@@ -110,11 +113,11 @@ const ProjectSide: FunctionComponent<{
   return (
     <Wrap>
       <RenderCollabItems
-        activeCommunityId={activeCommunityId}
+        activeCommunityHandle={activeCommunityHandle}
         collaborator={projectCollab}
       />
       <RenderFollowItems
-        activeCommunityId={activeCommunityId}
+        activeCommunityHandle={activeCommunityHandle}
         projects={projectsFollowing}
       />
     </Wrap>

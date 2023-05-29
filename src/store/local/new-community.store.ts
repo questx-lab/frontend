@@ -11,7 +11,6 @@ export interface NewCommunityModel {
   twitterUrl: string
   websiteUrl: string
   createdCommunityHandle: string
-  createdCommunityId: string
   urlName: string
 
   setCurrentStep: Action<NewCommunityModel, number>
@@ -22,7 +21,6 @@ export interface NewCommunityModel {
   setTwitterUrl: Action<NewCommunityModel, string>
   setWebsiteUrl: Action<NewCommunityModel, string>
   setCreatedCommunityHandle: Action<NewCommunityModel, string>
-  setCreatedCommunityId: Action<NewCommunityModel, string>
   setUrlName: Action<NewCommunityModel, string>
 }
 
@@ -36,7 +34,6 @@ export const NewCommunityStore = createContextStore<NewCommunityModel>({
   twitterUrl: '',
   websiteUrl: '',
   createdCommunityHandle: '',
-  createdCommunityId: '',
 
   setCurrentStep: action((state, step) => {
     state.currentStep = step
@@ -63,10 +60,6 @@ export const NewCommunityStore = createContextStore<NewCommunityModel>({
 
   setCreatedCommunityHandle: action((state, id) => {
     state.createdCommunityHandle = id
-  }),
-
-  setCreatedCommunityId: action((state, id) => {
-    state.createdCommunityId = id
   }),
 
   setUrlName: action((state, url) => {
