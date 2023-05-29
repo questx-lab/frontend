@@ -5,10 +5,9 @@ import {
   QuestRecurrencesStringMap,
   QuestTypeEnum,
   QuestTypeMap,
-  TwitterEnum,
 } from '@/constants/common.const'
-import { CommunityType, QuestQuizType, QuestType } from '@/utils/type'
 import { isTwitterType } from '@/types/twitter'
+import { CommunityType, QuestQuizType, QuestType } from '@/utils/type'
 
 export interface NewQuestModel {
   title: string

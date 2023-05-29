@@ -3,6 +3,7 @@ import QuestImage from '@/modules/quest/view-quest/image'
 import QuestReward from '@/modules/quest/view-quest/reward'
 import { QuestText } from '@/modules/quest/view-quest/text'
 import QuestUrl from '@/modules/quest/view-quest/url'
+import { QuestVisitLink } from '@/modules/quest/view-quest/vist-link'
 import { QuestType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import parseHtml from 'html-react-parser'
@@ -41,8 +42,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     case QuestTypeEnum.TEXT:
       return <QuestText />
     case QuestTypeEnum.VISIT_LINK:
-      // return <QuestVisitLink link={link || ''} />
-      return <></>
+      return <QuestVisitLink link={quest.validation_data.link || ''} />
     case QuestTypeEnum.INVITES:
       // return <QuestInvites link={generateInviteLink(inviteCode) || ''} />
       return <></>
