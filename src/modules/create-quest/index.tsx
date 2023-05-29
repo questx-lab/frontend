@@ -65,7 +65,7 @@ const handleSubmit = async (
     return false
   }
 
-  const type = state.type
+  let type = state.type
   const validations: ValidationQuest = {}
 
   switch (state.type) {
@@ -98,26 +98,32 @@ const handleSubmit = async (
         switch (e) {
           case TwitterEnum.FOLLOW:
             validations.twitter_handle = state.accountUrl
+            type = QuestTypeEnum.TWITTER_FOLLOW
             break
           case TwitterEnum.LIKE:
             validations.tweet_url = state.tweetUrl
             validations.like = true
+            type = QuestTypeEnum.TWITTER_REACTION
             break
           case TwitterEnum.REPLY:
             validations.reply = true
             validations.tweet_url = state.tweetUrl
+            type = QuestTypeEnum.TWITTER_REACTION
 
             break
           case TwitterEnum.RETWEET:
             validations.retweet = true
             validations.tweet_url = state.tweetUrl
+            type = QuestTypeEnum.TWITTER_REACTION
             break
           case TwitterEnum.TWEET:
             validations.included_words = []
             validations.default_tweet = state.contentTw
+            type = QuestTypeEnum.TWITTER_TWEET
             break
           case TwitterEnum.JOIN_SPACE:
             validations.space_url = state.spaceUrlTw
+            type = QuestTypeEnum.TWITTER_JOIN_SPACE
             break
         }
       })

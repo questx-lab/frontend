@@ -1,7 +1,9 @@
 import { Quests } from '@/routes/communities/community/quests'
 import { CommunityStore } from '@/store/local/community'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { ControlPanelTab } from '@/types/community'
+import { emptyQuest } from '@/types/quest'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
 import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
 import { Large3xlText } from '@/widgets/text'
@@ -41,13 +43,14 @@ export const Index: FunctionComponent = () => {
     (action) => action.setActiveControlPanelTab
   )
 
-  // hook
-  useEffect(() => {
-    setActiveControlPanelTab(ControlPanelTab.QUESTS)
-  }, [setActiveControlPanelTab])
+  const setQuest = NewQuestStore.useStoreActions((actions) => actions.setQuest)
 
   // hook
   const navigate = useNavigate()
+
+  useEffect(() => {
+    setActiveControlPanelTab(ControlPanelTab.QUESTS)
+  }, [setActiveControlPanelTab])
 
   return (
     <OuterBoxPadding>
@@ -64,7 +67,12 @@ export const Index: FunctionComponent = () => {
                 {'Use Template'}
               </NegativeButton>
               <Gap width={4} />
-              <PositiveButton onClick={() => navigate('./create')}>
+              <PositiveButton
+                onClick={() => {
+                  setQuest(emptyQuest())
+                  navigate('./create')
+                }}
+              >
                 {'+  Create Quest'}
               </PositiveButton>
             </ButtonAlignment>

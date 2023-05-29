@@ -23,6 +23,7 @@ const TypeButtonFrame = tw.div`
   w-full
 `
 
+// TODO: Check creating twitter quest when backend is fixed.
 const TwitterBox = styled.div<{ activeType: number }>(({ activeType }) => {
   switch (activeType) {
     case ActiveEnum.ACTIVE:
@@ -82,37 +83,37 @@ const TwitterList: FunctionComponent = () => {
 
   // Action
   const setActionTwitter = NewQuestStore.useStoreActions((actions) => actions.setActionTwitter)
-  const setType = NewQuestStore.useStoreActions((actions) => actions.setType)
+  const setTwitterType = NewQuestStore.useStoreActions((actions) => actions.setTwitterType)
 
-  const handleActive = (actionType: string) => {
-    if (actionType === TwitterEnum.FOLLOW) {
-      setType(QuestTypeEnum.TWITTER_FOLLOW)
+  const handleActive = (action: string) => {
+    if (action === TwitterEnum.FOLLOW) {
+      setTwitterType(QuestTypeEnum.TWITTER_FOLLOW)
     }
 
-    if (actionType === TwitterEnum.TWEET) {
-      setType(QuestTypeEnum.TWITTER_TWEET)
+    if (action === TwitterEnum.TWEET) {
+      setTwitterType(QuestTypeEnum.TWITTER_TWEET)
     }
 
-    if (actionType === TwitterEnum.JOIN_SPACE) {
-      setType(QuestTypeEnum.TWITTER_JOIN_SPACE)
+    if (action === TwitterEnum.JOIN_SPACE) {
+      setTwitterType(QuestTypeEnum.TWITTER_JOIN_SPACE)
     }
 
     if (
-      actionType === TwitterEnum.LIKE ||
-      actionType === TwitterEnum.REPLY ||
-      actionType === TwitterEnum.RETWEET
+      action === TwitterEnum.LIKE ||
+      action === TwitterEnum.REPLY ||
+      action === TwitterEnum.RETWEET
     ) {
-      setType(QuestTypeEnum.TWITTER_REACTION)
+      setTwitterType(QuestTypeEnum.TWITTER_REACTION)
     }
 
-    if (!actionTwitter.includes(actionType)) {
-      setActionTwitter([...actionTwitter, actionType])
+    if (!actionTwitter.includes(action)) {
+      setActionTwitter([...actionTwitter, action])
     } else {
-      setActionTwitter(actionTwitter.filter((e) => e !== actionType))
+      setActionTwitter(actionTwitter.filter((e) => e !== action))
     }
   }
 
-  const listTwitterAction = Object.values(TwitterEnum).map((e, i) => {
+  const listTwitterAction = Object.values(TwitterEnum).map((e, index) => {
     let block = false
 
     if (actionTwitter.includes(TwitterEnum.FOLLOW)) {
@@ -132,7 +133,7 @@ const TwitterList: FunctionComponent = () => {
     }
 
     if (actionTwitter.includes(TwitterEnum.JOIN_SPACE)) {
-      if (i !== 5) {
+      if (e !== TwitterEnum.JOIN_SPACE) {
         block = true
       } else {
         block = false
@@ -164,7 +165,7 @@ const TwitterList: FunctionComponent = () => {
     return (
       <TwitterBox
         activeType={activeType}
-        key={i}
+        key={index}
         onClick={block ? undefined : () => handleActive(e)}
       >
         {e}

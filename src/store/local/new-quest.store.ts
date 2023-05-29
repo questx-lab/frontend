@@ -13,6 +13,7 @@ export interface NewQuestModel {
   title: string
   description: string
   type: QuestTypeEnum
+  twitterType: string
   textAutoValid: boolean
   recurrence: QuestRecurrence
   anwser: string
@@ -40,6 +41,7 @@ export interface NewQuestModel {
   setTitle: Action<NewQuestModel, string>
   setDescription: Action<NewQuestModel, string>
   setType: Action<NewQuestModel, QuestTypeEnum>
+  setTwitterType: Action<NewQuestModel, string>
   setTextAutoValidation: Action<NewQuestModel, boolean>
   setRecurrence: Action<NewQuestModel, QuestRecurrence>
   setAnswer: Action<NewQuestModel, string>
@@ -62,6 +64,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   title: 'Untitled Quest',
   description: '',
   type: QuestTypeEnum.URL,
+  twitterType: QuestTypeEnum.TWITTER,
   textAutoValid: false,
   recurrence: QuestRecurrence.ONCE,
   anwser: '',
@@ -136,6 +139,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setType: action((state, newQuestType) => {
     state.type = newQuestType
+  }),
+
+  setTwitterType: action((state, newTwitterType) => {
+    state.twitterType = newTwitterType
   }),
 
   setTextAutoValidation: action((state, newTextAutoValid) => {
