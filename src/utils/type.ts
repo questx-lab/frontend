@@ -239,7 +239,6 @@ export type OAuth2VerifyResp = {
 
 export type BadgeType = {
   user_id: string
-  community: CommunityType
   name: string
   level: string
   was_notified: boolean

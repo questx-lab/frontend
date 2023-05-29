@@ -261,8 +261,8 @@ const UserProfile: FunctionComponent<{ userId: string }> = ({ userId }) => {
                   <Image
                     width={180}
                     height={180}
-                    src={badge.community.logo_url || ''}
-                    alt={badge.community.name || ''}
+                    src={badge.logo || ''}
+                    alt={badge.name || ''}
                   />
                 </BadgeBox>
               ))}
@@ -277,10 +277,10 @@ const UserProfile: FunctionComponent<{ userId: string }> = ({ userId }) => {
                   width={64}
                   height={64}
                   src={follower.community.logo_url || ''}
-                  alt={follower.community.name || ''}
+                  alt={follower.community.display_name || ''}
                 />
                 <ColBox>
-                  {follower.community.name}
+                  {follower.community.display_name}
                   <RowBox>
                     {follower.tags &&
                       follower.tags.map((tag, idx) => (
