@@ -2,14 +2,13 @@
 
 import { FunctionComponent } from 'react'
 
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import { Quest } from '@/modules/quest/quest'
+import { CommunityStore } from '@/store/local/community'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { QuestType } from '@/utils/type'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import tw from 'twin.macro'
-import { Quest } from '@/modules/quest/quest'
-import { CommunityStore } from '@/store/local/community'
 
 const Grid = tw.div`
   w-full
@@ -29,7 +28,7 @@ export const QuestListView: FunctionComponent<{
     return <div>{'There are currently no quests'}</div>
   }
 
-  const questListView = quests.map((quest) => <Quest quest={quest} />)
+  const questListView = quests.map((quest, index) => <Quest quest={quest} key={index} />)
 
   return <>{questListView}</>
 }
