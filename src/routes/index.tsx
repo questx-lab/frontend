@@ -1,4 +1,5 @@
 import LandingPage from '@/routes/landing-page'
+import { ActiveQuestStore } from '@/store/local/active-quest'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { GlobalStoreModel } from '@/store/store'
@@ -15,7 +16,9 @@ export const HomeOrLandingPage: FunctionComponent = () => {
   return (
     <CommunityStore.Provider>
       <NewQuestStore.Provider>
-        <Outlet />
+        <ActiveQuestStore.Provider>
+          <Outlet />
+        </ActiveQuestStore.Provider>
       </NewQuestStore.Provider>
     </CommunityStore.Provider>
   )

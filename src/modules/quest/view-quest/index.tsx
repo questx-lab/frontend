@@ -1,11 +1,11 @@
+import { QuestTypeEnum } from '@/constants/common.const'
+import QuestImage from '@/modules/quest/view-quest/image'
+import { QuestText } from '@/modules/quest/view-quest/text'
 import { QuestType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
+import parseHtml from 'html-react-parser'
 import { FunctionComponent } from 'react'
 import tw from 'twin.macro'
-import parseHtml from 'html-react-parser'
-import { QuestTypeEnum } from '@/constants/common.const'
-import QuestUrl from '@/modules/quest/view-quest/url'
-import QuestImage from '@/modules/quest/view-quest/image'
 
 const OuterPadding = tw(Horizontal)`
   w-full
@@ -38,8 +38,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     case QuestTypeEnum.IMAGE:
       return <QuestImage />
     case QuestTypeEnum.TEXT:
-      // return <QuestText />
-      return <></>
+      return <QuestText />
     case QuestTypeEnum.VISIT_LINK:
       // return <QuestVisitLink link={link || ''} />
       return <></>

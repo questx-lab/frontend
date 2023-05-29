@@ -114,11 +114,7 @@ const QuestImage: FunctionComponent = () => {
     return <ShowImage />
   }
 
-  return (
-    <SectionUploadImg>
-      <CenteredFrame>{'Upload Image'}</CenteredFrame>
-    </SectionUploadImg>
-  )
+  return <></>
 }
 
 export default QuestImage
