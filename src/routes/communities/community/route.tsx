@@ -1,3 +1,10 @@
+import { useEffect } from 'react'
+
+import { useStoreState } from 'easy-peasy'
+import { json, Outlet, Params, useLoaderData } from 'react-router-dom'
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import { getCommunityApi } from '@/app/api/client/communitiy'
 import { listQuestApi } from '@/app/api/client/quest'
 import { CommunityRoleEnum } from '@/constants/common.const'
@@ -6,11 +13,6 @@ import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType, CommunityType, QuestType } from '@/utils/type'
 import { Horizontal } from '@/widgets/orientation'
-import { useStoreState } from 'easy-peasy'
-import { useEffect } from 'react'
-import { json, Outlet, Params, useLoaderData } from 'react-router-dom'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 
 export const Loader = async (args: { params: Params }) => {
   const [communityResult, questsResult] = await Promise.all([
@@ -56,7 +58,7 @@ export const Community = () => {
 
   // data
   const myCommunities: CollaboratorType[] = useStoreState<GlobalStoreModel>(
-    (state) => state.projectCollab
+    (state) => state.communitiesCollab
   )
 
   // action

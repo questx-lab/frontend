@@ -26,7 +26,9 @@ export const UploadImageStep: FunctionComponent = () => {
   )
 
   // action
-  const setProjectCollab = useStoreActions<GlobalStoreModel>((action) => action.setProjectCollab)
+  const setCommunitiesCollab = useStoreActions<GlobalStoreModel>(
+    (action) => action.setCommunitiesCollab
+  )
 
   let buttonText: string = 'Upload Community Profile'
   if (avatar.length === 0) {
@@ -40,7 +42,7 @@ export const UploadImageStep: FunctionComponent = () => {
         // Don't show a toast here as we will navigate to the community.
       } else {
         if (projects.data?.collaborators) {
-          setProjectCollab(projects.data?.collaborators)
+          setCommunitiesCollab(projects.data?.collaborators)
         }
       }
     } catch (error) {
