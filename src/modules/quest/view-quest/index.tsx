@@ -2,6 +2,7 @@ import { QuestTypeEnum } from '@/constants/common.const'
 import QuestImage from '@/modules/quest/view-quest/image'
 import QuestReward from '@/modules/quest/view-quest/reward'
 import { QuestText } from '@/modules/quest/view-quest/text'
+import QuestUrl from '@/modules/quest/view-quest/url'
 import { QuestType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import parseHtml from 'html-react-parser'
@@ -34,8 +35,7 @@ const ContentPadding = tw(VerticalFullWidth)`
 const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   switch (quest?.type) {
     case QuestTypeEnum.URL:
-      // return <QuestUrl />
-      return <></>
+      return <QuestUrl />
     case QuestTypeEnum.IMAGE:
       return <QuestImage />
     case QuestTypeEnum.TEXT:
