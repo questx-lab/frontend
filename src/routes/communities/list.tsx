@@ -33,7 +33,7 @@ export const List: FunctionComponent<{ communities: CommunityType[]; loading: bo
   return (
     <CommunitiesGrid>
       {communities.map((community) => {
-        return <CommunityBox key={community.id} community={community} />
+        return <CommunityBox key={community.handle} community={community} />
       })}
     </CommunitiesGrid>
   )

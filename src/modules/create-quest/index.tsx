@@ -173,10 +173,10 @@ const handleSubmit = async (
 }
 
 export const CreateOrEditQuest: FunctionComponent<{
-  communityId: string
+  communityHandle: string
   isTemplate?: boolean
   isEdit?: boolean
-}> = ({ communityId, isTemplate = false, isEdit = false }) => {
+}> = ({ communityHandle, isTemplate = false, isEdit = false }) => {
   const navigate = useNavigate()
 
   // data
@@ -194,9 +194,9 @@ export const CreateOrEditQuest: FunctionComponent<{
     console.log('Quest is submitted.')
 
     setIsOpen(true)
-    const rs = await handleSubmit(store, communityId, submitType, '')
+    const rs = await handleSubmit(store, communityHandle, submitType, '')
     if (rs) {
-      navigate(RouterConst.PROJECT + communityId)
+      navigate(RouterConst.PROJECT + communityHandle)
     } else {
       setIsOpen(false)
     }

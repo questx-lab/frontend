@@ -13,7 +13,7 @@ export const newQuestApi = async (body: ReqNewQuestType): Promise<Rsp<{ id: stri
 }
 
 export const listQuestApi = async (
-  communityId: string,
+  communityHandle: string,
   search: string
 ): Promise<Rsp<LQuestType>> => {
   if (search === undefined) {
@@ -21,7 +21,7 @@ export const listQuestApi = async (
   }
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getQuests?community_handle=${communityId}&limit=40&q=${search}`
+      `/getQuests?community_handle=${communityHandle}&limit=40&q=${search}`
   )
   return data
 }

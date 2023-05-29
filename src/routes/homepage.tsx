@@ -48,7 +48,7 @@ const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({
   return (
     <CommunityGrid>
       {communities.map((e) => (
-        <CommunityBox key={e.id} community={e} />
+        <CommunityBox key={e.handle} community={e} />
       ))}
     </CommunityGrid>
   )

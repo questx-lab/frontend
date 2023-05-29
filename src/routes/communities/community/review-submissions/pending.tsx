@@ -113,7 +113,7 @@ const RenderBtn: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
   )
 }
 
-const PendingTab: FunctionComponent<{ communityId: string }> = ({ communityId }) => {
+const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   // data
   const chooseQuestsState = NewClaimReviewStore.useStoreState((state) => state.chooseQuestsPending)
   const allPendingChecked = NewClaimReviewStore.useStoreState((state) => state.allCheckPending)
@@ -140,7 +140,7 @@ const PendingTab: FunctionComponent<{ communityId: string }> = ({ communityId })
   const getClaimsQuest = async () => {
     onLoadingModalChanged(true)
     // await getListClaimQuest(
-    //   communityId,
+    //   communityHandle,
     //   'pending',
     //   setPendingClaims,
     //   questsSelect.map((e) => e.id!)

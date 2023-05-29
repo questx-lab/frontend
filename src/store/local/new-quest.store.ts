@@ -88,7 +88,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
       options: [],
     },
   ],
-  project: { id: '' },
+  project: { handle: '' },
 
   // Set all the fields for the state
   setQuest: action((state, quest) => {

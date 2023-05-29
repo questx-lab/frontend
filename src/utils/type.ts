@@ -55,7 +55,6 @@ export type ReqUpdateCommunity = {
 export type CollaboratorType = {
   name: string
   community: CommunityType
-  community_handle: string
   user: UserType
   user_id: string
 }
@@ -71,7 +70,7 @@ export type ReqNewCommunity = {
 }
 
 export type CommunityType = {
-  id: string
+  handle: string
   created_at?: string
   updated_at?: string
   created_by?: string

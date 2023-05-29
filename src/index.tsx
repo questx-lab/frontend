@@ -4,7 +4,7 @@ import reportWebVitals from './reportWebVitals'
 
 import { RouterComponent } from '@/router'
 import store, { GlobalStoreModel } from '@/store/store'
-import { getUserLocal } from '@/utils/helper'
+import { delCookies, delUserLocal, getUserLocal } from '@/utils/helper'
 import { StoreProvider, useStoreActions } from 'easy-peasy'
 import './index.css'
 

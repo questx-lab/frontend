@@ -66,7 +66,7 @@ export const Index: FunctionComponent = () => {
       <NewQuestSearchStore.Provider>
         <ContentPadding>
           {tabReviewState === TabReviewEnum.PENDING && (
-            <PendingTab communityId={selectedCommunity.id} />
+            <PendingTab communityHandle={selectedCommunity.handle} />
           )}
           {/* {tabReviewState === TabReviewEnum.HISTORY && <HistoryTab communityId={communityId} />} */}
         </ContentPadding>
