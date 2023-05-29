@@ -6,6 +6,7 @@ import { Divider } from '@/styles/common.style'
 import { ImageQuestBox } from '@/styles/questboard.style'
 import { Badge, InfoText } from '@/styles/settings.style'
 import { UserType, FollowerType, BadgeType } from '@/utils/type'
+import { IMAGES_SOURCE } from '@/constants/images'
 import {
   Horizontal,
   HorizontalBetweenCenter,
@@ -261,7 +262,7 @@ const UserProfile: FunctionComponent<{ userId: string }> = ({ userId }) => {
                   <Image
                     width={180}
                     height={180}
-                    src={badge.logo || ''}
+                    src={badge.logo || IMAGES_SOURCE.community_default}
                     alt={badge.name || ''}
                   />
                 </BadgeBox>
@@ -276,7 +277,10 @@ const UserProfile: FunctionComponent<{ userId: string }> = ({ userId }) => {
                 <ImageQuestBox
                   width={64}
                   height={64}
-                  src={follower.community.logo_url || ''}
+                  src={
+                    follower.community.logo_url ||
+                    IMAGES_SOURCE.community_default
+                  }
                   alt={follower.community.display_name || ''}
                 />
                 <ColBox>
