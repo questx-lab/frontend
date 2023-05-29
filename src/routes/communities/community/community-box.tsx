@@ -121,12 +121,7 @@ const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({ communi
       </Top>
       <Bottom>
         <RewardBox>
-          <Image
-            width={25}
-            height={25}
-            src={StorageConst.POINT_ICON.src}
-            alt={StorageConst.POINT_ICON.alt}
-          />
+          <Image width={25} height={25} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
           <RewardText>{'300 Gems'}</RewardText>
         </RewardBox>
       </Bottom>

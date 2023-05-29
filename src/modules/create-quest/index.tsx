@@ -22,6 +22,7 @@ import { newQuestApi, updateQuestApi } from '@/app/api/client/quest'
 import { useNavigate } from 'react-router-dom'
 import { RouterConst } from '@/constants/router.const'
 import { ProgressModal } from '@/widgets/modal'
+import QuestReward from '@/modules/create-quest/reward'
 
 const Fullscreen = tw(Vertical)`
   w-full
@@ -232,6 +233,8 @@ export const CreateOrEditQuest: FunctionComponent<{
 
           <ActionButtons onSubmit={submitAction} />
         </EditInfoFrame>
+
+        <QuestReward />
       </BodyFrame>
 
       <ProgressModal

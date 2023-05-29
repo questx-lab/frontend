@@ -95,12 +95,7 @@ const QuestCard: FunctionComponent<{
 
       <Body>
         <HeaderBox>
-          <Image
-            width={25}
-            height={25}
-            src={StorageConst.POINT_ICON.src}
-            alt={StorageConst.POINT_ICON.alt}
-          />
+          <Image width={25} height={25} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
           <Gap width={2} />
           <PointText>{quest.rewards?.length && quest.rewards[0].data.points}</PointText>
         </HeaderBox>

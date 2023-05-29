@@ -1,3 +1,5 @@
+import { Horizontal } from '@/widgets/orientation'
+import { ChangeEvent, FunctionComponent, ReactNode } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -51,3 +53,56 @@ export const CheckBox = styled.input<{ size?: CheckBoxSize }>(({ size = CheckBox
       `
   }
 })
+
+const InputBoxBorder = tw(Horizontal)`
+  w-full
+  border
+  border-solid
+  border-gray-200
+  border-[1px]
+  rounded-lg
+  p-3
+`
+
+const InnerInputStyle = styled.input<{ full: boolean }>(({ full }) => {
+  const style = [
+    tw`
+      outline-0
+      ring-0
+    `,
+  ]
+  if (full) {
+    style.push(tw`w-full`)
+  }
+
+  return style
+})
+
+export const InputBox: FunctionComponent<{
+  full?: boolean
+  leftChild?: ReactNode
+  type?: string
+  min?: number
+  defaultValue: string
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+}> = ({
+  onChange,
+  full = false,
+  leftChild = <></>,
+  type = undefined,
+  min = -1000000,
+  defaultValue,
+}) => {
+  return (
+    <InputBoxBorder>
+      {leftChild}
+      <InnerInputStyle
+        full={full}
+        onChange={onChange}
+        defaultValue={defaultValue}
+        min={min}
+        type={type}
+      />
+    </InputBoxBorder>
+  )
+}
