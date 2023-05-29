@@ -21,7 +21,7 @@ const JoinTelegarm: FunctionComponent = () => {
         placeholder='Telegram invite link'
         value={telegramLink}
         required
-        errorMsg='You must have a url to telegramLink submission.'
+        msg='You must have a url to telegramLink submission.'
       />
     </SubtypeBox>
   )

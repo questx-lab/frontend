@@ -55,7 +55,7 @@ const HandleNameBox: FunctionComponent = () => {
         onChange={(e) => onChangeUrlName(e.target.value)}
         placeholder='The url name of the quest is written here.'
         isValid={isValid}
-        errorMsg={msg}
+        msg={msg}
         min={4}
       />
     </Fragment>

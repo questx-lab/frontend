@@ -14,7 +14,7 @@ export const VisitLink: FunctionComponent = () => {
         placeholder='https://example.com'
         value={visitLink}
         required
-        errorMsg='You must have a url to visit link submission.'
+        msg='You must have a url to visit link submission.'
       />
     </SubtypeBox>
   )

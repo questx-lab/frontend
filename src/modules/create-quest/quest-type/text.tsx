@@ -54,7 +54,7 @@ export const QuestTypeText: FunctionComponent = () => {
             placeholder=''
             value={anwser}
             required
-            errorMsg='This field is required'
+            msg='This field is required'
           />
           <Gap height={2} />
           <SmallText>{'Leave empty for accepting any value'}</SmallText>

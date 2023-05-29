@@ -2,25 +2,13 @@
 
 import { FunctionComponent, useState } from 'react'
 
-import { QuestType } from '@/utils/type'
-import QuestCard from '@/modules/quest/quest-card'
-import { BasicModal } from '@/widgets/modal'
-import { CommunityStore } from '@/store/local/community'
 import { CommunityRoleEnum } from '@/constants/common.const'
-import { CreateOrEditQuest } from '@/modules/create-quest'
+import QuestCard from '@/modules/quest/quest-card'
+import ViewQuest from '@/modules/quest/view-quest'
+import { CommunityStore } from '@/store/local/community'
 import { NewQuestStore } from '@/store/local/new-quest.store'
-
-const ViewOrEditQuest: FunctionComponent<{ quest: QuestType; role: CommunityRoleEnum }> = ({
-  quest,
-  role,
-}) => {
-  switch (role) {
-    case CommunityRoleEnum.OWNER:
-      return <CreateOrEditQuest isEdit={true} communityHandle={quest.community_handle} />
-  }
-
-  return <></>
-}
+import { QuestType } from '@/utils/type'
+import { BasicModal } from '@/widgets/modal'
 
 export const Quest: FunctionComponent<{
   quest: QuestType
@@ -53,7 +41,7 @@ export const Quest: FunctionComponent<{
       <QuestCard quest={quest} isTemplate={isTemplate} onClick={onClick} />
       <BasicModal title={`🎉 ${quest.title}`} isOpen={isOpen} onClose={onCloseModal}>
         {/* <QuestDetail quest={quest} /> */}
-        <ViewOrEditQuest quest={quest} role={role} />
+        <ViewQuest quest={quest} />
       </BasicModal>
     </>
   )

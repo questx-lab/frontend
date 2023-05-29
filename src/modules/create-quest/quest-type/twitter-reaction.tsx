@@ -35,7 +35,7 @@ const TwitterReaction: FunctionComponent = () => {
           placeholder='https://twitter.com/example'
           value={tweetUrl}
           required
-          errorMsg='This field is required'
+          msg='This field is required'
         />
         <Gap height={3} />
         <SmallText>{'Post to like/reply/retweet'}</SmallText>

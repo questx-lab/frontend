@@ -142,16 +142,16 @@ export const TextField: FunctionComponent<{
   placeholder: string
   value?: string
   onChange: (e: any) => void
-  errorMsg?: string
+  msg?: string
   isValid?: boolean
   min?: number
-}> = ({ required = false, placeholder, value, onChange, errorMsg = '', isValid, min }) => {
+}> = ({ required = false, placeholder, value, onChange, msg = '', isValid, min }) => {
   let danger = required && value === ''
 
   if (min && value) {
     if (value.length <= min) {
       danger = true
-      errorMsg = `Require more than ${min} charactors`
+      msg = `Require more than ${min} characters`
     }
   }
 
@@ -164,11 +164,10 @@ export const TextField: FunctionComponent<{
         onChange={onChange}
         isValid={isValid}
       />
-      <MsgBox danger={danger} msg={errorMsg} isValid={isValid} />
+      <MsgBox danger={danger} msg={msg} isValid={isValid} />
     </ErrorBox>
   )
 }
-
 export const MultipleTextField: FunctionComponent<{
   required?: boolean
   placeholder: string

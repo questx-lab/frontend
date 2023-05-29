@@ -136,6 +136,7 @@ export type ValidationQuest = {
   quizzes?: QuestQuizType[]
 }
 
+// TODO: Move this to type/quest.ts
 export interface QuestType {
   id: string
   community_handle: string

@@ -26,7 +26,7 @@ const TwitterJoinSpace: FunctionComponent = () => {
           placeholder='Empty'
           value={spaceUrlTw}
           required
-          errorMsg='This field is required'
+          msg='This field is required'
         />
       </Padding>
     </>
