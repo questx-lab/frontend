@@ -374,7 +374,6 @@ const LoginBox: FunctionComponent = () => {
         if (value) {
           // close the modal
           setShowLoginModal(false)
-          console.log('value', value)
           // Reload current page
           window.location.reload()
         } else {
