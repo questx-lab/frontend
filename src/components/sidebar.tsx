@@ -33,13 +33,13 @@ const RenderFollowItems: FunctionComponent<{
     projects &&
     projects.map((community) => (
       <Tooltip
-        key={community.id}
+        key={community.handle}
         content={community.display_name}
         placement='right'
       >
         <ActiveAvatar active={community.handle === activeCommunityId}>
           <CircleRouded
-            onClick={() => router.push(RouterConst.PROJECT + community.id)}
+            onClick={() => router.push(RouterConst.PROJECT + community.handle)}
             width={45}
             height={45}
             src={community.logo_url || IMAGES_SOURCE.community_default}
@@ -63,21 +63,24 @@ const RenderCollabItems: FunctionComponent<{
   const router = useRouter()
   const listItems =
     collaborator &&
-    collaborator.map((community) => (
+    collaborator.map((collaboration) => (
       <Tooltip
-        key={community.community_id}
-        content={community.community.display_name}
+        key={collaboration.community.handle}
+        content={collaboration.community.display_name}
         placement='right'
       >
-        <ActiveAvatar active={community.community.handle === activeCommunityId}>
+        <ActiveAvatar
+          active={collaboration.community.handle === activeCommunityId}
+        >
           <CircleRouded
             onClick={() =>
-              router.push(RouterConst.PROJECT + community.community.handle)
+              router.push(RouterConst.PROJECT + collaboration.community.handle)
             }
             width={45}
             height={45}
             src={
-              community.community.logo_url || IMAGES_SOURCE.community_default
+              collaboration.community.logo_url ||
+              IMAGES_SOURCE.community_default
             }
             alt='logo'
           />

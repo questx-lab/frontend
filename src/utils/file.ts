@@ -42,7 +42,7 @@ export async function uploadFileForCommunity(
   }
 
   formData.append('image', file || '')
-  formData.append('community_id', communityId)
+  formData.append('community_handle', communityId)
   try {
     const data = await uploadCommunityLogo(formData)
     if (data.error) {

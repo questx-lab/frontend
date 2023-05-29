@@ -200,7 +200,7 @@ const ButtonSubmit: FunctionComponent<{
 
   const submitAction = async (
     status: string,
-    community_id: string,
+    community_handle: string,
     editId: string
   ) => {
     setIsOpen(true)
@@ -328,7 +328,7 @@ const errorMessage = (state: StateMapper<FilterActionTypes<NewQuestModel>>) => {
 
 const handleSubmit = async (
   store: Store<NewQuestModel, EasyPeasyConfig<undefined, {}>>,
-  community_id: string,
+  community_handle: string,
   status: string,
   editId: string
 ): Promise<boolean> => {
@@ -413,7 +413,7 @@ const handleSubmit = async (
 
   const payload: ReqNewQuestType = {
     id: editId,
-    community_handle: community_id,
+    community_handle: community_handle,
     type,
     title: state.title,
     description: state.description,
@@ -554,7 +554,7 @@ const QuestFrame: FunctionComponent<{
     try {
       const res = await getQuestApi(id)
       const {
-        community_handle: community_id,
+        community_handle: community_handle,
         title,
         type,
         description,
@@ -588,7 +588,7 @@ const QuestFrame: FunctionComponent<{
       )
       setTweetUrl(tweet_url || '')
       setQuestType(QuestTypeMap.get(type || '') || QuestTypeEnum.URL)
-      fetchProjectByID(community_id || '')
+      fetchProjectByID(community_handle || '')
       setVisitLink(link || '')
       setTelegramLink(invite_url || '')
       setAccountLink(twitter_handle || '')
@@ -685,7 +685,7 @@ const QuestFrame: FunctionComponent<{
 
             <ButtonSubmit
               setIsOpen={setIsOpen}
-              id={project.id}
+              id={project.handle}
               editId={isEdit ? id : ''}
             />
             <Gap height={8} />

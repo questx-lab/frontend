@@ -90,11 +90,11 @@ export const getFollowCommunitiesApi = async (): Promise<
 }
 
 export const newFollowCommunityApi = async (
-  communityId: string,
+  communityHandle: string,
   invitedBy: string
 ): Promise<Rsp<{}>> => {
   const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/follow', {
-    community_id: communityId,
+    community_handle: communityHandle,
     invited_by: invitedBy,
   })
   return rs.data
@@ -105,19 +105,19 @@ export const getMyFollowerInfoApi = async (
 ): Promise<Rsp<{ invite_code: string }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getMyFollowerInfo?community_id=${communityId}`
+      `/getMyFollowerInfo?community_handle=${communityId}`
   )
   return rs.data
 }
 
 export const createCategoryApi = async (
-  communityId: string,
+  communityHandle: string,
   name: string
 ): Promise<Rsp<{}>> => {
   const rs = await api.post(
     EnvVariables.NEXT_PUBLIC_API_URL + '/createCategory',
     {
-      community_id: communityId,
+      community_handle: communityHandle,
       name,
     }
   )
@@ -129,7 +129,7 @@ export const getCategoriesApi = async (
 ): Promise<Rsp<{ categories: CategoryType[] }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getCategories?community_id=${communityId}`
+      `/getCategories?community_handle=${communityId}`
   )
   return rs.data
 }
@@ -141,18 +141,18 @@ export const getLeaderboardApi = async (
 ): Promise<Rsp<{ leaderboard: LeaderboardType[] }>> => {
   const rs = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getLeaderBoard?community_id=${communityId}&range=${range}&type=${type}`
+      `/getLeaderBoard?community_handle=${communityId}&range=${range}&type=${type}`
   )
   return rs.data
 }
 
 export const generateCommunityKeyApi = async (
-  communityId: string
+  communityHandle: string
 ): Promise<Rsp<{ key: string }>> => {
   const { data } = await api.post(
     EnvVariables.NEXT_PUBLIC_API_URL + '/generateAPIKey',
     {
-      community_id: communityId,
+      community_handle: communityHandle,
     }
   )
   return data

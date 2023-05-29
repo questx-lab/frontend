@@ -62,7 +62,7 @@ const ProjectBox: FunctionComponent<{ communityId: string }> = ({
         setProject(rs.data?.community!)
         if (projectCollab) {
           const filter = projectCollab.filter(
-            (e) => e.community_id === rs.data?.community.id
+            (e) => e.community.handle === rs.data?.community.handle
           )
           if (filter.length === 0) {
             setRole(CommunityRoleEnum.GUEST)
