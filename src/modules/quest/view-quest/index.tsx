@@ -1,8 +1,9 @@
-import { QuestTypeEnum } from '@/constants/common.const'
+import { QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
 import QuestImage from '@/modules/quest/view-quest/image'
 import { QuestInvites } from '@/modules/quest/view-quest/invite'
 import QuestReward from '@/modules/quest/view-quest/reward'
 import { QuestText } from '@/modules/quest/view-quest/text'
+import { QuestTwitter } from '@/modules/quest/view-quest/twitter'
 import QuestUrl from '@/modules/quest/view-quest/url'
 import { QuestVisitLink } from '@/modules/quest/view-quest/vist-link'
 import { QuestType } from '@/utils/type'
@@ -35,6 +36,19 @@ const ContentPadding = tw(VerticalFullWidth)`
 `
 
 const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+  const {
+    tweet_url,
+    twitter_handle,
+    default_reply,
+    link,
+    invite_url,
+    like,
+    reply,
+    retweet,
+    default_tweet,
+    quizzes,
+  } = quest.validation_data || {}
+
   switch (quest?.type) {
     case QuestTypeEnum.URL:
       return <QuestUrl />
@@ -51,65 +65,11 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     //   return withQuizzes()
 
     case QuestTypeEnum.TWITTER_TWEET:
-      // return (
-      //   <QuestTwitter
-      //     actions={[
-      //       {
-      //         link: generateTweetLink(default_tweet || ''),
-      //         action: TwitterEnum.TWEET,
-      //       },
-      //     ]}
-      //   />
-      // )
-      return <></>
     case QuestTypeEnum.TWITTER_FOLLOW:
-      // return (
-      //   <QuestTwitter
-      //     actions={[
-      //       {
-      //         action: TwitterEnum.FOLLOW,
-      //         link: twitter_handle || '',
-      //       },
-      //     ]}
-      //   />
-      // )
-      return <></>
-
     case QuestTypeEnum.TWITTER_JOIN_SPACE:
-      // return (
-      //   <QuestTwitter
-      //     actions={[
-      //       {
-      //         action: TwitterEnum.JOIN_SPACE,
-      //         link: tweet_url ?? '',
-      //       },
-      //     ]}
-      //   />
-      // )
-      return <></>
     case QuestTypeEnum.TWITTER_REACTION:
-      // let actions: QuestTwitterActionType[] = []
-      // if (retweet) {
-      //   actions.push({
-      //     action: TwitterEnum.RETWEET,
-      //     link: generateRetweetLink(tweet_url ?? ''),
-      //   })
-      // }
-      // if (like) {
-      //   actions.push({
-      //     action: TwitterEnum.LIKE,
-      //     link: tweet_url ?? '',
-      //   })
-      // }
-      // if (reply) {
-      //   actions.push({
-      //     action: TwitterEnum.REPLY,
-      //     link: generateReplyLink(tweet_url || '', default_reply || ''),
-      //   })
-      // }
+      return <QuestTwitter quest={quest} />
 
-      // return <QuestTwitter actions={actions} />
-      return <></>
     case QuestTypeEnum.QUIZ:
       // return <QuestQuiz quizzes={quizzes!} />
       return <></>
