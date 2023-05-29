@@ -1,5 +1,6 @@
 import { QuestTypeEnum } from '@/constants/common.const'
 import QuestImage from '@/modules/quest/view-quest/image'
+import QuestReward from '@/modules/quest/view-quest/reward'
 import { QuestText } from '@/modules/quest/view-quest/text'
 import { QuestType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
@@ -136,6 +137,8 @@ const Index: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
           <QuestContent quest={quest} />
         </ContentPadding>
       </ContextFrame>
+
+      <QuestReward quest={quest} />
     </OuterPadding>
   )
 }

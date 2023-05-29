@@ -20,7 +20,7 @@ const FrameShape = tw(Vertical)`
   items-end
 `
 
-const RewardBox = tw(InputBox)`
+const FullWidthInput = tw(InputBox)`
   w-full
 `
 
@@ -52,7 +52,7 @@ const QuestReward: FunctionComponent = () => {
         />
         <Gap height={6} />
 
-        <RewardBox
+        <FullWidthInput
           full
           onChange={(e) => onPointRewardChanged(parseFloat(e.target.value ?? '0'))}
           leftChild={

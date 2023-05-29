@@ -81,3 +81,10 @@ export const UnderlinedText = tw.p`
   font-normal
   cursor-pointer
 `
+
+// Used to display the point rewards
+export const RewardText = tw.span`
+  text-[#FF7B05]
+  text-lg
+  font-medium
+`
