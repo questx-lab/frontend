@@ -87,7 +87,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
       options: [],
     },
   ],
-  project: { id: '' },
+  project: { handle: '' },
 
   setTitle: action((state, newTitle) => {
     state.title = newTitle

@@ -65,11 +65,12 @@ const FollowBtn: FunctionComponent<{
   )
 
   // handler
-  const projectExist = projects && projects.filter((e) => e.id === project.id)
+  const projectExist =
+    projects && projects.filter((e) => e.handle === project.handle)
   const handleFollow = async () => {
     setLoading(true)
     try {
-      const data = await newFollowCommunityApi(project.id, invitedBy)
+      const data = await newFollowCommunityApi(project.handle, invitedBy)
       if (data.code === ErrorCodes.UNAUTHOR) {
         setShowLoginModal(true)
       } else {

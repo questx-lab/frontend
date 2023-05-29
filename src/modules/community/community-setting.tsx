@@ -59,7 +59,7 @@ export default function CommunitySetting() {
   const handleSave = async () => {
     try {
       const payload: ReqUpdateCommunity = {
-        handle: projectState.id ?? '',
+        handle: projectState.handle ?? '',
         discord: discordRef.current?.value,
         telegram: telRef.current?.value,
       }
