@@ -8,10 +8,12 @@ import tw from 'twin.macro'
 
 import { getUserApi, updateUserApi } from '@/app/api/client/user'
 import { AuthEnum } from '@/constants/common.const'
+import { EnvVariables } from '@/constants/env.const'
 import { StorageConst } from '@/constants/storage.const'
 import { handleMetamask } from '@/handler/auth/metamask'
+import { getTwitterOAuthUrl } from '@/handler/auth/twitter'
+import { FieldTitle } from '@/modules/create-quest/mini-widget'
 import { GlobalStoreModel } from '@/store/store'
-import { RequireSignal } from '@/styles/input.style'
 import { setUserLocal } from '@/utils/helper'
 import { updateAccessToken } from '@/utils/storage'
 import { UserType } from '@/utils/type'
@@ -21,7 +23,6 @@ import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useGoogleLogin } from '@react-oauth/google'
-import { FieldTitle } from '@/modules/create-quest/mini-widget'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
@@ -404,7 +405,21 @@ const LoginBox: FunctionComponent = () => {
         />
         {'Log in with Google'}
       </SocialBox>
-
+      <SocialBox
+        onClick={async () => {
+          window.location.assign(
+            await getTwitterOAuthUrl(EnvVariables.APP_URL + '/api/auth/callback/twitter')
+          )
+        }}
+      >
+        <Image
+          width={40}
+          height={40}
+          src={StorageConst.TWITTER_DIR.src}
+          alt={StorageConst.TWITTER_DIR.alt}
+        />
+        {'Log in with Twitter'}
+      </SocialBox>
       <SocialBox onClick={() => handleMetamask()}>
         <Image
           width={40}
