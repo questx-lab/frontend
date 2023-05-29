@@ -9,7 +9,7 @@ import CommunityBox from '@/routes/communities/community/community-box'
 import { CommunityType } from '@/utils/type'
 import { NegativeButton } from '@/widgets/button'
 import CarouselList from '@/widgets/carousel'
-import CategoryBox from '@/widgets/CategoryBox'
+import CategoryBox from '@/widgets/category-box'
 import { Image } from '@/widgets/image'
 import {
   HorizontalBetweenCenter,
