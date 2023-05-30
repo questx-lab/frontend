@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, FunctionComponent, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { toast } from 'react-hot-toast'
@@ -234,6 +234,39 @@ const EmailText = tw.span`
 const UserBox: FunctionComponent = () => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
+  const RenderLogoSocial: FC = () => {
+    if (user.services?.twitter) {
+      return (
+        <Image
+          width={40}
+          height={40}
+          src={StorageConst.TWITTER_DIR.src}
+          alt={StorageConst.TWITTER_DIR.alt}
+        />
+      )
+    }
+
+    if (user.services?.discord) {
+      return (
+        <Image
+          width={40}
+          height={40}
+          src={StorageConst.DISCORD_DIR.src}
+          alt={StorageConst.DISCORD_DIR.alt}
+        />
+      )
+    }
+
+    return (
+      <Image
+        width={40}
+        height={40}
+        src={StorageConst.GOOGLE_DIR.src}
+        alt={StorageConst.GOOGLE_DIR.alt}
+      />
+    )
+  }
+
   return (
     <InfoBox>
       <HorBox>
@@ -243,12 +276,7 @@ const UserBox: FunctionComponent = () => {
           <EmailText>{user && user.name}</EmailText>
         </VerBox>
       </HorBox>
-      <Image
-        width={40}
-        height={40}
-        src={StorageConst.GOOGLE_DIR.src}
-        alt={StorageConst.GOOGLE_DIR.alt}
-      />
+      <RenderLogoSocial />
     </InfoBox>
   )
 }

@@ -1,10 +1,16 @@
 import React, { FC, useEffect } from 'react'
 
-import { useLocation } from 'react-router-dom'
+import { useStoreActions } from 'easy-peasy'
+import toast from 'react-hot-toast'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-import { getTwitterAccessTokenApi } from '@/app/api/client/oauth'
+import { getTwitterAccessTokenApi, TwitterVerifyType } from '@/app/api/client/oauth'
 import { EnvVariables } from '@/constants/env.const'
-import { updateAccessToken } from '@/utils/storage'
+import { KeysEnum } from '@/constants/key.const'
+import { RouterConst } from '@/constants/router.const'
+import { GlobalStoreModel } from '@/store/store'
+import { setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
+import { LoadingModal } from '@/widgets/modal'
 
 // add your client id and secret here:
 const TWITTER_OAUTH_CLIENT_ID = EnvVariables.TWITTER_ID
@@ -37,28 +43,20 @@ export type TwitterTokenResponse = {
 }
 
 // the main step 1 function, getting the access token from twitter using the code that twitter sent us
-const getTwitterOAuthToken = async (code: string): Promise<TwitterTokenResponse | undefined> => {
+const getTwitterOAuthToken = async (code: string) => {
   try {
     // POST request to the token url to get the access token
-    const data = new URLSearchParams({ ...twitterOauthTokenParams, code }).toString()
+    const codeVerifier = localStorage.getItem(KeysEnum.CODE_VERIFIER) ?? ''
+    localStorage.removeItem(KeysEnum.CODE_VERIFIER)
+    const payload: TwitterVerifyType = {
+      code,
+      code_verifier: codeVerifier,
+      redirect_uri: twitterOauthTokenParams.redirect_uri,
+      type: 'twitter',
+    }
 
-    console.log(data)
+    const rs = await getTwitterAccessTokenApi(payload)
 
-    const rs = await getTwitterAccessTokenApi(data, {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Basic ${BasicAuthToken}`,
-    })
-    // console.log(`Basic ${BasicAuthToken}`)
-    // const res = await axios.post<TwitterTokenResponse>(
-    //   TWITTER_OAUTH_TOKEN_URL,
-    //   new URLSearchParams({ ...twitterOauthTokenParams, code }).toString(),
-    //   {
-    //     headers: {
-    //       'Content-Type': 'application/x-www-form-urlencoded',
-    //       Authorization: `Basic ${BasicAuthToken}`,
-    //     },
-    //   }
-    // )
     return rs
   } catch (err) {
     console.error(err)
@@ -67,31 +65,44 @@ const getTwitterOAuthToken = async (code: string): Promise<TwitterTokenResponse 
 }
 
 const TwitterCallback: FC = () => {
+  let effectCallOnce = true
+
+  // hook
   const location = useLocation()
+  const navigate = useNavigate()
+
+  // Global action
+  const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search)
-    const authCode = searchParams.get('code')
-    if (authCode) {
-      twitterAuth(authCode)
+    if (effectCallOnce) {
+      effectCallOnce = false
+      const searchParams = new URLSearchParams(location.search)
+      const authCode = searchParams.get('code')
+      if (authCode) {
+        twitterAuth(authCode)
+      }
     }
-    // send authCode to twitter server to get access token
-  }, [location])
+  }, [])
 
   const twitterAuth = async (authCode: string) => {
     try {
       const data = await getTwitterOAuthToken(authCode)
-      if (data && data.access_token) {
-        await updateAccessToken(data.token_type || 'bearer', data.access_token)
+      if (data?.error) {
+        toast.error(data.error)
+      }
+
+      if (data?.data) {
+        setUser(data.data.user)
+        setUserLocal(data.data.user)
+        setAccessToken(data.data.access_token)
+        setRefreshToken(data.data.refresh_token)
+        navigate(RouterConst.HOME, { replace: true })
       }
     } catch (error) {}
   }
 
-  return (
-    <div>
-      <p>loading...</p>
-    </div>
-  )
+  return <LoadingModal isOpen />
 }
 
 export default TwitterCallback

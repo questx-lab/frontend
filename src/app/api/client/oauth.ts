@@ -2,9 +2,8 @@ import axios from 'axios'
 
 import { api } from '@/app/api/config/api'
 import { EnvVariables } from '@/constants/env.const'
-import { TwitterTokenResponse } from '@/modules/callback/twitter'
 import { VerifyOAuth2IDResp } from '@/utils/request-response'
-import { OAuth2VerifyResp } from '@/utils/type'
+import { OAuth2VerifyResp, Rsp, UserType } from '@/utils/type'
 
 export const verifyOAuth2ID = async (type: string, token: string): Promise<VerifyOAuth2IDResp> => {
   const result = await axios.post(
@@ -33,17 +32,22 @@ export const verifyOAuth2 = async (
   return result.data
 }
 
+export interface TwitterVerifyType {
+  code: string
+  code_verifier: string
+  redirect_uri: string
+  type: string
+}
+
 export const getTwitterAccessTokenApi = async (
-  body: string,
-  headers: any
-): Promise<TwitterTokenResponse> => {
-  const data = {
-    url: 'https://api.twitter.com/2/oauth2/token',
-    param: '',
-    body: body,
-    method: 'POST',
-    headers: headers,
-  }
-  const result = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + `/external`, data)
+  data: TwitterVerifyType
+): Promise<
+  Rsp<{
+    user: UserType
+    access_token: string
+    refresh_token: string
+  }>
+> => {
+  const result = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + `/verifyOAuth2Code`, data)
   return result.data
 }

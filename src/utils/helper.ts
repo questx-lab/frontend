@@ -34,11 +34,11 @@ export const setRefreshToken = (cookie: string) => {
 }
 
 export const setUserLocal = (data: UserType) => {
-  localStorage.setItem('user', JSON.stringify(data))
+  localStorage.setItem(KeysEnum.USER, JSON.stringify(data))
 }
 
 export const getUserLocal = (): UserType | undefined => {
-  const user = localStorage.getItem('user')
+  const user = localStorage.getItem(KeysEnum.USER)
   if (!user) {
     // Try to get user from cookie
     if (hasCookie(KeysEnum.USER)) {
