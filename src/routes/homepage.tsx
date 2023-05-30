@@ -12,7 +12,7 @@ import { TitleBox } from '@/styles/common.style'
 import { CommunityType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
-import { LayoutWithLeftPanel } from '@/widgets/layout-with-left-panel'
+import { LayoutWithLeftPanel } from '@/widgets/layout/layout-with-left-panel'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
 
 const PaddingTop = tw(VerticalFullWidthCenter)`

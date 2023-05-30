@@ -1,4 +1,4 @@
-import { LayoutWithLeftPanel } from '@/widgets/layout-with-left-panel'
+import { LayoutWithLeftPanel } from '@/widgets/layout/layout-with-left-panel'
 import { Outlet } from 'react-router-dom'
 import tw from 'twin.macro'
 
