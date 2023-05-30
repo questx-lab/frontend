@@ -1,17 +1,20 @@
+import { FunctionComponent } from 'react'
+
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+import TwitterCallback from '@/modules/callback/twitter'
 import { Index as CommunitiesIndex } from '@/routes/communities'
 import { Index as CommunityIndex } from '@/routes/communities/community'
 import { Index as CreateQuestIndex } from '@/routes/communities/community/create'
-import { Index as ReviewSubmissionIndex } from '@/routes/communities/community/review-submissions'
-import { Index as CommunitySettingsIndex } from '@/routes/communities/community/settings'
-import { Home as HomeIndex } from '@/routes/homepage'
-import { Communities } from '@/routes/communities/route'
-import { Community, Loader as CommunityLoader } from '@/routes/communities/community/route'
 import { CreateQuest } from '@/routes/communities/community/create/route'
+import { Index as ReviewSubmissionIndex } from '@/routes/communities/community/review-submissions'
 import { ReviewSubmissions } from '@/routes/communities/community/review-submissions/route'
+import { Community, Loader as CommunityLoader } from '@/routes/communities/community/route'
+import { Index as CommunitySettingsIndex } from '@/routes/communities/community/settings'
 import { Settings } from '@/routes/communities/community/settings/route'
+import { Communities } from '@/routes/communities/route'
+import { Home as HomeIndex } from '@/routes/homepage'
 import { Root, RootLoader } from '@/routes/route'
-import { FunctionComponent } from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
@@ -51,6 +54,11 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: 'api/auth/callback/twitter',
+    index: true,
+    element: <TwitterCallback />,
   },
 ])
 

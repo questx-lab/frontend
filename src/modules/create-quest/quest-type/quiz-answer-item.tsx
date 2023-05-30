@@ -73,12 +73,9 @@ const AnswerItem: FunctionComponent<{ quizIndex: number }> = ({ quizIndex }) => 
   }
 
   const onRemoveOption = (i: number) => {
-    const optionCopy = options
-    optionCopy.splice(i, 1)
+    quiz.options.splice(i, 1)
 
     const copy: QuestQuizType[] = JSON.parse(JSON.stringify(quizzes))
-    copy[quizIndex].options = optionCopy
-
     setQuizzes(copy)
   }
 
@@ -102,7 +99,7 @@ const AnswerItem: FunctionComponent<{ quizIndex: number }> = ({ quizIndex }) => 
 
     return (
       <AnswerBox key={i} status={status} onClick={() => onAnswerSelected(i)}>
-        <input type='radio' checked={status === AnswerStatusEnum.ACTIVE} />
+        <input type='radio' checked={status === AnswerStatusEnum.ACTIVE} onChange={() => {}} />
         <SquareBox>{Alphabet[i]}</SquareBox>
         <AnswerInput
           value={option}
@@ -113,7 +110,14 @@ const AnswerItem: FunctionComponent<{ quizIndex: number }> = ({ quizIndex }) => 
           }}
           placeholder='The answer of the question is written here.'
         />
-        <XMarkIcon onClick={() => onRemoveOption(i)} className='w-7 h-7 cursor-pointer' />
+        <XMarkIcon
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            onRemoveOption(i)
+          }}
+          className='w-7 h-7 cursor-pointer'
+        />
       </AnswerBox>
     )
   })
