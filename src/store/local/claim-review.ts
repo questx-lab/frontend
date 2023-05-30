@@ -39,7 +39,7 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
   allCheckPending: false,
   pendingClaims: [],
   historyClaims: [],
-  claimQuestActive: {},
+  claimQuestActive: { user: {} },
   loadingModal: false,
   submissionModal: false,
   recurrence: QuestRecurrence.ONCE,
