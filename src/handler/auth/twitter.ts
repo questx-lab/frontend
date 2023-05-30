@@ -7,7 +7,7 @@ import { KeysEnum } from '@/constants/key.const'
 export const TWITTER_STATE = 'twitter-increaser-state'
 const TWITTER_AUTH_URL = 'https://twitter.com/i/oauth2/authorize'
 const TWITTER_SCOPE = ['users.read', 'tweet.read', 'follows.read', 'follows.write'].join(' ')
-const REDIRECT_URL = 'http://localhost:3000/api/auth/callback/twitter'
+const REDIRECT_URL = `${EnvVariables.FRONTEND_URL}/api/auth/callback/twitter`
 
 const code_verifier = randomstring.generate(128)
 
