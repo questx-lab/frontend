@@ -115,6 +115,10 @@ export const StorageConst = {
     src: '/images/logos/chicken.svg',
     alt: 'Chicken',
   },
+  EMPTY_FOLLOWING: {
+    src: '/images/logos/empty_following.svg',
+    alt: 'Empty Following Community',
+  },
   HUSKY: {
     src: '/images/logos/husky.svg',
     alt: 'Husky',

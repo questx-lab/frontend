@@ -1,12 +1,14 @@
+import { FunctionComponent } from 'react'
+
+import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { CollaboratorType } from '@/utils/type'
 import { CircularImage } from '@/widgets/circular-image'
 import { Tooltip } from '@material-tailwind/react'
-import { FunctionComponent } from 'react'
-import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 
 const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
   active
@@ -31,7 +33,7 @@ export const Item: FunctionComponent<{
     <>
       <Tooltip
         key={collaboration.community.handle}
-        content={collaboration.community.name}
+        content={collaboration.community.display_name}
         placement='right'
       >
         <ActiveAvatar active={active}>

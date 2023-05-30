@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 
 import { AuthEnum } from '@/constants/common.const'
 import { GlobalStoreModel } from '@/store/store'
-import { Horizontal, Vertical } from '@/widgets/orientation'
+import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
@@ -80,7 +80,7 @@ export const SocialBox = tw(Horizontal)`
   hover:bg-gray-100
 `
 
-export const DesText = tw.p`
+export const DesText = tw.div`
   mt-4
   flex
   justify-center
@@ -91,7 +91,8 @@ export const DesText = tw.p`
   gap-2
 `
 
-export const PolicyText = tw.p`
+export const PolicyText = tw(HorizontalCenter)`
+  flex-wrap
   my-4
   text-lg
   font-normal

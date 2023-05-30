@@ -1,3 +1,9 @@
+import { FunctionComponent } from 'react'
+
+import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import { CommunityStore } from '@/store/local/community'
 import { Divider, Gap } from '@/styles/common.style'
 import { ControlPanelTab } from '@/types/community'
@@ -5,10 +11,6 @@ import { CommunityType } from '@/utils/type'
 import { CircularImage } from '@/widgets/circular-image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { ArrowUpOnSquareIcon, BoltIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
-import { FunctionComponent } from 'react'
-import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 
 export const CSide = tw.div`
   w-80
@@ -98,7 +100,7 @@ export const ControlPanel: FunctionComponent<{
         <Gap height={6} />
 
         <HorizontalCenter>
-          <TextName>{community.name}</TextName>
+          <TextName>{community.display_name}</TextName>
           <Gap width={1} />
         </HorizontalCenter>
       </PersonWrap>
