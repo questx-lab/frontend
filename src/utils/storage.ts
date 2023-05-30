@@ -1,6 +1,7 @@
 import { verifyOAuth2 } from '@/app/api/client/oauth'
-import { KeysEnum } from '@/constants/key.const'
 import { ReturnTuple } from '@/utils/type'
+
+import { setAccessToken, setRefreshToken, setUserLocal } from './helper'
 
 /**
  * updateAccessToken sends a token to server side, gets back access_token, refresh token and store
@@ -19,9 +20,9 @@ export const updateAccessToken = async (
     }
   }
 
-  localStorage.setItem(KeysEnum.ACCESS_TOKEN, result.data.access_token)
-  localStorage.setItem(KeysEnum.REFRESH_TOKEN, result.data.refresh_token)
-  localStorage.setItem(KeysEnum.USER, JSON.stringify(result.data.user))
+  setAccessToken(result.data.access_token)
+  setRefreshToken(result.data.refresh_token)
+  setUserLocal(result.data.user)
 
   return {
     value: true,

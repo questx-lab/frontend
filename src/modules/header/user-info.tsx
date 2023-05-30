@@ -90,6 +90,11 @@ export const UserInfoBox: FunctionComponent = () => {
           {/* <InviteCommunity /> */}
           Add back the InviteCommunity here
         </BasicModal>
+        <BaseModal isOpen={showLoginModal}>
+          <ModalBox>
+            <Login setOpen={setShowLoginModal} />
+          </ModalBox>
+        </BaseModal>
       </UserSession>
     )
   }
