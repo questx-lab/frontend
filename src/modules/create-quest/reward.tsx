@@ -14,7 +14,6 @@ import tw from 'twin.macro'
 const FrameShape = tw(Vertical)`
   py-8
   px-8
-  w-1/3
   h-full
   justify-start
   items-end

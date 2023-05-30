@@ -40,7 +40,6 @@ const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true
   if (hasPanel) {
     return tw`
       min-h-screen
-      pt-[70px]
       pl-80
     `
   }

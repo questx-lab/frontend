@@ -23,6 +23,7 @@ import { EasyPeasyConfig, Store } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import TwoThirdOneThirdLayout from '@/widgets/layout/two-third-one-third'
 
 const Fullscreen = tw(Vertical)`
   w-full
@@ -46,7 +47,6 @@ const BodyFrame = styled(Horizontal)<{ isTemplate?: boolean }>(({ isTemplate = f
 })
 
 const EditInfoFrame = tw.div`
-  w-2/3
   h-full
   bg-white
   py-8
@@ -172,23 +172,13 @@ const handleSubmit = async (
   return false
 }
 
-export const CreateOrEditQuest: FunctionComponent<{
-  communityHandle: string
-  isTemplate?: boolean
-  isEdit?: boolean
-}> = ({ communityHandle, isTemplate = false, isEdit = false }) => {
+const EditInfo: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   const navigate = useNavigate()
 
   // data
   const store = NewQuestStore.useStore()
-  const title = NewQuestStore.useStoreState((state) => state.title)
-  const description = NewQuestStore.useStoreState((state) => state.description)
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
-
-  // Actions
-  const setTitle = NewQuestStore.useStoreActions((actions) => actions.setTitle)
-  const setDescription = NewQuestStore.useStoreActions((actions) => actions.setDescription)
 
   const submitAction = async (submitType: string) => {
     console.log('Quest is submitted.')
@@ -202,45 +192,64 @@ export const CreateOrEditQuest: FunctionComponent<{
     }
   }
 
+  // data
+  const title = NewQuestStore.useStoreState((state) => state.title)
+  const description = NewQuestStore.useStoreState((state) => state.description)
+
+  // action
+  const setTitle = NewQuestStore.useStoreActions((actions) => actions.setTitle)
+  const setDescription = NewQuestStore.useStoreActions((actions) => actions.setDescription)
+
   return (
-    <Fullscreen>
-      <TopLabel isTemplate={isTemplate} />
+    <EditInfoFrame>
+      <QuestFieldsBox title={'QUEST TITLE'} required={true}>
+        <TextField
+          required
+          value={title}
+          placeholder='The name of the quest is written here.'
+          onChange={(e) => setTitle(e.target.value)}
+          msg='You must have a quest title to create this quest.'
+        />
+        <Gap />
 
-      <BodyFrame isTemplate={isTemplate}>
-        <EditInfoFrame>
-          <QuestFieldsBox title={'QUEST TITLE'} required={true}>
-            <TextField
-              required
-              value={title}
-              placeholder='The name of the quest is written here.'
-              onChange={(e) => setTitle(e.target.value)}
-              msg='You must have a quest title to create this quest.'
-            />
-            <Gap />
+        <Label>{'QUEST DESCRIPTION'}</Label>
+        <Editor onChange={(value) => setDescription(value)} value={description} />
+      </QuestFieldsBox>
 
-            <Label>{'QUEST DESCRIPTION'}</Label>
-            <Editor onChange={(value) => setDescription(value)} value={description} />
-          </QuestFieldsBox>
+      <QuestFieldsBox title={'SUBMISSION TYPE'} required={true}>
+        <QuestTypeSelection />
+      </QuestFieldsBox>
 
-          <QuestFieldsBox title={'SUBMISSION TYPE'} required={true}>
-            <QuestTypeSelection />
-          </QuestFieldsBox>
+      <QuestFieldsBox title={'REPEAT'} required={true}>
+        <Recurrence />
+      </QuestFieldsBox>
 
-          <QuestFieldsBox title={'REPEAT'} required={true}>
-            <Recurrence />
-          </QuestFieldsBox>
-
-          <ActionButtons onSubmit={submitAction} />
-        </EditInfoFrame>
-
-        <QuestReward />
-      </BodyFrame>
+      <ActionButtons onSubmit={submitAction} />
 
       <ProgressModal
         isOpen={isOpen}
         title={`Hang in there!`}
         lines={[`We're creating new quest.`, 'This might take a few seconds...']}
       />
+    </EditInfoFrame>
+  )
+}
+
+export const CreateOrEditQuest: FunctionComponent<{
+  communityHandle: string
+  isTemplate?: boolean
+  isEdit?: boolean
+}> = ({ communityHandle, isTemplate = false, isEdit = false }) => {
+  return (
+    <Fullscreen>
+      <TopLabel isTemplate={isTemplate} />
+
+      <BodyFrame isTemplate={isTemplate}>
+        <TwoThirdOneThirdLayout
+          leftChild={<EditInfo communityHandle={communityHandle} />}
+          rightChild={<QuestReward />}
+        />
+      </BodyFrame>
     </Fullscreen>
   )
 }

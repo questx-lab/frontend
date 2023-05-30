@@ -2,6 +2,7 @@ import { Horizontal } from '@/widgets/orientation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+// This is the tab used in the "Review Submission" or Settings of a community
 export const Tab = tw(Horizontal)`
   w-full
   bg-gray-100
@@ -17,22 +18,22 @@ export const Tab = tw(Horizontal)`
 
 export const TabItem = styled.div<{ active?: boolean }>(({ active = false }) => {
   if (active) {
-    tw`
-    w-1/2
-    bg-white
-    flex
-    flex-row
-    justify-center
-    items-center
-    text-sm
-    font-medium
-    text-primary
-    py-4
-    border-x
-    border-solid
-    border-gray-200
-    cursor-pointer
-  `
+    return tw`
+      w-1/2
+      bg-white
+      flex
+      flex-row
+      justify-center
+      items-center
+      text-sm
+      font-medium
+      text-primary
+      py-4
+      border-x
+      border-solid
+      border-gray-200
+      cursor-pointer
+    `
   }
 
   return tw`

@@ -13,7 +13,7 @@ import { CommunityType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
 import { Image } from '@/widgets/image'
-import { LayoutWithLeftPanel } from '@/widgets/layout-with-left-panel'
+import { LayoutWithLeftPanel } from '@/widgets/layout/layout-with-left-panel'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { Large3xlText } from '@/widgets/text'
 
