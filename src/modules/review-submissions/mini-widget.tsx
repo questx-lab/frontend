@@ -1,24 +1,9 @@
+import { ThinBorderBox } from '@/widgets/box'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import tw from 'twin.macro'
 
-export const SubmissionAndFilterFrame = tw(Horizontal)`
-  gap-4
-  w-full
-  h-full
-  pb-[60px]
-`
-
-export const SubmissionFrame = tw.div`
-  border
-  border-solid
-  border-gray-200
-  rounded-lg
+export const SubmissionBorder = tw(ThinBorderBox)`
   w-2/3
-  h-full
-`
-
-export const SubmissionListFrame = tw(Vertical)`
-  w-full
   h-full
 `
 

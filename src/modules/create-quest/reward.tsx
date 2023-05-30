@@ -27,6 +27,7 @@ const FullWidthInput = tw(NumberInput)`
 const BorderBox = tw(ThinBorderBox)`
   w-full
   px-6
+  py-6
   gap-4
 `
 

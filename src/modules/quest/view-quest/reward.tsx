@@ -19,6 +19,7 @@ const FrameShape = tw(Vertical)`
 const BorderBox = tw(ThinBorderBox)`
   w-full
   px-6
+  py-6
   gap-4
 `
 

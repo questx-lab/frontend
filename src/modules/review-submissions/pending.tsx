@@ -1,25 +1,19 @@
 import { ChangeEvent, FunctionComponent, useEffect } from 'react'
 
-import toast from 'react-hot-toast'
-
-import { ClaimedQuestStatus, ReviewBtnEnum, TabReviewEnum } from '@/constants/common.const'
+import { ReviewBtnEnum, TabReviewEnum } from '@/constants/common.const'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 
-import { ClaimQuestType } from '@/utils/type'
+import { ClaimQuestType, ListClaimQuestType, Rsp } from '@/utils/type'
 
-import {
-  ButtonBox,
-  ButtonFrame,
-  SubmissionAndFilterFrame,
-  SubmissionFrame,
-  SubmissionListFrame,
-} from '@/modules/review-submissions/mini-widget'
+import { ButtonBox, ButtonFrame, SubmissionBorder } from '@/modules/review-submissions/mini-widget'
 import SubmissionItemPending from '@/modules/review-submissions/submission-item-pending'
 import { SubmissionsHeader } from '@/modules/review-submissions/submissions-header'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
-import tw from 'twin.macro'
+import { FullWidthHeight } from '@/widgets/orientation'
 import styled from 'styled-components'
+import tw from 'twin.macro'
+import { listClaimedQuestsApi } from '@/app/api/client/quest'
 
 const ActionButton = styled.button<{ btnType?: number }>(({ btnType = ReviewBtnEnum.ACCEPT }) => {
   switch (btnType) {
@@ -138,14 +132,17 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
   }, [])
 
   const getClaimsQuest = async () => {
-    onLoadingModalChanged(true)
-    // await getListClaimQuest(
-    //   communityHandle,
-    //   'pending',
-    //   setPendingClaims,
-    //   questsSelect.map((e) => e.id!)
-    // )
-    // setTimeout(() => onLoadingModalChanged(false), 200)
+    const result: Rsp<ListClaimQuestType> = await listClaimedQuestsApi(
+      communityHandle,
+      'pending',
+      questsSelect.map((e) => e.id!)
+    )
+
+    if (result.code === 0) {
+      setPendingClaims(result.data?.claimed_quests || [])
+    } else {
+      // TODO: show error here.
+    }
   }
 
   const onCheck = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
@@ -167,32 +164,30 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
 
   return (
     <>
-      <SubmissionAndFilterFrame>
-        <SubmissionFrame>
+      <FullWidthHeight>
+        <SubmissionBorder>
           <SubmissionsHeader
             title={'Pending Submission'}
             onCheckAll={onCheckAll}
             checked={allPendingChecked}
           />
 
-          <SubmissionListFrame>
-            <SubmissionsList
-              list={listClaimQuestState}
-              itemView={(item: ClaimQuestType, index: number) => {
-                return (
-                  <SubmissionItemPending
-                    tab={TabReviewEnum.HISTORY}
-                    active={false}
-                    onChange={onCheck}
-                    payload={item}
-                    key={index}
-                  />
-                )
-              }}
-            />
-          </SubmissionListFrame>
-        </SubmissionFrame>
-      </SubmissionAndFilterFrame>
+          <SubmissionsList
+            list={listClaimQuestState}
+            itemView={(item: ClaimQuestType, index: number) => {
+              return (
+                <SubmissionItemPending
+                  tab={TabReviewEnum.HISTORY}
+                  active={false}
+                  onChange={onCheck}
+                  payload={item}
+                  key={index}
+                />
+              )
+            }}
+          />
+        </SubmissionBorder>
+      </FullWidthHeight>
 
       <RenderBtn data={chooseQuestsState} />
     </>
