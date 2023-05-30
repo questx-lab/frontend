@@ -140,6 +140,17 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setType: action((state, newQuestType) => {
     state.type = newQuestType
+    // If this is a quize, we need to initialize the quiz to empty
+    if (newQuestType === QuestTypeEnum.QUIZ && state.quizzes.length === 0) {
+      state.quizzes = [
+        {
+          id: 0,
+          question: '',
+          answers: [],
+          options: [],
+        },
+      ]
+    }
   }),
 
   setTwitterType: action((state, newTwitterType) => {
