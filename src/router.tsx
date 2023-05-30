@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+import TwitterCallback from '@/modules/callback/twitter'
 import { Index as CommunitiesIndex } from '@/routes/communities'
 import { Index as CommunityIndex } from '@/routes/communities/community'
 import { Index as CreateQuestIndex } from '@/routes/communities/community/create'
@@ -14,8 +15,6 @@ import { Settings } from '@/routes/communities/community/settings/route'
 import { Communities } from '@/routes/communities/route'
 import { Home as HomeIndex } from '@/routes/homepage'
 import { Root, RootLoader } from '@/routes/route'
-
-import TwitterCallback from './modules/callback/twitter'
 
 const router = createBrowserRouter([
   {

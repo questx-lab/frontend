@@ -72,6 +72,7 @@ const TwitterCallback: FC = () => {
   const twitterAuth = async (authCode: string) => {
     try {
       const data = await getTwitterOAuthToken(authCode)
+
       if (data?.error) {
         toast.error(data.error)
       }
@@ -81,9 +82,12 @@ const TwitterCallback: FC = () => {
         setUserLocal(data.data.user)
         setAccessToken(data.data.access_token)
         setRefreshToken(data.data.refresh_token)
-        navigate(RouterConst.HOME, { replace: true })
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error('Connect to Twitter was failed, please try more again')
+    } finally {
+      navigate(RouterConst.HOME, { replace: true })
+    }
   }
 
   return <LoadingModal isOpen />
