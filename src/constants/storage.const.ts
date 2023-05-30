@@ -35,10 +35,6 @@ export const StorageConst = {
     src: '/images/logos/noti.svg',
     alt: 'Notification',
   },
-  AVATAR_DEFAUL: {
-    src: '/images/logos/avatar.svg',
-    alt: 'Avatar',
-  },
   ADD_ICON: {
     src: '/images/icons/add.svg',
     alt: 'Add icon',
@@ -130,5 +126,9 @@ export const StorageConst = {
   COMMUNITY_DEFAULT: {
     src: '/images/icons/community_default.svg',
     alt: 'Community Default',
+  },
+  USER_DEFAULT: {
+    src: '/images/icons/user_default.svg',
+    alt: 'User Default',
   },
 }

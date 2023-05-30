@@ -27,7 +27,7 @@ export type Rsp<T> = {
 
 export type UserType = {
   id?: string
-  address?: string
+  wallet_address?: string
   name?: string
   services?: {
     discord?: string

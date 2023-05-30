@@ -44,8 +44,8 @@ const SubmissionItemPending: FunctionComponent<{
             <Image
               width={40}
               height={40}
-              src={'/images/dummy/1.svg'}
-              alt={StorageConst.AVATAR_DEFAUL.alt}
+              src={StorageConst.USER_DEFAULT.src}
+              alt={StorageConst.USER_DEFAULT.alt}
             />
             <VerticalLeftMargin>
               <Name>{payload.user?.name}</Name>
