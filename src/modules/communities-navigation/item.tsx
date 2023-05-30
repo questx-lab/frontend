@@ -27,8 +27,6 @@ export const Item: FunctionComponent<{
   // hook
   const navigate = useNavigate()
 
-  console.log('collaboration.community.logo_url = ', collaboration.community.logo_url)
-
   return (
     <>
       <Tooltip

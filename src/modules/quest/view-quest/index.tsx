@@ -1,6 +1,7 @@
-import { QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
+import { QuestTypeEnum } from '@/constants/common.const'
 import QuestImage from '@/modules/quest/view-quest/image'
 import { QuestInvites } from '@/modules/quest/view-quest/invite'
+import { QuestQuiz } from '@/modules/quest/view-quest/quiz'
 import QuestReward from '@/modules/quest/view-quest/reward'
 import { QuestText } from '@/modules/quest/view-quest/text'
 import { QuestTwitter } from '@/modules/quest/view-quest/twitter'
@@ -36,18 +37,7 @@ const ContentPadding = tw(VerticalFullWidth)`
 `
 
 const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
-  const {
-    tweet_url,
-    twitter_handle,
-    default_reply,
-    link,
-    invite_url,
-    like,
-    reply,
-    retweet,
-    default_tweet,
-    quizzes,
-  } = quest.validation_data || {}
+  const { quizzes } = quest.validation_data || {}
 
   switch (quest?.type) {
     case QuestTypeEnum.URL:
@@ -60,10 +50,6 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
       return <QuestVisitLink link={quest.validation_data.link || ''} />
     case QuestTypeEnum.INVITES:
       return <QuestInvites quest={quest} />
-
-    // case QuestTypeEnum.QUIZ:
-    //   return withQuizzes()
-
     case QuestTypeEnum.TWITTER_TWEET:
     case QuestTypeEnum.TWITTER_FOLLOW:
     case QuestTypeEnum.TWITTER_JOIN_SPACE:
@@ -71,8 +57,8 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
       return <QuestTwitter quest={quest} />
 
     case QuestTypeEnum.QUIZ:
-      // return <QuestQuiz quizzes={quizzes!} />
-      return <></>
+      return <QuestQuiz quizzes={quizzes!} />
+
     case QuestTypeEnum.EMPTY:
       return <></>
     // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
