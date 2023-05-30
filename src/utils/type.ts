@@ -70,7 +70,6 @@ export type ReqNewCommunity = {
 }
 
 export type CommunityType = {
-  id?: string
   created_at?: string
   updated_at?: string
   created_by?: string

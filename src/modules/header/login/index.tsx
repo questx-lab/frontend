@@ -80,7 +80,7 @@ export const SocialBox = tw(Horizontal)`
   hover:bg-gray-100
 `
 
-export const DesText = tw.div`
+export const Description = tw.div`
   mt-4
   flex
   justify-center
