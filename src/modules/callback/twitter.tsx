@@ -78,7 +78,7 @@ const TwitterCallback: FC = () => {
     } catch (error) {
       toast.error('Connect to Twitter was failed, please try more again')
     } finally {
-      navigate(RouterConst.HOME, { replace: true })
+      setTimeout(() => navigate(RouterConst.HOME, { replace: true }), 2000)
     }
   }
 
