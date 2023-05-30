@@ -4,7 +4,7 @@ import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { ThinBorderBox } from '@/widgets/box'
 import { Image } from '@/widgets/image'
-import { InputBox } from '@/widgets/input'
+import { NumberInput } from '@/widgets/input'
 import { Vertical } from '@/widgets/orientation'
 import { Label, UnderlinedText } from '@/widgets/text'
 import TypesSelection from '@/widgets/types-selection'
@@ -20,7 +20,7 @@ const FrameShape = tw(Vertical)`
   items-end
 `
 
-const FullWidthInput = tw(InputBox)`
+const FullWidthInput = tw(NumberInput)`
   w-full
 `
 
@@ -62,10 +62,8 @@ const QuestReward: FunctionComponent = () => {
               <Gap width={2} />
             </>
           }
-          type='number'
           min={0}
-          defaultValue={'100'}
-          value={`${pointReward}`}
+          defaultValue={pointReward}
         />
         <Gap height={6} />
 
