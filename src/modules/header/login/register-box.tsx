@@ -4,11 +4,10 @@ import { useStoreActions } from 'easy-peasy'
 
 import { AuthEnum } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
+import { DesText, PaddingVertical, PolicyText, SocialBox, Title } from '@/modules/header/login'
 import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
 import { PrimaryText } from '@/widgets/text'
-
-import { DesText, PaddingVertical, PolicyText, SocialBox, Title } from './'
 
 const RegisterBox: FunctionComponent = () => {
   // action

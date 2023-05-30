@@ -8,13 +8,12 @@ import { EnvVariables } from '@/constants/env.const'
 import { StorageConst } from '@/constants/storage.const'
 import { handleMetamask } from '@/handler/auth/metamask'
 import { getTwitterOAuthUrl } from '@/handler/auth/twitter'
+import { DesText, PaddingVertical, SocialBox, Title } from '@/modules/header/login'
 import { GlobalStoreModel } from '@/store/store'
 import { updateAccessToken } from '@/utils/storage'
 import { Image } from '@/widgets/image'
 import { PrimaryText } from '@/widgets/text'
 import { useGoogleLogin } from '@react-oauth/google'
-
-import { DesText, PaddingVertical, SocialBox, Title } from './'
 
 const LoginBox: FunctionComponent = () => {
   const setShowLoginModal = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
