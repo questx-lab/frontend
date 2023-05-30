@@ -18,14 +18,6 @@ export const twitterOauthTokenParams = {
   grant_type: 'authorization_code',
 }
 
-// the shape of the object we should recieve from twitter in the request
-export type TwitterTokenResponse = {
-  token_type?: string
-  expires_in?: number
-  access_token?: string
-  scope?: string
-}
-
 // the main step 1 function, getting the access token from twitter using the code that twitter sent us
 const getTwitterOAuthToken = async (code: string) => {
   try {
