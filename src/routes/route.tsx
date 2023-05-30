@@ -43,6 +43,10 @@ const Main = tw.main`
   flex-col
 `
 
+const ScrollY = tw.div`
+  overflow-scroll
+`
+
 export const Root: FunctionComponent = () => {
   // props
   const data = useLoaderData() as {
@@ -70,9 +74,9 @@ export const Root: FunctionComponent = () => {
   return (
     <GoogleOAuthProvider clientId={EnvVariables.GOOGLE_ID}>
       <Main>
-        <div className='overflow-scroll'>
+        <ScrollY>
           <HomeOrLandingPage />
-        </div>
+        </ScrollY>
         <Header />
       </Main>
       <Toaster position='top-center' reverseOrder={false} />

@@ -7,8 +7,9 @@ export enum KeysEnum {
 }
 
 export enum NavBarEnum {
-  COMMUNITY,
-  QUESTCARD,
+  HOME = '/',
+  COMMUNITY = '/communities',
+  QUESTCARD = '/questercamp',
 }
 
 export enum Oauth2ProviderEnum {
