@@ -32,8 +32,7 @@ export const getURLWithQueryParams = (baseUrl: string, params: Record<string, an
 export const getTwitterOAuthUrl = async (redirectUri: string) => {
   const rootUrl = TWITTER_AUTH_URL
   const options = {
-    redirect_uri: REDIRECT_URL, // client url cannot be http://localhost:3000/ or http://127.0.0.1:3000/
-    // redirect_uri: 'http://localhost:3000/api/auth/callback/twitter', // client url cannot be http://localhost:3000/ or http://127.0.0.1:3000/
+    redirect_uri: REDIRECT_URL,
     client_id: EnvVariables.TWITTER_ID,
     state: 'state',
     response_type: 'code',
