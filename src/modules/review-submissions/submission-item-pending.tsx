@@ -10,7 +10,7 @@ import {
   Time,
   Title,
   VerticalLeftMargin,
-} from '@/routes/communities/community/review-submissions/row-item'
+} from '@/modules/review-submissions/row-item'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { ClaimQuestType } from '@/utils/type'
 import { Image } from '@/widgets/image'

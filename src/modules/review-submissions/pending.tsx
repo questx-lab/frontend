@@ -14,10 +14,10 @@ import {
   SubmissionAndFilterFrame,
   SubmissionFrame,
   SubmissionListFrame,
-} from '@/routes/communities/community/review-submissions/mini-widget'
-import SubmissionItemPending from '@/routes/communities/community/review-submissions/submission-item-pending'
-import { SubmissionsHeader } from '@/routes/communities/community/review-submissions/submissions-header'
-import { SubmissionsList } from '@/routes/communities/community/review-submissions/submissions-list'
+} from '@/modules/review-submissions/mini-widget'
+import SubmissionItemPending from '@/modules/review-submissions/submission-item-pending'
+import { SubmissionsHeader } from '@/modules/review-submissions/submissions-header'
+import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
 import tw from 'twin.macro'
 import styled from 'styled-components'
 

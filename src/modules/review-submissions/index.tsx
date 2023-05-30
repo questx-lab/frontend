@@ -1,5 +1,5 @@
 import { TabReviewEnum } from '@/constants/common.const'
-import PendingTab from '@/routes/communities/community/review-submissions/pending'
+import PendingTab from '@/modules/review-submissions/pending'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
