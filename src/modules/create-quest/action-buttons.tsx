@@ -1,6 +1,6 @@
 import { QuestStatusEnum, QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
-import { NegativeButton, PositiveButton } from '@/widgets/button'
+import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
 import { HorizontalBetweenCenter } from '@/widgets/orientation'
 import { FunctionComponent } from 'react'
 import tw from 'twin.macro'

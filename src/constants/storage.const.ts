@@ -16,7 +16,7 @@ export const StorageConst = {
     alt: 'Discord',
   },
   TWITTER_DIR: {
-    src: '/images/logos/twitter.svg',
+    src: '/images/icons/twitter.svg',
     alt: 'Twitter',
   },
   DISCORD_BLACK_DIR: {
@@ -75,7 +75,7 @@ export const StorageConst = {
     src: '/images/icons/arrow_back.svg',
     alt: 'Arrow back icon',
   },
-  POINT_ICON: {
+  GEM: {
     src: '/images/icons/gem.svg',
     alt: 'Point Icon',
   },
@@ -108,7 +108,7 @@ export const StorageConst = {
     alt: 'logo',
   },
   BACKGROUND: {
-    src: '/images/logos/bg.png',
+    src: '/images/logos/bg.svg',
     alt: 'Background',
   },
   CHICKEN: {
@@ -118,5 +118,9 @@ export const StorageConst = {
   HUSKY: {
     src: '/images/logos/husky.svg',
     alt: 'Husky',
+  },
+  COPY: {
+    src: '/images/icons/copy.svg',
+    alt: 'Copy',
   },
 }

@@ -193,7 +193,7 @@ export const BasicModal: FunctionComponent<{
         <ModalContent className={styled}>
           <MDHead>
             {title}
-            {/* <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} /> */}
+            <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} />
           </MDHead>
           {children}
         </ModalContent>
@@ -237,9 +237,7 @@ export const ProgressModal: FunctionComponent<{
   )
 }
 
-export const LoadingModal: FunctionComponent<{ isOpen?: boolean }> = ({
-  isOpen = false,
-}) => {
+export const LoadingModal: FunctionComponent<{ isOpen?: boolean }> = ({ isOpen = false }) => {
   return (
     <BaseModal isOpen={isOpen}>
       <CenterWrap>

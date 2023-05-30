@@ -53,16 +53,18 @@ export const Root: FunctionComponent = () => {
 
   // action
   const setReferral = useStoreActions<GlobalStoreModel>((action) => action.setReferral)
-  const setProjectCollab = useStoreActions<GlobalStoreModel>((action) => action.setProjectCollab)
-  const setProjectsFollowing = useStoreActions<GlobalStoreModel>(
-    (action) => action.setProjectsFollowing
+  const setCommunitiesCollab = useStoreActions<GlobalStoreModel>(
+    (action) => action.setCommunitiesCollab
+  )
+  const setCommunitiesFollowing = useStoreActions<GlobalStoreModel>(
+    (action) => action.setCommunitiesFollowing
   )
 
   // set data
   if (data) {
     setReferral(data.referral)
-    setProjectCollab(data.myCommunities)
-    setProjectsFollowing(data.followingCommunities)
+    setCommunitiesCollab(data.myCommunities)
+    setCommunitiesFollowing(data.followingCommunities)
   }
 
   return (

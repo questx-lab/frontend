@@ -1,8 +1,8 @@
 'use client'
 
 import { QuestRecurrence, QuestRecurrencesMap } from '@/constants/common.const'
-import { TypeButton, TypeButtonFrame } from '@/modules/create-quest/mini-widget'
 import { NewQuestStore } from '@/store/local/new-quest.store'
+import TypesSelection from '@/widgets/types-selection'
 import { FunctionComponent } from 'react'
 
 const Recurrence: FunctionComponent = () => {
@@ -18,19 +18,14 @@ const Recurrence: FunctionComponent = () => {
   // Actions
   const setRecurrence = NewQuestStore.useStoreActions((actions) => actions.setRecurrence)
 
-  const items = display.map((e, i) => (
-    <TypeButton
-      active={recurrence === e}
-      key={i}
-      onClick={() => {
-        setRecurrence(e)
-      }}
-    >
-      {QuestRecurrencesMap.get(e)}
-    </TypeButton>
-  ))
-
-  return <TypeButtonFrame>{items}</TypeButtonFrame>
+  return (
+    <TypesSelection
+      list={display}
+      activeFunc={(item: QuestRecurrence, index) => item === recurrence}
+      onClick={(item: QuestRecurrence, index) => setRecurrence(item)}
+      itemView={(item: QuestRecurrence) => QuestRecurrencesMap.get(item)}
+    />
+  )
 }
 
 export default Recurrence

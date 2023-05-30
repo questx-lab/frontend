@@ -117,7 +117,8 @@ export const QuestRecurrencesStringMap = new Map<String, QuestRecurrence>([
   ['monthly', QuestRecurrence.MONTHLY],
 ])
 
-export const QuestRewards = ['Gem', 'Discord Role', 'Other']
+// export const QuestRewards = ['Gem', 'Discord Role', 'Other']
+export const QuestRewards = ['Gem']
 
 export enum TabReviewEnum {
   PENDING,

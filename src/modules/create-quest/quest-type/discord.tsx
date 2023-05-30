@@ -1,6 +1,6 @@
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
-import { PositiveButton } from '@/widgets/button'
+import { PositiveButton } from '@/widgets/buttons/button'
 import { FunctionComponent } from 'react'
 
 const Discord: FunctionComponent = () => {

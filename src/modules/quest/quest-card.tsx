@@ -1,7 +1,7 @@
 import { Gap } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
-import { MediumText } from '@/widgets/text'
+import { MediumText, RewardText } from '@/widgets/text'
 import { Image } from '@/widgets/image'
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
@@ -68,12 +68,6 @@ const Body = tw(Horizontal)`
   border-gray-200
 `
 
-const PointText = tw.span`
-  text-[#FF7B05]
-  text-sm
-  font-medium
-`
-
 const HeaderBox = tw(Horizontal)`
   px-4
   justify-start
@@ -95,14 +89,9 @@ const QuestCard: FunctionComponent<{
 
       <Body>
         <HeaderBox>
-          <Image
-            width={25}
-            height={25}
-            src={StorageConst.POINT_ICON.src}
-            alt={StorageConst.POINT_ICON.alt}
-          />
+          <Image width={25} height={25} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
           <Gap width={2} />
-          <PointText>{quest.rewards?.length && quest.rewards[0].data.points}</PointText>
+          <RewardText>{quest.points}</RewardText>
         </HeaderBox>
       </Body>
     </BorderBox>

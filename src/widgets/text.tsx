@@ -71,3 +71,20 @@ export const SmallText = tw.p`
   font-normal
   text-gray-700
 `
+
+// Text used with blue underline that opens a link
+export const UnderlinedText = tw.p`
+  text-primary-500
+  underline
+  underline-offset-4
+  text-sm
+  font-normal
+  cursor-pointer
+`
+
+// Used to display the point rewards
+export const RewardText = tw.span`
+  text-[#FF7B05]
+  text-lg
+  font-medium
+`

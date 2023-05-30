@@ -5,15 +5,15 @@ import {
   QuestRecurrencesStringMap,
   QuestTypeEnum,
   QuestTypeMap,
-  TwitterEnum,
 } from '@/constants/common.const'
-import { CommunityType, QuestQuizType, QuestType } from '@/utils/type'
 import { isTwitterType } from '@/types/twitter'
+import { CommunityType, QuestQuizType, QuestType } from '@/utils/type'
 
 export interface NewQuestModel {
   title: string
   description: string
   type: QuestTypeEnum
+  twitterType: string
   textAutoValid: boolean
   recurrence: QuestRecurrence
   anwser: string
@@ -41,6 +41,7 @@ export interface NewQuestModel {
   setTitle: Action<NewQuestModel, string>
   setDescription: Action<NewQuestModel, string>
   setType: Action<NewQuestModel, QuestTypeEnum>
+  setTwitterType: Action<NewQuestModel, string>
   setTextAutoValidation: Action<NewQuestModel, boolean>
   setRecurrence: Action<NewQuestModel, QuestRecurrence>
   setAnswer: Action<NewQuestModel, string>
@@ -63,13 +64,14 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   title: 'Untitled Quest',
   description: '',
   type: QuestTypeEnum.URL,
+  twitterType: QuestTypeEnum.TWITTER,
   textAutoValid: false,
   recurrence: QuestRecurrence.ONCE,
   anwser: '',
   visitLink: '',
   telegramLink: '',
   discordLink: '',
-  invites: 10,
+  invites: 3,
   actionTwitter: [],
   accountUrl: '',
   tweetUrl: '',
@@ -124,13 +126,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
           state.spaceUrlTw = quest.validation_data.space_url || ''
           break
       }
-
-      // TODO: Support more than point reward
-      for (let reward of quest.rewards) {
-        if (reward.type === 'points') {
-          state.pointReward = reward.data.points || 0
-        }
-      }
     }
   }),
 
@@ -144,6 +139,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setType: action((state, newQuestType) => {
     state.type = newQuestType
+  }),
+
+  setTwitterType: action((state, newTwitterType) => {
+    state.twitterType = newTwitterType
   }),
 
   setTextAutoValidation: action((state, newTextAutoValid) => {

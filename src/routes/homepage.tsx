@@ -1,3 +1,9 @@
+import { FunctionComponent, useEffect, useState } from 'react'
+
+import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useNavigate } from 'react-router-dom'
+import tw from 'twin.macro'
+
 import { getTrendingCommunities } from '@/app/api/client/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import CommunityBox from '@/routes/communities/community/community-box'
@@ -5,13 +11,9 @@ import { GlobalStoreModel } from '@/store/store'
 import { TitleBox } from '@/styles/common.style'
 import { CommunityType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
-import CategoryBox from '@/widgets/CategoryBox'
+import CategoryBox from '@/widgets/category-box'
 import { LayoutWithLeftPanel } from '@/widgets/layout-with-left-panel'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
-import { useStoreState } from 'easy-peasy'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import tw from 'twin.macro'
 
 const PaddingTop = tw(VerticalFullWidthCenter)`
   pt-[90px]
@@ -60,18 +62,29 @@ export const Home: FunctionComponent = () => {
   const navigate = useNavigate()
 
   // global data
-  const projectsFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
-    (state) => state.projectsFollowing
+  const communitiesFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.communitiesFollowing
+  )
+  const communitiesTrending: CommunityType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.communitiesTrending
+  )
+
+  // global action
+  const setCommunitiesTrending = useStoreActions<GlobalStoreModel>(
+    (action) => action.setCommunitiesTrending
   )
 
   useEffect(() => {
-    fetchTrending()
+    if (communitiesTrending && communitiesTrending.length === 0) {
+      fetchTrending()
+    }
   }, [])
 
   const fetchTrending = async () => {
     const result = await getTrendingCommunities()
     if (result.code === 0 && result.data) {
       setCommunities(result.data.communities)
+      setCommunitiesTrending(result.data.communities)
     }
 
     setLoading(false)
@@ -104,7 +117,7 @@ export const Home: FunctionComponent = () => {
             />
           </CategoryBox>
 
-          <OtherCommunities communities={projectsFollowing} />
+          <OtherCommunities communities={communitiesFollowing} />
         </Main>
       </PaddingTop>
     </LayoutWithLeftPanel>

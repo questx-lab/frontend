@@ -4,11 +4,7 @@ import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
 import { HeaderText } from '@/styles/home.style'
-import {
-  HorizontalBetweenCenter,
-  Vertical,
-  VerticalFullWidthCenter,
-} from '@/widgets/orientation'
+import { HorizontalBetweenCenter, Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { PrimaryText } from '@/widgets/text'
 import { ArrowSmallRightIcon } from '@heroicons/react/24/outline'
 

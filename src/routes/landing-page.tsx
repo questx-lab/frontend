@@ -1,15 +1,19 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
+import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { getTrendingCommunities } from '@/app/api/client/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/routes/communities/community/community-box'
+import { GlobalStoreModel } from '@/store/store'
 import { CommunityType } from '@/utils/type'
-import { NegativeButton } from '@/widgets/button'
+import { NegativeButton } from '@/widgets/buttons/button'
 import CarouselList from '@/widgets/carousel'
-import CategoryBox from '@/widgets/CategoryBox'
+import CategoryBox from '@/widgets/category-box'
 import { Image } from '@/widgets/image'
 import {
   HorizontalBetweenCenter,
@@ -19,7 +23,6 @@ import {
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
 import { LargeText, NormalText } from '@/widgets/text'
-import { useNavigate } from 'react-router-dom'
 
 const Wrap = tw(Vertical)`
   min-h-screen
@@ -208,23 +211,30 @@ const Content: FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [communities, setCommunities] = useState<CommunityType[]>([])
   const navigate = useNavigate()
+  // global data
+  const communitiesTrending: CommunityType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.communitiesTrending
+  )
+
+  // global action
+  const setCommunitiesTrending = useStoreActions<GlobalStoreModel>(
+    (action) => action.setCommunitiesTrending
+  )
 
   useEffect(() => {
-    fetchCommunityList()
+    if (communitiesTrending && communitiesTrending.length === 0) {
+      fetchTrending()
+    }
   }, [])
 
-  const fetchCommunityList = async () => {
-    setCommunities([])
+  const fetchTrending = async () => {
+    const result = await getTrendingCommunities()
+    if (result.code === 0 && result.data) {
+      setCommunities(result.data.communities)
+      setCommunitiesTrending(result.data.communities)
+    }
 
-    // setLoading(true)
-    // try {
-    //   const list = await listCommunitiesApi(0, 50, '', true)
-    //   setCommunities(list.data!.communities)
-    // } catch (error) {
-    //   // TODO: show error (not toast) to indicate that the communities cannot be loaded.
-    // } finally {
-    //   setLoading(false)
-    // }
+    setLoading(false)
   }
 
   const onShowAllClicked = () => {

@@ -3,25 +3,26 @@ import tw from 'twin.macro'
 
 import { NewQuestModel, NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
-import { CommunityType, ReqNewQuestType, ValidationQuest } from '@/utils/type'
+import { ReqNewQuestType, ValidationQuest } from '@/utils/type'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { Label } from '@/widgets/text'
 
+import { newQuestApi, updateQuestApi } from '@/app/api/client/quest'
+import { QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
+import { RouterConst } from '@/constants/router.const'
+import ActionButtons from '@/modules/create-quest/action-buttons'
 import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
 import QuestTypeSelection from '@/modules/create-quest/quest-type/selection'
 import Recurrence from '@/modules/create-quest/recurrence'
+import QuestReward from '@/modules/create-quest/reward'
 import TopLabel from '@/modules/create-quest/top-label'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
-import styled from 'styled-components'
-import ActionButtons from '@/modules/create-quest/action-buttons'
-import { QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
-import toast from 'react-hot-toast'
-import { EasyPeasyConfig, Store } from 'easy-peasy'
-import { newQuestApi, updateQuestApi } from '@/app/api/client/quest'
-import { useNavigate } from 'react-router-dom'
-import { RouterConst } from '@/constants/router.const'
 import { ProgressModal } from '@/widgets/modal'
+import { EasyPeasyConfig, Store } from 'easy-peasy'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
 
 const Fullscreen = tw(Vertical)`
   w-full
@@ -64,7 +65,7 @@ const handleSubmit = async (
     return false
   }
 
-  const type = state.type
+  let type = state.type
   const validations: ValidationQuest = {}
 
   switch (state.type) {
@@ -97,26 +98,32 @@ const handleSubmit = async (
         switch (e) {
           case TwitterEnum.FOLLOW:
             validations.twitter_handle = state.accountUrl
+            type = QuestTypeEnum.TWITTER_FOLLOW
             break
           case TwitterEnum.LIKE:
             validations.tweet_url = state.tweetUrl
             validations.like = true
+            type = QuestTypeEnum.TWITTER_REACTION
             break
           case TwitterEnum.REPLY:
             validations.reply = true
             validations.tweet_url = state.tweetUrl
+            type = QuestTypeEnum.TWITTER_REACTION
 
             break
           case TwitterEnum.RETWEET:
             validations.retweet = true
             validations.tweet_url = state.tweetUrl
+            type = QuestTypeEnum.TWITTER_REACTION
             break
           case TwitterEnum.TWEET:
             validations.included_words = []
             validations.default_tweet = state.contentTw
+            type = QuestTypeEnum.TWITTER_TWEET
             break
           case TwitterEnum.JOIN_SPACE:
             validations.space_url = state.spaceUrlTw
+            type = QuestTypeEnum.TWITTER_JOIN_SPACE
             break
         }
       })
@@ -141,14 +148,7 @@ const handleSubmit = async (
     description: state.description,
     categories: [],
     recurrence: state.recurrence,
-    rewards: [
-      {
-        type: 'points',
-        data: {
-          points: state.pointReward,
-        },
-      },
-    ],
+    points: state.pointReward, // Other types of rewards are not supported for now
     validation_data: validations,
     condition_op: 'and',
     conditions: [],
@@ -214,7 +214,7 @@ export const CreateOrEditQuest: FunctionComponent<{
               value={title}
               placeholder='The name of the quest is written here.'
               onChange={(e) => setTitle(e.target.value)}
-              errorMsg='You must have a quest title to create this quest.'
+              msg='You must have a quest title to create this quest.'
             />
             <Gap />
 
@@ -232,6 +232,8 @@ export const CreateOrEditQuest: FunctionComponent<{
 
           <ActionButtons onSubmit={submitAction} />
         </EditInfoFrame>
+
+        <QuestReward />
       </BodyFrame>
 
       <ProgressModal

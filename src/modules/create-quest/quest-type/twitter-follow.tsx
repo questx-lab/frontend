@@ -29,7 +29,7 @@ const TwitterFollow: FunctionComponent = () => {
           placeholder='https://twitter.com/elon.musk'
           value={accountUrl}
           required
-          errorMsg='This field is required'
+          msg='This field is required'
         />
       </Padding>
     </>
