@@ -4,7 +4,7 @@ import { useStoreActions } from 'easy-peasy'
 
 import { AuthEnum } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
-import { DesText, PaddingVertical, PolicyText, SocialBox, Title } from '@/modules/header/login'
+import { Description, PaddingVertical, PolicyText, SocialBox, Title } from '@/modules/header/login'
 import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
 import { PrimaryText } from '@/widgets/text'
@@ -34,12 +34,12 @@ const RegisterBox: FunctionComponent = () => {
         />
         {'Log in with MetaMask'}
       </SocialBox>
-      <DesText>
+      <Description>
         {'Already have an account?'}
         <PrimaryText isHover onClick={() => setAuthBox(AuthEnum.LOGIN)}>
           {'Login'}
         </PrimaryText>
-      </DesText>
+      </Description>
       <PolicyText>
         {'By continuing, you agree to the'} <PrimaryText isHover>{'Terms of Service'}</PrimaryText>{' '}
         & <PrimaryText isHover>{'Privacy policy'}</PrimaryText>

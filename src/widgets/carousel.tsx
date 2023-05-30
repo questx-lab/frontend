@@ -6,9 +6,9 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
+import { Image } from '@/widgets/image'
 import { VerticalCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
-import { Image } from '@/widgets/image'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 
 const Card = tw.div`
@@ -94,9 +94,7 @@ const CarouselList: FunctionComponent<{
           alt={StorageConst.CHICKEN.alt}
         />
         <NormalText className='text-center'>
-          {
-            "Ohhh! This doesn't have any data yet. Please follow and come back at a later time."
-          }
+          {"Ohhh! This doesn't have any data yet. Please follow and come back at a later time."}
         </NormalText>
       </EmptyBox>
     )
