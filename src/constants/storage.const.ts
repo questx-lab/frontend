@@ -123,4 +123,8 @@ export const StorageConst = {
     src: '/images/icons/copy.svg',
     alt: 'Copy',
   },
+  COMMUNITY_DEFAULT: {
+    src: '/images/icons/community_default.svg',
+    alt: 'Community Default',
+  },
 }

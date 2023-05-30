@@ -3,7 +3,6 @@ import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { IMAGES_SOURCE } from '@/constants/images'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
@@ -108,8 +107,8 @@ const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({ communi
         <ImageProjectBox
           width={60}
           height={60}
-          src={community.logo_url || IMAGES_SOURCE.community_default}
-          alt={'avatar'}
+          src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
+          alt='community'
         />
         <ContentProjectBox>
           <Title>{community.name!}</Title>

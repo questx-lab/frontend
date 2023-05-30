@@ -1,12 +1,12 @@
+import { RouterConst } from '@/constants/router.const'
+import { StorageConst } from '@/constants/storage.const'
 import { CollaboratorType } from '@/utils/type'
-import { FunctionComponent } from 'react'
+import { CircularImage } from '@/widgets/circular-image'
 import { Tooltip } from '@material-tailwind/react'
+import { FunctionComponent } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { CircularImage } from '@/widgets/circular-image'
-import { RouterConst } from '@/constants/router.const'
-import { useNavigate } from 'react-router-dom'
-import { IMAGES_SOURCE } from '@/constants/images'
 
 const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
   active
@@ -27,6 +27,8 @@ export const Item: FunctionComponent<{
   // hook
   const navigate = useNavigate()
 
+  console.log('collaboration.community.logo_url = ', collaboration.community.logo_url)
+
   return (
     <>
       <Tooltip
@@ -39,8 +41,8 @@ export const Item: FunctionComponent<{
             onClick={() => navigate(RouterConst.PROJECT + collaboration.community.handle)}
             width={45}
             height={45}
-            src={collaboration.community.logo_url || IMAGES_SOURCE.community_default}
-            alt='logo'
+            src={StorageConst.COMMUNITY_DEFAULT.src}
+            alt='community'
           />
         </ActiveAvatar>
       </Tooltip>
