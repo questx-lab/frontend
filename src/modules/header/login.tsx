@@ -436,7 +436,7 @@ const LoginBox: FunctionComponent = () => {
       <SocialBox
         onClick={async () => {
           window.location.assign(
-            await getTwitterOAuthUrl(EnvVariables.APP_URL + '/api/auth/callback/twitter')
+            await getTwitterOAuthUrl(EnvVariables.FRONTEND_URL + '/api/auth/callback/twitter')
           )
         }}
       >
