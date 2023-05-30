@@ -59,7 +59,7 @@ const QuestQuiz: FunctionComponent<{ quizIndex: number }> = ({ quizIndex }) => {
       <NormalText>{'Add answer to the quiz.'}</NormalText>
       <Gap />
 
-      <AnswerItem quizId={quizIndex} id={quizIndex} />
+      <AnswerItem quizIndex={quizIndex} />
     </QuestQuizBox>
   )
 }

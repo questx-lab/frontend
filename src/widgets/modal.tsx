@@ -63,31 +63,6 @@ const ModalContent = styled(Dialog.Panel)(
   rounded-lg
   `
 )
-const TMContent = tw.div`
-  flex
-  h-full
-  items-center
-  justify-end
-  text-center
-`
-
-const TMWrap = styled(Dialog.Panel)(
-  tw`
-  w-5/6
-  max-2xl:w-[calc(100%_-_70px)]
-  h-full
-  bg-white
-  text-left
-  align-middle
-  overflow-hidden
-  shadow-xl
-  transition-all
-  flex
-  flex-col
-  justify-start
-  items-center
-  `
-)
 
 const CenterWrap = tw.div`
   flex

@@ -58,6 +58,7 @@ export interface NewQuestModel {
   setActiveReward: Action<NewQuestModel, number>
   setSpaceUrl: Action<NewQuestModel, string>
   setQuizzes: Action<NewQuestModel, QuestQuizType[]>
+  setOptions: Action<NewQuestModel, { quizIndex: number; options: string[] }>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -203,6 +204,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setSpaceUrl: action((state, spaceUrlTw) => {
     state.spaceUrlTw = spaceUrlTw
+  }),
+
+  setOptions: action((state, { quizIndex, options }) => {
+    state.quizzes[quizIndex].options = options
   }),
 
   setQuizzes: action((state, quizzes) => {
