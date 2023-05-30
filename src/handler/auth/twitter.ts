@@ -7,7 +7,6 @@ import { KeysEnum } from '@/constants/key.const'
 export const TWITTER_STATE = 'twitter-increaser-state'
 const TWITTER_AUTH_URL = 'https://twitter.com/i/oauth2/authorize'
 const TWITTER_SCOPE = ['users.read', 'tweet.read', 'follows.read', 'follows.write'].join(' ')
-const REDIRECT_URL = `${EnvVariables.FRONTEND_URL}/api/auth/callback/twitter`
 
 const code_verifier = randomstring.generate(128)
 
@@ -21,6 +20,7 @@ async function generateCodeChallenge(codeVerifier: string) {
   // you can extract this replacing code to a function
   return base64Digest.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
 }
+
 export const getURLWithQueryParams = (baseUrl: string, params: Record<string, any>) => {
   const query = Object.entries(params)
     .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
@@ -32,7 +32,7 @@ export const getURLWithQueryParams = (baseUrl: string, params: Record<string, an
 export const getTwitterOAuthUrl = async (redirectUri: string) => {
   const rootUrl = TWITTER_AUTH_URL
   const options = {
-    redirect_uri: REDIRECT_URL,
+    redirect_uri: redirectUri,
     client_id: EnvVariables.TWITTER_ID,
     state: 'state',
     response_type: 'code',
