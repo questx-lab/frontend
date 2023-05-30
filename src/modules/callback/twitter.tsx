@@ -12,25 +12,9 @@ import { GlobalStoreModel } from '@/store/store'
 import { setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
 import { LoadingModal } from '@/widgets/modal'
 
-// add your client id and secret here:
-const TWITTER_OAUTH_CLIENT_ID = EnvVariables.TWITTER_ID
-const TWITTER_OAUTH_CLIENT_SECRET = EnvVariables.TWITTER_SECRET
-
-// the url where we get the twitter access token from
-const TWITTER_OAUTH_TOKEN_URL = 'https://api.twitter.com/2/oauth2/token'
-
-// we need to encrypt our twitter client id and secret here in base 64 (stated in twitter documentation)
-const BasicAuthToken = btoa(
-  `${encodeURIComponent(TWITTER_OAUTH_CLIENT_ID)}:${encodeURIComponent(
-    TWITTER_OAUTH_CLIENT_SECRET
-  )}`
-)
-
 // filling up the query parameters needed to request for getting the token
 export const twitterOauthTokenParams = {
-  client_id: 'OEZrTkRPRVkxc3NwWmVnMmRJVlI6MTpjaQ',
-  code_verifier: '8KxxO-RPl0bLSxX5AWwgdiFbMnry_VOKzFeIlVA7NoA',
-  redirect_uri: `http://localhost:3000/api/auth/callback/twitter`,
+  redirect_uri: `${EnvVariables.FRONTEND_URL}/api/auth/callback/twitter`,
   grant_type: 'authorization_code',
 }
 
