@@ -101,14 +101,14 @@ const Filter: FunctionComponent<{
   onFilterChanged: (newSelectedQuests: QuestType[]) => void
 }> = ({ onFilterChanged }) => {
   // data - search store
-  const quests = NewQuestSearchStore.useStoreState((state) => state.quests)
+  const allQuests = NewQuestSearchStore.useStoreState((state) => state.allQuests)
   const selectedQuests = NewQuestSearchStore.useStoreState((state) => state.selectedQuest)
   const filteredQuests = NewQuestSearchStore.useStoreState((state) => state.filteredQuests)
   // data - community store
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   // actions
-  const setQuests = NewQuestSearchStore.useStoreActions((actions) => actions.setQuests)
+  const setQuests = NewQuestSearchStore.useStoreActions((actions) => actions.setAllQuests)
   const setFilteredQuests = NewQuestSearchStore.useStoreActions(
     (actions) => actions.setFilteredQuests
   )
@@ -146,7 +146,7 @@ const Filter: FunctionComponent<{
 
   // onChange handles
   const onSearchQueryChanged = (value: string) => {
-    const filtered = quests.filter((quest) => {
+    const filtered = allQuests.filter((quest) => {
       const title = quest!.title?.toLowerCase() ?? ''
       return title.includes(value.toLowerCase())
     })

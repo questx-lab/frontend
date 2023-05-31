@@ -3,22 +3,22 @@ import { action, Action, createContextStore } from 'easy-peasy'
 import { QuestType } from '@/utils/type'
 
 interface QuestSearchModel {
-  quests: QuestType[]
+  allQuests: QuestType[]
   filteredQuests: QuestType[]
   selectedQuest: QuestType[]
 
-  setQuests: Action<QuestSearchModel, QuestType[]>
+  setAllQuests: Action<QuestSearchModel, QuestType[]>
   setFilteredQuests: Action<QuestSearchModel, QuestType[]>
   setSelectedQuests: Action<QuestSearchModel, QuestType[]>
 }
 
 export const NewQuestSearchStore = createContextStore<QuestSearchModel>({
-  quests: [],
+  allQuests: [],
   filteredQuests: [],
   selectedQuest: [],
 
-  setQuests: action((state, quests) => {
-    state.quests = quests
+  setAllQuests: action((state, quests) => {
+    state.allQuests = quests
   }),
 
   setFilteredQuests: action((state, quests) => {

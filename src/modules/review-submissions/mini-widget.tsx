@@ -54,6 +54,11 @@ export const FilterTitleFrame = tw(Horizontal)`
   px-4
 `
 
+export const TabContentFrame = tw(Horizontal)`
+  w-full
+  h-full
+`
+
 export const InputFrame = tw.div`
   px-4
 `

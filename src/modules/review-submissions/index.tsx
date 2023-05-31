@@ -77,16 +77,18 @@ export const Index: FunctionComponent = () => {
       </HorizontalBetweenCenterFullWidth>
       <Gap height={6} />
 
-      <NewQuestSearchStore.Provider>
-        <ContentPadding>
+      <ContentPadding>
+        <NewQuestSearchStore.Provider>
           {tabReviewState === TabReviewEnum.PENDING && (
             <PendingTab communityHandle={selectedCommunity.handle} />
           )}
+        </NewQuestSearchStore.Provider>
+        <NewQuestSearchStore.Provider>
           {tabReviewState === TabReviewEnum.HISTORY && (
             <HistoryTab communityHandle={selectedCommunity.handle} />
           )}
-        </ContentPadding>
-      </NewQuestSearchStore.Provider>
+        </NewQuestSearchStore.Provider>
+      </ContentPadding>
 
       <BasicModal isOpen={submissionModal} onClose={() => setShowClaimDetails(false)}>
         <ClaimReview />

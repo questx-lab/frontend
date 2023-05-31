@@ -5,21 +5,18 @@ import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { ClaimQuestType, ListClaimQuestType, QuestType, Rsp } from '@/utils/type'
 
 import { listClaimedQuestsApi } from '@/app/api/client/claim'
-import { FilterColumn, SubmissionColumn } from '@/modules/review-submissions/mini-widget'
-import ActionButtons from '@/modules/review-submissions/pending/action-buttons'
+import { ClaimedQuestStatus } from '@/constants/common.const'
 import Filter from '@/modules/review-submissions/filter'
+import {
+  FilterColumn,
+  SubmissionColumn,
+  TabContentFrame,
+} from '@/modules/review-submissions/mini-widget'
+import ActionButtons from '@/modules/review-submissions/pending/action-buttons'
+import TableHeader from '@/modules/review-submissions/pending/header'
 import RowItem from '@/modules/review-submissions/pending/row-item'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
-import { Horizontal } from '@/widgets/orientation'
-import tw from 'twin.macro'
-import TableHeader from '@/modules/review-submissions/pending/header'
 import { CommunityStore } from '@/store/local/community'
-import { ClaimedQuestStatus } from '@/constants/common.const'
-
-const Frame = tw(Horizontal)`
-  w-full
-  h-full
-`
 
 const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   // data
@@ -83,7 +80,7 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
   }
 
   return (
-    <Frame>
+    <TabContentFrame>
       <SubmissionColumn>
         <TableHeader />
 
@@ -105,7 +102,7 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
       <FilterColumn>
         <Filter onFilterChanged={onFilterChanged} />
       </FilterColumn>
-    </Frame>
+    </TabContentFrame>
   )
 }
 
