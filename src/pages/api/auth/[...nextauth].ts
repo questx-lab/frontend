@@ -81,13 +81,13 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           url.match(matcher)
         ) {
           const arr = url.split('/')
-          const community_id = arr[arr.length - 2]
+          const community_handle = arr[arr.length - 2]
           type Guild = {
             id: string
           }
           const guild = account.guild as Guild
           const resp = await updateCommunityDiscord(
-            community_id,
+            community_handle,
             guild.id,
 
             account.access_token,

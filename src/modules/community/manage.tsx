@@ -46,7 +46,7 @@ export default function ManageProject() {
 
   const getQuests = async () => {
     try {
-      const data = await listQuestApi(project.id, '')
+      const data = await listQuestApi(project.handle, '')
       if (data.error) {
         toast.error(data.error)
       }
@@ -61,51 +61,53 @@ export default function ManageProject() {
 
   return (
     <Wrap>
-      <ProjectSide activeCommunityId={project.id} />
-      <MMain>
-        <ControlPanel communityId={project.id} />
-        <CCBox>
-          <MBox>
-            <MPadding>
-              <MHeader>
-                <CHeadling>{'Quest'}</CHeadling>
-                <CardBox>
-                  <BtnUseT onClick={() => setOpenTemplate(true)}>
-                    {'Use Template'}
-                  </BtnUseT>
-                  <Gap width={4} />
-                  <PSave
-                    onClick={() =>
-                      router.push(RouterConst.PROJECT + project.id + '/create')
-                    }
-                    isBlock={false}
-                  >
-                    {'+  Create Quest'}
-                  </PSave>
-                </CardBox>
-              </MHeader>
-            </MPadding>
-            <Gap height={6} />
-            <Templates />
+      <ProjectSide activeCommunityHandle={project.handle} />
+      <NewQuestStore.Provider>
+        <MMain>
+          <ControlPanel communityHandle={project.handle || ''} />
+          <CCBox>
+            <MBox>
+              <MPadding>
+                <MHeader>
+                  <CHeadling>{'Quest'}</CHeadling>
+                  <CardBox>
+                    <BtnUseT onClick={() => setOpenTemplate(true)}>
+                      {'Use Template'}
+                    </BtnUseT>
+                    <Gap width={4} />
+                    <PSave
+                      onClick={() =>
+                        router.push(
+                          RouterConst.PROJECT + project.handle + '/create'
+                        )
+                      }
+                      isBlock={false}
+                    >
+                      {'+  Create Quest'}
+                    </PSave>
+                  </CardBox>
+                </MHeader>
+              </MPadding>
+              <Gap height={6} />
+              <Templates setOpenTemplate={setOpenTemplate} />
 
-            <Gap height={6} />
-            <MPadding>
-              <Category />
-              <Quests questList={questList} show={!loading} />
-            </MPadding>
-          </MBox>
-        </CCBox>
-      </MMain>
-      <BasicModal
-        title={`🎉 Template`}
-        isOpen={openTemplate}
-        onClose={() => setOpenTemplate(false)}
-        styled='w-5/6 flex items-start'
-      >
-        <NewQuestStore.Provider>
-          <QuestFrame isTemplate id={project.id} />
-        </NewQuestStore.Provider>
-      </BasicModal>
+              <Gap height={6} />
+              <MPadding>
+                <Category />
+                <Quests questList={questList} show={!loading} />
+              </MPadding>
+            </MBox>
+          </CCBox>
+        </MMain>
+        <BasicModal
+          title={`🎉 Template`}
+          isOpen={openTemplate}
+          onClose={() => setOpenTemplate(false)}
+          styled='flex flex-col !justify-start !items-start !w-5/6'
+        >
+          <QuestFrame isTemplate id={project.handle ?? ''} />
+        </BasicModal>
+      </NewQuestStore.Provider>
     </Wrap>
   )
 }

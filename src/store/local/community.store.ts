@@ -22,7 +22,7 @@ interface CommunityModel {
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
-  project: { id: '' },
+  project: { handle: '' },
   projects: [],
   query: '',
   searchProjects: [],

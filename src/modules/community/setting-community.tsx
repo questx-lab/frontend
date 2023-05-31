@@ -3,7 +3,6 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
-import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import {
@@ -28,7 +27,6 @@ import {
   Vertical,
 } from '@/widgets/orientation'
 import { Label, NormalText, PrimaryText } from '@/widgets/text'
-import { Switch } from '@headlessui/react'
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline'
 
 enum SettingTab {
@@ -58,38 +56,6 @@ const WrapBtn = tw(HorizontalEnd)`
   gap-3
 `
 
-const PublicSwitch = styled(Switch)<{ active: boolean }>(
-  ({ active = false }) => [
-    active &&
-      tw`
-      bg-primary relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full 
-      border-2 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2
-      focus-visible:ring-white focus-visible:ring-opacity-75
-      `,
-    !active &&
-      tw`
-      bg-gray-100 relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full 
-      border-2 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2
-      focus-visible:ring-white focus-visible:ring-opacity-75
-      `,
-  ]
-)
-
-const PointSwitch = styled.div<{ active: boolean }>(({ active = false }) => [
-  active &&
-    tw`
-  translate-x-9
-  pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg 
-  ring-0 transition duration-200 ease-in-out
-  `,
-  !active &&
-    tw`
-  translate-x-0
-  pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg 
-  ring-0 transition duration-200 ease-in-out
-  `,
-])
-
 const KeyWrap = tw(HorizontalStartCenter)`
   p-3
   border
@@ -110,7 +76,7 @@ const ApiKey: FunctionComponent = () => {
   const handleGenerate = async () => {
     setLoading(true)
     try {
-      const { error, data } = await generateCommunityKeyApi(project.id)
+      const { error, data } = await generateCommunityKeyApi(project.handle)
       if (error) {
         toast.error(error)
       } else {
@@ -169,7 +135,7 @@ const General: FunctionComponent = () => {
   const [enabled, setEnabled] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   useEffect(() => {
-    setTitle(project.name!)
+    setTitle(project.display_name!)
     setDescription(project.introduction!)
     setWebsiteUrl(project.website_url ?? '')
   }, [])
@@ -200,8 +166,8 @@ const General: FunctionComponent = () => {
     setLoading(true)
     try {
       const payload: ReqUpdateCommunity = {
-        id: project.id ?? '',
-        name: title,
+        handle: project.handle ?? '',
+        display_name: title,
         introduction: description,
         website_url: websiteUrl,
       }
@@ -229,7 +195,7 @@ const General: FunctionComponent = () => {
         onChange={(e) => setTitle(e.target.value)}
         placeholder=''
         required
-        errorMsg='This field is required'
+        msg='This field is required'
       />
       <Label>{'DESCRIPTION'}</Label>
       <MultipleTextField
@@ -247,20 +213,13 @@ const General: FunctionComponent = () => {
         alt={'avatar'}
       />
       <PrimaryText>{'*Max 5.0MB, Size 200x200px'}</PrimaryText>
-      <Label>{'PUBLIC'}</Label>
-      <PublicBox>
-        <PublicSwitch checked={enabled} onChange={setEnabled} active={enabled}>
-          <PointSwitch aria-hidden='true' active={enabled} />
-        </PublicSwitch>
-        <NormalText>{'anyone can see and claim the quests'}</NormalText>
-      </PublicBox>
       <Label>{'WEBSITE URL'}</Label>
       <TextField
         value={websiteUrl}
         onChange={(e) => setWebsiteUrl(e.target.value)}
         placeholder=''
         required={false}
-        errorMsg='This field is required'
+        msg='This field is required'
       />
       <Divider />
       <WrapBtn>
@@ -273,8 +232,8 @@ const General: FunctionComponent = () => {
   )
 }
 
-const SettingCommunity: FunctionComponent<{ communityId: string }> = ({
-  communityId,
+const SettingCommunity: FunctionComponent<{ communityHandle: string }> = ({
+  communityHandle,
 }) => {
   // hook
   const [tab, setTab] = useState<number>(SettingTab.GENERAL)
@@ -291,7 +250,7 @@ const SettingCommunity: FunctionComponent<{ communityId: string }> = ({
 
   const fetchProject = async () => {
     try {
-      const rs = await getCommunityApi(communityId)
+      const rs = await getCommunityApi(communityHandle)
       if (rs.error) {
         toast.error(rs.error)
       } else {
@@ -326,7 +285,7 @@ const SettingCommunity: FunctionComponent<{ communityId: string }> = ({
   }
 
   return (
-    <PanelLayout communityId={communityId} active={SideEnum.SETTINGS}>
+    <PanelLayout communityHandle={communityHandle} active={SideEnum.SETTINGS}>
       <Head>{'Review Submission'}</Head>
       <Tab>
         <TabItem

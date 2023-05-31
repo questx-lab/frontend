@@ -126,7 +126,7 @@ const Category: FunctionComponent = () => {
 
   const addCategory = async () => {
     try {
-      const rs = await createCategoryApi(project.id, name)
+      const rs = await createCategoryApi(project.handle, name)
       if (rs.error) {
         toast.error(rs.error)
       } else {
@@ -140,7 +140,7 @@ const Category: FunctionComponent = () => {
 
   const fetchCategory = async () => {
     try {
-      const rs = await getCategoriesApi(project.id)
+      const rs = await getCategoriesApi(project.handle)
       if (rs.error) {
         toast.error(rs.error)
       } else {

@@ -6,12 +6,12 @@ on:
     types: ['closed']
 
 env:
-  PROJECT_ID: ${{ secrets.PROJECT_ID }} # TODO: update Google Cloud project id
-  GAR_LOCATION: ${{ secrets.GAR_LOCATION }} # TODO: update Artifact Registry location
-  SERVICE: ${{ secrets.SERVICE_NAME }} # TODO: update Cloud Run service name
-  APP_NAME: ${{ secrets.APP_NAME }}
-  GKE_CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
-  CLUSTER_REGION: ${{ secrets.CLUSTER_REGION }}
+  PROJECT_ID: ${{ vars.PROJECT_ID }} # TODO: update Google Cloud project id
+  GAR_LOCATION: ${{ vars.GAR_LOCATION }} # TODO: update Artifact Registry location
+  SERVICE: ${{ vars.SERVICE_NAME }} # TODO: update Cloud Run service name
+  APP_NAME: ${{ vars.APP_NAME }}
+  GKE_CLUSTER_NAME: ${{ vars.GKE_CLUSTER_NAME }}
+  CLUSTER_REGION: ${{ vars.CLUSTER_REGION }}
   ENV_FILE: ${{ secrets.ENV_FILE }}
   GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
   DOMAIN: ${{ vars.DOMAIN }}
@@ -48,7 +48,6 @@ jobs:
       - name: Build and Push Container
         run: |-
           echo "${{ env.ENV_FILE }}" > ./.env.local
-          cat ./.env.local
           docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.APP_NAME }}/${{ env.SERVICE }}:${{ github.sha }}" . -f deploy/Dockerfile
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.APP_NAME }}/${{ env.SERVICE }}:${{ github.sha }}"
 

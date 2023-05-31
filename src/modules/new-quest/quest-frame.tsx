@@ -16,17 +16,17 @@ import tw from 'twin.macro'
 
 import { getCommunityApi } from '@/app/api/client/community'
 import {
-  newQuestApi,
   getQuestApi,
+  newQuestApi,
   updateQuestApi,
 } from '@/app/api/client/quest'
 import {
+  QuestRecurrence,
+  QuestRecurrencesStringMap,
   QuestStatusEnum,
   QuestTypeEnum,
-  TwitterEnum,
-  QuestRecurrencesStringMap,
-  QuestRecurrence,
   QuestTypeMap,
+  TwitterEnum,
 } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
@@ -46,7 +46,7 @@ import {
   ICard,
   PICard,
 } from '@/styles/questboard.style'
-import { ReqNewQuestType, ValidationQuest } from '@/utils/type'
+import { QuestType, ReqNewQuestType, ValidationQuest } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/button'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
@@ -59,6 +59,91 @@ const TitleBox = tw(HorizontalStartCenter)`
   py-6
   w-full
 `
+
+export const handleTemplate = (
+  setTitle: (e: string) => void,
+  setDescription: (e: string) => void,
+  setRecurrence: (e: QuestRecurrence) => void,
+  setQuestType: (e: QuestTypeEnum) => void,
+  setAccountLink: (e: string) => void,
+  setTextAutoValidation: (e: boolean) => void,
+  setAnswer: (e: string) => void,
+  setVisitLink: (e: string) => void,
+  setTelegramLink: (e: string) => void,
+  setInvites: (e: number) => void,
+  setActionTwitter: (e: string[]) => void,
+  setTweetUrl: (e: string) => void,
+  setReplyTwitter: (e: string) => void,
+  quest: QuestType
+) => {
+  if (quest.title) {
+    setTitle(quest.title)
+  }
+  if (quest.description) {
+    setDescription(quest.description)
+  }
+  if (quest.type) {
+    setQuestType(QuestTypeMap.get(quest.type) || QuestTypeEnum.URL)
+  }
+  if (quest.recurrence) {
+    setRecurrence(
+      QuestRecurrencesStringMap.get(quest.recurrence || '') ||
+        QuestRecurrence.ONCE
+    )
+  }
+
+  if (quest.validation_data) {
+    const validate = quest.validation_data
+    if (validate.auto_validate) {
+      setTextAutoValidation(validate.auto_validate)
+    }
+
+    if (validate.answer) {
+      setAnswer(validate.answer)
+    }
+
+    if (validate.link) {
+      setVisitLink(validate.link)
+    }
+
+    if (validate.invite_url && quest.type === QuestTypeEnum.JOIN_TELEGRAM) {
+      setTelegramLink(validate.invite_url)
+    }
+
+    if (validate.number) {
+      setInvites(validate.number)
+    }
+
+    // Twitter Follow
+    if (quest.type === QuestTypeEnum.TWITTER_FOLLOW) {
+      setActionTwitter([TwitterEnum.FOLLOW])
+      if (validate.twitter_handle) {
+        setAccountLink(validate.twitter_handle)
+      }
+    }
+
+    // Twitter Reaction
+    if (quest.type === QuestTypeEnum.TWITTER_REACTION) {
+      let actions: string[] = []
+      if (validate.like) {
+        actions.push(TwitterEnum.LIKE)
+      }
+      if (validate.reply) {
+        actions.push(TwitterEnum.REPLY)
+      }
+      if (validate.retweet) {
+        actions.push(TwitterEnum.RETWEET)
+      }
+      if (validate.tweet_url) {
+        setTweetUrl(validate.tweet_url)
+      }
+      if (validate.default_reply) {
+        setReplyTwitter(validate.default_reply)
+      }
+      setActionTwitter(actions)
+    }
+  }
+}
 
 const CreateQuestLabel: FunctionComponent<{
   id: string
@@ -115,7 +200,7 @@ const ButtonSubmit: FunctionComponent<{
 
   const submitAction = async (
     status: string,
-    community_id: string,
+    community_handle: string,
     editId: string
   ) => {
     setIsOpen(true)
@@ -243,7 +328,7 @@ const errorMessage = (state: StateMapper<FilterActionTypes<NewQuestModel>>) => {
 
 const handleSubmit = async (
   store: Store<NewQuestModel, EasyPeasyConfig<undefined, {}>>,
-  community_id: string,
+  community_handle: string,
   status: string,
   editId: string
 ): Promise<boolean> => {
@@ -328,7 +413,7 @@ const handleSubmit = async (
 
   const payload: ReqNewQuestType = {
     id: editId,
-    community_id: community_id,
+    community_handle: community_handle,
     type,
     title: state.title,
     description: state.description,
@@ -380,10 +465,8 @@ const QuestFrame: FunctionComponent<{
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   // Actions
-  const onTitleChanged = NewQuestStore.useStoreActions(
-    (actions) => actions.setTitle
-  )
-  const onDescriptionChanged = NewQuestStore.useStoreActions(
+  const setTitle = NewQuestStore.useStoreActions((actions) => actions.setTitle)
+  const setDescription = NewQuestStore.useStoreActions(
     (actions) => actions.setDescription
   )
 
@@ -471,7 +554,7 @@ const QuestFrame: FunctionComponent<{
     try {
       const res = await getQuestApi(id)
       const {
-        community_id,
+        community_handle: community_handle,
         title,
         type,
         description,
@@ -497,15 +580,15 @@ const QuestFrame: FunctionComponent<{
         number,
       } = validation_data || {}
 
-      onTitleChanged(title || '')
+      setTitle(title || '')
 
-      onDescriptionChanged(description || '')
+      setDescription(description || '')
       setRecurrence(
         QuestRecurrencesStringMap.get(recurrence || '') || QuestRecurrence.ONCE
       )
       setTweetUrl(tweet_url || '')
       setQuestType(QuestTypeMap.get(type || '') || QuestTypeEnum.URL)
-      fetchProjectByID(community_id || '')
+      fetchProjectByID(community_handle || '')
       setVisitLink(link || '')
       setTelegramLink(invite_url || '')
       setAccountLink(twitter_handle || '')
@@ -581,13 +664,13 @@ const QuestFrame: FunctionComponent<{
                   required
                   value={title}
                   placeholder='The name of the quest is written here.'
-                  onChange={(e) => onTitleChanged(e.target.value)}
-                  errorMsg='You must have a quest title to create this quest.'
+                  onChange={(e) => setTitle(e.target.value)}
+                  msg='You must have a quest title to create this quest.'
                 />
                 <Gap />
                 <Label>{'QUEST DESCRIPTION'}</Label>
                 <Editor
-                  onChange={(value) => onDescriptionChanged(value)}
+                  onChange={(value) => setDescription(value)}
                   value={description}
                 />
               </PICard>
@@ -602,9 +685,10 @@ const QuestFrame: FunctionComponent<{
 
             <ButtonSubmit
               setIsOpen={setIsOpen}
-              id={project.id}
+              id={project.handle}
               editId={isEdit ? id : ''}
             />
+            <Gap height={8} />
           </CCard>
           <QuestReward />
         </CBox>

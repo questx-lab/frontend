@@ -13,7 +13,7 @@ export default function Questboard({ params }: { params: { id: string } }) {
         <title>{'Create Questboard'}</title>
       </header>
       <Wrap>
-        <ProjectSide activeCommunityId={''} />
+        <ProjectSide activeCommunityHandle={''} />
         <CMain>
           <NewQuestStore.Provider>
             <QuestFrame id={params.id} isTemplate={false} />

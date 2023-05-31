@@ -22,71 +22,32 @@ import { QuestType } from '@/utils/type'
 
 const OuterBox = styled.div<{
   isTemplate: boolean
-  manage: boolean
-}>(({ isTemplate, manage }) => {
-  if (!isTemplate) {
-    return tw`
-        cursor-pointer
-        border
-        rounded-lg
-        border-solid
-        border-gray-200
-        border-[1px]
-        h-[250px]
-        max-lg:h-[300px]
-        w-full
-        flex
-        flex-col
-        hover:shadow-lg
-        justify-center
-        items-center
-      `
-  }
-
-  if (manage) {
-    return tw`
-        cursor-pointer
-        border
-        rounded-lg
-        border-solid
-        border-gray-200
-        border-[1px]
-        h-[280px]
-        bg-white
-        max-lg:h-[350px]
-        flex
-        flex-col
-        w-64
-        mr-4
-        hover:shadow-lg
-      `
-  }
-
-  return tw`
-      cursor-pointer
-      border
-      rounded-lg
-      border-solid
-      border-gray-200
-      border-[1px]
-      h-[280px]
-      max-lg:h-[350px]
-      flex
-      flex-col
-      w-64
-      mr-4
-      hover:shadow-lg
-    `
-})
+}>(({ isTemplate }) => [
+  tw`
+    cursor-pointer
+    rounded-lg
+    border-solid
+    border-gray-200
+    border-[1px]
+    h-[300px]
+    max-lg:h-[300px]
+    w-full
+    flex
+    flex-col
+    hover:shadow-lg
+    justify-center
+    items-center
+  `,
+  isTemplate && tw`bg-white border-gray-200`,
+])
 
 export const QuestCard: FunctionComponent<{
   quest: QuestType
   isTemplate: boolean
-  manage: boolean
   onClick?: (e: QuestType) => void
-}> = ({ quest, isTemplate, manage, onClick }) => {
+}> = ({ quest, isTemplate, onClick }) => {
   return (
-    <OuterBox isTemplate={isTemplate} manage={manage} onClick={onClick}>
+    <OuterBox isTemplate={isTemplate} onClick={onClick}>
       <StartBoarding>
         <TitleQuestBox>{quest.title}</TitleQuestBox>
         <Gap height={4} />

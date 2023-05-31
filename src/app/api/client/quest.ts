@@ -22,7 +22,7 @@ export const newQuestApi = async (
 }
 
 export const listQuestApi = async (
-  communityId: string,
+  communityHandle: string,
   search: string
 ): Promise<Rsp<LQuestType>> => {
   if (search == undefined) {
@@ -30,7 +30,7 @@ export const listQuestApi = async (
   }
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getQuests?community_id=${communityId}&limit=40&q=${search}`
+      `/getQuests?community_handle=${communityHandle}&limit=40&q=${search}`
   )
   return data
 }
@@ -71,7 +71,7 @@ export const listClaimedQuestsApi = async (
   const questIds = filterQuestIds.join(',')
   const { data } = await api.get(
     EnvVariables.NEXT_PUBLIC_API_URL +
-      `/getClaimedQuests?community_id=${id}&status=${status}&quest_id=${questIds}&offset=${offset}&limit=${limit}`
+      `/getClaimedQuests?community_handle=${id}&status=${status}&quest_id=${questIds}&offset=${offset}&limit=${limit}`
   )
   return data
 }
@@ -92,7 +92,7 @@ export const updateClaimedQuestApi = async (
 
 export const updateAllClaimedQuestApi = async (
   action: string,
-  community_id: string,
+  community_handle: string,
   filter_quest_id: string,
   filter_user_id: string,
   excludes: string[]
@@ -101,7 +101,7 @@ export const updateAllClaimedQuestApi = async (
     EnvVariables.NEXT_PUBLIC_API_URL + `/reviewAll`,
     {
       action,
-      community_id,
+      community_handle: community_handle,
       filter_quest_id,
       filter_user_id,
       excludes,
@@ -111,10 +111,11 @@ export const updateAllClaimedQuestApi = async (
 }
 
 // Templates
-export const getTemplates = async () => {
+export const getTemplatesApi = async (): Promise<
+  Rsp<{ templates: QuestType[] }>
+> => {
   const { data } = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/getTemplates`,
-    {}
+    EnvVariables.NEXT_PUBLIC_API_URL + `/getTemplates`
   )
   return data
 }

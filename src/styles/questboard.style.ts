@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
+import { PrimaryText } from '@/widgets/text'
 import { Disclosure } from '@headlessui/react'
 
 export const Wrap = tw(Horizontal)`
@@ -443,7 +444,6 @@ export const TBoardingCard = tw(VerticalFullWidth)`
   border-gray-200
   border-[1px]
   h-[280px]
-  max-lg:h-[350px]
   bg-white
   hover:shadow-lg
 `
@@ -600,6 +600,7 @@ export const TLSide = tw.div`
   pb-24
   px-6
   pt-2
+  rounded-l-lg
 `
 
 export const DisclosureBtn = styled(Disclosure.Button)(tw`
@@ -626,8 +627,6 @@ export const DisclosurePanel = styled(Disclosure.Panel)(tw`
   pb-2
 `)
 
-export const DisclosureTitle = tw.span`
-  text-primary
-  text-sm
-  font-medium
+export const DisclosureTitle = tw(PrimaryText)`
+  text-lg
 `

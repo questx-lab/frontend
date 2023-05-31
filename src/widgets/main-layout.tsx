@@ -27,7 +27,7 @@ export const MainLayout: FunctionComponent<{
         <title>{title}</title>
       </header>
       <Wrap>
-        <ProjectSide activeCommunityId={''} />
+        <ProjectSide activeCommunityHandle={''} />
         <Main>{children}</Main>
       </Wrap>
     </Layout>

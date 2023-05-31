@@ -19,8 +19,8 @@ export const UploadImageStep: FunctionComponent = () => {
   let [loading, setLoading] = useState<boolean>(false)
 
   const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
-  const createdCommunityId = NewCommunityStore.useStoreState(
-    (state) => state.createdCommunityId
+  const createdCommunityHandle = NewCommunityStore.useStoreState(
+    (state) => state.createdCommunityHandle
   )
 
   // action
@@ -53,7 +53,10 @@ export const UploadImageStep: FunctionComponent = () => {
     setLoading(true)
 
     if (avatar && avatar.length > 0) {
-      const tuple = await uploadFileForCommunity(avatar[0], createdCommunityId)
+      const tuple = await uploadFileForCommunity(
+        avatar[0],
+        createdCommunityHandle
+      )
       if (tuple.error) {
         toast.error(tuple.error)
         return
@@ -61,7 +64,7 @@ export const UploadImageStep: FunctionComponent = () => {
     }
 
     getMyProjects()
-    router.push(RouterConst.PROJECT + createdCommunityId + '/create')
+    router.push(RouterConst.PROJECT + createdCommunityHandle)
   }
 
   return (

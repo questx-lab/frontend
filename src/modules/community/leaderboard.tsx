@@ -197,7 +197,7 @@ const Leaderboard: FunctionComponent = () => {
   const getLeaderboard = async (range: string) => {
     try {
       const data = await getLeaderboardApi(
-        project.id,
+        project.handle,
         range,
         LeaderboardConst.POINT
       )

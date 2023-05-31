@@ -115,6 +115,7 @@ export const RightSession = tw(Horizontal)`
   w-full
   items-center
   justify-end
+  h-full
 `
 
 // ============= USER INFORMATION =============

@@ -4,6 +4,7 @@ import { FunctionComponent } from 'react'
 
 import { QuestView } from '@/modules/quests/single-quest'
 import { ActiveQuestStore } from '@/store/local/active-quest.store'
+import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { WrapQuestboard } from '@/styles/questboard.style'
@@ -19,7 +20,9 @@ export const QuestListView: FunctionComponent<{
 
   const questListView = questList.map((quest) => (
     <ActiveQuestStore.Provider key={quest.id}>
-      <QuestView quest={quest} />
+      <NewQuestStore.Provider>
+        <QuestView quest={quest} />
+      </NewQuestStore.Provider>
     </ActiveQuestStore.Provider>
   ))
 
