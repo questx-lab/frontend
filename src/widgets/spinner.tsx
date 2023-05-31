@@ -1,9 +1,14 @@
-import React from 'react'
-
 import { MoonLoader } from 'react-spinners'
 
 import { SpinnerStyle } from '@/styles/common.style'
-import { Wrap } from '@/styles/spinner.style'
+import tw from 'twin.macro'
+
+const Wrap = tw.div`
+  h-screen
+  flex
+  justify-center
+  items-center
+`
 
 export const Spinner = () => (
   <Wrap>

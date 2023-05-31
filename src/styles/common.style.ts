@@ -1,8 +1,6 @@
 import styled, { CSSProperties } from 'styled-components'
 import tw from 'twin.macro'
 
-import { Horizontal, Vertical } from '@/widgets/orientation'
-
 type GapProps = {
   width?: number
   height?: number
@@ -98,24 +96,3 @@ export const SpinnerStyle: CSSProperties = {
   margin: '0 auto',
   borderColor: '#000',
 }
-
-export const CloseIcon = tw.svg`
-  w-6
-  h-6
-  cursor-pointer
-`
-
-export const ImgBox = tw.div`
-  w-[200px]
-  h-[180px]
-  border-2
-  border-gray-300
-  rounded-lg
-  bg-gray-50
-`
-export const LargeTitle = tw.p`
-  text-4xl
-  text-black
-  font-bold
-  max-sm:text-2xl
-`
