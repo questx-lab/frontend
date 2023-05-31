@@ -186,7 +186,7 @@ export type ClaimQuestType = {
   quest: QuestType
   user: UserType
   status?: string
-  input?: string
+  submission_data?: string
   reviewer_at?: string
 }
 

@@ -1,7 +1,6 @@
 import { ReviewBtnEnum } from '@/constants/common.const'
 import { ButtonBox, ButtonFrame } from '@/modules/review-submissions/mini-widget'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { ClaimQuestType } from '@/utils/type'
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
