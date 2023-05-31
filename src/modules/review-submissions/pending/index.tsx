@@ -1,7 +1,6 @@
 import { ChangeEvent, FunctionComponent, useEffect } from 'react'
 
 import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 
 import { ClaimQuestType, ListClaimQuestType, Rsp } from '@/utils/type'
 
@@ -15,9 +14,8 @@ import { FullWidthHeight } from '@/widgets/orientation'
 
 const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   // data
-  const chooseQuestsState = NewClaimReviewStore.useStoreState((state) => state.chooseQuestsPending)
+  const selectedPendings = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
   const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
-  const selectedQuest = NewQuestSearchStore.useStoreState((state) => state.selectedQuest)
 
   // action
   const setSelectedPending = NewClaimReviewStore.useStoreActions(
@@ -29,14 +27,14 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
 
   // hook
   useEffect(() => {
-    getClaimsQuest()
+    getInitialClaims()
   }, [])
 
-  const getClaimsQuest = async () => {
+  const getInitialClaims = async () => {
     const result: Rsp<ListClaimQuestType> = await listClaimedQuestsApi(
       communityHandle,
       'pending',
-      selectedQuest.map((e) => e.id!)
+      []
     )
 
     if (result.code === 0) {
@@ -48,10 +46,12 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
 
   const onCheck = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
     if (e.target.checked) {
-      setSelectedPending([...chooseQuestsState, value])
+      selectedPendings.set(value.id, value)
     } else {
-      setSelectedPending(chooseQuestsState.filter((data) => data !== value))
+      selectedPendings.delete(value.id)
     }
+
+    setSelectedPending(selectedPendings)
   }
 
   return (
@@ -63,13 +63,20 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
           <SubmissionsList
             list={pendingClaims}
             itemView={(item: ClaimQuestType, index: number) => {
-              return <RowItem active={false} onChange={onCheck} claimQuest={item} key={index} />
+              return (
+                <RowItem
+                  active={selectedPendings.has(item.id)}
+                  onChange={onCheck}
+                  claimQuest={item}
+                  key={index}
+                />
+              )
             }}
           />
         </SubmissionBorder>
       </FullWidthHeight>
 
-      <ActionButtons data={chooseQuestsState} />
+      <ActionButtons />
     </>
   )
 }

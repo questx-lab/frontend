@@ -7,8 +7,8 @@ interface ClaimReviewModel {
   pendingClaims: ClaimQuestType[]
   historyClaims: ClaimQuestType[]
   claimQuestActive: ClaimQuestType
-  chooseQuestsHistory: ClaimQuestType[]
-  chooseQuestsPending: ClaimQuestType[]
+  selectedHistories: Map<string, ClaimQuestType>
+  selectedPendings: Map<string, ClaimQuestType>
   reviewStatus: string
   allHistoryChecked: boolean
   allPendingChecked: boolean
@@ -20,8 +20,8 @@ interface ClaimReviewModel {
   setCheckAllHistory: Action<ClaimReviewModel, boolean>
   setCheckAllPending: Action<ClaimReviewModel, boolean>
   setClaimActive: Action<ClaimReviewModel, ClaimQuestType>
-  setSelectedHistory: Action<ClaimReviewModel, ClaimQuestType[]>
-  setSelectedPending: Action<ClaimReviewModel, ClaimQuestType[]>
+  setSelectedHistory: Action<ClaimReviewModel, Map<string, ClaimQuestType>>
+  setSelectedPending: Action<ClaimReviewModel, Map<string, ClaimQuestType>>
   setReviewStatus: Action<ClaimReviewModel, string>
   setPendingClaims: Action<ClaimReviewModel, ClaimQuestType[]>
   setHistoryClaims: Action<ClaimReviewModel, ClaimQuestType[]>
@@ -33,13 +33,13 @@ interface ClaimReviewModel {
 
 export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
   reviewStatus: ClaimedQuestStatus.ALL,
-  chooseQuestsHistory: [],
-  chooseQuestsPending: [],
+  selectedHistories: new Map(),
+  selectedPendings: new Map(),
   allHistoryChecked: false,
   allPendingChecked: false,
   pendingClaims: [],
   historyClaims: [],
-  claimQuestActive: { user: {} },
+  claimQuestActive: { id: '', user: {} },
   loadingModal: false,
   submissionModal: false,
   recurrence: QuestRecurrence.ONCE,
@@ -49,12 +49,12 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
     state.reviewStatus = status
   }),
 
-  setSelectedHistory: action((state, quests) => {
-    state.chooseQuestsHistory = quests
+  setSelectedHistory: action((state, claimMap) => {
+    state.selectedHistories = new Map(claimMap)
   }),
 
-  setSelectedPending: action((state, quests) => {
-    state.chooseQuestsPending = quests
+  setSelectedPending: action((state, claimMap) => {
+    state.selectedPendings = new Map(claimMap)
   }),
 
   setCheckAllHistory: action((state, status) => {

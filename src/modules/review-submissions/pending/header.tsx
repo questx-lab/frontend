@@ -10,6 +10,7 @@ import { ChangeEvent, FunctionComponent } from 'react'
 
 export const Header: FunctionComponent<{}> = () => {
   // data
+  const selectedClaims = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
   const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
   const allPendingChecked = NewClaimReviewStore.useStoreState((state) => state.allPendingChecked)
 
@@ -17,17 +18,18 @@ export const Header: FunctionComponent<{}> = () => {
   const setCheckAllPending = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setCheckAllPending
   )
-  const setChoosePending = NewClaimReviewStore.useStoreActions(
+  const setSelectedPending = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setSelectedPending
   )
 
   const onCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
     setCheckAllPending(e.target.checked)
+
+    selectedClaims.clear()
     if (e.target.checked) {
-      setChoosePending(pendingClaims.map((claim) => claim))
-    } else {
-      setChoosePending([])
+      pendingClaims.map((claim) => selectedClaims.set(claim.id, claim))
     }
+    setSelectedPending(selectedClaims)
   }
 
   return (

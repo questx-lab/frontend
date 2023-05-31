@@ -43,14 +43,17 @@ const ActionButton = styled.button<{ btnType?: number }>(({ btnType = ReviewBtnE
   }
 })
 
-const ActionButtons: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) => {
+const ActionButtons: FunctionComponent<{}> = ({}) => {
+  // data
+  const data = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
+
   // action
   const setPendingClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setPendingClaims
   )
   const onLoadingModalChanged = NewClaimReviewStore.useStoreActions((actions) => actions.setLoading)
 
-  if (!data.length) {
+  if (!data.size) {
     return <></>
   }
 

@@ -40,8 +40,6 @@ const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     setTimeout(() => setLoading(false), 200)
   }
 
-  console.log('historyClaims length = ', historyClaims.length)
-
   return (
     <>
       <FullWidthHeight>
