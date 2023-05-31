@@ -16,7 +16,7 @@ import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/wi
 import { NormalText } from '@/widgets/text'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 
-import Sidebar from './sidebar'
+import Drawer from './drawer'
 
 const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
   tw`
@@ -145,10 +145,12 @@ export const Header: FunctionComponent<{}> = () => {
     <Wrap isApp={isApp}>
       <Body isApp={isApp}>
         <LeftSession>
-          {/* For mobile*/}
+          {/* For mobile */}
           <MobileView>
-            <Sidebar navActive={navActive} />
+            <Drawer navActive={navActive} />
           </MobileView>
+          {/* ========== */}
+
           <MenuIcon onClick={() => !navBar && setNavBar(true)} />
           <ImageLogoBox
             width={150}

@@ -14,7 +14,7 @@ import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { Divider } from '@/styles/common.style'
 import { Image } from '@/widgets/image'
-import { BaseModal, SidebarModal } from '@/widgets/modal'
+import { BaseModal, DrawerModal } from '@/widgets/modal'
 import {
   HorizontalBetweenCenterFullWidth,
   Vertical,
@@ -80,7 +80,7 @@ const NavigateOption = styled(Link)<{ isActive: boolean }>(({ isActive }) => {
   return style
 })
 
-const Sidebar: FC<{ navActive: string }> = ({ navActive }) => {
+const Drawer: FC<{ navActive: string }> = ({ navActive }) => {
   // hook
   const navigate = useNavigate()
 
@@ -92,7 +92,7 @@ const Sidebar: FC<{ navActive: string }> = ({ navActive }) => {
 
   return (
     <BaseModal isOpen={navBar}>
-      <SidebarModal>
+      <DrawerModal>
         <Content>
           <PaddingHorizontal>
             <Image
@@ -110,7 +110,7 @@ const Sidebar: FC<{ navActive: string }> = ({ navActive }) => {
           <NoPaddingDivider />
           <NoGapHorizontal>
             <CommunityStore.Provider>
-              <CommunitiesNavigation isAsside />
+              <CommunitiesNavigation isDrawer />
             </CommunityStore.Provider>
             <NavigateBox>
               <NavigateOption
@@ -130,9 +130,9 @@ const Sidebar: FC<{ navActive: string }> = ({ navActive }) => {
             </NavigateBox>
           </NoGapHorizontal>
         </Content>
-      </SidebarModal>
+      </DrawerModal>
     </BaseModal>
   )
 }
 
-export default Sidebar
+export default Drawer

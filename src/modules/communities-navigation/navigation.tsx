@@ -10,7 +10,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/utils/type'
 import { Vertical } from '@/widgets/orientation'
 
-const Wrap = styled.div<{ isAsside: boolean }>(({ isAsside }) => {
+const Wrap = styled.div<{ isDrawer: boolean }>(({ isDrawer }) => {
   const style = [
     tw`
     w-20
@@ -25,7 +25,7 @@ const Wrap = styled.div<{ isAsside: boolean }>(({ isAsside }) => {
   `,
   ]
 
-  if (!isAsside) {
+  if (!isDrawer) {
     style.push(tw`max-sm:hidden fixed `)
   }
 
@@ -58,8 +58,8 @@ const CommunityItems: FunctionComponent<{
   )
 }
 
-export const CommunitiesNavigation: FunctionComponent<{ isAsside?: boolean }> = ({
-  isAsside = false,
+export const CommunitiesNavigation: FunctionComponent<{ isDrawer?: boolean }> = ({
+  isDrawer = false,
 }) => {
   const communitiesCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesCollab
@@ -71,7 +71,7 @@ export const CommunitiesNavigation: FunctionComponent<{ isAsside?: boolean }> = 
   }
 
   return (
-    <Wrap isAsside={isAsside}>
+    <Wrap isDrawer={isDrawer}>
       <CommunityItems collaboration={communitiesCollab} />
     </Wrap>
   )
