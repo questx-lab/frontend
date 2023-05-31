@@ -6,7 +6,7 @@ import { HorizontalCenter } from './orientation'
 export const PrimaryText = styled(HorizontalCenter)<{
   size?: string
   isHover?: boolean
-}>(({ size = 'sm', isHover = false }) => [
+}>(({ size = 'md', isHover = false }) => [
   tw`
     text-primary
     font-normal
@@ -61,7 +61,7 @@ export const Label = tw.div`
 export const Large3xlText = tw.p`
   text-3xl
   text-black
-  font-bold
+  font-medium
   max-sm:text-2xl
 `
 

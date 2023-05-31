@@ -56,7 +56,9 @@ const QuestQuiz: FunctionComponent<{ quizIndex: number }> = ({ quizIndex }) => {
       <Gap />
 
       <FieldTitle title={'ANSWERS'} required={true} />
-      <NormalText>{'Add answer to the quiz.'}</NormalText>
+      <NormalText>
+        {'Add possible answers to the quiz. Click on a single letter for correct answer'}
+      </NormalText>
       <Gap />
 
       <AnswerItem quizIndex={quizIndex} />

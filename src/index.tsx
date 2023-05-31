@@ -1,14 +1,17 @@
+import './index.css'
+import 'react-multi-carousel/lib/styles.css'
+
 import React, { FunctionComponent, ReactNode, useEffect } from 'react'
+
+import { StoreProvider, useStoreActions } from 'easy-peasy'
 import ReactDOM from 'react-dom/client'
-import reportWebVitals from './reportWebVitals'
 
 import { RouterComponent } from '@/router'
 import store, { GlobalStoreModel } from '@/store/store'
-import { delCookies, delUserLocal, getUserLocal } from '@/utils/helper'
-import { StoreProvider, useStoreActions } from 'easy-peasy'
-import './index.css'
-
+import { getUserLocal } from '@/utils/helper'
 import { MetaMaskInpageProvider } from '@metamask/providers'
+
+import reportWebVitals from './reportWebVitals'
 
 declare global {
   interface Window {
@@ -33,13 +36,11 @@ const Content: FunctionComponent<{
 }
 
 root.render(
-  <React.StrictMode>
-    <StoreProvider store={store}>
-      <Content>
-        <RouterComponent />
-      </Content>
-    </StoreProvider>
-  </React.StrictMode>
+  <StoreProvider store={store}>
+    <Content>
+      <RouterComponent />
+    </Content>
+  </StoreProvider>
 )
 
 // If you want to start measuring performance in your app, pass a function

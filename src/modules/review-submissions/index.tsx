@@ -1,5 +1,6 @@
 import { TabReviewEnum } from '@/constants/common.const'
-import PendingTab from '@/routes/communities/community/review-submissions/pending'
+import HistoryTab from '@/modules/review-submissions/history'
+import PendingTab from '@/modules/review-submissions/pending'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
@@ -47,8 +48,6 @@ export const Index: FunctionComponent = () => {
     return <></>
   }
 
-  console.log('tabReviewState = ', tabReviewState)
-
   return (
     <VerticalFullWidth>
       <Head>{'Review Submission'}</Head>
@@ -77,7 +76,9 @@ export const Index: FunctionComponent = () => {
           {tabReviewState === TabReviewEnum.PENDING && (
             <PendingTab communityHandle={selectedCommunity.handle} />
           )}
-          {/* {tabReviewState === TabReviewEnum.HISTORY && <HistoryTab communityId={communityId} />} */}
+          {tabReviewState === TabReviewEnum.HISTORY && (
+            <HistoryTab communityHandle={selectedCommunity.handle} />
+          )}
         </ContentPadding>
       </NewQuestSearchStore.Provider>
     </VerticalFullWidth>

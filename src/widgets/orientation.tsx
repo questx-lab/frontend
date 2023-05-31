@@ -12,10 +12,6 @@ export const Horizontal = tw.div`
   items-start
 `
 
-export const HorizontalFullWidth = tw(Horizontal)`
-  w-full
-`
-
 export const HorizontalStartCenter = tw.div`
   flex
   flex-row

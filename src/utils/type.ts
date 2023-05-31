@@ -27,7 +27,7 @@ export type Rsp<T> = {
 
 export type UserType = {
   id?: string
-  address?: string
+  wallet_address?: string
   name?: string
   services?: {
     discord?: string
@@ -70,17 +70,18 @@ export type ReqNewCommunity = {
 }
 
 export type CommunityType = {
-  handle: string
   created_at?: string
   updated_at?: string
   created_by?: string
-  name?: string
+  display_name?: string
+  handle: string
   twitter?: string
   discord?: string
   telegram?: string
   introduction?: string
   website_url?: string
   logo_url?: string
+  number_of_quests?: number
 }
 
 export type ListCommunitiesType = {
@@ -181,11 +182,11 @@ export type ReqClaimReward = {
 }
 
 export type ClaimQuestType = {
-  id?: string
+  id: string
   quest_id?: string
   quest?: QuestType
   user_id?: string
-  user?: UserType
+  user: UserType
   status?: string
   input?: string
   reviewer_at?: string

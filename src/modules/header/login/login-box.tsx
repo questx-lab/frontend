@@ -8,7 +8,7 @@ import { EnvVariables } from '@/constants/env.const'
 import { StorageConst } from '@/constants/storage.const'
 import { handleMetamask } from '@/handler/auth/metamask'
 import { getTwitterOAuthUrl } from '@/handler/auth/twitter'
-import { DesText, PaddingVertical, SocialBox, Title } from '@/modules/header/login'
+import { Description, PaddingVertical, SocialBox, Title } from '@/modules/header/login'
 import { GlobalStoreModel } from '@/store/store'
 import { updateAccessToken } from '@/utils/storage'
 import { Image } from '@/widgets/image'
@@ -78,12 +78,12 @@ const LoginBox: FunctionComponent = () => {
         />
         {'Log in with MetaMask'}
       </SocialBox>
-      <DesText>
+      <Description>
         {"Don't have an account?"}
         <PrimaryText isHover onClick={() => setAuthBox(AuthEnum.REGISTER)}>
           {'Sign up'}
         </PrimaryText>
-      </DesText>
+      </Description>
     </PaddingVertical>
   )
 }

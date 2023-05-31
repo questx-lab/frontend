@@ -5,5 +5,4 @@ export const ThinBorderBox = tw.div`
   border-[1px]
   rounded-lg
   border-gray-200
-  py-6
 `

@@ -16,7 +16,7 @@ export const SubmissionsList: FunctionComponent<{
   itemView: (item: any, index: number) => ReactNode
 }> = ({ list, itemView }) => {
   if (list.length === 0) {
-    return <NothingBox>{'Nothing quest claimed'}</NothingBox>
+    return <NothingBox>{'No item found'}</NothingBox>
   }
 
   return (

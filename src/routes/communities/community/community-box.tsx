@@ -1,14 +1,14 @@
 import { FunctionComponent } from 'react'
 
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityType } from '@/utils/type'
-import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
 import { Image } from '@/widgets/image'
-import { useNavigate } from 'react-router-dom'
-import { RouterConst } from '@/constants/router.const'
+import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
 
 const ContentProjectBox = tw(Vertical)`
   justify-between
@@ -111,9 +111,9 @@ const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({ communi
           alt='community'
         />
         <ContentProjectBox>
-          <Title>{community.name!}</Title>
+          <Title>{community.display_name!}</Title>
           <InfoSection>
-            <Info>{'8 Quests'}</Info>
+            <Info>{`${community.number_of_quests} Quests`}</Info>
           </InfoSection>
           <Description>{community.introduction}</Description>
         </ContentProjectBox>

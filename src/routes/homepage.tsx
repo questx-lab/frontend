@@ -6,14 +6,16 @@ import tw from 'twin.macro'
 
 import { getTrendingCommunities } from '@/app/api/client/communitiy'
 import { RouterConst } from '@/constants/router.const'
+import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/routes/communities/community/community-box'
 import { GlobalStoreModel } from '@/store/store'
-import { TitleBox } from '@/styles/common.style'
 import { CommunityType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
+import { Image } from '@/widgets/image'
 import { LayoutWithLeftPanel } from '@/widgets/layout/layout-with-left-panel'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
+import { Large3xlText } from '@/widgets/text'
 
 import LandingPage from './landing-page'
 
@@ -27,7 +29,7 @@ export const Main = tw(Vertical)`
   xl:w-[980px]
   pb-[30px]
   w-full
-  gap-6
+  gap-12
 `
 
 const CommunityGrid = tw.div`
@@ -41,12 +43,25 @@ const CommunityGrid = tw.div`
 
 const Title: FunctionComponent = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  return <TitleBox>{`👋 Hi, ${user && user.name}`}</TitleBox>
+  return (
+    <VerticalFullWidthCenter>
+      <Large3xlText>{`👋 Hi, ${user && user.name}`}</Large3xlText>
+    </VerticalFullWidthCenter>
+  )
 }
 
 const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({ communities }) => {
   if (!communities || communities.length === 0) {
-    return <></>
+    return (
+      <VerticalFullWidthCenter>
+        <Image
+          width={256}
+          height={256}
+          src={StorageConst.EMPTY_FOLLOWING.src}
+          alt={StorageConst.EMPTY_FOLLOWING.alt}
+        />
+      </VerticalFullWidthCenter>
+    )
   }
 
   return (
@@ -80,13 +95,14 @@ export const HomeOrLanding: FunctionComponent = () => {
   useEffect(() => {
     if (communitiesTrending && communitiesTrending.length === 0) {
       fetchTrending()
+    } else {
+      setLoading(false)
     }
   }, [])
 
   const fetchTrending = async () => {
     const result = await getTrendingCommunities()
     if (result.code === 0 && result.data) {
-      setCommunities(result.data.communities)
       setCommunitiesTrending(result.data.communities)
     }
 
@@ -106,9 +122,12 @@ export const HomeOrLanding: FunctionComponent = () => {
       <PaddingTop>
         <Main>
           <Title />
+
+          <OtherCommunities communities={communitiesFollowing} />
+
           <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked} loading={loading}>
             <CarouselList
-              data={communities}
+              data={communitiesTrending}
               renderItemFunc={(community: CommunityType) => {
                 return <CommunityBox community={community} />
               }}
@@ -117,14 +136,12 @@ export const HomeOrLanding: FunctionComponent = () => {
 
           <CategoryBox title='⭐ Popular Communities' onClick={onShowAllClicked}>
             <CarouselList
-              data={communities}
+              data={communitiesTrending}
               renderItemFunc={(community: CommunityType) => {
                 return <CommunityBox community={community} />
               }}
             />
           </CategoryBox>
-
-          <OtherCommunities communities={communitiesFollowing} />
         </Main>
       </PaddingTop>
     </LayoutWithLeftPanel>

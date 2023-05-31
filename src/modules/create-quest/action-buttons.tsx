@@ -44,9 +44,11 @@ const ActionButtons: FunctionComponent<{
         }
         break
       case QuestTypeEnum.QUIZ:
-        const quiz = quizzes[quizzes.length - 1]
-        if (quiz.question !== '' && quiz.answers.length && quiz.question.length) {
-          disable = false
+        if (quizzes.length > 0) {
+          const quiz = quizzes[quizzes.length - 1]
+          if (quiz.question !== '' && quiz.answers.length && quiz.question.length) {
+            disable = false
+          }
         }
         break
       case QuestTypeEnum.VISIT_LINK:

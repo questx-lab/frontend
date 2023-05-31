@@ -14,6 +14,7 @@ import tw from 'twin.macro'
 const FrameShape = tw(Vertical)`
   py-8
   px-8
+  w-1/3
   h-full
   justify-start
   items-end
@@ -26,6 +27,7 @@ const FullWidthInput = tw(NumberInput)`
 const BorderBox = tw(ThinBorderBox)`
   w-full
   px-6
+  py-6
   gap-4
 `
 
