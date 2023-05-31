@@ -12,7 +12,6 @@ import { Vertical } from '@/widgets/orientation'
 
 const Wrap = styled.div<{ isAsside: boolean }>(({ isAsside }) => [
   tw`
-    
     w-20
     flex
     flex-col
