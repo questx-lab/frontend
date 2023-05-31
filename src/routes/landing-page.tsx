@@ -207,12 +207,12 @@ const Footer: FunctionComponent = () => {
 }
 
 const Content: FunctionComponent = () => {
-  // Hook
+  // hook
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const [communities, setCommunities] = useState<CommunityType[]>([])
 
-  // Handler
+  // handler
   const onShowAllClicked = () => {
     navigate(RouterConst.COMMUNITIES)
   }
@@ -231,7 +231,7 @@ const Content: FunctionComponent = () => {
     }
   }, [])
 
-  // First fetch
+  // first fetch
   useEffect(() => {
     fetchListCommunities('')
   }, [])
