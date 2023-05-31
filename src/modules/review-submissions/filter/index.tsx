@@ -3,8 +3,9 @@ import ResultBox from '@/modules/review-submissions/filter/result'
 import { FilterTitleFrame } from '@/modules/review-submissions/mini-widget'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
-import { Divider } from '@/styles/common.style'
+import { Divider, Gap } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
+import { Label } from '@/widgets/text'
 import { Combobox, Transition } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import { Fragment, FunctionComponent, useEffect } from 'react'
@@ -76,6 +77,26 @@ export const Options = styled(Combobox.Options)(tw`
   sm:text-sm
 `)
 
+const SelectionCount: FunctionComponent<{ count: number }> = ({ count }) => {
+  if (count === 0) {
+    return <></>
+  }
+
+  // TODO: Style this text to make it rounded
+  return <div style={{ flex: 1 }}>{count}</div>
+}
+
+const ClearAll: FunctionComponent<{ count: number; onClick: () => void }> = ({
+  count,
+  onClick,
+}) => {
+  if (count === 0) {
+    return <></>
+  }
+
+  return <div onClick={onClick}>Clear All</div>
+}
+
 const Filter: FunctionComponent<{
   onFilterChanged: (newSelectedQuests: QuestType[]) => void
 }> = ({ onFilterChanged }) => {
@@ -141,11 +162,26 @@ const Filter: FunctionComponent<{
     debouncedServerCall(newSelectedQuests)
   }
 
+  const clearAllClicked = () => {
+    if (selectedQuests.length !== 0) {
+      setSelectedQuests([])
+      debouncedServerCall([])
+    }
+  }
+
   return (
     <>
-      <FilterTitleFrame>Filter</FilterTitleFrame>
+      <FilterTitleFrame>
+        <Label>Filter</Label>
+        <Gap width={2} />
+        <SelectionCount count={selectedQuests.length} />
+        <Gap width={2} />
+        <ClearAll count={selectedQuests.length} onClick={clearAllClicked} />
+      </FilterTitleFrame>
       <Divider />
-      <FilterTitleFrame>QUESTS</FilterTitleFrame>
+      <FilterTitleFrame>
+        <Label>Quests</Label>
+      </FilterTitleFrame>
       <Combobox value={selectedQuests} onChange={onSelectedChanged} multiple>
         <ComboBoxFrame>
           <InputAndIconBorder>
