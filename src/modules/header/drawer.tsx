@@ -11,7 +11,6 @@ import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunitiesNavigation } from '@/modules/communities-navigation/navigation'
-import { HorizotalFull } from '@/modules/create-community/mini-widget'
 import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { Divider } from '@/styles/common.style'
@@ -60,7 +59,14 @@ const NavigateBox = tw(VerticalFullWidth)`
   mt-2
 `
 
-const NoGapHorizontal = tw(HorizotalFull)`
+export const HorizotalFull = tw(Horizontal)`
+  h-full
+  w-full
+  gap-3
+`
+
+const NoGapHorizontal = tw(Horizontal)`
+  w-full
   gap-0
 `
 
