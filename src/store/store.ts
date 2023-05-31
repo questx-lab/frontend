@@ -7,7 +7,6 @@ export interface GlobalStoreModel {
   showNavigationDrawer: boolean
   user: UserType | undefined
   communitiesFollowing: CommunityType[]
-  communitiesTrending: CommunityType[]
   communitiesCollab: CollaboratorType[]
   referral: RefferalType
   authBox: number
@@ -18,7 +17,6 @@ export interface GlobalStoreModel {
   setShowNavigationDrawer: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
   setCommunitiesFollowing: Action<GlobalStoreModel, CommunityType[]>
-  setCommunitiesTrending: Action<GlobalStoreModel, CommunityType[]>
   setCommunitiesCollab: Action<GlobalStoreModel, CollaboratorType[]>
   setReferral: Action<GlobalStoreModel, RefferalType>
   setAuthBox: Action<GlobalStoreModel, number>
@@ -32,7 +30,6 @@ const store = createStore<GlobalStoreModel>({
   user: undefined,
   communitiesFollowing: [],
   communitiesCollab: [],
-  communitiesTrending: [],
   referral: {},
   authBox: AuthEnum.LOGIN,
   username: '',
@@ -49,10 +46,6 @@ const store = createStore<GlobalStoreModel>({
 
   setCommunitiesFollowing: action((state, projects) => {
     state.communitiesFollowing = projects
-  }),
-
-  setCommunitiesTrending: action((state, projects) => {
-    state.communitiesTrending = projects
   }),
 
   setCommunitiesCollab: action((state, collabs) => {

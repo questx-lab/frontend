@@ -3,13 +3,11 @@ import { FunctionComponent, ReactNode } from 'react'
 import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
-import { HeaderText } from '@/styles/home.style'
 import { HorizontalBetweenCenter, Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
-import { PrimaryText } from '@/widgets/text'
+import { Large2xlText, PrimaryText } from '@/widgets/text'
 import { ArrowSmallRightIcon } from '@heroicons/react/24/outline'
 
 const Wrap = tw(Vertical)`
-  gap-4
   w-full
 `
 
@@ -27,7 +25,7 @@ const CategoryBox: FunctionComponent<{
     return (
       <Wrap>
         <HeaderBox>
-          <HeaderText>{title}</HeaderText>
+          <Large2xlText>{title}</Large2xlText>
           <PrimaryText isHover size='lg' onClick={onClick}>
             {'Show all'}
             <ArrowSmallRightIcon className='text-primary w-7 h-7' />
@@ -43,7 +41,7 @@ const CategoryBox: FunctionComponent<{
   return (
     <Wrap>
       <HeaderBox>
-        <HeaderText>{title}</HeaderText>
+        <Large2xlText>{title}</Large2xlText>
         <PrimaryText isHover size='lg' onClick={onClick}>
           {'Show all'}
           <ArrowSmallRightIcon className='text-primary w-7 h-7' />

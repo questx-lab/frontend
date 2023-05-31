@@ -4,12 +4,20 @@ import jwt from 'jwt-decode'
 import { KeysEnum } from '@/constants/key.const'
 import { UserType } from '@/utils/type'
 
-export const getAccessToken = (): string | null => {
-  return localStorage.getItem(KeysEnum.ACCESS_TOKEN)
+export const getAccessToken = (): string | undefined => {
+  const cookie = getCookie(KeysEnum.ACCESS_TOKEN)
+  if (cookie) {
+    return cookie.toString()
+  }
+  return undefined
 }
 
-export const getRefreshToken = (): string | null => {
-  return localStorage.getItem(KeysEnum.REFRESH_TOKEN)
+export const getRefreshToken = (): string | undefined => {
+  const cookie = getCookie(KeysEnum.REFRESH_TOKEN)
+  if (cookie) {
+    return cookie.toString()
+  }
+  return undefined
 }
 
 export const delCookies = () => {
