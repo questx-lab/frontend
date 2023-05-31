@@ -1,13 +1,22 @@
+import { FunctionComponent, useEffect, useState } from 'react'
+
+import { useStoreActions, useStoreState } from 'easy-peasy'
+import { MobileView } from 'react-device-detect'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { GlobalStoreModel } from '@/store/store'
-import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
-import { useStoreState } from 'easy-peasy'
-import { FunctionComponent } from 'react'
+import { NavigationEnum } from '@/constants/key.const'
+import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { UserInfoBox } from '@/modules/header/user-info'
+import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
+import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
+import { NormalText } from '@/widgets/text'
+import { Bars3Icon } from '@heroicons/react/24/outline'
+
+import Drawer from './drawer'
 
 const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
   tw`
@@ -52,10 +61,6 @@ const RightSession = tw(Horizontal)`
   justify-end
 `
 
-const MenuBtn = tw.button`
-  lg:hidden
-  max-lg:mr-2
-`
 const Body = styled(HorizontalBetweenCenter)<{ isApp?: boolean }>(({ isApp = true }) => [
   !isApp &&
     tw`
@@ -72,13 +77,69 @@ const Body = styled(HorizontalBetweenCenter)<{ isApp?: boolean }>(({ isApp = tru
       `,
 ])
 
+export const BoxLink = tw(Horizontal)`
+  h-full
+  w-full
+  items-center
+  max-md:hidden
+`
+
+export const Route = styled(Link)(
+  tw`
+  relative
+  text-black
+  text-xl
+  font-light
+  cursor-pointer
+  flex
+  flex-col
+  justify-center
+  items-center
+  h-full
+  px-4
+  `
+)
+
+export const Underline = tw.div`
+  h-[5px]
+  bg-primary-600
+  w-full
+  rounded-t-full
+  absolute
+  bottom-0
+`
+
+export const MenuIcon = styled(Bars3Icon)(() => [
+  tw`
+    lg:hidden
+    w-6
+    h-6
+`,
+])
+
 export const Header: FunctionComponent<{}> = () => {
+  // hook
+  const navigate = useNavigate()
+  const [navActive, setNavActive] = useState<string>('')
+  const location = useLocation()
+  useEffect(() => {
+    if (location.pathname.includes(NavigationEnum.COMMUNITY)) {
+      setNavActive(NavigationEnum.COMMUNITY)
+    } else if (location.pathname.includes(NavigationEnum.QUESTCARD)) {
+      setNavActive(NavigationEnum.QUESTCARD)
+    } else {
+      setNavActive(NavigationEnum.HOME)
+    }
+  }, [location])
+
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
   // action
-  const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
-  const navBarState = useStoreState<GlobalStoreModel>((state) => state.navBar)
+  const setShowLoginModal = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
+  const showNavigationDrawer = useStoreState<GlobalStoreModel>(
+    (state) => state.showNavigationDrawer
+  )
 
   const isApp: boolean = user !== undefined
 
@@ -86,45 +147,35 @@ export const Header: FunctionComponent<{}> = () => {
     <Wrap isApp={isApp}>
       <Body isApp={isApp}>
         <LeftSession>
+          {/* For mobile */}
+          <MobileView>
+            <Drawer navActive={navActive} />
+            <MenuIcon onClick={() => !showNavigationDrawer && setShowLoginModal(true)} />
+          </MobileView>
+          {/* ========== */}
+
           <ImageLogoBox
             width={150}
             height={100}
             onClick={() => {
-              // TODO: Navigate to home
+              navigate(RouterConst.HOME)
             }}
             src={StorageConst.APP_LOGO_DIR.src}
             alt={StorageConst.APP_LOGO_DIR.alt}
           />
-          BRING BACK NAVIGATION
-          {/* <BoxLink>
-            <LinkText href={RouterConst.COMMUNITIES}>
-              <TitleText>{'Communities'}</TitleText>
-              {navActive === NavBarEnum.COMMUNITY && <Underline />}
-            </LinkText>
-            <LinkText href={RouterConst.QUESTBOARD}>
-              <TitleText>{'QuesterCamp'}</TitleText>
-              {navActive === NavBarEnum.QUESTCARD && <Underline />}
-            </LinkText>
-          </BoxLink> */}
+          <BoxLink>
+            <Route to={RouterConst.COMMUNITIES}>
+              <NormalText>{'Communities'}</NormalText>
+              {navActive === NavigationEnum.COMMUNITY && <Underline />}
+            </Route>
+            <Route to={RouterConst.QUESTBOARD}>
+              <NormalText>{'QuesterCamp'}</NormalText>
+              {navActive === NavigationEnum.QUESTCARD && <Underline />}
+            </Route>
+          </BoxLink>
         </LeftSession>
         <RightSession>
           <UserInfoBox />
-          {/* <MenuBtn onClick={() => setNavBar(!navBarState)}>
-            <Image
-              width={40}
-              height={40}
-              src={
-                isNavBar
-                  ? StorageConst.CLOSE_ICON.src
-                  : StorageConst.MENU_ICON.src
-              }
-              alt={
-                isNavBar
-                  ? StorageConst.CLOSE_ICON.alt
-                  : StorageConst.MENU_ICON.alt
-              }
-            />
-          </MenuBtn> */}
         </RightSession>
       </Body>
     </Wrap>

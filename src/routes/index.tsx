@@ -1,17 +1,13 @@
-import LandingPage from '@/routes/landing-page'
-import { ActiveQuestStore } from '@/store/local/active-quest'
-import { CommunityStore } from '@/store/local/community'
-import { NewQuestStore } from '@/store/local/new-quest.store'
-import { GlobalStoreModel } from '@/store/store'
-import { useStoreState } from 'easy-peasy'
-import { FunctionComponent } from 'react'
-import { Outlet } from 'react-router-dom'
+import { FunctionComponent } from 'react';
 
-export const HomeOrLandingPage: FunctionComponent = () => {
-  const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  if (!user) {
-    return <LandingPage />
-  }
+import { Outlet } from 'react-router-dom';
+
+import { ActiveQuestStore } from '@/store/local/active-quest';
+import { CommunityStore } from '@/store/local/community';
+import { NewQuestStore } from '@/store/local/new-quest.store';
+
+export const HomePage: FunctionComponent = () => {
+
 
   return (
     <CommunityStore.Provider>

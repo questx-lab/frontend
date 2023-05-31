@@ -8,6 +8,7 @@ import { getTrendingCommunities } from '@/app/api/client/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/routes/communities/community/community-box'
+import LandingPage from '@/routes/landing-page'
 import { GlobalStoreModel } from '@/store/store'
 import { CommunityType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
@@ -71,11 +72,13 @@ const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({
   )
 }
 
-export const Home: FunctionComponent = () => {
+export const HomeOrLanding: FunctionComponent = () => {
+  const [communities, setCommunities] = useState<CommunityType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
   // global data
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const communitiesFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesFollowing
   )
@@ -107,6 +110,10 @@ export const Home: FunctionComponent = () => {
 
   const onShowAllClicked = () => {
     navigate(RouterConst.COMMUNITIES)
+  }
+
+  if (!user) {
+    return <LandingPage />
   }
 
   return (

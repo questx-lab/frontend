@@ -29,7 +29,7 @@ const LoginBtn = tw.button`
   py-3
   px-6
   rounded-lg
-  max-lg:hidden
+  max-md:hidden
   border
   border-gray-300
   border-solid
@@ -45,7 +45,7 @@ const SignUpBtn = tw.button`
   py-3
   px-6
   rounded-lg
-  max-lg:hidden
+  max-md:hidden
   3xl:text-xl
 `
 

@@ -10,7 +10,7 @@ import { CommunityStore } from '@/store/local/community'
 import { NewCommunityStore } from '@/store/local/new-community.store'
 import { CommunityType } from '@/utils/type'
 import { BaseModal } from '@/widgets/modal'
-import { Horizontal, HorizontalBetweenCenterFullWidth, Vertical } from '@/widgets/orientation'
+import { Horizontal, HorizontalBetweenCenterFullWidth } from '@/widgets/orientation'
 import { SearchInput } from '@/widgets/search-input'
 import { PlusIcon } from '@heroicons/react/24/outline'
 

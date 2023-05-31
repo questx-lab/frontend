@@ -13,7 +13,7 @@ import { Community, Loader as CommunityLoader } from '@/routes/communities/commu
 import { Index as CommunitySettingsIndex } from '@/routes/communities/community/settings'
 import { Settings } from '@/routes/communities/community/settings/route'
 import { Communities } from '@/routes/communities/route'
-import { Home as HomeIndex } from '@/routes/homepage'
+import { HomeOrLanding as HomeIndex } from '@/routes/homepage'
 import { Root, RootLoader } from '@/routes/route'
 
 const router = createBrowserRouter([
