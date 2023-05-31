@@ -1,18 +1,35 @@
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 
+import { useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
+import { useDebouncedCallback } from 'use-debounce'
 
 import { listCommunitiesApi } from '@/app/api/client/communitiy'
+import { RouterConst } from '@/constants/router.const'
 import CreateCommunity from '@/modules/create-community'
-import { List } from '@/routes/communities/list'
-import { CommunityStore } from '@/store/local/community'
+import CommunityBox from '@/routes/communities/community/community-box'
 import { NewCommunityStore } from '@/store/local/new-community.store'
+import { GlobalStoreModel } from '@/store/store'
+import { Divider } from '@/styles/common.style'
 import { CommunityType } from '@/utils/type'
+import CarouselList from '@/widgets/carousel'
+import CategoryBox from '@/widgets/category-box'
+import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import { BaseModal } from '@/widgets/modal'
-import { Horizontal, HorizontalBetweenCenterFullWidth } from '@/widgets/orientation'
+import {
+  Horizontal,
+  HorizontalBetweenCenterFullWidth,
+  VerticalFullWidth,
+  VerticalFullWidthCenter,
+} from '@/widgets/orientation'
 import { SearchInput } from '@/widgets/search-input'
+import SearchResult from '@/widgets/search-result'
+import { Large2xlText, Large3xlText } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
+
+import { OtherCommunities } from '../homepage'
 
 const SearchPadding = tw(Horizontal)`
   w-full gap-3 py-3
@@ -34,13 +51,27 @@ const CreateProjectBtn = tw(Horizontal)`
   cursor-pointer
 `
 
-export const ModalBox = tw.div`
+const ModalBox = tw.div`
   flex
   h-full
   items-center
   justify-center
   text-center
   py-6
+`
+
+const PaddingVertical = tw(VerticalFullWidthCenter)`
+  py-6
+  gap-6
+`
+
+const GapVertical = tw(VerticalFullWidthCenter)`
+  gap-8
+`
+
+const StartVertical = tw(VerticalFullWidth)`
+  justify-center
+  items-start
 `
 
 const NewCommunity: FunctionComponent<{
@@ -54,54 +85,105 @@ const NewCommunity: FunctionComponent<{
   )
 }
 
-export const Index: FunctionComponent = () => {
-  // hook
-  const [loading, setLoading] = useState<boolean>(true)
-  const [isOpen, setOpen] = useState<boolean>(false)
+const CommunityContent: FunctionComponent<{ query: string }> = ({ query }) => {
+  // Hook
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState<boolean>(false)
   const [communities, setCommunities] = useState<CommunityType[]>([])
 
-  // data
-  const query = CommunityStore.useStoreState((state) => state.query)
+  // Global data
+  const communitiesTrending: CommunityType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.communitiesTrending
+  )
+  const communitiesNew: CommunityType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.communitiesNew
+  )
 
-  // actions
-  const setQuery = CommunityStore.useStoreActions((action) => action.setQuery)
+  // Handler
+  const onShowAllClicked = () => {
+    navigate(RouterConst.COMMUNITIES)
+  }
 
-  const fetchListProjects = useCallback(async (query: string) => {
+  const fetchListCommunities = useCallback(async (q: string) => {
     try {
       setLoading(true)
-      const result = await listCommunitiesApi(0, 50, query)
-      if (result.code === 0) {
-        setCommunities(communities)
+      const result = await listCommunitiesApi(0, 50, q)
+      if (result.code === 0 && result.data?.communities) {
+        setCommunities(result.data.communities)
       }
     } catch (error) {
       toast.error('Error while fetching projects')
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
   }, [])
 
-  // First fetch
-  useEffect(() => {
-    fetchListProjects('')
-  }, [])
-
-  // Fetch project list
+  // Searching Communities
   useEffect(() => {
     if (query.length > 2) {
-      fetchListProjects(query)
+      fetchListCommunities(query)
     }
-  }, [query, fetchListProjects])
+  }, [query])
 
   return (
-    <>
-      <HorizontalBetweenCenterFullWidth>
-        {'👋 Communities'}
-        <NewCommunity setOpen={setOpen} />
-      </HorizontalBetweenCenterFullWidth>
-      <SearchPadding>
-        <SearchInput hint={'Search Community'} onChanged={(value) => setQuery(value)} />
-        <List communities={communities} loading={loading} />
-      </SearchPadding>
+    <SearchResult
+      query={query}
+      loading={loading}
+      data={communities}
+      renderResult={<OtherCommunities communities={communities} />}
+    >
+      <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked} loading={false}>
+        <CarouselList
+          data={communitiesTrending}
+          renderItemFunc={(community: CommunityType) => {
+            return <CommunityBox community={community} />
+          }}
+        />
+      </CategoryBox>
+
+      <CategoryBox title='⭐ Popular Communities' onClick={onShowAllClicked}>
+        <CarouselList
+          data={communitiesTrending}
+          renderItemFunc={(community: CommunityType) => {
+            return <CommunityBox community={community} />
+          }}
+        />
+      </CategoryBox>
+      <StartVertical>
+        <Large2xlText>{'🕑 New Communities'}</Large2xlText>
+        <OtherCommunities communities={communitiesNew} />
+      </StartVertical>
+    </SearchResult>
+  )
+}
+
+export const Index: FunctionComponent = () => {
+  // hook
+  const [isOpen, setOpen] = useState<boolean>(false)
+  const [query, setQuery] = useState<string>('')
+
+  // Handler
+  const debounced = useDebouncedCallback(async (value: string) => {
+    setQuery(value)
+  }, 300)
+
+  return (
+    <PaddingVertical>
+      <MainContent>
+        <HorizontalBetweenCenterFullWidth>
+          <Large3xlText>{'👋 Communities'}</Large3xlText>
+          <NewCommunity setOpen={setOpen} />
+        </HorizontalBetweenCenterFullWidth>
+      </MainContent>
+      <Divider />
+      <MainContent>
+        <GapVertical>
+          <SearchPadding>
+            <SearchInput hint={'Search Community'} onChanged={(value) => debounced(value)} />
+          </SearchPadding>
+          <CommunityContent query={query} />
+        </GapVertical>
+      </MainContent>
 
       <BaseModal isOpen={isOpen}>
         <ModalBox>
@@ -110,6 +192,6 @@ export const Index: FunctionComponent = () => {
           </NewCommunityStore.Provider>
         </ModalBox>
       </BaseModal>
-    </>
+    </PaddingVertical>
   )
 }

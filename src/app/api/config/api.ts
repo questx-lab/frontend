@@ -2,6 +2,7 @@ import { Mutex } from 'async-mutex'
 import axios, { AxiosError } from 'axios'
 
 import { ErrorCodes } from '@/constants/code.const'
+import { EnvVariables } from '@/constants/env.const'
 import {
   delCookies,
   getAccessToken,
@@ -13,7 +14,7 @@ import {
 import { refreshTokenApi } from '../client/user'
 
 const mutex = new Mutex()
-const baseURL = process.env.NEXT_PUBLIC_API_URL!
+const baseURL = EnvVariables.NEXT_PUBLIC_API_URL
 
 export const api = axios.create({
   baseURL,
@@ -43,7 +44,6 @@ api.interceptors.response.use(
         await mutex.acquire()
         const refreshToken = getRefreshToken()
         const accessToken = getAccessToken()
-
         if (!refreshToken) {
           return response
         }
@@ -53,7 +53,6 @@ api.interceptors.response.use(
           // 4. Call api refresh token
           try {
             const data = await refreshTokenApi(refreshToken)
-
             if (!data.error) {
               // 5. set header and cookies
               originalRequest.headers['Authorization'] = 'Bearer ' + data.data.access_token

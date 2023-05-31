@@ -1,11 +1,10 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent } from 'react'
 
-import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useStoreState } from 'easy-peasy'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { getTrendingCommunities } from '@/app/api/client/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/routes/communities/community/community-box'
@@ -208,34 +207,11 @@ const Footer: FunctionComponent = () => {
 }
 
 const Content: FunctionComponent = () => {
-  const [loading, setLoading] = useState<boolean>(true)
-  const [communities, setCommunities] = useState<CommunityType[]>([])
   const navigate = useNavigate()
   // global data
   const communitiesTrending: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesTrending
   )
-
-  // global action
-  const setCommunitiesTrending = useStoreActions<GlobalStoreModel>(
-    (action) => action.setCommunitiesTrending
-  )
-
-  useEffect(() => {
-    if (communitiesTrending && communitiesTrending.length === 0) {
-      fetchTrending()
-    }
-  }, [])
-
-  const fetchTrending = async () => {
-    const result = await getTrendingCommunities()
-    if (result.code === 0 && result.data) {
-      setCommunities(result.data.communities)
-      setCommunitiesTrending(result.data.communities)
-    }
-
-    setLoading(false)
-  }
 
   const onShowAllClicked = () => {
     navigate(RouterConst.COMMUNITIES)
@@ -286,10 +262,10 @@ const Content: FunctionComponent = () => {
               <CategoryBox
                 title='🔥 Trending Communities'
                 onClick={onShowAllClicked}
-                loading={loading}
+                loading={false}
               >
                 <CarouselList
-                  data={communities}
+                  data={communitiesTrending}
                   renderItemFunc={(community: CommunityType) => {
                     return <CommunityBox community={community} />
                   }}
@@ -298,10 +274,10 @@ const Content: FunctionComponent = () => {
               <CategoryBox
                 title='⭐ Popular Communities'
                 onClick={onShowAllClicked}
-                loading={loading}
+                loading={false}
               >
                 <CarouselList
-                  data={communities}
+                  data={communitiesTrending}
                   renderItemFunc={(community: CommunityType) => {
                     return <CommunityBox community={community} />
                   }}

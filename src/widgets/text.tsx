@@ -42,9 +42,16 @@ export const MediumText = tw.p`
 
 export const LargeText = tw.p`
   text-xl
-  text-black
-  font-bold
+  text-gray-900
+  font-medium
   max-md:text-xl
+`
+
+export const Large2xlText = tw.p`
+  text-xl
+  text-gray-900
+  font-medium
+  max-md:text-lg
 `
 
 export const Label = tw.div`
@@ -60,9 +67,9 @@ export const Label = tw.div`
 
 export const Large3xlText = tw.p`
   text-3xl
-  text-black
+  text-gray-900
   font-medium
-  max-sm:text-2xl
+  max-sm:text-xl
 `
 
 // Used for small description

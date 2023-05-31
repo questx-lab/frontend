@@ -13,11 +13,20 @@ const TopMargin = tw(Horizontal)`
   pt-[70px]
 `
 
+export const MainContent = tw.div`
+  max-sm:px-3
+  md:px-8
+  xl:w-[980px]
+  md:w-[780px]
+  w-full
+`
+
 const LeftMargin = styled.div<{ hasUser: boolean }>(({ hasUser }) => {
   if (hasUser) {
     return tw`
       pl-20
       w-full
+      max-sm:pl-0
     `
   }
 

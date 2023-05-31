@@ -1,10 +1,9 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent } from 'react'
 
-import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useStoreState } from 'easy-peasy'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import { getTrendingCommunities } from '@/app/api/client/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/routes/communities/community/community-box'
@@ -23,7 +22,7 @@ const PaddingTop = tw(VerticalFullWidthCenter)`
 `
 
 export const Main = tw(Vertical)`
-  max-sm:px-2
+  max-sm:px-3
   md:px-8
   xl:w-[980px]
   pb-[30px]
@@ -32,6 +31,7 @@ export const Main = tw(Vertical)`
 `
 
 const CommunityGrid = tw.div`
+  w-full
   grid
   grid-cols-4
   gap-4
@@ -49,7 +49,9 @@ const Title: FunctionComponent = () => {
   )
 }
 
-const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({ communities }) => {
+export const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({
+  communities,
+}) => {
   if (!communities || communities.length === 0) {
     return (
       <VerticalFullWidthCenter>
@@ -73,8 +75,6 @@ const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({
 }
 
 export const HomeOrLanding: FunctionComponent = () => {
-  const [communities, setCommunities] = useState<CommunityType[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
   // global data
@@ -85,28 +85,6 @@ export const HomeOrLanding: FunctionComponent = () => {
   const communitiesTrending: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesTrending
   )
-
-  // global action
-  const setCommunitiesTrending = useStoreActions<GlobalStoreModel>(
-    (action) => action.setCommunitiesTrending
-  )
-
-  useEffect(() => {
-    if (communitiesTrending && communitiesTrending.length === 0) {
-      fetchTrending()
-    } else {
-      setLoading(false)
-    }
-  }, [])
-
-  const fetchTrending = async () => {
-    const result = await getTrendingCommunities()
-    if (result.code === 0 && result.data) {
-      setCommunitiesTrending(result.data.communities)
-    }
-
-    setLoading(false)
-  }
 
   const onShowAllClicked = () => {
     navigate(RouterConst.COMMUNITIES)
@@ -124,7 +102,7 @@ export const HomeOrLanding: FunctionComponent = () => {
 
           <OtherCommunities communities={communitiesFollowing} />
 
-          <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked} loading={loading}>
+          <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked} loading={false}>
             <CarouselList
               data={communitiesTrending}
               renderItemFunc={(community: CommunityType) => {
