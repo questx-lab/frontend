@@ -1,6 +1,7 @@
 import { Mutex } from 'async-mutex'
 import axios, { AxiosError } from 'axios'
 
+import { refreshTokenApi } from '@/app/api/client/user'
 import { ErrorCodes } from '@/constants/code.const'
 import { EnvVariables } from '@/constants/env.const'
 import {
@@ -10,8 +11,6 @@ import {
   setAccessToken,
   setRefreshToken,
 } from '@/utils/helper'
-
-import { refreshTokenApi } from '../client/user'
 
 const mutex = new Mutex()
 const baseURL = EnvVariables.NEXT_PUBLIC_API_URL
