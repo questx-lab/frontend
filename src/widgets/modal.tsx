@@ -131,7 +131,7 @@ const WrapProgressBar = tw.div`
   items-center
 `
 
-export const AssideModel = tw(Horizontal)`
+export const SidebarModal = tw(Horizontal)`
   flex
   h-full
   w-full

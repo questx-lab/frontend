@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import { MobileView } from 'react-device-detect'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -15,7 +16,7 @@ import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/wi
 import { NormalText } from '@/widgets/text'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 
-import Asside from './asside'
+import Sidebar from './sidebar'
 
 const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
   tw`
@@ -145,7 +146,9 @@ export const Header: FunctionComponent<{}> = () => {
       <Body isApp={isApp}>
         <LeftSession>
           {/* For mobile*/}
-          <Asside navActive={navActive} />
+          <MobileView>
+            <Sidebar navActive={navActive} />
+          </MobileView>
           <MenuIcon onClick={() => !navBar && setNavBar(true)} />
           <ImageLogoBox
             width={150}

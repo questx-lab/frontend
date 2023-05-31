@@ -10,8 +10,9 @@ import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/utils/type'
 import { Vertical } from '@/widgets/orientation'
 
-const Wrap = styled.div<{ isAsside: boolean }>(({ isAsside }) => [
-  tw`
+const Wrap = styled.div<{ isAsside: boolean }>(({ isAsside }) => {
+  const style = [
+    tw`
     w-20
     flex
     flex-col
@@ -22,8 +23,14 @@ const Wrap = styled.div<{ isAsside: boolean }>(({ isAsside }) => [
     divide-gray-300
     h-full
   `,
-  !isAsside && tw`max-sm:hidden fixed `,
-])
+  ]
+
+  if (!isAsside) {
+    style.push(tw`max-sm:hidden fixed `)
+  }
+
+  return style
+})
 
 const BoxContent = tw(Vertical)`
   rounded-lg

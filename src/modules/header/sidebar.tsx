@@ -14,7 +14,7 @@ import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { Divider } from '@/styles/common.style'
 import { Image } from '@/widgets/image'
-import { AssideModel, BaseModal } from '@/widgets/modal'
+import { BaseModal, SidebarModal } from '@/widgets/modal'
 import {
   HorizontalBetweenCenterFullWidth,
   Vertical,
@@ -25,13 +25,13 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { CommunitiesNavigation } from '../communities-navigation/navigation'
 import { HorizotalFull } from '../create-community/mini-widget'
 
-export const CloseIcon = styled(XMarkIcon)(() => [
-  tw`
-    lg:hidden
-    w-6
-    h-6
-`,
-])
+export const CloseIcon = styled(XMarkIcon)(
+  () => tw`
+  lg:hidden
+  w-6
+  h-6
+`
+)
 
 const Content = tw(Vertical)`
   w-5/6
@@ -50,12 +50,17 @@ const PaddingHorizontal = tw(HorizontalBetweenCenterFullWidth)`
 
 const NavigateBox = tw(VerticalFullWidth)`
   gap-2
-  mr-2
+  mx-2
   mt-2
 `
 
-const NavigateOption = styled(Link)<{ isActive: boolean }>(({ isActive }) => [
-  tw`
+const NoGapHorizontal = tw(HorizotalFull)`
+  gap-0
+`
+
+const NavigateOption = styled(Link)<{ isActive: boolean }>(({ isActive }) => {
+  const style = [
+    tw`
     w-full
     px-2
     py-3
@@ -64,14 +69,18 @@ const NavigateOption = styled(Link)<{ isActive: boolean }>(({ isActive }) => [
     text-gray-700
     rounded-lg
   `,
-  isActive &&
-    tw`
+  ]
+
+  if (isActive) {
+    style.push(tw`
     bg-primary-50
     text-primary
-  `,
-])
+  `)
+  }
+  return style
+})
 
-const Asside: FC<{ navActive: string }> = ({ navActive }) => {
+const Sidebar: FC<{ navActive: string }> = ({ navActive }) => {
   // hook
   const navigate = useNavigate()
 
@@ -83,7 +92,7 @@ const Asside: FC<{ navActive: string }> = ({ navActive }) => {
 
   return (
     <BaseModal isOpen={navBar}>
-      <AssideModel>
+      <SidebarModal>
         <Content>
           <PaddingHorizontal>
             <Image
@@ -99,7 +108,7 @@ const Asside: FC<{ navActive: string }> = ({ navActive }) => {
             <CloseIcon onClick={() => setNavBar(false)} />
           </PaddingHorizontal>
           <NoPaddingDivider />
-          <HorizotalFull>
+          <NoGapHorizontal>
             <CommunityStore.Provider>
               <CommunitiesNavigation isAsside />
             </CommunityStore.Provider>
@@ -119,11 +128,11 @@ const Asside: FC<{ navActive: string }> = ({ navActive }) => {
                 {'Questcard'}
               </NavigateOption>
             </NavigateBox>
-          </HorizotalFull>
+          </NoGapHorizontal>
         </Content>
-      </AssideModel>
+      </SidebarModal>
     </BaseModal>
   )
 }
 
-export default Asside
+export default Sidebar
