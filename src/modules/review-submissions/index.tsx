@@ -39,12 +39,12 @@ const ContentPadding = tw(Vertical)`
 export const Index: FunctionComponent = () => {
   // data
   const submissionModal = NewClaimReviewStore.useStoreState((state) => state.showClaimDetails)
-  const tabReviewState = NewClaimReviewStore.useStoreState((state) => state.tabReview)
+  const tabReviewState = NewClaimReviewStore.useStoreState((state) => state.selectedTab)
   const loadingModal = NewClaimReviewStore.useStoreState((state) => state.loadingModal)
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   // action
-  const setTabReview = NewClaimReviewStore.useStoreActions((actions) => actions.setTabReview)
+  const setTabReview = NewClaimReviewStore.useStoreActions((actions) => actions.setSelectedTab)
   const setShowClaimDetails = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setShowClaimDetails
   )

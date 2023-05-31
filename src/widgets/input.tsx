@@ -54,17 +54,17 @@ export const CheckBox = styled.input<{ size?: CheckBoxSize }>(({ size = CheckBox
   }
 })
 
-const NumberInputBorder = tw(Horizontal)`
+const InputBorder = tw(Horizontal)`
   w-full
   border
   border-solid
   border-gray-200
   border-[1px]
   rounded-lg
-  p-3
+  p-2
 `
 
-const NumberInputStyle = styled.input<{ full: boolean }>(({ full }) => {
+const InputStyle = styled.input<{ full: boolean }>(({ full }) => {
   const style = [
     tw`
       outline-0
@@ -86,15 +86,29 @@ export const NumberInput: FunctionComponent<{
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }> = ({ onChange, full = false, leftChild = <></>, min = -1000000, defaultValue }) => {
   return (
-    <NumberInputBorder>
+    <InputBorder>
       {leftChild}
-      <NumberInputStyle
+      <InputStyle
         full={full}
         onChange={onChange}
         defaultValue={defaultValue}
         min={min}
         type='number'
       />
-    </NumberInputBorder>
+    </InputBorder>
+  )
+}
+
+export const TextInput: FunctionComponent<{
+  full?: boolean
+  leftChild?: ReactNode
+  defaultValue?: string
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+}> = ({ onChange, full = false, leftChild = <></>, defaultValue = '' }) => {
+  return (
+    <InputBorder>
+      {leftChild}
+      <InputStyle full={full} onChange={onChange} defaultValue={defaultValue} />
+    </InputBorder>
   )
 }

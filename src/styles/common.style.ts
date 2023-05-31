@@ -81,7 +81,6 @@ export const Divider = tw.div`
   bg-gray-300
   h-[1px]
   w-full
-  my-2
 `
 
 export const VDevider = tw.div`

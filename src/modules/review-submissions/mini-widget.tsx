@@ -37,7 +37,28 @@ export const HeaderSortFrame = tw(Horizontal)`
   cursor-pointer
 `
 
-export const SubmissionBorder = tw(ThinBorderBox)`
+/////// Filter
+export const FilterColumn = tw(ThinBorderBox)`
+  flex
+  flex-col
+  w-1/3
+  ml-8
+`
+
+export const FilterTitleFrame = tw(Horizontal)`
+  w-full
+  text-lg
+  font-medium
+  text-black
+  py-3
+  px-4
+`
+
+export const InputFrame = tw.div`
+  px-4
+`
+
+export const SubmissionColumn = tw(ThinBorderBox)`
   w-2/3
   h-full
 `

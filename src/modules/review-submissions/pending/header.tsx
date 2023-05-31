@@ -8,7 +8,7 @@ import { CheckBox } from '@/widgets/input'
 import { BarsArrowDownIcon } from '@heroicons/react/24/outline'
 import { ChangeEvent, FunctionComponent } from 'react'
 
-export const Header: FunctionComponent<{}> = () => {
+const TableHeader: FunctionComponent<{}> = () => {
   // data
   const selectedClaims = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
   const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
@@ -51,3 +51,5 @@ export const Header: FunctionComponent<{}> = () => {
     </HeaderFullWidth>
   )
 }
+
+export default TableHeader

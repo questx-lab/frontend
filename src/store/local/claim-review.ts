@@ -16,7 +16,7 @@ interface ClaimReviewModel {
   loadingModal: boolean
   showClaimDetails: boolean
   recurrence: QuestRecurrence
-  tabReview: number
+  selectedTab: number
 
   setCheckAllHistory: Action<ClaimReviewModel, boolean>
   setCheckAllPending: Action<ClaimReviewModel, boolean>
@@ -29,7 +29,7 @@ interface ClaimReviewModel {
   setLoading: Action<ClaimReviewModel, boolean>
   setShowClaimDetails: Action<ClaimReviewModel, boolean>
   setRecurrence: Action<ClaimReviewModel, QuestRecurrence>
-  setTabReview: Action<ClaimReviewModel, number>
+  setSelectedTab: Action<ClaimReviewModel, number>
 }
 
 export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
@@ -44,7 +44,7 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
   loadingModal: false,
   showClaimDetails: false,
   recurrence: QuestRecurrence.ONCE,
-  tabReview: TabReviewEnum.PENDING,
+  selectedTab: TabReviewEnum.PENDING,
 
   setReviewStatus: action((state, status) => {
     state.reviewStatus = status
@@ -89,7 +89,7 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
     state.recurrence = newRecurrence
   }),
 
-  setTabReview: action((state, tab) => {
-    state.tabReview = tab
+  setSelectedTab: action((state, tab) => {
+    state.selectedTab = tab
   }),
 })
