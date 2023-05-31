@@ -131,12 +131,6 @@ const WrapProgressBar = tw.div`
   items-center
 `
 
-export const DrawerModal = tw(Horizontal)`
-  flex
-  h-full
-  w-full
-`
-
 export const BaseModal: FunctionComponent<{
   isOpen: boolean
   children: ReactNode

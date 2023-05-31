@@ -6,7 +6,7 @@ export enum KeysEnum {
   CODE_VERIFIER = 'codeVerifier',
 }
 
-export enum NavBarEnum {
+export enum NavigationEnum {
   HOME = '/',
   COMMUNITY = '/communities',
   QUESTCARD = '/questercamp',

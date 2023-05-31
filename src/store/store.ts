@@ -4,7 +4,7 @@ import { AuthEnum } from '@/constants/common.const'
 import { CollaboratorType, CommunityType, QuestType, RefferalType, UserType } from '@/utils/type'
 
 export interface GlobalStoreModel {
-  navBar: boolean
+  showNavigationDrawer: boolean
   user: UserType | undefined
   communitiesFollowing: CommunityType[]
   communitiesTrending: CommunityType[]
@@ -15,7 +15,7 @@ export interface GlobalStoreModel {
   showLoginModal: boolean
   templates: QuestType[]
 
-  setNavBar: Action<GlobalStoreModel, boolean>
+  setShowNavigationDrawer: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
   setCommunitiesFollowing: Action<GlobalStoreModel, CommunityType[]>
   setCommunitiesTrending: Action<GlobalStoreModel, CommunityType[]>
@@ -28,7 +28,7 @@ export interface GlobalStoreModel {
 }
 
 const store = createStore<GlobalStoreModel>({
-  navBar: false,
+  showNavigationDrawer: false,
   user: undefined,
   communitiesFollowing: [],
   communitiesCollab: [],
@@ -39,8 +39,8 @@ const store = createStore<GlobalStoreModel>({
   showLoginModal: false,
   templates: [],
 
-  setNavBar: action((state, navBar) => {
-    state.navBar = navBar
+  setShowNavigationDrawer: action((state, drawer) => {
+    state.showNavigationDrawer = drawer
   }),
 
   setUser: action((state, user) => {

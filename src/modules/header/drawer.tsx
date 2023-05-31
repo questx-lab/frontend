@@ -7,23 +7,29 @@ import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { NavBarEnum } from '@/constants/key.const'
+import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
+import { CommunitiesNavigation } from '@/modules/communities-navigation/navigation'
+import { HorizotalFull } from '@/modules/create-community/mini-widget'
 import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { Divider } from '@/styles/common.style'
 import { Image } from '@/widgets/image'
-import { BaseModal, DrawerModal } from '@/widgets/modal'
+import { BaseModal } from '@/widgets/modal'
 import {
+  Horizontal,
   HorizontalBetweenCenterFullWidth,
   Vertical,
   VerticalFullWidth,
 } from '@/widgets/orientation'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
-import { CommunitiesNavigation } from '../communities-navigation/navigation'
-import { HorizotalFull } from '../create-community/mini-widget'
+const DrawerModal = tw(Horizontal)`
+  flex
+  h-full
+  w-full
+`
 
 export const CloseIcon = styled(XMarkIcon)(
   () => tw`
@@ -85,13 +91,17 @@ const Drawer: FC<{ navActive: string }> = ({ navActive }) => {
   const navigate = useNavigate()
 
   // Global data
-  const navBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
+  const showNavigationDrawer = useStoreState<GlobalStoreModel>(
+    (state) => state.showNavigationDrawer
+  )
 
   // Global action
-  const setNavBar = useStoreActions<GlobalStoreModel>((action) => action.setNavBar)
+  const setShowNavigationDrawer = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowNavigationDrawer
+  )
 
   return (
-    <BaseModal isOpen={navBar}>
+    <BaseModal isOpen={showNavigationDrawer}>
       <DrawerModal>
         <Content>
           <PaddingHorizontal>
@@ -100,12 +110,12 @@ const Drawer: FC<{ navActive: string }> = ({ navActive }) => {
               height={60}
               onClick={() => {
                 navigate(RouterConst.HOME)
-                setNavBar(false)
+                setShowNavigationDrawer(false)
               }}
               src={StorageConst.APP_LOGO_DIR.src}
               alt={StorageConst.APP_LOGO_DIR.alt}
             />
-            <CloseIcon onClick={() => setNavBar(false)} />
+            <CloseIcon onClick={() => setShowNavigationDrawer(false)} />
           </PaddingHorizontal>
           <NoPaddingDivider />
           <NoGapHorizontal>
@@ -114,16 +124,16 @@ const Drawer: FC<{ navActive: string }> = ({ navActive }) => {
             </CommunityStore.Provider>
             <NavigateBox>
               <NavigateOption
-                onClick={() => setNavBar(false)}
+                onClick={() => setShowNavigationDrawer(false)}
                 to={RouterConst.COMMUNITIES}
-                isActive={navActive === NavBarEnum.COMMUNITY}
+                isActive={navActive === NavigationEnum.COMMUNITY}
               >
                 {'Communities'}
               </NavigateOption>
               <NavigateOption
-                onClick={() => setNavBar(false)}
+                onClick={() => setShowNavigationDrawer(false)}
                 to={RouterConst.QUESTBOARD}
-                isActive={navActive === NavBarEnum.QUESTCARD}
+                isActive={navActive === NavigationEnum.QUESTCARD}
               >
                 {'Questcard'}
               </NavigateOption>

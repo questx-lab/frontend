@@ -8,6 +8,7 @@ import { getTrendingCommunities } from '@/app/api/client/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/routes/communities/community/community-box'
+import LandingPage from '@/routes/landing-page'
 import { GlobalStoreModel } from '@/store/store'
 import { CommunityType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
@@ -16,8 +17,6 @@ import { Image } from '@/widgets/image'
 import { LayoutWithLeftPanel } from '@/widgets/layout/layout-with-left-panel'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { Large3xlText } from '@/widgets/text'
-
-import LandingPage from './landing-page'
 
 const PaddingTop = tw(VerticalFullWidthCenter)`
   pt-[90px]

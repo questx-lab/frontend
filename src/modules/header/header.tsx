@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { NavBarEnum } from '@/constants/key.const'
+import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { UserInfoBox } from '@/modules/header/user-info'
@@ -123,12 +123,12 @@ export const Header: FunctionComponent<{}> = () => {
   const [navActive, setNavActive] = useState<string>('')
   const location = useLocation()
   useEffect(() => {
-    if (location.pathname.includes(NavBarEnum.COMMUNITY)) {
-      setNavActive(NavBarEnum.COMMUNITY)
-    } else if (location.pathname.includes(NavBarEnum.QUESTCARD)) {
-      setNavActive(NavBarEnum.QUESTCARD)
+    if (location.pathname.includes(NavigationEnum.COMMUNITY)) {
+      setNavActive(NavigationEnum.COMMUNITY)
+    } else if (location.pathname.includes(NavigationEnum.QUESTCARD)) {
+      setNavActive(NavigationEnum.QUESTCARD)
     } else {
-      setNavActive(NavBarEnum.HOME)
+      setNavActive(NavigationEnum.HOME)
     }
   }, [location])
 
@@ -136,8 +136,10 @@ export const Header: FunctionComponent<{}> = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
   // action
-  const setNavBar = useStoreActions<GlobalStoreModel>((action) => action.setNavBar)
-  const navBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
+  const setShowLoginModal = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
+  const showNavigationDrawer = useStoreState<GlobalStoreModel>(
+    (state) => state.showNavigationDrawer
+  )
 
   const isApp: boolean = user !== undefined
 
@@ -148,10 +150,10 @@ export const Header: FunctionComponent<{}> = () => {
           {/* For mobile */}
           <MobileView>
             <Drawer navActive={navActive} />
+            <MenuIcon onClick={() => !showNavigationDrawer && setShowLoginModal(true)} />
           </MobileView>
           {/* ========== */}
 
-          <MenuIcon onClick={() => !navBar && setNavBar(true)} />
           <ImageLogoBox
             width={150}
             height={100}
@@ -164,11 +166,11 @@ export const Header: FunctionComponent<{}> = () => {
           <BoxLink>
             <Route to={RouterConst.COMMUNITIES}>
               <NormalText>{'Communities'}</NormalText>
-              {navActive === NavBarEnum.COMMUNITY && <Underline />}
+              {navActive === NavigationEnum.COMMUNITY && <Underline />}
             </Route>
             <Route to={RouterConst.QUESTBOARD}>
               <NormalText>{'QuesterCamp'}</NormalText>
-              {navActive === NavBarEnum.QUESTCARD && <Underline />}
+              {navActive === NavigationEnum.QUESTCARD && <Underline />}
             </Route>
           </BoxLink>
         </LeftSession>
