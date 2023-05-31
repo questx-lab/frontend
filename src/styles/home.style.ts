@@ -40,32 +40,6 @@ export const TabSide = tw(Horizontal)`
   border-gray-300
 `
 
-export const Tab = styled.div<TabActive>(({ isActive }) =>
-  isActive
-    ? tw`
-        h-full
-        w-[200px]
-        border-b-2
-        border-black
-        flex
-        justify-center
-        items-center
-        cursor-pointer
-        max-lg:px-2
-        max-lg:text-xs
-      `
-    : tw`
-        h-full
-        w-[200px]
-        flex
-        justify-center
-        items-center
-        cursor-pointer
-        max-lg:px-2
-        max-lg:text-xs
-      `
-)
-
 export const Text = styled.p<TabActive>(({ isActive }) =>
   isActive ? tw`font-bold` : tw`font-light`
 )

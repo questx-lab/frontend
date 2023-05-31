@@ -99,49 +99,6 @@ export const SpinnerStyle: CSSProperties = {
   borderColor: '#000',
 }
 
-export const ColSWrap = tw(Vertical)`
-  w-full
-`
-
-export const RowSWrap = tw(Horizontal)`
-  w-full
-  items-center
-`
-
-export const RowBWrap = tw(Horizontal)`
-  w-full
-  justify-between
-  items-center
-`
-
-export const RowHEWrap = tw(Horizontal)`
-  w-1/2
-  justify-between
-  items-end
-  max-lg:flex-col
-`
-
-export const ColCWrap = tw.div`
-  w-full
-  flex
-  flex-col
-  justify-center
-  items-center
-`
-
-export const RowCWrap = tw(Horizontal)`
-  w-full
-  justify-center
-  items-center
-`
-
-export const EndWrap = tw.div`
-  w-full
-  flex
-  justify-end
-  items-center
-`
-
 export const CloseIcon = tw.svg`
   w-6
   h-6
@@ -161,35 +118,4 @@ export const LargeTitle = tw.p`
   text-black
   font-bold
   max-sm:text-2xl
-`
-
-export const MediumTitle = tw.p`
-  text-3xl
-  text-black
-  font-bold
-  max-sm:text-2xl
-`
-
-export const FullScreen = tw.div`
-  w-screen
-  h-screen
-  flex
-  justify-center
-  items-center
-`
-export const Main = tw(Vertical)`
-  max-sm:px-2
-  md:px-8
-  xl:w-[980px]
-  pb-[30px]
-  w-full
-`
-
-export const TitleBox = tw(Horizontal)`
-  max-sm:px-2
-  md:px-8
-  xl:w-[980px]
-  py-6
-  w-full
-  justify-between
 `

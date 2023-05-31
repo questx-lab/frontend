@@ -11,6 +11,7 @@ import { ChangeEvent, FunctionComponent } from 'react'
 export const Header: FunctionComponent<{}> = () => {
   // data
   const historyClaims = NewClaimReviewStore.useStoreState((state) => state.historyClaims)
+  const selectedHistories = NewClaimReviewStore.useStoreState((state) => state.selectedHistories)
   const allHistoryChecked = NewClaimReviewStore.useStoreState((state) => state.allHistoryChecked)
 
   // action
@@ -23,11 +24,11 @@ export const Header: FunctionComponent<{}> = () => {
 
   const onCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
     setCheckAllHistory(e.target.checked)
+    selectedHistories.clear()
     if (e.target.checked) {
-      setSelectedHistory(historyClaims.map((claim) => claim))
-    } else {
-      setSelectedHistory([])
+      historyClaims.map((claim) => selectedHistories.set(claim.id, claim))
     }
+    setSelectedHistory(selectedHistories)
   }
 
   return (
