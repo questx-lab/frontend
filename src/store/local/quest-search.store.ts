@@ -4,7 +4,7 @@ import { QuestType } from '@/utils/type'
 
 interface QuestSearchModel {
   quests: QuestType[]
-  questsSelect: QuestType[]
+  selectedQuest: QuestType[]
   query: string
   questsQuery: QuestType[]
 
@@ -16,7 +16,7 @@ interface QuestSearchModel {
 
 export const NewQuestSearchStore = createContextStore<QuestSearchModel>({
   quests: [],
-  questsSelect: [],
+  selectedQuest: [],
   query: '',
   questsQuery: [],
 
@@ -25,7 +25,7 @@ export const NewQuestSearchStore = createContextStore<QuestSearchModel>({
   }),
 
   setQuestsSelect: action((state, quests) => {
-    state.questsSelect = quests
+    state.selectedQuest = quests
   }),
 
   setQuery: action((state, query) => {

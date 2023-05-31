@@ -28,7 +28,6 @@ const LoadingPosition = tw(VerticalCenter)`
 `
 
 const RowItem: FunctionComponent<{
-  tab: number
   active: boolean
   onChange: (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => void
   claimQuest: ClaimQuestType

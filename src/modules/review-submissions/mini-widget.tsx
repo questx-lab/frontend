@@ -4,6 +4,39 @@ import { Horizontal, HorizontalBetweenCenter, Vertical } from '@/widgets/orienta
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+/////// Header
+export const HeaderFullWidth = tw(Horizontal)`
+  w-full
+  border-solid
+  border-gray-200
+  border-b
+`
+
+export const HeaderTitleFrame = tw(Horizontal)`
+  w-full
+  justify-start
+  items-center
+  text-lg
+  font-medium
+  text-black
+  py-3
+  px-4
+`
+
+export const HeaderSortFrame = tw(Horizontal)`
+  w-48
+  border-l
+  border-solid
+  border-gray-200
+  justify-center
+  items-center
+  text-lg
+  font-normal
+  text-black
+  py-3
+  cursor-pointer
+`
+
 export const SubmissionBorder = tw(ThinBorderBox)`
   w-2/3
   h-full

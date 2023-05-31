@@ -1,31 +1,28 @@
 import { ChangeEvent, FunctionComponent, useEffect } from 'react'
 
-import { TabReviewEnum } from '@/constants/common.const'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 
 import { ClaimQuestType, ListClaimQuestType, Rsp } from '@/utils/type'
 
+import { listClaimedQuestsApi } from '@/app/api/client/claim'
 import { SubmissionBorder } from '@/modules/review-submissions/mini-widget'
 import ActionButtons from '@/modules/review-submissions/pending/action-buttons'
+import { Header } from '@/modules/review-submissions/pending/header'
 import RowItem from '@/modules/review-submissions/pending/row-item'
-import { SubmissionsHeader } from '@/modules/review-submissions/submissions-header'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
 import { FullWidthHeight } from '@/widgets/orientation'
-import { listClaimedQuestsApi } from '@/app/api/client/claim'
 
 const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   // data
   const chooseQuestsState = NewClaimReviewStore.useStoreState((state) => state.chooseQuestsPending)
-  const allPendingChecked = NewClaimReviewStore.useStoreState((state) => state.allCheckPending)
-  const listClaimQuestState = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
-  const questsSelect = NewQuestSearchStore.useStoreState((state) => state.questsSelect)
+  const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
+  const selectedQuest = NewQuestSearchStore.useStoreState((state) => state.selectedQuest)
 
   // action
-  const setChoosePending = NewClaimReviewStore.useStoreActions(
-    (actions) => actions.setChoosePending
+  const setSelectedPending = NewClaimReviewStore.useStoreActions(
+    (actions) => actions.setSelectedPending
   )
-  const setCheckPending = NewClaimReviewStore.useStoreActions((actions) => actions.setCheckPending)
   const setPendingClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setPendingClaims
   )
@@ -39,7 +36,7 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     const result: Rsp<ListClaimQuestType> = await listClaimedQuestsApi(
       communityHandle,
       'pending',
-      questsSelect.map((e) => e.id!)
+      selectedQuest.map((e) => e.id!)
     )
 
     if (result.code === 0) {
@@ -51,18 +48,9 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
 
   const onCheck = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
     if (e.target.checked) {
-      setChoosePending([...chooseQuestsState, value])
+      setSelectedPending([...chooseQuestsState, value])
     } else {
-      setChoosePending(chooseQuestsState.filter((data) => data !== value))
-    }
-  }
-
-  const onCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
-    setCheckPending(e.target.checked)
-    if (e.target.checked) {
-      setChoosePending(listClaimQuestState.map((e) => e))
-    } else {
-      setChoosePending([])
+      setSelectedPending(chooseQuestsState.filter((data) => data !== value))
     }
   }
 
@@ -70,24 +58,12 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     <>
       <FullWidthHeight>
         <SubmissionBorder>
-          <SubmissionsHeader
-            title={'Pending Submission'}
-            onCheckAll={onCheckAll}
-            checked={allPendingChecked}
-          />
+          <Header />
 
           <SubmissionsList
-            list={listClaimQuestState}
+            list={pendingClaims}
             itemView={(item: ClaimQuestType, index: number) => {
-              return (
-                <RowItem
-                  tab={TabReviewEnum.HISTORY}
-                  active={false}
-                  onChange={onCheck}
-                  claimQuest={item}
-                  key={index}
-                />
-              )
+              return <RowItem active={false} onChange={onCheck} claimQuest={item} key={index} />
             }}
           />
         </SubmissionBorder>

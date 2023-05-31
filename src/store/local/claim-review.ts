@@ -10,22 +10,22 @@ interface ClaimReviewModel {
   chooseQuestsHistory: ClaimQuestType[]
   chooseQuestsPending: ClaimQuestType[]
   reviewStatus: string
-  allCheckHistory: boolean
-  allCheckPending: boolean
+  allHistoryChecked: boolean
+  allPendingChecked: boolean
   loadingModal: boolean
   submissionModal: boolean
   recurrence: QuestRecurrence
   tabReview: number
 
-  setCheckHistory: Action<ClaimReviewModel, boolean>
-  setCheckPending: Action<ClaimReviewModel, boolean>
+  setCheckAllHistory: Action<ClaimReviewModel, boolean>
+  setCheckAllPending: Action<ClaimReviewModel, boolean>
   setClaimActive: Action<ClaimReviewModel, ClaimQuestType>
-  setChooseHistory: Action<ClaimReviewModel, ClaimQuestType[]>
-  setChoosePending: Action<ClaimReviewModel, ClaimQuestType[]>
+  setSelectedHistory: Action<ClaimReviewModel, ClaimQuestType[]>
+  setSelectedPending: Action<ClaimReviewModel, ClaimQuestType[]>
   setReviewStatus: Action<ClaimReviewModel, string>
   setPendingClaims: Action<ClaimReviewModel, ClaimQuestType[]>
   setHistoryClaims: Action<ClaimReviewModel, ClaimQuestType[]>
-  onLoadingModalChanged: Action<ClaimReviewModel, boolean>
+  setLoading: Action<ClaimReviewModel, boolean>
   onSubmissionModalChanged: Action<ClaimReviewModel, boolean>
   setRecurrence: Action<ClaimReviewModel, QuestRecurrence>
   setTabReview: Action<ClaimReviewModel, number>
@@ -35,8 +35,8 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
   reviewStatus: ClaimedQuestStatus.ALL,
   chooseQuestsHistory: [],
   chooseQuestsPending: [],
-  allCheckHistory: false,
-  allCheckPending: false,
+  allHistoryChecked: false,
+  allPendingChecked: false,
   pendingClaims: [],
   historyClaims: [],
   claimQuestActive: { user: {} },
@@ -49,20 +49,20 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
     state.reviewStatus = status
   }),
 
-  setChooseHistory: action((state, quests) => {
+  setSelectedHistory: action((state, quests) => {
     state.chooseQuestsHistory = quests
   }),
 
-  setChoosePending: action((state, quests) => {
+  setSelectedPending: action((state, quests) => {
     state.chooseQuestsPending = quests
   }),
 
-  setCheckHistory: action((state, status) => {
-    state.allCheckHistory = status
+  setCheckAllHistory: action((state, status) => {
+    state.allHistoryChecked = status
   }),
 
-  setCheckPending: action((state, status) => {
-    state.allCheckPending = status
+  setCheckAllPending: action((state, status) => {
+    state.allPendingChecked = status
   }),
   setPendingClaims: action((state, claims) => {
     state.pendingClaims = claims
@@ -76,7 +76,7 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
     state.claimQuestActive = claim
   }),
 
-  onLoadingModalChanged: action((state, loading) => {
+  setLoading: action((state, loading) => {
     state.loadingModal = loading
   }),
 

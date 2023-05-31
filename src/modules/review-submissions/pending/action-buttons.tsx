@@ -48,9 +48,7 @@ const ActionButtons: FunctionComponent<{ data: ClaimQuestType[] }> = ({ data }) 
   const setPendingClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setPendingClaims
   )
-  const onLoadingModalChanged = NewClaimReviewStore.useStoreActions(
-    (actions) => actions.onLoadingModalChanged
-  )
+  const onLoadingModalChanged = NewClaimReviewStore.useStoreActions((actions) => actions.setLoading)
 
   if (!data.length) {
     return <></>
