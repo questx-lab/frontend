@@ -1,17 +1,21 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 
-import toast from 'react-hot-toast'
 import tw from 'twin.macro'
+import { useDebouncedCallback } from 'use-debounce'
 
-import { listCommunitiesApi } from '@/app/api/client/communitiy'
 import CreateCommunity from '@/modules/create-community'
-import { List } from '@/routes/communities/list'
-import { CommunityStore } from '@/store/local/community'
+import CommunityContent from '@/routes/communities/community-content'
 import { NewCommunityStore } from '@/store/local/new-community.store'
-import { CommunityType } from '@/utils/type'
+import { Divider } from '@/styles/common.style'
+import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import { BaseModal } from '@/widgets/modal'
-import { Horizontal, HorizontalBetweenCenterFullWidth } from '@/widgets/orientation'
+import {
+  Horizontal,
+  HorizontalBetweenCenterFullWidth,
+  VerticalFullWidthCenter,
+} from '@/widgets/orientation'
 import { SearchInput } from '@/widgets/search-input'
+import { Large3xlText } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
 
 const SearchPadding = tw(Horizontal)`
@@ -34,13 +38,22 @@ const CreateProjectBtn = tw(Horizontal)`
   cursor-pointer
 `
 
-export const ModalBox = tw.div`
+const ModalBox = tw.div`
   flex
   h-full
   items-center
   justify-center
   text-center
   py-6
+`
+
+const PaddingVertical = tw(VerticalFullWidthCenter)`
+  py-6
+  gap-6
+`
+
+const GapVertical = tw(VerticalFullWidthCenter)`
+  gap-8
 `
 
 const NewCommunity: FunctionComponent<{
@@ -56,52 +69,31 @@ const NewCommunity: FunctionComponent<{
 
 export const Index: FunctionComponent = () => {
   // hook
-  const [loading, setLoading] = useState<boolean>(true)
   const [isOpen, setOpen] = useState<boolean>(false)
-  const [communities, setCommunities] = useState<CommunityType[]>([])
+  const [query, setQuery] = useState<string>('')
 
-  // data
-  const query = CommunityStore.useStoreState((state) => state.query)
-
-  // actions
-  const setQuery = CommunityStore.useStoreActions((action) => action.setQuery)
-
-  const fetchListProjects = useCallback(async (query: string) => {
-    try {
-      setLoading(true)
-      const result = await listCommunitiesApi(0, 50, query)
-      if (result.code === 0) {
-        setCommunities(communities)
-      }
-    } catch (error) {
-      toast.error('Error while fetching projects')
-    }
-
-    setLoading(false)
-  }, [])
-
-  // First fetch
-  useEffect(() => {
-    fetchListProjects('')
-  }, [])
-
-  // Fetch project list
-  useEffect(() => {
-    if (query.length > 2) {
-      fetchListProjects(query)
-    }
-  }, [query, fetchListProjects])
+  // Handler
+  const debounced = useDebouncedCallback(async (value: string) => {
+    setQuery(value)
+  }, 300)
 
   return (
-    <>
-      <HorizontalBetweenCenterFullWidth>
-        {'👋 Communities'}
-        <NewCommunity setOpen={setOpen} />
-      </HorizontalBetweenCenterFullWidth>
-      <SearchPadding>
-        <SearchInput hint={'Search Community'} onChanged={(value) => setQuery(value)} />
-        <List communities={communities} loading={loading} />
-      </SearchPadding>
+    <PaddingVertical>
+      <MainContent>
+        <HorizontalBetweenCenterFullWidth>
+          <Large3xlText>{'👋 Communities'}</Large3xlText>
+          <NewCommunity setOpen={setOpen} />
+        </HorizontalBetweenCenterFullWidth>
+      </MainContent>
+      <Divider />
+      <MainContent>
+        <GapVertical>
+          <SearchPadding>
+            <SearchInput hint={'Search Community'} onChanged={(value) => debounced(value)} />
+          </SearchPadding>
+          <CommunityContent query={query} />
+        </GapVertical>
+      </MainContent>
 
       <BaseModal isOpen={isOpen}>
         <ModalBox>
@@ -110,6 +102,6 @@ export const Index: FunctionComponent = () => {
           </NewCommunityStore.Provider>
         </ModalBox>
       </BaseModal>
-    </>
+    </PaddingVertical>
   )
 }

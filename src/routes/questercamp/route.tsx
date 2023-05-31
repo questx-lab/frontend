@@ -7,7 +7,7 @@ const FullWidth = tw.div`
   w-full
 `
 
-export const Communities = () => {
+export const Questercamp = () => {
   return (
     <LayoutWithLeftPanel>
       <FullWidth>

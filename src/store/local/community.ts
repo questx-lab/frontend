@@ -1,8 +1,8 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { CommunityRoleEnum } from '@/constants/common.const'
-import { CategoryType, CommunityType, QuestType } from '@/utils/type'
 import { CommunityIndexMode, ControlPanelTab } from '@/types/community'
+import { CategoryType, CommunityType, QuestType } from '@/utils/type'
 
 interface CommunityModel {
   selectedCommunity: CommunityType | undefined
@@ -34,7 +34,6 @@ const CommunityStore = createContextStore<CommunityModel>({
   categories: [],
   invitedBy: '',
   quests: [],
-
   activeControlPanelTab: ControlPanelTab.QUESTS,
   communityIndexMode: CommunityIndexMode.VIEW_COMMUNITY,
 

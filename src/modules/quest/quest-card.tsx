@@ -1,13 +1,15 @@
-import { Gap } from '@/styles/common.style'
-import { QuestType } from '@/utils/type'
-import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
-import { MediumText, RewardText } from '@/widgets/text'
-import { Image } from '@/widgets/image'
 import { FunctionComponent } from 'react'
+
+import parseHtml from 'html-react-parser'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import parseHtml from 'html-react-parser'
+
 import { StorageConst } from '@/constants/storage.const'
+import { Gap } from '@/styles/common.style'
+import { QuestType } from '@/utils/type'
+import { Image } from '@/widgets/image'
+import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
+import { MediumText, RewardText } from '@/widgets/text'
 
 const BorderBox = styled.div<{
   isTemplate: boolean
@@ -48,7 +50,7 @@ const TitleQuestBox = tw(MediumText)`
   max-lg:text-sm
 `
 
-const Description = tw.p`
+const Description = tw.div`
   px-4
   text-gray-700
   font-normal
@@ -76,9 +78,9 @@ const HeaderBox = tw(Horizontal)`
 
 const QuestCard: FunctionComponent<{
   quest: QuestType
-  isTemplate: boolean
+  isTemplate?: boolean
   onClick?: (e: QuestType) => void
-}> = ({ quest, isTemplate, onClick = () => {} }) => {
+}> = ({ quest, isTemplate = false, onClick = () => {} }) => {
   return (
     <BorderBox isTemplate={isTemplate} onClick={() => onClick(quest)}>
       <BasicInfoFrame>

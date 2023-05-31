@@ -70,7 +70,7 @@ const NoGapHorizontal = tw(Horizontal)`
   gap-0
 `
 
-const NavigateOption = styled(Link)<{ isActive: boolean }>(({ isActive }) => {
+const NavigateOption = styled(Link)<{ isactive: boolean }>(({ isactive }) => {
   const style = [
     tw`
     w-full
@@ -83,7 +83,7 @@ const NavigateOption = styled(Link)<{ isActive: boolean }>(({ isActive }) => {
   `,
   ]
 
-  if (isActive) {
+  if (isactive) {
     style.push(tw`
     bg-primary-50
     text-primary
@@ -132,14 +132,14 @@ const Drawer: FC<{ navActive: string }> = ({ navActive }) => {
               <NavigateOption
                 onClick={() => setShowNavigationDrawer(false)}
                 to={RouterConst.COMMUNITIES}
-                isActive={navActive === NavigationEnum.COMMUNITY}
+                isactive={navActive === NavigationEnum.COMMUNITY}
               >
                 {'Communities'}
               </NavigateOption>
               <NavigateOption
                 onClick={() => setShowNavigationDrawer(false)}
                 to={RouterConst.QUESTBOARD}
-                isActive={navActive === NavigationEnum.QUESTCARD}
+                isactive={navActive === NavigationEnum.QUESTCARD}
               >
                 {'Questcard'}
               </NavigateOption>
