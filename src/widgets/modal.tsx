@@ -1,12 +1,13 @@
 import { Fragment, FunctionComponent, ReactNode } from 'react'
-import styled from 'styled-components'
+
 import { MoonLoader } from 'react-spinners'
+import styled from 'styled-components'
+import tw from 'twin.macro'
 
 import { Gap, SpinnerStyle } from '@/styles/common.style'
+import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import tw from 'twin.macro'
-import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
 
 const ModalBg = tw.div`
   fixed
@@ -128,6 +129,12 @@ const WrapProgressBar = tw.div`
   flex
   justify-center
   items-center
+`
+
+export const AssideModel = tw(Horizontal)`
+  flex
+  h-full
+  w-full
 `
 
 export const BaseModal: FunctionComponent<{

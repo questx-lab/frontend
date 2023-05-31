@@ -4,7 +4,7 @@ import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { CommunitiesNavigationn } from '@/modules/communities-navigation/navigation'
+import { CommunitiesNavigation } from '@/modules/communities-navigation/navigation'
 import { GlobalStoreModel } from '@/store/store'
 import { Horizontal } from '@/widgets/orientation'
 
@@ -30,7 +30,7 @@ export const LayoutWithLeftPanel: FunctionComponent<{ children: ReactNode }> = (
   return (
     <>
       <TopMargin>
-        <CommunitiesNavigationn />
+        <CommunitiesNavigation />
         <LeftMargin hasUser={user !== undefined}>{children}</LeftMargin>
       </TopMargin>
     </>

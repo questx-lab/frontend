@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
-import { useStoreState } from 'easy-peasy'
+import { useStoreActions, useStoreState } from 'easy-peasy'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -12,6 +12,10 @@ import { UserInfoBox } from '@/modules/header/user-info'
 import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
+import { NormalText } from '@/widgets/text'
+import { Bars3Icon } from '@heroicons/react/24/outline'
+
+import Asside from './asside'
 
 const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
   tw`
@@ -56,10 +60,6 @@ const RightSession = tw(Horizontal)`
   justify-end
 `
 
-const MenuBtn = tw.button`
-  lg:hidden
-  max-lg:mr-2
-`
 const Body = styled(HorizontalBetweenCenter)<{ isApp?: boolean }>(({ isApp = true }) => [
   !isApp &&
     tw`
@@ -99,17 +99,6 @@ export const Route = styled(Link)(
   `
 )
 
-export const Text = tw.div`
-  h-full
-  w-full
-  flex
-  justify-center
-  items-center
-  font-normal
-  text-lg
-  3xl:text-xl
-`
-
 export const Underline = tw.div`
   h-[5px]
   bg-primary-600
@@ -118,6 +107,14 @@ export const Underline = tw.div`
   absolute
   bottom-0
 `
+
+export const MenuIcon = styled(Bars3Icon)(() => [
+  tw`
+    lg:hidden
+    w-6
+    h-6
+`,
+])
 
 export const Header: FunctionComponent<{}> = () => {
   // hook
@@ -138,8 +135,8 @@ export const Header: FunctionComponent<{}> = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
   // action
-  const isNavBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
-  const navBarState = useStoreState<GlobalStoreModel>((state) => state.navBar)
+  const setNavBar = useStoreActions<GlobalStoreModel>((action) => action.setNavBar)
+  const navBar = useStoreState<GlobalStoreModel>((state) => state.navBar)
 
   const isApp: boolean = user !== undefined
 
@@ -147,6 +144,9 @@ export const Header: FunctionComponent<{}> = () => {
     <Wrap isApp={isApp}>
       <Body isApp={isApp}>
         <LeftSession>
+          {/* For mobile*/}
+          <Asside navActive={navActive} />
+          <MenuIcon onClick={() => !navBar && setNavBar(true)} />
           <ImageLogoBox
             width={150}
             height={100}
@@ -158,33 +158,17 @@ export const Header: FunctionComponent<{}> = () => {
           />
           <BoxLink>
             <Route to={RouterConst.COMMUNITIES}>
-              <Text>{'Communities'}</Text>
+              <NormalText>{'Communities'}</NormalText>
               {navActive === NavBarEnum.COMMUNITY && <Underline />}
             </Route>
             <Route to={RouterConst.QUESTBOARD}>
-              <Text>{'QuesterCamp'}</Text>
+              <NormalText>{'QuesterCamp'}</NormalText>
               {navActive === NavBarEnum.QUESTCARD && <Underline />}
             </Route>
           </BoxLink>
         </LeftSession>
         <RightSession>
           <UserInfoBox />
-          {/* <MenuBtn onClick={() => setNavBar(!navBarState)}>
-            <Image
-              width={40}
-              height={40}
-              src={
-                isNavBar
-                  ? StorageConst.CLOSE_ICON.src
-                  : StorageConst.MENU_ICON.src
-              }
-              alt={
-                isNavBar
-                  ? StorageConst.CLOSE_ICON.alt
-                  : StorageConst.MENU_ICON.alt
-              }
-            />
-          </MenuBtn> */}
         </RightSession>
       </Body>
     </Wrap>

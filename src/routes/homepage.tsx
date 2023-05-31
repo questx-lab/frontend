@@ -15,6 +15,8 @@ import CategoryBox from '@/widgets/category-box'
 import { LayoutWithLeftPanel } from '@/widgets/layout/layout-with-left-panel'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
 
+import LandingPage from './landing-page'
+
 const PaddingTop = tw(VerticalFullWidthCenter)`
   pt-[90px]
 `
@@ -56,12 +58,13 @@ const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({
   )
 }
 
-export const Home: FunctionComponent = () => {
+export const HomeOrLanding: FunctionComponent = () => {
   const [communities, setCommunities] = useState<CommunityType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
   // global data
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const communitiesFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesFollowing
   )
@@ -92,6 +95,10 @@ export const Home: FunctionComponent = () => {
 
   const onShowAllClicked = () => {
     navigate(RouterConst.COMMUNITIES)
+  }
+
+  if (!user) {
+    return <LandingPage />
   }
 
   return (

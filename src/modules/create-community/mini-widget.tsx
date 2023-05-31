@@ -23,6 +23,11 @@ export const HorizotalFullWidth = tw(Horizontal)`
   gap-3
 `
 
+export const HorizotalFull = tw(HorizotalFullWidth)`
+  h-full
+  gap-3
+`
+
 const BackBtn = tw.button`
   w-full
   outline-0
