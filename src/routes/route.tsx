@@ -9,7 +9,7 @@ import { getFollowCommunitiesApi, getMyCommunitiesApi } from '@/app/api/client/c
 import { getMyReferralInfoApi } from '@/app/api/client/reward'
 import { EnvVariables } from '@/constants/env.const'
 import { Header } from '@/modules/header/header'
-import { HomeOrLandingPage } from '@/routes'
+import { HomePage } from '@/routes'
 import { GlobalStoreModel } from '@/store/store'
 import { getUserLocal } from '@/utils/helper'
 import { CollaboratorType, CommunityType, RefferalType } from '@/utils/type'
@@ -43,6 +43,10 @@ const Main = tw.main`
   flex-col
 `
 
+const OverscrollY = tw.div`
+  overflow-scroll
+`
+
 export const Root: FunctionComponent = () => {
   // props
   const data = useLoaderData() as {
@@ -70,9 +74,9 @@ export const Root: FunctionComponent = () => {
   return (
     <GoogleOAuthProvider clientId={EnvVariables.GOOGLE_ID}>
       <Main>
-        <div className='overflow-scroll'>
-          <HomeOrLandingPage />
-        </div>
+        <OverscrollY>
+          <HomePage />
+        </OverscrollY>
         <Header />
       </Main>
       <Toaster position='top-center' reverseOrder={false} />
