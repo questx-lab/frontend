@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent, useEffect } from 'react'
+import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react'
 
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 
@@ -11,12 +11,14 @@ import {
   FilterColumn,
   SubmissionColumn,
   TabContentFrame,
+  TableLoadingFrame,
 } from '@/modules/review-submissions/mini-widget'
 import ActionButtons from '@/modules/review-submissions/pending/action-buttons'
 import TableHeader from '@/modules/review-submissions/pending/header'
 import RowItem from '@/modules/review-submissions/pending/row-item'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
 import { CommunityStore } from '@/store/local/community'
+import { MoonLoader } from 'react-spinners'
 
 const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   // data
@@ -33,8 +35,10 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
   )
 
   // hook
+  const [loading, setLoading] = useState<boolean>(true)
   useEffect(() => {
     getInitialClaims()
+    setLoading(false)
   }, [])
 
   if (!selectedCommunity) {
@@ -66,6 +70,8 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
   }
 
   const onFilterChanged = async (selectedQuests: QuestType[]) => {
+    setLoading(true)
+
     const selectedIds = selectedQuests.map((quest) => quest.id)
     const data = await listClaimedQuestsApi(
       selectedCommunity.handle,
@@ -76,33 +82,49 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     if (data.code === 0) {
       // Set either claims or history data.
       setPendingClaims(data.data?.claimed_quests || [])
+    } else {
+      // TODO: Show error message
     }
+
+    setLoading(false)
   }
 
   return (
-    <TabContentFrame>
-      <SubmissionColumn>
-        <TableHeader />
+    <>
+      <TabContentFrame>
+        <SubmissionColumn>
+          <TableHeader />
 
-        <SubmissionsList
-          list={pendingClaims}
-          itemView={(item: ClaimQuestType, index: number) => {
-            return (
-              <RowItem
-                active={selectedPendings.has(item.id)}
-                onChange={onCheck}
-                claimQuest={item}
-                key={index}
+          {!loading && (
+            <>
+              <SubmissionsList
+                list={pendingClaims}
+                itemView={(item: ClaimQuestType, index: number) => {
+                  return (
+                    <RowItem
+                      active={selectedPendings.has(item.id)}
+                      onChange={onCheck}
+                      claimQuest={item}
+                      key={index}
+                    />
+                  )
+                }}
               />
-            )
-          }}
-        />
-        <ActionButtons />
-      </SubmissionColumn>
-      <FilterColumn>
-        <Filter onFilterChanged={onFilterChanged} />
-      </FilterColumn>
-    </TabContentFrame>
+              <ActionButtons />
+            </>
+          )}
+
+          {loading && (
+            <TableLoadingFrame>
+              <MoonLoader />
+            </TableLoadingFrame>
+          )}
+        </SubmissionColumn>
+        <FilterColumn>
+          <Filter onFilterChanged={onFilterChanged} />
+        </FilterColumn>
+      </TabContentFrame>
+    </>
   )
 }
 

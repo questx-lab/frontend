@@ -1,10 +1,15 @@
 import { ReviewBtnEnum } from '@/constants/common.const'
 import { ThinBorderBox } from '@/widgets/box'
-import { Horizontal, HorizontalBetweenCenterFullWidth, Vertical } from '@/widgets/orientation'
+import {
+  Horizontal,
+  HorizontalBetweenCenterFullWidth,
+  Vertical,
+  VerticalFullWidthCenter,
+} from '@/widgets/orientation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-/////// Header
+/////// Table
 export const HeaderFullWidth = tw(Horizontal)`
   w-full
   border-solid
@@ -35,6 +40,10 @@ export const HeaderSortFrame = tw(Horizontal)`
   text-black
   py-3
   cursor-pointer
+`
+
+export const TableLoadingFrame = tw(VerticalFullWidthCenter)`
+  my-8
 `
 
 /////// Filter

@@ -6,13 +6,15 @@ import {
   FilterColumn,
   SubmissionColumn,
   TabContentFrame,
+  TableLoadingFrame,
 } from '@/modules/review-submissions/mini-widget'
 import TableHeader from '@/modules/review-submissions/pending/header'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { ClaimQuestType, ListClaimQuestType, QuestType, Rsp } from '@/utils/type'
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
+import { MoonLoader } from 'react-spinners'
 
 const ClaimStatus = ClaimedQuestStatus.ACCEPTED + ',' + ClaimedQuestStatus.REJECTED
 
@@ -22,16 +24,16 @@ const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
   const historyClaims = NewClaimReviewStore.useStoreState((state) => state.historyClaims)
 
   // actions
-  const setLoading = NewClaimReviewStore.useStoreActions((state) => state.setLoading)
   const setHistoryClaims = NewClaimReviewStore.useStoreActions((state) => state.setHistoryClaims)
 
   // Hook
+  const [loading, setLoading] = useState<boolean>(true)
   useEffect(() => {
     getClaimsQuest()
+    setLoading(false)
   }, [])
 
   const getClaimsQuest = async () => {
-    setLoading(true)
     const result: Rsp<ListClaimQuestType> = await listClaimedQuestsApi(
       communityHandle,
       ClaimStatus,
@@ -43,8 +45,6 @@ const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     } else {
       // TODO: show error here.
     }
-
-    setTimeout(() => setLoading(false), 200)
   }
 
   const onFilterChanged = async (selectedQuests: QuestType[]) => {
@@ -63,12 +63,20 @@ const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
         <SubmissionColumn>
           <TableHeader />
 
-          <SubmissionsList
-            list={historyClaims}
-            itemView={(item: ClaimQuestType, index: number) => {
-              return <RowItem active={false} claim={item} onChange={() => {}} />
-            }}
-          />
+          {!loading && (
+            <SubmissionsList
+              list={historyClaims}
+              itemView={(item: ClaimQuestType, index: number) => {
+                return <RowItem active={false} claim={item} onChange={() => {}} />
+              }}
+            />
+          )}
+
+          {loading && (
+            <TableLoadingFrame>
+              <MoonLoader />
+            </TableLoadingFrame>
+          )}
         </SubmissionColumn>
         <FilterColumn>
           <Filter onFilterChanged={onFilterChanged} />
