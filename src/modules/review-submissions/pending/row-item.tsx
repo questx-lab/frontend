@@ -106,7 +106,10 @@ const RowItem: FunctionComponent<{
               />
               <VerticalLeftMargin>
                 <Name>{claimQuest.user.name || ''}</Name>
-                <Time>{'claimed a few seconds ago'}</Time>
+                {
+                  // TODO: Display the claim time here.
+                  /* <Time>{'claimed a few seconds ago'}</Time> */
+                }
               </VerticalLeftMargin>
             </Info>
           </Details>

@@ -49,7 +49,7 @@ const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
           <SubmissionsList
             list={historyClaims}
             itemView={(item: ClaimQuestType, index: number) => {
-              return <RowItem active={false} claimQuest={item} onChange={() => {}} />
+              return <RowItem active={false} claim={item} onChange={() => {}} />
             }}
           />
         </SubmissionBorder>
