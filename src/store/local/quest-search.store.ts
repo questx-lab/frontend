@@ -6,19 +6,16 @@ interface QuestSearchModel {
   quests: QuestType[]
   filteredQuests: QuestType[]
   selectedQuest: QuestType[]
-  query: string
 
   setQuests: Action<QuestSearchModel, QuestType[]>
   setFilteredQuests: Action<QuestSearchModel, QuestType[]>
   setSelectedQuests: Action<QuestSearchModel, QuestType[]>
-  setQuery: Action<QuestSearchModel, string>
 }
 
 export const NewQuestSearchStore = createContextStore<QuestSearchModel>({
   quests: [],
   filteredQuests: [],
   selectedQuest: [],
-  query: '',
 
   setQuests: action((state, quests) => {
     state.quests = quests
@@ -30,9 +27,5 @@ export const NewQuestSearchStore = createContextStore<QuestSearchModel>({
 
   setSelectedQuests: action((state, quests) => {
     state.selectedQuest = quests
-  }),
-
-  setQuery: action((state, query) => {
-    state.query = query
   }),
 })

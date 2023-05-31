@@ -1,26 +1,24 @@
-import { TabReviewEnum } from '@/constants/common.const'
-import { listClaimedQuestsApi } from '@/app/api/client/claim'
+import { listQuestApi } from '@/app/api/client/quest'
+import ResultBox from '@/modules/review-submissions/filter/result'
 import { FilterTitleFrame } from '@/modules/review-submissions/mini-widget'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
+import { CommunityStore } from '@/store/local/community'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Divider } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
 import { Combobox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
+import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import { Fragment, FunctionComponent, useEffect } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { CommunityStore } from '@/store/local/community'
-import { ClaimedQuestStatus } from '@/constants/common.const'
-import { listQuestApi } from '@/app/api/client/quest'
 import { useDebouncedCallback } from 'use-debounce'
 
-const CbbWrap = tw.div`
+const ComboBoxFrame = tw.div`
   relative
-  mt-1
+  mx-4
+  mb-6
 `
 
-const CbbBoxInput = tw.div`
+const InputAndIconBorder = tw.div`
   relative
   w-full
   cursor-pointer
@@ -36,22 +34,22 @@ const CbbBoxInput = tw.div`
   sm:text-sm
 `
 
-const CbbInput = styled(Combobox.Input)(tw`
+const InputFrame = styled(Combobox.Input)(tw`
   w-full
   rounded-lg
   border
   border-solid
   border-gray-300
-  py-3
-  pl-3
+  py-4
+  pl-4
   pr-10
-  text-sm
+  text-lg
   leading-5
   text-gray-900
   focus:ring-0
 `)
 
-const CbbBtn = styled(Combobox.Button)(tw`
+const InputIconFrame = styled(Combobox.Button)(tw`
   absolute
   inset-y-0
   right-0
@@ -78,54 +76,6 @@ export const Options = styled(Combobox.Options)(tw`
   sm:text-sm
 `)
 
-const CbbTitle = styled.span<{ selected: boolean }>(({ selected = false }) => [
-  selected ? tw`block truncate font-medium` : tw`block truncate font-normal`,
-])
-
-const WrapIcon = tw.span`
-  absolute
-  inset-y-0
-  left-0
-  flex
-  items-center
-  pl-3
-`
-
-const ResultBox: FunctionComponent<{ filteredQuests: QuestType[] }> = ({ filteredQuests }) => {
-  const selectedQuests = NewQuestSearchStore.useStoreState((state) => state.selectedQuest)
-
-  if (!filteredQuests.length) {
-    return <>Nothing found.</>
-  }
-
-  return (
-    <>
-      {filteredQuests.map((quest) => (
-        <Combobox.Option
-          key={quest.id}
-          className='relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900'
-          value={quest}
-        >
-          {() => {
-            const selected = selectedQuests.some((selectedQuest) => selectedQuest.id === quest.id)
-
-            return (
-              <>
-                <CbbTitle selected={selected}>{quest.title}</CbbTitle>
-                {selected ? (
-                  <WrapIcon>
-                    <CheckIcon className='h-5 w-5' aria-hidden='true' />
-                  </WrapIcon>
-                ) : null}
-              </>
-            )
-          }}
-        </Combobox.Option>
-      ))}
-    </>
-  )
-}
-
 const Filter: FunctionComponent<{
   onFilterChanged: (newSelectedQuests: QuestType[]) => void
 }> = ({ onFilterChanged }) => {
@@ -137,7 +87,6 @@ const Filter: FunctionComponent<{
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   // actions
-  const setQuery = NewQuestSearchStore.useStoreActions((actions) => actions.setQuery)
   const setQuests = NewQuestSearchStore.useStoreActions((actions) => actions.setQuests)
   const setFilteredQuests = NewQuestSearchStore.useStoreActions(
     (actions) => actions.setFilteredQuests
@@ -157,7 +106,7 @@ const Filter: FunctionComponent<{
   }, 250)
   const debouncedServerCall = useDebouncedCallback(async (newSelectedQuests: QuestType[]) => {
     onFilterChanged(newSelectedQuests)
-  }, 300)
+  }, 400)
 
   if (!selectedCommunity) {
     // This should not happen. This is added here so that we can use selectedCommunity safely.
@@ -181,7 +130,7 @@ const Filter: FunctionComponent<{
       return title.includes(value.toLowerCase())
     })
 
-    // Filter all
+    // filter all
     setFilteredQuests(filtered)
   }
 
@@ -198,28 +147,28 @@ const Filter: FunctionComponent<{
       <Divider />
       <FilterTitleFrame>QUESTS</FilterTitleFrame>
       <Combobox value={selectedQuests} onChange={onSelectedChanged} multiple>
-        <CbbWrap>
-          <CbbBoxInput>
-            <CbbInput
+        <ComboBoxFrame>
+          <InputAndIconBorder>
+            <InputFrame
               displayValue={(quest) => (quest as QuestType).title}
               onChange={(event) => debouncedQuery(event.target.value)}
             />
-            <CbbBtn>
+            <InputIconFrame>
               <ChevronUpDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
-            </CbbBtn>
-          </CbbBoxInput>
+            </InputIconFrame>
+          </InputAndIconBorder>
           <Transition
             as={Fragment}
             leave='transition ease-in duration-100'
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
-            afterLeave={() => setQuery('')}
+            afterLeave={() => {}}
           >
             <Options>
               <ResultBox filteredQuests={filteredQuests} />
             </Options>
           </Transition>
-        </CbbWrap>
+        </ComboBoxFrame>
       </Combobox>
     </>
   )
