@@ -1,14 +1,14 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 
-import { useStoreState } from 'easy-peasy'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { listCommunitiesApi } from '@/app/api/client/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/routes/communities/community/community-box'
-import { GlobalStoreModel } from '@/store/store'
 import { CommunityType } from '@/utils/type'
 import { NegativeButton } from '@/widgets/buttons/button'
 import CarouselList from '@/widgets/carousel'
@@ -207,15 +207,34 @@ const Footer: FunctionComponent = () => {
 }
 
 const Content: FunctionComponent = () => {
+  // Hook
   const navigate = useNavigate()
-  // global data
-  const communitiesTrending: CommunityType[] = useStoreState<GlobalStoreModel>(
-    (state) => state.communitiesTrending
-  )
+  const [loading, setLoading] = useState<boolean>(false)
+  const [communities, setCommunities] = useState<CommunityType[]>([])
 
+  // Handler
   const onShowAllClicked = () => {
     navigate(RouterConst.COMMUNITIES)
   }
+
+  const fetchListCommunities = useCallback(async (q: string) => {
+    try {
+      setLoading(true)
+      const result = await listCommunitiesApi(0, 50, q)
+      if (result.code === 0 && result.data?.communities) {
+        setCommunities(result.data.communities)
+      }
+    } catch (error) {
+      toast.error('Error while fetching projects')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  // First fetch
+  useEffect(() => {
+    fetchListCommunities('')
+  }, [])
 
   return (
     <Wrap>
@@ -262,10 +281,10 @@ const Content: FunctionComponent = () => {
               <CategoryBox
                 title='🔥 Trending Communities'
                 onClick={onShowAllClicked}
-                loading={false}
+                loading={loading}
               >
                 <CarouselList
-                  data={communitiesTrending}
+                  data={communities}
                   renderItemFunc={(community: CommunityType) => {
                     return <CommunityBox community={community} />
                   }}
@@ -274,10 +293,10 @@ const Content: FunctionComponent = () => {
               <CategoryBox
                 title='⭐ Popular Communities'
                 onClick={onShowAllClicked}
-                loading={false}
+                loading={loading}
               >
                 <CarouselList
-                  data={communitiesTrending}
+                  data={communities}
                   renderItemFunc={(community: CommunityType) => {
                     return <CommunityBox community={community} />
                   }}

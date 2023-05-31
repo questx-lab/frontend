@@ -1,6 +1,5 @@
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 
-import { useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
@@ -8,7 +7,6 @@ import { useDebouncedCallback } from 'use-debounce'
 import { listQuestApi } from '@/app/api/client/quest'
 import { StorageConst } from '@/constants/storage.const'
 import { Quest } from '@/modules/quest/quest'
-import { GlobalStoreModel } from '@/store/store'
 import { Divider } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
@@ -77,12 +75,8 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
   // Hook
   const [loading, setLoading] = useState<boolean>(false)
   const [quests, setQuests] = useState<QuestType[]>([])
+  const [intQuests, setInitQuests] = useState<QuestType[]>([])
 
-  // Global data
-  const questsTrending = useStoreState<GlobalStoreModel>((state) => state.questsTrending)
-  const questsNew = useStoreState<GlobalStoreModel>((state) => state.questsNew)
-
-  // Handler
   const onShowAllClicked = () => {}
 
   const fetchListQuests = useCallback(async (q: string) => {
@@ -90,6 +84,9 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
       setLoading(true)
       const result = await listQuestApi('', q)
       if (result.code === 0 && result.data?.quests) {
+        if (q === '') {
+          setInitQuests(result.data.quests)
+        }
         setQuests(result.data.quests)
       }
     } catch (error) {
@@ -106,6 +103,11 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
     }
   }, [query])
 
+  // First fetch quests
+  useEffect(() => {
+    fetchListQuests('')
+  }, [])
+
   return (
     <SearchResult
       query={query}
@@ -115,7 +117,7 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
     >
       <CategoryBox title='🔥 Trending Quests' onClick={onShowAllClicked}>
         <CarouselList
-          data={questsTrending}
+          data={intQuests}
           renderItemFunc={(quyest: QuestType) => {
             return (
               <MarginTop>
@@ -128,7 +130,7 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
 
       <CategoryBox title='⭐ Popular Quests' onClick={onShowAllClicked}>
         <CarouselList
-          data={questsTrending}
+          data={intQuests}
           renderItemFunc={(quyest: QuestType) => {
             return (
               <MarginTop>
@@ -140,7 +142,7 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
       </CategoryBox>
       <StartVertical>
         <Large2xlText>{'🕑 New Quests'}</Large2xlText>
-        <OtherQuests quests={questsNew} />
+        <OtherQuests quests={intQuests} />
       </StartVertical>
     </SearchResult>
   )

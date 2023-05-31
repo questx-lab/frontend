@@ -1,9 +1,11 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
+import { listCommunitiesApi } from '@/app/api/client/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/routes/communities/community/community-box'
@@ -75,20 +77,39 @@ export const OtherCommunities: FunctionComponent<{ communities: CommunityType[] 
 }
 
 export const HomeOrLanding: FunctionComponent = () => {
+  // hook
   const navigate = useNavigate()
+  const [loading, setLoading] = useState<boolean>(true)
+  const [communities, setCommunities] = useState<CommunityType[]>([])
 
   // global data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const communitiesFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesFollowing
   )
-  const communitiesTrending: CommunityType[] = useStoreState<GlobalStoreModel>(
-    (state) => state.communitiesTrending
-  )
 
   const onShowAllClicked = () => {
     navigate(RouterConst.COMMUNITIES)
   }
+
+  const fetchListCommunities = useCallback(async (query: string) => {
+    try {
+      setLoading(true)
+      const result = await listCommunitiesApi(0, 50, query)
+      if (result.code === 0 && result.data?.communities) {
+        setCommunities(result.data.communities)
+      }
+    } catch (error) {
+      toast.error('Error while fetching projects')
+    }
+
+    setLoading(false)
+  }, [])
+
+  // First fetch
+  useEffect(() => {
+    fetchListCommunities('')
+  }, [])
 
   if (!user) {
     return <LandingPage />
@@ -102,18 +123,18 @@ export const HomeOrLanding: FunctionComponent = () => {
 
           <OtherCommunities communities={communitiesFollowing} />
 
-          <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked} loading={false}>
+          <CategoryBox loading={loading} title='🔥 Trending Communities' onClick={onShowAllClicked}>
             <CarouselList
-              data={communitiesTrending}
+              data={communities}
               renderItemFunc={(community: CommunityType) => {
                 return <CommunityBox community={community} />
               }}
             />
           </CategoryBox>
 
-          <CategoryBox title='⭐ Popular Communities' onClick={onShowAllClicked}>
+          <CategoryBox loading={loading} title='⭐ Popular Communities' onClick={onShowAllClicked}>
             <CarouselList
-              data={communitiesTrending}
+              data={communities}
               renderItemFunc={(community: CommunityType) => {
                 return <CommunityBox community={community} />
               }}

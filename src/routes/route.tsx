@@ -5,11 +5,7 @@ import { Toaster } from 'react-hot-toast'
 import { json, useLoaderData } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import {
-  getFollowCommunitiesApi,
-  getMyCommunitiesApi,
-  getTrendingCommunities,
-} from '@/app/api/client/communitiy'
+import { getFollowCommunitiesApi, getMyCommunitiesApi } from '@/app/api/client/communitiy'
 import { getMyReferralInfoApi } from '@/app/api/client/reward'
 import { EnvVariables } from '@/constants/env.const'
 import { Header } from '@/modules/header/header'
@@ -22,8 +18,6 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 export const RootLoader = async () => {
   const localUser = getUserLocal()
 
-  const trendingCommunitiesResult = await getTrendingCommunities()
-
   if (localUser) {
     // User has logged in. We load following communities & follower communities.
     const myCommunitiesResult = await getMyCommunitiesApi()
@@ -35,22 +29,12 @@ export const RootLoader = async () => {
         myCommunities: myCommunitiesResult.data?.collaborators || [],
         followingCommunities: followingCommunitiesResult.data?.communities || [],
         referral: referralResult.data || undefined,
-        trendingCommunities: trendingCommunitiesResult.data?.communities || [],
-        newCommunities: trendingCommunitiesResult.data?.communities || [],
       },
       { status: 200 }
     )
   }
 
-  return json(
-    {
-      // TODO : Currently, cannot not distinguish between trending and new communities
-      // Will change if api support query both of them
-      trendingCommunities: trendingCommunitiesResult.data?.communities || [],
-      newCommunities: trendingCommunitiesResult.data?.communities || [],
-    },
-    { status: 200 }
-  )
+  return {}
 }
 
 const Main = tw.main`
@@ -69,8 +53,6 @@ export const Root: FunctionComponent = () => {
     myCommunities: CollaboratorType[]
     followingCommunities: CommunityType[]
     referral: RefferalType
-    trendingCommunities: CommunityType[]
-    newCommunities: CommunityType[]
   }
 
   // action
@@ -81,18 +63,12 @@ export const Root: FunctionComponent = () => {
   const setCommunitiesFollowing = useStoreActions<GlobalStoreModel>(
     (action) => action.setCommunitiesFollowing
   )
-  const setCommunitiesTrending = useStoreActions<GlobalStoreModel>(
-    (action) => action.setCommunitiesTrending
-  )
-  const setCommunitiesNew = useStoreActions<GlobalStoreModel>((action) => action.setCommunitiesNew)
 
   // set data
   if (data) {
     setReferral(data.referral)
     setCommunitiesCollab(data.myCommunities)
     setCommunitiesFollowing(data.followingCommunities)
-    setCommunitiesTrending(data.trendingCommunities)
-    setCommunitiesNew(data.newCommunities)
   }
 
   return (

@@ -15,9 +15,8 @@ import { Settings } from '@/routes/communities/community/settings/route'
 import { Communities } from '@/routes/communities/route'
 import { HomeOrLanding as HomeIndex } from '@/routes/homepage'
 import { Index as QuestercampIndex } from '@/routes/questercamp'
+import { Questercamp } from '@/routes/questercamp/route'
 import { Root, RootLoader } from '@/routes/route'
-
-import { Questercamp, QuestsLoader } from './routes/questercamp/route'
 
 const router = createBrowserRouter([
   {
@@ -59,7 +58,6 @@ const router = createBrowserRouter([
       {
         path: 'questercamp',
         element: <Questercamp />,
-        loader: QuestsLoader,
         children: [{ index: true, element: <QuestercampIndex /> }],
       },
     ],
