@@ -136,7 +136,9 @@ export const Header: FunctionComponent<{}> = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
   // action
-  const setShowLoginModal = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
+  const setShowNavigationDrawer = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowNavigationDrawer
+  )
   const showNavigationDrawer = useStoreState<GlobalStoreModel>(
     (state) => state.showNavigationDrawer
   )
@@ -150,7 +152,7 @@ export const Header: FunctionComponent<{}> = () => {
           {/* For mobile */}
           <MobileView>
             <Drawer navActive={navActive} />
-            <MenuIcon onClick={() => !showNavigationDrawer && setShowLoginModal(true)} />
+            <MenuIcon onClick={() => !showNavigationDrawer && setShowNavigationDrawer(true)} />
           </MobileView>
           {/* ========== */}
 
