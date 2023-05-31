@@ -17,7 +17,6 @@ export const HorizontalStartCenter = tw.div`
   flex-row
   justify-start
   items-center
-  gap-2
 `
 
 export const HorizontalCenter = tw.div`
@@ -42,9 +41,7 @@ export const HorizontalBetweenCenter = tw.div`
   items-center
 `
 
-export const HorizontalBetweenCenterFullWidth = tw.div`
-  flex
-  flex-row
+export const HorizontalBetweenCenterFullWidth = tw(Horizontal)`
   justify-between
   items-center
   w-full
@@ -68,12 +65,14 @@ export const VerticalFullWidth = tw(Vertical)`
   w-full
   flex
   flex-col
-  gap-2
+`
+
+export const VerticalFullWidthHeight = tw(VerticalFullWidth)`
+  h-full
 `
 
 export const VerticalFullWidthCenter = tw(VerticalCenter)`
   w-full
-  gap-2
 `
 
 export const VerticalFullWidthStartCenter = tw(VerticalFullWidth)`
@@ -89,5 +88,4 @@ export const VerticalBetween = tw.div`
 
 export const VerticalFullWidthBetween = tw(VerticalBetween)`
   w-full
-  gap-2
 `

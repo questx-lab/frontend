@@ -22,7 +22,7 @@ const ModalWrap = tw.div`
   overflow-y-auto
 `
 
-const ModalBox = tw(HorizontalCenter)`
+export const ModalBox = tw(HorizontalCenter)`
   flex
   h-full
   items-center

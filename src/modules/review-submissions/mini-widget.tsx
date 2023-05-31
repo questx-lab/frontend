@@ -1,6 +1,6 @@
 import { ReviewBtnEnum } from '@/constants/common.const'
 import { ThinBorderBox } from '@/widgets/box'
-import { Horizontal, HorizontalBetweenCenter, Vertical } from '@/widgets/orientation'
+import { Horizontal, HorizontalBetweenCenterFullWidth, Vertical } from '@/widgets/orientation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -62,9 +62,10 @@ export const ButtonBox = tw(Horizontal)`
   w-[calc(66%_-_2px)]
 `
 
-export const Row = styled(HorizontalBetweenCenter)<{ active?: boolean }>(({ active = false }) => {
-  if (active) {
-    return tw`
+export const Row = styled(HorizontalBetweenCenterFullWidth)<{ active?: boolean }>(
+  ({ active = false }) => {
+    if (active) {
+      return tw`
       w-full
       p-4
       border-t
@@ -72,16 +73,17 @@ export const Row = styled(HorizontalBetweenCenter)<{ active?: boolean }>(({ acti
       border-gray-200
       bg-primary-50
     `
-  }
+    }
 
-  return tw`
+    return tw`
     w-full
     p-4
     border-t
     border-solid
     border-gray-200
   `
-})
+  }
+)
 
 export const FullWidth = tw(Horizontal)`
   items-center

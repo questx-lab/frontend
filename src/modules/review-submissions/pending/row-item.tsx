@@ -9,16 +9,16 @@ import {
   Info,
   Name,
   Row,
-  Time,
   Title,
   VerticalLeftMargin,
 } from '@/modules/review-submissions/mini-widget'
 import RowButtons from '@/modules/review-submissions/pending/row-item-buttons'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
+import { Divider } from '@/styles/common.style'
 import { ClaimQuestType } from '@/utils/type'
 import { Image } from '@/widgets/image'
 import { CheckBox } from '@/widgets/input'
-import { HorizontalBetweenCenterFullWidth, VerticalCenter } from '@/widgets/orientation'
+import { Vertical, VerticalCenter } from '@/widgets/orientation'
 import toast from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
@@ -37,7 +37,7 @@ const RowItem: FunctionComponent<{
 
   // action
   const onSubmissionModalChanged = NewClaimReviewStore.useStoreActions(
-    (actions) => actions.onSubmissionModalChanged
+    (actions) => actions.setShowClaimDetails
   )
   const setPendingClaims = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setPendingClaims
@@ -87,7 +87,7 @@ const RowItem: FunctionComponent<{
   }
 
   return (
-    <HorizontalBetweenCenterFullWidth>
+    <Vertical>
       <Row active={active} onClick={() => setClaimActive(claimQuest)}>
         <FullWidth>
           <CheckBox
@@ -117,7 +117,8 @@ const RowItem: FunctionComponent<{
 
         <RowButtons onButtonsAction={onActionButtonClicked} />
       </Row>
-    </HorizontalBetweenCenterFullWidth>
+      <Divider />
+    </Vertical>
   )
 }
 

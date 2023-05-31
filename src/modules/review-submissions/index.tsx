@@ -1,10 +1,12 @@
 import { TabReviewEnum } from '@/constants/common.const'
+import ClaimReview from '@/modules/review-submissions/claim-review'
 import HistoryTab from '@/modules/review-submissions/history'
 import PendingTab from '@/modules/review-submissions/pending'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
+import { BaseModal, BasicModal } from '@/widgets/modal'
 import {
   HorizontalBetweenCenterFullWidth,
   Vertical,
@@ -36,12 +38,16 @@ const ContentPadding = tw(Vertical)`
 
 export const Index: FunctionComponent = () => {
   // data
+  const submissionModal = NewClaimReviewStore.useStoreState((state) => state.showClaimDetails)
   const tabReviewState = NewClaimReviewStore.useStoreState((state) => state.tabReview)
   const loadingModal = NewClaimReviewStore.useStoreState((state) => state.loadingModal)
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   // action
   const setTabReview = NewClaimReviewStore.useStoreActions((actions) => actions.setTabReview)
+  const setShowClaimDetails = NewClaimReviewStore.useStoreActions(
+    (actions) => actions.setShowClaimDetails
+  )
 
   if (selectedCommunity === undefined) {
     // TODO: redirect from there.
@@ -81,6 +87,10 @@ export const Index: FunctionComponent = () => {
           )}
         </ContentPadding>
       </NewQuestSearchStore.Provider>
+
+      <BasicModal isOpen={submissionModal} onClose={() => setShowClaimDetails(false)}>
+        <ClaimReview />
+      </BasicModal>
     </VerticalFullWidth>
   )
 }

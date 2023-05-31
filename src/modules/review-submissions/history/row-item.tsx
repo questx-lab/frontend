@@ -50,7 +50,7 @@ const RowItem: FunctionComponent<{
   claim: ClaimQuestType
 }> = ({ active, onChange, claim }) => {
   const onSubmissionModalChanged = NewClaimReviewStore.useStoreActions(
-    (actions) => actions.onSubmissionModalChanged
+    (actions) => actions.setShowClaimDetails
   )
 
   return (

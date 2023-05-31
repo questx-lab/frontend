@@ -13,7 +13,7 @@ interface ClaimReviewModel {
   allHistoryChecked: boolean
   allPendingChecked: boolean
   loadingModal: boolean
-  submissionModal: boolean
+  showClaimDetails: boolean
   recurrence: QuestRecurrence
   tabReview: number
 
@@ -26,7 +26,7 @@ interface ClaimReviewModel {
   setPendingClaims: Action<ClaimReviewModel, ClaimQuestType[]>
   setHistoryClaims: Action<ClaimReviewModel, ClaimQuestType[]>
   setLoading: Action<ClaimReviewModel, boolean>
-  onSubmissionModalChanged: Action<ClaimReviewModel, boolean>
+  setShowClaimDetails: Action<ClaimReviewModel, boolean>
   setRecurrence: Action<ClaimReviewModel, QuestRecurrence>
   setTabReview: Action<ClaimReviewModel, number>
 }
@@ -41,7 +41,7 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
   historyClaims: [],
   claimQuestActive: { id: '', user: {} },
   loadingModal: false,
-  submissionModal: false,
+  showClaimDetails: false,
   recurrence: QuestRecurrence.ONCE,
   tabReview: TabReviewEnum.PENDING,
 
@@ -80,8 +80,8 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
     state.loadingModal = loading
   }),
 
-  onSubmissionModalChanged: action((state, modal) => {
-    state.submissionModal = modal
+  setShowClaimDetails: action((state, modal) => {
+    state.showClaimDetails = modal
   }),
 
   setRecurrence: action((state, newRecurrence) => {
