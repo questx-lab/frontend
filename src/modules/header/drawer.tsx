@@ -1,4 +1,4 @@
-// Asside for mobile
+// Drawer for mobile
 
 import { FC } from 'react'
 
