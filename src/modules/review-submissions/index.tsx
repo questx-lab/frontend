@@ -6,7 +6,7 @@ import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
-import { BaseModal, BasicModal } from '@/widgets/modal'
+import { BasicModal } from '@/widgets/modal'
 import {
   HorizontalBetweenCenterFullWidth,
   Vertical,

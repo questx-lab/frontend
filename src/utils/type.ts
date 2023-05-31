@@ -183,9 +183,7 @@ export type ReqClaimReward = {
 
 export type ClaimQuestType = {
   id: string
-  quest_id?: string
-  quest?: QuestType
-  user_id?: string
+  quest: QuestType
   user: UserType
   status?: string
   input?: string

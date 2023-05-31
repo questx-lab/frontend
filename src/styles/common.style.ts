@@ -114,18 +114,6 @@ export const RowBWrap = tw(Horizontal)`
   items-center
 `
 
-export const RowBSWrap = tw(Horizontal)`
-  w-full
-  justify-between
-  max-lg:flex-col
-`
-
-export const RowHSWrap = tw(Horizontal)`
-  w-1/2
-  justify-between
-  items-start
-  max-lg:flex-col
-`
 export const RowHEWrap = tw(Horizontal)`
   w-1/2
   justify-between

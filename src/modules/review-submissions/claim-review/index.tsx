@@ -1,7 +1,6 @@
+import ClaimInfo from '@/modules/review-submissions/claim-review/claim-info'
 import { ThinBorderBox } from '@/widgets/box'
-import { Vertical } from '@/widgets/orientation'
 import { Horizontal } from '@/widgets/orientation'
-import { Label } from '@/widgets/text'
 import { FunctionComponent } from 'react'
 import tw from 'twin.macro'
 
@@ -18,10 +17,6 @@ const ClaimColumn = tw(ThinBorderBox)`
   mr-4
 `
 
-const ClaimBox = tw(Vertical)`
-  h-full
-`
-
 const QuestColumn = tw.div`
   w-1/3
   h-full
@@ -34,9 +29,7 @@ const ClaimReview: FunctionComponent = () => {
   return (
     <OuterFrame>
       <ClaimColumn>
-        <ClaimBox>
-          <Label>AAAA</Label>
-        </ClaimBox>
+        <ClaimInfo />
       </ClaimColumn>
       <QuestColumn>Quest</QuestColumn>
     </OuterFrame>

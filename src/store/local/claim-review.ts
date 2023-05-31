@@ -2,6 +2,7 @@ import { action, Action, createContextStore } from 'easy-peasy'
 
 import { ClaimedQuestStatus, QuestRecurrence, TabReviewEnum } from '@/constants/common.const'
 import { ClaimQuestType } from '@/utils/type'
+import { emptyQuest } from '@/types/quest'
 
 interface ClaimReviewModel {
   pendingClaims: ClaimQuestType[]
@@ -39,7 +40,7 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
   allPendingChecked: false,
   pendingClaims: [],
   historyClaims: [],
-  claimQuestActive: { id: '', user: {} },
+  claimQuestActive: { id: '', user: {}, quest: emptyQuest() },
   loadingModal: false,
   showClaimDetails: false,
   recurrence: QuestRecurrence.ONCE,
