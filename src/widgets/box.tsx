@@ -1,8 +1,12 @@
 import tw from 'twin.macro'
 
-export const ThinBorderBox = tw.div`
+export const GrayBorderBox = tw.div`
+  border
   border-solid
   border-[1px]
-  rounded-lg
   border-gray-200
+`
+
+export const ThinBorderBox = tw(GrayBorderBox)`
+  rounded-lg
 `

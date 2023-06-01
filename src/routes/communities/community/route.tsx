@@ -1,30 +1,33 @@
 import { useEffect } from 'react'
 
-import { useStoreState } from 'easy-peasy'
+import { useStoreActions, useStoreState } from 'easy-peasy'
 import { json, Outlet, Params, useLoaderData } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { getCommunityApi } from '@/app/api/client/communitiy'
-import { listQuestApi } from '@/app/api/client/quest'
+import { getTemplatesApi, listQuestApi } from '@/app/api/client/quest'
 import { CommunityRoleEnum } from '@/constants/common.const'
 import { ControlPanel } from '@/modules/community/control-panel'
 import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
-import { CollaboratorType, CommunityType } from '@/utils/type'
+import { CollaboratorType, CommunityType, QuestType } from '@/utils/type'
 import { Horizontal } from '@/widgets/orientation'
 
 export const Loader = async (args: { params: Params }) => {
-  const [communityResult] = await Promise.all([
+  const [communityResult, templatesResult] = await Promise.all([
     getCommunityApi(args.params['communityHandle'] || ''),
+    getTemplatesApi(),
   ])
 
   const community = communityResult.code === 0 ? communityResult.data?.community : undefined
+  const templates = templatesResult.code === 0 ? templatesResult.data?.templates : []
 
   if (communityResult.code === 0) {
     return json(
       {
         community,
+        templates,
       },
       { status: 200 }
     )
@@ -44,9 +47,11 @@ const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true
 })
 
 export const Community = () => {
+  // TODO: handle load failure here.
   // loader data
   let data = useLoaderData() as {
     community: CommunityType
+    templates: QuestType[]
   }
   const community = data.community
 
@@ -61,6 +66,7 @@ export const Community = () => {
     (action) => action.setSelectedCommunity
   )
   const setQuests = CommunityStore.useStoreActions((action) => action.setQuests)
+  const setTemplates = useStoreActions<GlobalStoreModel>((action) => action.setTemplates)
 
   // hook
   useEffect(() => {
@@ -86,11 +92,12 @@ export const Community = () => {
   const filter =
     myCommunities &&
     myCommunities.filter((collaboration) => collaboration.community.handle === community.handle)
-  
+
   const isOwner = filter && filter.length > 0
-  
+
   if (isOwner) {
     setRole(CommunityRoleEnum.OWNER)
+    setTemplates(data.templates)
   } else {
     setRole(CommunityRoleEnum.GUEST)
   }

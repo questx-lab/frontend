@@ -1,6 +1,6 @@
 import { api } from '@/app/api/config/api'
 import { EnvVariables } from '@/constants/env.const'
-import { LQuestType, ReqNewQuestType, Rsp } from '@/utils/type'
+import { LQuestType, QuestType, ReqNewQuestType, Rsp } from '@/utils/type'
 
 export const updateQuestApi = async (body: ReqNewQuestType): Promise<Rsp<{ id: string }>> => {
   const { data } = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/updateQuest', body)
@@ -40,5 +40,11 @@ export const updateAllClaimedQuestApi = async (
     filter_user_id,
     excludes,
   })
+  return data
+}
+
+// Templates
+export const getTemplatesApi = async (): Promise<Rsp<{ templates: QuestType[] }>> => {
+  const { data } = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + `/getTemplates`)
   return data
 }

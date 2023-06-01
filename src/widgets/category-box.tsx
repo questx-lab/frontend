@@ -15,21 +15,33 @@ const HeaderBox = tw(HorizontalBetweenCenter)`
   w-full
 `
 
+const ShowAll: FunctionComponent<{ show: boolean; onClick: () => void }> = ({ show, onClick }) => {
+  console.log('show = ', show)
+  if (!show) {
+    return <></>
+  }
+
+  return (
+    <PrimaryText isHover size='lg' onClick={onClick}>
+      {'Show all'}
+      <ArrowSmallRightIcon className='text-primary w-7 h-7' />
+    </PrimaryText>
+  )
+}
+
 const CategoryBox: FunctionComponent<{
   title: string
   children: ReactNode
   onClick: () => void
   loading?: boolean
-}> = ({ title, children, onClick, loading = false }) => {
+  hasShowAll?: boolean
+}> = ({ title, children, onClick, loading = false, hasShowAll = true }) => {
   if (loading) {
     return (
       <Wrap>
         <HeaderBox>
           <Large2xlText>{title}</Large2xlText>
-          <PrimaryText isHover size='lg' onClick={onClick}>
-            {'Show all'}
-            <ArrowSmallRightIcon className='text-primary w-7 h-7' />
-          </PrimaryText>
+          <ShowAll onClick={onClick} show={hasShowAll} />
         </HeaderBox>
         <VerticalFullWidthCenter>
           <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />

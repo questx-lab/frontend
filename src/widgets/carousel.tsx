@@ -94,7 +94,7 @@ const CarouselList: FunctionComponent<{
           alt={StorageConst.CHICKEN.alt}
         />
         <NormalText className='text-center'>
-          {"Ohhh! This doesn't have any data yet. Please follow and come back at a later time."}
+          {"Ohhh! This doesn't have any data yet. Please come back at a later time."}
         </NormalText>
       </EmptyBox>
     )

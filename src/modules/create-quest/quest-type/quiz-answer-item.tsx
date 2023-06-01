@@ -132,7 +132,6 @@ const AnswerItem: FunctionComponent<{ quizIndex: number }> = ({ quizIndex }) => 
         onClick={() => {
           if (options.length < 10) {
             const copy: QuestQuizType[] = Object.assign([], quizzes)
-            console.log('copy[quizIndex].options = ', copy[quizIndex].options)
             copy[quizIndex].options.push('')
 
             setQuizzes(copy)

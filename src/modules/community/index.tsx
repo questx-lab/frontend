@@ -1,4 +1,5 @@
 import { Quests } from '@/modules/community/quests'
+import Templates from '@/modules/community/templates'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
@@ -78,6 +79,9 @@ export const Index: FunctionComponent = () => {
             </ButtonAlignment>
           </MHeader>
         </Padding16>
+
+        <Gap height={6} />
+        <Templates />
 
         <Gap height={6} />
         <Quests show={true} />

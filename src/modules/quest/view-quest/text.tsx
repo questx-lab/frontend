@@ -12,8 +12,6 @@ export const QuestText: FunctionComponent = () => {
   // action
   const setTextSubmit = ActiveQuestStore.useStoreActions((action) => action.setTextSubmit)
 
-  console.log('role = ', role)
-
   if (role !== CommunityRoleEnum.GUEST) {
     return <></>
   }

@@ -195,8 +195,6 @@ export const CreateOrEditQuest: FunctionComponent<{
   const setQuests = CommunityStore.useStoreActions((action) => action.setQuests)
 
   const submitAction = async (submitType: string) => {
-    console.log('Quest is submitted.')
-
     setIsOpen(true)
     const rs = await handleSubmit(store, communityHandle, submitType, '')
     if (rs) {
