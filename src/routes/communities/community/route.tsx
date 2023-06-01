@@ -36,7 +36,6 @@ export const Loader = async (args: { params: Params }) => {
 const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true }) => {
   if (hasPanel) {
     return tw`
-      min-h-screen
       pl-80
     `
   }
@@ -87,9 +86,9 @@ export const Community = () => {
   const filter =
     myCommunities &&
     myCommunities.filter((collaboration) => collaboration.community.handle === community.handle)
-
+  
   const isOwner = filter && filter.length > 0
-
+  
   if (isOwner) {
     setRole(CommunityRoleEnum.OWNER)
   } else {

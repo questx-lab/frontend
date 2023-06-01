@@ -1,5 +1,8 @@
 import { ChangeEvent, FunctionComponent } from 'react'
 
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import { ClaimedQuestMap, ClaimedQuestStatus } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import {
@@ -11,13 +14,11 @@ import {
   Title,
   VerticalLeftMargin,
 } from '@/modules/review-submissions/mini-widget'
+import { ClaimedSubmit } from '@/modules/review-submissions/pending/row-item'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { ClaimQuestType } from '@/utils/type'
 import { Image } from '@/widgets/image'
-import { CheckBox } from '@/widgets/input'
-import { HorizontalBetweenCenterFullWidth } from '@/widgets/orientation'
-import styled from 'styled-components'
-import tw from 'twin.macro'
+import { HorizontalBetweenCenterFullWidth, Vertical } from '@/widgets/orientation'
 
 const Status = styled.div<{ claimStatus?: string }>(
   ({ claimStatus = ClaimedQuestStatus.PENDING }) => [
@@ -52,37 +53,45 @@ const RowItem: FunctionComponent<{
   const onSubmissionModalChanged = NewClaimReviewStore.useStoreActions(
     (actions) => actions.setShowClaimDetails
   )
+  const setClaimActive = NewClaimReviewStore.useStoreActions((actions) => actions.setClaimActive)
 
   return (
-    <HorizontalBetweenCenterFullWidth>
-      <Row active={false}>
-        <FullWidth>
-          <CheckBox checked={active} type='checkbox' onChange={(value) => onChange(value, claim)} />
-          <Details onClick={() => onSubmissionModalChanged(true)}>
-            <Title>{claim.quest?.title}</Title>
-            <Info>
-              <Image
-                width={40}
-                height={40}
-                src={StorageConst.USER_DEFAULT.src}
-                alt={StorageConst.USER_DEFAULT.alt}
-              />
-              <VerticalLeftMargin>
-                <Name>{claim.user.name || ''}</Name>
-                {
-                  // TODO: Display the claim time here.
-                  /* <Time>{'claimed a few seconds ago'}</Time> */
-                }
-              </VerticalLeftMargin>
-            </Info>
-          </Details>
-        </FullWidth>
+    <Vertical>
+      <HorizontalBetweenCenterFullWidth>
+        <Row active={false}>
+          <FullWidth>
+            <Details
+              onClick={() => {
+                onSubmissionModalChanged(true)
+                setClaimActive(claim)
+              }}
+            >
+              <Title>{claim.quest?.title}</Title>
+              <Info>
+                <Image
+                  width={40}
+                  height={40}
+                  src={StorageConst.USER_DEFAULT.src}
+                  alt={StorageConst.USER_DEFAULT.alt}
+                />
+                <VerticalLeftMargin>
+                  <Name>{claim.user.name || ''}</Name>
+                  {
+                    // TODO: Display the claim time here.
+                    /* <Time>{'claimed a few seconds ago'}</Time> */
+                  }
+                </VerticalLeftMargin>
+              </Info>
+            </Details>
+          </FullWidth>
 
-        <Status claimStatus={claim.status!}>
-          {ClaimedQuestMap.get(claim.status! as ClaimedQuestStatus)}
-        </Status>
-      </Row>
-    </HorizontalBetweenCenterFullWidth>
+          <Status claimStatus={claim.status!}>
+            {ClaimedQuestMap.get(claim.status! as ClaimedQuestStatus)}
+          </Status>
+        </Row>
+      </HorizontalBetweenCenterFullWidth>
+      <ClaimedSubmit claimQuest={claim} />
+    </Vertical>
   )
 }
 

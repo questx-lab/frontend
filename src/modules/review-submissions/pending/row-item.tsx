@@ -1,8 +1,21 @@
-import { ChangeEvent, FunctionComponent, useState } from 'react'
+import {
+  ChangeEvent,
+  FunctionComponent,
+  useState,
+} from 'react';
 
-import { updateClaimedQuestApi } from '@/app/api/client/claim'
-import { ClaimedQuestStatus, ReviewBtnEnum } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
+import toast from 'react-hot-toast';
+import { MoonLoader } from 'react-spinners';
+import tw from 'twin.macro';
+
+import { updateClaimedQuestApi } from '@/app/api/client/claim';
+import {
+  ClaimedQuestStatus,
+  QuestTypeEnum,
+  ReviewBtnEnum,
+} from '@/constants/common.const';
+import { StorageConst } from '@/constants/storage.const';
+import { ColumnButtons } from '@/modules/review-submissions/button';
 import {
   Details,
   FullWidth,
@@ -11,23 +24,60 @@ import {
   Row,
   Title,
   VerticalLeftMargin,
-} from '@/modules/review-submissions/mini-widget'
-import RowButtons from '@/modules/review-submissions/pending/row-item-buttons'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { Divider } from '@/styles/common.style'
-import { ClaimQuestType } from '@/utils/type'
-import { Image } from '@/widgets/image'
-import { CheckBox } from '@/widgets/input'
-import { Vertical, VerticalCenter } from '@/widgets/orientation'
-import toast from 'react-hot-toast'
-import { MoonLoader } from 'react-spinners'
-import tw from 'twin.macro'
+} from '@/modules/review-submissions/mini-widget';
+import { NewClaimReviewStore } from '@/store/local/claim-review';
+import { Gap } from '@/styles/common.style';
+import { ClaimQuestType } from '@/utils/type';
+import { Image } from '@/widgets/image';
+import { CheckBox } from '@/widgets/input';
+import {
+  HorizontalBetweenCenterFullWidth,
+  Vertical,
+  VerticalCenter,
+  VerticalFullWidth,
+} from '@/widgets/orientation';
+import { NormalText } from '@/widgets/text';
 
 const LoadingPosition = tw(VerticalCenter)`
   h-full
 `
 
-const RowItem: FunctionComponent<{
+const PaddingBottom = tw.div`
+  px-4
+  pb-3
+`
+
+const PaddingHorizontal = tw.div`
+  px-4
+  pb-4
+`
+
+export const ClaimedSubmit: FunctionComponent<{ claimQuest: ClaimQuestType }> = ({
+  claimQuest,
+}) => {
+  if (claimQuest.quest.type === QuestTypeEnum.IMAGE) {
+    return (
+      <PaddingBottom>
+        <Image
+          height={150}
+          width={500}
+          alt='image'
+          className='rounded-lg'
+          src={claimQuest.submission_data}
+        />
+      </PaddingBottom>
+    )
+  }
+  return (
+    <VerticalFullWidth>
+      <PaddingHorizontal>
+        <NormalText>{claimQuest.submission_data}</NormalText>
+      </PaddingHorizontal>
+    </VerticalFullWidth>
+  )
+}
+
+const PendingItem: FunctionComponent<{
   active: boolean
   onChange: (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => void
   claimQuest: ClaimQuestType
@@ -50,6 +100,7 @@ const RowItem: FunctionComponent<{
   // Handler
   const onShowModal = () => {
     onSubmissionModalChanged(true)
+    setClaimActive(claimQuest)
   }
 
   // on Button action
@@ -88,38 +139,41 @@ const RowItem: FunctionComponent<{
 
   return (
     <Vertical>
-      <Row active={active} onClick={() => setClaimActive(claimQuest)}>
-        <FullWidth>
-          <CheckBox
-            checked={active}
-            type='checkbox'
-            onChange={(value) => onChange(value, claimQuest)}
-          />
-          <Details onClick={onShowModal}>
-            <Title>{claimQuest.quest?.title}</Title>
-            <Info>
-              <Image
-                width={40}
-                height={40}
-                src={StorageConst.USER_DEFAULT.src}
-                alt={StorageConst.USER_DEFAULT.alt}
-              />
-              <VerticalLeftMargin>
-                <Name>{claimQuest.user.name || ''}</Name>
-                {
-                  // TODO: Display the claim time here.
-                  /* <Time>{'claimed a few seconds ago'}</Time> */
-                }
-              </VerticalLeftMargin>
-            </Info>
-          </Details>
-        </FullWidth>
-
-        <RowButtons onButtonsAction={onActionButtonClicked} />
-      </Row>
-      <Divider />
+      <HorizontalBetweenCenterFullWidth>
+        <Row active={active}>
+          <FullWidth>
+            <CheckBox
+              className='mt-1'
+              checked={active}
+              type='checkbox'
+              onChange={(value) => onChange(value, claimQuest)}
+            />
+            <Details onClick={onShowModal}>
+              <Title>{claimQuest.quest?.title}</Title>
+              <Info>
+                <Image
+                  width={50}
+                  height={50}
+                  src={StorageConst.USER_DEFAULT.src}
+                  alt={StorageConst.USER_DEFAULT.alt}
+                />
+                <VerticalLeftMargin>
+                  <Name>{claimQuest.user.name || ''}</Name>
+                  {
+                    // TODO: Display the claim time here.
+                    /* <Time>{'claimed a few seconds ago'}</Time> */
+                  }
+                </VerticalLeftMargin>
+              </Info>
+              <Gap />
+            </Details>
+          </FullWidth>
+          <ColumnButtons onButtonsAction={onActionButtonClicked} />
+        </Row>
+      </HorizontalBetweenCenterFullWidth>
+      <ClaimedSubmit claimQuest={claimQuest} />
     </Vertical>
   )
 }
 
-export default RowItem
+export default PendingItem

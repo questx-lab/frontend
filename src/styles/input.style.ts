@@ -51,7 +51,7 @@ export const InputBBox = tw.input`
   rounded-lg
 `
 
-export const MulInputBox = styled.textarea<{ danger?: boolean }>(({ danger = false }) => [
+export const MultipleInputBox = styled.textarea<{ danger?: boolean }>(({ danger = false }) => [
   danger
     ? tw`
         w-full

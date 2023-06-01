@@ -1,3 +1,6 @@
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import { ReviewBtnEnum } from '@/constants/common.const'
 import { ThinBorderBox } from '@/widgets/box'
 import {
@@ -6,8 +9,6 @@ import {
   Vertical,
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 
 /////// Table
 export const HeaderFullWidth = tw(Horizontal)`
@@ -75,6 +76,7 @@ export const InputFrame = tw.div`
 export const SubmissionColumn = tw(ThinBorderBox)`
   w-2/3
   h-full
+  mb-6
 `
 
 export const ButtonFrame = tw.div`
@@ -121,7 +123,6 @@ export const Row = styled(HorizontalBetweenCenterFullWidth)<{ active?: boolean }
 )
 
 export const FullWidth = tw(Horizontal)`
-  items-center
   w-full
 `
 
@@ -139,10 +140,14 @@ export const Title = tw.p`
 
 export const Info = tw(Horizontal)`
   w-full
+  gap-3
+  h-full
 `
 
 export const VerticalLeftMargin = tw(Vertical)`
-  ml-4
+  items-center
+  justify-center
+  h-full
 `
 
 export const Name = tw.span`
