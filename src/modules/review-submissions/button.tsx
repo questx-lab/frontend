@@ -15,6 +15,7 @@ const ColButtonsFrame = tw(Vertical)`
   gap-2
 `
 
+// For action in item pending quest
 export const RowButtons: FunctionComponent<{
   onButtonsAction: (submitType: number) => void
 }> = ({ onButtonsAction }) => {
@@ -36,6 +37,7 @@ export const RowButtons: FunctionComponent<{
   )
 }
 
+// For action when open detail quest claim
 export const ColButtons: FunctionComponent<{
   onButtonsAction: (submitType: number) => void
 }> = ({ onButtonsAction }) => {
