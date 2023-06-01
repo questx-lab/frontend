@@ -7,7 +7,7 @@ import { ReqNewQuestType, ValidationQuest } from '@/utils/type'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { Label } from '@/widgets/text'
 
-import { newQuestApi, updateQuestApi } from '@/app/api/client/quest'
+import { listQuestApi, newQuestApi, updateQuestApi } from '@/app/api/client/quest'
 import { QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import ActionButtons from '@/modules/create-quest/action-buttons'
@@ -23,6 +23,7 @@ import { EasyPeasyConfig, Store } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { CommunityStore } from '@/store/local/community'
 
 const Fullscreen = tw(Vertical)`
   w-full
@@ -189,6 +190,7 @@ export const CreateOrEditQuest: FunctionComponent<{
   // Actions
   const setTitle = NewQuestStore.useStoreActions((actions) => actions.setTitle)
   const setDescription = NewQuestStore.useStoreActions((actions) => actions.setDescription)
+  const setQuests = CommunityStore.useStoreActions((action) => action.setQuests)
 
   const submitAction = async (submitType: string) => {
     console.log('Quest is submitted.')
@@ -197,6 +199,12 @@ export const CreateOrEditQuest: FunctionComponent<{
     const rs = await handleSubmit(store, communityHandle, submitType, '')
     if (rs) {
       navigate(RouterConst.PROJECT + communityHandle)
+
+      // reload the quests list so that it could displayed in the community quest list.
+      const result = await listQuestApi(communityHandle, '')
+      if (result.code === 0) {
+        setQuests(result.data?.quests || [])
+      }
     } else {
       setIsOpen(false)
     }

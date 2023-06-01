@@ -15,19 +15,16 @@ import { CollaboratorType, CommunityType, QuestType } from '@/utils/type'
 import { Horizontal } from '@/widgets/orientation'
 
 export const Loader = async (args: { params: Params }) => {
-  const [communityResult, questsResult] = await Promise.all([
+  const [communityResult] = await Promise.all([
     getCommunityApi(args.params['communityHandle'] || ''),
-    listQuestApi(args.params['communityHandle'] || '', ''),
   ])
 
   const community = communityResult.code === 0 ? communityResult.data?.community : undefined
-  const quests = questsResult.code === 0 ? questsResult.data?.quests : undefined
 
   if (communityResult.code === 0) {
     return json(
       {
         community,
-        quests,
       },
       { status: 200 }
     )
@@ -51,7 +48,6 @@ export const Community = () => {
   // loader data
   let data = useLoaderData() as {
     community: CommunityType
-    quests: QuestType[]
   }
   const community = data.community
 
@@ -70,11 +66,21 @@ export const Community = () => {
   // hook
   useEffect(() => {
     setSelectedCommunity(data.community)
-    setQuests(data.quests || [])
-  }, [setSelectedCommunity, setQuests, data.community, data.quests])
+    loadQuests()
+  }, [setSelectedCommunity, data.community])
 
   if (!community) {
     return <>Failed to load community data</>
+  }
+
+  // load quests
+  const loadQuests = async () => {
+    const result = await listQuestApi(community.handle, '')
+    if (result.code === 0) {
+      setQuests(result.data?.quests || [])
+    } else {
+      // TODO: show error loading quest here.
+    }
   }
 
   // Check if user is the admin of this community
