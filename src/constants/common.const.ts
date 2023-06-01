@@ -141,7 +141,7 @@ export enum ClaimedQuestStatus {
   ALL = 'rejected,accepted',
 }
 
-export const ClaimedQuestMap = new Map<ClaimedQuestStatus, String>([
+export const ClaimedQuestMap = new Map<ClaimedQuestStatus, string>([
   [ClaimedQuestStatus.PENDING, 'Pending'],
   [ClaimedQuestStatus.ACCEPTED, 'Accepted'],
   [ClaimedQuestStatus.REJECTED, 'Rejected'],

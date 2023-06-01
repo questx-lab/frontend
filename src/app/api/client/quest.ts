@@ -25,3 +25,20 @@ export const listQuestApi = async (
   )
   return data
 }
+
+export const updateAllClaimedQuestApi = async (
+  action: string,
+  community_handle: string,
+  filter_quest_id: string,
+  filter_user_id: string,
+  excludes: string[]
+) => {
+  const { data } = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + `/reviewAll`, {
+    action,
+    community_handle: community_handle,
+    filter_quest_id,
+    filter_user_id,
+    excludes,
+  })
+  return data
+}

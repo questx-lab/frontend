@@ -25,6 +25,9 @@ const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
 
   // actions
   const setHistoryClaims = NewClaimReviewStore.useStoreActions((state) => state.setHistoryClaims)
+  const setSelectedHistory = NewClaimReviewStore.useStoreActions(
+    (actions) => actions.setSelectedHistory
+  )
 
   // Hook
   const [loading, setLoading] = useState<boolean>(true)
@@ -54,6 +57,7 @@ const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     if (data.code === 0) {
       // Set either claims or history data.
       setHistoryClaims(data.data?.claimed_quests || [])
+      setSelectedHistory(new Map())
     }
   }
 

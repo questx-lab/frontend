@@ -82,6 +82,7 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     if (data.code === 0) {
       // Set either claims or history data.
       setPendingClaims(data.data?.claimed_quests || [])
+      setSelectedPending(new Map())
     } else {
       // TODO: Show error message
     }
@@ -110,7 +111,7 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
                   )
                 }}
               />
-              <ActionButtons />
+              <ActionButtons communityHandle={selectedCommunity.handle} />
             </>
           )}
 
