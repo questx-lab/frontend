@@ -86,7 +86,9 @@ export const Community = () => {
   const filter =
     myCommunities &&
     myCommunities.filter((collaboration) => collaboration.community.handle === community.handle)
+  
   const isOwner = filter && filter.length > 0
+  
   if (isOwner) {
     setRole(CommunityRoleEnum.OWNER)
   } else {

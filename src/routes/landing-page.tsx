@@ -214,13 +214,13 @@ const Content: FunctionComponent = () => {
 
   // handler
   const onShowAllClicked = () => {
-    navigate(RouterConst.COMMUNITIES)
+    navigate(RouterConst.COMMUNITIES_TRENDING)
   }
 
   const fetchListCommunities = useCallback(async (q: string) => {
     try {
       setLoading(true)
-      const result = await listCommunitiesApi(0, 50, q)
+      const result = await listCommunitiesApi(0, 50, q, true)
       if (result.code === 0 && result.data?.communities) {
         setCommunities(result.data.communities)
       }
@@ -280,18 +280,6 @@ const Content: FunctionComponent = () => {
             <Main>
               <CategoryBox
                 title='🔥 Trending Communities'
-                onClick={onShowAllClicked}
-                loading={loading}
-              >
-                <CarouselList
-                  data={communities}
-                  renderItemFunc={(community: CommunityType) => {
-                    return <CommunityBox community={community} />
-                  }}
-                />
-              </CategoryBox>
-              <CategoryBox
-                title='⭐ Popular Communities'
                 onClick={onShowAllClicked}
                 loading={loading}
               >
