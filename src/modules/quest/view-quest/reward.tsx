@@ -1,3 +1,7 @@
+import { FunctionComponent } from 'react'
+
+import tw from 'twin.macro'
+
 import { StorageConst } from '@/constants/storage.const'
 import { Gap } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
@@ -5,8 +9,6 @@ import { ThinBorderBox } from '@/widgets/box'
 import { Image } from '@/widgets/image'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { Label, RewardText } from '@/widgets/text'
-import { FunctionComponent } from 'react'
-import tw from 'twin.macro'
 
 const FrameShape = tw(Vertical)`
   px-4
@@ -16,14 +18,14 @@ const FrameShape = tw(Vertical)`
   items-end
 `
 
-const BorderBox = tw(ThinBorderBox)`
+export const BorderBox = tw(ThinBorderBox)`
   w-full
   px-6
   py-6
   gap-4
 `
 
-const RewardRow = tw(Horizontal)`
+export const RewardRow = tw(Horizontal)`
   items-center
 `
 

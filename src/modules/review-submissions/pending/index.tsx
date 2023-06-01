@@ -1,8 +1,6 @@
 import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react'
 
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-
-import { ClaimQuestType, ListClaimQuestType, QuestType, Rsp } from '@/utils/type'
+import { MoonLoader } from 'react-spinners'
 
 import { listClaimedQuestsApi } from '@/app/api/client/claim'
 import { ClaimedQuestStatus } from '@/constants/common.const'
@@ -15,10 +13,11 @@ import {
 } from '@/modules/review-submissions/mini-widget'
 import ActionButtons from '@/modules/review-submissions/pending/action-buttons'
 import TableHeader from '@/modules/review-submissions/pending/header'
-import RowItem from '@/modules/review-submissions/pending/row-item'
+import PendingItem from '@/modules/review-submissions/pending/row-item'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
+import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CommunityStore } from '@/store/local/community'
-import { MoonLoader } from 'react-spinners'
+import { ClaimQuestType, ListClaimQuestType, QuestType, Rsp } from '@/utils/type'
 
 const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   // data
@@ -105,7 +104,7 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
                 list={pendingClaims}
                 itemView={(item: ClaimQuestType, index: number) => {
                   return (
-                    <RowItem
+                    <PendingItem
                       active={selectedPendings.has(item.id)}
                       onChange={onCheckChanged}
                       claimQuest={item}

@@ -1,4 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react'
+
 import { FixedSizeList as List } from 'react-window'
 import tw from 'twin.macro'
 
@@ -20,7 +21,7 @@ export const SubmissionsList: FunctionComponent<{
   }
 
   return (
-    <List height={600} itemCount={list.length} itemSize={120} width={'100%'}>
+    <List height={700} itemCount={list.length} itemSize={120} width={'100%'}>
       {({ index }) => {
         return <>{itemView(list[index], index)}</>
       }}

@@ -179,7 +179,7 @@ export type LQuestType = {
 
 export type ReqClaimReward = {
   quest_id?: string
-  input?: string
+  submission_data?: string
 }
 
 export type ClaimQuestType = {

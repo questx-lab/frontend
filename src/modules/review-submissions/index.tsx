@@ -1,3 +1,7 @@
+import { FunctionComponent } from 'react'
+
+import tw from 'twin.macro'
+
 import { TabReviewEnum } from '@/constants/common.const'
 import ClaimReview from '@/modules/review-submissions/claim-review'
 import HistoryTab from '@/modules/review-submissions/history'
@@ -14,8 +18,6 @@ import {
 } from '@/widgets/orientation'
 import { Tab, TabItem } from '@/widgets/tab-group'
 import { ArrowPathIcon, ClockIcon } from '@heroicons/react/24/outline'
-import { FunctionComponent } from 'react'
-import tw from 'twin.macro'
 
 const Head = tw.div`
   w-full
@@ -40,9 +42,8 @@ export const Index: FunctionComponent = () => {
   // data
   const submissionModal = NewClaimReviewStore.useStoreState((state) => state.showClaimDetails)
   const tabReviewState = NewClaimReviewStore.useStoreState((state) => state.selectedTab)
-  const loadingModal = NewClaimReviewStore.useStoreState((state) => state.loadingModal)
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
-
+  const claimQuestActive = NewClaimReviewStore.useStoreState((state) => state.claimQuestActive)
   // action
   const setTabReview = NewClaimReviewStore.useStoreActions((actions) => actions.setSelectedTab)
   const setShowClaimDetails = NewClaimReviewStore.useStoreActions(
@@ -90,7 +91,11 @@ export const Index: FunctionComponent = () => {
         </NewQuestSearchStore.Provider>
       </ContentPadding>
 
-      <BasicModal isOpen={submissionModal} onClose={() => setShowClaimDetails(false)}>
+      <BasicModal
+        title={claimQuestActive.quest.title}
+        isOpen={submissionModal}
+        onClose={() => setShowClaimDetails(false)}
+      >
         <ClaimReview />
       </BasicModal>
     </VerticalFullWidth>
