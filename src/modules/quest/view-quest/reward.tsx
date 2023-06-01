@@ -4,12 +4,11 @@ import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
 import { BorderBox, RewardRow } from '@/modules/quest/view-quest/mini-widget'
+import SubmitClaim from '@/modules/quest/view-quest/submit-claim'
 import { QuestType } from '@/utils/type'
 import { Image } from '@/widgets/image'
 import { Vertical } from '@/widgets/orientation'
 import { Label, RewardText } from '@/widgets/text'
-
-import SubmitClaim from './submit-claim'
 
 const FrameShape = tw(Vertical)`
   px-4
