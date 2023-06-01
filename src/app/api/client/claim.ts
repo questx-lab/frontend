@@ -1,7 +1,7 @@
 import { api } from '@/app/api/config/api'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
-import { ListClaimQuestType, ReqClaimReward, Rsp } from '@/utils/type'
+import { ListClaimQuestType, Rsp } from '@/utils/type'
 
 export const listClaimedQuestsApi = async (
   id: string,
@@ -23,12 +23,5 @@ export const updateClaimedQuestApi = async (ids: string[], action: string): Prom
     ids,
     action,
   })
-  return data
-}
-
-export const claimRewardApi = async (
-  body: ReqClaimReward
-): Promise<Rsp<{ id: string; status: string }>> => {
-  const { data } = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/claim', body)
   return data
 }
