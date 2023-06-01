@@ -3,11 +3,11 @@ import { FunctionComponent } from 'react'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
+import { BorderBox, RewardRow } from '@/modules/quest/view-quest/mini-widget'
 import { Gap } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
-import { ThinBorderBox } from '@/widgets/box'
 import { Image } from '@/widgets/image'
-import { Horizontal, Vertical } from '@/widgets/orientation'
+import { Vertical } from '@/widgets/orientation'
 import { Label, RewardText } from '@/widgets/text'
 
 const FrameShape = tw(Vertical)`
@@ -16,17 +16,6 @@ const FrameShape = tw(Vertical)`
   h-full
   justify-start
   items-end
-`
-
-export const BorderBox = tw(ThinBorderBox)`
-  w-full
-  px-6
-  py-6
-  gap-4
-`
-
-export const RewardRow = tw(Horizontal)`
-  items-center
 `
 
 const QuestReward: FunctionComponent<{

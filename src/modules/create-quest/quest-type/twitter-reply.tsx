@@ -4,7 +4,7 @@ import { TwitterEnum } from '@/constants/common.const'
 import { Padding } from '@/modules/create-quest/quest-type/mini-widget'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Divider, Gap } from '@/styles/common.style'
-import { MulInputBox } from '@/styles/input.style'
+import { MultipleInputBox } from '@/styles/input.style'
 import { Label, SmallText } from '@/widgets/text'
 
 const TwitterReply: FunctionComponent = () => {
@@ -20,7 +20,7 @@ const TwitterReply: FunctionComponent = () => {
       <Divider />
       <Padding>
         <Label>{'DEFAULT REPLY'}</Label>
-        <MulInputBox
+        <MultipleInputBox
           onChange={(e) => setReplyTwitter(e.target.value)}
           rows={3}
           placeholder='Check this out @mantanetworl, @dzucle, @yugih, so cool!'

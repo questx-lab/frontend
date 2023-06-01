@@ -1,13 +1,21 @@
-import { ChangeEvent, FunctionComponent, useState } from 'react'
+import {
+  ChangeEvent,
+  FunctionComponent,
+  useState,
+} from 'react';
 
-import toast from 'react-hot-toast'
-import { MoonLoader } from 'react-spinners'
-import tw from 'twin.macro'
+import toast from 'react-hot-toast';
+import { MoonLoader } from 'react-spinners';
+import tw from 'twin.macro';
 
-import { updateClaimedQuestApi } from '@/app/api/client/claim'
-import { ClaimedQuestStatus, QuestTypeEnum, ReviewBtnEnum } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
-import { ColButtons } from '@/modules/review-submissions/button'
+import { updateClaimedQuestApi } from '@/app/api/client/claim';
+import {
+  ClaimedQuestStatus,
+  QuestTypeEnum,
+  ReviewBtnEnum,
+} from '@/constants/common.const';
+import { StorageConst } from '@/constants/storage.const';
+import { ColumnButtons } from '@/modules/review-submissions/button';
 import {
   Details,
   FullWidth,
@@ -16,19 +24,19 @@ import {
   Row,
   Title,
   VerticalLeftMargin,
-} from '@/modules/review-submissions/mini-widget'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { Gap } from '@/styles/common.style'
-import { ClaimQuestType } from '@/utils/type'
-import { Image } from '@/widgets/image'
-import { CheckBox } from '@/widgets/input'
+} from '@/modules/review-submissions/mini-widget';
+import { NewClaimReviewStore } from '@/store/local/claim-review';
+import { Gap } from '@/styles/common.style';
+import { ClaimQuestType } from '@/utils/type';
+import { Image } from '@/widgets/image';
+import { CheckBox } from '@/widgets/input';
 import {
   HorizontalBetweenCenterFullWidth,
   Vertical,
   VerticalCenter,
   VerticalFullWidth,
-} from '@/widgets/orientation'
-import { NormalText } from '@/widgets/text'
+} from '@/widgets/orientation';
+import { NormalText } from '@/widgets/text';
 
 const LoadingPosition = tw(VerticalCenter)`
   h-full
@@ -160,7 +168,7 @@ const PendingItem: FunctionComponent<{
               <Gap />
             </Details>
           </FullWidth>
-          <ColButtons onButtonsAction={onActionButtonClicked} />
+          <ColumnButtons onButtonsAction={onActionButtonClicked} />
         </Row>
       </HorizontalBetweenCenterFullWidth>
       <ClaimedSubmit claimQuest={claimQuest} />

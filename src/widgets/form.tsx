@@ -9,7 +9,7 @@ const ErrorBox = tw(VerticalFullWidth)`
   gap-2
 `
 
-const MulInputBox = styled.textarea<{ danger?: boolean }>(({ danger = false }) => [
+const MultipleInputBox = styled.textarea<{ danger?: boolean }>(({ danger = false }) => [
   danger
     ? tw`
         w-full
@@ -180,7 +180,7 @@ export const MultipleTextField: FunctionComponent<{
 
   return (
     <ErrorBox>
-      <MulInputBox
+      <MultipleInputBox
         danger={danger}
         placeholder={placeholder}
         value={value}

@@ -4,7 +4,7 @@ import parseHtml from 'html-react-parser'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
-import { BorderBox, RewardRow } from '@/modules/quest/view-quest/reward'
+import { BorderBox, RewardRow } from '@/modules/quest/view-quest/mini-widget'
 import ClaimInfo from '@/modules/review-submissions/claim-review/claim-info'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { Gap } from '@/styles/common.style'

@@ -10,7 +10,7 @@ const RowButtonsFrame = tw(HorizontalBetweenCenterFullWidth)`
   gap-2
 `
 
-const ColButtonsFrame = tw(Vertical)`
+const ColumnButtonsFrame = tw(Vertical)`
   w-32
   gap-2
 `
@@ -38,11 +38,11 @@ export const RowButtons: FunctionComponent<{
 }
 
 // For action when open detail quest claim
-export const ColButtons: FunctionComponent<{
+export const ColumnButtons: FunctionComponent<{
   onButtonsAction: (submitType: number) => void
 }> = ({ onButtonsAction }) => {
   return (
-    <ColButtonsFrame>
+    <ColumnButtonsFrame>
       <RowActionButton
         onClick={() => onButtonsAction(ReviewBtnEnum.ACCEPT)}
         btnType={ReviewBtnEnum.ACCEPT}
@@ -55,6 +55,6 @@ export const ColButtons: FunctionComponent<{
       >
         {'Reject'}
       </RowActionButton>
-    </ColButtonsFrame>
+    </ColumnButtonsFrame>
   )
 }
