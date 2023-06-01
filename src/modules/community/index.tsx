@@ -1,16 +1,30 @@
-import { Quests } from '@/modules/community/quests'
-import Templates from '@/modules/community/templates'
-import { CommunityStore } from '@/store/local/community'
-import { NewQuestStore } from '@/store/local/new-quest.store'
-import { Gap } from '@/styles/common.style'
-import { ControlPanelTab } from '@/types/community'
-import { emptyQuest } from '@/types/quest'
-import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
-import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
-import { Large3xlText } from '@/widgets/text'
-import { FunctionComponent, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import tw from 'twin.macro'
+import {
+  FunctionComponent,
+  useEffect,
+  useState,
+} from 'react';
+
+import { useNavigate } from 'react-router-dom';
+import tw from 'twin.macro';
+
+import { CommunityRoleEnum } from '@/constants/common.const';
+import { Quests } from '@/modules/community/quests';
+import Templates from '@/modules/community/templates';
+import { CommunityStore } from '@/store/local/community';
+import { NewQuestStore } from '@/store/local/new-quest.store';
+import { Gap } from '@/styles/common.style';
+import { ControlPanelTab } from '@/types/community';
+import { emptyQuest } from '@/types/quest';
+import {
+  NegativeButton,
+  PositiveButton,
+} from '@/widgets/buttons/button';
+import { BasicModal } from '@/widgets/modal';
+import {
+  Horizontal,
+  HorizontalBetweenCenter,
+} from '@/widgets/orientation';
+import { Large3xlText } from '@/widgets/text';
 
 const OuterBoxPadding = tw(Horizontal)`
   w-full
@@ -30,7 +44,7 @@ const Padding16 = tw.div`
   px-16
 `
 
-const MHeader = tw(HorizontalBetweenCenter)`
+const FullWidthCenter = tw(HorizontalBetweenCenter)`
   w-full
 `
 
@@ -40,33 +54,43 @@ const ButtonAlignment = tw(Horizontal)`
 `
 
 export const Index: FunctionComponent = () => {
+  // data
+  const role = CommunityStore.useStoreState((action) => action.role)
+
+  // action
   const setActiveControlPanelTab = CommunityStore.useStoreActions(
     (action) => action.setActiveControlPanelTab
   )
-
   const setQuest = NewQuestStore.useStoreActions((actions) => actions.setQuest)
 
   // hook
   const navigate = useNavigate()
 
+  // local state
+  const [showTemplateModal, setShowTemplateModal] = useState<boolean>(false)
+
   useEffect(() => {
     setActiveControlPanelTab(ControlPanelTab.QUESTS)
   }, [setActiveControlPanelTab])
+
+  const isOwner = role === CommunityRoleEnum.OWNER
 
   return (
     <OuterBoxPadding>
       <FullWidthHeight>
         <Padding16>
-          <MHeader>
+          <FullWidthCenter>
             <Large3xlText>Quest</Large3xlText>
             <ButtonAlignment>
-              <NegativeButton
-                onClick={() => {
-                  // TODO: Open Use Template here
-                }}
-              >
-                {'Use Template'}
-              </NegativeButton>
+              {isOwner && (
+                <NegativeButton
+                  onClick={() => {
+                    setShowTemplateModal(true)
+                  }}
+                >
+                  {'Use Template'}
+                </NegativeButton>
+              )}
               <Gap width={4} />
               <PositiveButton
                 onClick={() => {
@@ -77,15 +101,23 @@ export const Index: FunctionComponent = () => {
                 {'+  Create Quest'}
               </PositiveButton>
             </ButtonAlignment>
-          </MHeader>
+          </FullWidthCenter>
         </Padding16>
 
         <Gap height={6} />
-        <Templates />
+        {isOwner && <Templates />}
 
         <Gap height={6} />
         <Quests show={true} />
       </FullWidthHeight>
+
+      <BasicModal
+        title={`🎉 Template`}
+        isOpen={showTemplateModal}
+        onClose={() => setShowTemplateModal(false)}
+      >
+        AAAA
+      </BasicModal>
     </OuterBoxPadding>
   )
 }
