@@ -77,25 +77,33 @@ export const OtherCommunities: FunctionComponent<{ communities: CommunityType[] 
 }
 
 export const HomeOrLanding: FunctionComponent = () => {
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  if (!user) {
+    return <LandingPage />
+  }
+
+  return <HomePage />
+}
+
+export const HomePage: FunctionComponent = () => {
   // hook
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(true)
   const [communities, setCommunities] = useState<CommunityType[]>([])
 
   // global data
-  const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const communitiesFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesFollowing
   )
 
   const onShowAllClicked = () => {
-    navigate(RouterConst.COMMUNITIES)
+    navigate(RouterConst.COMMUNITIES_TRENDING)
   }
 
   const fetchListCommunities = useCallback(async (query: string) => {
     try {
       setLoading(true)
-      const result = await listCommunitiesApi(0, 50, query)
+      const result = await listCommunitiesApi(0, 50, query, true)
       if (result.code === 0 && result.data?.communities) {
         setCommunities(result.data.communities)
       }
@@ -111,10 +119,6 @@ export const HomeOrLanding: FunctionComponent = () => {
     fetchListCommunities('')
   }, [])
 
-  if (!user) {
-    return <LandingPage />
-  }
-
   return (
     <LayoutWithLeftPanel>
       <PaddingTop>
@@ -124,15 +128,6 @@ export const HomeOrLanding: FunctionComponent = () => {
           <OtherCommunities communities={communitiesFollowing} />
 
           <CategoryBox loading={loading} title='🔥 Trending Communities' onClick={onShowAllClicked}>
-            <CarouselList
-              data={communities}
-              renderItemFunc={(community: CommunityType) => {
-                return <CommunityBox community={community} />
-              }}
-            />
-          </CategoryBox>
-
-          <CategoryBox loading={loading} title='⭐ Popular Communities' onClick={onShowAllClicked}>
             <CarouselList
               data={communities}
               renderItemFunc={(community: CommunityType) => {

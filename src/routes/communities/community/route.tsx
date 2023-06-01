@@ -11,7 +11,7 @@ import { CommunityRoleEnum } from '@/constants/common.const'
 import { ControlPanel } from '@/modules/community/control-panel'
 import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
-import { CollaboratorType, CommunityType, QuestType } from '@/utils/type'
+import { CollaboratorType, CommunityType } from '@/utils/type'
 import { Horizontal } from '@/widgets/orientation'
 
 export const Loader = async (args: { params: Params }) => {
@@ -84,10 +84,12 @@ export const Community = () => {
   }
 
   // Check if user is the admin of this community
-  const filter = myCommunities.filter(
-    (collaboration) => collaboration.community.handle === community.handle
-  )
-  const isOwner = filter.length > 0
+  const filter =
+    myCommunities &&
+    myCommunities.filter((collaboration) => collaboration.community.handle === community.handle)
+
+  const isOwner = filter && filter.length > 0
+
   if (isOwner) {
     setRole(CommunityRoleEnum.OWNER)
   } else {
