@@ -61,6 +61,7 @@ const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
   }
 
   const onFilterChanged = async (selectedQuests: QuestType[]) => {
+    setLoading(true)
     const selectedIds = selectedQuests.map((quest) => quest.id)
     const data = await listClaimedQuestsApi(communityHandle, ClaimStatus, selectedIds)
 
@@ -69,6 +70,8 @@ const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
       setHistoryClaims(data.data?.claimed_quests || [])
       setSelectedHistory(new Map())
     }
+
+    setLoading(false)
   }
 
   return (
