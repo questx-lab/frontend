@@ -41,15 +41,7 @@ export const Index: FunctionComponent = () => {
   }, [])
 
   return (
-    <Trending
-      query={query}
-      data={quests}
-      title='🔥 Trending Quest'
-      hint='Search quests'
-      onChange={setQuery}
-      result={<OtherQuests quests={quests} />}
-      loading={loading}
-    >
+    <Trending title='🔥 Trending Quest' loading={loading}>
       <OtherQuests quests={initQuests} />
     </Trending>
   )

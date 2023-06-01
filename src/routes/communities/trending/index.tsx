@@ -10,7 +10,6 @@ import Trending from '@/widgets/trending'
 export const Index: FunctionComponent = () => {
   const [query, setQuery] = useState<string>('')
   const [communities, setCommunities] = useState<CommunityType[]>([])
-  const [initCommunities, setInitCommunities] = useState<CommunityType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
   const fetchListCommunities = useCallback(async (query: string) => {
@@ -18,9 +17,6 @@ export const Index: FunctionComponent = () => {
       setLoading(true)
       const result = await listCommunitiesApi(0, 50, query, true)
       if (result.code === 0 && result.data?.communities) {
-        if (query === '') {
-          setInitCommunities(result.data.communities)
-        }
         setCommunities(result.data.communities)
       }
     } catch (error) {
@@ -31,26 +27,12 @@ export const Index: FunctionComponent = () => {
   }, [])
 
   useEffect(() => {
-    if (query.length > 2) {
-      fetchListCommunities(query)
-    }
-  }, [query])
-
-  useEffect(() => {
     fetchListCommunities('')
   }, [])
 
   return (
-    <Trending
-      query={query}
-      data={communities}
-      title='🔥 Trending Communities'
-      hint='Search communities'
-      onChange={setQuery}
-      result={<OtherCommunities communities={communities} />}
-      loading={loading}
-    >
-      <OtherCommunities communities={initCommunities} />
+    <Trending title='🔥 Trending Communities' loading={loading}>
+      <OtherCommunities communities={communities} />
     </Trending>
   )
 }

@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { Fragment, FunctionComponent, ReactNode } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
@@ -7,9 +7,9 @@ import { StorageConst } from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
 import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import { HorizontalStartCenter } from '@/widgets/orientation'
-import { SearchInput } from '@/widgets/search-input'
-import SearchResult from '@/widgets/search-result'
 import { Large3xlText } from '@/widgets/text'
+
+import { SmallSpinner } from './spinner'
 
 const TitleBox = tw(HorizontalStartCenter)`
   py-6
@@ -44,23 +44,26 @@ const TopLabel: FunctionComponent<{ title: string }> = ({ title }) => {
   )
 }
 
+const ListItems: FunctionComponent<{ loading: boolean; children: ReactNode }> = ({
+  loading,
+  children,
+}) => {
+  if (loading) {
+    return <SmallSpinner />
+  }
+
+  return <Fragment>{children}</Fragment>
+}
+
 const Trending: FunctionComponent<{
   title: string
-  hint: string
-  onChange: (query: string) => void
-  data: any[]
-  query: string
-  result: ReactNode
   loading: boolean
   children: ReactNode
-}> = ({ title, hint, onChange, data, query, result, loading, children }) => {
+}> = ({ title, loading, children }) => {
   return (
     <Content>
       <TopLabel title={title} />
-      <SearchInput hint={hint} onChanged={onChange} />
-      <SearchResult loading={loading} query={query} data={data} renderResult={result}>
-        {children}
-      </SearchResult>
+      <ListItems loading={loading}>{children}</ListItems>
     </Content>
   )
 }
