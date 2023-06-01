@@ -180,8 +180,8 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     case QuestTypeEnum.TWITTER_REACTION:
     case QuestTypeEnum.TWITTER_TWEET:
       const user = getUserLocal()
-      if (user && user.services) {
-        block = !user.services.twitter
+      if (user && user.services && user.services.twitter) {
+        block = false
       }
       break
     default:
