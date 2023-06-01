@@ -155,6 +155,7 @@ const handleSubmit = async (
     condition_op: 'and',
     conditions: [],
     status,
+    is_highlight: state.highlighted,
   }
 
   try {

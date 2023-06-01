@@ -1,19 +1,23 @@
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import { CommunityStore } from '@/store/local/community'
 import { Gap } from '@/styles/common.style'
 import { PositiveButton } from '@/widgets/buttons/button'
 import { FunctionComponent } from 'react'
 
 const Discord: FunctionComponent = () => {
-  const project = NewQuestStore.useStoreState((state) => state.project)
+  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   const onConnectDiscord = () => {
     // signIn(Oauth2ProviderEnum.DISCORD_BOT_PROVIDER)
     // TODO: sign with discord.
   }
 
+  if (!community) {
+    return <></>
+  }
+
   return (
     <>
-      {!project.discord && (
+      {community.discord && (
         <>
           <Gap height={1} />
           <PositiveButton isFull onClick={onConnectDiscord}>

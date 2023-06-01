@@ -45,6 +45,7 @@ const createQuests = async (quests: QuestType[], communityHandle: string) => {
           delete quest.category_id
           const payload: ReqNewQuestType = {
             ...quest,
+            is_highlight: false,
             status: QuestStatusEnum.ACTIVE,
             community_handle: communityHandle,
           }

@@ -7,7 +7,7 @@ import {
   QuestTypeMap,
 } from '@/constants/common.const'
 import { isTwitterType } from '@/types/twitter'
-import { CommunityType, QuestQuizType, QuestType } from '@/utils/type'
+import { QuestQuizType, QuestType } from '@/utils/type'
 
 export interface NewQuestModel {
   title: string
@@ -29,11 +29,9 @@ export interface NewQuestModel {
   spaceUrlTw: string
   pointReward: number
   activeReward: number
-  chooseQuestsHistory: any[]
-  chooseQuestsPending: any[]
+  highlighted: boolean
 
   quizzes: QuestQuizType[]
-  project: CommunityType
 
   // Actions
   setQuest: Action<NewQuestModel, QuestType>
@@ -59,6 +57,7 @@ export interface NewQuestModel {
   setSpaceUrl: Action<NewQuestModel, string>
   setQuizzes: Action<NewQuestModel, QuestQuizType[]>
   setOptions: Action<NewQuestModel, { quizIndex: number; options: string[] }>
+  setHighlighted: Action<NewQuestModel, boolean>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -81,8 +80,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   pointReward: 100,
   activeReward: 0,
   spaceUrlTw: '',
-  chooseQuestsHistory: [],
-  chooseQuestsPending: [],
   quizzes: [
     {
       id: 0,
@@ -91,7 +88,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
       options: [],
     },
   ],
-  project: { handle: '' },
+  highlighted: false,
 
   // Set all the fields for the state
   setQuest: action((state, quest) => {
@@ -223,6 +220,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   setQuizzes: action((state, quizzes) => {
     state.quizzes = quizzes
+  }),
+
+  setHighlighted: action((state, highlighted) => {
+    state.highlighted = highlighted
   }),
 })
 

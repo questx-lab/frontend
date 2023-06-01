@@ -97,17 +97,18 @@ export type ReqNewRoleCommunity = {
 export type ReqNewQuestType = {
   id?: string
   community_handle?: string
-  type?: string
-  title?: string
-  description?: string
+  type: string
+  title: string
+  description: string
   categories?: string[]
-  recurrence?: string
+  recurrence: string
   points: number
-  validation_data?: ValidationQuest
+  validation_data: ValidationQuest
   rewards?: RewardType[]
   condition_op?: string
   conditions?: []
   status?: string
+  is_highlight: boolean
 }
 
 export type RewardType = {
