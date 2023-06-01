@@ -24,6 +24,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { CommunityStore } from '@/store/local/community'
+import Highlighted from '@/modules/create-quest/highlighted'
 
 const Fullscreen = tw(Vertical)`
   w-full
@@ -236,6 +237,10 @@ export const CreateOrEditQuest: FunctionComponent<{
 
           <QuestFieldsBox title={'REPEAT'} required={true}>
             <Recurrence />
+          </QuestFieldsBox>
+
+          <QuestFieldsBox title={'Highlighted'}>
+            <Highlighted />
           </QuestFieldsBox>
 
           <ActionButtons onSubmit={submitAction} />

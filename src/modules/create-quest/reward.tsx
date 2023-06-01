@@ -6,7 +6,7 @@ import { ThinBorderBox } from '@/widgets/box'
 import { Image } from '@/widgets/image'
 import { NumberInput } from '@/widgets/input'
 import { Vertical } from '@/widgets/orientation'
-import { Label, UnderlinedText } from '@/widgets/text'
+import { Label } from '@/widgets/text'
 import TypesSelection from '@/widgets/types-selection'
 import { FunctionComponent } from 'react'
 import tw from 'twin.macro'
@@ -68,7 +68,10 @@ const QuestReward: FunctionComponent = () => {
         />
         <Gap height={6} />
 
-        <UnderlinedText>{'Learn more here about how the levels are calculated.'}</UnderlinedText>
+        {
+          // TODO: add this back when we have a doc for how level is calculated.
+          /* <UnderlinedText>{'Learn more here about how the levels are calculated.'}</UnderlinedText> */
+        }
       </BorderBox>
     </FrameShape>
   )
