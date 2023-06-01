@@ -24,7 +24,7 @@ const BaseStyle = styled.button<{
     tw`
       text-lg
       text-white
-      font-medium
+      font-normal
       py-3
       px-6
       rounded-lg
@@ -64,6 +64,12 @@ const BaseStyle = styled.button<{
     // enabled
     switch (buttonType) {
       case ButtonTypeEnum.NEGATIVE:
+        style.push(tw`
+        text-gray-900
+        border
+        border-gray-300
+        hover:bg-gray-50
+      `)
         break
       case ButtonTypeEnum.POSITVE:
         style.push(tw`
@@ -73,8 +79,8 @@ const BaseStyle = styled.button<{
         break
       case ButtonTypeEnum.DANGEROUS:
         style.push(tw`
-          bg-danger-100
-          hover:bg-danger-700
+          bg-danger-700
+          hover:bg-danger-500
         `)
         break
     }

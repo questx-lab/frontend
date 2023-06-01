@@ -1,13 +1,15 @@
+import { FunctionComponent } from 'react'
+
+import Dropzone from 'react-dropzone'
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import { CommunityRoleEnum } from '@/constants/common.const'
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { CommunityStore } from '@/store/local/community'
 import { DangerButton as DangerousButton } from '@/widgets/buttons/button'
 import { Image } from '@/widgets/image'
 import { VerticalCenter, VerticalFullWidth } from '@/widgets/orientation'
-import { FunctionComponent } from 'react'
-import Dropzone from 'react-dropzone'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 
 const UploadImageFrame = tw(VerticalFullWidth)`
   justify-center
@@ -28,6 +30,7 @@ const SectionUploadImg = tw.section`
   justify-center
   items-center
   outline-0
+  w-full
 `
 
 const UploadInput = tw.input`
