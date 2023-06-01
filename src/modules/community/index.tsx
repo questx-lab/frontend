@@ -1,4 +1,4 @@
-import { Quests } from '@/routes/communities/community/quests'
+import { Quests } from '@/modules/community/quests'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
