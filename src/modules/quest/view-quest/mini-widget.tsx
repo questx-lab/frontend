@@ -1,9 +1,9 @@
 import tw from 'twin.macro'
 
-import { ThinBorderBox } from '@/widgets/box'
+import { RoundedGrayBorderBox } from '@/widgets/box'
 import { Horizontal } from '@/widgets/orientation'
 
-export const BorderBox = tw(ThinBorderBox)`
+export const BorderBox = tw(RoundedGrayBorderBox)`
   w-full
   px-6
   py-6

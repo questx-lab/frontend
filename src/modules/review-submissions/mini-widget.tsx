@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { ReviewBtnEnum } from '@/constants/common.const'
-import { ThinBorderBox } from '@/widgets/box'
+import { RoundedGrayBorderBox } from '@/widgets/box'
 import {
   Horizontal,
   HorizontalBetweenCenterFullWidth,
@@ -48,7 +48,7 @@ export const TableLoadingFrame = tw(VerticalFullWidthCenter)`
 `
 
 /////// Filter
-export const FilterColumn = tw(ThinBorderBox)`
+export const FilterColumn = tw(RoundedGrayBorderBox)`
   flex
   flex-col
   w-1/3
@@ -73,7 +73,7 @@ export const InputFrame = tw.div`
   px-4
 `
 
-export const SubmissionColumn = tw(ThinBorderBox)`
+export const SubmissionColumn = tw(RoundedGrayBorderBox)`
   w-2/3
   h-full
   mb-6

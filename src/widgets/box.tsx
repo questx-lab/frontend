@@ -7,6 +7,6 @@ export const GrayBorderBox = tw.div`
   border-gray-200
 `
 
-export const ThinBorderBox = tw(GrayBorderBox)`
+export const RoundedGrayBorderBox = tw(GrayBorderBox)`
   rounded-lg
 `

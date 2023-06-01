@@ -2,7 +2,7 @@ import { QuestRewards } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
-import { ThinBorderBox } from '@/widgets/box'
+import { RoundedGrayBorderBox } from '@/widgets/box'
 import { Image } from '@/widgets/image'
 import { NumberInput } from '@/widgets/input'
 import { Vertical } from '@/widgets/orientation'
@@ -24,7 +24,7 @@ const FullWidthInput = tw(NumberInput)`
   w-full
 `
 
-const BorderBox = tw(ThinBorderBox)`
+const BorderBox = tw(RoundedGrayBorderBox)`
   w-full
   px-6
   py-6
