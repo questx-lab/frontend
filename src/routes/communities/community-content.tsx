@@ -29,7 +29,7 @@ const CommunityContent: FunctionComponent<{ query: string }> = ({ query }) => {
 
   // Handler
   const onShowAllClicked = () => {
-    navigate(RouterConst.COMMUNITIES)
+    navigate(RouterConst.COMMUNITIES_TRENDING)
   }
 
   const fetchListCommunities = useCallback(async (q: string) => {
@@ -77,14 +77,6 @@ const CommunityContent: FunctionComponent<{ query: string }> = ({ query }) => {
         />
       </CategoryBox>
 
-      <CategoryBox title='⭐ Popular Communities' onClick={onShowAllClicked}>
-        <CarouselList
-          data={initCommunities}
-          renderItemFunc={(community: CommunityType) => {
-            return <CommunityBox community={community} />
-          }}
-        />
-      </CategoryBox>
       <StartVertical>
         <Large2xlText>{'🕑 New Communities'}</Large2xlText>
         <OtherCommunities communities={initCommunities} />

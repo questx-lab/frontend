@@ -1,10 +1,12 @@
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
 
 import { listQuestApi } from '@/app/api/client/quest'
+import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { Quest } from '@/modules/quest/quest'
 import { Divider } from '@/styles/common.style'
@@ -76,8 +78,11 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [quests, setQuests] = useState<QuestType[]>([])
   const [intQuests, setInitQuests] = useState<QuestType[]>([])
+  const navigate = useNavigate()
 
-  const onShowAllClicked = () => {}
+  const onShowAllClicked = () => {
+    navigate(RouterConst.QUESTBOARD_TRENDING)
+  }
 
   const fetchListQuests = useCallback(async (q: string) => {
     try {
@@ -128,18 +133,6 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
         />
       </CategoryBox>
 
-      <CategoryBox title='⭐ Popular Quests' onClick={onShowAllClicked}>
-        <CarouselList
-          data={intQuests}
-          renderItemFunc={(quyest: QuestType) => {
-            return (
-              <MarginTop>
-                <Quest quest={quyest} />
-              </MarginTop>
-            )
-          }}
-        />
-      </CategoryBox>
       <StartVertical>
         <Large2xlText>{'🕑 New Quests'}</Large2xlText>
         <OtherQuests quests={intQuests} />
