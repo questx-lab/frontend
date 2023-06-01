@@ -45,6 +45,7 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     return <></>
   }
 
+  // called once when the view is created.
   const getInitialClaims = async () => {
     const result: Rsp<ListClaimQuestType> = await listClaimedQuestsApi(
       communityHandle,
@@ -59,7 +60,8 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     }
   }
 
-  const onCheck = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
+  // called when single item checkbox changes.
+  const onCheckChanged = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
     if (e.target.checked) {
       selectedPendings.set(value.id, value)
     } else {
@@ -69,6 +71,7 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     setSelectedPending(selectedPendings)
   }
 
+  // called when filter changes
   const onFilterChanged = async (selectedQuests: QuestType[]) => {
     setLoading(true)
 
@@ -104,7 +107,7 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
                   return (
                     <RowItem
                       active={selectedPendings.has(item.id)}
-                      onChange={onCheck}
+                      onChange={onCheckChanged}
                       claimQuest={item}
                       key={index}
                     />

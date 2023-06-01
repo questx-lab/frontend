@@ -8,7 +8,7 @@ import { CheckBox } from '@/widgets/input'
 import { BarsArrowDownIcon } from '@heroicons/react/24/outline'
 import { ChangeEvent, FunctionComponent } from 'react'
 
-export const Header: FunctionComponent<{}> = () => {
+const TableHeader: FunctionComponent<{}> = () => {
   // data
   const historyClaims = NewClaimReviewStore.useStoreState((state) => state.historyClaims)
   const selectedHistories = NewClaimReviewStore.useStoreState((state) => state.selectedHistories)
@@ -22,7 +22,7 @@ export const Header: FunctionComponent<{}> = () => {
     (actions) => actions.setSelectedHistory
   )
 
-  const onCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
+  const onCheckAllChanged = (e: ChangeEvent<HTMLInputElement>) => {
     setCheckAllHistory(e.target.checked)
     selectedHistories.clear()
     if (e.target.checked) {
@@ -37,7 +37,7 @@ export const Header: FunctionComponent<{}> = () => {
         <CheckBox
           id='inline-checked-checkbox'
           type='checkbox'
-          onChange={onCheckAll}
+          onChange={onCheckAllChanged}
           checked={allHistoryChecked}
         />
         {'Submission History'}
@@ -50,3 +50,5 @@ export const Header: FunctionComponent<{}> = () => {
     </HeaderFullWidth>
   )
 }
+
+export default TableHeader
