@@ -7,7 +7,7 @@ import { HorizontalBetweenCenter, Vertical, VerticalFullWidthCenter } from '@/wi
 import { Large2xlText, PrimaryText } from '@/widgets/text'
 import { ArrowSmallRightIcon } from '@heroicons/react/24/outline'
 
-const Wrap = tw(Vertical)`
+const FullWidth = tw(Vertical)`
   w-full
 `
 
@@ -15,17 +15,27 @@ const HeaderBox = tw(HorizontalBetweenCenter)`
   w-full
 `
 
-const ShowAll: FunctionComponent<{ show: boolean; onClick: () => void }> = ({ show, onClick }) => {
-  console.log('show = ', show)
+const Header: FunctionComponent<{ title: string; show: boolean; onClick: () => void }> = ({
+  title,
+  show,
+  onClick,
+}) => {
   if (!show) {
-    return <></>
+    return (
+      <HeaderBox>
+        <Large2xlText>{title}</Large2xlText>
+      </HeaderBox>
+    )
   }
 
   return (
-    <PrimaryText isHover size='lg' onClick={onClick}>
-      {'Show all'}
-      <ArrowSmallRightIcon className='text-primary w-7 h-7' />
-    </PrimaryText>
+    <HeaderBox>
+      <Large2xlText>{title}</Large2xlText>
+      <PrimaryText isHover size='lg' onClick={onClick}>
+        {'Show all'}
+        <ArrowSmallRightIcon className='text-primary w-7 h-7' />
+      </PrimaryText>
+    </HeaderBox>
   )
 }
 
@@ -38,29 +48,20 @@ const CategoryBox: FunctionComponent<{
 }> = ({ title, children, onClick, loading = false, hasShowAll = true }) => {
   if (loading) {
     return (
-      <Wrap>
-        <HeaderBox>
-          <Large2xlText>{title}</Large2xlText>
-          <ShowAll onClick={onClick} show={hasShowAll} />
-        </HeaderBox>
+      <FullWidth>
+        <Header title={title} onClick={onClick} show={hasShowAll} />
         <VerticalFullWidthCenter>
           <MoonLoader color='#000' loading speedMultiplier={0.6} size={40} />
         </VerticalFullWidthCenter>
-      </Wrap>
+      </FullWidth>
     )
   }
 
   return (
-    <Wrap>
-      <HeaderBox>
-        <Large2xlText>{title}</Large2xlText>
-        <PrimaryText isHover size='lg' onClick={onClick}>
-          {'Show all'}
-          <ArrowSmallRightIcon className='text-primary w-7 h-7' />
-        </PrimaryText>
-      </HeaderBox>
+    <FullWidth>
+      <Header title={title} onClick={onClick} show={hasShowAll} />
       {children}
-    </Wrap>
+    </FullWidth>
   )
 }
 
