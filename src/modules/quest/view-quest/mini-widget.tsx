@@ -8,6 +8,10 @@ export const BorderBox = tw(ThinBorderBox)`
   px-6
   py-6
   gap-4
+  flex
+  flex-col
+  justify-start
+  items-start
 `
 
 export const RewardRow = tw(Horizontal)`
