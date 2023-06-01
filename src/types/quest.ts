@@ -4,7 +4,7 @@ import { QuestType } from '@/utils/type'
 export const emptyQuest = (): QuestType => {
   let q: QuestType = {
     id: '',
-    community_handle: '',
+    community: '',
     title: '',
     type: QuestTypeEnum.URL,
     status: '',
