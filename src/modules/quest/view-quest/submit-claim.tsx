@@ -11,43 +11,12 @@ import { CommunityStore } from '@/store/local/community'
 import { uploadFile } from '@/utils/file'
 import { getUserLocal } from '@/utils/helper'
 import { QuestType } from '@/utils/type'
-import { PositiveButton } from '@/widgets/buttons/button'
+import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons/button'
 import { Horizontal } from '@/widgets/orientation'
 
-const WrapBtn = tw(Horizontal)`
+const ButtonFrame = tw(Horizontal)`
   w-full
   gap-2
-`
-
-const EditButton = tw.button`
-  text-sm
-  text-info-700
-  py-2
-  rounded-lg
-  border
-  border-solid
-  border
-  border-info-700
-  w-full
-  hover:bg-info-700
-  hover:text-white
-  outline-0
-`
-
-const DeleteBtn = tw.button`
-  text-sm
-  text-danger-700
-  py-2
-  rounded-lg
-  border
-  border-solid
-  border
-  border-danger-400
-  bg-danger-100
-  w-full
-  hover:bg-danger-700
-  hover:text-white
-  outline-0
 `
 
 const handleSubmit = async (
@@ -111,7 +80,6 @@ const handleSubmit = async (
       }
     }
   } catch (error) {
-    toast.error('Server error')
   } finally {
     setLoading(false)
   }
@@ -198,10 +166,12 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
 
     default:
       return (
-        <WrapBtn>
-          <EditButton onClick={onEdit}> {'Edit'} </EditButton>
-          <DeleteBtn> {'Delete'} </DeleteBtn>
-        </WrapBtn>
+        <ButtonFrame>
+          <NegativeButton isFull onClick={onEdit}>
+            {'Edit'}
+          </NegativeButton>
+          <DangerButton isFull> {'Delete'} </DangerButton>
+        </ButtonFrame>
       )
   }
 }
