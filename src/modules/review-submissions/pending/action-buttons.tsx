@@ -2,6 +2,7 @@ import { updateAllClaimedQuestApi } from '@/app/api/client/quest'
 import { ClaimedQuestStatus, ReviewBtnEnum } from '@/constants/common.const'
 import { ButtonBox, ButtonFrame } from '@/modules/review-submissions/mini-widget'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
+import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -47,6 +48,7 @@ const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communi
   // data
   const selectedPendings = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
   const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
+  const selectedFilteredQuests = NewQuestSearchStore.useStoreState((state) => state.selectedQuest)
 
   // action
   const setLoading = NewClaimReviewStore.useStoreActions((actions) => actions.setLoading)
@@ -62,7 +64,9 @@ const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communi
       .filter((claim) => !selectedPendings.has(claim.id))
       .map((claim) => claim.id)
 
-    await updateAllClaimedQuestApi(status, communityHandle, '', '', excluded)
+    const filteredQuestIds = selectedFilteredQuests.map((quest) => quest.id)
+
+    await updateAllClaimedQuestApi(status, communityHandle, filteredQuestIds, [], excluded)
   }
 
   const onSubmit = (status: ClaimedQuestStatus) => {
