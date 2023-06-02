@@ -8,7 +8,7 @@ import { updateCommunityDiscord } from '@/app/api/client/communitiy'
 import { verifyOAuth2 } from '@/app/api/client/oauth'
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
-import { getAccessToken, setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
+import { setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
 import { LoadingModal } from '@/widgets/modal'
 
 const DiscordCallback: FC = () => {
@@ -39,15 +39,8 @@ const DiscordCallback: FC = () => {
     communityHandle?: string | null
   ) => {
     try {
-      const userAccessToken = getAccessToken()
-
-      if (guildId && communityHandle && userAccessToken) {
-        const resp = await updateCommunityDiscord(
-          communityHandle,
-          guildId,
-          accessToken,
-          userAccessToken
-        )
+      if (guildId && communityHandle) {
+        const resp = await updateCommunityDiscord(communityHandle, guildId, accessToken)
 
         if (resp.error) {
           toast.error('Connect discord failed')

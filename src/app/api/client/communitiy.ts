@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import { api } from '@/app/api/config/api'
 import { EnvVariables } from '@/constants/env.const'
 import {
@@ -95,22 +93,12 @@ export const getMyFollowerInfoApi = async (
 export const updateCommunityDiscord = async (
   handle: string,
   server_id: string,
-  oauth_access_token: string,
-  access_token: string
+  oauth_access_token: string
 ): Promise<OAuth2VerifyResp> => {
-  const result = await axios.post(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/updateCommunityDiscord`,
-    {
-      community_handle: handle,
-      access_token: oauth_access_token,
-      server_id: server_id,
-    },
-    {
-      headers: {
-        ContentType: 'application/json',
-        Authorization: `Bearer ${access_token}`,
-      },
-    }
-  )
+  const result = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + `/updateCommunityDiscord`, {
+    community_handle: handle,
+    access_token: oauth_access_token,
+    server_id: server_id,
+  })
   return result.data
 }
