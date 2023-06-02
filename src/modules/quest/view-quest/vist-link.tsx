@@ -1,8 +1,10 @@
+import { FunctionComponent } from 'react'
+
+import { Link } from 'react-router-dom'
+
 import { ButtonSocialType } from '@/constants/common.const'
 import { SocialButton } from '@/widgets/buttons/button-social'
 import { VerticalFullWidth } from '@/widgets/orientation'
-import { FunctionComponent } from 'react'
-import { Link } from 'react-router-dom'
 
 export const QuestVisitLink: FunctionComponent<{ link: string }> = ({ link }) => {
   return (

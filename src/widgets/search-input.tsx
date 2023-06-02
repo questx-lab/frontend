@@ -1,10 +1,12 @@
 'use client'
 
 import { FunctionComponent } from 'react'
+
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+
 import { Horizontal } from '@/widgets/orientation'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
 export const FSearchInputStyle = tw.input`
   border-0

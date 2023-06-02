@@ -1,3 +1,5 @@
+import { ChangeEvent, FunctionComponent } from 'react'
+
 import {
   HeaderFullWidth,
   HeaderSortFrame,
@@ -6,7 +8,6 @@ import {
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CheckBox } from '@/widgets/input'
 import { BarsArrowDownIcon } from '@heroicons/react/24/outline'
-import { ChangeEvent, FunctionComponent } from 'react'
 
 const TableHeader: FunctionComponent<{}> = () => {
   // data

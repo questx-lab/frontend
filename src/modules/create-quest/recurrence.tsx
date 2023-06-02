@@ -1,9 +1,8 @@
-'use client'
+import { FunctionComponent } from 'react'
 
 import { QuestRecurrence, QuestRecurrencesMap } from '@/constants/common.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import TypesSelection from '@/widgets/types-selection'
-import { FunctionComponent } from 'react'
 
 const Recurrence: FunctionComponent = () => {
   // Data

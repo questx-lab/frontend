@@ -1,6 +1,7 @@
-import { ButtonSocialType } from '@/constants/common.const'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+
+import { ButtonSocialType } from '@/constants/common.const'
 
 export const SocialButton = styled.button<{ btnType?: number; isFull?: boolean }>(
   ({ btnType = ButtonSocialType.DISCORD, isFull = true }) => {

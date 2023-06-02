@@ -2,11 +2,7 @@ import { toast } from 'react-hot-toast'
 import Web3 from 'web3'
 import { provider } from 'web3-core'
 
-import {
-  linkWalletApi,
-  loginMetamask,
-  verifyMetaMask,
-} from '@/app/api/client/wallet'
+import { linkWalletApi, loginMetamask, verifyMetaMask } from '@/app/api/client/wallet'
 import { RouterConst } from '@/constants/router.const'
 import { setAccessToken } from '@/utils/helper'
 import detectEthereumProvider from '@metamask/detect-provider'
@@ -32,10 +28,7 @@ export const signWallet = async () => {
   }
 }
 
-const linkWallet = async (
-  account: string,
-  ethereum: MetaMaskInpageProvider
-) => {
+const linkWallet = async (account: string, ethereum: MetaMaskInpageProvider) => {
   try {
     const data = await loginMetamask(account)
     const w3 = new Web3(ethereum as provider)
@@ -75,10 +68,7 @@ export const handleMetamask = async () => {
   }
 }
 
-const connectToServer = async (
-  account: string,
-  ethereum: MetaMaskInpageProvider
-) => {
+const connectToServer = async (account: string, ethereum: MetaMaskInpageProvider) => {
   try {
     const data = await loginMetamask(account)
     const w3 = new Web3(ethereum as provider)
@@ -100,9 +90,7 @@ const connectWallet = async (ethereum: MetaMaskInpageProvider) => {
   } catch (err) {}
 }
 
-const getConnectedAccounts = async (
-  ethereum: MetaMaskInpageProvider
-): Promise<unknown> => {
+const getConnectedAccounts = async (ethereum: MetaMaskInpageProvider): Promise<unknown> => {
   try {
     const accounts = await ethereum.request({
       method: 'eth_accounts',

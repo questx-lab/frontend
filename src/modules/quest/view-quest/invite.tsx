@@ -1,3 +1,9 @@
+import { FunctionComponent, useEffect, useState } from 'react'
+
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import toast from 'react-hot-toast'
+import tw from 'twin.macro'
+
 import { getMyFollowerInfoApi } from '@/app/api/client/communitiy'
 import { QuestTypeEnum } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
@@ -7,10 +13,6 @@ import { QuestType } from '@/utils/type'
 import { Image } from '@/widgets/image'
 import { HorizontalBetweenCenter } from '@/widgets/orientation'
 import { Label } from '@/widgets/text'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import toast from 'react-hot-toast'
-import tw from 'twin.macro'
 
 const LinkText = tw.div`
   text-info-700

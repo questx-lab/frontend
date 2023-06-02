@@ -1,5 +1,3 @@
-'use client'
-
 import { QuestTypeEnum } from '@/constants/common.const'
 import Discord from '@/modules/create-quest/quest-type/discord'
 import Invite from '@/modules/create-quest/quest-type/invite'

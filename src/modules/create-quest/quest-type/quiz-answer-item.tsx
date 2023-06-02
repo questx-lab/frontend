@@ -1,3 +1,8 @@
+import { FunctionComponent } from 'react'
+
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import { Alphabet } from '@/constants/alphabet'
 import { AnswerStatusEnum } from '@/constants/common.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
@@ -5,9 +10,6 @@ import { QuestQuizType } from '@/utils/type'
 import { AnswerBox } from '@/widgets/buttons/answer-box'
 import { HorizontalCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { FunctionComponent } from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 
 const SquareBox = tw(HorizontalCenter)`
   w-12

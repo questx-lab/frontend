@@ -1,3 +1,8 @@
+import { FunctionComponent } from 'react'
+
+import { useStoreState } from 'easy-peasy'
+import { Link } from 'react-router-dom'
+
 import { ActionTwitterFrame } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestTwitterActionType } from '@/utils/type'
@@ -5,9 +10,6 @@ import { PositiveButton } from '@/widgets/buttons/button'
 import { HorizontalStartCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { LinkIcon } from '@heroicons/react/24/outline'
-import { useStoreState } from 'easy-peasy'
-import { FunctionComponent } from 'react'
-import { Link } from 'react-router-dom'
 
 const TwitterFollow: FunctionComponent<{ action: QuestTwitterActionType }> = ({ action }) => {
   // data

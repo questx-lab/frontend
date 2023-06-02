@@ -1,30 +1,20 @@
-import {
-  FunctionComponent,
-  useEffect,
-  useState,
-} from 'react';
+import { FunctionComponent, useEffect, useState } from 'react'
 
-import { useNavigate } from 'react-router-dom';
-import tw from 'twin.macro';
+import { useNavigate } from 'react-router-dom'
+import tw from 'twin.macro'
 
-import { CommunityRoleEnum } from '@/constants/common.const';
-import { Quests } from '@/modules/community/quests';
-import Templates from '@/modules/community/templates';
-import { CommunityStore } from '@/store/local/community';
-import { NewQuestStore } from '@/store/local/new-quest.store';
-import { Gap } from '@/styles/common.style';
-import { ControlPanelTab } from '@/types/community';
-import { emptyQuest } from '@/types/quest';
-import {
-  NegativeButton,
-  PositiveButton,
-} from '@/widgets/buttons/button';
-import { BasicModal } from '@/widgets/modal';
-import {
-  Horizontal,
-  HorizontalBetweenCenter,
-} from '@/widgets/orientation';
-import { Large3xlText } from '@/widgets/text';
+import { CommunityRoleEnum } from '@/constants/common.const'
+import { Quests } from '@/modules/community/quests'
+import Templates from '@/modules/community/templates'
+import { CommunityStore } from '@/store/local/community'
+import { NewQuestStore } from '@/store/local/new-quest.store'
+import { Gap } from '@/styles/common.style'
+import { ControlPanelTab } from '@/types/community'
+import { emptyQuest } from '@/types/quest'
+import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
+import { BasicModal } from '@/widgets/modal'
+import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
+import { Large3xlText } from '@/widgets/text'
 
 const OuterBoxPadding = tw(Horizontal)`
   w-full

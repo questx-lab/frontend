@@ -2,6 +2,9 @@
 
 import { FunctionComponent } from 'react'
 
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import { ActiveEnum, QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
 import { Padding } from '@/modules/create-quest/quest-type/mini-widget'
 import TwitterFollow from '@/modules/create-quest/quest-type/twitter-follow'
@@ -12,8 +15,6 @@ import TwitterTweet from '@/modules/create-quest/quest-type/twitter-tweet'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Divider } from '@/styles/common.style'
 import { Label } from '@/widgets/text'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 
 const TypeButtonFrame = tw.div`
   flex

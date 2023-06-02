@@ -2,13 +2,14 @@
 
 import { FunctionComponent } from 'react'
 
+import tw from 'twin.macro'
+
 import { Quest } from '@/modules/quest/quest'
 import { CommunityStore } from '@/store/local/community'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
 import { QuestType } from '@/utils/type'
 import { VerticalFullWidth } from '@/widgets/orientation'
-import tw from 'twin.macro'
 
 const Grid = tw.div`
   w-full

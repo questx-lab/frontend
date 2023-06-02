@@ -1,7 +1,9 @@
-import { Horizontal } from '@/widgets/orientation'
 import { ChangeEvent, FunctionComponent, ReactNode } from 'react'
+
 import styled from 'styled-components'
 import tw from 'twin.macro'
+
+import { Horizontal } from '@/widgets/orientation'
 
 export enum CheckBoxSize {
   SMALL,

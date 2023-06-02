@@ -1,10 +1,12 @@
-import { HorizontalStartCenter } from '@/widgets/orientation'
-import { Image } from '@/widgets/image'
 import { FunctionComponent } from 'react'
+
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
+
 import { StorageConst } from '@/constants/storage.const'
 import { Gap } from '@/styles/common.style'
+import { Image } from '@/widgets/image'
+import { HorizontalStartCenter } from '@/widgets/orientation'
 import { Large3xlText } from '@/widgets/text'
 
 const TitleBox = tw(HorizontalStartCenter)`

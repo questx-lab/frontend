@@ -1,7 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 
 import toast from 'react-hot-toast'
-import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
 import { newCommunityApi } from '@/app/api/client/communitiy'

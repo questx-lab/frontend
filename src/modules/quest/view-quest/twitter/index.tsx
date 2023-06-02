@@ -1,16 +1,17 @@
+import { FunctionComponent } from 'react'
+
+import { useStoreState } from 'easy-peasy'
+import tw from 'twin.macro'
+
 import { ButtonSocialType, QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
+import { StorageConst } from '@/constants/storage.const'
+import QuestTwitterAction from '@/modules/quest/view-quest/twitter/action'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestTwitterActionType, QuestType } from '@/utils/type'
 import { SocialButton } from '@/widgets/buttons/button-social'
-import { VerticalBetween, VerticalCenter } from '@/widgets/orientation'
 import { Image } from '@/widgets/image'
-import { useStoreState } from 'easy-peasy'
-import { FunctionComponent } from 'react'
-import tw from 'twin.macro'
-import { StorageConst } from '@/constants/storage.const'
+import { VerticalBetween, VerticalCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
-import QuestTwitterAction from '@/modules/quest/view-quest/twitter/action'
-import { EnvVariables } from '@/constants/env.const'
 
 const FrameWithGap = tw(VerticalBetween)`
   w-full

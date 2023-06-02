@@ -1,7 +1,8 @@
+import { FunctionComponent } from 'react'
+
 import { CommunityStore } from '@/store/local/community'
 import { Gap } from '@/styles/common.style'
 import { PositiveButton } from '@/widgets/buttons/button'
-import { FunctionComponent } from 'react'
 
 const Discord: FunctionComponent = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)

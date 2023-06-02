@@ -1,3 +1,8 @@
+import { FunctionComponent, useState } from 'react'
+
+import { useStoreState } from 'easy-peasy'
+import tw from 'twin.macro'
+
 import { ColorEnum, TwitterEnum } from '@/constants/common.const'
 import TwitterFollow from '@/modules/quest/view-quest/twitter/action-follow'
 import TwitterJoinSpace from '@/modules/quest/view-quest/twitter/action-join-space'
@@ -11,9 +16,6 @@ import { QuestTwitterActionType } from '@/utils/type'
 import { VerticalFullWidthBetween, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
-import { useStoreState } from 'easy-peasy'
-import { FunctionComponent, useState } from 'react'
-import tw from 'twin.macro'
 
 const VerticalAction = tw(VerticalFullWidthCenter)`
   gap-4

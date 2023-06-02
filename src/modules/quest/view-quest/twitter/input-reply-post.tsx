@@ -1,6 +1,7 @@
+import { FunctionComponent } from 'react'
+
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { TextField } from '@/widgets/form'
-import { FunctionComponent } from 'react'
 
 const InputReplyPost: FunctionComponent<{ inputReply: boolean }> = ({ inputReply }) => {
   // data

@@ -1,10 +1,12 @@
+import { FunctionComponent } from 'react'
+
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { QuestType } from '@/utils/type'
 import { CheckBox } from '@/widgets/input'
 import { Combobox } from '@headlessui/react'
-import { FunctionComponent } from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 
 const Title = styled.span<{ selected: boolean }>(({ selected = false }) => [
   selected ? tw`block truncate font-medium` : tw`block truncate font-normal`,

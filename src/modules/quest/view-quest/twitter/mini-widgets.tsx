@@ -1,7 +1,8 @@
-import { ColorEnum } from '@/constants/common.const'
-import { HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+
+import { ColorEnum } from '@/constants/common.const'
+import { HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
 
 export const ActionTwitterFrame = tw(HorizontalBetweenCenter)`
   gap-4

@@ -1,9 +1,11 @@
+import { FunctionComponent } from 'react'
+
+import { MoonLoader } from 'react-spinners'
+import tw from 'twin.macro'
+
 import CommunityBox from '@/modules/community/community-box'
 import { CommunityType } from '@/utils/type'
 import { VerticalFullWidthCenter } from '@/widgets/orientation'
-import { FunctionComponent } from 'react'
-import { MoonLoader } from 'react-spinners'
-import tw from 'twin.macro'
 
 const CommunitiesGrid = tw.div`
   grid

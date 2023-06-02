@@ -1,3 +1,8 @@
+import { Dispatch, FunctionComponent, SetStateAction } from 'react'
+
+import { useStoreState } from 'easy-peasy'
+import { Link } from 'react-router-dom'
+
 import { SizeEnum } from '@/constants/common.const'
 import InputReplyPost from '@/modules/quest/view-quest/twitter/input-reply-post'
 import { ActionTwitterFrame } from '@/modules/quest/view-quest/twitter/mini-widgets'
@@ -7,9 +12,6 @@ import { NegativeButton } from '@/widgets/buttons/button'
 import { HorizontalStartCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline'
-import { useStoreState } from 'easy-peasy'
-import { Dispatch, FunctionComponent, SetStateAction } from 'react'
-import { Link } from 'react-router-dom'
 
 const TwitterReply: FunctionComponent<{
   action: QuestTwitterActionType

@@ -1,3 +1,8 @@
+import { FunctionComponent } from 'react'
+
+import parseHtml from 'html-react-parser'
+import tw from 'twin.macro'
+
 import { QuestTypeEnum } from '@/constants/common.const'
 import QuestImage from '@/modules/quest/view-quest/image'
 import { QuestInvites } from '@/modules/quest/view-quest/invite'
@@ -9,9 +14,6 @@ import QuestUrl from '@/modules/quest/view-quest/url'
 import { QuestVisitLink } from '@/modules/quest/view-quest/vist-link'
 import { QuestType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
-import parseHtml from 'html-react-parser'
-import { FunctionComponent } from 'react'
-import tw from 'twin.macro'
 
 const OuterPadding = tw(Horizontal)`
   w-full

@@ -1,8 +1,9 @@
+import { FunctionComponent } from 'react'
+
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import Toggle from '@/widgets/input/toggle'
 import { HorizontalCenter } from '@/widgets/orientation'
 import { SmallText } from '@/widgets/text'
-import { FunctionComponent } from 'react'
 
 const Highlighted: FunctionComponent = () => {
   // data

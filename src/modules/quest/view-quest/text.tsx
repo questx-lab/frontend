@@ -1,8 +1,9 @@
+import { FunctionComponent } from 'react'
+
 import { CommunityRoleEnum } from '@/constants/common.const'
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { CommunityStore } from '@/store/local/community'
 import { TextField } from '@/widgets/form'
-import { FunctionComponent } from 'react'
 
 export const QuestText: FunctionComponent = () => {
   // data

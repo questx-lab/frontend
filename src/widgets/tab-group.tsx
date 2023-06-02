@@ -1,6 +1,7 @@
-import { Horizontal } from '@/widgets/orientation'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+
+import { Horizontal } from '@/widgets/orientation'
 
 // This is the tab used in the "Review Submission" or Settings of a community
 export const Tab = tw(Horizontal)`

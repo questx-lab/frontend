@@ -1,11 +1,13 @@
+import { FunctionComponent } from 'react'
+
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import { updateAllClaimedQuestApi } from '@/app/api/client/quest'
 import { ClaimedQuestStatus, ReviewBtnEnum } from '@/constants/common.const'
 import { ButtonBox, ButtonFrame } from '@/modules/review-submissions/mini-widget'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
-import { FunctionComponent } from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 
 const ActionButton = styled.button<{ btnType?: number }>(({ btnType = ReviewBtnEnum.ACCEPT }) => {
   switch (btnType) {

@@ -1,3 +1,7 @@
+import { FunctionComponent } from 'react'
+
+import tw from 'twin.macro'
+
 import { QuestRewards } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { NewQuestStore } from '@/store/local/new-quest.store'
@@ -8,8 +12,6 @@ import { NumberInput } from '@/widgets/input'
 import { Vertical } from '@/widgets/orientation'
 import { Label } from '@/widgets/text'
 import TypesSelection from '@/widgets/types-selection'
-import { FunctionComponent } from 'react'
-import tw from 'twin.macro'
 
 const FrameShape = tw(Vertical)`
   py-8

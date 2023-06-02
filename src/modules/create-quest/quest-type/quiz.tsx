@@ -1,14 +1,15 @@
 import { FunctionComponent } from 'react'
+
 import tw from 'twin.macro'
 
 import { FieldTitle } from '@/modules/create-quest/mini-widget'
+import AnswerItem from '@/modules/create-quest/quest-type/quiz-answer-item'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { MultipleTextField } from '@/widgets/form'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import AnswerItem from '@/modules/create-quest/quest-type/quiz-answer-item'
 
 const QuestQuizBox = tw(VerticalFullWidth)`
   gap-2

@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react'
+
 import tw from 'twin.macro'
 
 import { SubtypeBox } from '@/modules/create-quest/quest-type/mini-widget'

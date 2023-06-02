@@ -1,7 +1,7 @@
 import { MoonLoader } from 'react-spinners'
+import tw from 'twin.macro'
 
 import { SpinnerStyle } from '@/styles/common.style'
-import tw from 'twin.macro'
 
 const Wrap = tw.div`
   h-screen

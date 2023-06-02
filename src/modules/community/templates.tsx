@@ -1,12 +1,14 @@
+import { FunctionComponent } from 'react'
+
+import { useStoreState } from 'easy-peasy'
+import tw from 'twin.macro'
+
 import { Quest } from '@/modules/quest/quest'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestType } from '@/utils/type'
 import { GrayBorderBox } from '@/widgets/box'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
-import { useStoreState } from 'easy-peasy'
-import { FunctionComponent } from 'react'
-import tw from 'twin.macro'
 
 const BackgroundAndBorder = tw(GrayBorderBox)`
   px-16

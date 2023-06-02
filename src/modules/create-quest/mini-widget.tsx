@@ -1,10 +1,11 @@
+import { FunctionComponent, ReactNode } from 'react'
+
+import tw from 'twin.macro'
+
 import { Gap } from '@/styles/common.style'
 import { RequireSignal } from '@/styles/input.style'
 import { RoundedGrayBorderBox } from '@/widgets/box'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
-import { FunctionComponent, ReactNode } from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 
 const Padding = tw(VerticalFullWidth)`
   py-2

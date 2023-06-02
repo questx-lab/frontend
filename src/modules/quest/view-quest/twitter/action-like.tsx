@@ -1,3 +1,8 @@
+import { FunctionComponent } from 'react'
+
+import { useStoreState } from 'easy-peasy'
+import { Link } from 'react-router-dom'
+
 import { SizeEnum } from '@/constants/common.const'
 import { ActionTwitterFrame } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import { GlobalStoreModel } from '@/store/store'
@@ -6,9 +11,6 @@ import { NegativeButton } from '@/widgets/buttons/button'
 import { HorizontalStartCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { HeartIcon } from '@heroicons/react/24/outline'
-import { useStoreState } from 'easy-peasy'
-import { FunctionComponent } from 'react'
-import { Link } from 'react-router-dom'
 
 const TwitterLike: FunctionComponent<{ action: QuestTwitterActionType }> = ({ action }) => {
   // data

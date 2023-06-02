@@ -2,8 +2,11 @@ import { FunctionComponent, useState } from 'react'
 
 import tw from 'twin.macro'
 
+import { Alphabet } from '@/constants/alphabet'
 import { AnswerStatusEnum } from '@/constants/common.const'
+import { ActiveQuestStore } from '@/store/local/active-quest'
 import { QuestQuizType } from '@/utils/type'
+import { AnswerBox } from '@/widgets/buttons/answer-box'
 import {
   HorizontalCenter,
   HorizontalStartCenter,
@@ -12,9 +15,6 @@ import {
 } from '@/widgets/orientation'
 import { Label, NormalText } from '@/widgets/text'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
-import { ActiveQuestStore } from '@/store/local/active-quest'
-import { AnswerBox } from '@/widgets/buttons/answer-box'
-import { Alphabet } from '@/constants/alphabet'
 
 const QuizBox = tw(Vertical)`
   w-full

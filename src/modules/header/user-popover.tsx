@@ -1,15 +1,16 @@
+import { FunctionComponent } from 'react'
+
+import { useStoreActions, useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { StorageConst } from '@/constants/storage.const'
 import { GlobalStoreModel } from '@/store/store'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
 import { UserType } from '@/utils/type'
-import { Popover } from '@headlessui/react'
-import { useStoreActions, useStoreState } from 'easy-peasy'
-import { FunctionComponent } from 'react'
-import { StorageConst } from '@/constants/storage.const'
-import { HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Image } from '@/widgets/image'
+import { HorizontalCenter, Vertical } from '@/widgets/orientation'
+import { Popover } from '@headlessui/react'
 
 const PopWrap = styled(Popover)(tw`
   relative
