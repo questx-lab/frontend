@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+import DiscordCallback from '@/modules/callback/discord'
 import TwitterCallback from '@/modules/callback/twitter'
 import { Index as CommunityIndex } from '@/modules/community'
 import { Index as ReviewSubmissionIndex } from '@/modules/review-submissions'
@@ -89,6 +90,11 @@ const router = createBrowserRouter([
     path: 'api/auth/callback/twitter',
     index: true,
     element: <TwitterCallback />,
+  },
+  {
+    path: 'api/auth/callback/discord',
+    index: true,
+    element: <DiscordCallback />,
   },
 ])
 

@@ -25,11 +25,11 @@ const ActionButtons: FunctionComponent<{
   const contentTw = NewQuestStore.useStoreState((state) => state.contentTw)
   const spaceUrlTw = NewQuestStore.useStoreState((state) => state.spaceUrlTw)
   const telegramLink = NewQuestStore.useStoreState((state) => state.telegramLink)
+  const discordLink = NewQuestStore.useStoreState((state) => state.discordLink)
   const textAutoValid = NewQuestStore.useStoreState((state) => state.textAutoValid)
   const anwser = NewQuestStore.useStoreState((state) => state.anwser)
 
   let disable = true
-
   if (title !== '') {
     switch (questType) {
       case QuestTypeEnum.URL:
@@ -99,7 +99,9 @@ const ActionButtons: FunctionComponent<{
 
         break
       case QuestTypeEnum.DISCORD:
-        disable = false
+        if (discordLink !== '') {
+          disable = false
+        }
         break
       case QuestTypeEnum.JOIN_TELEGRAM:
         if (telegramLink !== '') {
