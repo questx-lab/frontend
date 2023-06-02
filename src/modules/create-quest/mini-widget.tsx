@@ -3,9 +3,9 @@ import { FunctionComponent, ReactNode } from 'react'
 import tw from 'twin.macro'
 
 import { Gap } from '@/styles/common.style'
-import { RequireSignal } from '@/styles/input.style'
 import { RoundedGrayBorderBox } from '@/widgets/box'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
+import { RequiredText } from '@/widgets/text'
 
 const Padding = tw(VerticalFullWidth)`
   py-2
@@ -50,7 +50,7 @@ export const FieldTitle: FunctionComponent<{ title: string; required?: boolean }
   return (
     <Label>
       {title}
-      {required && <RequireSignal>{'*'}</RequireSignal>}
+      {required && <RequiredText>{'*'}</RequiredText>}
     </Label>
   )
 }

@@ -1,18 +1,20 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { NewCommunityStep } from '@/constants/common.const'
+import { CommunityType } from '@/utils/type'
 
 export interface NewCommunityModel {
   currentStep: number
-  title: string
-  description: string
+  displayName: string
+  introduction: string
   inviteCode: string
   avatar: File[]
   twitterUrl: string
   websiteUrl: string
   createdCommunityHandle: string
-  urlName: string
+  logoUrl: string
 
+  setCommunity: Action<NewCommunityModel, CommunityType>
   setCurrentStep: Action<NewCommunityModel, number>
   setTitle: Action<NewCommunityModel, string>
   setDescription: Action<NewCommunityModel, string>
@@ -24,25 +26,31 @@ export interface NewCommunityModel {
   setUrlName: Action<NewCommunityModel, string>
 }
 
-export const NewCommunityStore = createContextStore<NewCommunityModel>({
+const NewCommunityStore = createContextStore<NewCommunityModel>({
   currentStep: NewCommunityStep.BEGIN,
-  title: '',
-  urlName: '',
-  description: '',
+  displayName: '',
+  logoUrl: '',
+  introduction: '',
   inviteCode: '',
   avatar: [],
   twitterUrl: '',
   websiteUrl: '',
   createdCommunityHandle: '',
 
+  setCommunity: action((state, community) => {
+    state.displayName = community.display_name
+    state.introduction = community.introduction
+    state.websiteUrl = community.website_url || ''
+    state.logoUrl = community.logo_url
+  }),
   setCurrentStep: action((state, step) => {
     state.currentStep = step
   }),
   setTitle: action((state, title) => {
-    state.title = title
+    state.displayName = title
   }),
   setDescription: action((state, description) => {
-    state.description = description
+    state.introduction = description
   }),
   setInviteCode: action((state, code) => {
     state.inviteCode = code
@@ -63,6 +71,8 @@ export const NewCommunityStore = createContextStore<NewCommunityModel>({
   }),
 
   setUrlName: action((state, url) => {
-    state.urlName = url
+    state.logoUrl = url
   }),
 })
+
+export default NewCommunityStore

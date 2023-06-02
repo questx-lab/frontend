@@ -1,9 +1,10 @@
-import { FunctionComponent } from 'react'
+import { FC, FunctionComponent } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { StorageConst } from '@/constants/storage.const'
 import { CommunityStore } from '@/store/local/community'
 import { Divider, Gap } from '@/styles/common.style'
 import { ControlPanelTab } from '@/types/community'
@@ -79,16 +80,81 @@ const Tab = styled.div<{ active?: boolean }>(({ active = false }) => {
       `
 })
 
+const QuestsTab: FC = () => {
+  // data
+  const activeControlPanelTab = CommunityStore.useStoreState((state) => state.activeControlPanelTab)
+
+  // hook
+  const navigate = useNavigate()
+
+  return (
+    <Tab
+      onClick={() => {
+        if (activeControlPanelTab === ControlPanelTab.QUESTS) {
+          return
+        }
+
+        navigate('./')
+      }}
+      active={activeControlPanelTab === ControlPanelTab.QUESTS}
+    >
+      <BoltIcon className='w-6 h-6 mr-2' />
+      {'QUESTS'}
+    </Tab>
+  )
+}
+
+const ReviewSubmissionTab: FC = () => {
+  // data
+  const activeControlPanelTab = CommunityStore.useStoreState((state) => state.activeControlPanelTab)
+
+  // hook
+  const navigate = useNavigate()
+
+  return (
+    <Tab
+      onClick={() => {
+        if (activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION) {
+          return
+        }
+        navigate('./review')
+      }}
+      active={activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION}
+    >
+      <ArrowUpOnSquareIcon className='w-6 h-6 mr-2' />
+      {'REVIEW SUBMISSION'}
+    </Tab>
+  )
+}
+
+const SettingsTab: FC = () => {
+  // data
+  const activeControlPanelTab = CommunityStore.useStoreState((state) => state.activeControlPanelTab)
+
+  // hook
+  const navigate = useNavigate()
+
+  return (
+    <Tab
+      onClick={() => {
+        if (activeControlPanelTab === ControlPanelTab.SETTINGS) {
+          return
+        }
+
+        navigate('./settings')
+      }}
+      active={activeControlPanelTab === ControlPanelTab.SETTINGS}
+    >
+      <Cog6ToothIcon className='w-6 h-6 mr-2' />
+      {'SETTINGS'}
+    </Tab>
+  )
+}
+
 export const ControlPanel: FunctionComponent<{
   community: CommunityType
   show: boolean
 }> = ({ community, show }) => {
-  // hook
-  const navigate = useNavigate()
-
-  // data
-  const activeControlPanelTab = CommunityStore.useStoreState((state) => state.activeControlPanelTab)
-
   if (!show) {
     return <></>
   }
@@ -96,7 +162,12 @@ export const ControlPanel: FunctionComponent<{
   return (
     <CSide>
       <PersonWrap>
-        <CircularImage width={80} height={80} src={'/images/dummy/1.svg'} alt={'Avatar'} />
+        <CircularImage
+          width={80}
+          height={80}
+          src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
+          alt={StorageConst.COMMUNITY_DEFAULT.alt}
+        />
         <Gap height={6} />
 
         <HorizontalCenter>
@@ -106,44 +177,9 @@ export const ControlPanel: FunctionComponent<{
       </PersonWrap>
       <Divider />
       <Padding>
-        <Tab
-          onClick={() => {
-            if (activeControlPanelTab === ControlPanelTab.QUESTS) {
-              return
-            }
-
-            navigate('./')
-          }}
-          active={activeControlPanelTab === ControlPanelTab.QUESTS}
-        >
-          <BoltIcon className='w-6 h-6 mr-2' />
-          {'QUESTS'}
-        </Tab>
-        <Tab
-          onClick={() => {
-            if (activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION) {
-              return
-            }
-            navigate('./review')
-          }}
-          active={activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION}
-        >
-          <ArrowUpOnSquareIcon className='w-6 h-6 mr-2' />
-          {'REVIEW SUBMISSION'}
-        </Tab>
-        <Tab
-          onClick={() => {
-            if (activeControlPanelTab === ControlPanelTab.SETTINGS) {
-              return
-            }
-
-            navigate('./settings')
-          }}
-          active={activeControlPanelTab === ControlPanelTab.SETTINGS}
-        >
-          <Cog6ToothIcon className='w-6 h-6 mr-2' />
-          {'SETTINGS'}
-        </Tab>
+        <QuestsTab />
+        <ReviewSubmissionTab />
+        <SettingsTab />
       </Padding>
     </CSide>
   )

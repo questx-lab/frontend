@@ -17,17 +17,15 @@ import {
   VerticalFullWidth,
 } from '@/widgets/orientation'
 import { Tab, TabItem } from '@/widgets/tab-group'
+import { HeaderText3 } from '@/widgets/text'
 import { ArrowPathIcon, ClockIcon } from '@heroicons/react/24/outline'
 
-const Head = tw.div`
+const Head = tw(HeaderText3)`
   w-full
-  py-4
-  px-36
   max-2xl:px-12
   max-lg:px-6
-  text-lg
-  font-medium
-  text-black
+  py-4
+  px-36
 `
 
 const ContentPadding = tw(Vertical)`
