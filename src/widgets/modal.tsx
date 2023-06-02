@@ -92,25 +92,6 @@ const DialogPannel = styled(Dialog.Panel)(
   `
 )
 
-const LDDP = styled(Dialog.Panel)(
-  tw`
-  w-2/3
-  h-[720px]
-  overflow-hidden
-  rounded-2xl
-  bg-white
-  p-6
-  text-left
-  align-middle
-  shadow-xl
-  transition-all
-  flex
-  flex-col
-  justify-start
-  items-center
-  `
-)
-
 const TitleModal = tw.h2`
   text-black
   font-bold
@@ -161,16 +142,19 @@ export const BasicModal: FunctionComponent<{
   children: ReactNode
   title?: string
   onClose: () => void
+  hasHeader?: boolean
   styled?: string
-}> = ({ isOpen, children, title = '', onClose, styled }) => {
+}> = ({ isOpen, children, title = '', onClose, hasHeader = true, styled }) => {
   return (
     <BaseModal isOpen={isOpen}>
       <ModalBox>
         <ModalContent className={styled}>
-          <MDHead>
-            {title}
-            <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} />
-          </MDHead>
+          {hasHeader && (
+            <MDHead>
+              {title}
+              <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} />
+            </MDHead>
+          )}
           {children}
         </ModalContent>
       </ModalBox>
