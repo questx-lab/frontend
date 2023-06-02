@@ -13,7 +13,7 @@ import { BasicModal } from '@/widgets/modal'
 import { Horizontal, Vertical, VerticalCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 
-const PaddingY = tw(Vertical)`
+const WidthFullPaddingY = tw(Vertical)`
   w-full
   py-4
 `
@@ -38,11 +38,10 @@ const TemplateGroup: FunctionComponent<{
     return <></>
   }
 
-  const listPanel = quests.map((e) => (
-    <VerticalFullWidth>
+  const questListView = quests.map((quest) => (
+    <VerticalFullWidth key={quest.id}>
       <QuestCard
-        key={e.id}
-        quest={e}
+        quest={quest}
         isTemplate
         onClick={(quest) => {
           setSelectedQuest(quest)
@@ -55,7 +54,7 @@ const TemplateGroup: FunctionComponent<{
 
   return (
     <>
-      <PaddingY>{listPanel}</PaddingY>
+      <WidthFullPaddingY>{questListView}</WidthFullPaddingY>
       <BasicModal
         isOpen={openModal}
         hasHeader={false}

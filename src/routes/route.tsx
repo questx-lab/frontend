@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 
 import { useStoreActions } from 'easy-peasy'
 import { Toaster } from 'react-hot-toast'
@@ -64,12 +64,14 @@ export const Root: FunctionComponent = () => {
     (action) => action.setCommunitiesFollowing
   )
 
-  // set data
-  if (data) {
-    setReferral(data.referral)
-    setCommunitiesCollab(data.myCommunities)
-    setCommunitiesFollowing(data.followingCommunities)
-  }
+  useEffect(() => {
+    // set data
+    if (data) {
+      setReferral(data.referral)
+      setCommunitiesCollab(data.myCommunities)
+      setCommunitiesFollowing(data.followingCommunities)
+    }
+  }, [])
 
   return (
     <GoogleOAuthProvider clientId={EnvVariables.GOOGLE_ID}>

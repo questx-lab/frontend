@@ -59,6 +59,12 @@ export const Community = () => {
   const myCommunities: CollaboratorType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesCollab
   )
+  // Check if user is the admin of this community
+  const filter =
+    myCommunities &&
+    myCommunities.filter((collaboration) => collaboration.community.handle === community.handle)
+
+  const isOwner = filter && filter.length > 0
 
   // action
   const setRole = CommunityStore.useStoreActions((action) => action.setRole)
@@ -72,7 +78,14 @@ export const Community = () => {
   useEffect(() => {
     setSelectedCommunity(data.community)
     loadQuests()
-  }, [setSelectedCommunity, data.community])
+
+    if (isOwner) {
+      setRole(CommunityRoleEnum.OWNER)
+      setTemplates(data.templates)
+    } else {
+      setRole(CommunityRoleEnum.GUEST)
+    }
+  }, [setSelectedCommunity, data.community, isOwner, data.templates])
 
   if (!community) {
     return <>Failed to load community data</>
@@ -86,20 +99,6 @@ export const Community = () => {
     } else {
       // TODO: show error loading quest here.
     }
-  }
-
-  // Check if user is the admin of this community
-  const filter =
-    myCommunities &&
-    myCommunities.filter((collaboration) => collaboration.community.handle === community.handle)
-
-  const isOwner = filter && filter.length > 0
-
-  if (isOwner) {
-    setRole(CommunityRoleEnum.OWNER)
-    setTemplates(data.templates)
-  } else {
-    setRole(CommunityRoleEnum.GUEST)
   }
 
   return (

@@ -112,7 +112,13 @@ export const Index: FunctionComponent = () => {
         onClose={() => setShowTemplateModal(false)}
         styled={'flex flex-col !justify-start !items-start !w-5/6'}
       >
-        <CreateOrEditQuest communityHandle={community?.handle} isTemplate />
+        <CreateOrEditQuest
+          communityHandle={community?.handle}
+          isTemplate
+          onQuestCreated={() => {
+            setShowTemplateModal(false)
+          }}
+        />
       </BasicModal>
     </OuterBoxPadding>
   )
