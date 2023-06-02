@@ -29,7 +29,7 @@ export const getURLWithQueryParams = (baseUrl: string, params: Record<string, an
   return `${baseUrl}?${query}`
 }
 
-export const getTwitterOAuthUrl = async (redirectUri: string) => {
+const getTwitterOAuthUrl = async (redirectUri: string) => {
   const rootUrl = TWITTER_AUTH_URL
   const options = {
     redirect_uri: redirectUri,
@@ -42,4 +42,10 @@ export const getTwitterOAuthUrl = async (redirectUri: string) => {
   }
   const qs = new URLSearchParams(options).toString()
   return `${rootUrl}?${qs}`
+}
+
+export const handleLoginTwitter = async () => {
+  window.location.assign(
+    await getTwitterOAuthUrl(EnvVariables.FRONTEND_URL + '/api/auth/callback/twitter')
+  )
 }

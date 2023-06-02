@@ -133,8 +133,7 @@ export type ValidationQuest = {
   reply?: boolean
   like?: boolean
   space_url?: string
-  telegram_invite_link?: string
-  discord_invite_link?: string
+  invite_link?: string
   number?: number
   quizzes?: QuestQuizType[]
 }
@@ -231,7 +230,7 @@ export type QuestQuizType = {
 }
 
 export type OAuth2VerifyResp = {
-  error: number
+  error: string
   code: number
   data: {
     access_token: string
