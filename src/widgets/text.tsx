@@ -44,11 +44,11 @@ export const LargeText = tw.p`
   text-xl
   text-gray-900
   font-medium
-  max-md:text-xl
+  max-md:text-lg
 `
 
 export const Large2xlText = tw.p`
-  text-xl
+  text-2xl
   text-gray-900
   font-medium
   max-md:text-lg
