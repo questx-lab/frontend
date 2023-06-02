@@ -5,7 +5,7 @@ const DISCORD_AUTH_URL = 'https://discordapp.com/oauth2/authorize'
 const CALLBACK_URL = `${EnvVariables.FRONTEND_URL}/api/auth/callback/discord`
 
 const OAuthData = new URLSearchParams({
-  response_type: 'code',
+  response_type: 'token',
   client_id: EnvVariables.DISCORD_ID,
   redirect_uri: CALLBACK_URL,
 })

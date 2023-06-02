@@ -6,5 +6,4 @@ export const EnvVariables = {
   TWITTER_SECRET: process.env.REACT_APP_TWITTER_SECRET || '',
   DISCORD_ID: process.env.REACT_APP_DISCORD_ID || '',
   DISCORD_PERMISSION: process.env.REACT_APP_DISCORD_PERMISSION || '',
-  DISCORD_SECRECT: process.env.REACT_APP_DISCORD_SECRET || '',
 }

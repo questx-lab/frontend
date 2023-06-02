@@ -1,41 +1,15 @@
 import { FC, useEffect } from 'react'
 
-import axios from 'axios'
 import { useStoreActions } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { updateCommunityDiscord } from '@/app/api/client/communitiy'
 import { verifyOAuth2 } from '@/app/api/client/oauth'
-import { EnvVariables } from '@/constants/env.const'
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
 import { getAccessToken, setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
 import { LoadingModal } from '@/widgets/modal'
-
-const DISCORD_TOKEN_URL = 'https://discordapp.com/api/v9/oauth2/token'
-
-const handler = async (code: string): Promise<string | undefined> => {
-  const payload = new URLSearchParams({
-    client_id: EnvVariables.DISCORD_ID,
-    client_secret: EnvVariables.DISCORD_SECRECT,
-    grant_type: 'authorization_code',
-    code: code,
-    redirect_uri: `${EnvVariables.FRONTEND_URL}/api/auth/callback/discord`,
-  })
-  try {
-    const { data } = await axios.post(DISCORD_TOKEN_URL, payload, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    })
-
-    return data.access_token
-  } catch (err) {
-    console.error(err)
-  }
-  return undefined
-}
 
 const DiscordCallback: FC = () => {
   // hook
@@ -46,39 +20,33 @@ const DiscordCallback: FC = () => {
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search)
-    const authCode = searchParams.get('code')
+    const searchParams = new URLSearchParams(location.hash.substring(1))
+    const accessToken = searchParams.get('access_token')
     const guildId = searchParams.get('guild_id')
     const communityHandle = searchParams.get('state')
-    if (authCode) {
+    if (accessToken) {
       if (guildId && communityHandle) {
-        discordAuth(authCode, guildId, communityHandle)
+        discordAuth(accessToken, guildId, communityHandle)
       } else {
-        discordAuth(authCode)
+        discordAuth(accessToken)
       }
     }
   }, [])
 
   const discordAuth = async (
-    authCode: string,
+    accessToken: string,
     guildId?: string | null,
     communityHandle?: string | null
   ) => {
     try {
-      const accessToken = await handler(authCode)
-      if (!accessToken) {
-        return
-      }
-
       const userAccessToken = getAccessToken()
 
-      if (guildId && communityHandle) {
+      if (guildId && communityHandle && userAccessToken) {
         const resp = await updateCommunityDiscord(
           communityHandle,
           guildId,
-
           accessToken,
-          userAccessToken || ''
+          userAccessToken
         )
 
         if (resp.error) {
