@@ -46,7 +46,7 @@ const MDHead = tw(Horizontal)`
   border-gray-200
 `
 
-const ModalContent = styled(Dialog.Panel)(
+export const ModalContent = styled(Dialog.Panel)(
   tw`
   w-1/2
   max-xl:w-2/3

@@ -15,6 +15,7 @@ import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
 import QuestTypeSelection from '@/modules/create-quest/quest-type/selection'
 import Recurrence from '@/modules/create-quest/recurrence'
 import QuestReward from '@/modules/create-quest/reward'
+import TemplateGroups from '@/modules/create-quest/template-groups'
 import TopLabel from '@/modules/create-quest/top-label'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestModel, NewQuestStore } from '@/store/local/new-quest.store'
@@ -25,11 +26,6 @@ import { TextField } from '@/widgets/form'
 import { ProgressModal } from '@/widgets/modal'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { Label } from '@/widgets/text'
-
-const Fullscreen = tw(Vertical)`
-  w-full
-  h-full
-`
 
 const BodyFrame = styled(Horizontal)<{ isTemplate?: boolean }>(({ isTemplate = false }) => {
   if (isTemplate) {
@@ -54,6 +50,14 @@ const EditInfoFrame = tw.div`
   py-8
   pl-12
 `
+
+const EditFrame = styled(Vertical)<{ isTemplate: boolean }>(({ isTemplate }) => {
+  if (isTemplate) {
+    return [tw`pl-80`]
+  }
+
+  return [tw`flex-1`]
+})
 
 const handleSubmit = async (
   store: Store<NewQuestModel, EasyPeasyConfig<undefined, {}>>,
@@ -211,48 +215,51 @@ export const CreateOrEditQuest: FunctionComponent<{
   }
 
   return (
-    <Fullscreen>
-      <TopLabel isTemplate={isTemplate} />
+    <Horizontal>
+      <TemplateGroups show={isTemplate} />
+      <EditFrame isTemplate={isTemplate}>
+        <TopLabel isTemplate={isTemplate} />
 
-      <BodyFrame isTemplate={isTemplate}>
-        <EditInfoFrame>
-          <QuestFieldsBox title={'QUEST TITLE'} required={true}>
-            <TextField
-              required
-              value={title}
-              placeholder='The name of the quest is written here.'
-              onChange={(e) => setTitle(e.target.value)}
-              msg='You must have a quest title to create this quest.'
-            />
-            <Gap />
+        <BodyFrame isTemplate={isTemplate}>
+          <EditInfoFrame>
+            <QuestFieldsBox title={'QUEST TITLE'} required={true}>
+              <TextField
+                required
+                value={title}
+                placeholder='The name of the quest is written here.'
+                onChange={(e) => setTitle(e.target.value)}
+                msg='You must have a quest title to create this quest.'
+              />
+              <Gap />
 
-            <Label>{'QUEST DESCRIPTION'}</Label>
-            <Editor onChange={(value) => setDescription(value)} value={description} />
-          </QuestFieldsBox>
+              <Label>{'QUEST DESCRIPTION'}</Label>
+              <Editor onChange={(value) => setDescription(value)} value={description} />
+            </QuestFieldsBox>
 
-          <QuestFieldsBox title={'SUBMISSION TYPE'} required={true}>
-            <QuestTypeSelection />
-          </QuestFieldsBox>
+            <QuestFieldsBox title={'SUBMISSION TYPE'} required={true}>
+              <QuestTypeSelection />
+            </QuestFieldsBox>
 
-          <QuestFieldsBox title={'REPEAT'} required={true}>
-            <Recurrence />
-          </QuestFieldsBox>
+            <QuestFieldsBox title={'REPEAT'} required={true}>
+              <Recurrence />
+            </QuestFieldsBox>
 
-          <QuestFieldsBox title={'Highlighted'}>
-            <Highlighted />
-          </QuestFieldsBox>
+            <QuestFieldsBox title={'Highlighted'}>
+              <Highlighted />
+            </QuestFieldsBox>
 
-          <ActionButtons onSubmit={submitAction} />
-        </EditInfoFrame>
+            <ActionButtons onSubmit={submitAction} />
+          </EditInfoFrame>
 
-        <QuestReward />
-      </BodyFrame>
+          <QuestReward />
+        </BodyFrame>
 
-      <ProgressModal
-        isOpen={isOpen}
-        title={`Hang in there!`}
-        lines={[`We're creating new quest.`, 'This might take a few seconds...']}
-      />
-    </Fullscreen>
+        <ProgressModal
+          isOpen={isOpen}
+          title={`Hang in there!`}
+          lines={[`We're creating new quest.`, 'This might take a few seconds...']}
+        />
+      </EditFrame>
+    </Horizontal>
   )
 }

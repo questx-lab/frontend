@@ -6,6 +6,7 @@ import tw from 'twin.macro'
 import { CommunityRoleEnum } from '@/constants/common.const'
 import { Quests } from '@/modules/community/quests'
 import Templates from '@/modules/community/templates'
+import { CreateOrEditQuest } from '@/modules/create-quest'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestStore } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
@@ -46,6 +47,7 @@ const ButtonAlignment = tw(Horizontal)`
 export const Index: FunctionComponent = () => {
   // data
   const role = CommunityStore.useStoreState((action) => action.role)
+  const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
 
   // action
   const setActiveControlPanelTab = CommunityStore.useStoreActions(
@@ -62,6 +64,10 @@ export const Index: FunctionComponent = () => {
   useEffect(() => {
     setActiveControlPanelTab(ControlPanelTab.QUESTS)
   }, [setActiveControlPanelTab])
+
+  if (!community) {
+    return <></>
+  }
 
   const isOwner = role === CommunityRoleEnum.OWNER
 
@@ -102,11 +108,11 @@ export const Index: FunctionComponent = () => {
       </FullWidthHeight>
 
       <BasicModal
-        title={`🎉 Template`}
         isOpen={showTemplateModal}
         onClose={() => setShowTemplateModal(false)}
+        styled={'flex flex-col !justify-start !items-start !w-5/6'}
       >
-        AAAA
+        <CreateOrEditQuest communityHandle={community?.handle} isTemplate />
       </BasicModal>
     </OuterBoxPadding>
   )
