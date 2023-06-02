@@ -1,9 +1,12 @@
+import axios from 'axios'
+
 import { api } from '@/app/api/config/api'
 import { EnvVariables } from '@/constants/env.const'
 import {
   CollaboratorType,
   CommunityType,
   ListCommunitiesType,
+  OAuth2VerifyResp,
   ReqNewCommunity,
   Rsp,
 } from '@/utils/type'
@@ -87,4 +90,27 @@ export const getMyFollowerInfoApi = async (
     EnvVariables.NEXT_PUBLIC_API_URL + `/getMyFollowerInfo?community_handle=${communityHandle}`
   )
   return rs.data
+}
+
+export const updateCommunityDiscord = async (
+  handle: string,
+  server_id: string,
+  oauth_access_token: string,
+  access_token: string
+): Promise<OAuth2VerifyResp> => {
+  const result = await axios.post(
+    EnvVariables.NEXT_PUBLIC_API_URL + `/updateCommunityDiscord`,
+    {
+      community_handle: handle,
+      access_token: oauth_access_token,
+      server_id: server_id,
+    },
+    {
+      headers: {
+        ContentType: 'application/json',
+        Authorization: `Bearer ${access_token}`,
+      },
+    }
+  )
+  return result.data
 }

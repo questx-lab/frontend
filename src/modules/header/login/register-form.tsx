@@ -139,6 +139,17 @@ const RenderLogoSocial: FC = () => {
     )
   }
 
+  if (user && user.services?.discord) {
+    return (
+      <Image
+        width={40}
+        height={40}
+        src={StorageConst.DISCORD_DIR.src}
+        alt={StorageConst.DISCORD_DIR.alt}
+      />
+    )
+  }
+
   return (
     <Image
       width={40}
@@ -155,7 +166,7 @@ const UserBox: FunctionComponent = () => {
   return (
     <InfoBox>
       <PaddingHorizontal>
-        <Image width={50} height={50} src={'/images/dummy/5.svg'} alt={'avatar'} />
+        <Image width={50} height={50} src={StorageConst.USER_DEFAULT.src} alt={'avatar'} />
         <GapVertical>
           <NameText>{`Sign in as ${user && user.name}`}</NameText>
           <EmailText>{user && user.name}</EmailText>

@@ -41,8 +41,6 @@ const getTwitterOAuthToken = async (code: string) => {
 }
 
 const TwitterCallback: FC = () => {
-  let effectCallOnce = true
-
   // hook
   const location = useLocation()
   const navigate = useNavigate()
@@ -51,13 +49,10 @@ const TwitterCallback: FC = () => {
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   useEffect(() => {
-    if (effectCallOnce) {
-      effectCallOnce = false
-      const searchParams = new URLSearchParams(location.search)
-      const authCode = searchParams.get('code')
-      if (authCode) {
-        twitterAuth(authCode)
-      }
+    const searchParams = new URLSearchParams(location.search)
+    const authCode = searchParams.get('code')
+    if (authCode) {
+      twitterAuth(authCode)
     }
   }, [])
 
