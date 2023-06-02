@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
-import { NewCommunityStore } from '@/store/local/new-community.store'
+import NewCommunityStore from '@/store/local/new-community.store'
 import { Image } from '@/widgets/image'
 import { Horizontal } from '@/widgets/orientation'
 

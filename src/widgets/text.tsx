@@ -95,3 +95,17 @@ export const RewardText = tw.span`
   text-lg
   font-medium
 `
+
+export const RequiredText = tw.span`
+  text-lg
+  font-medium
+  text-danger-700
+`
+
+////////////////////////////////////////////////
+
+export const HeaderText3 = tw.div`
+  text-lg
+  font-medium
+  text-black
+`

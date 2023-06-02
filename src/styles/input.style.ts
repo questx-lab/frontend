@@ -91,9 +91,3 @@ export const LabelInput = tw.label`
   flex-row
   gap-2
 `
-
-export const RequireSignal = tw.span`
-  text-lg
-  font-medium
-  text-danger-700
-`

@@ -1,11 +1,15 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { CommunityRoleEnum } from '@/constants/common.const'
-import { CommunityIndexMode, ControlPanelTab } from '@/types/community'
+import {
+  CommunityIndexMode,
+  ControlPanelTab,
+  EmptyCommunity as emptyCommunity,
+} from '@/types/community'
 import { CategoryType, CommunityType, QuestType } from '@/utils/type'
 
 interface CommunityModel {
-  selectedCommunity: CommunityType | undefined
+  selectedCommunity: CommunityType
   query: string
   quests: QuestType[]
   searchProjects: CommunityType[]
@@ -27,7 +31,7 @@ interface CommunityModel {
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
-  selectedCommunity: undefined,
+  selectedCommunity: emptyCommunity(),
   query: '',
   searchProjects: [],
   role: CommunityRoleEnum.GUEST,

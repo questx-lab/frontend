@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 
 import { newCommunityApi } from '@/app/api/client/communitiy'
 import { BackButton, HorizotalFullWidth, Title } from '@/modules/create-community/mini-widget'
-import { NewCommunityStore } from '@/store/local/new-community.store'
+import NewCommunityStore from '@/store/local/new-community.store'
 import { LabelInput } from '@/styles/input.style'
 import { ReqNewCommunity } from '@/utils/type'
 import { PositiveButton } from '@/widgets/buttons/button'
@@ -35,11 +35,11 @@ export const CreateCommunityStep: FunctionComponent = () => {
   // data
   const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
   const inviteCode = NewCommunityStore.useStoreState((state) => state.inviteCode)
-  const title = NewCommunityStore.useStoreState((state) => state.title)
+  const title = NewCommunityStore.useStoreState((state) => state.displayName)
   const websiteUrl = NewCommunityStore.useStoreState((state) => state.websiteUrl)
   const twitterUrl = NewCommunityStore.useStoreState((state) => state.twitterUrl)
-  const description = NewCommunityStore.useStoreState((state) => state.description)
-  const urlName = NewCommunityStore.useStoreState((state) => state.urlName)
+  const description = NewCommunityStore.useStoreState((state) => state.introduction)
+  const urlName = NewCommunityStore.useStoreState((state) => state.logoUrl)
 
   // action
   const setCurrentStep = NewCommunityStore.useStoreActions((action) => action.setCurrentStep)

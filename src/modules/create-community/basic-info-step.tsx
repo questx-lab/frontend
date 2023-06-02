@@ -5,14 +5,15 @@ import { useDebouncedCallback } from 'use-debounce'
 import { getCommunityApi } from '@/app/api/client/communitiy'
 import { ErrorCodes } from '@/constants/code.const'
 import { Main, NextButton, Title } from '@/modules/create-community/mini-widget'
-import { NewCommunityStore } from '@/store/local/new-community.store'
-import { LabelInput, RequireSignal } from '@/styles/input.style'
+import NewCommunityStore from '@/store/local/new-community.store'
+import { LabelInput } from '@/styles/input.style'
 import { MultipleTextField, TextField } from '@/widgets/form'
+import { RequiredText } from '@/widgets/text'
 
 const HandleNameBox: FunctionComponent = () => {
   const [isValid, setValid] = useState<boolean | undefined>(undefined)
   const [msg, setMsg] = useState<string>('')
-  const urlName = NewCommunityStore.useStoreState((state) => state.urlName)
+  const urlName = NewCommunityStore.useStoreState((state) => state.logoUrl)
 
   const setUrlName = NewCommunityStore.useStoreActions((action) => action.setUrlName)
 
@@ -64,8 +65,8 @@ const HandleNameBox: FunctionComponent = () => {
 
 export const BasicInfo: FunctionComponent = () => {
   // data
-  const title = NewCommunityStore.useStoreState((state) => state.title)
-  const description = NewCommunityStore.useStoreState((state) => state.description)
+  const title = NewCommunityStore.useStoreState((state) => state.displayName)
+  const description = NewCommunityStore.useStoreState((state) => state.introduction)
 
   //action
   const setTitle = NewCommunityStore.useStoreActions((action) => action.setTitle)
@@ -76,7 +77,7 @@ export const BasicInfo: FunctionComponent = () => {
       <Title>{'👋 Create your community'}</Title>
       <LabelInput>
         {'DISPLAY NAME'}
-        <RequireSignal>{'*'}</RequireSignal>
+        <RequiredText>{'*'}</RequiredText>
       </LabelInput>
       <TextField
         value={title}

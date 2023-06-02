@@ -73,14 +73,14 @@ export type CommunityType = {
   created_at?: string
   updated_at?: string
   created_by?: string
-  display_name?: string
+  display_name: string
   handle: string
   twitter?: string
   discord?: string
   telegram?: string
-  introduction?: string
+  introduction: string
   website_url?: string
-  logo_url?: string
+  logo_url: string
   number_of_quests?: number
 }
 
