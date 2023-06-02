@@ -4,10 +4,10 @@ import { useStoreActions } from 'easy-peasy'
 import toast from 'react-hot-toast'
 
 import { AuthEnum } from '@/constants/common.const'
-import { EnvVariables } from '@/constants/env.const'
 import { StorageConst } from '@/constants/storage.const'
+import { handleLoginDiscord } from '@/handler/auth/discord'
 import { handleMetamask } from '@/handler/auth/metamask'
-import { getTwitterOAuthUrl } from '@/handler/auth/twitter'
+import { handleLoginTwitter } from '@/handler/auth/twitter'
 import { Description, PaddingVertical, SocialBox, Title } from '@/modules/header/login'
 import { GlobalStoreModel } from '@/store/store'
 import { updateAccessToken } from '@/utils/storage'
@@ -54,13 +54,7 @@ const LoginBox: FunctionComponent = () => {
         />
         {'Log in with Google'}
       </SocialBox>
-      <SocialBox
-        onClick={async () => {
-          window.location.assign(
-            await getTwitterOAuthUrl(EnvVariables.FRONTEND_URL + '/api/auth/callback/twitter')
-          )
-        }}
-      >
+      <SocialBox onClick={handleLoginTwitter}>
         <Image
           width={40}
           height={40}
@@ -69,7 +63,16 @@ const LoginBox: FunctionComponent = () => {
         />
         {'Log in with Twitter'}
       </SocialBox>
-      <SocialBox onClick={() => handleMetamask()}>
+      <SocialBox onClick={() => handleLoginDiscord({ joinCommunity: false })}>
+        <Image
+          width={40}
+          height={40}
+          src={StorageConst.DISCORD_DIR.src}
+          alt={StorageConst.DISCORD_DIR.alt}
+        />
+        {'Log in with Discord'}
+      </SocialBox>
+      <SocialBox onClick={handleMetamask}>
         <Image
           width={40}
           height={40}
