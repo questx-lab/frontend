@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent } from 'react'
+import { FC, FunctionComponent } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { styled } from 'goober'
@@ -49,11 +49,9 @@ const GroupTitle = tw(PrimaryText)`
   text-lg
 `
 
-const TemplateGroupsContent: FunctionComponent<{ templateGroups: TemplateGroupType[] }> = ({
-  templateGroups,
-}) => {
+const TemplateGroupsContent: FC<{ templateGroups: TemplateGroupType[] }> = ({ templateGroups }) => {
   if (templateGroups.length === 0) {
-    return <Fragment />
+    return <></>
   }
 
   const groupsView = templateGroups.map((e, i) => (

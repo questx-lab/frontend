@@ -2,13 +2,11 @@ import { FunctionComponent, useState } from 'react'
 
 import { EasyPeasyConfig, Store } from 'easy-peasy'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { listQuestApi, newQuestApi, updateQuestApi } from '@/app/api/client/quest'
 import { QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
-import { RouterConst } from '@/constants/router.const'
 import ActionButtons from '@/modules/create-quest/action-buttons'
 import Highlighted from '@/modules/create-quest/highlighted'
 import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
@@ -183,9 +181,8 @@ export const CreateOrEditQuest: FunctionComponent<{
   communityHandle: string
   isTemplate?: boolean
   isEdit?: boolean
-}> = ({ communityHandle, isTemplate = false, isEdit = false }) => {
-  const navigate = useNavigate()
-
+  onQuestCreated: () => void
+}> = ({ communityHandle, isTemplate = false, isEdit = false, onQuestCreated }) => {
   // data
   const store = NewQuestStore.useStore()
   const title = NewQuestStore.useStoreState((state) => state.title)
@@ -200,16 +197,18 @@ export const CreateOrEditQuest: FunctionComponent<{
 
   const submitAction = async (submitType: string) => {
     setIsOpen(true)
-    const rs = await handleSubmit(store, communityHandle, submitType, '')
-    if (rs) {
-      navigate(RouterConst.PROJECT + communityHandle)
+    try {
+      const result = await handleSubmit(store, communityHandle, submitType, '')
+      if (result) {
+        // reload the quests list so that it could displayed in the community quest list.
+        const result = await listQuestApi(communityHandle, '')
+        if (result.code === 0) {
+          setQuests(result.data?.quests || [])
 
-      // reload the quests list so that it could displayed in the community quest list.
-      const result = await listQuestApi(communityHandle, '')
-      if (result.code === 0) {
-        setQuests(result.data?.quests || [])
+          onQuestCreated()
+        }
       }
-    } else {
+    } finally {
       setIsOpen(false)
     }
   }
