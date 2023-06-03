@@ -6,6 +6,7 @@ import {
   ListCommunitiesType,
   OAuth2VerifyResp,
   ReqNewCommunity,
+  ReqUpdateCommunity,
   Rsp,
 } from '@/utils/type'
 
@@ -101,4 +102,9 @@ export const updateCommunityDiscord = async (
     server_id: server_id,
   })
   return result.data
+}
+
+export const updateCommunityApi = async (data: ReqUpdateCommunity): Promise<Rsp<unknown>> => {
+  const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/updateCommunity', data)
+  return rs.data
 }
