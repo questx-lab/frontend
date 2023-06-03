@@ -23,6 +23,7 @@ const RightColumn = tw(Vertical)`
 `
 
 const SocialConnection: FC = () => {
+  // TODO: Complete this
   // data
   const websiteUrl = NewCommunityStore.useStoreState((state) => state.websiteUrl)
 
