@@ -96,6 +96,7 @@ const TwitterConnectBox: FunctionComponent = () => {
 
   const onConnect = async () => {
     // signIn('twitter')
+    // TODO: Complete this
   }
 
   return (

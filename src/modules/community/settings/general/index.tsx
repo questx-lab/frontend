@@ -15,6 +15,8 @@ const VerticalFrame = tw(VerticalFullWidth)`
 `
 
 const General: FC = () => {
+  // TODO: Complete this
+
   return (
     <VerticalFrame>
       <DisplayName />
