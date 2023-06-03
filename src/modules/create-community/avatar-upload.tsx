@@ -55,13 +55,13 @@ export const AvatarUpload: FunctionComponent = () => {
 
   // handler
   const onRemoveImg = () => {
-    setAvatar([])
+    setAvatar(undefined)
   }
 
-  if (avatar.length) {
+  if (avatar) {
     return (
       <UploadImgBox>
-        <Image width={100} height={100} src={(avatar[0] as any).preview} alt={'Community avatar'} />
+        <Image width={100} height={100} src={(avatar as any).preview} alt={'Community avatar'} />
         <RemoveAvt onClick={onRemoveImg}>{'Remove'}</RemoveAvt>
       </UploadImgBox>
     )
@@ -70,12 +70,11 @@ export const AvatarUpload: FunctionComponent = () => {
   return (
     <Dropzone
       onDrop={(acceptedFiles) => {
+        const upFile = acceptedFiles[0]
         setAvatar(
-          acceptedFiles.map((upFile) =>
-            Object.assign(upFile, {
-              preview: URL.createObjectURL(upFile),
-            })
-          )
+          Object.assign(upFile, {
+            preview: URL.createObjectURL(upFile),
+          })
         )
       }}
     >

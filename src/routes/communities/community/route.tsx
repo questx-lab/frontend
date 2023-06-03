@@ -76,7 +76,6 @@ export const Community = () => {
 
   // hook
   useEffect(() => {
-    console.log('Setting selected community = ', data.community)
     setSelectedCommunity(data.community)
     loadQuests()
 

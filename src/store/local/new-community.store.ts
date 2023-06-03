@@ -9,7 +9,7 @@ export interface NewCommunityModel {
   displayName: string
   introduction: string
   inviteCode: string
-  avatar: File[]
+  avatar: File | undefined
   twitterUrl: string
   websiteUrl: string
   createdCommunityHandle: string
@@ -20,7 +20,7 @@ export interface NewCommunityModel {
   setDisplayName: Action<NewCommunityModel, string>
   setIntroduction: Action<NewCommunityModel, string>
   setInviteCode: Action<NewCommunityModel, string>
-  setAvatar: Action<NewCommunityModel, File[]>
+  setAvatar: Action<NewCommunityModel, File | undefined>
   setTwitterUrl: Action<NewCommunityModel, string>
   setWebsiteUrl: Action<NewCommunityModel, string>
   setCreatedCommunityHandle: Action<NewCommunityModel, string>
@@ -33,7 +33,7 @@ const NewCommunityStore = createContextStore<NewCommunityModel>({
   logoUrl: '',
   introduction: '',
   inviteCode: '',
-  avatar: [],
+  avatar: undefined,
   twitterUrl: '',
   websiteUrl: '',
   createdCommunityHandle: '',

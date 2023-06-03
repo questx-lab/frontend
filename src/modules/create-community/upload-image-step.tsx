@@ -31,7 +31,7 @@ export const UploadImageStep: FunctionComponent = () => {
   )
 
   let buttonText: string = 'Upload Community Profile'
-  if (avatar.length === 0) {
+  if (avatar) {
     buttonText = 'Done'
   }
 
@@ -53,8 +53,8 @@ export const UploadImageStep: FunctionComponent = () => {
   const onUploadFile = async () => {
     setLoading(true)
 
-    if (avatar && avatar.length > 0) {
-      const tuple = await uploadFileForCommunity(avatar[0], createdCommunityHandle)
+    if (avatar) {
+      const tuple = await uploadFileForCommunity(avatar, createdCommunityHandle)
       if (tuple.error) {
         toast.error(tuple.error)
         return

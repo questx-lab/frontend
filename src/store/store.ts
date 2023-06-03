@@ -25,6 +25,7 @@ export interface GlobalStoreModel {
   setTemplates: Action<GlobalStoreModel, QuestType[]>
 }
 
+// TODO: Make this as a export default
 const store = createStore<GlobalStoreModel>({
   showNavigationDrawer: false,
   user: undefined,
