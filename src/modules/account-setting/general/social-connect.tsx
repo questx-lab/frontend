@@ -5,13 +5,17 @@ import toast from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { linkOAuth2 } from '@/app/api/client/oauth'
 import { getUserApi } from '@/app/api/client/user'
+import { handleLoginDiscord } from '@/handler/auth/discord'
 import { signWallet } from '@/handler/auth/metamask'
+import { handleLoginTwitter } from '@/handler/auth/twitter'
 import { SocialType } from '@/modules/account-setting/mini-widget'
 import { GlobalStoreModel } from '@/store/store'
 import { setUserLocal } from '@/utils/helper'
-import { UserType } from '@/utils/type'
+import { OAuth2LinkReq, UserType } from '@/utils/type'
 import { Image } from '@/widgets/image'
+import { useGoogleLogin } from '@react-oauth/google'
 
 const SocialBox = styled.div<{ active?: boolean }>(({ active = false }) => [
   !active &&
@@ -63,12 +67,6 @@ const SocialConnect: FunctionComponent<{
   // action
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
-  const signInTwitter = async () => {}
-
-  const signInDiscord = async () => {}
-
-  const signInGoogle = async () => {}
-
   const onLinkWallet = async () => {
     try {
       await signWallet()
@@ -77,6 +75,32 @@ const SocialConnect: FunctionComponent<{
       // Do nothing here.
     }
   }
+
+  const onLinkGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      if (tokenResponse && tokenResponse.access_token) {
+        const payload: OAuth2LinkReq = {
+          type: 'google',
+          access_token: tokenResponse.access_token,
+        }
+        const data = await linkOAuth2(payload)
+
+        if (data.error) {
+          toast.error(data.error)
+        }
+
+        if (data.code === 0) {
+          const userData = await getUserApi()
+
+          if (userData.data) {
+            setUserLocal(userData.data)
+            setUser(userData.data)
+          }
+        }
+      }
+    },
+    onError: (errorResponse) => toast.error('Error while link your Google account'),
+  })
 
   const getUserData = async () => {
     try {
@@ -103,7 +127,7 @@ const SocialConnect: FunctionComponent<{
         )
       }
       return (
-        <SocialBox onClick={signInDiscord}>
+        <SocialBox onClick={() => handleLoginDiscord({})}>
           <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
           <SocialText>{`Connect ${type}`}</SocialText>
         </SocialBox>
@@ -118,7 +142,7 @@ const SocialConnect: FunctionComponent<{
         )
       }
       return (
-        <SocialBox onClick={signInTwitter}>
+        <SocialBox onClick={handleLoginTwitter}>
           <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
           <SocialText>{`Connect ${type}`}</SocialText>
         </SocialBox>
@@ -134,7 +158,7 @@ const SocialConnect: FunctionComponent<{
         )
       }
       return (
-        <SocialBox onClick={signInGoogle}>
+        <SocialBox onClick={() => onLinkGoogle()}>
           <Image width={30} height={30} src={logoSrc} alt={logoAlt} />
           <SocialText>{`Connect ${type}`}</SocialText>
         </SocialBox>

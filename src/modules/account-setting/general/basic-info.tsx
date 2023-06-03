@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
-import { useStoreState } from 'easy-peasy'
+import { useStoreActions, useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
@@ -27,7 +27,12 @@ const PaddingVertical = tw(Vertical)`
 
 export const ActionUpdate: FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
+
+  // data
   const username = UserStore.useStoreState((state) => state.username)
+
+  // action
+  const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   // handler
   const handleSubmit = async () => {
@@ -125,8 +130,4 @@ export const BasicInfo: FunctionComponent = () => {
       </RowBox>
     </PaddingVertical>
   )
-}
-
-function setUser(data: UserType) {
-  throw new Error('Function not implemented.')
 }

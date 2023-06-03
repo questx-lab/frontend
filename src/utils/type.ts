@@ -238,3 +238,18 @@ export type OAuth2VerifyResp = {
     user: UserType
   }
 }
+
+export type OAuth2LinkReq = {
+  type: string
+
+  // For Authorization Code flow.
+  access_token?: string
+
+  // For Authorization Code with PKCE flow.
+  code?: string
+  code_verifier?: string
+  redirect_uri?: string
+
+  // For Implicit flow.
+  id_token?: string
+}

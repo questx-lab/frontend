@@ -4,12 +4,14 @@ import { useStoreActions } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { getTwitterAccessTokenApi, TwitterVerifyType } from '@/app/api/client/oauth'
+import { getTwitterAccessTokenApi, linkOAuth2, TwitterVerifyType } from '@/app/api/client/oauth'
+import { getUserApi } from '@/app/api/client/user'
 import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
-import { setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
+import { getAccessToken, setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
+import { OAuth2LinkReq, UserType } from '@/utils/type'
 import { LoadingModal } from '@/widgets/modal'
 
 // filling up the query parameters needed to request for getting the token
@@ -24,6 +26,10 @@ const getTwitterOAuthToken = async (code: string) => {
     // POST request to the token url to get the access token
     const codeVerifier = localStorage.getItem(KeysEnum.CODE_VERIFIER) ?? ''
     localStorage.removeItem(KeysEnum.CODE_VERIFIER)
+
+    // AccessToken of user
+    const clientAccessToken = getAccessToken()
+
     const payload: TwitterVerifyType = {
       code,
       code_verifier: codeVerifier,
@@ -31,13 +37,65 @@ const getTwitterOAuthToken = async (code: string) => {
       type: 'twitter',
     }
 
+    // For link account to Twitter
+    if (clientAccessToken) {
+      const user = await linkAccount(
+        payload.type,
+        payload.code,
+        payload.code_verifier,
+        payload.redirect_uri
+      )
+
+      return user?.data
+    }
+
+    // For login or register new accout
     const rs = await getTwitterAccessTokenApi(payload)
 
-    return rs
+    if (rs?.error) {
+      toast.error(rs.error)
+    }
+
+    if (rs?.data) {
+      setAccessToken(rs.data.access_token)
+      setRefreshToken(rs.data.refresh_token)
+    }
+
+    return rs.data?.user
   } catch (err) {
     console.error(err)
   }
   return undefined
+}
+
+const linkAccount = async (
+  type: string,
+  code: string,
+  code_verifier: string,
+  redirect_uri: string
+) => {
+  try {
+    const payload: OAuth2LinkReq = {
+      type,
+      code,
+      code_verifier,
+      redirect_uri,
+    }
+
+    const data = await linkOAuth2(payload)
+    if (data.error) {
+      toast.error(data.error)
+    }
+
+    if (data.code === 0) {
+      toast.success('Link account successful')
+    }
+
+    const user = await getUserApi()
+    return user
+  } catch (error) {
+    toast.error('Link account was failed')
+  }
 }
 
 const TwitterCallback: FC = () => {
@@ -45,12 +103,15 @@ const TwitterCallback: FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
+  const clientAccessToken = getAccessToken()
+
   // Global action
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search)
     const authCode = searchParams.get('code')
+
     if (authCode) {
       twitterAuth(authCode)
     }
@@ -58,22 +119,19 @@ const TwitterCallback: FC = () => {
 
   const twitterAuth = async (authCode: string) => {
     try {
-      const data = await getTwitterOAuthToken(authCode)
-
-      if (data?.error) {
-        toast.error(data.error)
-      }
-
-      if (data?.data) {
-        setUser(data.data.user)
-        setUserLocal(data.data.user)
-        setAccessToken(data.data.access_token)
-        setRefreshToken(data.data.refresh_token)
+      const user = await getTwitterOAuthToken(authCode)
+      if (user) {
+        setUser(user)
+        setUserLocal(user)
       }
     } catch (error) {
       toast.error('Connect to Twitter was failed, please try more again')
     } finally {
-      setTimeout(() => navigate(RouterConst.HOME, { replace: true }), 2000)
+      if (clientAccessToken) {
+        setTimeout(() => navigate(RouterConst.ACCOUNT_SETTING, { replace: true }), 2000)
+      } else {
+        setTimeout(() => navigate(RouterConst.HOME, { replace: true }), 2000)
+      }
     }
   }
 
@@ -81,3 +139,6 @@ const TwitterCallback: FC = () => {
 }
 
 export default TwitterCallback
+function setUser(data: UserType) {
+  throw new Error('Function not implemented.')
+}
