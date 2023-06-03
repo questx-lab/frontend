@@ -14,7 +14,7 @@ export interface UserStoreModel {
   setSocialDisplay: Action<UserStoreModel, number>
 }
 
-export const UserStore = createContextStore<UserStoreModel>({
+const UserStore = createContextStore<UserStoreModel>({
   username: '',
   inviteCode: '',
   metamask: '',
@@ -33,3 +33,5 @@ export const UserStore = createContextStore<UserStoreModel>({
     state.socialDisplay = social
   }),
 })
+
+export default UserStore
