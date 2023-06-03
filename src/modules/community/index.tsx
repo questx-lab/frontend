@@ -77,8 +77,9 @@ export const Index: FunctionComponent = () => {
         <Padding16>
           <FullWidthCenter>
             <Large3xlText>Quest</Large3xlText>
-            <ButtonAlignment>
-              {isOwner && (
+            {isOwner && (
+              // Only shown for owner
+              <ButtonAlignment>
                 <NegativeButton
                   onClick={() => {
                     setShowTemplateModal(true)
@@ -86,17 +87,17 @@ export const Index: FunctionComponent = () => {
                 >
                   {'Use Template'}
                 </NegativeButton>
-              )}
-              <Gap width={4} />
-              <PositiveButton
-                onClick={() => {
-                  setQuest(emptyQuest())
-                  navigate('./create')
-                }}
-              >
-                {'+  Create Quest'}
-              </PositiveButton>
-            </ButtonAlignment>
+                <Gap width={4} />
+                <PositiveButton
+                  onClick={() => {
+                    setQuest(emptyQuest())
+                    navigate('./create')
+                  }}
+                >
+                  {'+  Create Quest'}
+                </PositiveButton>
+              </ButtonAlignment>
+            )}
           </FullWidthCenter>
         </Padding16>
 

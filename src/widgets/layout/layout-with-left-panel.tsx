@@ -4,7 +4,7 @@ import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { CommunitiesNavigation } from '@/modules/communities-navigation/navigation'
+import CommunitiesNavigation from '@/modules/communities-navigation'
 import { GlobalStoreModel } from '@/store/store'
 import { Horizontal } from '@/widgets/orientation'
 

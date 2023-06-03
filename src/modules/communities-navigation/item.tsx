@@ -41,7 +41,7 @@ export const Item: FunctionComponent<{
             onClick={() => navigate(RouterConst.PROJECT + collaboration.community.handle)}
             width={45}
             height={45}
-            src={StorageConst.COMMUNITY_DEFAULT.src}
+            src={collaboration.community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
             alt='community'
           />
         </ActiveAvatar>

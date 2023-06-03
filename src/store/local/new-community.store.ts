@@ -1,14 +1,15 @@
-import { action, Action, createContextStore } from 'easy-peasy'
+import { action, Action, createContextStore, FilterActionTypes, StateMapper } from 'easy-peasy'
 
 import { NewCommunityStep } from '@/constants/common.const'
-import { CommunityType } from '@/utils/type'
+import { CommunityType, UpdateCommunityRequest } from '@/utils/type'
 
+// TODO: Rename this to EditCommunityModel
 export interface NewCommunityModel {
   currentStep: number
   displayName: string
   introduction: string
   inviteCode: string
-  avatar: File[]
+  avatar: File | undefined
   twitterUrl: string
   websiteUrl: string
   createdCommunityHandle: string
@@ -19,7 +20,7 @@ export interface NewCommunityModel {
   setDisplayName: Action<NewCommunityModel, string>
   setIntroduction: Action<NewCommunityModel, string>
   setInviteCode: Action<NewCommunityModel, string>
-  setAvatar: Action<NewCommunityModel, File[]>
+  setAvatar: Action<NewCommunityModel, File | undefined>
   setTwitterUrl: Action<NewCommunityModel, string>
   setWebsiteUrl: Action<NewCommunityModel, string>
   setCreatedCommunityHandle: Action<NewCommunityModel, string>
@@ -32,7 +33,7 @@ const NewCommunityStore = createContextStore<NewCommunityModel>({
   logoUrl: '',
   introduction: '',
   inviteCode: '',
-  avatar: [],
+  avatar: undefined,
   twitterUrl: '',
   websiteUrl: '',
   createdCommunityHandle: '',
@@ -74,5 +75,17 @@ const NewCommunityStore = createContextStore<NewCommunityModel>({
     state.logoUrl = url
   }),
 })
+
+export const stateToUpdateCommunityRequest = (
+  state: StateMapper<FilterActionTypes<NewCommunityModel>>,
+  handle: string
+): UpdateCommunityRequest => {
+  return {
+    community_handle: handle,
+    display_name: state.displayName,
+    introduction: state.introduction,
+    website_url: state.websiteUrl,
+  }
+}
 
 export default NewCommunityStore

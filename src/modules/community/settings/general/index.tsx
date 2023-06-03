@@ -1,12 +1,18 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
+import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
+import { updateCommunityApi } from '@/app/api/client/communitiy'
 import Description from '@/modules/community/settings/general/description'
 import DisplayName from '@/modules/community/settings/general/display-name'
 import Logo from '@/modules/community/settings/general/logo'
 import SocialConnection from '@/modules/community/settings/general/social-connections'
-import { VerticalFullWidth } from '@/widgets/orientation'
+import { CommunityStore } from '@/store/local/community'
+import NewCommunityStore, { stateToUpdateCommunityRequest } from '@/store/local/new-community.store'
+import { uploadFileForCommunity } from '@/utils/file'
+import { PositiveButton } from '@/widgets/buttons/button'
+import { HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 
 const VerticalFrame = tw(VerticalFullWidth)`
   w-2/3
@@ -14,8 +20,47 @@ const VerticalFrame = tw(VerticalFullWidth)`
   max-lg:px-6
 `
 
+const HorizontalFullWidthEnd = tw(HorizontalFullWidth)`
+  justify-end
+  items-end
+`
+
 const General: FC = () => {
-  // TODO: Complete this
+  // data
+  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
+  const store = NewCommunityStore.useStore()
+
+  // action
+  const setSelectedCommunity = CommunityStore.useStoreActions(
+    (action) => action.setSelectedCommunity
+  )
+
+  // local state
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const onSaveClicked = async () => {
+    setLoading(true)
+
+    if (avatar) {
+      const result = await uploadFileForCommunity(avatar, community.handle)
+      if (result.error) {
+        toast.error(result.error)
+        return
+      }
+    }
+
+    const state = store.getState()
+
+    const payload = stateToUpdateCommunityRequest(state, community.handle)
+    const result = await updateCommunityApi(payload)
+    if (result.code === 0 && result.data) {
+      toast.success('Community is updaetd successfully')
+      setSelectedCommunity(result.data.community)
+    }
+
+    setLoading(false)
+  }
 
   return (
     <VerticalFrame>
@@ -23,6 +68,11 @@ const General: FC = () => {
       <Description />
       <Logo />
       <SocialConnection />
+      <HorizontalFullWidthEnd>
+        <PositiveButton onClick={onSaveClicked} loading={loading}>
+          Save
+        </PositiveButton>
+      </HorizontalFullWidthEnd>
     </VerticalFrame>
   )
 }

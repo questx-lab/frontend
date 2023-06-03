@@ -1,5 +1,5 @@
 import { uploadCommunityLogo, uploadImageApi } from '@/app/api/client/upload'
-import { ReturnTuple } from '@/utils/type'
+import { ReturnTuple, Rsp, UploadCommunityLogoResponse } from '@/utils/type'
 
 export async function uploadFile(fileUpload: File[]): Promise<ReturnTuple<string>> {
   let formData = new FormData()
@@ -31,10 +31,11 @@ export async function uploadFile(fileUpload: File[]): Promise<ReturnTuple<string
 export async function uploadFileForCommunity(
   file: File,
   communityHandle: string
-): Promise<ReturnTuple<string>> {
+): Promise<Rsp<UploadCommunityLogoResponse>> {
   let formData = new FormData()
   if (file.length === 0) {
     return {
+      code: -2,
       error: 'Must upload file',
     }
   }
@@ -42,17 +43,11 @@ export async function uploadFileForCommunity(
   formData.append('image', file || '')
   formData.append('community_handle', communityHandle)
   try {
-    const data = await uploadCommunityLogo(formData)
-    if (data.error) {
-      return {
-        error: data.error,
-      }
-    }
-    return {
-      value: data?.data?.url || '',
-    }
+    const result = await uploadCommunityLogo(formData)
+    return result
   } catch (error) {
     return {
+      code: -1,
       error: 'Error while upload file',
     }
   }

@@ -2,21 +2,18 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import { ButtonSocialType } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
 import NewCommunityStore from '@/store/local/new-community.store'
 import { Gap } from '@/styles/common.style'
-import { SocialButton } from '@/widgets/buttons/button-social'
 import { TextField } from '@/widgets/form'
-import { Image } from '@/widgets/image'
 import { HorizontalFullWidth, Vertical } from '@/widgets/orientation'
 import { HeaderText3 } from '@/widgets/text'
 
 const LeftColumn = tw(Vertical)`
-  w-1/2
+  w-full
   pr-2
 `
 
+// TODO: Finish linking community's Twitter, Discord page.
 const RightColumn = tw(Vertical)`
   w-1/2
   pl-2
@@ -38,7 +35,9 @@ const SocialConnection: FC = () => {
         <Gap height={6} />
       </LeftColumn>
 
-      <RightColumn>
+      {
+        // TODO: Finish linking community's Twitter, Discord page.
+        /* <RightColumn>
         <HeaderText3>TWITTER</HeaderText3>
         <SocialButton btnType={ButtonSocialType.TWITTER} onClick={() => {}}>
           <Image
@@ -49,7 +48,8 @@ const SocialConnection: FC = () => {
           />
           {'Connect Twitter'}
         </SocialButton>
-      </RightColumn>
+      </RightColumn> */
+      }
     </HorizontalFullWidth>
   )
 }
