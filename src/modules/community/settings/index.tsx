@@ -41,12 +41,19 @@ const CommunitySettings: FC = () => {
       <HeaderText>{'Settings'}</HeaderText>
       <HorizontalBetweenCenterFullWidth>
         <Tab>
-          <TabItem active={tab === TabEnum.GENERAL} onClick={() => setTab(TabEnum.GENERAL)}>
+          <TabItem
+            active={tab === TabEnum.GENERAL}
+            onClick={() => setTab(TabEnum.GENERAL)}
+            tabCount={1}
+          >
             {'GENERAL'}
           </TabItem>
-          <TabItem active={tab === TabEnum.API} onClick={() => setTab(TabEnum.API)}>
+          {
+            // TODO: complete API key tab.
+            /* <TabItem active={tab === TabEnum.API} onClick={() => setTab(TabEnum.API)}>
             {'API KEY'}
-          </TabItem>
+          </TabItem> */
+          }
         </Tab>
       </HorizontalBetweenCenterFullWidth>
       <Gap height={6} />
