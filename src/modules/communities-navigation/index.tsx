@@ -58,9 +58,7 @@ const CommunityItems: FunctionComponent<{
   )
 }
 
-export const CommunitiesNavigation: FunctionComponent<{ isDrawer?: boolean }> = ({
-  isDrawer = false,
-}) => {
+const CommunitiesNavigation: FunctionComponent<{ isDrawer?: boolean }> = ({ isDrawer = false }) => {
   const communitiesCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesCollab
   )
@@ -76,3 +74,5 @@ export const CommunitiesNavigation: FunctionComponent<{ isDrawer?: boolean }> = 
     </Wrap>
   )
 }
+
+export default CommunitiesNavigation
