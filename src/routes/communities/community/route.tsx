@@ -53,9 +53,9 @@ export const Community = () => {
     community: CommunityType
     templates: QuestType[]
   }
-  const community = data.community
 
   // data
+  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const myCommunities: CollaboratorType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesCollab
   )

@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 
+import { useStoreActions } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
@@ -10,6 +11,7 @@ import Logo from '@/modules/community/settings/general/logo'
 import SocialConnection from '@/modules/community/settings/general/social-connections'
 import { CommunityStore } from '@/store/local/community'
 import NewCommunityStore, { stateToUpdateCommunityRequest } from '@/store/local/new-community.store'
+import { GlobalStoreModel } from '@/store/store'
 import { uploadFileForCommunity } from '@/utils/file'
 import { PositiveButton } from '@/widgets/buttons/button'
 import { HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
@@ -35,6 +37,9 @@ const General: FC = () => {
   const setSelectedCommunity = CommunityStore.useStoreActions(
     (action) => action.setSelectedCommunity
   )
+  const updateCommunityCollab = useStoreActions<GlobalStoreModel>(
+    (action) => action.updateCommunityCollab
+  )
 
   // local state
   const [loading, setLoading] = useState<boolean>(false)
@@ -56,7 +61,12 @@ const General: FC = () => {
     const result = await updateCommunityApi(payload)
     if (result.code === 0 && result.data) {
       toast.success('Community is updaetd successfully')
+
+      // update the community store
       setSelectedCommunity(result.data.community)
+
+      // update the project collab so that it updates the navigation logo image
+      updateCommunityCollab(result.data.community)
     }
 
     setLoading(false)

@@ -23,6 +23,7 @@ export interface GlobalStoreModel {
   setUserName: Action<GlobalStoreModel, string>
   setShowLoginModal: Action<GlobalStoreModel, boolean>
   setTemplates: Action<GlobalStoreModel, QuestType[]>
+  updateCommunityCollab: Action<GlobalStoreModel, CommunityType>
 }
 
 // TODO: Make this as a export default
@@ -71,6 +72,21 @@ const store = createStore<GlobalStoreModel>({
 
   setTemplates: action((state, templates) => {
     state.templates = templates
+  }),
+
+  updateCommunityCollab: action((state, community) => {
+    const clone = [...state.communitiesCollab]
+    let found = false
+    for (var collab of clone) {
+      if (collab.community.handle === community.handle) {
+        found = true
+        collab.community = community
+      }
+    }
+
+    if (found) {
+      state.communitiesCollab = clone
+    }
   }),
 })
 
