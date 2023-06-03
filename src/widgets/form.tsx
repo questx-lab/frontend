@@ -139,13 +139,13 @@ const MsgBox: FunctionComponent<{
 
 export const TextField: FunctionComponent<{
   required?: boolean
-  placeholder: string
+  placeholder?: string
   value?: string
   onChange: (e: any) => void
   msg?: string
   isValid?: boolean
   min?: number
-}> = ({ required = false, placeholder, value, onChange, msg = '', isValid, min }) => {
+}> = ({ required = false, placeholder = '', value, onChange, msg = '', isValid, min }) => {
   let danger = required && value === ''
 
   if (min && value) {
