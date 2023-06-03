@@ -16,14 +16,14 @@ export interface NewCommunityModel {
 
   setCommunity: Action<NewCommunityModel, CommunityType>
   setCurrentStep: Action<NewCommunityModel, number>
-  setTitle: Action<NewCommunityModel, string>
-  setDescription: Action<NewCommunityModel, string>
+  setDisplayName: Action<NewCommunityModel, string>
+  setIntroduction: Action<NewCommunityModel, string>
   setInviteCode: Action<NewCommunityModel, string>
   setAvatar: Action<NewCommunityModel, File[]>
   setTwitterUrl: Action<NewCommunityModel, string>
   setWebsiteUrl: Action<NewCommunityModel, string>
   setCreatedCommunityHandle: Action<NewCommunityModel, string>
-  setUrlName: Action<NewCommunityModel, string>
+  setHandle: Action<NewCommunityModel, string>
 }
 
 const NewCommunityStore = createContextStore<NewCommunityModel>({
@@ -46,10 +46,10 @@ const NewCommunityStore = createContextStore<NewCommunityModel>({
   setCurrentStep: action((state, step) => {
     state.currentStep = step
   }),
-  setTitle: action((state, title) => {
+  setDisplayName: action((state, title) => {
     state.displayName = title
   }),
-  setDescription: action((state, description) => {
+  setIntroduction: action((state, description) => {
     state.introduction = description
   }),
   setInviteCode: action((state, code) => {
@@ -70,7 +70,7 @@ const NewCommunityStore = createContextStore<NewCommunityModel>({
     state.createdCommunityHandle = id
   }),
 
-  setUrlName: action((state, url) => {
+  setHandle: action((state, url) => {
     state.logoUrl = url
   }),
 })

@@ -15,7 +15,7 @@ const HandleNameBox: FunctionComponent = () => {
   const [msg, setMsg] = useState<string>('')
   const urlName = NewCommunityStore.useStoreState((state) => state.logoUrl)
 
-  const setUrlName = NewCommunityStore.useStoreActions((action) => action.setUrlName)
+  const setUrlName = NewCommunityStore.useStoreActions((action) => action.setHandle)
 
   // Handler
   const debounced = useDebouncedCallback(async (value: string) => {
@@ -69,8 +69,8 @@ export const BasicInfo: FunctionComponent = () => {
   const description = NewCommunityStore.useStoreState((state) => state.introduction)
 
   //action
-  const setTitle = NewCommunityStore.useStoreActions((action) => action.setTitle)
-  const setDescription = NewCommunityStore.useStoreActions((action) => action.setDescription)
+  const setTitle = NewCommunityStore.useStoreActions((action) => action.setDisplayName)
+  const setDescription = NewCommunityStore.useStoreActions((action) => action.setIntroduction)
 
   return (
     <Main>

@@ -42,10 +42,10 @@ const CommunitySettings: FC = () => {
       <HorizontalBetweenCenterFullWidth>
         <Tab>
           <TabItem active={tab === TabEnum.GENERAL} onClick={() => setTab(TabEnum.GENERAL)}>
-            {'PENDING'}
+            {'GENERAL'}
           </TabItem>
           <TabItem active={tab === TabEnum.API} onClick={() => setTab(TabEnum.API)}>
-            {'HISTORY'}
+            {'API KEY'}
           </TabItem>
         </Tab>
       </HorizontalBetweenCenterFullWidth>

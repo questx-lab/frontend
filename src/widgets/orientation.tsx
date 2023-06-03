@@ -47,6 +47,10 @@ export const HorizontalBetweenCenterFullWidth = tw(Horizontal)`
   w-full
 `
 
+export const HorizontalFullWidth = tw(Horizontal)`
+  w-full
+`
+
 export const Vertical = tw.div`
   flex
   flex-col
