@@ -1,12 +1,13 @@
 import { FunctionComponent } from 'react'
 
 import Dropzone from 'react-dropzone'
+import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
 import NewCommunityStore from '@/store/local/new-community.store'
 import { Image } from '@/widgets/image'
-import { Horizontal } from '@/widgets/orientation'
+import { CameraIcon } from '@heroicons/react/24/outline'
 
 const SectionUploadImg = tw.section`
   border-2
@@ -25,74 +26,76 @@ const UploadInput = tw.input`
   h-full
 `
 
-const UploadImgBox = tw(Horizontal)`
-  items-end
-  gap-3
-`
+const Container = styled.div<{ dimension: number }>(({ dimension }) => {
+  return `
+    position: relative;
+    width: ${dimension}px;
+    height: ${dimension}px;
+  `
+})
 
-const RemoveAvt = tw.button`
-  text-sm
-  text-danger-700
-  py-1
-  rounded-lg
-  border
-  border-solid
-  border
-  border-danger-400
-  bg-danger-100
-  hover:bg-danger-700
-  hover:text-white
-  outline-0
-  px-4
-`
+const Overlay = styled.div<{ dimension: number }>(({ dimension }) => {
+  return `
+    width: ${dimension}px;
+    height: ${dimension}px;
+    background: white;
+    opacity: 0.4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `
+})
 
-export const AvatarUpload: FunctionComponent = () => {
+const Camera = styled(CameraIcon)<{ dimension: number }>(({ dimension }) => {
+  return `
+    width: ${dimension}px;
+    height: ${dimension}px;
+  `
+})
+
+export const AvatarUpload: FunctionComponent<{ imageSize: number }> = ({ imageSize }) => {
   // data
   const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
+  const logoUrl = NewCommunityStore.useStoreState((state) => state.logoUrl)
 
   // action
   const setAvatar = NewCommunityStore.useStoreActions((action) => action.setAvatar)
 
-  // handler
-  const onRemoveImg = () => {
-    setAvatar(undefined)
-  }
-
-  if (avatar) {
-    return (
-      <UploadImgBox>
-        <Image width={100} height={100} src={(avatar as any).preview} alt={'Community avatar'} />
-        <RemoveAvt onClick={onRemoveImg}>{'Remove'}</RemoveAvt>
-      </UploadImgBox>
-    )
-  }
-
   return (
-    <Dropzone
-      onDrop={(acceptedFiles) => {
-        const upFile = acceptedFiles[0]
-        setAvatar(
-          Object.assign(upFile, {
-            preview: URL.createObjectURL(upFile),
-          })
-        )
-      }}
-    >
-      {({ getRootProps, getInputProps }) => (
-        <SectionUploadImg
-          {...getRootProps({
-            className: 'dropzone outline-none cursor-pointer',
-          })}
-        >
-          <UploadInput {...getInputProps()} />
-          <Image
-            width={100}
-            height={100}
-            src={StorageConst.UPLOAD_IMG.src}
-            alt={StorageConst.UPLOAD_IMG.alt}
-          />
-        </SectionUploadImg>
-      )}
-    </Dropzone>
+    <Container dimension={imageSize}>
+      <Image
+        width={imageSize}
+        height={imageSize}
+        src={
+          (avatar && (avatar as any).preview) || (logoUrl && logoUrl) || StorageConst.UPLOAD_IMG.src
+        }
+        alt={StorageConst.UPLOAD_IMG.alt}
+        className='absolute object-cover '
+      />
+
+      <Dropzone
+        onDrop={(acceptedFiles) => {
+          const upFile = acceptedFiles[0]
+          setAvatar(
+            Object.assign(upFile, {
+              preview: URL.createObjectURL(upFile),
+            })
+          )
+        }}
+      >
+        {({ getRootProps, getInputProps }) => (
+          <SectionUploadImg
+            {...getRootProps({
+              className: 'dropzone outline-none cursor-pointer',
+            })}
+          >
+            <UploadInput {...getInputProps()} />
+            <Overlay dimension={imageSize}>
+              <Camera dimension={imageSize / 3} />
+            </Overlay>
+          </SectionUploadImg>
+        )}
+      </Dropzone>
+    </Container>
   )
 }

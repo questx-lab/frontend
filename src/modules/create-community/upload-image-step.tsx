@@ -69,7 +69,7 @@ export const UploadImageStep: FunctionComponent = () => {
   return (
     <Main>
       <LabelInput>{'UPLOAD COMMUNITY IMAGE'}</LabelInput>
-      <AvatarUpload />
+      <AvatarUpload imageSize={100} />
       <PositiveButton isFull={true} loading={loading} onClick={onUploadFile}>
         {buttonText}
       </PositiveButton>

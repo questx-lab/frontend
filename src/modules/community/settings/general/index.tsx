@@ -10,6 +10,7 @@ import Logo from '@/modules/community/settings/general/logo'
 import SocialConnection from '@/modules/community/settings/general/social-connections'
 import { CommunityStore } from '@/store/local/community'
 import NewCommunityStore, { stateToUpdateCommunityRequest } from '@/store/local/new-community.store'
+import { uploadFileForCommunity } from '@/utils/file'
 import { PositiveButton } from '@/widgets/buttons/button'
 import { HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 
@@ -27,6 +28,7 @@ const HorizontalFullWidthEnd = tw(HorizontalFullWidth)`
 const General: FC = () => {
   // data
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
   const store = NewCommunityStore.useStore()
 
   // action
@@ -39,6 +41,15 @@ const General: FC = () => {
 
   const onSaveClicked = async () => {
     setLoading(true)
+
+    if (avatar) {
+      const result = await uploadFileForCommunity(avatar, community.handle)
+      if (result.error) {
+        toast.error(result.error)
+        return
+      }
+    }
+
     const state = store.getState()
 
     const payload = stateToUpdateCommunityRequest(state, community.handle)

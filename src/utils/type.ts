@@ -239,3 +239,7 @@ export type OAuth2VerifyResp = {
     user: UserType
   }
 }
+
+export type UploadCommunityLogoResponse = {
+  url: string
+}
