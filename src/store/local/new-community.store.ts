@@ -1,7 +1,7 @@
 import { action, Action, createContextStore, FilterActionTypes, StateMapper } from 'easy-peasy'
 
 import { NewCommunityStep } from '@/constants/common.const'
-import { CommunityType, ReqUpdateCommunity } from '@/utils/type'
+import { CommunityType, UpdateCommunityRequest } from '@/utils/type'
 
 // TODO: Rename this to EditCommunityModel
 export interface NewCommunityModel {
@@ -79,7 +79,7 @@ const NewCommunityStore = createContextStore<NewCommunityModel>({
 export const stateToUpdateCommunityRequest = (
   state: StateMapper<FilterActionTypes<NewCommunityModel>>,
   handle: string
-): ReqUpdateCommunity => {
+): UpdateCommunityRequest => {
   return {
     community_handle: handle,
     display_name: state.displayName,

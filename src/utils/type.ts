@@ -39,7 +39,7 @@ export type UserType = {
   referral_code?: string
 }
 
-export type ReqUpdateCommunity = {
+export type UpdateCommunityRequest = {
   community_handle: string
   display_name: string
   introduction?: string
@@ -47,6 +47,10 @@ export type ReqUpdateCommunity = {
   discord?: string
   telegram?: string
   website_url?: string
+}
+
+export type UpdateCommunityResponse = {
+  community: CommunityType
 }
 
 export type CollaboratorType = {

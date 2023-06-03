@@ -6,8 +6,9 @@ import {
   ListCommunitiesType,
   OAuth2VerifyResp,
   ReqNewCommunity,
-  ReqUpdateCommunity,
   Rsp,
+  UpdateCommunityRequest,
+  UpdateCommunityResponse,
 } from '@/utils/type'
 
 class CommunityLoader {
@@ -104,7 +105,9 @@ export const updateCommunityDiscord = async (
   return result.data
 }
 
-export const updateCommunityApi = async (data: ReqUpdateCommunity): Promise<Rsp<unknown>> => {
+export const updateCommunityApi = async (
+  data: UpdateCommunityRequest
+): Promise<Rsp<UpdateCommunityResponse>> => {
   const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/updateCommunity', data)
   return rs.data
 }

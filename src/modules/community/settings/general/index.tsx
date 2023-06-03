@@ -29,6 +29,11 @@ const General: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const store = NewCommunityStore.useStore()
 
+  // action
+  const setSelectedCommunity = CommunityStore.useStoreActions(
+    (action) => action.setSelectedCommunity
+  )
+
   // local state
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -38,8 +43,9 @@ const General: FC = () => {
 
     const payload = stateToUpdateCommunityRequest(state, community.handle)
     const result = await updateCommunityApi(payload)
-    if (result.code === 0) {
+    if (result.code === 0 && result.data) {
       toast.success('Community is updaetd successfully')
+      setSelectedCommunity(result.data.community)
     }
 
     setLoading(false)
