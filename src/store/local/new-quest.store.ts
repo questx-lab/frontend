@@ -227,4 +227,4 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   }),
 })
 
-export { NewQuestStore }
+export default NewQuestStore
