@@ -6,6 +6,7 @@ import tw from 'twin.macro'
 
 import { claimRewardApi } from '@/app/api/client/claim'
 import { ClaimedQuestStatus, CommunityRoleEnum, QuestTypeEnum } from '@/constants/common.const'
+import { editQuestRoute } from '@/constants/router.const'
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { CommunityStore } from '@/store/local/community'
 import { uploadFile } from '@/utils/file'
@@ -107,7 +108,7 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   let block = true
 
   const onEdit = () => {
-    navigate(`/quests/${quest.id}/edit`)
+    navigate(editQuestRoute(quest.community.handle))
   }
 
   switch (quest.type) {
@@ -157,14 +158,8 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   }
 
   switch (role) {
-    case CommunityRoleEnum.GUEST:
-      return (
-        <PositiveButton isFull block={block} loading={loading} onClick={onSubmit} requireLogin>
-          {'Claim Reward'}
-        </PositiveButton>
-      )
-
-    default:
+    case CommunityRoleEnum.EDITOR:
+    case CommunityRoleEnum.OWNER:
       return (
         <ButtonFrame>
           <NegativeButton isFull onClick={onEdit}>
@@ -172,6 +167,13 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
           </NegativeButton>
           <DangerButton isFull> {'Delete'} </DangerButton>
         </ButtonFrame>
+      )
+
+    default:
+      return (
+        <PositiveButton isFull block={block} loading={loading} onClick={onSubmit} requireLogin>
+          {'Claim Reward'}
+        </PositiveButton>
       )
   }
 }

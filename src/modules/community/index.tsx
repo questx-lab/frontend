@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
+import { newQuestRoute } from '@/constants/router.const'
 import { Quests } from '@/modules/community/quests'
 import Templates from '@/modules/community/templates'
 import { CreateOrEditQuest } from '@/modules/create-quest'
@@ -88,7 +89,7 @@ export const Index: FunctionComponent = () => {
                 <PositiveButton
                   onClick={() => {
                     setQuest(emptyQuest())
-                    navigate('./create')
+                    navigate(newQuestRoute(community.handle))
                   }}
                 >
                   {'+  Create Quest'}

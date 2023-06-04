@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { RouterConst } from '@/constants/router.const'
+import { communityRoute } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { CommunityType } from '@/utils/type'
 import { Image } from '@/widgets/image'
@@ -102,7 +102,7 @@ const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({ communi
   const navigate = useNavigate()
 
   return (
-    <CommunityBoxWrap onClick={() => navigate(RouterConst.PROJECT + community.handle)}>
+    <CommunityBoxWrap onClick={() => navigate(communityRoute(community.handle))}>
       <Top>
         <ImageProjectBox
           width={60}

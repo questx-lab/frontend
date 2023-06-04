@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { RouterConst } from '@/constants/router.const'
+import { communityRoute } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { CollaboratorType } from '@/utils/type'
 import { CircularImage } from '@/widgets/circular-image'
@@ -38,7 +38,7 @@ export const Item: FunctionComponent<{
       >
         <ActiveAvatar active={active}>
           <CircularImage
-            onClick={() => navigate(RouterConst.PROJECT + collaboration.community.handle)}
+            onClick={() => navigate(communityRoute(collaboration.community.handle))}
             width={45}
             height={45}
             src={collaboration.community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}

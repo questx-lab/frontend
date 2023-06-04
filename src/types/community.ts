@@ -11,7 +11,7 @@ export enum CommunityIndexMode {
   CREATE_QUEST,
 }
 
-export const EmptyCommunity = (): CommunityType => {
+export const emptyCommunity = (): CommunityType => {
   return {
     display_name: '',
     handle: '',

@@ -6,7 +6,18 @@ export enum RouterConst {
   COMMUNITIES = '/communities',
   COMMUNITIES_TRENDING = '/communities/trending',
   CREATE_COMMUNITIES = '/communities/new ',
-  PROJECT = '/communities/',
   USER = '/users/',
   ACCOUNT_SETTING = '/account-setting',
+}
+
+export const communityRoute = (communityHandle: string): string => {
+  return `${RouterConst.COMMUNITIES}/${communityHandle}`
+}
+
+export const newQuestRoute = (communityHandle: string): string => {
+  return `${communityRoute(communityHandle)}/create-quest`
+}
+
+export const editQuestRoute = (communityHandle: string): string => {
+  return `${communityRoute(communityHandle)}/edit-quest`
 }

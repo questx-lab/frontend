@@ -142,7 +142,7 @@ export type ValidationQuest = {
 // TODO: Move this to type/quest.ts
 export interface QuestType {
   id: string
-  community: string
+  community: CommunityType
   category_id?: string
   title: string
   type: string
