@@ -1,6 +1,6 @@
 # Build docker image.
 # Sử dung node
-FROM node:16.14.0 as node
+FROM node:16.14.0 as builder
 
 # Khai báo tham số
 ARG workdir=.
