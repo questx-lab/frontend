@@ -1,52 +1,36 @@
-FROM node:18-alpine AS base
+# Build docker image.
+# Sử dung node
+FROM node:18 as node
 
-# 1. Install dependencies only when needed
-FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+# Khai báo tham số
+ARG workdir=.
+LABEL description="deploy react app"
 
+# Khái báo workdir trong node.
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+# Copy project vào trong workdir của node.
+COPY ${workdir}/ /app/
 
+# Cài đặt các thư viện node liên quan.
+RUN npm install
 
-# 2. Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-# This will do the trick, use the corresponding env file for each environment.
-COPY .env.local .env.production
-RUN yarn build
+# Chạy lệnh build.
+RUN npm run build
 
-# 3. Production image, copy all the files and run next
-FROM base AS runner
-WORKDIR /app
+# Sử dụng nginx
+FROM nginx:1.12
+# Copy folder đã được build vào folder chạy của nginx.
+COPY --from=node /app/build/ /var/www/dist/
 
-ENV NODE_ENV=production
+# Copy file cấu hình chạy cho nginx (file nginx.conf sẽ tạo ở bước tiếp theo)
+COPY --from=node /app/nginx.conf /etc/nginx/nginx.conf
 
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
+# Cài đặt curl cho câu lệnh check HEALTH
+RUN apt-get update && apt-get install -y curl
 
-COPY --from=builder /app/public ./public
+# Kiểm tra trạng thái của container sau khi chạy
+HEALTHCHECK --interval=1m --timeout=3s \
+  CMD curl -f http://localhost || exit 1
 
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-
-USER nextjs
-
-EXPOSE 3000
-
-ENV PORT 3000
-
-CMD ["node", "server.js"]
+CMD ["nginx", "-g", "daemon off;"]
