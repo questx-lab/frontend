@@ -20,7 +20,7 @@ import { Large3xlText } from '@/widgets/text'
 const OuterBoxPadding = tw(Horizontal)`
   w-full
   justify-center
-  pl-10
+  px-8
 `
 
 const FullWidthHeight = tw.div`
@@ -28,11 +28,6 @@ const FullWidthHeight = tw.div`
   h-full
   bg-white
   py-8
-`
-
-const Padding16 = tw.div`
-  w-full
-  px-16
 `
 
 const FullWidthCenter = tw(HorizontalBetweenCenter)`
@@ -72,32 +67,30 @@ export const Index: FunctionComponent = () => {
   return (
     <OuterBoxPadding>
       <FullWidthHeight>
-        <Padding16>
-          <FullWidthCenter>
-            <Large3xlText>Quest</Large3xlText>
-            {canEdit && (
-              // Only shown for owner
-              <ButtonAlignment>
-                <NegativeButton
-                  onClick={() => {
-                    setShowTemplateModal(true)
-                  }}
-                >
-                  {'Use Template'}
-                </NegativeButton>
-                <Gap width={4} />
-                <PositiveButton
-                  onClick={() => {
-                    setQuest(emptyQuest())
-                    navigate(newQuestRoute(community.handle))
-                  }}
-                >
-                  {'+  Create Quest'}
-                </PositiveButton>
-              </ButtonAlignment>
-            )}
-          </FullWidthCenter>
-        </Padding16>
+        <FullWidthCenter>
+          <Large3xlText>Quest</Large3xlText>
+          {canEdit && (
+            // Only shown for owner
+            <ButtonAlignment>
+              <NegativeButton
+                onClick={() => {
+                  setShowTemplateModal(true)
+                }}
+              >
+                {'Use Template'}
+              </NegativeButton>
+              <Gap width={4} />
+              <PositiveButton
+                onClick={() => {
+                  setQuest(emptyQuest())
+                  navigate(newQuestRoute(community.handle))
+                }}
+              >
+                {'+  Create Quest'}
+              </PositiveButton>
+            </ButtonAlignment>
+          )}
+        </FullWidthCenter>
 
         <Gap height={6} />
         {canEdit && <Templates communityHandle={community.handle} />}
