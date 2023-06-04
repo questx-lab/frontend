@@ -229,6 +229,9 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   }),
 })
 
+/**
+ * This converts a store state model to a NewQuest Request to be submitted to server.
+ */
 export const stateToNewQuestRequest = (
   state: StateMapper<FilterActionTypes<NewQuestModel>>,
   questId: string,

@@ -112,7 +112,6 @@ export const Index: FunctionComponent = () => {
         styled={'flex flex-col !justify-start !items-start !w-5/6'}
       >
         <CreateOrEditQuest
-          communityHandle={community?.handle}
           isTemplate
           onQuestCreated={() => {
             setShowTemplateModal(false)

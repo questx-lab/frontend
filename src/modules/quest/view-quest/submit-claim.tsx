@@ -9,6 +9,7 @@ import { ClaimedQuestStatus, CommunityRoleEnum, QuestTypeEnum } from '@/constant
 import { editQuestRoute } from '@/constants/router.const'
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { CommunityStore } from '@/store/local/community'
+import NewQuestStore from '@/store/local/new-quest.store'
 import { uploadFile } from '@/utils/file'
 import { getUserLocal } from '@/utils/helper'
 import { QuestType } from '@/utils/type'
@@ -100,6 +101,9 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   const quizAnswers = ActiveQuestStore.useStoreState((state) => state.quizAnswers)
   const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
 
+  // action
+  const setEditQuest = NewQuestStore.useStoreActions((action) => action.setQuest)
+
   // handler
   const onSubmit = () => {
     handleSubmit(quest, fileUpload, urlSubmit, textSubmit, replyUrlSubmit, quizAnswers, setLoading)
@@ -108,6 +112,7 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   let block = true
 
   const onEdit = () => {
+    setEditQuest(quest)
     navigate(editQuestRoute(quest.community.handle))
   }
 

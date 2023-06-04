@@ -11,6 +11,8 @@ import { AccoutSetting } from '@/routes/account-setting/route'
 import { Index as CommunitiesIndex } from '@/routes/communities'
 import { Index as CreateQuestIndex } from '@/routes/communities/community/create'
 import { CreateQuest } from '@/routes/communities/community/create/route'
+import EditQuestIndex from '@/routes/communities/community/edit-quest'
+import EditQuest from '@/routes/communities/community/edit-quest/route'
 import { ReviewSubmissions } from '@/routes/communities/community/review-submissions/route'
 import { Community, Loader as CommunityLoader } from '@/routes/communities/community/route'
 import { Index as CommunitySettingsIndex } from '@/routes/communities/community/settings'
@@ -54,9 +56,14 @@ const router = createBrowserRouter([
                 children: [{ index: true, element: <CommunitySettingsIndex /> }],
               },
               {
-                path: 'create',
+                path: 'create-quest',
                 element: <CreateQuest />,
                 children: [{ index: true, element: <CreateQuestIndex /> }],
+              },
+              {
+                path: 'edit-quest',
+                element: <EditQuest />,
+                children: [{ index: true, element: <EditQuestIndex /> }],
               },
             ],
           },

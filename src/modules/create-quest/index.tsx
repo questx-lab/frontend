@@ -90,12 +90,12 @@ const handleSubmit = async (
 }
 
 export const CreateOrEditQuest: FunctionComponent<{
-  communityHandle: string
   isTemplate?: boolean
   isEdit?: boolean
   onQuestCreated: () => void
-}> = ({ communityHandle, isTemplate = false, isEdit = false, onQuestCreated }) => {
+}> = ({ isTemplate = false, isEdit = false, onQuestCreated }) => {
   // data
+  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const store = NewQuestStore.useStore()
   const title = NewQuestStore.useStoreState((state) => state.title)
   const description = NewQuestStore.useStoreState((state) => state.description)
@@ -110,10 +110,10 @@ export const CreateOrEditQuest: FunctionComponent<{
   const submitAction = async (submitType: string) => {
     setIsOpen(true)
     try {
-      const result = await handleSubmit(store, communityHandle, submitType, '')
+      const result = await handleSubmit(store, community.handle, submitType, '')
       if (result) {
         // reload the quests list so that it could displayed in the community quest list.
-        const result = await listQuestApi(communityHandle, '')
+        const result = await listQuestApi(community.handle, '')
         if (result.code === 0) {
           setQuests(result.data?.quests || [])
 
@@ -129,11 +129,11 @@ export const CreateOrEditQuest: FunctionComponent<{
     <Horizontal>
       <TemplateGroups show={isTemplate} />
       <EditFrame isTemplate={isTemplate}>
-        <TopLabel isTemplate={isTemplate} />
+        <TopLabel isEdit={isEdit} communityHandle={community.handle} />
 
         <BodyFrame isTemplate={isTemplate}>
           <EditInfoFrame>
-            <QuestFieldsBox title={'QUEST TITLE'} required={true}>
+            <QuestFieldsBox title={'Quest Title'} required={true}>
               <TextField
                 required
                 value={title}
@@ -152,11 +152,11 @@ export const CreateOrEditQuest: FunctionComponent<{
               />
             </QuestFieldsBox>
 
-            <QuestFieldsBox title={'SUBMISSION TYPE'} required={true}>
+            <QuestFieldsBox title={'Submission Type'} required={true}>
               <QuestTypeSelection />
             </QuestFieldsBox>
 
-            <QuestFieldsBox title={'REPEAT'} required={true}>
+            <QuestFieldsBox title={'Repeat'} required={true}>
               <Recurrence />
             </QuestFieldsBox>
 
