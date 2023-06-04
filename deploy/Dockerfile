@@ -13,10 +13,10 @@ WORKDIR /app
 COPY ${workdir}/ /app/
 
 # Cài đặt các thư viện node liên quan.
-RUN npm install
+RUN yarn
 
 # Chạy lệnh build.
-RUN npm run build
+RUN yarn build
 
 # Sử dụng nginx
 FROM nginx:1.12
