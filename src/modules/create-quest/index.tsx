@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { listQuestApi, newQuestApi, updateQuestApi } from '@/app/api/client/quest'
-import { QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
 import ActionButtons from '@/modules/create-quest/action-buttons'
 import Highlighted from '@/modules/create-quest/highlighted'
 import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
@@ -16,9 +15,8 @@ import QuestReward from '@/modules/create-quest/reward'
 import TemplateGroups from '@/modules/create-quest/template-groups'
 import TopLabel from '@/modules/create-quest/top-label'
 import { CommunityStore } from '@/store/local/community'
-import NewQuestStore, { NewQuestModel } from '@/store/local/new-quest.store'
+import NewQuestStore, { NewQuestModel, stateToNewQuestRequest } from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
-import { ReqNewQuestType, ValidationQuest } from '@/utils/type'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
 import { ProgressModal } from '@/widgets/modal'
@@ -63,108 +61,22 @@ const handleSubmit = async (
   status: string,
   questId: string
 ): Promise<boolean> => {
-  const state = store.getState()
-  if (!state.title) {
-    toast.error('Quest title cannot be empty.')
+  const payload = stateToNewQuestRequest(store.getState(), questId, community_handle, status)
+  if (payload.error) {
+    toast.error(payload.error)
     return false
   }
 
-  let type = state.type
-  const validations: ValidationQuest = {}
-
-  switch (state.type) {
-    case QuestTypeEnum.URL:
-      break
-    case QuestTypeEnum.IMAGE:
-      break
-    case QuestTypeEnum.TEXT:
-      validations.auto_validate = state.textAutoValid
-      validations.answer = state.anwser
-      break
-    case QuestTypeEnum.QUIZ:
-      validations.quizzes = state.quizzes.map((e) => ({
-        question: e.question,
-        answers: e.answers,
-        options: e.options,
-      }))
-      break
-    case QuestTypeEnum.VISIT_LINK:
-      validations.link = state.visitLink
-      break
-    case QuestTypeEnum.EMPTY:
-      validations.auto_validate = state.textAutoValid
-      break
-    case QuestTypeEnum.TWITTER:
-      validations.like = false
-      validations.reply = false
-      validations.retweet = false
-      state.actionTwitter.forEach((e) => {
-        switch (e) {
-          case TwitterEnum.FOLLOW:
-            validations.twitter_handle = state.accountUrl
-            type = QuestTypeEnum.TWITTER_FOLLOW
-            break
-          case TwitterEnum.LIKE:
-            validations.tweet_url = state.tweetUrl
-            validations.like = true
-            type = QuestTypeEnum.TWITTER_REACTION
-            break
-          case TwitterEnum.REPLY:
-            validations.reply = true
-            validations.tweet_url = state.tweetUrl
-            type = QuestTypeEnum.TWITTER_REACTION
-
-            break
-          case TwitterEnum.RETWEET:
-            validations.retweet = true
-            validations.tweet_url = state.tweetUrl
-            type = QuestTypeEnum.TWITTER_REACTION
-            break
-          case TwitterEnum.TWEET:
-            validations.included_words = []
-            validations.default_tweet = state.contentTw
-            type = QuestTypeEnum.TWITTER_TWEET
-            break
-          case TwitterEnum.JOIN_SPACE:
-            validations.space_url = state.spaceUrlTw
-            type = QuestTypeEnum.TWITTER_JOIN_SPACE
-            break
-        }
-      })
-
-      break
-    case QuestTypeEnum.DISCORD:
-      validations.invite_link = state.discordLink
-      break
-    case QuestTypeEnum.JOIN_TELEGRAM:
-      validations.invite_link = state.telegramLink
-      break
-    case QuestTypeEnum.INVITES:
-      validations.number = state.invites
-      break
+  if (!payload.data) {
+    return false
   }
 
-  const payload: ReqNewQuestType = {
-    id: questId,
-    community_handle: community_handle,
-    type,
-    title: state.title,
-    description: state.description,
-    categories: [],
-    recurrence: state.recurrence,
-    points: state.pointReward, // Other types of rewards are not supported for now
-    validation_data: validations,
-    condition_op: 'and',
-    conditions: [],
-    status,
-    is_highlight: state.highlighted,
-  }
-
+  const request = payload.data
   try {
     let data
     if (questId && questId !== '') {
-      data = await updateQuestApi(payload)
-    } else data = await newQuestApi(payload)
+      data = await updateQuestApi(request)
+    } else data = await newQuestApi(request)
     if (data.error) {
       toast.error(data.error)
     }
