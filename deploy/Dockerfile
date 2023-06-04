@@ -14,5 +14,7 @@ COPY .env.local .env.production
 RUN yarn
 RUN yarn build
 
+EXPOSE 3000
+
 RUN yarn global add serve
 CMD  ["serve", "-s", "build"]
