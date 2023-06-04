@@ -9,7 +9,7 @@ import { Gap } from '@/styles/common.style'
 import { emptyQuest } from '@/types/quest'
 import { QuestType } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
-import { BasicModal } from '@/widgets/modal'
+import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, Vertical, VerticalCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 

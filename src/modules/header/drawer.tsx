@@ -15,7 +15,7 @@ import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { Divider } from '@/styles/common.style'
 import { Image } from '@/widgets/image'
-import { BaseModal } from '@/widgets/modal'
+import BaseModal from '@/widgets/modal/base'
 import {
   Horizontal,
   HorizontalBetweenCenterFullWidth,

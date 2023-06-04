@@ -13,7 +13,7 @@ import { Gap } from '@/styles/common.style'
 import { ControlPanelTab } from '@/types/community'
 import { emptyQuest } from '@/types/quest'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
-import { BasicModal } from '@/widgets/modal'
+import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
 import { Large3xlText } from '@/widgets/text'
 

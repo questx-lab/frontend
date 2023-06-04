@@ -6,7 +6,7 @@ import QuestCardDetails from '@/modules/quest/quest-card-details'
 import ViewQuest from '@/modules/quest/view-quest'
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { QuestType } from '@/utils/type'
-import { BasicModal } from '@/widgets/modal'
+import BasicModal from '@/widgets/modal/basic'
 
 /**
  * This component allows user to view the quest upon clicking on it.

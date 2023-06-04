@@ -14,6 +14,7 @@ import { uploadFile } from '@/utils/file'
 import { getUserLocal } from '@/utils/helper'
 import { QuestType } from '@/utils/type'
 import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons/button'
+import BasicModal from '@/widgets/modal/basic'
 import { Horizontal } from '@/widgets/orientation'
 
 const ButtonFrame = tw(Horizontal)`
@@ -109,11 +110,17 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     handleSubmit(quest, fileUpload, urlSubmit, textSubmit, replyUrlSubmit, quizAnswers, setLoading)
   }
 
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)
+
   let block = true
 
   const onEdit = () => {
     setEditQuest(quest)
     navigate(editQuestRoute(quest.community.handle))
+  }
+
+  const onDelete = () => {
+    setShowDeleteConfirmation(true)
   }
 
   switch (quest.type) {
@@ -166,12 +173,22 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     case CommunityRoleEnum.EDITOR:
     case CommunityRoleEnum.OWNER:
       return (
-        <ButtonFrame>
-          <NegativeButton isFull onClick={onEdit}>
-            {'Edit'}
-          </NegativeButton>
-          <DangerButton isFull> {'Delete'} </DangerButton>
-        </ButtonFrame>
+        <>
+          <ButtonFrame>
+            <NegativeButton isFull onClick={onEdit}>
+              {'Edit'}
+            </NegativeButton>
+            <DangerButton isFull onClick={onDelete}>
+              {'Delete'}
+            </DangerButton>
+          </ButtonFrame>
+          <BasicModal
+            isOpen={showDeleteConfirmation}
+            onClose={() => setShowDeleteConfirmation(false)}
+          >
+            AAAAA
+          </BasicModal>
+        </>
       )
 
     default:

@@ -11,7 +11,7 @@ import { newQuestRoute, RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
 import { getAccessToken, setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
 import { OAuth2LinkReq } from '@/utils/type'
-import { LoadingModal } from '@/widgets/modal'
+import LoadingModal from '@/widgets/modal/loading'
 
 const DiscordCallback: FC = () => {
   // hook

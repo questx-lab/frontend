@@ -19,7 +19,7 @@ import NewQuestStore, { NewQuestModel, stateToNewQuestRequest } from '@/store/lo
 import { Gap } from '@/styles/common.style'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
-import { ProgressModal } from '@/widgets/modal'
+import ProgressModal from '@/widgets/modal/progress'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { Label } from '@/widgets/text'
 
