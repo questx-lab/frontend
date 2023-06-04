@@ -16,36 +16,36 @@ import { OAuth2LinkReq, SocialType, UserType } from '@/utils/type'
 import { Image } from '@/widgets/image'
 import { useGoogleLogin } from '@react-oauth/google'
 
-const SocialBox = styled.div<{ active?: boolean }>(({ active = false }) => [
-  !active &&
+const SocialBox = styled.div<{ active?: boolean }>(({ active = false }) => {
+  const styles = [
     tw`
-    flex
-    flex-row
-    border
-    border-solid
-    border-gray-300
-    rounded-lg
-    py-2
-    px-4
-    gap-2
-    bg-white
-    justify-center
-    items-center
-    cursor-pointer
-  `,
-  active &&
-    tw`
-    flex
-    flex-row
-    rounded-lg
-    py-2
-    px-4
-    gap-2
-    bg-primary-100
-    justify-center
-    items-center
-  `,
-])
+      flex
+      flex-row
+      border
+      border-solid
+      border-gray-300
+      rounded-lg
+      py-2
+      px-4
+      gap-2
+      bg-white
+      justify-center
+      items-center
+      cursor-pointer
+    `,
+  ]
+
+  if (active) {
+    styles.push(
+      tw`
+          border-0
+          bg-primary-100
+        `
+    )
+  }
+
+  return styles
+})
 
 const SocialText = tw.div`
   max-w-sm
