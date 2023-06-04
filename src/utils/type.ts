@@ -258,3 +258,15 @@ export type OAuth2LinkReq = {
 export type UploadCommunityLogoResponse = {
   url: string
 }
+
+export enum AccoutSettingTabEnum {
+  GENERAL,
+  ACHIEVEMENTS,
+}
+
+export enum SocialType {
+  DISCORD = 'discord',
+  TWITTER = 'twitter',
+  GOOGLE = 'google',
+  METAMASK = 'wallet',
+}

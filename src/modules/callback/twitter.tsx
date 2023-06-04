@@ -50,18 +50,18 @@ const getTwitterOAuthToken = async (code: string) => {
     }
 
     // For login or register new accout
-    const rs = await getTwitterAccessTokenApi(payload)
+    const result = await getTwitterAccessTokenApi(payload)
 
-    if (rs?.error) {
-      toast.error(rs.error)
+    if (result?.error) {
+      toast.error(result.error)
     }
 
-    if (rs?.data) {
-      setAccessToken(rs.data.access_token)
-      setRefreshToken(rs.data.refresh_token)
+    if (result?.data) {
+      setAccessToken(result.data.access_token)
+      setRefreshToken(result.data.refresh_token)
     }
 
-    return rs.data?.user
+    return result.data?.user
   } catch (err) {
     console.error(err)
   }

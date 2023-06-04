@@ -1,24 +1,28 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { SocialDisplay } from '@/constants/common.const'
+import { AccoutSettingTabEnum } from '@/utils/type'
 
-export interface UserStoreModel {
+interface AccountSettingsModel {
   username: string
   inviteCode: string
   metamask: string
   socialDisplay: number
+  tabType: number
 
-  setUsername: Action<UserStoreModel, string>
-  setInviteCode: Action<UserStoreModel, string>
-  setMetaMask: Action<UserStoreModel, string>
-  setSocialDisplay: Action<UserStoreModel, number>
+  setUsername: Action<AccountSettingsModel, string>
+  setInviteCode: Action<AccountSettingsModel, string>
+  setMetaMask: Action<AccountSettingsModel, string>
+  setSocialDisplay: Action<AccountSettingsModel, number>
+  setTabType: Action<AccountSettingsModel, number>
 }
 
-const UserStore = createContextStore<UserStoreModel>({
+const AccountSettingStore = createContextStore<AccountSettingsModel>({
   username: '',
   inviteCode: '',
   metamask: '',
   socialDisplay: SocialDisplay.NONE,
+  tabType: AccoutSettingTabEnum.GENERAL,
 
   setUsername: action((state, username) => {
     state.username = username
@@ -32,6 +36,9 @@ const UserStore = createContextStore<UserStoreModel>({
   setSocialDisplay: action((state, social) => {
     state.socialDisplay = social
   }),
+  setTabType: action((state, tab) => {
+    state.tabType = tab
+  }),
 })
 
-export default UserStore
+export default AccountSettingStore

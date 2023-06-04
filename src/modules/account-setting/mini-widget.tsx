@@ -11,13 +11,6 @@ export const BodyFrame = tw.div`
   divide-gray-200
 `
 
-export enum SocialType {
-  DISCORD = 'discord',
-  TWITTER = 'twitter',
-  GOOGLE = 'google',
-  METAMASK = 'wallet',
-}
-
 export const ButtonBox = tw(Horizontal)`
   w-full
   gap-3
@@ -37,8 +30,3 @@ export const RowBox = tw(Horizontal)`
 export const ColumnBox = tw(Vertical)`
   gap-3
 `
-
-export enum SettingEnum {
-  GENERAL,
-  ACHIEVEMENTS,
-}

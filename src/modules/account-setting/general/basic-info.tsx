@@ -7,11 +7,11 @@ import tw from 'twin.macro'
 import { getUserApi, updateUserApi } from '@/app/api/client/user'
 import { StorageConst } from '@/constants/storage.const'
 import SocialConnect from '@/modules/account-setting/general/social-connect'
-import { ButtonBox, ColumnBox, RowBox, SocialType } from '@/modules/account-setting/mini-widget'
-import { UserStore } from '@/store/local/user.store'
+import { ButtonBox, ColumnBox, RowBox } from '@/modules/account-setting/mini-widget'
+import AccountSettingStore from '@/store/local/account-setting.store'
 import { GlobalStoreModel } from '@/store/store'
 import { setUserLocal } from '@/utils/helper'
-import { UserType } from '@/utils/type'
+import { SocialType, UserType } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
 import { TextField } from '@/widgets/form'
 import { Image } from '@/widgets/image'
@@ -29,7 +29,7 @@ export const ActionUpdate: FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   // data
-  const username = UserStore.useStoreState((state) => state.username)
+  const username = AccountSettingStore.useStoreState((state) => state.username)
 
   // action
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
@@ -70,12 +70,12 @@ export const ActionUpdate: FunctionComponent = () => {
 export const BasicInfo: FunctionComponent = () => {
   // data
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-  const username = UserStore.useStoreState((state) => state.username)
-  const inviteCode = UserStore.useStoreState((state) => state.inviteCode)
+  const username = AccountSettingStore.useStoreState((state) => state.username)
+  const inviteCode = AccountSettingStore.useStoreState((state) => state.inviteCode)
 
   // action
-  const setUsername = UserStore.useStoreActions((action) => action.setUsername)
-  const setInviteCode = UserStore.useStoreActions((action) => action.setInviteCode)
+  const setUsername = AccountSettingStore.useStoreActions((action) => action.setUsername)
+  const setInviteCode = AccountSettingStore.useStoreActions((action) => action.setInviteCode)
 
   // hook
   useEffect(() => {

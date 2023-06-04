@@ -5,9 +5,10 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
-import { SettingEnum } from '@/modules/account-setting/mini-widget'
+import AccountSettingStore from '@/store/local/account-setting.store'
 import { GlobalStoreModel } from '@/store/store'
-import { Image } from '@/widgets/image'
+import { AccoutSettingTabEnum, UserType } from '@/utils/type'
+import { CircularImage } from '@/widgets/circular-image'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { LargeText } from '@/widgets/text'
 
@@ -58,45 +59,41 @@ const SettingItemHorizontal = styled(Horizontal)<{ active?: boolean }>(({ active
   return styled
 })
 
-const ControlPanel: FunctionComponent<{
-  settingActive: number
-  setSettingActive: (value: number) => void
-}> = ({ settingActive, setSettingActive }) => {
-  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+const ControlPanel: FunctionComponent = () => {
+  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+  const tabType = AccountSettingStore.useStoreState((state) => state.tabType)
+  const setTabType = AccountSettingStore.useStoreActions((action) => action.setTabType)
 
   const onClick = (value: number) => {
-    if (settingActive !== value) {
-      setSettingActive(value)
+    if (tabType !== value) {
+      setTabType(value)
     }
   }
 
   return (
     <MainFrame>
       <PersonVertical>
-        <Image
-          className='rounded-full'
-          width={80}
-          height={80}
-          src={StorageConst.USER_DEFAULT.src}
-          alt={'Avatar'}
-        />
+        <CircularImage width={80} height={80} src={StorageConst.USER_DEFAULT.src} alt={'Avatar'} />
         <LargeText>{user && user.name}</LargeText>
       </PersonVertical>
       <SettingVertical>
         <SettingItemHorizontal
-          onClick={() => onClick(SettingEnum.GENERAL)}
-          active={settingActive === SettingEnum.GENERAL}
+          onClick={() => onClick(AccoutSettingTabEnum.GENERAL)}
+          active={tabType === AccoutSettingTabEnum.GENERAL}
         >
           <span>{'👋'}</span>
           <span>{'GENERAL'}</span>
         </SettingItemHorizontal>
-        <SettingItemHorizontal
-          onClick={() => onClick(SettingEnum.ACHIEVEMENTS)}
-          active={settingActive === SettingEnum.ACHIEVEMENTS}
+
+        {/* // TODO: ACHIEVEMENT TAB*/}
+
+        {/* <SettingItemHorizontal
+          onClick={() => onClick(AccoutSettingTabEnum.ACHIEVEMENTS)}
+          active={tabType === AccoutSettingTabEnum.ACHIEVEMENTS}
         >
           <span>{'🎉'}</span>
           <span>{'ACHIEVEMENTS'}</span>
-        </SettingItemHorizontal>
+        </SettingItemHorizontal> */}
       </SettingVertical>
     </MainFrame>
   )

@@ -1,19 +1,22 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent } from 'react'
 
 import tw from 'twin.macro'
 
 import Achievement from '@/modules/account-setting/achievement'
 import ControlPanel from '@/modules/account-setting/control-panel'
 import General from '@/modules/account-setting/general'
-import { SettingEnum } from '@/modules/account-setting/mini-widget'
+import AccountSettingStore from '@/store/local/account-setting.store'
+import { AccoutSettingTabEnum } from '@/utils/type'
 
 const MainFrame = tw.div`
   w-full
   h-full
 `
 
-const RenderContent: FunctionComponent<{ settingActive: number }> = ({ settingActive }) => {
-  if (settingActive === SettingEnum.ACHIEVEMENTS) {
+const RenderContent: FunctionComponent = () => {
+  const tabActive = AccountSettingStore.useStoreState((state) => state.tabType)
+
+  if (tabActive === AccoutSettingTabEnum.ACHIEVEMENTS) {
     return <Achievement />
   }
 
@@ -21,12 +24,12 @@ const RenderContent: FunctionComponent<{ settingActive: number }> = ({ settingAc
 }
 
 export const Index: FunctionComponent = () => {
-  const [settingActive, setSettingActive] = useState<number>(SettingEnum.GENERAL)
-
   return (
     <MainFrame>
-      <ControlPanel settingActive={settingActive} setSettingActive={setSettingActive} />
-      <RenderContent settingActive={settingActive} />
+      <AccountSettingStore.Provider>
+        <ControlPanel />
+        <RenderContent />
+      </AccountSettingStore.Provider>
     </MainFrame>
   )
 }
