@@ -76,10 +76,10 @@ const HeaderBox = tw(Horizontal)`
   items-center
 `
 
-const QuestCard: FunctionComponent<{
+const QuestCardDetails: FunctionComponent<{
   quest: QuestType
   isTemplate?: boolean
-  onClick?: (e: QuestType) => void
+  onClick: (e: QuestType) => void
 }> = ({ quest, isTemplate = false, onClick = () => {} }) => {
   return (
     <BorderBox isTemplate={isTemplate} onClick={() => onClick(quest)}>
@@ -100,4 +100,4 @@ const QuestCard: FunctionComponent<{
   )
 }
 
-export default QuestCard
+export default QuestCardDetails

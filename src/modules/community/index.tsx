@@ -45,7 +45,6 @@ const ButtonAlignment = tw(Horizontal)`
 
 export const Index: FunctionComponent = () => {
   // data
-  const role = CommunityStore.useStoreState((action) => action.role)
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const canEdit = CommunityStore.useStoreState((action) => action.canEdit)
 
@@ -100,10 +99,10 @@ export const Index: FunctionComponent = () => {
         </Padding16>
 
         <Gap height={6} />
-        {canEdit && <Templates />}
+        {canEdit && <Templates communityHandle={community.handle} />}
 
         <Gap height={6} />
-        <Quests show={true} />
+        <Quests show={true} categoryTitle={'All Quests'} />
       </FullWidthHeight>
 
       <BasicModal

@@ -8,7 +8,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import { listQuestApi } from '@/app/api/client/quest'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
-import { Quest } from '@/modules/quest/quest'
+import { QuestCardToView } from '@/modules/quest/quest-card-to-view'
 import { Divider } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
@@ -65,11 +65,13 @@ export const OtherQuests: FunctionComponent<{ quests: QuestType[] }> = ({ quests
   }
 
   return (
-    <QuestsGrid>
-      {quests.map((quest) => (
-        <Quest key={quest.id} quest={quest} />
-      ))}
-    </QuestsGrid>
+    <>
+      <QuestsGrid>
+        {quests.map((quest) => (
+          <QuestCardToView key={quest.id} quest={quest} />
+        ))}
+      </QuestsGrid>
+    </>
   )
 }
 
@@ -126,7 +128,7 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
           renderItemFunc={(quyest: QuestType) => {
             return (
               <MarginTop>
-                <Quest quest={quyest} />
+                <QuestCardToView quest={quyest} />
               </MarginTop>
             )
           }}

@@ -5,7 +5,7 @@ export enum RouterConst {
   EXPLORE = '/explore',
   COMMUNITIES = '/communities',
   COMMUNITIES_TRENDING = '/communities/trending',
-  CREATE_PROJECTS = '/communities/new ',
+  CREATE_COMMUNITIES = '/communities/new ',
   PROJECT = '/communities/',
   USER = '/users/',
   ACCOUNT_SETTING = '/account-setting',
