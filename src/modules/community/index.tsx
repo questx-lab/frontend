@@ -3,7 +3,6 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import { CommunityRoleEnum } from '@/constants/common.const'
 import { Quests } from '@/modules/community/quests'
 import Templates from '@/modules/community/templates'
 import { CreateOrEditQuest } from '@/modules/create-quest'
@@ -48,6 +47,7 @@ export const Index: FunctionComponent = () => {
   // data
   const role = CommunityStore.useStoreState((action) => action.role)
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
+  const canEdit = CommunityStore.useStoreState((action) => action.canEdit)
 
   // action
   const setActiveControlPanelTab = CommunityStore.useStoreActions(
@@ -69,15 +69,13 @@ export const Index: FunctionComponent = () => {
     return <></>
   }
 
-  const isOwner = role === CommunityRoleEnum.OWNER
-
   return (
     <OuterBoxPadding>
       <FullWidthHeight>
         <Padding16>
           <FullWidthCenter>
             <Large3xlText>Quest</Large3xlText>
-            {isOwner && (
+            {canEdit && (
               // Only shown for owner
               <ButtonAlignment>
                 <NegativeButton
@@ -102,7 +100,7 @@ export const Index: FunctionComponent = () => {
         </Padding16>
 
         <Gap height={6} />
-        {isOwner && <Templates />}
+        {canEdit && <Templates />}
 
         <Gap height={6} />
         <Quests show={true} />

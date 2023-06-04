@@ -14,6 +14,7 @@ interface CommunityModel {
   quests: QuestType[]
   searchProjects: CommunityType[]
   role: CommunityRoleEnum
+  canEdit: boolean
   categories: CategoryType[]
   invitedBy: string
   activeControlPanelTab: number
@@ -22,7 +23,7 @@ interface CommunityModel {
   setSelectedCommunity: Action<CommunityModel, CommunityType>
   setQuery: Action<CommunityModel, string>
   setSearchProjects: Action<CommunityModel, CommunityType[]>
-  setRole: Action<CommunityModel, number>
+  setRole: Action<CommunityModel, CommunityRoleEnum>
   setCategories: Action<CommunityModel, CategoryType[]>
   setInviteBy: Action<CommunityModel, string>
   setActiveControlPanelTab: Action<CommunityModel, number>
@@ -35,6 +36,7 @@ const CommunityStore = createContextStore<CommunityModel>({
   query: '',
   searchProjects: [],
   role: CommunityRoleEnum.GUEST,
+  canEdit: false, // can edit community, add/edit quests.
   categories: [],
   invitedBy: '',
   quests: [],
@@ -52,6 +54,11 @@ const CommunityStore = createContextStore<CommunityModel>({
   }),
   setRole: action((state, role) => {
     state.role = role
+    if (role === CommunityRoleEnum.OWNER || role === CommunityRoleEnum.EDITOR) {
+      state.canEdit = true
+    } else {
+      state.canEdit = false
+    }
   }),
   setCategories: action((state, categories) => {
     state.categories = categories

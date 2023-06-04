@@ -161,10 +161,11 @@ export enum AnswerStatusEnum {
 }
 
 export enum CommunityRoleEnum {
-  NONE,
-  GUEST,
-  OWNER,
-  EDITOR,
+  NONE = '',
+  GUEST = 'guest',
+  OWNER = 'owner',
+  EDITOR = 'editor',
+  REVIEWER = 'reviewer',
 }
 
 export enum ButtonSocialType {
