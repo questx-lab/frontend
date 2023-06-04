@@ -17,4 +17,4 @@ RUN yarn build
 EXPOSE 3000
 
 RUN yarn global add serve
-CMD  ["serve", "-s", "build"]
+CMD  ["serve", "-s", "build", "--no-request-logging"]

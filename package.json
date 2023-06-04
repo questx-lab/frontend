@@ -46,7 +46,7 @@
   },
   "scripts": {
     "dev": "GENERATE_SOURCEMAP=false PORT=4000 craco start",
-    "build": "env-cmd -f ./.env.local craco build",
+    "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
     "check-types": "tsc --pretty --noEmit"
