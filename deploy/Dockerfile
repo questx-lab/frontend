@@ -21,6 +21,8 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
+COPY .env.local .env.production
+
 
 RUN yarn
 RUN yarn build
