@@ -20,34 +20,34 @@ export const PrimaryText = styled(HorizontalCenter)<{
   isHover && tw`cursor-pointer`,
 ])
 
-export const LightText = tw.p`
+export const LightText = tw.div`
   text-sm
   text-gray-700
   font-light
   max-sm:text-xl
 `
 
-export const NormalText = tw.p`
+export const NormalText = tw.div`
   text-lg
   text-gray-700
   font-normal
 `
 
-export const MediumText = tw.p`
+export const MediumText = tw.div`
   text-lg
   text-gray-900
   font-medium
   max-sm:text-sm
 `
 
-export const LargeText = tw.p`
+export const LargeText = tw.div`
   text-xl
   text-gray-900
   font-medium
   max-md:text-lg
 `
 
-export const Large2xlText = tw.p`
+export const Large2xlText = tw.div`
   text-2xl
   text-gray-900
   font-medium
@@ -65,7 +65,7 @@ export const Label = tw.div`
   text-gray-900
 `
 
-export const Large3xlText = tw.p`
+export const Large3xlText = tw.div`
   text-3xl
   text-gray-900
   font-medium
@@ -73,14 +73,14 @@ export const Large3xlText = tw.p`
 `
 
 // Used for small description
-export const SmallText = tw.p`
+export const SmallText = tw.div`
   text-sm
   font-normal
   text-gray-700
 `
 
 // Text used with blue underline that opens a link
-export const UnderlinedText = tw.p`
+export const UnderlinedText = tw.div`
   text-primary-500
   underline
   underline-offset-4

@@ -3,13 +3,13 @@ import { FunctionComponent, useState } from 'react'
 import tw from 'twin.macro'
 
 import { SizeEnum } from '@/constants/common.const'
-import QuestCard from '@/modules/quest/quest-card'
+import QuestCardDetails from '@/modules/quest/quest-card-details'
 import NewQuestStore from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { emptyQuest } from '@/types/quest'
 import { QuestType } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
-import { BasicModal } from '@/widgets/modal'
+import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, Vertical, VerticalCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 
@@ -40,7 +40,7 @@ const TemplateGroup: FunctionComponent<{
 
   const questListView = quests.map((quest) => (
     <VerticalFullWidth key={quest.id}>
-      <QuestCard
+      <QuestCardDetails
         quest={quest}
         isTemplate
         onClick={(quest) => {

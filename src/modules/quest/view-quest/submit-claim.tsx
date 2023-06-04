@@ -6,12 +6,15 @@ import tw from 'twin.macro'
 
 import { claimRewardApi } from '@/app/api/client/claim'
 import { ClaimedQuestStatus, CommunityRoleEnum, QuestTypeEnum } from '@/constants/common.const'
+import { editQuestRoute } from '@/constants/router.const'
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { CommunityStore } from '@/store/local/community'
+import NewQuestStore from '@/store/local/new-quest.store'
 import { uploadFile } from '@/utils/file'
 import { getUserLocal } from '@/utils/helper'
 import { QuestType } from '@/utils/type'
 import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons/button'
+import BasicModal from '@/widgets/modal/basic'
 import { Horizontal } from '@/widgets/orientation'
 
 const ButtonFrame = tw(Horizontal)`
@@ -99,15 +102,25 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   const quizAnswers = ActiveQuestStore.useStoreState((state) => state.quizAnswers)
   const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
 
+  // action
+  const setEditQuest = NewQuestStore.useStoreActions((action) => action.setQuest)
+
   // handler
   const onSubmit = () => {
     handleSubmit(quest, fileUpload, urlSubmit, textSubmit, replyUrlSubmit, quizAnswers, setLoading)
   }
 
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)
+
   let block = true
 
   const onEdit = () => {
-    navigate(`/quests/${quest.id}/edit`)
+    setEditQuest(quest)
+    navigate(editQuestRoute(quest.community.handle))
+  }
+
+  const onDelete = () => {
+    setShowDeleteConfirmation(true)
   }
 
   switch (quest.type) {
@@ -157,21 +170,32 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   }
 
   switch (role) {
-    case CommunityRoleEnum.GUEST:
+    case CommunityRoleEnum.EDITOR:
+    case CommunityRoleEnum.OWNER:
       return (
-        <PositiveButton isFull block={block} loading={loading} onClick={onSubmit} requireLogin>
-          {'Claim Reward'}
-        </PositiveButton>
+        <>
+          <ButtonFrame>
+            <NegativeButton isFull onClick={onEdit}>
+              {'Edit'}
+            </NegativeButton>
+            <DangerButton isFull onClick={onDelete}>
+              {'Delete'}
+            </DangerButton>
+          </ButtonFrame>
+          <BasicModal
+            isOpen={showDeleteConfirmation}
+            onClose={() => setShowDeleteConfirmation(false)}
+          >
+            AAAAA
+          </BasicModal>
+        </>
       )
 
     default:
       return (
-        <ButtonFrame>
-          <NegativeButton isFull onClick={onEdit}>
-            {'Edit'}
-          </NegativeButton>
-          <DangerButton isFull> {'Delete'} </DangerButton>
-        </ButtonFrame>
+        <PositiveButton isFull block={block} loading={loading} onClick={onSubmit} requireLogin>
+          {'Claim Reward'}
+        </PositiveButton>
       )
   }
 }

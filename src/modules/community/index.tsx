@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
+import { newQuestRoute } from '@/constants/router.const'
 import { Quests } from '@/modules/community/quests'
 import Templates from '@/modules/community/templates'
 import { CreateOrEditQuest } from '@/modules/create-quest'
@@ -12,14 +13,14 @@ import { Gap } from '@/styles/common.style'
 import { ControlPanelTab } from '@/types/community'
 import { emptyQuest } from '@/types/quest'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
-import { BasicModal } from '@/widgets/modal'
+import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
 import { Large3xlText } from '@/widgets/text'
 
 const OuterBoxPadding = tw(Horizontal)`
   w-full
   justify-center
-  pl-10
+  px-8
 `
 
 const FullWidthHeight = tw.div`
@@ -27,11 +28,6 @@ const FullWidthHeight = tw.div`
   h-full
   bg-white
   py-8
-`
-
-const Padding16 = tw.div`
-  w-full
-  px-16
 `
 
 const FullWidthCenter = tw(HorizontalBetweenCenter)`
@@ -45,7 +41,6 @@ const ButtonAlignment = tw(Horizontal)`
 
 export const Index: FunctionComponent = () => {
   // data
-  const role = CommunityStore.useStoreState((action) => action.role)
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const canEdit = CommunityStore.useStoreState((action) => action.canEdit)
 
@@ -72,38 +67,36 @@ export const Index: FunctionComponent = () => {
   return (
     <OuterBoxPadding>
       <FullWidthHeight>
-        <Padding16>
-          <FullWidthCenter>
-            <Large3xlText>Quest</Large3xlText>
-            {canEdit && (
-              // Only shown for owner
-              <ButtonAlignment>
-                <NegativeButton
-                  onClick={() => {
-                    setShowTemplateModal(true)
-                  }}
-                >
-                  {'Use Template'}
-                </NegativeButton>
-                <Gap width={4} />
-                <PositiveButton
-                  onClick={() => {
-                    setQuest(emptyQuest())
-                    navigate('./create')
-                  }}
-                >
-                  {'+  Create Quest'}
-                </PositiveButton>
-              </ButtonAlignment>
-            )}
-          </FullWidthCenter>
-        </Padding16>
+        <FullWidthCenter>
+          <Large3xlText>Quest</Large3xlText>
+          {canEdit && (
+            // Only shown for owner
+            <ButtonAlignment>
+              <NegativeButton
+                onClick={() => {
+                  setShowTemplateModal(true)
+                }}
+              >
+                {'Use Template'}
+              </NegativeButton>
+              <Gap width={4} />
+              <PositiveButton
+                onClick={() => {
+                  setQuest(emptyQuest())
+                  navigate(newQuestRoute(community.handle))
+                }}
+              >
+                {'+  Create Quest'}
+              </PositiveButton>
+            </ButtonAlignment>
+          )}
+        </FullWidthCenter>
 
         <Gap height={6} />
-        {canEdit && <Templates />}
+        {canEdit && <Templates communityHandle={community.handle} />}
 
         <Gap height={6} />
-        <Quests show={true} />
+        <Quests show={true} categoryTitle={'All Quests'} />
       </FullWidthHeight>
 
       <BasicModal
@@ -112,7 +105,6 @@ export const Index: FunctionComponent = () => {
         styled={'flex flex-col !justify-start !items-start !w-5/6'}
       >
         <CreateOrEditQuest
-          communityHandle={community?.handle}
           isTemplate
           onQuestCreated={() => {
             setShowTemplateModal(false)

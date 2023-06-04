@@ -64,8 +64,6 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
 
     case QuestTypeEnum.EMPTY:
       return <></>
-    // case (QuestTypeEnum.TEXT, QuestTypeEnum.IMAGE, QuestTypeEnum.URL):
-    //   return withText()
     case QuestTypeEnum.DISCORD:
       // return <QuestDiscord link={invite_url || ''} />
       return <></>

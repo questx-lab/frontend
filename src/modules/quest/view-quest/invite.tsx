@@ -35,7 +35,7 @@ export const QuestInvites: FunctionComponent<{ quest: QuestType }> = ({ quest })
     try {
       // TODO: getMyFollowerInfoApi is broken. Checks with backend and remove this comment when it's
       // fixed.
-      const resp = await getMyFollowerInfoApi(quest.community || '')
+      const resp = await getMyFollowerInfoApi(quest.community.handle)
       if (resp.error) {
         toast.error(resp.error)
         return

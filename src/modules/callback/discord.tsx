@@ -7,11 +7,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { updateCommunityDiscord } from '@/app/api/client/communitiy'
 import { linkOAuth2, verifyOAuth2 } from '@/app/api/client/oauth'
 import { getUserApi } from '@/app/api/client/user'
-import { RouterConst } from '@/constants/router.const'
+import { newQuestRoute, RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
 import { getAccessToken, setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
 import { OAuth2LinkReq } from '@/utils/type'
-import { LoadingModal } from '@/widgets/modal'
+import LoadingModal from '@/widgets/modal/loading'
 
 const DiscordCallback: FC = () => {
   // hook
@@ -89,11 +89,7 @@ const DiscordCallback: FC = () => {
           toast.success('Community connect to discord successfull')
         }
 
-        setTimeout(
-          () =>
-            navigate(RouterConst.COMMUNITIES + `/${communityHandle}/create`, { replace: false }),
-          1000
-        )
+        setTimeout(() => navigate(newQuestRoute(communityHandle), { replace: false }), 1000)
       } else {
         const data = await verifyOAuth2('discord', accessToken)
         if (data?.error) {

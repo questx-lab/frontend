@@ -1,11 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { CommunityRoleEnum } from '@/constants/common.const'
-import {
-  CommunityIndexMode,
-  ControlPanelTab,
-  EmptyCommunity as emptyCommunity,
-} from '@/types/community'
+import { CommunityIndexMode, ControlPanelTab, emptyCommunity } from '@/types/community'
 import { CategoryType, CommunityType, QuestType } from '@/utils/type'
 
 interface CommunityModel {

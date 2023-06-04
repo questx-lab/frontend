@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react'
 
 import tw from 'twin.macro'
 
-import { Quest } from '@/modules/quest/quest'
+import { QuestCardToView } from '@/modules/quest/quest-card-to-view'
 import { CommunityStore } from '@/store/local/community'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'
@@ -29,14 +29,15 @@ export const QuestListView: FunctionComponent<{
     return <div>{'There are currently no quests'}</div>
   }
 
-  const questListView = quests.map((quest, index) => <Quest quest={quest} key={index} />)
+  const questListView = quests.map((quest, index) => <QuestCardToView quest={quest} key={index} />)
 
   return <>{questListView}</>
 }
 
 export const Quests: FunctionComponent<{
   show: boolean
-}> = ({ show }) => {
+  categoryTitle: string
+}> = ({ show, categoryTitle }) => {
   const quests = CommunityStore.useStoreState((action) => action.quests)
 
   if (!show) {
@@ -46,7 +47,7 @@ export const Quests: FunctionComponent<{
   return (
     <>
       <VerticalFullWidth>
-        <HeaderText>{'👌 Invite'}</HeaderText>
+        <HeaderText>{categoryTitle}</HeaderText>
         <Gap height={6} />
         <Grid>
           <QuestListView quests={quests} />

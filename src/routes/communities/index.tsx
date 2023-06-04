@@ -8,7 +8,7 @@ import CommunityContent from '@/routes/communities/community-content'
 import NewCommunityStore from '@/store/local/new-community.store'
 import { Divider } from '@/styles/common.style'
 import { MainContent } from '@/widgets/layout/layout-with-left-panel'
-import { BaseModal } from '@/widgets/modal'
+import BaseModal from '@/widgets/modal/base'
 import {
   Horizontal,
   HorizontalBetweenCenterFullWidth,

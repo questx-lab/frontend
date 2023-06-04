@@ -12,7 +12,7 @@ import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
 import { getAccessToken, setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
 import { OAuth2LinkReq, UserType } from '@/utils/type'
-import { LoadingModal } from '@/widgets/modal'
+import LoadingModal from '@/widgets/modal/loading'
 
 // filling up the query parameters needed to request for getting the token
 export const twitterOauthTokenParams = {

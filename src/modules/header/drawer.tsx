@@ -10,12 +10,12 @@ import tw from 'twin.macro'
 import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
-import CommunitiesNavigation from '@/modules/communities-navigation'
+import CommunitiesNavigation from '@/modules/community/communities-navigation'
 import { CommunityStore } from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { Divider } from '@/styles/common.style'
 import { Image } from '@/widgets/image'
-import { BaseModal } from '@/widgets/modal'
+import BaseModal from '@/widgets/modal/base'
 import {
   Horizontal,
   HorizontalBetweenCenterFullWidth,
