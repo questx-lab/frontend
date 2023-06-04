@@ -2,38 +2,26 @@
 # Sử dung node
 FROM node:16.14.0 as builder
 
-# Khai báo tham số
 ARG workdir=.
 LABEL description="deploy react app"
 
-# Khái báo workdir trong node.
 WORKDIR /app
 
-# Copy project vào trong workdir của node.
 COPY ${workdir}/ /app/
 
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
-
 COPY .env.local .env.production
-
 
 RUN yarn
 RUN yarn build
 
+# ----- Runtime layer -----
+FROM nginx:1.23.1
 
+COPY ./deploy/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./deploy/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/build /usr/share/nginx/html
 
-# => Run container
-FROM nginx:1.15.2-alpine
-
-# Static build
-COPY --from=builder /app/build /usr/share/nginx/html/
-
-# Default port exposure
+USER nginx
 EXPOSE 80
+
+CMD [ "nginx", "-g", "daemon off;" ]
