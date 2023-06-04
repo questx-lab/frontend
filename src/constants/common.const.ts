@@ -161,7 +161,7 @@ export enum AnswerStatusEnum {
 }
 
 export enum CommunityRoleEnum {
-  NONE = '',
+  NOT_LOGIN = '',
   GUEST = 'guest',
   OWNER = 'owner',
   EDITOR = 'editor',

@@ -56,9 +56,8 @@ export const Community = () => {
 
   // data
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
-  const myCommunities: CollaboratorType[] = useStoreState<GlobalStoreModel>(
-    (state) => state.communitiesCollab
-  )
+  const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
   // Check if user is the admin of this community
   let collab: CollaboratorType | undefined = undefined
@@ -91,7 +90,11 @@ export const Community = () => {
           break
       }
     } else {
-      setRole(CommunityRoleEnum.GUEST)
+      if (user) {
+        setRole(CommunityRoleEnum.GUEST)
+      } else {
+        setRole(CommunityRoleEnum.NOT_LOGIN)
+      }
     }
   }, [setSelectedCommunity, collab, data.community, data.templates])
 
