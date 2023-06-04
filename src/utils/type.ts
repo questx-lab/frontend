@@ -240,6 +240,33 @@ export type OAuth2VerifyResp = {
   }
 }
 
+export type OAuth2LinkReq = {
+  type: string
+
+  // For Authorization Code flow.
+  access_token?: string
+
+  // For Authorization Code with PKCE flow.
+  code?: string
+  code_verifier?: string
+  redirect_uri?: string
+
+  // For Implicit flow.
+  id_token?: string
+}
+
 export type UploadCommunityLogoResponse = {
   url: string
+}
+
+export enum AccoutSettingTabEnum {
+  GENERAL,
+  ACHIEVEMENTS,
+}
+
+export enum SocialType {
+  DISCORD = 'discord',
+  TWITTER = 'twitter',
+  GOOGLE = 'google',
+  METAMASK = 'wallet',
 }

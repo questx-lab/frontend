@@ -1,9 +1,11 @@
 import { FunctionComponent } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { GlobalStoreModel } from '@/store/store'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
@@ -82,6 +84,8 @@ const OptionxBox = tw.div`
 `
 
 export const UserPopover: FunctionComponent = () => {
+  const navigate = useNavigate()
+
   // data
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
@@ -126,7 +130,7 @@ export const UserPopover: FunctionComponent = () => {
           </OptionxBox>
           <OptionxBox
             onClick={() => {
-              // TODO: Go to settings
+              navigate(RouterConst.ACCOUNT_SETTING)
             }}
           >
             {'Account Setting'}

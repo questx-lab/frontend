@@ -111,3 +111,4 @@ export const updateCommunityApi = async (
   const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/updateCommunity', data)
   return rs.data
 }
+

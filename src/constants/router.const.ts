@@ -8,4 +8,5 @@ export enum RouterConst {
   CREATE_PROJECTS = '/communities/new ',
   PROJECT = '/communities/',
   USER = '/users/',
+  ACCOUNT_SETTING = '/account-setting',
 }

@@ -5,10 +5,12 @@ import toast from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { updateCommunityDiscord } from '@/app/api/client/communitiy'
-import { verifyOAuth2 } from '@/app/api/client/oauth'
+import { linkOAuth2, verifyOAuth2 } from '@/app/api/client/oauth'
+import { getUserApi } from '@/app/api/client/user'
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
-import { setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
+import { getAccessToken, setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
+import { OAuth2LinkReq } from '@/utils/type'
 import { LoadingModal } from '@/widgets/modal'
 
 const DiscordCallback: FC = () => {
@@ -24,14 +26,51 @@ const DiscordCallback: FC = () => {
     const accessToken = searchParams.get('access_token')
     const guildId = searchParams.get('guild_id')
     const communityHandle = searchParams.get('state')
-    if (accessToken) {
+    // AccessToken of user
+    const clientAccessToken = getAccessToken()
+
+    if (clientAccessToken && accessToken) {
+      // For link account
+      linkAccount('discord', accessToken)
+    }
+
+    if (!clientAccessToken && accessToken) {
       if (guildId && communityHandle) {
+        // For discord connect to communitiy
         discordAuth(accessToken, guildId, communityHandle)
       } else {
+        // For login
         discordAuth(accessToken)
       }
     }
   }, [])
+
+  const linkAccount = async (type: string, access_token: string) => {
+    try {
+      const payload: OAuth2LinkReq = {
+        type,
+        access_token,
+      }
+
+      const data = await linkOAuth2(payload)
+      if (data.error) {
+        toast.error(data.error)
+      }
+
+      if (data.code === 0) {
+        toast.success('Link account successful')
+      }
+
+      const user = await getUserApi()
+      if (user.data) {
+        setUserLocal(user.data)
+        setUser(user.data)
+      }
+      setTimeout(() => navigate(RouterConst.ACCOUNT_SETTING, { replace: true }), 3000)
+    } catch (error) {
+      toast.error('Link account was failed')
+    }
+  }
 
   const discordAuth = async (
     accessToken: string,
