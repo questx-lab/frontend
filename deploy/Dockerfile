@@ -16,5 +16,7 @@ RUN yarn build
 
 EXPOSE 3000
 
+ENV PORT 3000
+
 RUN yarn global add serve
 CMD  ["serve", "-s", "build"]
