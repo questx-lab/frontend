@@ -14,14 +14,5 @@ COPY .env.local .env.production
 RUN yarn
 RUN yarn build
 
-# ----- Runtime layer -----
-FROM nginx:1.23.1
-
-COPY ./deploy/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY ./deploy/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/build /usr/share/nginx/html
-
-USER nginx
-EXPOSE 80
-
-CMD [ "nginx", "-g", "daemon off;" ]
+RUN yarn global add serve
+CMD  ["serve", "-s", "build"]
