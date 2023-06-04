@@ -20,6 +20,7 @@
     "base64-arraybuffer": "^1.0.2",
     "cookies-next": "^2.1.1",
     "easy-peasy": "^6.0.0",
+    "env-cmd": "^10.1.0",
     "heroicons": "^2.0.18",
     "html-react-parser": "^3.0.16",
     "jwt-decode": "^3.1.2",
@@ -45,7 +46,7 @@
   },
   "scripts": {
     "dev": "GENERATE_SOURCEMAP=false PORT=4000 craco start",
-    "build": "craco build",
+    "build": "env-cmd -f ./.env.local craco build",
     "test": "craco test",
     "eject": "craco eject",
     "check-types": "tsc --pretty --noEmit"
