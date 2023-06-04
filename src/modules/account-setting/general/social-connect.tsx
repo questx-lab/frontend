@@ -162,8 +162,7 @@ const SocialConnect: FunctionComponent<{
           <SocialText>{`Connect ${type}`}</SocialText>
         </SocialBox>
       )
-
-    default: // Metamask
+    case SocialType.METAMASK: // Metamask
       if (user && user.wallet_address !== '') {
         return (
           <SocialBox active>
@@ -178,6 +177,9 @@ const SocialConnect: FunctionComponent<{
           <SocialText>{`Connect ${type}`}</SocialText>
         </SocialBox>
       )
+
+    default:
+      return <></>
   }
 }
 
