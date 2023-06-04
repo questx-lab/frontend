@@ -2,10 +2,10 @@ name: Build and Deploy to GKE
 
 on:
   push:
-    branches: ['staging', 'production', 'master']
+    branches: ['staging', 'production', 'master', 'benja/new-frontend']
     types: ['closed']
   pull_request:
-    branches: ['staging', 'production', 'master']
+    branches: ['staging', 'production', 'master', 'benja/new-frontend']
     # types: ['closed']
 
 env:
