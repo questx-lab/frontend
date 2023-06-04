@@ -120,14 +120,17 @@ export const UserPopover: FunctionComponent = () => {
           </UserBox>
         </PopItem>
         <PopItem>
-          <OptionxBox>{'My Community'}</OptionxBox>
+          {
+            // TODO: Add back My community & My Profile
+            /* <OptionxBox>{'My Community'}</OptionxBox>
           <OptionxBox
             onClick={() => {
               // TODO: Route to my profile
             }}
           >
             {'My Profile'}
-          </OptionxBox>
+          </OptionxBox> */
+          }
           <OptionxBox
             onClick={() => {
               navigate(RouterConst.ACCOUNT_SETTING)
