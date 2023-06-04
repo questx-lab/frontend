@@ -2,10 +2,10 @@ name: Build and Deploy to GKE
 
 on:
   push:
-    branches: ['staging', 'production']
+    branches: ['staging', 'production', 'master']
     types: ['closed']
   pull_request:
-    branches: ['staging', 'production']
+    branches: ['staging', 'production', 'master']
     # types: ['closed']
 
 env:
@@ -26,7 +26,7 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    environment: ${{ github.base_ref }}
+    environment: staging
 
     runs-on: ubuntu-latest
     steps:
