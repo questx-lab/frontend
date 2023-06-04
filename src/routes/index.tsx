@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { CommunityStore } from '@/store/local/community'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest.store'
 
 export const HomePage: FunctionComponent = () => {
   return (

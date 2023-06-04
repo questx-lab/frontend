@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 
 import { SubtypeBox } from '@/modules/create-quest/quest-type/mini-widget'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest.store'
 import { TextField } from '@/widgets/form'
 
 const JoinTelegarm: FunctionComponent = () => {

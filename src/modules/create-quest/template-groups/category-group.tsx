@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 
 import { SizeEnum } from '@/constants/common.const'
 import QuestCard from '@/modules/quest/quest-card'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { emptyQuest } from '@/types/quest'
 import { QuestType } from '@/utils/type'

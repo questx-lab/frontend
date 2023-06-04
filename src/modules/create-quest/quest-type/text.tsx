@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react'
 import tw from 'twin.macro'
 
 import { OuterBox } from '@/modules/create-quest/quest-type/mini-widget'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
 import { TextField } from '@/widgets/form'
 import { CheckBox } from '@/widgets/input'

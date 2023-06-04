@@ -2,7 +2,7 @@
 
 import { QuestTypeEnum, QuestTypeStringMap } from '@/constants/common.const'
 import QuestType from '@/modules/create-quest/quest-type'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest.store'
 import TypesSelection from '@/widgets/types-selection'
 
 const QuestTypeSelection = () => {

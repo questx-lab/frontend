@@ -6,7 +6,7 @@ import { CommunityRoleEnum } from '@/constants/common.const'
 import QuestCard from '@/modules/quest/quest-card'
 import ViewQuest from '@/modules/quest/view-quest'
 import { CommunityStore } from '@/store/local/community'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest.store'
 import { QuestType } from '@/utils/type'
 import { BasicModal } from '@/widgets/modal'
 

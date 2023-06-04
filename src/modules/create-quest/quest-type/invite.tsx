@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react'
 import tw from 'twin.macro'
 
 import { SubtypeBox } from '@/modules/create-quest/quest-type/mini-widget'
-import { NewQuestStore } from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest.store'
 
 const InputInviteBox = tw.input`
   w-full
