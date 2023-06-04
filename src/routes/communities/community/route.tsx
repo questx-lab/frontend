@@ -56,15 +56,17 @@ export const Community = () => {
 
   // data
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
-  const myCommunities: CollaboratorType[] = useStoreState<GlobalStoreModel>(
-    (state) => state.communitiesCollab
-  )
+  const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
   // Check if user is the admin of this community
-  const filter =
-    myCommunities &&
-    myCommunities.filter((collaboration) => collaboration.community.handle === community.handle)
-
-  const isOwner = filter && filter.length > 0
+  let collab: CollaboratorType | undefined = undefined
+  for (let communityCollab of myCommunities) {
+    if (communityCollab.community.handle === community.handle) {
+      collab = communityCollab
+      break
+    }
+  }
 
   // action
   const setRole = CommunityStore.useStoreActions((action) => action.setRole)
@@ -79,13 +81,22 @@ export const Community = () => {
     setSelectedCommunity(data.community)
     loadQuests()
 
-    if (isOwner) {
-      setRole(CommunityRoleEnum.OWNER)
-      setTemplates(data.templates)
+    if (collab) {
+      switch (collab.name) {
+        case CommunityRoleEnum.OWNER:
+        case CommunityRoleEnum.EDITOR:
+          setRole(collab.name)
+          setTemplates(data.templates)
+          break
+      }
     } else {
-      setRole(CommunityRoleEnum.GUEST)
+      if (user) {
+        setRole(CommunityRoleEnum.GUEST)
+      } else {
+        setRole(CommunityRoleEnum.NOT_LOGIN)
+      }
     }
-  }, [setSelectedCommunity, data.community, isOwner, data.templates])
+  }, [setSelectedCommunity, collab, data.community, data.templates])
 
   if (!community) {
     return <>Failed to load community data</>
@@ -103,8 +114,8 @@ export const Community = () => {
 
   return (
     <>
-      <ControlPanel community={community} show={isOwner} />
-      <PaddingLeft hasPanel={isOwner}>
+      <ControlPanel community={community} show={canEdit} />
+      <PaddingLeft hasPanel={canEdit}>
         <Outlet />
       </PaddingLeft>
     </>

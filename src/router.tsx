@@ -6,6 +6,8 @@ import DiscordCallback from '@/modules/callback/discord'
 import TwitterCallback from '@/modules/callback/twitter'
 import { Index as CommunityIndex } from '@/modules/community'
 import { Index as ReviewSubmissionIndex } from '@/modules/review-submissions'
+import { Index as AccountSettingIndex } from '@/routes/account-setting/index'
+import { AccoutSetting } from '@/routes/account-setting/route'
 import { Index as CommunitiesIndex } from '@/routes/communities'
 import { Index as CreateQuestIndex } from '@/routes/communities/community/create'
 import { CreateQuest } from '@/routes/communities/community/create/route'
@@ -76,6 +78,11 @@ const router = createBrowserRouter([
             children: [{ index: true, element: <TrendingQuestsIndex /> }],
           },
         ],
+      },
+      {
+        path: 'account-setting',
+        element: <AccoutSetting />,
+        children: [{ index: true, element: <AccountSettingIndex /> }],
       },
     ],
   },

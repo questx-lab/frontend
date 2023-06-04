@@ -28,7 +28,6 @@ export const ModalBox = tw(HorizontalCenter)`
   h-full
   items-center
   justify-center
-  text-center
   py-6
 `
 
@@ -52,7 +51,6 @@ export const ModalContent = styled(Dialog.Panel)(
   max-xl:w-2/3
   h-full
   bg-white
-  text-center
   align-middle
   overflow-y-scroll
   shadow-xl
@@ -70,7 +68,6 @@ const CenterWrap = tw.div`
   h-full
   items-center
   justify-center
-  text-center
 `
 const DialogPannel = styled(Dialog.Panel)(
   tw`

@@ -144,7 +144,12 @@ export const CreateOrEditQuest: FunctionComponent<{
               <Gap />
 
               <Label>{'QUEST DESCRIPTION'}</Label>
-              <Editor onChange={(value) => setDescription(value)} value={description} />
+              <Editor
+                onChange={(value) => {
+                  setDescription(value)
+                }}
+                value={description}
+              />
             </QuestFieldsBox>
 
             <QuestFieldsBox title={'SUBMISSION TYPE'} required={true}>
