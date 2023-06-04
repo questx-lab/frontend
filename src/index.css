@@ -22,11 +22,13 @@ code {
   font-weight: 700;
 }
 
+/* Firefox */
+
 * {
   scrollbar-width: 5px;
   scrollbar-color: #1f2937;
 }
-
+/* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
   width: 0px;
   height: 0px;

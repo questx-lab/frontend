@@ -12,25 +12,44 @@ WORKDIR /app
 # Copy project vào trong workdir của node.
 COPY ${workdir}/ /app/
 
-# Cài đặt các thư viện node liên quan.
-RUN yarn
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-# Chạy lệnh build.
+
+RUN yarn
 RUN yarn build
 
-# Sử dụng nginx
-FROM nginx:1.12
-# Copy folder đã được build vào folder chạy của nginx.
-COPY --from=node /app/build/ /var/www/dist/
 
-# Copy file cấu hình chạy cho nginx (file nginx.conf sẽ tạo ở bước tiếp theo)
-COPY --from=node /app/nginx.conf /etc/nginx/nginx.conf
 
-# Cài đặt curl cho câu lệnh check HEALTH
-RUN apt-get update && apt-get install -y curl
+# => Run container
+FROM nginx:1.15.2-alpine
 
-# Kiểm tra trạng thái của container sau khi chạy
-HEALTHCHECK --interval=1m --timeout=3s \
-  CMD curl -f http://localhost || exit 1
+# Nginx config
+RUN rm -rf /etc/nginx/conf.d
+COPY conf /etc/nginx
 
-CMD ["nginx", "-g", "daemon off;"]
+# Static build
+COPY --from=builder /app/build /usr/share/nginx/html/
+
+# Default port exposure
+EXPOSE 80
+
+# Copy .env file and shell script to container
+WORKDIR /usr/share/nginx/html
+COPY ./env.sh .
+COPY .env .
+
+# Add bash
+RUN apk add --no-cache bash
+
+# Make our shell script executable
+RUN chmod +x env.sh
+
+# Start Nginx server
+CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
