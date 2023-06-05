@@ -58,7 +58,7 @@ const RowItem: FunctionComponent<{
   return (
     <Vertical>
       <HorizontalBetweenCenterFullWidth>
-        <Row active={false}>
+        <Row>
           <FullWidth>
             <Details
               onClick={() => {

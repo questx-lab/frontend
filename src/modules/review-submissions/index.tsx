@@ -1,8 +1,10 @@
 import { FunctionComponent } from 'react'
 
+import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { TabReviewEnum } from '@/constants/common.const'
+import { listClaimedQuestsApi } from '@/app/api/client/claim'
+import { ClaimedQuestStatus, TabReviewEnum } from '@/constants/common.const'
 import ClaimReview from '@/modules/review-submissions/claim-review'
 import HistoryTab from '@/modules/review-submissions/history'
 import PendingTab from '@/modules/review-submissions/pending'
@@ -10,6 +12,7 @@ import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CommunityStore } from '@/store/local/community'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { Gap } from '@/styles/common.style'
+import { ClaimQuestType } from '@/utils/type'
 import BasicModal from '@/widgets/modal/basic'
 import {
   HorizontalBetweenCenterFullWidth,
@@ -35,6 +38,22 @@ const ContentPadding = tw(Vertical)`
   max-lg:px-6
   w-full
 `
+
+export const getListClaimQuest = async (
+  communityHandle: string,
+  filterQuest: string = ClaimedQuestStatus.ALL,
+  onAction: (action: ClaimQuestType[]) => void,
+  filterQuestIds?: string[]
+) => {
+  try {
+    const data = await listClaimedQuestsApi(communityHandle, filterQuest, filterQuestIds ?? [])
+    if (data.error) {
+      toast.error(data.error)
+    } else {
+      onAction(data.data?.claimed_quests!)
+    }
+  } catch (error) {}
+}
 
 export const Index: FunctionComponent = () => {
   // data

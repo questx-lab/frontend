@@ -1,66 +1,44 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState } from 'react'
 
-import styled from 'styled-components'
-import tw from 'twin.macro'
+import { toast } from 'react-hot-toast'
 
 import { updateAllClaimedQuestApi } from '@/app/api/client/quest'
-import { ClaimedQuestStatus, ReviewBtnEnum } from '@/constants/common.const'
+import { ClaimedQuestStatus } from '@/constants/common.const'
+import { getListClaimQuest } from '@/modules/review-submissions'
 import { ButtonBox, ButtonFrame } from '@/modules/review-submissions/mini-widget'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
-
-const ActionButton = styled.button<{ btnType?: number }>(({ btnType = ReviewBtnEnum.ACCEPT }) => {
-  switch (btnType) {
-    case ReviewBtnEnum.REJECT:
-      return tw`
-        py-2
-        border
-        border-danger-500
-        border-solid
-        rounded-lg
-        text-sm
-        font-medium
-        text-danger-700
-        w-full
-        bg-danger-50
-        hover:bg-danger-500
-        hover:text-white
-      `
-    case ReviewBtnEnum.ACCEPT:
-      return tw`
-        py-2
-        border
-        border-success-500
-        border-solid
-        bg-success-50
-        rounded-lg
-        text-sm
-        font-medium
-        text-success-700
-        w-full
-        hover:bg-success-500
-        hover:text-white
-      `
-    default:
-      return tw``
-  }
-})
+import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons/button'
 
 const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
+  const [acceptLoading, setAcceptLoading] = useState<boolean>(false)
+  const [rejectLoading, setRejectLoading] = useState<boolean>(false)
+
   // data
   const selectedPendings = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
   const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
   const selectedFilteredQuests = NewQuestSearchStore.useStoreState((state) => state.selectedQuest)
 
   // action
-  const setLoading = NewClaimReviewStore.useStoreActions((actions) => actions.setLoading)
+  const setPendingClaims = NewClaimReviewStore.useStoreActions(
+    (actions) => actions.setPendingClaims
+  )
+  const setShowClaimDetails = NewClaimReviewStore.useStoreActions(
+    (actions) => actions.setShowClaimDetails
+  )
 
   if (!selectedPendings.size) {
     return <></>
   }
-
+  console.log('selectedPendings', selectedPendings)
   // handler
   const updateClaimQuest = async (status: ClaimedQuestStatus) => {
+    if (status === ClaimedQuestStatus.REJECTED) {
+      setRejectLoading(true)
+    } else {
+      setAcceptLoading(true)
+    }
+
     // filter to get excluded claims
     const excluded = pendingClaims
       .filter((claim) => !selectedPendings.has(claim.id))
@@ -68,32 +46,55 @@ const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communi
 
     const filteredQuestIds = selectedFilteredQuests.map((quest) => quest.id)
 
-    await updateAllClaimedQuestApi(status, communityHandle, filteredQuestIds, [], excluded)
-  }
+    try {
+      const rs = await updateAllClaimedQuestApi(
+        status,
+        communityHandle,
+        filteredQuestIds,
+        [],
+        excluded
+      )
+      if (rs.error) {
+        toast.error(rs.error)
+      }
+      if (rs.data) {
+        await getListClaimQuest(communityHandle, ClaimedQuestStatus.PENDING, setPendingClaims, [])
 
-  const onSubmit = (status: ClaimedQuestStatus) => {
-    setLoading(true)
-    updateClaimQuest(status)
-    setLoading(false)
+        toast.success('Successful')
+        setShowClaimDetails(false)
+      }
+    } catch (error) {
+      toast.error('Can not change submit review')
+    } finally {
+      if (status === ClaimedQuestStatus.REJECTED) {
+        setRejectLoading(false)
+      } else {
+        setAcceptLoading(false)
+      }
+    }
   }
 
   return (
     <ButtonFrame>
       <ButtonBox>
-        <ActionButton
-          onClick={() => onSubmit(ClaimedQuestStatus.REJECTED)}
-          btnType={ReviewBtnEnum.REJECT}
+        <PositiveButton
+          onClick={() => updateClaimQuest(ClaimedQuestStatus.REJECTED)}
+          loading={rejectLoading}
+          isFull
+          type={ButtonTypeEnum.DANGEROUS_BORDER}
         >
           {'Reject'}
-        </ActionButton>
-        <ActionButton
+        </PositiveButton>
+        <PositiveButton
           onClick={() => {
-            return onSubmit(ClaimedQuestStatus.ACCEPTED)
+            return updateClaimQuest(ClaimedQuestStatus.ACCEPTED)
           }}
-          btnType={ReviewBtnEnum.ACCEPT}
+          loading={acceptLoading}
+          isFull
+          type={ButtonTypeEnum.SUCCESS_BORDER}
         >
           {'Accept'}
-        </ActionButton>
+        </PositiveButton>
       </ButtonBox>
     </ButtonFrame>
   )
