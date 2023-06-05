@@ -9,4 +9,6 @@ export const GrayBorderBox = tw.div`
 
 export const RoundedGrayBorderBox = tw(GrayBorderBox)`
   rounded-lg
+  w-full
+  py-6
 `

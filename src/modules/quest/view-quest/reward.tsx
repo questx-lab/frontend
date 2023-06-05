@@ -27,9 +27,7 @@ const QuestReward: FunctionComponent<{
         <Label>{'REWARD'}</Label>
         <RewardRow>
           <Image width={40} height={40} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
-          <RewardText>
-            {`${quest.rewards?.length && quest.rewards[0].data.points} Points`}
-          </RewardText>
+          <RewardText>{`${quest.points} Points`}</RewardText>
         </RewardRow>
         <SubmitClaim quest={quest} />
       </BorderBox>

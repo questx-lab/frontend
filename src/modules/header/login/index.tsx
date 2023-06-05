@@ -5,13 +5,12 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { AuthEnum } from '@/constants/common.const'
+import ChooseUserName from '@/modules/header/login/choose-username'
+import LoginBox from '@/modules/header/login/login-box'
 import { GlobalStoreModel } from '@/store/store'
 import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-
-import ChooseUserName from './choose-username'
-import LoginBox from './login-box'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
@@ -77,6 +76,7 @@ export const SocialBox = tw(Horizontal)`
   text-gray-900
   py-2
   hover:bg-gray-100
+  bg-white
 `
 
 export const Description = tw.div`

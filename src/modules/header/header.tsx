@@ -9,14 +9,13 @@ import tw from 'twin.macro'
 import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
+import Drawer from '@/modules/header/drawer'
 import { UserInfoBox } from '@/modules/header/user-info'
 import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { Bars3Icon } from '@heroicons/react/24/outline'
-
-import Drawer from './drawer'
 
 const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
   tw`

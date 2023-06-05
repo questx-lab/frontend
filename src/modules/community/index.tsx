@@ -68,7 +68,7 @@ export const Index: FunctionComponent = () => {
     <OuterBoxPadding>
       <FullWidthHeight>
         <FullWidthCenter>
-          <Large3xlText>Quest</Large3xlText>
+          <Large3xlText>{'Quests'}</Large3xlText>
           {canEdit && (
             // Only shown for owner
             <ButtonAlignment>
@@ -91,12 +91,8 @@ export const Index: FunctionComponent = () => {
             </ButtonAlignment>
           )}
         </FullWidthCenter>
-
-        <Gap height={6} />
         {canEdit && <Templates communityHandle={community.handle} />}
-
-        <Gap height={6} />
-        <Quests show={true} categoryTitle={'All Quests'} />
+        <Quests show={true} categoryTitle={''} />
       </FullWidthHeight>
 
       <BasicModal

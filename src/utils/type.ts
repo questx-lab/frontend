@@ -35,6 +35,7 @@ export type UserType = {
     discord?: string
     twitter?: string
     google?: string
+    telegram?: string
   }
   is_new_user?: boolean
   role?: string
@@ -130,6 +131,7 @@ export type ValidationQuest = {
   link?: string
   included_words?: string[]
   default_tweet?: string
+  default_reply?: string
   twitter_handle?: string
   tweet_url?: string
   retweet?: boolean
@@ -137,6 +139,7 @@ export type ValidationQuest = {
   like?: boolean
   space_url?: string
   invite_link?: string
+  group_link?: string
   number?: number
   quizzes?: QuestQuizType[]
 }
@@ -164,7 +167,7 @@ export interface QuestType {
     retweet?: boolean
     default_reply?: string
     link?: string
-    invite_url?: string
+    invite_link?: string
     twitter_handle?: string
     default_tweet?: string
     auto_validate?: boolean
@@ -172,6 +175,7 @@ export interface QuestType {
     space_url?: string
     number?: number
     quizzes?: QuestQuizType[]
+    group_link?: string
   }
 }
 
@@ -255,6 +259,15 @@ export type OAuth2LinkReq = {
 
   // For Implicit flow.
   id_token?: string
+}
+
+export type TelegramAuthType = {
+  id: string
+  first_name?: string
+  last_name?: string
+  username?: string
+  auth_date?: number
+  hash?: string
 }
 
 export type UploadCommunityLogoResponse = {

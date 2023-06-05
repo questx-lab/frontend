@@ -58,7 +58,7 @@ const Description = tw.div`
   max-lg:text-sm
   overflow-hidden
   text-ellipsis
-  line-clamp-3
+  line-clamp-6
 `
 
 const Body = tw(Horizontal)`

@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 
+import { useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
@@ -10,9 +11,9 @@ import { editQuestRoute } from '@/constants/router.const'
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { CommunityStore } from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest.store'
+import { GlobalStoreModel } from '@/store/store'
 import { uploadFile } from '@/utils/file'
-import { getUserLocal } from '@/utils/helper'
-import { QuestType } from '@/utils/type'
+import { QuestType, UserType } from '@/utils/type'
 import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons/button'
 import BasicModal from '@/widgets/modal/basic'
 import { Horizontal } from '@/widgets/orientation'
@@ -50,6 +51,7 @@ const handleSubmit = async (
       break
     case QuestTypeEnum.QUIZ:
       inp = JSON.stringify({ answers: quizAnswers })
+
       break
     case QuestTypeEnum.TWITTER_REACTION:
       inp = replyUrlSubmit
@@ -60,6 +62,12 @@ const handleSubmit = async (
     default:
       break
   }
+
+  if (quest.type === QuestTypeEnum.IMAGE && inp === '') {
+    setLoading(false)
+    return
+  }
+
   try {
     const data = await claimRewardApi({
       quest_id: quest?.id,
@@ -101,6 +109,9 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   const replyUrlSubmit = ActiveQuestStore.useStoreState((state) => state.replyUrlSubmit)
   const quizAnswers = ActiveQuestStore.useStoreState((state) => state.quizAnswers)
   const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
+  const telegramSubmit = ActiveQuestStore.useStoreState((state) => state.telegramSubmit)
+
+  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
   // action
   const setEditQuest = NewQuestStore.useStoreActions((action) => action.setQuest)
@@ -160,8 +171,18 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     case QuestTypeEnum.TWITTER_JOIN_SPACE:
     case QuestTypeEnum.TWITTER_REACTION:
     case QuestTypeEnum.TWITTER_TWEET:
-      const user = getUserLocal()
       if (user && user.services && user.services.twitter) {
+        block = false
+      }
+      break
+    case QuestTypeEnum.DISCORD:
+      if (user && user.services && user.services.discord) {
+        block = false
+      }
+      break
+
+    case QuestTypeEnum.JOIN_TELEGRAM:
+      if (telegramSubmit) {
         block = false
       }
       break
