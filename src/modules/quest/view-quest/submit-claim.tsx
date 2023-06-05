@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import { claimRewardApi } from '@/app/api/client/claim'
+import { claimRewardApi } from '@/api/claim'
 import { ClaimedQuestStatus, CommunityRoleEnum, QuestTypeEnum } from '@/constants/common.const'
 import { editQuestRoute } from '@/constants/router.const'
 import { ActiveQuestStore } from '@/store/local/active-quest'

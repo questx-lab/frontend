@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 import tw from 'twin.macro'
 
-import { getUserApi } from '@/app/api/client/user'
+import { getUserApi } from '@/api/user'
 import { ButtonSocialType, ColorEnum } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import { StorageConst } from '@/constants/storage.const'

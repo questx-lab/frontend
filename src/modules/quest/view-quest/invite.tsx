@@ -4,7 +4,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { getMyFollowerInfoApi } from '@/app/api/client/communitiy'
+import { getMyFollowerInfoApi } from '@/api/communitiy'
 import { QuestTypeEnum } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import { StorageConst } from '@/constants/storage.const'

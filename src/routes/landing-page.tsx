@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { listCommunitiesApi } from '@/app/api/client/communitiy'
+import { listCommunitiesApi } from '@/api/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/modules/community/community-box'

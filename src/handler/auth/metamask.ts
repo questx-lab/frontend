@@ -2,7 +2,7 @@ import { toast } from 'react-hot-toast'
 import Web3 from 'web3'
 import { provider } from 'web3-core'
 
-import { linkWalletApi, loginMetamask, verifyMetaMask } from '@/app/api/client/wallet'
+import { linkWalletApi, loginMetamask, verifyMetaMask } from '@/api/wallet'
 import { RouterConst } from '@/constants/router.const'
 import { setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
 import detectEthereumProvider from '@metamask/detect-provider'

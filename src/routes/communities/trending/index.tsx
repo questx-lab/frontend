@@ -2,7 +2,7 @@ import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
 
-import { listCommunitiesApi } from '@/app/api/client/communitiy'
+import { listCommunitiesApi } from '@/api/communitiy'
 import { OtherCommunities } from '@/routes/homepage'
 import { CommunityType } from '@/utils/type'
 import Trending from '@/widgets/trending'

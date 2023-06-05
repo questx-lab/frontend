@@ -1,7 +1,7 @@
 import { Mutex } from 'async-mutex'
 import axios, { AxiosError } from 'axios'
 
-import { refreshTokenApi } from '@/app/api/client/user'
+import { refreshTokenApi } from '@/api/user'
 import { ErrorCodes } from '@/constants/code.const'
 import { EnvVariables } from '@/constants/env.const'
 import {

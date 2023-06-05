@@ -1,4 +1,4 @@
-import { api } from '@/app/api/config/api'
+import { api } from '@/api/interceptor'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import { ListClaimQuestType, ReqClaimReward, Rsp } from '@/utils/type'

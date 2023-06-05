@@ -1,4 +1,4 @@
-import { verifyOAuth2 } from '@/app/api/client/oauth'
+import { verifyOAuth2 } from '@/api/oauth'
 import { ReturnTuple } from '@/utils/type'
 
 import { setAccessToken, setRefreshToken, setUserLocal } from './helper'

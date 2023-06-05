@@ -2,7 +2,7 @@ import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 
-import { listClaimedQuestsApi } from '@/app/api/client/claim'
+import { listClaimedQuestsApi } from '@/api/claim'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import Filter from '@/modules/review-submissions/filter'
 import TableHeader from '@/modules/review-submissions/history/header'

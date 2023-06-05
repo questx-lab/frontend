@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
 
-import { listQuestApi } from '@/app/api/client/quest'
+import { listQuestApi } from '@/api/quest'
 import ResultBox from '@/modules/review-submissions/filter/result'
 import { FilterTitleFrame } from '@/modules/review-submissions/mini-widget'
 import { CommunityStore } from '@/store/local/community'

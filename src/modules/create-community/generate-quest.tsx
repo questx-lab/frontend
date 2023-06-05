@@ -3,7 +3,7 @@ import { Fragment, FunctionComponent, useEffect, useState } from 'react'
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
-import { newQuestApi } from '@/app/api/client/quest'
+import { newQuestApi } from '@/api/quest'
 import { QuestStatusEnum, QuestTypeEnum } from '@/constants/common.const'
 import {
   BackButton,

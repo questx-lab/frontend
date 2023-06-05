@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
 
-import { listQuestApi } from '@/app/api/client/quest'
+import { listQuestApi } from '@/api/quest'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { QuestCardToView } from '@/modules/quest/quest-card-to-view'

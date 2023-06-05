@@ -4,7 +4,7 @@ import { useStoreActions } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { updateCommunityApi } from '@/app/api/client/communitiy'
+import { updateCommunityApi } from '@/api/communitiy'
 import Description from '@/modules/community/settings/general/description'
 import DisplayName from '@/modules/community/settings/general/display-name'
 import Logo from '@/modules/community/settings/general/logo'

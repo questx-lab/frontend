@@ -4,7 +4,7 @@ import { useStoreActions } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
-import { getMyCommunitiesApi } from '@/app/api/client/communitiy'
+import { getMyCommunitiesApi } from '@/api/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import { AvatarUpload } from '@/modules/create-community/avatar-upload'
 import { Main } from '@/modules/create-community/mini-widget'

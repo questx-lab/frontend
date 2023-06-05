@@ -3,7 +3,7 @@ import { FunctionComponent, useState } from 'react'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { newCommunityApi } from '@/app/api/client/communitiy'
+import { newCommunityApi } from '@/api/communitiy'
 import { BackButton, HorizotalFullWidth, Title } from '@/modules/create-community/mini-widget'
 import NewCommunityStore from '@/store/local/new-community.store'
 import { ReqNewCommunity } from '@/utils/type'

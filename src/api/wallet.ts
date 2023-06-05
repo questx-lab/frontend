@@ -1,7 +1,7 @@
 import { EnvVariables } from '@/constants/env.const'
 import { Rsp, WalletLoginRes, WalletVerifyRes } from '@/utils/type'
 
-import { api } from '../config/api'
+import { api } from './interceptor'
 
 export const loginMetamask = async (account: string): Promise<WalletLoginRes> => {
   const result = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + `/loginWallet?address=${account}`)

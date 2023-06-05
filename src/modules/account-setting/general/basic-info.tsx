@@ -4,7 +4,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { getUserApi, updateUserApi } from '@/app/api/client/user'
+import { getUserApi, updateUserApi } from '@/api/user'
 import { StorageConst } from '@/constants/storage.const'
 import SocialConnect from '@/modules/account-setting/general/social-connect'
 import { ButtonBox, ColumnBox, RowBox } from '@/modules/account-setting/mini-widget'

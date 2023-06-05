@@ -1,4 +1,4 @@
-import { uploadCommunityLogo, uploadImageApi } from '@/app/api/client/upload'
+import { uploadCommunityLogo, uploadImageApi } from '@/api/upload'
 import { ReturnTuple, Rsp, UploadCommunityLogoResponse } from '@/utils/type'
 
 export async function uploadFile(fileUpload: File[]): Promise<ReturnTuple<string>> {

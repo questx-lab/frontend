@@ -1,4 +1,4 @@
-import { api } from '@/app/api/config/api'
+import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
 import {
   CollaboratorType,
@@ -111,4 +111,3 @@ export const updateCommunityApi = async (
   const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/updateCommunity', data)
   return rs.data
 }
-

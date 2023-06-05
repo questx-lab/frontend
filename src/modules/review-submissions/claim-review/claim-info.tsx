@@ -3,7 +3,7 @@ import { Fragment, FunctionComponent } from 'react'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { updateClaimedQuestApi } from '@/app/api/client/claim'
+import { updateClaimedQuestApi } from '@/api/claim'
 import { ClaimedQuestStatus, ReviewBtnEnum } from '@/constants/common.const'
 import { RowButtons } from '@/modules/review-submissions/button'
 import { ClaimedSubmit } from '@/modules/review-submissions/pending/row-item'

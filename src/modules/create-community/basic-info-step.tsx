@@ -2,7 +2,7 @@ import { Fragment, FunctionComponent, useState } from 'react'
 
 import { useDebouncedCallback } from 'use-debounce'
 
-import { getCommunityApi } from '@/app/api/client/communitiy'
+import { getCommunityApi } from '@/api/communitiy'
 import { ErrorCodes } from '@/constants/code.const'
 import { Main, NextButton, Title } from '@/modules/create-community/mini-widget'
 import NewCommunityStore from '@/store/local/new-community.store'

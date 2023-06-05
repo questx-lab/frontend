@@ -2,8 +2,8 @@ import { FunctionComponent, useState } from 'react'
 
 import { toast } from 'react-hot-toast'
 
-import { listClaimedQuestsApi } from '@/app/api/client/claim'
-import { updateAllClaimedQuestApi } from '@/app/api/client/quest'
+import { listClaimedQuestsApi } from '@/api/claim'
+import { updateAllClaimedQuestApi } from '@/api/quest'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import { ButtonBox, ButtonFrame } from '@/modules/review-submissions/mini-widget'
 import { NewClaimReviewStore } from '@/store/local/claim-review'

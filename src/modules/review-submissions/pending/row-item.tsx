@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
-import { updateClaimedQuestApi } from '@/app/api/client/claim'
+import { updateClaimedQuestApi } from '@/api/claim'
 import { ClaimedQuestStatus, QuestTypeEnum, ReviewBtnEnum } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { ColumnButtons } from '@/modules/review-submissions/button'

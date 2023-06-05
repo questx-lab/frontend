@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { listQuestApi, newQuestApi, updateQuestApi } from '@/app/api/client/quest'
+import { listQuestApi, newQuestApi, updateQuestApi } from '@/api/quest'
 import ActionButtons from '@/modules/create-quest/action-buttons'
 import Highlighted from '@/modules/create-quest/highlighted'
 import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'

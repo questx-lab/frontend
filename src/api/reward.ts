@@ -1,4 +1,4 @@
-import { api } from '@/app/api/config/api'
+import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
 import { RefferalType, Rsp } from '@/utils/type'
 
