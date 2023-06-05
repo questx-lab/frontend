@@ -5,16 +5,12 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { AuthEnum } from '@/constants/common.const'
+import ChooseUserName from '@/modules/header/login/choose-username'
 import LoginBox from '@/modules/header/login/login-box'
-import RegisterBox from '@/modules/header/login/register-box'
-import RegisterForm from '@/modules/header/login/register-form'
 import { GlobalStoreModel } from '@/store/store'
 import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-
-import ChooseUserName from './choose-username'
-import LoginBox from './login-box'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
