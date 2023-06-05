@@ -10,6 +10,7 @@ import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { ClaimQuestType } from '@/utils/type'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons/button'
+import LoadingModal from '@/widgets/modal/loading'
 
 const getListClaimQuest = async (
   communityHandle: string,
@@ -28,8 +29,7 @@ const getListClaimQuest = async (
 }
 
 const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
-  const [acceptLoading, setAcceptLoading] = useState<boolean>(false)
-  const [rejectLoading, setRejectLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   // data
   const selectedPendings = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
@@ -50,11 +50,7 @@ const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communi
 
   // handler
   const updateClaimQuest = async (status: ClaimedQuestStatus) => {
-    if (status === ClaimedQuestStatus.REJECTED) {
-      setRejectLoading(true)
-    } else {
-      setAcceptLoading(true)
-    }
+    setLoading(true)
 
     // filter to get excluded claims
     const excluded = pendingClaims
@@ -64,17 +60,17 @@ const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communi
     const filteredQuestIds = selectedFilteredQuests.map((quest) => quest.id)
 
     try {
-      const rs = await updateAllClaimedQuestApi(
+      const result = await updateAllClaimedQuestApi(
         status,
         communityHandle,
         filteredQuestIds,
         [],
         excluded
       )
-      if (rs.error) {
-        toast.error(rs.error)
+      if (result.error) {
+        toast.error(result.error)
       }
-      if (rs.data) {
+      if (result.data) {
         await getListClaimQuest(communityHandle, ClaimedQuestStatus.PENDING, setPendingClaims, [])
 
         toast.success('Successful')
@@ -83,11 +79,7 @@ const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communi
     } catch (error) {
       toast.error('Can not change submit review')
     } finally {
-      if (status === ClaimedQuestStatus.REJECTED) {
-        setRejectLoading(false)
-      } else {
-        setAcceptLoading(false)
-      }
+      setLoading(false)
     }
   }
 
@@ -96,7 +88,6 @@ const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communi
       <ButtonBox>
         <PositiveButton
           onClick={() => updateClaimQuest(ClaimedQuestStatus.REJECTED)}
-          loading={rejectLoading}
           isFull
           type={ButtonTypeEnum.DANGEROUS_BORDER}
         >
@@ -106,13 +97,13 @@ const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communi
           onClick={() => {
             return updateClaimQuest(ClaimedQuestStatus.ACCEPTED)
           }}
-          loading={acceptLoading}
           isFull
           type={ButtonTypeEnum.SUCCESS_BORDER}
         >
           {'Accept'}
         </PositiveButton>
       </ButtonBox>
+      <LoadingModal isOpen={loading} />
     </ButtonFrame>
   )
 }
