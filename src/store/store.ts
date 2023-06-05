@@ -1,7 +1,8 @@
 import { action, Action, createStore } from 'easy-peasy'
 
 import { AuthEnum } from '@/constants/common.const'
-import { CollaboratorType, CommunityType, RefferalType, UserType } from '@/types'
+import { CollaboratorType, RefferalType, UserType } from '@/types'
+import { CommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
 
 export interface GlobalStoreModel {

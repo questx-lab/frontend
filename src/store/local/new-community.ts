@@ -1,7 +1,8 @@
 import { action, Action, createContextStore, FilterActionTypes, StateMapper } from 'easy-peasy'
 
 import { NewCommunityStep } from '@/constants/common.const'
-import { CommunityType, UpdateCommunityRequest } from '@/types'
+import { UpdateCommunityRequest } from '@/types'
+import { CommunityType } from '@/types/community'
 
 // TODO: Rename this to EditCommunityModel
 interface NewCommunityModel {

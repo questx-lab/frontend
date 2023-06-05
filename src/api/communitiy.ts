@@ -2,7 +2,6 @@ import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
 import {
   CollaboratorType,
-  CommunityType,
   ListCommunitiesType,
   OAuth2VerifyResp,
   ReqNewCommunity,
@@ -10,6 +9,7 @@ import {
   UpdateCommunityRequest,
   UpdateCommunityResponse,
 } from '@/types'
+import { CommunityType } from '@/types/community'
 
 class CommunityLoader {
   myCommunities: CollaboratorType[] | undefined

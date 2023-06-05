@@ -1,3 +1,4 @@
+import { CommunityType } from '@/types/community'
 import { QuestQuizType, QuestType } from '@/types/quest'
 
 export type ReturnTuple<T> = {
@@ -73,21 +74,6 @@ export type ReqNewCommunity = {
   website_url?: string
   discord?: string
   twitter?: string
-}
-
-export type CommunityType = {
-  created_at?: string
-  updated_at?: string
-  created_by?: string
-  display_name: string
-  handle: string
-  twitter?: string
-  discord?: string
-  telegram?: string
-  introduction: string
-  website_url?: string
-  logo_url: string
-  number_of_quests?: number
 }
 
 export type ListCommunitiesType = {

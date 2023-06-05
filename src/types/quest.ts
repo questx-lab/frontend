@@ -1,6 +1,6 @@
 import { QuestRecurrence, QuestTypeEnum } from '@/constants/common.const'
-import { CategoryType, CommunityType, RewardType } from '@/types'
-import { emptyCommunity } from '@/types/community'
+import { CategoryType, RewardType } from '@/types'
+import { CommunityType, emptyCommunity } from '@/types/community'
 
 export type QuestQuizType = {
   id?: number

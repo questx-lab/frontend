@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 
 import { listCommunitiesApi } from '@/api/communitiy'
 import { OtherCommunities } from '@/routes/homepage'
-import { CommunityType } from '@/types'
+import { CommunityType } from '@/types/community'
 import Trending from '@/widgets/trending'
 
 export const Index: FunctionComponent = () => {
