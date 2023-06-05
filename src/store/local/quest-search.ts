@@ -1,6 +1,6 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { QuestType } from '@/types'
+import { QuestType } from '@/types/quest'
 
 interface QuestSearchModel {
   allQuests: QuestType[]

@@ -1,3 +1,5 @@
+import { QuestQuizType, QuestType } from '@/types/quest'
+
 export type ReturnTuple<T> = {
   value?: T
   error?: string
@@ -144,41 +146,6 @@ export type ValidationQuest = {
   quizzes?: QuestQuizType[]
 }
 
-// TODO: Move this to type/quest.ts
-export interface QuestType {
-  id: string
-  community: CommunityType
-  category_id?: string
-  title: string
-  type: string
-  status: string
-  description: string
-  recurrence: string
-  condition_op?: string
-  created_at?: string
-  updated_at?: string
-  points: number
-  rewards?: RewardType[]
-  category: CategoryType
-  validation_data: {
-    tweet_url?: string
-    like?: boolean
-    reply?: boolean
-    retweet?: boolean
-    default_reply?: string
-    link?: string
-    invite_link?: string
-    twitter_handle?: string
-    default_tweet?: string
-    auto_validate?: boolean
-    answer?: string
-    space_url?: string
-    number?: number
-    quizzes?: QuestQuizType[]
-    group_link?: string
-  }
-}
-
 export type LQuestType = {
   quests: QuestType[]
 }
@@ -227,13 +194,6 @@ export type RefferalType = {
 export type QuestTwitterActionType = {
   action: string
   link: string
-}
-
-export type QuestQuizType = {
-  id?: number
-  question: string
-  options: string[]
-  answers: string[]
 }
 
 export type OAuth2VerifyResp = {

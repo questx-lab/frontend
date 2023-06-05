@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react'
 import { OuterBox } from '@/modules/create-quest/quest-type/mini-widget'
 import QuestQuiz from '@/modules/create-quest/quest-type/quiz'
 import NewQuestStore from '@/store/local/new-quest'
-import { QuestQuizType } from '@/types'
+import { QuestQuizType } from '@/types/quest'
 import { NegativeButton } from '@/widgets/buttons'
 import { PlusIcon } from '@heroicons/react/24/outline'
 

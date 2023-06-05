@@ -15,7 +15,8 @@ import {
 } from '@/modules/review-submissions/mini-widget'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
 import ClaimReviewStore from '@/store/local/claim-review'
-import { ClaimQuestType, ListClaimQuestType, QuestType, Rsp } from '@/types'
+import { ClaimQuestType, ListClaimQuestType, Rsp } from '@/types'
+import { QuestType } from '@/types/quest'
 
 const ClaimStatus = ClaimedQuestStatus.ACCEPTED + ',' + ClaimedQuestStatus.REJECTED
 

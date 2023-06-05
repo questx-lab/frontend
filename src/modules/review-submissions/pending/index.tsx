@@ -17,7 +17,8 @@ import PendingItem from '@/modules/review-submissions/pending/row-item'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
 import ClaimReviewStore from '@/store/local/claim-review'
 import CommunityStore from '@/store/local/community'
-import { ClaimQuestType, ListClaimQuestType, QuestType, Rsp } from '@/types'
+import { ClaimQuestType, ListClaimQuestType, Rsp } from '@/types'
+import { QuestType } from '@/types/quest'
 
 const PendingContent: FunctionComponent<{ loading: boolean }> = ({ loading }) => {
   // data

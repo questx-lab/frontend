@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router'
 import { newQuestRoute } from '@/constants/router.const'
 import QuestCardDetails from '@/modules/quest/quest-card-details'
 import NewQuestStore from '@/store/local/new-quest'
-import { QuestType } from '@/types'
+import { QuestType } from '@/types/quest'
 
 /**
  * This Quest component holds template data. When user clicks on the quest card, it navigates (or

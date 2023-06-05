@@ -1,7 +1,8 @@
 import { action, Action, createStore } from 'easy-peasy'
 
 import { AuthEnum } from '@/constants/common.const'
-import { CollaboratorType, CommunityType, QuestType, RefferalType, UserType } from '@/types'
+import { CollaboratorType, CommunityType, RefferalType, UserType } from '@/types'
+import { QuestType } from '@/types/quest'
 
 export interface GlobalStoreModel {
   showNavigationDrawer: boolean

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import NewQuestSearchStore from '@/store/local/quest-search'
-import { QuestType } from '@/types'
+import { QuestType } from '@/types/quest'
 import { CheckBox } from '@/widgets/input'
 import { Combobox } from '@headlessui/react'
 
