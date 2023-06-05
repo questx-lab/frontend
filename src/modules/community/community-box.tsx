@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 
 import { communityRoute } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
-import { CommunityType } from '@/utils/type'
+import { CommunityType } from '@/types'
 import { Image } from '@/widgets/image'
 import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
 

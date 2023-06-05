@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 
 import { Alphabet } from '@/constants/alphabet'
 import ActiveQuestStore from '@/store/local/active-quest'
-import { QuestQuizType } from '@/utils/type'
+import { QuestQuizType } from '@/types'
 import { AnswerBox } from '@/widgets/buttons/answer-box'
 import {
   HorizontalCenter,

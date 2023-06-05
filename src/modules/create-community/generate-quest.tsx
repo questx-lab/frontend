@@ -14,7 +14,7 @@ import {
 } from '@/modules/create-community/mini-widget'
 import NewCommunityStore from '@/store/local/new-community'
 import { GlobalStoreModel } from '@/store/store'
-import { QuestType, ReqNewQuestType, UserType } from '@/utils/type'
+import { QuestType, ReqNewQuestType, UserType } from '@/types'
 import { CheckBox, CheckBoxSize } from '@/widgets/input'
 import { HorizontalStartCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'

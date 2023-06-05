@@ -1,7 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { SocialDisplay } from '@/constants/common.const'
-import { AccoutSettingTabEnum } from '@/utils/type'
+import { AccoutSettingTabEnum } from '@/types'
 
 interface AccountSettingsModel {
   username: string

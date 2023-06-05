@@ -1,5 +1,5 @@
 import { EnvVariables } from '@/constants/env.const'
-import { Rsp } from '@/utils/type'
+import { Rsp } from '@/types'
 
 import { api } from './interceptor'
 

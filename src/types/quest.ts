@@ -1,6 +1,6 @@
 import { QuestRecurrence, QuestTypeEnum } from '@/constants/common.const'
+import { QuestType } from '@/types'
 import { emptyCommunity } from '@/types/community'
-import { QuestType } from '@/utils/type'
 
 export const emptyQuest = (): QuestType => {
   let q: QuestType = {

@@ -9,7 +9,7 @@ import {
   Rsp,
   UpdateCommunityRequest,
   UpdateCommunityResponse,
-} from '@/utils/type'
+} from '@/types'
 
 class CommunityLoader {
   myCommunities: CollaboratorType[] | undefined

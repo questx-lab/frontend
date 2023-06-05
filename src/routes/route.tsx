@@ -11,8 +11,8 @@ import { EnvVariables } from '@/constants/env.const'
 import { Header } from '@/modules/header/header'
 import { HomePage } from '@/routes'
 import { GlobalStoreModel } from '@/store/store'
+import { CollaboratorType, CommunityType, RefferalType } from '@/types'
 import { getUserLocal } from '@/utils/helper'
-import { CollaboratorType, CommunityType, RefferalType } from '@/utils/type'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export const RootLoader = async () => {

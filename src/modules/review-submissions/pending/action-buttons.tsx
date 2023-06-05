@@ -8,7 +8,7 @@ import { ClaimedQuestStatus } from '@/constants/common.const'
 import { ButtonBox, ButtonFrame } from '@/modules/review-submissions/mini-widget'
 import ClaimReviewStore from '@/store/local/claim-review'
 import NewQuestSearchStore from '@/store/local/quest-search'
-import { ClaimQuestType } from '@/utils/type'
+import { ClaimQuestType } from '@/types'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import LoadingModal from '@/widgets/modal/loading'
 

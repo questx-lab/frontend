@@ -9,8 +9,8 @@ import { linkOAuth2, verifyOAuth2 } from '@/api/oauth'
 import { getUserApi } from '@/api/user'
 import { newQuestRoute, RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
+import { OAuth2LinkReq } from '@/types'
 import { getAccessToken, setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
-import { OAuth2LinkReq } from '@/utils/type'
 import LoadingModal from '@/widgets/modal/loading'
 
 const DiscordCallback: FC = () => {

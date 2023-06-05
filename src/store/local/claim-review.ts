@@ -1,8 +1,8 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { ClaimedQuestStatus, QuestRecurrence, TabReviewEnum } from '@/constants/common.const'
+import { ClaimQuestType } from '@/types'
 import { emptyQuest } from '@/types/quest'
-import { ClaimQuestType } from '@/utils/type'
 
 interface ClaimReviewModel {
   pendingClaims: ClaimQuestType[]

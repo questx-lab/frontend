@@ -11,7 +11,7 @@ import { CommunityRoleEnum } from '@/constants/common.const'
 import { ControlPanel } from '@/modules/community/control-panel'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
-import { CollaboratorType, CommunityType, QuestType } from '@/utils/type'
+import { CollaboratorType, CommunityType, QuestType } from '@/types'
 import { Horizontal } from '@/widgets/orientation'
 
 export const Loader = async (args: { params: Params }) => {

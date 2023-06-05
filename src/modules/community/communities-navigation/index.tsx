@@ -7,7 +7,7 @@ import tw from 'twin.macro'
 import { Item } from '@/modules/community/communities-navigation/item'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
-import { CollaboratorType } from '@/utils/type'
+import { CollaboratorType } from '@/types'
 import { Vertical } from '@/widgets/orientation'
 
 const Wrap = styled.div<{ isDrawer: boolean }>(({ isDrawer }) => {

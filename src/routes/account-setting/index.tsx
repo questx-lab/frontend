@@ -6,7 +6,7 @@ import Achievement from '@/modules/account-setting/achievement'
 import ControlPanel from '@/modules/account-setting/control-panel'
 import General from '@/modules/account-setting/general'
 import AccountSettingsStore from '@/store/local/account-settings'
-import { AccoutSettingTabEnum } from '@/utils/type'
+import { AccoutSettingTabEnum } from '@/types'
 
 const MainFrame = tw.div`
   w-full

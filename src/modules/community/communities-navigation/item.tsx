@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 
 import { communityRoute } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
-import { CollaboratorType } from '@/utils/type'
+import { CollaboratorType } from '@/types'
 import { CircularImage } from '@/widgets/circular-image'
 import { Tooltip } from '@material-tailwind/react'
 

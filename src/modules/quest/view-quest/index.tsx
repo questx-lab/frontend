@@ -14,7 +14,7 @@ import { QuestText } from '@/modules/quest/view-quest/text'
 import { QuestTwitter } from '@/modules/quest/view-quest/twitter'
 import QuestUrl from '@/modules/quest/view-quest/url'
 import { QuestVisitLink } from '@/modules/quest/view-quest/vist-link'
-import { QuestType } from '@/utils/type'
+import { QuestType } from '@/types'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 
 const OuterPadding = tw(Horizontal)`

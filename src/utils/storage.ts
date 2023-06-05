@@ -1,5 +1,5 @@
 import { verifyOAuth2 } from '@/api/oauth'
-import { ReturnTuple } from '@/utils/type'
+import { ReturnTuple } from '@/types'
 
 import { setAccessToken, setRefreshToken, setUserLocal } from './helper'
 

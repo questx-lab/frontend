@@ -16,7 +16,7 @@ import {
 } from '@/modules/review-submissions/mini-widget'
 import { ClaimedSubmit } from '@/modules/review-submissions/pending/row-item'
 import ClaimReviewStore from '@/store/local/claim-review'
-import { ClaimQuestType } from '@/utils/type'
+import { ClaimQuestType } from '@/types'
 import { Image } from '@/widgets/image'
 import { HorizontalBetweenCenterFullWidth, Vertical } from '@/widgets/orientation'
 

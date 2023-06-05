@@ -1,7 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
+import { QuestType } from '@/types'
 import { emptyQuest } from '@/types/quest'
-import { QuestType } from '@/utils/type'
 
 /**
  * This is a model for user to view quest and then claim.

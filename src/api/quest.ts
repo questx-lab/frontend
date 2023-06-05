@@ -1,6 +1,6 @@
 import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
-import { LQuestType, QuestType, ReqNewQuestType, Rsp } from '@/utils/type'
+import { LQuestType, QuestType, ReqNewQuestType, Rsp } from '@/types'
 
 export const updateQuestApi = async (body: ReqNewQuestType): Promise<Rsp<{ id: string }>> => {
   const { data } = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/updateQuest', body)

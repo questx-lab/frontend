@@ -1,5 +1,5 @@
 import { linkTelegram } from '@/api/oauth'
-import { TelegramAuthType } from '@/utils/type'
+import { TelegramAuthType } from '@/types'
 
 const convertData = (raw: any): TelegramAuthType => {
   return {

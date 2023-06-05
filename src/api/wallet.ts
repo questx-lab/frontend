@@ -1,5 +1,5 @@
 import { EnvVariables } from '@/constants/env.const'
-import { Rsp, WalletLoginRes, WalletVerifyRes } from '@/utils/type'
+import { Rsp, WalletLoginRes, WalletVerifyRes } from '@/types'
 
 import { api } from './interceptor'
 

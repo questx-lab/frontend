@@ -1,5 +1,5 @@
 import { uploadCommunityLogo, uploadImageApi } from '@/api/upload'
-import { ReturnTuple, Rsp, UploadCommunityLogoResponse } from '@/utils/type'
+import { ReturnTuple, Rsp, UploadCommunityLogoResponse } from '@/types'
 
 export async function uploadFile(fileUpload: File[]): Promise<ReturnTuple<string>> {
   let formData = new FormData()

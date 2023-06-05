@@ -1,4 +1,4 @@
-import { CommunityType } from '@/utils/type'
+import { CommunityType } from '@/types'
 
 export enum ControlPanelTab {
   QUESTS,

@@ -19,7 +19,7 @@ import {
   VerticalLeftMargin,
 } from '@/modules/review-submissions/mini-widget'
 import ClaimReviewStore from '@/store/local/claim-review'
-import { ClaimQuestType } from '@/utils/type'
+import { ClaimQuestType } from '@/types'
 import { Image } from '@/widgets/image'
 import { CheckBox } from '@/widgets/input'
 import {

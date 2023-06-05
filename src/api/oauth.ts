@@ -1,6 +1,6 @@
 import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
-import { OAuth2LinkReq, OAuth2VerifyResp, Rsp, TelegramAuthType, UserType } from '@/utils/type'
+import { OAuth2LinkReq, OAuth2VerifyResp, Rsp, TelegramAuthType, UserType } from '@/types'
 
 export const verifyOAuth2 = async (
   type: string,

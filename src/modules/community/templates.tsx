@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 
 import { QuestCardToTemplate } from '@/modules/quest/quest-card-to-template'
 import { GlobalStoreModel } from '@/store/store'
-import { QuestType } from '@/utils/type'
+import { QuestType } from '@/types'
 import { GrayBorderBox } from '@/widgets/box'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
