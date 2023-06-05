@@ -6,9 +6,9 @@ import { TabReviewEnum } from '@/constants/common.const'
 import ClaimReview from '@/modules/review-submissions/claim-review'
 import HistoryTab from '@/modules/review-submissions/history'
 import PendingTab from '@/modules/review-submissions/pending'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { CommunityStore } from '@/store/local/community'
-import { NewQuestSearchStore } from '@/store/local/quest-search'
+import ClaimReviewStore from '@/store/local/claim-review'
+import CommunityStore from '@/store/local/community'
+import NewQuestSearchStore from '@/store/local/quest-search'
 import BasicModal from '@/widgets/modal/basic'
 import {
   HorizontalBetweenCenterFullWidth,
@@ -38,13 +38,13 @@ const ContentPadding = tw(Vertical)`
 
 export const Index: FunctionComponent = () => {
   // data
-  const submissionModal = NewClaimReviewStore.useStoreState((state) => state.showClaimDetails)
-  const tabReviewState = NewClaimReviewStore.useStoreState((state) => state.selectedTab)
+  const submissionModal = ClaimReviewStore.useStoreState((state) => state.showClaimDetails)
+  const tabReviewState = ClaimReviewStore.useStoreState((state) => state.selectedTab)
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
-  const claimQuestActive = NewClaimReviewStore.useStoreState((state) => state.claimQuestActive)
+  const claimQuestActive = ClaimReviewStore.useStoreState((state) => state.claimQuestActive)
   // action
-  const setTabReview = NewClaimReviewStore.useStoreActions((actions) => actions.setSelectedTab)
-  const setShowClaimDetails = NewClaimReviewStore.useStoreActions(
+  const setTabReview = ClaimReviewStore.useStoreActions((actions) => actions.setSelectedTab)
+  const setShowClaimDetails = ClaimReviewStore.useStoreActions(
     (actions) => actions.setShowClaimDetails
   )
 

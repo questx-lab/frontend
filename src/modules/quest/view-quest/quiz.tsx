@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import tw from 'twin.macro'
 
 import { Alphabet } from '@/constants/alphabet'
-import { ActiveQuestStore } from '@/store/local/active-quest'
+import ActiveQuestStore from '@/store/local/active-quest'
 import { QuestQuizType } from '@/utils/type'
 import { AnswerBox } from '@/widgets/buttons/answer-box'
 import {

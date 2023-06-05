@@ -1,7 +1,7 @@
 import { Fragment, FunctionComponent } from 'react'
 
 import { handleLoginDiscord } from '@/handler/auth/discord'
-import { CommunityStore } from '@/store/local/community'
+import CommunityStore from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest'
 import { PositiveButton } from '@/widgets/buttons'
 import { TextField } from '@/widgets/form'

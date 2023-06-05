@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
 
 import { ButtonSocialType } from '@/constants/common.const'
-import { ActiveQuestStore } from '@/store/local/active-quest'
+import ActiveQuestStore from '@/store/local/active-quest'
 import { SocialButton } from '@/widgets/buttons/button-social'
 import { VerticalFullWidth } from '@/widgets/orientation'
 

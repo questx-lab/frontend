@@ -6,8 +6,8 @@ import { listClaimedQuestsApi } from '@/api/claim'
 import { updateAllClaimedQuestApi } from '@/api/quest'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import { ButtonBox, ButtonFrame } from '@/modules/review-submissions/mini-widget'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { NewQuestSearchStore } from '@/store/local/quest-search'
+import ClaimReviewStore from '@/store/local/claim-review'
+import NewQuestSearchStore from '@/store/local/quest-search'
 import { ClaimQuestType } from '@/utils/type'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import LoadingModal from '@/widgets/modal/loading'
@@ -32,15 +32,13 @@ const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communi
   const [loading, setLoading] = useState<boolean>(false)
 
   // data
-  const selectedPendings = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
-  const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
+  const selectedPendings = ClaimReviewStore.useStoreState((state) => state.selectedPendings)
+  const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)
   const selectedFilteredQuests = NewQuestSearchStore.useStoreState((state) => state.selectedQuest)
 
   // action
-  const setPendingClaims = NewClaimReviewStore.useStoreActions(
-    (actions) => actions.setPendingClaims
-  )
-  const setShowClaimDetails = NewClaimReviewStore.useStoreActions(
+  const setPendingClaims = ClaimReviewStore.useStoreActions((actions) => actions.setPendingClaims)
+  const setShowClaimDetails = ClaimReviewStore.useStoreActions(
     (actions) => actions.setShowClaimDetails
   )
 

@@ -12,7 +12,7 @@ interface QuestSearchModel {
   setSelectedQuests: Action<QuestSearchModel, QuestType[]>
 }
 
-export const NewQuestSearchStore = createContextStore<QuestSearchModel>({
+const NewQuestSearchStore = createContextStore<QuestSearchModel>({
   allQuests: [],
   filteredQuests: [],
   selectedQuest: [],
@@ -29,3 +29,5 @@ export const NewQuestSearchStore = createContextStore<QuestSearchModel>({
     state.selectedQuest = quests
   }),
 })
+
+export default NewQuestSearchStore

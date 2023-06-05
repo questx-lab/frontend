@@ -32,7 +32,7 @@ interface ClaimReviewModel {
   setSelectedTab: Action<ClaimReviewModel, number>
 }
 
-export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
+const ClaimReviewStore = createContextStore<ClaimReviewModel>({
   reviewStatus: ClaimedQuestStatus.ALL,
   selectedHistories: new Map(),
   selectedPendings: new Map(),
@@ -93,3 +93,5 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
     state.selectedTab = tab
   }),
 })
+
+export default ClaimReviewStore

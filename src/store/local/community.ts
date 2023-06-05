@@ -72,4 +72,4 @@ const CommunityStore = createContextStore<CommunityModel>({
     state.quests = quests
   }),
 })
-export { CommunityStore }
+export default CommunityStore

@@ -8,7 +8,7 @@ import { QuestType } from '@/utils/type'
  *
  * TODO: Change this store to quest claim model.
  */
-export interface ActiveQuestModel {
+interface ActiveQuestModel {
   quest: QuestType
 
   urlSubmit: string
@@ -29,7 +29,7 @@ export interface ActiveQuestModel {
   setTelegramSubmit: Action<ActiveQuestModel, boolean>
 }
 
-export const ActiveQuestStore = createContextStore<ActiveQuestModel>({
+const ActiveQuestStore = createContextStore<ActiveQuestModel>({
   quest: emptyQuest(),
   urlSubmit: '',
   textSubmit: '',
@@ -71,3 +71,5 @@ export const ActiveQuestStore = createContextStore<ActiveQuestModel>({
     state.telegramSubmit = telegram
   }),
 })
+
+export default ActiveQuestStore

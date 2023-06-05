@@ -4,8 +4,8 @@ import { useStoreState } from 'easy-peasy'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import { RouterConst } from '@/constants/router.const'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { CommunityStore } from '@/store/local/community'
+import ClaimReviewStore from '@/store/local/claim-review'
+import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { ControlPanelTab } from '@/types/community'
 
@@ -30,8 +30,8 @@ export const ReviewSubmissions: FunctionComponent = () => {
   }, [setActiveControlPanelTab, user, canEdit, navigate])
 
   return (
-    <NewClaimReviewStore.Provider>
+    <ClaimReviewStore.Provider>
       <Outlet />
-    </NewClaimReviewStore.Provider>
+    </ClaimReviewStore.Provider>
   )
 }

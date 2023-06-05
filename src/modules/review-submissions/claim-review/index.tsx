@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 import { StorageConst } from '@/constants/storage.const'
 import { BorderBox, RewardRow } from '@/modules/quest/view-quest/mini-widget'
 import ClaimInfo from '@/modules/review-submissions/claim-review/claim-info'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
+import ClaimReviewStore from '@/store/local/claim-review'
 import { Image } from '@/widgets/image'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
@@ -35,7 +35,7 @@ const QuestColumn = tw(Vertical)`
 `
 
 const QuestDetail: FunctionComponent = () => {
-  const claimQuestActive = NewClaimReviewStore.useStoreState((state) => state.claimQuestActive)
+  const claimQuestActive = ClaimReviewStore.useStoreState((state) => state.claimQuestActive)
   return (
     <QuestColumn>
       <BorderBox>

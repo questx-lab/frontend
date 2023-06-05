@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Tab } from '@/modules/community/control-panel/mini-widgets'
-import { CommunityStore } from '@/store/local/community'
+import CommunityStore from '@/store/local/community'
 import { ControlPanelTab } from '@/types/community'
 import { BoltIcon } from '@heroicons/react/24/outline'
 

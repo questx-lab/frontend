@@ -14,19 +14,19 @@ import {
   TableLoadingFrame,
 } from '@/modules/review-submissions/mini-widget'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
+import ClaimReviewStore from '@/store/local/claim-review'
 import { ClaimQuestType, ListClaimQuestType, QuestType, Rsp } from '@/utils/type'
 
 const ClaimStatus = ClaimedQuestStatus.ACCEPTED + ',' + ClaimedQuestStatus.REJECTED
 
 const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   // data
-  const historyClaims = NewClaimReviewStore.useStoreState((state) => state.historyClaims)
-  const selectedHistories = NewClaimReviewStore.useStoreState((state) => state.selectedHistories)
+  const historyClaims = ClaimReviewStore.useStoreState((state) => state.historyClaims)
+  const selectedHistories = ClaimReviewStore.useStoreState((state) => state.selectedHistories)
 
   // actions
-  const setHistoryClaims = NewClaimReviewStore.useStoreActions((state) => state.setHistoryClaims)
-  const setSelectedHistory = NewClaimReviewStore.useStoreActions(
+  const setHistoryClaims = ClaimReviewStore.useStoreActions((state) => state.setHistoryClaims)
+  const setSelectedHistory = ClaimReviewStore.useStoreActions(
     (actions) => actions.setSelectedHistory
   )
 

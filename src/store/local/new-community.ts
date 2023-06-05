@@ -4,7 +4,7 @@ import { NewCommunityStep } from '@/constants/common.const'
 import { CommunityType, UpdateCommunityRequest } from '@/utils/type'
 
 // TODO: Rename this to EditCommunityModel
-export interface NewCommunityModel {
+interface NewCommunityModel {
   currentStep: number
   displayName: string
   introduction: string

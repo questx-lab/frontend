@@ -15,18 +15,18 @@ import ActionButtons from '@/modules/review-submissions/pending/action-buttons'
 import TableHeader from '@/modules/review-submissions/pending/header'
 import PendingItem from '@/modules/review-submissions/pending/row-item'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { CommunityStore } from '@/store/local/community'
+import ClaimReviewStore from '@/store/local/claim-review'
+import CommunityStore from '@/store/local/community'
 import { ClaimQuestType, ListClaimQuestType, QuestType, Rsp } from '@/utils/type'
 
 const PendingContent: FunctionComponent<{ loading: boolean }> = ({ loading }) => {
   // data
-  const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
-  const selectedPendings = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
+  const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)
+  const selectedPendings = ClaimReviewStore.useStoreState((state) => state.selectedPendings)
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   // action
-  const setSelectedPending = NewClaimReviewStore.useStoreActions(
+  const setSelectedPending = ClaimReviewStore.useStoreActions(
     (actions) => actions.setSelectedPending
   )
 
@@ -74,12 +74,10 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   // action
-  const setSelectedPending = NewClaimReviewStore.useStoreActions(
+  const setSelectedPending = ClaimReviewStore.useStoreActions(
     (actions) => actions.setSelectedPending
   )
-  const setPendingClaims = NewClaimReviewStore.useStoreActions(
-    (actions) => actions.setPendingClaims
-  )
+  const setPendingClaims = ClaimReviewStore.useStoreActions((actions) => actions.setPendingClaims)
 
   // hook
   const [loading, setLoading] = useState<boolean>(true)

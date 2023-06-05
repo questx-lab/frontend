@@ -4,7 +4,7 @@ import { useStoreState } from 'easy-peasy'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import { RouterConst } from '@/constants/router.const'
-import { CommunityStore } from '@/store/local/community'
+import CommunityStore from '@/store/local/community'
 import NewCommunityStore from '@/store/local/new-community'
 import { GlobalStoreModel } from '@/store/store'
 import { ControlPanelTab } from '@/types/community'

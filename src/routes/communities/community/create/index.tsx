@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 
 import { communityRoute } from '@/constants/router.const'
 import { CreateOrEditQuest } from '@/modules/create-quest'
-import { CommunityStore } from '@/store/local/community'
+import CommunityStore from '@/store/local/community'
 
 export const Index: FunctionComponent = () => {
   // data

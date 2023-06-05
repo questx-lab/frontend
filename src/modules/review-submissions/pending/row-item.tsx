@@ -18,7 +18,7 @@ import {
   VerticalItem,
   VerticalLeftMargin,
 } from '@/modules/review-submissions/mini-widget'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
+import ClaimReviewStore from '@/store/local/claim-review'
 import { ClaimQuestType } from '@/utils/type'
 import { Image } from '@/widgets/image'
 import { CheckBox } from '@/widgets/input'
@@ -75,16 +75,14 @@ const PendingItem: FunctionComponent<{
   claimQuest: ClaimQuestType
 }> = ({ active, onChange, claimQuest }) => {
   // data
-  const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
+  const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)
 
   // action
-  const onSubmissionModalChanged = NewClaimReviewStore.useStoreActions(
+  const onSubmissionModalChanged = ClaimReviewStore.useStoreActions(
     (actions) => actions.setShowClaimDetails
   )
-  const setPendingClaims = NewClaimReviewStore.useStoreActions(
-    (actions) => actions.setPendingClaims
-  )
-  const setClaimActive = NewClaimReviewStore.useStoreActions((actions) => actions.setClaimActive)
+  const setPendingClaims = ClaimReviewStore.useStoreActions((actions) => actions.setPendingClaims)
+  const setClaimActive = ClaimReviewStore.useStoreActions((actions) => actions.setClaimActive)
 
   // hook
   const [loading, setLoading] = useState<boolean>(false)

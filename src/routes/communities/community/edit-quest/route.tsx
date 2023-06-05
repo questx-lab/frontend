@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 
 import { CommunityRoleEnum } from '@/constants/common.const'
 import { communityRoute } from '@/constants/router.const'
-import { CommunityStore } from '@/store/local/community'
+import CommunityStore from '@/store/local/community'
 
 const EditQuest: FunctionComponent = () => {
   const navigate = useNavigate()
