@@ -14,6 +14,7 @@ import { QuestType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
 import { Image } from '@/widgets/image'
+import { SearchInput } from '@/widgets/input/search-input'
 import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import {
   Horizontal,
@@ -21,7 +22,6 @@ import {
   VerticalFullWidth,
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
-import { SearchInput } from '@/widgets/search-input'
 import SearchResult from '@/widgets/search-result'
 import { Large2xlText, Large3xlText } from '@/widgets/text'
 
