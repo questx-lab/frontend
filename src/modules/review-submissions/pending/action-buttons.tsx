@@ -2,13 +2,30 @@ import { FunctionComponent, useState } from 'react'
 
 import { toast } from 'react-hot-toast'
 
+import { listClaimedQuestsApi } from '@/app/api/client/claim'
 import { updateAllClaimedQuestApi } from '@/app/api/client/quest'
 import { ClaimedQuestStatus } from '@/constants/common.const'
-import { getListClaimQuest } from '@/modules/review-submissions'
 import { ButtonBox, ButtonFrame } from '@/modules/review-submissions/mini-widget'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
+import { ClaimQuestType } from '@/utils/type'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons/button'
+
+const getListClaimQuest = async (
+  communityHandle: string,
+  filterQuest: string = ClaimedQuestStatus.ALL,
+  onAction: (action: ClaimQuestType[]) => void,
+  filterQuestIds?: string[]
+) => {
+  try {
+    const data = await listClaimedQuestsApi(communityHandle, filterQuest, filterQuestIds ?? [])
+    if (data.error) {
+      toast.error(data.error)
+    } else {
+      onAction(data.data?.claimed_quests!)
+    }
+  } catch (error) {}
+}
 
 const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   const [acceptLoading, setAcceptLoading] = useState<boolean>(false)
