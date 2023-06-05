@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 
 import { Alphabet } from '@/constants/alphabet'
 import { AnswerStatusEnum } from '@/constants/common.const'
-import NewQuestStore from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest'
 import { QuestQuizType } from '@/utils/type'
 import { AnswerBox } from '@/widgets/buttons/answer-box'
 import { HorizontalCenter, VerticalFullWidth } from '@/widgets/orientation'

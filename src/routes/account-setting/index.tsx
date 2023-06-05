@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 import Achievement from '@/modules/account-setting/achievement'
 import ControlPanel from '@/modules/account-setting/control-panel'
 import General from '@/modules/account-setting/general'
-import AccountSettingStore from '@/store/local/account-setting.store'
+import AccountSettingsStore from '@/store/local/account-settings'
 import { AccoutSettingTabEnum } from '@/utils/type'
 
 const MainFrame = tw.div`
@@ -14,7 +14,7 @@ const MainFrame = tw.div`
 `
 
 const RenderContent: FunctionComponent = () => {
-  const tabActive = AccountSettingStore.useStoreState((state) => state.tabType)
+  const tabActive = AccountSettingsStore.useStoreState((state) => state.tabType)
 
   if (tabActive === AccoutSettingTabEnum.ACHIEVEMENTS) {
     return <Achievement />
@@ -26,10 +26,10 @@ const RenderContent: FunctionComponent = () => {
 export const Index: FunctionComponent = () => {
   return (
     <MainFrame>
-      <AccountSettingStore.Provider>
+      <AccountSettingsStore.Provider>
         <ControlPanel />
         <RenderContent />
-      </AccountSettingStore.Provider>
+      </AccountSettingsStore.Provider>
     </MainFrame>
   )
 }

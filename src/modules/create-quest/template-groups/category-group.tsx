@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 
 import { SizeEnum } from '@/constants/common.const'
 import QuestCardDetails from '@/modules/quest/quest-card-details'
-import NewQuestStore from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest'
 import { emptyQuest } from '@/types/quest'
 import { QuestType } from '@/utils/type'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons'

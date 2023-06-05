@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import NewCommunityStore from '@/store/local/new-community.store'
+import NewCommunityStore from '@/store/local/new-community'
 import { TextField } from '@/widgets/form'
 import { HorizontalFullWidth, Vertical } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'

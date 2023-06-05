@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react'
 import tw from 'twin.macro'
 
 import { QuestStatusEnum, QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
-import NewQuestStore from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import { HorizontalBetweenCenter } from '@/widgets/orientation'
 

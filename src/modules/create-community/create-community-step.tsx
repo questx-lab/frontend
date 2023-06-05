@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 
 import { newCommunityApi } from '@/api/communitiy'
 import { BackButton, HorizotalFullWidth, Title } from '@/modules/create-community/mini-widget'
-import NewCommunityStore from '@/store/local/new-community.store'
+import NewCommunityStore from '@/store/local/new-community'
 import { ReqNewCommunity } from '@/utils/type'
 import { PositiveButton } from '@/widgets/buttons'
 import { TextField } from '@/widgets/form'

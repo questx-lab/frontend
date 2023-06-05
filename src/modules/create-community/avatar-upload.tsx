@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
-import NewCommunityStore from '@/store/local/new-community.store'
+import NewCommunityStore from '@/store/local/new-community'
 import { Image } from '@/widgets/image'
 import { CameraIcon } from '@heroicons/react/24/outline'
 

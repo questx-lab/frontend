@@ -5,7 +5,7 @@ import { useDebouncedCallback } from 'use-debounce'
 
 import CreateCommunity from '@/modules/create-community'
 import CommunityContent from '@/routes/communities/community-content'
-import NewCommunityStore from '@/store/local/new-community.store'
+import NewCommunityStore from '@/store/local/new-community'
 import { SearchInput } from '@/widgets/input/search-input'
 import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import BaseModal from '@/widgets/modal/base'

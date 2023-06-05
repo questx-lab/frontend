@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 
 import { QuestRecurrence, QuestRecurrencesMap } from '@/constants/common.const'
-import NewQuestStore from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest'
 import TypesSelection from '@/widgets/types-selection'
 
 const Recurrence: FunctionComponent = () => {

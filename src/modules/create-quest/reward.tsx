@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 
 import { QuestRewards } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
-import NewQuestStore from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest'
 import { RoundedGrayBorderBox } from '@/widgets/box'
 import { Image } from '@/widgets/image'
 import { NumberInput } from '@/widgets/input'

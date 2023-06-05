@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 
 import { FieldTitle } from '@/modules/create-quest/mini-widget'
 import AnswerItem from '@/modules/create-quest/quest-type/quiz-answer-item'
-import NewQuestStore from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest'
 import { MultipleTextField } from '@/widgets/form'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'

@@ -8,7 +8,7 @@ import HistoryTab from '@/modules/review-submissions/history'
 import PendingTab from '@/modules/review-submissions/pending'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CommunityStore } from '@/store/local/community'
-import { NewQuestSearchStore } from '@/store/local/quest-search.store'
+import { NewQuestSearchStore } from '@/store/local/quest-search'
 import BasicModal from '@/widgets/modal/basic'
 import {
   HorizontalBetweenCenterFullWidth,

@@ -17,7 +17,7 @@ interface AccountSettingsModel {
   setTabType: Action<AccountSettingsModel, number>
 }
 
-const AccountSettingStore = createContextStore<AccountSettingsModel>({
+const AccountSettingsStore = createContextStore<AccountSettingsModel>({
   username: '',
   inviteCode: '',
   metamask: '',
@@ -41,4 +41,4 @@ const AccountSettingStore = createContextStore<AccountSettingsModel>({
   }),
 })
 
-export default AccountSettingStore
+export default AccountSettingsStore

@@ -10,7 +10,7 @@ import { ClaimedQuestStatus, CommunityRoleEnum, QuestTypeEnum } from '@/constant
 import { editQuestRoute } from '@/constants/router.const'
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { CommunityStore } from '@/store/local/community'
-import NewQuestStore from '@/store/local/new-quest.store'
+import NewQuestStore from '@/store/local/new-quest'
 import { GlobalStoreModel } from '@/store/store'
 import { uploadFile } from '@/utils/file'
 import { QuestType, UserType } from '@/utils/type'

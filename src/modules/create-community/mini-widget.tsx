@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 
 import tw from 'twin.macro'
 
-import NewCommunityStore from '@/store/local/new-community.store'
+import NewCommunityStore from '@/store/local/new-community'
 import { PositiveButton } from '@/widgets/buttons'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 
