@@ -8,7 +8,7 @@ import { ClaimedQuestStatus, ReviewBtnEnum } from '@/constants/common.const'
 import { RowButtons } from '@/modules/review-submissions/button'
 import { ClaimedSubmit } from '@/modules/review-submissions/pending/row-item'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { MultipleInputBox } from '@/styles/input.style'
+import MultipleInputBox from '@/widgets/input/multiple-input-box'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import { Label } from '@/widgets/text'
 
