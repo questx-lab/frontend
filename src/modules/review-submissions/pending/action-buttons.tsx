@@ -47,7 +47,7 @@ const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communi
   if (!selectedPendings.size) {
     return <></>
   }
-  console.log('selectedPendings', selectedPendings)
+
   // handler
   const updateClaimQuest = async (status: ClaimedQuestStatus) => {
     if (status === ClaimedQuestStatus.REJECTED) {
