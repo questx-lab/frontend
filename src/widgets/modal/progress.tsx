@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 
-import { Gap, SpinnerStyle } from '@/styles/common.style'
+import { Gap } from '@/styles/common.style'
 import BaseModal from '@/widgets/modal/base'
 import {
   CenterWrap,
@@ -11,6 +11,7 @@ import {
   TitleModal,
   WrapProgressBar,
 } from '@/widgets/modal/mini-widgets'
+import { SpinnerStyle } from '@/widgets/spinner'
 
 const ProgressModal: FunctionComponent<{
   isOpen: boolean

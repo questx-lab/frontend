@@ -111,6 +111,13 @@ export const LabelInput = tw.label`
   gap-2
 `
 
+export const HeaderText = tw.h2`
+  text-2xl
+  text-gray-900
+  font-medium
+  max-md:text-lg
+`
+
 ////////////////////////////////////////////////
 
 export const HeaderText3 = tw.div`

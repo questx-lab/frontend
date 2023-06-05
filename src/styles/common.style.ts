@@ -1,4 +1,4 @@
-import styled, { CSSProperties } from 'styled-components'
+import styled from 'styled-components'
 import tw from 'twin.macro'
 
 type GapProps = {
@@ -82,16 +82,3 @@ export const Divider = tw.div`
   h-[1px]
   w-full
 `
-
-export const VDevider = tw.div`
-  bg-gray-500
-  w-[1.5px]
-  h-full
-  mx-6
-`
-
-export const SpinnerStyle: CSSProperties = {
-  display: 'block',
-  margin: '0 auto',
-  borderColor: '#000',
-}
