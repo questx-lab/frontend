@@ -13,7 +13,7 @@ import { CommunityStore } from '@/store/local/community'
 import NewCommunityStore, { stateToUpdateCommunityRequest } from '@/store/local/new-community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { uploadFileForCommunity } from '@/utils/file'
-import { PositiveButton } from '@/widgets/buttons/button'
+import { PositiveButton } from '@/widgets/buttons'
 import { HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 
 const VerticalFrame = tw(VerticalFullWidth)`

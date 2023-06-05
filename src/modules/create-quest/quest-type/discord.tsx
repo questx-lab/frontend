@@ -4,7 +4,7 @@ import { handleLoginDiscord } from '@/handler/auth/discord'
 import { CommunityStore } from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest.store'
 import { Gap } from '@/styles/common.style'
-import { PositiveButton } from '@/widgets/buttons/button'
+import { PositiveButton } from '@/widgets/buttons'
 import { TextField } from '@/widgets/form'
 import { NormalText } from '@/widgets/text'
 

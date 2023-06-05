@@ -4,7 +4,7 @@ import { OuterBox } from '@/modules/create-quest/quest-type/mini-widget'
 import QuestQuiz from '@/modules/create-quest/quest-type/quiz'
 import NewQuestStore from '@/store/local/new-quest.store'
 import { QuestQuizType } from '@/utils/type'
-import { NegativeButton } from '@/widgets/buttons/button'
+import { NegativeButton } from '@/widgets/buttons'
 import { PlusIcon } from '@heroicons/react/24/outline'
 
 const canAddMoreQuiz = (quizzes: QuestQuizType[]): boolean => {

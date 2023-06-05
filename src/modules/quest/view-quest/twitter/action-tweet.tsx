@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import InputReplyPost from '@/modules/quest/view-quest/twitter/input-reply-post'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestTwitterActionType } from '@/utils/type'
-import { PositiveButton } from '@/widgets/buttons/button'
+import { PositiveButton } from '@/widgets/buttons'
 import { HorizontalStartCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 

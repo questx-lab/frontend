@@ -12,7 +12,7 @@ import NewCommunityStore from '@/store/local/new-community.store'
 import { GlobalStoreModel } from '@/store/store'
 import { LabelInput } from '@/styles/input.style'
 import { uploadFileForCommunity } from '@/utils/file'
-import { PositiveButton } from '@/widgets/buttons/button'
+import { PositiveButton } from '@/widgets/buttons'
 
 export const UploadImageStep: FunctionComponent = () => {
   // hook

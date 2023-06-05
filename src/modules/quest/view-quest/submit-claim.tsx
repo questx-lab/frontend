@@ -14,7 +14,7 @@ import NewQuestStore from '@/store/local/new-quest.store'
 import { GlobalStoreModel } from '@/store/store'
 import { uploadFile } from '@/utils/file'
 import { QuestType, UserType } from '@/utils/type'
-import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons/button'
+import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
 import { Horizontal } from '@/widgets/orientation'
 

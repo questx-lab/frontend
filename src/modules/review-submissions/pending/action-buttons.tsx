@@ -9,7 +9,7 @@ import { ButtonBox, ButtonFrame } from '@/modules/review-submissions/mini-widget
 import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { NewQuestSearchStore } from '@/store/local/quest-search.store'
 import { ClaimQuestType } from '@/utils/type'
-import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons/button'
+import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import LoadingModal from '@/widgets/modal/loading'
 
 const getListClaimQuest = async (
