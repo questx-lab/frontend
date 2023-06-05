@@ -44,7 +44,7 @@ const TelegramAction: FunctionComponent<{ link: string }> = ({ link }) => {
         toast.error(result.error)
       }
 
-      if (result?.data) {
+      if (result?.code === 0) {
         const user = await getUserApi()
         if (user.data) {
           setUserLocal(user.data)
