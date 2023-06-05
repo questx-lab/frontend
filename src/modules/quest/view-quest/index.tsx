@@ -4,17 +4,18 @@ import parseHtml from 'html-react-parser'
 import tw from 'twin.macro'
 
 import { QuestTypeEnum } from '@/constants/common.const'
+import { QuestDiscord } from '@/modules/quest/view-quest/discord'
 import QuestImage from '@/modules/quest/view-quest/image'
 import { QuestInvites } from '@/modules/quest/view-quest/invite'
 import { QuestQuiz } from '@/modules/quest/view-quest/quiz'
 import QuestReward from '@/modules/quest/view-quest/reward'
+import QuestTelegram from '@/modules/quest/view-quest/telegram'
 import { QuestText } from '@/modules/quest/view-quest/text'
 import { QuestTwitter } from '@/modules/quest/view-quest/twitter'
 import QuestUrl from '@/modules/quest/view-quest/url'
 import { QuestVisitLink } from '@/modules/quest/view-quest/vist-link'
 import { QuestType } from '@/utils/type'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
-import { MediumText } from '@/widgets/text'
 
 const OuterPadding = tw(Horizontal)`
   w-full
@@ -65,11 +66,9 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     case QuestTypeEnum.EMPTY:
       return <></>
     case QuestTypeEnum.DISCORD:
-      // return <QuestDiscord link={invite_url || ''} />
-      return <></>
+      return <QuestDiscord quest={quest} />
     case QuestTypeEnum.JOIN_TELEGRAM:
-      // return <QuestTelegram link={invite_url || ''} />
-      return <></>
+      return <QuestTelegram quest={quest} />
     default:
       return <></>
   }
@@ -80,7 +79,7 @@ const Index: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     <OuterPadding>
       <ContextFrame>
         <ContentPadding>
-          <MediumText>{parseHtml(quest.description ?? '')}</MediumText>
+          {parseHtml(quest.description ?? '')}
           <QuestContent quest={quest} />
         </ContentPadding>
       </ContextFrame>

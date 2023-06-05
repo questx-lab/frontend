@@ -25,7 +25,7 @@ const BaseStyle = styled.button<{
       text-lg
       text-white
       font-normal
-      py-3
+      py-2
       px-6
       rounded-lg
       flex

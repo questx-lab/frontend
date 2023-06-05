@@ -5,14 +5,13 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { AuthEnum } from '@/constants/common.const'
+import LoginBox from '@/modules/header/login/login-box'
+import RegisterBox from '@/modules/header/login/register-box'
+import RegisterForm from '@/modules/header/login/register-form'
 import { GlobalStoreModel } from '@/store/store'
 import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-
-import LoginBox from './login-box'
-import RegisterBox from './register-box'
-import RegisterForm from './register-form'
 
 const Wrap = styled(Dialog.Panel)(
   tw`
@@ -78,6 +77,7 @@ export const SocialBox = tw(Horizontal)`
   text-gray-900
   py-2
   hover:bg-gray-100
+  bg-white
 `
 
 export const Description = tw.div`

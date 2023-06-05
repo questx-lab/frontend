@@ -32,6 +32,7 @@ export interface NewQuestModel {
   pointReward: number
   activeReward: number
   highlighted: boolean
+  included_words: string[]
 
   quizzes: QuestQuizType[]
 
@@ -60,6 +61,7 @@ export interface NewQuestModel {
   setQuizzes: Action<NewQuestModel, QuestQuizType[]>
   setOptions: Action<NewQuestModel, { quizIndex: number; options: string[] }>
   setHighlighted: Action<NewQuestModel, boolean>
+  setIncluded_words: Action<NewQuestModel, string[]>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -91,6 +93,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     },
   ],
   highlighted: false,
+  included_words: [],
 
   // Set all the fields for the state
   setQuest: action((state, quest) => {
@@ -227,6 +230,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   setHighlighted: action((state, highlighted) => {
     state.highlighted = highlighted
   }),
+
+  setIncluded_words: action((state, included_words) => {
+    state.included_words = included_words
+  }),
 })
 
 /**
@@ -287,6 +294,7 @@ export const stateToNewQuestRequest = (
           case TwitterEnum.REPLY:
             validations.reply = true
             validations.tweet_url = state.tweetUrl
+            validations.default_reply = state.replyTw
             type = QuestTypeEnum.TWITTER_REACTION
 
             break
@@ -296,7 +304,7 @@ export const stateToNewQuestRequest = (
             type = QuestTypeEnum.TWITTER_REACTION
             break
           case TwitterEnum.TWEET:
-            validations.included_words = []
+            validations.included_words = state.included_words
             validations.default_tweet = state.contentTw
             type = QuestTypeEnum.TWITTER_TWEET
             break
@@ -312,7 +320,7 @@ export const stateToNewQuestRequest = (
       validations.invite_link = state.discordLink
       break
     case QuestTypeEnum.JOIN_TELEGRAM:
-      validations.invite_link = state.telegramLink
+      validations.group_link = state.telegramLink
       break
     case QuestTypeEnum.INVITES:
       validations.number = state.invites

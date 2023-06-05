@@ -2,7 +2,6 @@ import { FunctionComponent, ReactNode } from 'react'
 
 import tw from 'twin.macro'
 
-import { Gap } from '@/styles/common.style'
 import { RoundedGrayBorderBox } from '@/widgets/box'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 import { RequiredText } from '@/widgets/text'
@@ -31,15 +30,12 @@ export const QuestFieldsBox: FunctionComponent<{
   required?: boolean
 }> = ({ title, children, required = false }) => {
   return (
-    <>
-      <RoundedGrayBorderBox>
-        <Padding>
-          <FieldTitle title={title} required={required} />
-          {children}
-        </Padding>
-      </RoundedGrayBorderBox>
-      <Gap height={8} />
-    </>
+    <RoundedGrayBorderBox>
+      <Padding>
+        <FieldTitle title={title} required={required} />
+        {children}
+      </Padding>
+    </RoundedGrayBorderBox>
   )
 }
 

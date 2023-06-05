@@ -16,7 +16,6 @@ import TemplateGroups from '@/modules/create-quest/template-groups'
 import TopLabel from '@/modules/create-quest/top-label'
 import { CommunityStore } from '@/store/local/community'
 import NewQuestStore, { NewQuestModel, stateToNewQuestRequest } from '@/store/local/new-quest.store'
-import { Gap } from '@/styles/common.style'
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
 import ProgressModal from '@/widgets/modal/progress'
@@ -39,12 +38,13 @@ const BodyFrame = styled(Horizontal)<{ isTemplate?: boolean }>(({ isTemplate = f
   `
 })
 
-const EditInfoFrame = tw.div`
+const EditInfoFrame = tw(Vertical)`
   w-2/3
   h-full
   bg-white
   py-8
   pl-12
+  gap-3
 `
 
 const EditFrame = styled(Vertical)<{ isTemplate: boolean }>(({ isTemplate }) => {
@@ -141,8 +141,6 @@ export const CreateOrEditQuest: FunctionComponent<{
                 onChange={(e) => setTitle(e.target.value)}
                 msg='You must have a quest title to create this quest.'
               />
-              <Gap />
-
               <Label>{'QUEST DESCRIPTION'}</Label>
               <Editor
                 onChange={(value) => {
