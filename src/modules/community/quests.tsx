@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react'
 
 import tw from 'twin.macro'
 
-import { QuestCardToView } from '@/modules/quest/quest-card-to-view'
+import QuestCardToView from '@/modules/quest/quest-card-to-view'
 import { CommunityStore } from '@/store/local/community'
 import { Gap } from '@/styles/common.style'
 import { HeaderText } from '@/styles/home.style'

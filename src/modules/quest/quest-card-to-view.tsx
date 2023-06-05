@@ -11,7 +11,7 @@ import BasicModal from '@/widgets/modal/basic'
 /**
  * This component allows user to view the quest upon clicking on it.
  */
-export const QuestCardToView: FunctionComponent<{
+const QuestCardToView: FunctionComponent<{
   quest: QuestType
   isTemplate?: boolean
 }> = ({ quest, isTemplate = false }) => {
@@ -40,3 +40,5 @@ export const QuestCardToView: FunctionComponent<{
     </>
   )
 }
+
+export default QuestCardToView
