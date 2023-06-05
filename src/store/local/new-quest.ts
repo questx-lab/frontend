@@ -7,9 +7,9 @@ import {
   QuestTypeMap,
   TwitterEnum,
 } from '@/constants/common.const'
-import { ReqNewQuestType, ValidationQuest } from '@/types'
+import { ReqNewQuestType } from '@/types'
 import { StateToModel } from '@/types/conversion'
-import { QuestQuizType, QuestType } from '@/types/quest'
+import { QuestQuizType, QuestType, ValidationQuest } from '@/types/quest'
 import { isTwitterType } from '@/types/twitter'
 
 export interface NewQuestModel {

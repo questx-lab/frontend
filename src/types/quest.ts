@@ -66,3 +66,24 @@ export const emptyQuest = (): QuestType => {
 
   return q
 }
+
+export type ValidationQuest = {
+  auto_validate?: boolean
+  answer?: string
+  question?: string
+  options?: string[]
+  link?: string
+  included_words?: string[]
+  default_tweet?: string
+  default_reply?: string
+  twitter_handle?: string
+  tweet_url?: string
+  retweet?: boolean
+  reply?: boolean
+  like?: boolean
+  space_url?: string
+  invite_link?: string
+  group_link?: string
+  number?: number
+  quizzes?: QuestQuizType[]
+}
