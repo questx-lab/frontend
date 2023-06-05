@@ -102,6 +102,15 @@ export const RequiredText = tw.span`
   text-danger-700
 `
 
+export const LabelInput = tw.label`
+  text-gray-700
+  font-medium
+  text-sm
+  flex
+  flex-row
+  gap-2
+`
+
 ////////////////////////////////////////////////
 
 export const HeaderText3 = tw.div`

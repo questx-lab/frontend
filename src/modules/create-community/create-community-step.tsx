@@ -6,11 +6,11 @@ import tw from 'twin.macro'
 import { newCommunityApi } from '@/app/api/client/communitiy'
 import { BackButton, HorizotalFullWidth, Title } from '@/modules/create-community/mini-widget'
 import NewCommunityStore from '@/store/local/new-community.store'
-import { LabelInput } from '@/styles/input.style'
 import { ReqNewCommunity } from '@/utils/type'
 import { PositiveButton } from '@/widgets/buttons'
 import { TextField } from '@/widgets/form'
 import { Vertical } from '@/widgets/orientation'
+import { LabelInput } from '@/widgets/text'
 
 const Main = tw(Vertical)`
   gap-5

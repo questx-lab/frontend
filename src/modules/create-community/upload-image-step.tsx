@@ -10,9 +10,9 @@ import { AvatarUpload } from '@/modules/create-community/avatar-upload'
 import { Main } from '@/modules/create-community/mini-widget'
 import NewCommunityStore from '@/store/local/new-community.store'
 import { GlobalStoreModel } from '@/store/store'
-import { LabelInput } from '@/styles/input.style'
 import { uploadFileForCommunity } from '@/utils/file'
 import { PositiveButton } from '@/widgets/buttons'
+import { LabelInput } from '@/widgets/text'
 
 export const UploadImageStep: FunctionComponent = () => {
   // hook
