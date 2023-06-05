@@ -12,9 +12,9 @@ import { Image } from '@/widgets/image'
 const MetaMaskLogin: FC = () => {
   // data
   const authBox = useStoreState<GlobalStoreModel>((state) => state.authBox)
-  let buttonText = 'Log in with Discord'
+  let buttonText = 'Log in with Metamask'
   if (authBox === AuthEnum.REGISTER) {
-    buttonText = 'Sign up with Discord'
+    buttonText = 'Sign up with Metamask'
   }
 
   return (
