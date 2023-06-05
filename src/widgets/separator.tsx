@@ -1,6 +1,12 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+export const Divider = tw.div`
+  bg-gray-300
+  h-[1px]
+  w-full
+`
+
 type GapProps = {
   width?: number
   height?: number
@@ -76,9 +82,3 @@ export const Gap = styled.div<GapProps>(({ width = 4, height = 4 }) => [
   () => widthFormat(width),
   () => heightFormat(height),
 ])
-
-export const Divider = tw.div`
-  bg-gray-300
-  h-[1px]
-  w-full
-`

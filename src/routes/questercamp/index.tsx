@@ -9,7 +9,6 @@ import { listQuestApi } from '@/app/api/client/quest'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { QuestCardToView } from '@/modules/quest/quest-card-to-view'
-import { Divider } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
@@ -23,6 +22,7 @@ import {
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
 import SearchResult from '@/widgets/search-result'
+import { Divider } from '@/widgets/separator'
 import { Large2xlText, Large3xlText } from '@/widgets/text'
 
 const SearchPadding = tw(Horizontal)`

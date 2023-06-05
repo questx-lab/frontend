@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
 import NewCommunityStore from '@/store/local/new-community.store'
-import { Gap } from '@/styles/common.style'
 import { TextField } from '@/widgets/form'
+import { Gap } from '@/widgets/separator'
 import { HeaderText3 } from '@/widgets/text'
 
 const Description: FC = () => {

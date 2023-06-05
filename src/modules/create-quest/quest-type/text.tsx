@@ -4,10 +4,10 @@ import tw from 'twin.macro'
 
 import { OuterBox } from '@/modules/create-quest/quest-type/mini-widget'
 import NewQuestStore from '@/store/local/new-quest.store'
-import { Gap } from '@/styles/common.style'
 import { TextField } from '@/widgets/form'
 import { CheckBox } from '@/widgets/input'
 import { HorizontalCenter } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { Label, SmallText } from '@/widgets/text'
 
 const LabelCheckText = tw.span`

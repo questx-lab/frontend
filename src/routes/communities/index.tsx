@@ -6,7 +6,6 @@ import { useDebouncedCallback } from 'use-debounce'
 import CreateCommunity from '@/modules/create-community'
 import CommunityContent from '@/routes/communities/community-content'
 import NewCommunityStore from '@/store/local/new-community.store'
-import { Divider } from '@/styles/common.style'
 import { SearchInput } from '@/widgets/input/search-input'
 import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import BaseModal from '@/widgets/modal/base'
@@ -15,6 +14,7 @@ import {
   HorizontalBetweenCenterFullWidth,
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
+import { Divider } from '@/widgets/separator'
 import { Large3xlText } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
 

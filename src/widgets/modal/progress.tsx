@@ -2,7 +2,6 @@ import { FunctionComponent } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 
-import { Gap } from '@/styles/common.style'
 import BaseModal from '@/widgets/modal/base'
 import {
   CenterWrap,
@@ -11,6 +10,7 @@ import {
   TitleModal,
   WrapProgressBar,
 } from '@/widgets/modal/mini-widgets'
+import { Gap } from '@/widgets/separator'
 import { SpinnerStyle } from '@/widgets/spinner'
 
 const ProgressModal: FunctionComponent<{

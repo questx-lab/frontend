@@ -19,7 +19,6 @@ import {
   VerticalLeftMargin,
 } from '@/modules/review-submissions/mini-widget'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { Gap } from '@/styles/common.style'
 import { ClaimQuestType } from '@/utils/type'
 import { Image } from '@/widgets/image'
 import { CheckBox } from '@/widgets/input'
@@ -28,6 +27,7 @@ import {
   VerticalCenter,
   VerticalFullWidth,
 } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { NormalText } from '@/widgets/text'
 
 const LoadingPosition = tw(VerticalCenter)`

@@ -5,11 +5,11 @@ import tw from 'twin.macro'
 
 import { QuestCardToTemplate } from '@/modules/quest/quest-card-to-template'
 import { GlobalStoreModel } from '@/store/store'
-import { Gap } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
 import { GrayBorderBox } from '@/widgets/box'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
+import { Gap } from '@/widgets/separator'
 
 const BackgroundAndBorder = tw(GrayBorderBox)`
   px-16

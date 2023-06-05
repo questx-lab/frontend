@@ -3,8 +3,8 @@ import { FunctionComponent } from 'react'
 import { TwitterEnum } from '@/constants/common.const'
 import { Padding } from '@/modules/create-quest/quest-type/mini-widget'
 import NewQuestStore from '@/store/local/new-quest.store'
-import { Divider } from '@/styles/common.style'
 import MultipleInputBox from '@/widgets/input/multiple-input-box'
+import { Divider } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
 
 const TwitterTweet: FunctionComponent = () => {

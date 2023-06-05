@@ -6,9 +6,9 @@ import tw from 'twin.macro'
 
 import { QuestCardToView } from '@/modules/quest/quest-card-to-view'
 import { CommunityStore } from '@/store/local/community'
-import { Gap } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
 import { VerticalFullWidth } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { HeaderText } from '@/widgets/text'
 
 const Grid = tw.div`

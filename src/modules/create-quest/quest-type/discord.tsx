@@ -3,9 +3,9 @@ import { Fragment, FunctionComponent } from 'react'
 import { handleLoginDiscord } from '@/handler/auth/discord'
 import { CommunityStore } from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest.store'
-import { Gap } from '@/styles/common.style'
 import { PositiveButton } from '@/widgets/buttons'
 import { TextField } from '@/widgets/form'
+import { Gap } from '@/widgets/separator'
 import { NormalText } from '@/widgets/text'
 
 const Discord: FunctionComponent = () => {

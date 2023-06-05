@@ -8,10 +8,10 @@ import { getMyFollowerInfoApi } from '@/app/api/client/communitiy'
 import { QuestTypeEnum } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import { StorageConst } from '@/constants/storage.const'
-import { Divider, Gap } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
 import { Image } from '@/widgets/image'
 import { HorizontalBetweenCenter } from '@/widgets/orientation'
+import { Divider, Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
 
 const LinkText = tw.div`

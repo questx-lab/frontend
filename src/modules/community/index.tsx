@@ -9,12 +9,12 @@ import Templates from '@/modules/community/templates'
 import { CreateOrEditQuest } from '@/modules/create-quest'
 import { CommunityStore } from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest.store'
-import { Gap } from '@/styles/common.style'
 import { ControlPanelTab } from '@/types/community'
 import { emptyQuest } from '@/types/quest'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { Large3xlText } from '@/widgets/text'
 
 const OuterBoxPadding = tw(Horizontal)`

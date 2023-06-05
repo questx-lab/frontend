@@ -5,10 +5,10 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
-import { Gap } from '@/styles/common.style'
 import { QuestType } from '@/utils/type'
 import { Image } from '@/widgets/image'
 import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { MediumText, RewardText } from '@/widgets/text'
 
 const BorderBox = styled.div<{

@@ -3,9 +3,9 @@ import { FC } from 'react'
 import tw from 'twin.macro'
 
 import NewCommunityStore from '@/store/local/new-community.store'
-import { Gap } from '@/styles/common.style'
 import { TextField } from '@/widgets/form'
 import { HorizontalFullWidth, Vertical } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { HeaderText3 } from '@/widgets/text'
 
 const LeftColumn = tw(Vertical)`

@@ -7,9 +7,9 @@ import { StorageConst } from '@/constants/storage.const'
 import { BorderBox, RewardRow } from '@/modules/quest/view-quest/mini-widget'
 import ClaimInfo from '@/modules/review-submissions/claim-review/claim-info'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { Gap } from '@/styles/common.style'
 import { Image } from '@/widgets/image'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { Label, RewardText } from '@/widgets/text'
 
 const OuterFrame = tw(Horizontal)`
