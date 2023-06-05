@@ -32,7 +32,7 @@ export interface NewQuestModel {
   pointReward: number
   activeReward: number
   highlighted: boolean
-  included_words: string[]
+  includedWords: string[]
 
   quizzes: QuestQuizType[]
 
@@ -61,7 +61,7 @@ export interface NewQuestModel {
   setQuizzes: Action<NewQuestModel, QuestQuizType[]>
   setOptions: Action<NewQuestModel, { quizIndex: number; options: string[] }>
   setHighlighted: Action<NewQuestModel, boolean>
-  setIncluded_words: Action<NewQuestModel, string[]>
+  setIncludedWords: Action<NewQuestModel, string[]>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -93,7 +93,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     },
   ],
   highlighted: false,
-  included_words: [],
+  includedWords: [],
 
   // Set all the fields for the state
   setQuest: action((state, quest) => {
@@ -231,8 +231,8 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.highlighted = highlighted
   }),
 
-  setIncluded_words: action((state, included_words) => {
-    state.included_words = included_words
+  setIncludedWords: action((state, included_words) => {
+    state.includedWords = included_words
   }),
 })
 
@@ -304,7 +304,7 @@ export const stateToNewQuestRequest = (
             type = QuestTypeEnum.TWITTER_REACTION
             break
           case TwitterEnum.TWEET:
-            validations.included_words = state.included_words
+            validations.included_words = state.includedWords
             validations.default_tweet = state.contentTw
             type = QuestTypeEnum.TWITTER_TWEET
             break

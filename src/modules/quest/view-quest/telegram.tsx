@@ -11,7 +11,7 @@ import { ButtonSocialType, ColorEnum } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import { StorageConst } from '@/constants/storage.const'
 import { handleLinkTelegram } from '@/handler/auth/telegram'
-import { CommonBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
+import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { GlobalStoreModel } from '@/store/store'
 import { setUserLocal } from '@/utils/helper'
@@ -56,7 +56,7 @@ const TelegramAction: FunctionComponent<{ link: string }> = ({ link }) => {
 
   if (user && user.services && !user.services.telegram) {
     return (
-      <CommonBox boxColor={ColorEnum.WARNING}>
+      <ColorBox boxColor={ColorEnum.WARNING}>
         {'You need to connect Twitter '}
         <TLoginButton
           buttonSize={TLoginButtonSize.Large}
@@ -66,7 +66,7 @@ const TelegramAction: FunctionComponent<{ link: string }> = ({ link }) => {
           onAuthCallback={onCallback}
           cornerRadius={10}
         />
-      </CommonBox>
+      </ColorBox>
     )
   }
 

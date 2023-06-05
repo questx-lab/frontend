@@ -9,7 +9,7 @@ export const ActionTwitterFrame = tw(HorizontalBetweenCenter)`
   w-full
 `
 
-export const CommonBox = styled(HorizontalStartCenter)<{ boxColor?: number }>(
+export const ColorBox = styled(HorizontalStartCenter)<{ boxColor?: number }>(
   ({ boxColor = ColorEnum.NONE }) => {
     const style = [
       tw`

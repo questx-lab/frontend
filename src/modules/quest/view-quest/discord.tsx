@@ -9,7 +9,7 @@ import { ButtonSocialType, ColorEnum } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { handleLoginDiscord } from '@/handler/auth/discord'
 import { SocialBox } from '@/modules/header/login'
-import { CommonBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
+import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestType, UserType } from '@/utils/type'
 import { SocialButton } from '@/widgets/buttons/button-social'
@@ -21,7 +21,7 @@ const PaddingVertical = tw(VerticalBetween)`
   w-full
   gap-6
 `
-const Html = tw.div`
+const Decription = tw.div`
   px-4
   text-gray-700
   font-normal
@@ -36,7 +36,7 @@ const DiscordAction: FunctionComponent<{ link: string }> = ({ link }) => {
 
   if (user && user.services && !user.services.discord) {
     return (
-      <CommonBox boxColor={ColorEnum.WARNING}>
+      <ColorBox boxColor={ColorEnum.WARNING}>
         <HorizontalFullWidth>
           <ExclamationTriangleIcon className='w-7 h-7 text-warning' />
           {'You need to connect Discord'}
@@ -50,7 +50,7 @@ const DiscordAction: FunctionComponent<{ link: string }> = ({ link }) => {
           />
           {'Connect Discord'}
         </SocialBox>
-      </CommonBox>
+      </ColorBox>
     )
   }
 
@@ -65,7 +65,7 @@ export const QuestDiscord: FunctionComponent<{ quest: QuestType }> = ({ quest })
   return (
     <PaddingVertical>
       <DiscordAction link={quest.validation_data.invite_link || ''} />
-      <Html>{parseHtml(quest.description ?? '')}</Html>
+      <Decription>{parseHtml(quest.description ?? '')}</Decription>
     </PaddingVertical>
   )
 }

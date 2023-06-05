@@ -10,7 +10,7 @@ import { Label } from '@/widgets/text'
 const TwitterTweet: FunctionComponent = () => {
   const actionTwitter = NewQuestStore.useStoreState((state) => state.actionTwitter)
   const setContentTwitter = NewQuestStore.useStoreActions((actions) => actions.setContentTwitter)
-  const setIncluded_words = NewQuestStore.useStoreActions((actions) => actions.setIncluded_words)
+  const setIncludedWords = NewQuestStore.useStoreActions((actions) => actions.setIncludedWords)
 
   if (!actionTwitter.includes(TwitterEnum.TWEET)) {
     return <></>
@@ -31,7 +31,7 @@ const TwitterTweet: FunctionComponent = () => {
       <Padding>
         <Label>{'INCLUDE WORDS'}</Label>
         <MultipleInputBox
-          onChange={(e) => setIncluded_words(e.target.value.split(','))}
+          onChange={(e) => setIncludedWords(e.target.value.split(','))}
           rows={3}
           placeholder='Use , to seperate words that you want to include your tweet, for example: hello,xquest'
         />
