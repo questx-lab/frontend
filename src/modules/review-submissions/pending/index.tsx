@@ -19,10 +19,58 @@ import { NewClaimReviewStore } from '@/store/local/claim-review'
 import { CommunityStore } from '@/store/local/community'
 import { ClaimQuestType, ListClaimQuestType, QuestType, Rsp } from '@/utils/type'
 
+const PendingContent: FunctionComponent<{ loading: boolean }> = ({ loading }) => {
+  // data
+  const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
+  const selectedPendings = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
+  const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
+
+  // action
+  const setSelectedPending = NewClaimReviewStore.useStoreActions(
+    (actions) => actions.setSelectedPending
+  )
+
+  if (loading) {
+    return (
+      <TableLoadingFrame>
+        <MoonLoader />
+      </TableLoadingFrame>
+    )
+  }
+
+  // called when single item checkbox changes.
+  const onCheckChanged = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
+    if (e.target.checked) {
+      selectedPendings.set(value.id, value)
+    } else {
+      selectedPendings.delete(value.id)
+    }
+
+    setSelectedPending(selectedPendings)
+  }
+
+  return (
+    <>
+      <SubmissionsList
+        list={pendingClaims}
+        itemView={(item: ClaimQuestType, index: number) => {
+          return (
+            <PendingItem
+              active={selectedPendings.has(item.id)}
+              onChange={onCheckChanged}
+              claimQuest={item}
+              key={index}
+            />
+          )
+        }}
+      />
+      <ActionButtons communityHandle={selectedCommunity.handle} />
+    </>
+  )
+}
+
 const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   // data
-  const selectedPendings = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
-  const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   // action
@@ -59,17 +107,6 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     }
   }
 
-  // called when single item checkbox changes.
-  const onCheckChanged = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
-    if (e.target.checked) {
-      selectedPendings.set(value.id, value)
-    } else {
-      selectedPendings.delete(value.id)
-    }
-
-    setSelectedPending(selectedPendings)
-  }
-
   // called when filter changes
   const onFilterChanged = async (selectedQuests: QuestType[]) => {
     setLoading(true)
@@ -97,31 +134,7 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
       <TabContentFrame>
         <SubmissionColumn>
           <TableHeader />
-
-          {!loading && (
-            <>
-              <SubmissionsList
-                list={pendingClaims}
-                itemView={(item: ClaimQuestType, index: number) => {
-                  return (
-                    <PendingItem
-                      active={selectedPendings.has(item.id)}
-                      onChange={onCheckChanged}
-                      claimQuest={item}
-                      key={index}
-                    />
-                  )
-                }}
-              />
-              <ActionButtons communityHandle={selectedCommunity.handle} />
-            </>
-          )}
-
-          {loading && (
-            <TableLoadingFrame>
-              <MoonLoader />
-            </TableLoadingFrame>
-          )}
+          <PendingContent loading={loading} />
         </SubmissionColumn>
         <FilterColumn>
           <Filter onFilterChanged={onFilterChanged} />

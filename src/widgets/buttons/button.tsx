@@ -8,10 +8,14 @@ import tw from 'twin.macro'
 import { SizeEnum } from '@/constants/common.const'
 import { GlobalStoreModel } from '@/store/store'
 
-enum ButtonTypeEnum {
+export enum ButtonTypeEnum {
   NEGATIVE,
   POSITVE,
   DANGEROUS,
+  DANGEROUS_BORDER,
+  WARNING,
+  SUCCESS,
+  SUCCESS_BORDER,
 }
 
 const BaseStyle = styled.button<{
@@ -25,7 +29,7 @@ const BaseStyle = styled.button<{
       text-lg
       text-white
       font-normal
-      py-3
+      py-2
       px-6
       rounded-lg
       flex
@@ -59,6 +63,12 @@ const BaseStyle = styled.button<{
           hover:cursor-not-allowed
         `)
         break
+      case ButtonTypeEnum.WARNING:
+        style.push(tw`
+            bg-warning-50
+            hover:cursor-not-allowed
+          `)
+        break
     }
   } else {
     // enabled
@@ -82,6 +92,33 @@ const BaseStyle = styled.button<{
           bg-danger-700
           hover:bg-danger-500
         `)
+        break
+      case ButtonTypeEnum.WARNING:
+        style.push(tw`
+            bg-warning-50
+            hover:bg-warning-100
+            text-warning
+          `)
+        break
+      case ButtonTypeEnum.SUCCESS_BORDER:
+        style.push(tw`
+              bg-success-50
+              hover:bg-success-100
+              text-success
+              border
+              border-solid
+              border-success
+            `)
+        break
+      case ButtonTypeEnum.DANGEROUS_BORDER:
+        style.push(tw`
+                bg-danger-50
+                hover:bg-danger-100
+                text-danger
+                border
+                border-solid
+                border-danger
+              `)
         break
     }
   }
@@ -171,6 +208,7 @@ export const PositiveButton: FunctionComponent<{
   isFull?: boolean
   width?: number
   requireLogin?: boolean
+  type?: number
 }> = ({
   loading = false,
   children,
@@ -179,6 +217,7 @@ export const PositiveButton: FunctionComponent<{
   isFull = false,
   width,
   requireLogin = false,
+  type = ButtonTypeEnum.POSITVE,
 }) => {
   return (
     <Button
@@ -188,7 +227,7 @@ export const PositiveButton: FunctionComponent<{
       onClick={onClick}
       requireLogin={requireLogin}
       loading={loading}
-      type={ButtonTypeEnum.POSITVE}
+      type={type}
     >
       {children}
     </Button>
