@@ -4,7 +4,7 @@ import { provider } from 'web3-core'
 
 import { linkWalletApi, loginMetamask, verifyMetaMask } from '@/app/api/client/wallet'
 import { RouterConst } from '@/constants/router.const'
-import { setAccessToken } from '@/utils/helper'
+import { setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { MetaMaskInpageProvider } from '@metamask/providers'
 
@@ -75,6 +75,8 @@ const connectToServer = async (account: string, ethereum: MetaMaskInpageProvider
     const signature = await w3.eth.personal.sign(data.data.nonce, account, '')
     const rs = await verifyMetaMask(signature)
     setAccessToken(rs.data.access_token)
+    setRefreshToken(rs.data.refresh_token)
+    setUserLocal(rs.data.user)
     window.location.href = RouterConst.HOME
   } catch (error) {
     toast.error('Error when login to server')
