@@ -252,7 +252,7 @@ const Content: FunctionComponent = () => {
                 </Description>
                 <NegativeButton
                   onClick={() => {
-                    // TODO: router.push(RouterConst.COMMUNITIES)}
+                    navigate(RouterConst.COMMUNITIES)
                   }}
                 >
                   {'Explore'}
