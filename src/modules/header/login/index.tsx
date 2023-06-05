@@ -13,6 +13,9 @@ import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
+import ChooseUserName from './choose-username'
+import LoginBox from './login-box'
+
 const Wrap = styled(Dialog.Panel)(
   tw`
   w-[480px]
@@ -109,11 +112,12 @@ const Login: FunctionComponent<{
   const Content: FunctionComponent = () => {
     switch (authBox) {
       case AuthEnum.LOGIN:
-        return <LoginBox />
       case AuthEnum.REGISTER:
-        return <RegisterBox />
+        return <LoginBox />
+      case AuthEnum.CHOOSE_USERNAME:
+        return <ChooseUserName setOpen={setOpen} />
       default:
-        return <RegisterForm setOpen={setOpen} />
+        return <></>
     }
   }
 

@@ -16,6 +16,8 @@ export type WalletVerifyRes = {
   error: number
   data: {
     access_token: string
+    refresh_token: string
+    user: UserType
   }
 }
 

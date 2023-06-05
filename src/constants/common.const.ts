@@ -235,7 +235,7 @@ export enum ConnectSocialPlatformEnum {
 export enum AuthEnum {
   LOGIN,
   REGISTER,
-  INPUT_FORM,
+  CHOOSE_USERNAME,
 }
 
 export enum SocialDisplay {

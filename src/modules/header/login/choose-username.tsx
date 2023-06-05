@@ -9,14 +9,14 @@ import tw from 'twin.macro'
 import { getUserApi, updateUserApi } from '@/app/api/client/user'
 import { StorageConst } from '@/constants/storage.const'
 import { FieldTitle } from '@/modules/create-quest/mini-widget'
-import { PaddingVertical, PolicyText, Title } from '@/modules/header/login'
+import { PaddingVertical, Title } from '@/modules/header/login'
 import { GlobalStoreModel } from '@/store/store'
 import { setUserLocal } from '@/utils/helper'
 import { UserType } from '@/utils/type'
 import { TextField } from '@/widgets/form'
 import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
-import { Label, PrimaryText } from '@/widgets/text'
+import { Label } from '@/widgets/text'
 
 const FormBox = tw(Vertical)`
   w-full
@@ -177,7 +177,7 @@ const UserBox: FunctionComponent = () => {
   )
 }
 
-const RegisterForm: FunctionComponent<{
+const ChooseUserName: FunctionComponent<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   // hook
@@ -245,12 +245,15 @@ const RegisterForm: FunctionComponent<{
       <Button onClick={handleSubmit} block={username === ''} disabled={username === ''}>
         <LoadingBtn />
       </Button>
-      <PolicyText>
-        {'By continuing, you agree to the'} <PrimaryText isHover>{'Terms of Service'}</PrimaryText>
-        <PrimaryText isHover>{'Privacy policy'}</PrimaryText>
-      </PolicyText>
+      {
+        // TODO: Add back Terms of service when it's ready.
+        //   <PolicyText>
+        //   {'By continuing, you agree to the'} <PrimaryText isHover>{'Terms of Service'}</PrimaryText>
+        //   <PrimaryText isHover>{'Privacy policy'}</PrimaryText>
+        // </PolicyText>
+      }
     </PaddingVertical>
   )
 }
 
-export default RegisterForm
+export default ChooseUserName

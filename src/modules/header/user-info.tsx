@@ -73,7 +73,7 @@ export const UserInfoBox: FunctionComponent = () => {
   useEffect(() => {
     if (user && user.is_new_user) {
       setShowLoginModal(true)
-      setAuthBox(AuthEnum.INPUT_FORM)
+      setAuthBox(AuthEnum.CHOOSE_USERNAME)
     }
   }, [user])
 

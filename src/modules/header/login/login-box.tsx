@@ -1,92 +1,31 @@
 import { FunctionComponent } from 'react'
 
-import { useStoreActions } from 'easy-peasy'
-import toast from 'react-hot-toast'
+import { useStoreState } from 'easy-peasy'
 
 import { AuthEnum } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
-import { handleLoginDiscord } from '@/handler/auth/discord'
-import { handleMetamask } from '@/handler/auth/metamask'
-import { handleLoginTwitter } from '@/handler/auth/twitter'
-import { Description, PaddingVertical, SocialBox, Title } from '@/modules/header/login'
+import { PaddingVertical, Title } from '@/modules/header/login'
+import DiscordLogin from '@/modules/header/login/discord'
+import GoogleLogin from '@/modules/header/login/google'
+import MetaMaskLogin from '@/modules/header/login/metamask'
+import TwitterLogin from '@/modules/header/login/twitter'
 import { GlobalStoreModel } from '@/store/store'
-import { updateAccessToken } from '@/utils/storage'
-import { Image } from '@/widgets/image'
-import { PrimaryText } from '@/widgets/text'
-import { useGoogleLogin } from '@react-oauth/google'
 
 const LoginBox: FunctionComponent = () => {
-  const setShowLoginModal = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
-
-  const handleLoginGoogle = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      if (tokenResponse && tokenResponse.access_token) {
-        const { value, error } = await updateAccessToken('google', tokenResponse.access_token)
-        if (value) {
-          // close the modal
-          setShowLoginModal(false)
-
-          // Reload current page
-          window.location.reload()
-        } else {
-          if (error) {
-            toast.error(error)
-          }
-        }
-      }
-    },
-    onError: (errorResponse) => console.log(errorResponse),
-  })
-
-  // action
-  const setAuthBox = useStoreActions<GlobalStoreModel>((action) => action.setAuthBox)
+  // data
+  const authBox = useStoreState<GlobalStoreModel>((state) => state.authBox)
+  let title = 'Log in to XQuest'
+  if (authBox === AuthEnum.REGISTER) {
+    title = 'Sign up'
+  }
 
   return (
     <PaddingVertical>
-      <Title>{'Log in to XQuest'}</Title>
+      <Title>{title}</Title>
 
-      <SocialBox onClick={() => handleLoginGoogle()}>
-        <Image
-          width={40}
-          height={40}
-          src={StorageConst.GOOGLE_DIR.src}
-          alt={StorageConst.GOOGLE_DIR.alt}
-        />
-        {'Log in with Google'}
-      </SocialBox>
-      <SocialBox onClick={handleLoginTwitter}>
-        <Image
-          width={40}
-          height={40}
-          src={StorageConst.TWITTER_DIR.src}
-          alt={StorageConst.TWITTER_DIR.alt}
-        />
-        {'Log in with Twitter'}
-      </SocialBox>
-      <SocialBox onClick={() => handleLoginDiscord({ joinCommunity: false })}>
-        <Image
-          width={40}
-          height={40}
-          src={StorageConst.DISCORD_DIR.src}
-          alt={StorageConst.DISCORD_DIR.alt}
-        />
-        {'Log in with Discord'}
-      </SocialBox>
-      <SocialBox onClick={handleMetamask}>
-        <Image
-          width={40}
-          height={40}
-          src={StorageConst.METAMASK_DIR.src}
-          alt={StorageConst.METAMASK_DIR.alt}
-        />
-        {'Log in with MetaMask'}
-      </SocialBox>
-      <Description>
-        {"Don't have an account?"}
-        <PrimaryText isHover onClick={() => setAuthBox(AuthEnum.REGISTER)}>
-          {'Sign up'}
-        </PrimaryText>
-      </Description>
+      <GoogleLogin />
+      <TwitterLogin />
+      <DiscordLogin />
+      <MetaMaskLogin />
     </PaddingVertical>
   )
 }
