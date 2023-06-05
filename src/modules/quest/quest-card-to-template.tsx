@@ -1,5 +1,3 @@
-'use client'
-
 import { FunctionComponent } from 'react'
 
 import { useNavigate } from 'react-router'

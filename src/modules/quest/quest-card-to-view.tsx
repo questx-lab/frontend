@@ -1,5 +1,3 @@
-'use client'
-
 import { FunctionComponent, useState } from 'react'
 
 import QuestCardDetails from '@/modules/quest/quest-card-details'

@@ -1,5 +1,3 @@
-'use client'
-
 import { FunctionComponent } from 'react'
 
 import tw from 'twin.macro'
