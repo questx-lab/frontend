@@ -11,7 +11,6 @@ import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
 import LoginBox from './login-box'
-import RegisterBox from './register-box'
 import RegisterForm from './register-form'
 
 const Wrap = styled(Dialog.Panel)(
@@ -109,11 +108,12 @@ const Login: FunctionComponent<{
   const Content: FunctionComponent = () => {
     switch (authBox) {
       case AuthEnum.LOGIN:
-        return <LoginBox />
       case AuthEnum.REGISTER:
-        return <RegisterBox />
-      default:
+        return <LoginBox />
+      case AuthEnum.INPUT_FORM:
         return <RegisterForm setOpen={setOpen} />
+      default:
+        return <></>
     }
   }
 
