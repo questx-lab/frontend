@@ -9,7 +9,7 @@ export const ActionTwitterFrame = tw(HorizontalBetweenCenter)`
   w-full
 `
 
-export const WarningBox = styled(HorizontalStartCenter)<{ boxColor?: number }>(
+export const ColorBox = styled(HorizontalStartCenter)<{ boxColor?: number }>(
   ({ boxColor = ColorEnum.NONE }) => {
     const style = [
       tw`
@@ -24,6 +24,7 @@ export const WarningBox = styled(HorizontalStartCenter)<{ boxColor?: number }>(
       font-normal
       text-gray-700
       text-start
+      gap-2
     `,
     ]
 
@@ -32,18 +33,21 @@ export const WarningBox = styled(HorizontalStartCenter)<{ boxColor?: number }>(
         style.push(tw`
         bg-primary-50
         border-primary
+        text-primary
       `)
         break
       case ColorEnum.WARNING:
         style.push(tw`
         bg-warning-50
         border-warning
+        text-warning
       `)
         break
       case ColorEnum.DANGER:
         style.push(tw`
         bg-danger-50
         border-danger
+        text-danger
       `)
         break
     }

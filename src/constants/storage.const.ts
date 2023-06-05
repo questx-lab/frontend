@@ -8,7 +8,7 @@ export const StorageConst = {
     alt: 'Google',
   },
   TELEGRAM_DIR: {
-    src: '/images/logos/telegram.svg',
+    src: '/images/icons/telegram.svg',
     alt: 'Telegram',
   },
   DISCORD_DIR: {

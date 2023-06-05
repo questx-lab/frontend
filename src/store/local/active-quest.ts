@@ -17,6 +17,7 @@ export interface ActiveQuestModel {
   fileUpload: File[]
   visitLink: boolean
   quizAnswers: string[]
+  telegramSubmit: boolean
 
   setQuest: Action<ActiveQuestModel, QuestType>
   setUrlSubmit: Action<ActiveQuestModel, string>
@@ -25,6 +26,7 @@ export interface ActiveQuestModel {
   setFileUpload: Action<ActiveQuestModel, File[]>
   setVisitLink: Action<ActiveQuestModel, boolean>
   setQuizAnswers: Action<ActiveQuestModel, string[]>
+  setTelegramSubmit: Action<ActiveQuestModel, boolean>
 }
 
 export const ActiveQuestStore = createContextStore<ActiveQuestModel>({
@@ -35,6 +37,7 @@ export const ActiveQuestStore = createContextStore<ActiveQuestModel>({
   fileUpload: [],
   visitLink: false,
   quizAnswers: [],
+  telegramSubmit: false,
 
   setQuest: action((state, quest) => {
     state.quest = quest
@@ -62,5 +65,9 @@ export const ActiveQuestStore = createContextStore<ActiveQuestModel>({
 
   setQuizAnswers: action((state, answers) => {
     state.quizAnswers = answers
+  }),
+
+  setTelegramSubmit: action((state, telegram) => {
+    state.telegramSubmit = telegram
   }),
 })

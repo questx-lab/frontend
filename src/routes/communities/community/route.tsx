@@ -96,7 +96,7 @@ export const Community = () => {
         setRole(CommunityRoleEnum.NOT_LOGIN)
       }
     }
-  }, [setSelectedCommunity, collab, data.community, data.templates])
+  }, [collab, data])
 
   if (!community) {
     return <>Failed to load community data</>
@@ -104,7 +104,7 @@ export const Community = () => {
 
   // load quests
   const loadQuests = async () => {
-    const result = await listQuestApi(community.handle, '')
+    const result = await listQuestApi(data.community.handle, '')
     if (result.code === 0) {
       setQuests(result.data?.quests || [])
     } else {

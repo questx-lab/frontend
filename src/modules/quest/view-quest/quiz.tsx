@@ -1,9 +1,8 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
 import tw from 'twin.macro'
 
 import { Alphabet } from '@/constants/alphabet'
-import { AnswerStatusEnum } from '@/constants/common.const'
 import { ActiveQuestStore } from '@/store/local/active-quest'
 import { QuestQuizType } from '@/utils/type'
 import { AnswerBox } from '@/widgets/buttons/answer-box'
@@ -63,41 +62,16 @@ export const QuizItem: FunctionComponent<{
   const quizAnswers = ActiveQuestStore.useStoreState((state) => state.quizAnswers)
   const setQuizAnswers = ActiveQuestStore.useStoreActions((action) => action.setQuizAnswers)
 
-  // hook
-  const [status, setStatus] = useState<number[]>(
-    Array.from(quiz.options).map((e) => AnswerStatusEnum.DEFAULT)
-  )
-  const [block, setBlock] = useState<boolean>(false)
-
   // handler
-  const onChange = (choose: string, index: number) => {
+  const onChange = (choose: string) => {
     setQuizAnswers([...quizAnswers, choose])
-    if (quiz.answers.includes(choose)) {
-      setQuizNum(quizNum + 1)
-    } else {
-      setBlock(true)
-      const cpy = status
-      cpy.forEach((_, i) => {
-        if (index === i) {
-          cpy[i] = AnswerStatusEnum.DANGER
-        } else {
-          cpy[i] = AnswerStatusEnum.ACTIVE
-        }
-      })
-      setStatus([...cpy])
-    }
+    setQuizNum(quizNum + 1)
   }
 
   const renderAnsers =
     quiz &&
     quiz.options.map((e, i) => (
-      <AnswerBox
-        block={block}
-        disabled={block}
-        key={i}
-        onClick={() => onChange(e, i)}
-        status={status[i]}
-      >
+      <AnswerBox key={i} onClick={() => onChange(e)}>
         <SquareBox>{Alphabet[i]}</SquareBox>
         <AnswerText>{e}</AnswerText>
       </AnswerBox>
@@ -115,12 +89,17 @@ export const QuizItem: FunctionComponent<{
 
 export const QuestQuiz: FunctionComponent<{ quizzes: QuestQuizType[] }> = ({ quizzes }) => {
   const [quizNum, setQuizNum] = useState<number>(0)
+  const setQuizAnswers = ActiveQuestStore.useStoreActions((action) => action.setQuizAnswers)
+
+  useEffect(() => {
+    setQuizAnswers([])
+  }, [])
 
   if (quizNum === quizzes.length) {
     return (
       <HorizontalCenter>
         <CheckCircleIcon className='w-10 h-10 text-success' />
-        {'Success to claim quest'}
+        {'You could submit your answer'}
       </HorizontalCenter>
     )
   }

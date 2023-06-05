@@ -86,7 +86,7 @@ export const ButtonFrame = tw.div`
   border-gray-200
   fixed
   bottom-0
-  w-[calc(100%_-_390px)]
+  w-[calc(100%_-_400px)]
   right-0
   px-36
   max-2xl:px-12
@@ -99,28 +99,22 @@ export const ButtonBox = tw(Horizontal)`
   w-[calc(66%_-_2px)]
 `
 
-export const Row = styled(HorizontalBetweenCenterFullWidth)<{ active?: boolean }>(
-  ({ active = false }) => {
-    if (active) {
-      return tw`
-      w-full
-      p-4
-      border-t
-      border-solid
-      border-gray-200
-      bg-primary-50
-    `
-    }
-
-    return tw`
-    w-full
-    p-4
-    border-t
-    border-solid
-    border-gray-200
-  `
+export const VerticalItem = styled(Vertical)<{ active: boolean }>(({ active }) => {
+  const styles = []
+  if (active) {
+    styles.push(tw`bg-primary-50`)
   }
-)
+
+  return styles
+})
+
+export const Row = tw(HorizontalBetweenCenterFullWidth)`
+  w-full
+  p-4
+  border-t
+  border-solid
+  border-gray-200
+`
 
 export const FullWidth = tw(Horizontal)`
   w-full
@@ -133,7 +127,7 @@ export const Details = tw(Vertical)`
 
 export const Title = tw.p`
   mb-2
-  font-normal
+  font-medium
   text-lg
   text-black
 `

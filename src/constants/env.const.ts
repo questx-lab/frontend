@@ -5,4 +5,5 @@ export const EnvVariables = {
   TWITTER_ID: process.env.REACT_APP_TWITTER_ID || '',
   DISCORD_ID: process.env.REACT_APP_DISCORD_ID || '',
   DISCORD_PERMISSION: process.env.REACT_APP_DISCORD_PERMISSION || '',
+  TELEGRAM_BOT_NAME: process.env.REACT_APP_TELEGRAM_BOT_NAME || '',
 }

@@ -15,6 +15,7 @@ import {
   Name,
   Row,
   Title,
+  VerticalItem,
   VerticalLeftMargin,
 } from '@/modules/review-submissions/mini-widget'
 import { NewClaimReviewStore } from '@/store/local/claim-review'
@@ -24,7 +25,6 @@ import { Image } from '@/widgets/image'
 import { CheckBox } from '@/widgets/input'
 import {
   HorizontalBetweenCenterFullWidth,
-  Vertical,
   VerticalCenter,
   VerticalFullWidth,
 } from '@/widgets/orientation'
@@ -130,9 +130,9 @@ const PendingItem: FunctionComponent<{
   }
 
   return (
-    <Vertical>
+    <VerticalItem active={active}>
       <HorizontalBetweenCenterFullWidth>
-        <Row active={active}>
+        <Row>
           <FullWidth>
             <CheckBox
               className='mt-1'
@@ -164,7 +164,7 @@ const PendingItem: FunctionComponent<{
         </Row>
       </HorizontalBetweenCenterFullWidth>
       <ClaimedSubmit claimQuest={claimQuest} />
-    </Vertical>
+    </VerticalItem>
   )
 }
 
