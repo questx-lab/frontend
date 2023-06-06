@@ -124,7 +124,14 @@ export const canClaimQuest = (
 
     case QuestTypeEnum.QUIZ:
       if (quizAnswers.length === quest.validation_data?.quizzes?.length) {
+        const quizzes = quest.validation_data?.quizzes
         canClaim = true
+        for (let i = 0; i < quizAnswers.length; i++) {
+          if (quizAnswers[i] !== quizzes[i].answers[0]) {
+            canClaim = false
+            break
+          }
+        }
       }
       break
 
