@@ -31,9 +31,9 @@ export type Rsp<T> = {
 }
 
 export type UserType = {
-  id?: string
+  id: string
   wallet_address?: string
-  name?: string
+  name: string
   services?: {
     discord?: string
     twitter?: string

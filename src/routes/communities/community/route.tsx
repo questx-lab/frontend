@@ -63,10 +63,12 @@ export const Community = () => {
   const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
   // Check if user is the admin of this community
   let collab: CollaboratorType | undefined = undefined
-  for (let communityCollab of myCommunities) {
-    if (communityCollab.community.handle === community.handle) {
-      collab = communityCollab
-      break
+  if (myCommunities) {
+    for (let communityCollab of myCommunities) {
+      if (communityCollab.community.handle === community.handle) {
+        collab = communityCollab
+        break
+      }
     }
   }
 

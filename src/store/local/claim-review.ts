@@ -40,7 +40,7 @@ const ClaimReviewStore = createContextStore<ClaimReviewModel>({
   allPendingChecked: false,
   pendingClaims: [],
   historyClaims: [],
-  claimQuestActive: { id: '', user: {}, quest: emptyQuest() },
+  claimQuestActive: { id: '', user: { id: '', name: '' }, quest: emptyQuest() },
   loadingModal: false,
   showClaimDetails: false,
   recurrence: QuestRecurrence.ONCE,
