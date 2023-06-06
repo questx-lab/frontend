@@ -13,7 +13,7 @@ import {
 } from '@/utils/helper'
 
 const mutex = new Mutex()
-const baseURL = EnvVariables.NEXT_PUBLIC_API_URL
+const baseURL = EnvVariables.API_SERVER
 
 export const api = axios.create({
   baseURL,

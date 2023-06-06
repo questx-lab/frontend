@@ -3,11 +3,11 @@ import { EnvVariables } from '@/constants/env.const'
 import { RefferalType, Rsp } from '@/types'
 
 export const getMyReferralInfoApi = async (): Promise<Rsp<RefferalType>> => {
-  const { data } = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + '/getMyReferrals')
+  const { data } = await api.get(EnvVariables.API_SERVER + '/getMyReferrals')
   return data
 }
 
 export const claimReferralApi = async (address: string): Promise<Rsp<{}>> => {
-  const { data } = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/claimReferral', { address })
+  const { data } = await api.post(EnvVariables.API_SERVER + '/claimReferral', { address })
   return data
 }

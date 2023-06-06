@@ -12,14 +12,14 @@ export const listClaimedQuestsApi = async (
 ): Promise<Rsp<ListClaimQuestType>> => {
   const questIds = filterQuestIds.join(',')
   const { data } = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL +
+    EnvVariables.API_SERVER +
       `/getClaimedQuests?community_handle=${id}&status=${status}&quest_id=${questIds}&offset=${offset}&limit=${limit}`
   )
   return data
 }
 
 export const updateClaimedQuestApi = async (ids: string[], action: string): Promise<Rsp<{}>> => {
-  const { data } = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + `/review`, {
+  const { data } = await api.post(EnvVariables.API_SERVER + `/review`, {
     ids,
     action,
   })
@@ -29,6 +29,6 @@ export const updateClaimedQuestApi = async (ids: string[], action: string): Prom
 export const claimRewardApi = async (
   body: ReqClaimReward
 ): Promise<Rsp<{ id: string; status: string }>> => {
-  const { data } = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/claim', body)
+  const { data } = await api.post(EnvVariables.API_SERVER + '/claim', body)
   return data
 }
