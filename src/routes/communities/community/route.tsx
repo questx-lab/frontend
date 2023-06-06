@@ -80,6 +80,18 @@ export const Community = () => {
   const setQuests = CommunityStore.useStoreActions((action) => action.setQuests)
   const setTemplates = useStoreActions<GlobalStoreModel>((action) => action.setTemplates)
 
+  // load quests
+  const loadQuests = async () => {
+    if (data.community && data.community.handle) {
+      const result = await listQuestApi(data.community.handle, '')
+      if (result.code === 0) {
+        setQuests(result.data?.quests || [])
+      } else {
+        // TODO: show error loading quest here.
+      }
+    }
+  }
+
   // hook
   useEffect(() => {
     setSelectedCommunity(data.community)
@@ -104,16 +116,6 @@ export const Community = () => {
 
   if (!community) {
     return <>Failed to load community data</>
-  }
-
-  // load quests
-  const loadQuests = async () => {
-    const result = await listQuestApi(data.community.handle, '')
-    if (result.code === 0) {
-      setQuests(result.data?.quests || [])
-    } else {
-      // TODO: show error loading quest here.
-    }
   }
 
   return (

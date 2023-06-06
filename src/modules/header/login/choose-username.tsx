@@ -52,12 +52,17 @@ const NameText = tw.span`
   text-lg
   font-medium
   text-gray-900
+
 `
 
 const EmailText = tw.span`
   text-sm
   font-normal
   text-gray-500
+  max-w-[250px]
+  overflow-hidden
+  text-ellipsis
+  line-clamp-1
 `
 
 const SocialBoxInput = tw(HorizontalCenter)`
@@ -150,6 +155,17 @@ const RenderLogoSocial: FC = () => {
     )
   }
 
+  if (user && user.wallet_address) {
+    return (
+      <Image
+        width={40}
+        height={40}
+        src={StorageConst.METAMASK_DIR.src}
+        alt={StorageConst.METAMASK_DIR.alt}
+      />
+    )
+  }
+
   return (
     <Image
       width={40}
@@ -168,7 +184,7 @@ const UserBox: FunctionComponent = () => {
       <PaddingHorizontal>
         <Image width={50} height={50} src={StorageConst.USER_DEFAULT.src} alt={'avatar'} />
         <GapVertical>
-          <NameText>{`Sign in as ${user && user.name}`}</NameText>
+          <NameText>{`Sign in as`}</NameText>
           <EmailText>{user && user.name}</EmailText>
         </GapVertical>
       </PaddingHorizontal>
