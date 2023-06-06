@@ -1,43 +1,23 @@
-'use client'
 import { FunctionComponent } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
-import { ActiveQuestStore } from '@/store/local/active-quest.store'
+import { QuestCardToTemplate } from '@/modules/quest/quest-card-to-template'
 import { GlobalStoreModel } from '@/store/store'
-import { QuestType } from '@/utils/type'
+import { QuestType } from '@/types/quest'
+import { GrayBorderBox } from '@/widgets/box'
 import CarouselList from '@/widgets/carousel'
-import CategoryBox from '@/widgets/CategoryBox'
-import { Horizontal } from '@/widgets/orientation'
+import CategoryBox from '@/widgets/category-box'
+import { Gap } from '@/widgets/separator'
 
-import { QuestView } from '../quests/single-quest'
-
-export const Mtemplate = tw.div`
+const BackgroundAndBorder = tw(GrayBorderBox)`
   px-16
   bg-gray-100
-  border
-  border-[1px]
-  border-solid
-  border-gray-200
   py-6
 `
 
-export const MTitleBox = tw(Horizontal)`
-  justify-between
-  items-center
-`
-
-export const SeeAllText = tw.p`
-  text-lg
-  text-primary
-  font-medium
-  cursor-pointer
-`
-
-export const Templates: FunctionComponent<{
-  setOpenTemplate?: (e: boolean) => void
-}> = ({ setOpenTemplate }) => {
+const Templates: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   const templates = useStoreState<GlobalStoreModel>((state) => state.templates)
 
   if (templates === undefined || templates.length === 0) {
@@ -45,23 +25,18 @@ export const Templates: FunctionComponent<{
   }
 
   return (
-    <Mtemplate>
-      <CategoryBox title='🌟 Templates' onClick={() => {}}>
-        <ActiveQuestStore.Provider>
-          <CarouselList
-            data={templates}
-            renderItemFunc={(quest: QuestType) => {
-              return (
-                <QuestView
-                  quest={quest}
-                  isTemplate
-                  setOpenTemplateModel={setOpenTemplate}
-                />
-              )
-            }}
-          />
-        </ActiveQuestStore.Provider>
+    <BackgroundAndBorder>
+      <CategoryBox title='🌟 Templates' onClick={() => {}} hasShowAll={false}>
+        <Gap />
+        <CarouselList
+          data={templates}
+          renderItemFunc={(quest: QuestType) => {
+            return <QuestCardToTemplate quest={quest} communityHandle={communityHandle} />
+          }}
+        />
       </CategoryBox>
-    </Mtemplate>
+    </BackgroundAndBorder>
   )
 }
+
+export default Templates

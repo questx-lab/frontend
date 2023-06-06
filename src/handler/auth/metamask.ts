@@ -2,13 +2,9 @@ import { toast } from 'react-hot-toast'
 import Web3 from 'web3'
 import { provider } from 'web3-core'
 
-import {
-  linkWalletApi,
-  loginMetamask,
-  verifyMetaMask,
-} from '@/app/api/client/wallet'
+import { linkWalletApi, loginMetamask, verifyMetaMask } from '@/api/wallet'
 import { RouterConst } from '@/constants/router.const'
-import { setAccessToken } from '@/utils/helper'
+import { setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { MetaMaskInpageProvider } from '@metamask/providers'
 
@@ -32,10 +28,7 @@ export const signWallet = async () => {
   }
 }
 
-const linkWallet = async (
-  account: string,
-  ethereum: MetaMaskInpageProvider
-) => {
+const linkWallet = async (account: string, ethereum: MetaMaskInpageProvider) => {
   try {
     const data = await loginMetamask(account)
     const w3 = new Web3(ethereum as provider)
@@ -75,16 +68,15 @@ export const handleMetamask = async () => {
   }
 }
 
-const connectToServer = async (
-  account: string,
-  ethereum: MetaMaskInpageProvider
-) => {
+const connectToServer = async (account: string, ethereum: MetaMaskInpageProvider) => {
   try {
     const data = await loginMetamask(account)
     const w3 = new Web3(ethereum as provider)
     const signature = await w3.eth.personal.sign(data.data.nonce, account, '')
     const rs = await verifyMetaMask(signature)
     setAccessToken(rs.data.access_token)
+    setRefreshToken(rs.data.refresh_token)
+    setUserLocal(rs.data.user)
     window.location.href = RouterConst.HOME
   } catch (error) {
     toast.error('Error when login to server')
@@ -100,9 +92,7 @@ const connectWallet = async (ethereum: MetaMaskInpageProvider) => {
   } catch (err) {}
 }
 
-const getConnectedAccounts = async (
-  ethereum: MetaMaskInpageProvider
-): Promise<unknown> => {
+const getConnectedAccounts = async (ethereum: MetaMaskInpageProvider): Promise<unknown> => {
   try {
     const accounts = await ethereum.request({
       method: 'eth_accounts',

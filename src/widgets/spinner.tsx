@@ -1,11 +1,20 @@
-import React from 'react'
+import { CSSProperties } from 'react'
 
 import { MoonLoader } from 'react-spinners'
+import tw from 'twin.macro'
 
-import { SpinnerStyle } from '@/styles/common.style'
-import { Wrap } from '@/styles/spinner.style'
+const Wrap = tw.div`
+  h-screen
+  flex
+  justify-center
+  items-center
+`
 
-import { VerticalBetween } from './orientation'
+export const SpinnerStyle: CSSProperties = {
+  display: 'block',
+  margin: '0 auto',
+  borderColor: '#000',
+}
 
 export const Spinner = () => (
   <Wrap>
@@ -21,14 +30,12 @@ export const Spinner = () => (
 )
 
 export const SmallSpinner = () => (
-  <VerticalBetween>
-    <MoonLoader
-      color={'#000'}
-      loading={true}
-      cssOverride={SpinnerStyle}
-      size={30}
-      aria-label='Loading Spinner'
-      data-testid='loader'
-    />
-  </VerticalBetween>
+  <MoonLoader
+    color={'#000'}
+    loading={true}
+    cssOverride={SpinnerStyle}
+    size={30}
+    aria-label='Loading Spinner'
+    data-testid='loader'
+  />
 )

@@ -1,23 +1,10 @@
 {
-  "presets": [
-    "next/babel"
-  ],
   "plugins": [
-    [
-      "styled-components",
-      {
-        "ssr": true,
-        "displayName": true,
-        "preprocess": false
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "@/*": ".*"
       }
-    ],
-    [
-      "babel-plugin-twin",
-      {
-        "debug": false,
-        "styled": "styled-components"
-      }
-    ],
-    "babel-plugin-macros"
+    }]
   ]
 }

@@ -3,11 +3,13 @@ export enum KeysEnum {
   ACCESS_TOKEN = 'access_token',
   REFRESH_TOKEN = 'refresh_token',
   USER = 'user',
+  CODE_VERIFIER = 'codeVerifier',
 }
 
-export enum NavBarEnum {
-  COMMUNITY,
-  QUESTCARD,
+export enum NavigationEnum {
+  HOME = '/',
+  COMMUNITY = '/communities',
+  QUESTCARD = '/questercamp',
 }
 
 export enum Oauth2ProviderEnum {

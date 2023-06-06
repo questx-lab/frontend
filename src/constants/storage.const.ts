@@ -8,7 +8,7 @@ export const StorageConst = {
     alt: 'Google',
   },
   TELEGRAM_DIR: {
-    src: '/images/logos/telegram.svg',
+    src: '/images/icons/telegram.svg',
     alt: 'Telegram',
   },
   DISCORD_DIR: {
@@ -16,7 +16,7 @@ export const StorageConst = {
     alt: 'Discord',
   },
   TWITTER_DIR: {
-    src: '/images/logos/twitter.svg',
+    src: '/images/icons/twitter.svg',
     alt: 'Twitter',
   },
   DISCORD_BLACK_DIR: {
@@ -34,10 +34,6 @@ export const StorageConst = {
   NOTIFICATION_ICON: {
     src: '/images/logos/noti.svg',
     alt: 'Notification',
-  },
-  AVATAR_DEFAUL: {
-    src: '/images/logos/avatar.svg',
-    alt: 'Avatar',
   },
   ADD_ICON: {
     src: '/images/icons/add.svg',
@@ -75,7 +71,7 @@ export const StorageConst = {
     src: '/images/icons/arrow_back.svg',
     alt: 'Arrow back icon',
   },
-  POINT_ICON: {
+  GEM: {
     src: '/images/icons/gem.svg',
     alt: 'Point Icon',
   },
@@ -91,9 +87,9 @@ export const StorageConst = {
     src: '/images/icons/upload.svg',
     alt: 'Upload image',
   },
-  COIN: {
-    src: '/images/icons/coin.svg',
-    alt: 'Coin',
+  USDT: {
+    src: '/images/icons/usdt.svg',
+    alt: 'USDT',
   },
   EARN_REWARD: {
     src: '/images/logos/earn_reward.svg',
@@ -108,19 +104,31 @@ export const StorageConst = {
     alt: 'logo',
   },
   BACKGROUND: {
-    src: '/images/logos/bg.png',
+    src: '/images/logos/bg.svg',
     alt: 'Background',
   },
   CHICKEN: {
     src: '/images/logos/chicken.svg',
     alt: 'Chicken',
   },
+  EMPTY_FOLLOWING: {
+    src: '/images/logos/empty_following.svg',
+    alt: 'Empty Following Community',
+  },
   HUSKY: {
     src: '/images/logos/husky.svg',
     alt: 'Husky',
   },
-  COPY_ICON: {
-    src: '/images/logos/copy.svg',
+  COPY: {
+    src: '/images/icons/copy.svg',
     alt: 'Copy',
+  },
+  COMMUNITY_DEFAULT: {
+    src: '/images/icons/community_default.svg',
+    alt: 'Community Default',
+  },
+  USER_DEFAULT: {
+    src: '/images/icons/user_default.svg',
+    alt: 'User Default',
   },
 }

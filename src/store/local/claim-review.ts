@@ -1,72 +1,69 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import {
-  ClaimedQuestStatus,
-  QuestRecurrence,
-  TabReviewEnum,
-} from '@/constants/common.const'
-import { ClaimQuestType } from '@/utils/type'
+import { ClaimedQuestStatus, QuestRecurrence, TabReviewEnum } from '@/constants/common.const'
+import { ClaimQuestType } from '@/types'
+import { emptyQuest } from '@/types/quest'
 
 interface ClaimReviewModel {
   pendingClaims: ClaimQuestType[]
   historyClaims: ClaimQuestType[]
   claimQuestActive: ClaimQuestType
-  chooseQuestsHistory: ClaimQuestType[]
-  chooseQuestsPending: ClaimQuestType[]
+  selectedHistories: Map<string, ClaimQuestType>
+  selectedPendings: Map<string, ClaimQuestType>
   reviewStatus: string
-  allCheckHistory: boolean
-  allCheckPending: boolean
+  allHistoryChecked: boolean
+  allPendingChecked: boolean
   loadingModal: boolean
-  submissionModal: boolean
+  showClaimDetails: boolean
   recurrence: QuestRecurrence
-  tabReview: number
+  selectedTab: number
 
-  setCheckHistory: Action<ClaimReviewModel, boolean>
-  setCheckPending: Action<ClaimReviewModel, boolean>
+  setCheckAllHistory: Action<ClaimReviewModel, boolean>
+  setCheckAllPending: Action<ClaimReviewModel, boolean>
   setClaimActive: Action<ClaimReviewModel, ClaimQuestType>
-  setChooseHistory: Action<ClaimReviewModel, ClaimQuestType[]>
-  setChoosePending: Action<ClaimReviewModel, ClaimQuestType[]>
+  setSelectedHistory: Action<ClaimReviewModel, Map<string, ClaimQuestType>>
+  setSelectedPending: Action<ClaimReviewModel, Map<string, ClaimQuestType>>
   setReviewStatus: Action<ClaimReviewModel, string>
   setPendingClaims: Action<ClaimReviewModel, ClaimQuestType[]>
   setHistoryClaims: Action<ClaimReviewModel, ClaimQuestType[]>
-  onLoadingModalChanged: Action<ClaimReviewModel, boolean>
-  onSubmissionModalChanged: Action<ClaimReviewModel, boolean>
+  setLoading: Action<ClaimReviewModel, boolean>
+  setShowClaimDetails: Action<ClaimReviewModel, boolean>
   setRecurrence: Action<ClaimReviewModel, QuestRecurrence>
-  setTabReview: Action<ClaimReviewModel, number>
+  setSelectedTab: Action<ClaimReviewModel, number>
 }
 
-export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
+const ClaimReviewStore = createContextStore<ClaimReviewModel>({
   reviewStatus: ClaimedQuestStatus.ALL,
-  chooseQuestsHistory: [],
-  chooseQuestsPending: [],
-  allCheckHistory: false,
-  allCheckPending: false,
+  selectedHistories: new Map(),
+  selectedPendings: new Map(),
+  allHistoryChecked: false,
+  allPendingChecked: false,
   pendingClaims: [],
   historyClaims: [],
-  claimQuestActive: {},
+  claimQuestActive: { id: '', user: { id: '', name: '' }, quest: emptyQuest() },
   loadingModal: false,
-  submissionModal: false,
+  showClaimDetails: false,
   recurrence: QuestRecurrence.ONCE,
-  tabReview: TabReviewEnum.PENDING,
+  selectedTab: TabReviewEnum.PENDING,
 
   setReviewStatus: action((state, status) => {
     state.reviewStatus = status
   }),
 
-  setChooseHistory: action((state, quests) => {
-    state.chooseQuestsHistory = quests
+  setSelectedHistory: action((state, claimMap) => {
+    state.selectedHistories = new Map(claimMap)
   }),
 
-  setChoosePending: action((state, quests) => {
-    state.chooseQuestsPending = quests
+  setSelectedPending: action((state, claimMap) => {
+    state.selectedPendings = new Map(claimMap)
   }),
 
-  setCheckHistory: action((state, status) => {
-    state.allCheckHistory = status
+  setCheckAllHistory: action((state, status) => {
+    state.allHistoryChecked = status
   }),
 
-  setCheckPending: action((state, status) => {
-    state.allCheckPending = status
+  setCheckAllPending: action((state, status) => {
+    state.allPendingChecked = status
   }),
   setPendingClaims: action((state, claims) => {
     state.pendingClaims = claims
@@ -80,19 +77,21 @@ export const NewClaimReviewStore = createContextStore<ClaimReviewModel>({
     state.claimQuestActive = claim
   }),
 
-  onLoadingModalChanged: action((state, loading) => {
+  setLoading: action((state, loading) => {
     state.loadingModal = loading
   }),
 
-  onSubmissionModalChanged: action((state, modal) => {
-    state.submissionModal = modal
+  setShowClaimDetails: action((state, modal) => {
+    state.showClaimDetails = modal
   }),
 
   setRecurrence: action((state, newRecurrence) => {
     state.recurrence = newRecurrence
   }),
 
-  setTabReview: action((state, tab) => {
-    state.tabReview = tab
+  setSelectedTab: action((state, tab) => {
+    state.selectedTab = tab
   }),
 })
+
+export default ClaimReviewStore

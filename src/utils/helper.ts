@@ -2,24 +2,22 @@ import { deleteCookie, getCookie, hasCookie, setCookie } from 'cookies-next'
 import jwt from 'jwt-decode'
 
 import { KeysEnum } from '@/constants/key.const'
-import { UserType } from '@/utils/type'
+import { UserType } from '@/types'
 
-export const getAccessToken = (): string => {
-  const exist = hasCookie(KeysEnum.ACCESS_TOKEN)
-  if (exist) {
-    const rs = getCookie(KeysEnum.ACCESS_TOKEN)
-    return rs!.toString()
+export const getAccessToken = (): string | undefined => {
+  const cookie = getCookie(KeysEnum.ACCESS_TOKEN)
+  if (cookie) {
+    return cookie.toString()
   }
-  return ''
+  return undefined
 }
 
-export const getRefreshToken = (): string => {
-  const exist = hasCookie(KeysEnum.REFRESH_TOKEN)
-  if (exist) {
-    const rs = getCookie(KeysEnum.REFRESH_TOKEN)
-    return rs!.toString()
+export const getRefreshToken = (): string | undefined => {
+  const cookie = getCookie(KeysEnum.REFRESH_TOKEN)
+  if (cookie) {
+    return cookie.toString()
   }
-  return ''
+  return undefined
 }
 
 export const delCookies = () => {
@@ -36,13 +34,6 @@ export const setAccessToken = (cookie: string) => {
   })
 }
 
-export const setUserCookie = (user: UserType, cookie: string) => {
-  const dToken: any = jwt(cookie)
-  setCookie(KeysEnum.USER, user, {
-    maxAge: dToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
-  })
-}
-
 export const setRefreshToken = (cookie: string) => {
   const dToken: any = jwt(cookie)
   setCookie(KeysEnum.REFRESH_TOKEN, cookie, {
@@ -51,18 +42,18 @@ export const setRefreshToken = (cookie: string) => {
 }
 
 export const setUserLocal = (data: UserType) => {
-  localStorage.setItem('user', JSON.stringify(data))
+  localStorage.setItem(KeysEnum.USER, JSON.stringify(data))
 }
 
 export const getUserLocal = (): UserType | undefined => {
-  const user = localStorage.getItem('user')
+  const user = localStorage.getItem(KeysEnum.USER)
   if (!user) {
     // Try to get user from cookie
     if (hasCookie(KeysEnum.USER)) {
       const userCookie = getCookie(KeysEnum.USER)
       if (userCookie) {
         const json = JSON.parse(userCookie.toString())
-        return json
+        return json.data
       }
     }
 

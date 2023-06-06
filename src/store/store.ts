@@ -1,68 +1,59 @@
 import { action, Action, createStore } from 'easy-peasy'
 
 import { AuthEnum } from '@/constants/common.const'
-import {
-  CollaboratorType,
-  CommunityType,
-  QuestType,
-  RefferalType,
-  UserType,
-} from '@/utils/type'
+import { CollaboratorType, RefferalType, UserType } from '@/types'
+import { CommunityType } from '@/types/community'
+import { QuestType } from '@/types/quest'
 
 export interface GlobalStoreModel {
-  navBar: boolean
+  showNavigationDrawer: boolean
   user: UserType | undefined
-  projectsFollowing: CommunityType[]
-  projectsTrending: CommunityType[]
-  projectCollab: CollaboratorType[]
+  communitiesFollowing: CommunityType[]
+  communitiesCollab: CollaboratorType[]
   referral: RefferalType
   authBox: number
   username: string
   showLoginModal: boolean
   templates: QuestType[]
 
-  setNavBar: Action<GlobalStoreModel, boolean>
+  setShowNavigationDrawer: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
-  setProjectsFollowing: Action<GlobalStoreModel, CommunityType[]>
-  setProjectCollab: Action<GlobalStoreModel, CollaboratorType[]>
+  setCommunitiesFollowing: Action<GlobalStoreModel, CommunityType[]>
+  setCommunitiesCollab: Action<GlobalStoreModel, CollaboratorType[]>
   setReferral: Action<GlobalStoreModel, RefferalType>
-  setProjectsTrending: Action<GlobalStoreModel, CommunityType[]>
   setAuthBox: Action<GlobalStoreModel, number>
   setUserName: Action<GlobalStoreModel, string>
   setShowLoginModal: Action<GlobalStoreModel, boolean>
   setTemplates: Action<GlobalStoreModel, QuestType[]>
+  updateCommunityCollab: Action<GlobalStoreModel, CommunityType>
 }
 
+// TODO: Make this as a export default
 const store = createStore<GlobalStoreModel>({
-  navBar: false,
+  showNavigationDrawer: false,
   user: undefined,
-  projectsFollowing: [],
-  projectCollab: [],
-  projectsTrending: [],
+  communitiesFollowing: [],
+  communitiesCollab: [],
   referral: {},
   authBox: AuthEnum.LOGIN,
   username: '',
   showLoginModal: false,
   templates: [],
 
-  setNavBar: action((state, navBar) => {
-    state.navBar = navBar
+  setShowNavigationDrawer: action((state, drawer) => {
+    state.showNavigationDrawer = drawer
   }),
 
   setUser: action((state, user) => {
     state.user = user
   }),
 
-  setProjectsFollowing: action((state, projects) => {
-    state.projectsFollowing = projects
+  setCommunitiesFollowing: action((state, projects) => {
+    state.communitiesFollowing = projects
   }),
 
-  setProjectsTrending: action((state, projects) => {
-    state.projectsTrending = projects
-  }),
-
-  setProjectCollab: action((state, collabs) => {
-    state.projectCollab = collabs
+  setCommunitiesCollab: action((state, collabs) => {
+    state.communitiesCollab = collabs
   }),
 
   setReferral: action((state, referral) => {
@@ -83,6 +74,21 @@ const store = createStore<GlobalStoreModel>({
 
   setTemplates: action((state, templates) => {
     state.templates = templates
+  }),
+
+  updateCommunityCollab: action((state, community) => {
+    const clone = [...state.communitiesCollab]
+    let found = false
+    for (var collab of clone) {
+      if (collab.community.handle === community.handle) {
+        found = true
+        collab.community = community
+      }
+    }
+
+    if (found) {
+      state.communitiesCollab = clone
+    }
   }),
 })
 

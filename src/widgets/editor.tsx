@@ -1,11 +1,4 @@
-import dynamic from 'next/dynamic'
-
-import { SmallSpinner } from '@/widgets/spinner'
-
-const QuillNoSSRWrapper = dynamic(import('react-quill'), {
-  ssr: false,
-  loading: () => <SmallSpinner />,
-})
+import ReactQuill from 'react-quill'
 
 const modules = {
   toolbar: [
@@ -43,7 +36,7 @@ export default function Editor({
   value: string
 }) {
   return (
-    <QuillNoSSRWrapper
+    <ReactQuill
       className='rounded-lg w-full'
       modules={modules}
       formats={formats}

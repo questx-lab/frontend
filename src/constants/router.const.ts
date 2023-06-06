@@ -1,9 +1,23 @@
 export enum RouterConst {
   HOME = '/',
   QUESTBOARD = '/questercamp',
+  QUESTBOARD_TRENDING = '/questercamp/trending',
   EXPLORE = '/explore',
   COMMUNITIES = '/communities',
-  CREATE_PROJECTS = '/communities/new ',
-  PROJECT = '/communities/projects/',
+  COMMUNITIES_TRENDING = '/communities/trending',
+  CREATE_COMMUNITIES = '/communities/new ',
   USER = '/users/',
+  ACCOUNT_SETTING = '/account-setting',
+}
+
+export const communityRoute = (communityHandle: string): string => {
+  return `${RouterConst.COMMUNITIES}/${communityHandle}`
+}
+
+export const newQuestRoute = (communityHandle: string): string => {
+  return `${communityRoute(communityHandle)}/create-quest`
+}
+
+export const editQuestRoute = (communityHandle: string): string => {
+  return `${communityRoute(communityHandle)}/edit-quest`
 }
