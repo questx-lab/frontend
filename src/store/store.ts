@@ -2,13 +2,13 @@ import { action, Action, createStore } from 'easy-peasy'
 
 import { AuthEnum } from '@/constants/common.const'
 import { CollaboratorType, RefferalType, UserType } from '@/types'
-import { CommunityType } from '@/types/community'
+import { CommunityType, FollowCommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
 
 export interface GlobalStoreModel {
   showNavigationDrawer: boolean
   user: UserType | undefined
-  communitiesFollowing: CommunityType[]
+  communitiesFollowing: FollowCommunityType[]
   communitiesCollab: CollaboratorType[]
   referral: RefferalType
   authBox: number
@@ -18,7 +18,7 @@ export interface GlobalStoreModel {
 
   setShowNavigationDrawer: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
-  setCommunitiesFollowing: Action<GlobalStoreModel, CommunityType[]>
+  setCommunitiesFollowing: Action<GlobalStoreModel, FollowCommunityType[]>
   setCommunitiesCollab: Action<GlobalStoreModel, CollaboratorType[]>
   setReferral: Action<GlobalStoreModel, RefferalType>
   setAuthBox: Action<GlobalStoreModel, number>
@@ -48,8 +48,8 @@ const store = createStore<GlobalStoreModel>({
     state.user = user
   }),
 
-  setCommunitiesFollowing: action((state, projects) => {
-    state.communitiesFollowing = projects
+  setCommunitiesFollowing: action((state, communities) => {
+    state.communitiesFollowing = communities
   }),
 
   setCommunitiesCollab: action((state, collabs) => {
