@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 
 import tw from 'twin.macro'
 
-import { QuestCardToView } from '@/modules/quest/quest-card-to-view'
+import QuestCardToView from '@/modules/quest/quest-card-to-view'
 import CommunityStore from '@/store/local/community'
 import { QuestType } from '@/types/quest'
 import { VerticalFullWidth } from '@/widgets/orientation'
