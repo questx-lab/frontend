@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
 import { getMyCommunitiesApi } from '@/api/communitiy'
-import { RouterConst } from '@/constants/router.const'
+import { communityRoute } from '@/constants/router.const'
 import { AvatarUpload } from '@/modules/create-community/avatar-upload'
 import { Main } from '@/modules/create-community/mini-widget'
 import NewCommunityStore from '@/store/local/new-community'
@@ -63,7 +63,7 @@ export const UploadImageStep: FunctionComponent = () => {
 
     getMyProjects()
     setLoading(false)
-    navigator(RouterConst.COMMUNITIES + `/${createdCommunityHandle}`)
+    navigator(communityRoute(createdCommunityHandle))
   }
 
   return (
