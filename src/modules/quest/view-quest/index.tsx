@@ -16,6 +16,7 @@ import QuestUrl from '@/modules/quest/view-quest/url'
 import { QuestVisitLink } from '@/modules/quest/view-quest/vist-link'
 import { QuestType } from '@/types/quest'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
+import { MediumText } from '@/widgets/text'
 
 const OuterPadding = tw(Horizontal)`
   w-full
@@ -79,7 +80,7 @@ const Index: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     <OuterPadding>
       <ContextFrame>
         <ContentPadding>
-          {parseHtml(quest.description ?? '')}
+          <MediumText>{parseHtml(quest.description ?? '')}</MediumText>
           <QuestContent quest={quest} />
         </ContentPadding>
       </ContextFrame>
