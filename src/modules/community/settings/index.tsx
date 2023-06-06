@@ -3,10 +3,10 @@ import { FC, useEffect, useState } from 'react'
 import tw from 'twin.macro'
 
 import General from '@/modules/community/settings/general'
-import { CommunityStore } from '@/store/local/community'
-import NewCommunityStore from '@/store/local/new-community.store'
-import { Gap } from '@/styles/common.style'
+import CommunityStore from '@/store/local/community'
+import NewCommunityStore from '@/store/local/new-community'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { Tab, TabItem } from '@/widgets/tab-group'
 import { HeaderText3 } from '@/widgets/text'
 

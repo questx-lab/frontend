@@ -1,10 +1,11 @@
 import { action, Action, createContextStore, FilterActionTypes, StateMapper } from 'easy-peasy'
 
 import { NewCommunityStep } from '@/constants/common.const'
-import { CommunityType, UpdateCommunityRequest } from '@/utils/type'
+import { UpdateCommunityRequest } from '@/types'
+import { CommunityType } from '@/types/community'
 
 // TODO: Rename this to EditCommunityModel
-export interface NewCommunityModel {
+interface NewCommunityModel {
   currentStep: number
   displayName: string
   introduction: string

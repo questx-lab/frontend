@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
-import { updateClaimedQuestApi } from '@/app/api/client/claim'
+import { updateClaimedQuestApi } from '@/api/claim'
 import { ClaimedQuestStatus, QuestTypeEnum, ReviewBtnEnum } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import { ColumnButtons } from '@/modules/review-submissions/button'
@@ -15,19 +15,19 @@ import {
   Name,
   Row,
   Title,
+  VerticalItem,
   VerticalLeftMargin,
 } from '@/modules/review-submissions/mini-widget'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { Gap } from '@/styles/common.style'
-import { ClaimQuestType } from '@/utils/type'
+import ClaimReviewStore from '@/store/local/claim-review'
+import { ClaimQuestType } from '@/types'
 import { Image } from '@/widgets/image'
 import { CheckBox } from '@/widgets/input'
 import {
   HorizontalBetweenCenterFullWidth,
-  Vertical,
   VerticalCenter,
   VerticalFullWidth,
 } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { NormalText } from '@/widgets/text'
 
 const LoadingPosition = tw(VerticalCenter)`
@@ -75,16 +75,14 @@ const PendingItem: FunctionComponent<{
   claimQuest: ClaimQuestType
 }> = ({ active, onChange, claimQuest }) => {
   // data
-  const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
+  const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)
 
   // action
-  const onSubmissionModalChanged = NewClaimReviewStore.useStoreActions(
+  const onSubmissionModalChanged = ClaimReviewStore.useStoreActions(
     (actions) => actions.setShowClaimDetails
   )
-  const setPendingClaims = NewClaimReviewStore.useStoreActions(
-    (actions) => actions.setPendingClaims
-  )
-  const setClaimActive = NewClaimReviewStore.useStoreActions((actions) => actions.setClaimActive)
+  const setPendingClaims = ClaimReviewStore.useStoreActions((actions) => actions.setPendingClaims)
+  const setClaimActive = ClaimReviewStore.useStoreActions((actions) => actions.setClaimActive)
 
   // hook
   const [loading, setLoading] = useState<boolean>(false)
@@ -130,9 +128,9 @@ const PendingItem: FunctionComponent<{
   }
 
   return (
-    <Vertical>
+    <VerticalItem active={active}>
       <HorizontalBetweenCenterFullWidth>
-        <Row active={active}>
+        <Row>
           <FullWidth>
             <CheckBox
               className='mt-1'
@@ -164,7 +162,7 @@ const PendingItem: FunctionComponent<{
         </Row>
       </HorizontalBetweenCenterFullWidth>
       <ClaimedSubmit claimQuest={claimQuest} />
-    </Vertical>
+    </VerticalItem>
   )
 }
 

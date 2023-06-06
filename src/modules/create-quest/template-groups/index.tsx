@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 
 import TemplateGroup from '@/modules/create-quest/template-groups/category-group'
 import { GlobalStoreModel } from '@/store/store'
-import { QuestType } from '@/utils/type'
+import { QuestType } from '@/types/quest'
 import { GrayBorderBox } from '@/widgets/box'
 import { PrimaryText } from '@/widgets/text'
 import { Disclosure } from '@headlessui/react'

@@ -4,7 +4,7 @@ import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
 import CommunityBox from '@/modules/community/community-box'
-import { CommunityType } from '@/utils/type'
+import { CommunityType } from '@/types/community'
 import { VerticalFullWidthCenter } from '@/widgets/orientation'
 
 const CommunitiesGrid = tw.div`

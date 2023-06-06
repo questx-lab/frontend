@@ -4,14 +4,14 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { getMyFollowerInfoApi } from '@/app/api/client/communitiy'
+import { getMyFollowerInfoApi } from '@/api/communitiy'
 import { QuestTypeEnum } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import { StorageConst } from '@/constants/storage.const'
-import { Divider, Gap } from '@/styles/common.style'
-import { QuestType } from '@/utils/type'
+import { QuestType } from '@/types/quest'
 import { Image } from '@/widgets/image'
 import { HorizontalBetweenCenter } from '@/widgets/orientation'
+import { Divider, Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
 
 const LinkText = tw.div`

@@ -6,10 +6,10 @@ import { StorageConst } from '@/constants/storage.const'
 import QuestsTab from '@/modules/community/control-panel/quests'
 import ReviewSubmissionsTab from '@/modules/community/control-panel/review-submissions'
 import SettingsTab from '@/modules/community/control-panel/settings'
-import { Divider, Gap } from '@/styles/common.style'
-import { CommunityType } from '@/utils/type'
+import { CommunityType } from '@/types/community'
 import { CircularImage } from '@/widgets/circular-image'
 import { HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
+import { Divider, Gap } from '@/widgets/separator'
 
 export const FixedFrame = tw.div`
   w-80

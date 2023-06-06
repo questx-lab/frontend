@@ -9,7 +9,7 @@ import {
   NextButton,
   Title,
 } from '@/modules/create-community/mini-widget'
-import NewCommunityStore from '@/store/local/new-community.store'
+import NewCommunityStore from '@/store/local/new-community'
 import { TextField } from '@/widgets/form'
 import { HorizontalCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'

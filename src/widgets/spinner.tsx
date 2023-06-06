@@ -1,7 +1,7 @@
+import { CSSProperties } from 'react'
+
 import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
-
-import { SpinnerStyle } from '@/styles/common.style'
 
 const Wrap = tw.div`
   h-screen
@@ -9,6 +9,12 @@ const Wrap = tw.div`
   justify-center
   items-center
 `
+
+export const SpinnerStyle: CSSProperties = {
+  display: 'block',
+  margin: '0 auto',
+  borderColor: '#000',
+}
 
 export const Spinner = () => (
   <Wrap>

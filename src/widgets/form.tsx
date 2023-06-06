@@ -41,7 +41,7 @@ const MultipleInputBox = styled.textarea<{ danger?: boolean }>(({ danger = false
       `,
 ])
 
-const InputBox = styled.input<{
+export const InputBox = styled.input<{
   danger?: boolean
   block?: boolean
   isValid?: boolean

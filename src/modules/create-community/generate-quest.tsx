@@ -3,7 +3,7 @@ import { Fragment, FunctionComponent, useEffect, useState } from 'react'
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
-import { newQuestApi } from '@/app/api/client/quest'
+import { newQuestApi } from '@/api/quest'
 import { QuestStatusEnum, QuestTypeEnum } from '@/constants/common.const'
 import {
   BackButton,
@@ -12,9 +12,10 @@ import {
   NextButton,
   Title,
 } from '@/modules/create-community/mini-widget'
-import NewCommunityStore from '@/store/local/new-community.store'
+import NewCommunityStore from '@/store/local/new-community'
 import { GlobalStoreModel } from '@/store/store'
-import { QuestType, ReqNewQuestType, UserType } from '@/utils/type'
+import { ReqNewQuestType, UserType } from '@/types'
+import { QuestType } from '@/types/quest'
 import { CheckBox, CheckBoxSize } from '@/widgets/input'
 import { HorizontalStartCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'

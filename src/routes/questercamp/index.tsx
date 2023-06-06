@@ -5,15 +5,15 @@ import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
 
-import { listQuestApi } from '@/app/api/client/quest'
+import { listQuestApi } from '@/api/quest'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
-import QuestCardToView from '@/modules/quest/quest-card-to-view'
-import { Divider } from '@/styles/common.style'
-import { QuestType } from '@/utils/type'
+import { QuestCardToView } from '@/modules/quest/quest-card-to-view'
+import { QuestType } from '@/types/quest'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
 import { Image } from '@/widgets/image'
+import { SearchInput } from '@/widgets/input/search-input'
 import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import {
   Horizontal,
@@ -21,8 +21,8 @@ import {
   VerticalFullWidth,
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
-import { SearchInput } from '@/widgets/search-input'
 import SearchResult from '@/widgets/search-result'
+import { Divider } from '@/widgets/separator'
 import { Large2xlText, Large3xlText } from '@/widgets/text'
 
 const SearchPadding = tw(Horizontal)`

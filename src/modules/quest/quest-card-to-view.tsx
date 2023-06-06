@@ -1,11 +1,9 @@
-'use client'
-
 import { FunctionComponent, useState } from 'react'
 
 import QuestCardDetails from '@/modules/quest/quest-card-details'
 import ViewQuest from '@/modules/quest/view-quest'
-import { ActiveQuestStore } from '@/store/local/active-quest'
-import { QuestType } from '@/utils/type'
+import ActiveQuestStore from '@/store/local/active-quest'
+import { QuestType } from '@/types/quest'
 import BasicModal from '@/widgets/modal/basic'
 
 /**

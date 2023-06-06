@@ -2,7 +2,7 @@ import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 
-import { listClaimedQuestsApi } from '@/app/api/client/claim'
+import { listClaimedQuestsApi } from '@/api/claim'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import Filter from '@/modules/review-submissions/filter'
 import {
@@ -15,23 +15,70 @@ import ActionButtons from '@/modules/review-submissions/pending/action-buttons'
 import TableHeader from '@/modules/review-submissions/pending/header'
 import PendingItem from '@/modules/review-submissions/pending/row-item'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { CommunityStore } from '@/store/local/community'
-import { ClaimQuestType, ListClaimQuestType, QuestType, Rsp } from '@/utils/type'
+import ClaimReviewStore from '@/store/local/claim-review'
+import CommunityStore from '@/store/local/community'
+import { ClaimQuestType, ListClaimQuestType, Rsp } from '@/types'
+import { QuestType } from '@/types/quest'
 
-const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
+const PendingContent: FunctionComponent<{ loading: boolean }> = ({ loading }) => {
   // data
-  const selectedPendings = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
-  const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
+  const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)
+  const selectedPendings = ClaimReviewStore.useStoreState((state) => state.selectedPendings)
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   // action
-  const setSelectedPending = NewClaimReviewStore.useStoreActions(
+  const setSelectedPending = ClaimReviewStore.useStoreActions(
     (actions) => actions.setSelectedPending
   )
-  const setPendingClaims = NewClaimReviewStore.useStoreActions(
-    (actions) => actions.setPendingClaims
+
+  if (loading) {
+    return (
+      <TableLoadingFrame>
+        <MoonLoader />
+      </TableLoadingFrame>
+    )
+  }
+
+  // called when single item checkbox changes.
+  const onCheckChanged = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
+    if (e.target.checked) {
+      selectedPendings.set(value.id, value)
+    } else {
+      selectedPendings.delete(value.id)
+    }
+
+    setSelectedPending(selectedPendings)
+  }
+
+  return (
+    <>
+      <SubmissionsList
+        list={pendingClaims}
+        itemView={(item: ClaimQuestType, index: number) => {
+          return (
+            <PendingItem
+              active={selectedPendings.has(item.id)}
+              onChange={onCheckChanged}
+              claimQuest={item}
+              key={index}
+            />
+          )
+        }}
+      />
+      <ActionButtons communityHandle={selectedCommunity.handle} />
+    </>
   )
+}
+
+const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
+  // data
+  const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
+
+  // action
+  const setSelectedPending = ClaimReviewStore.useStoreActions(
+    (actions) => actions.setSelectedPending
+  )
+  const setPendingClaims = ClaimReviewStore.useStoreActions((actions) => actions.setPendingClaims)
 
   // hook
   const [loading, setLoading] = useState<boolean>(true)
@@ -57,17 +104,6 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
     } else {
       // TODO: show error here.
     }
-  }
-
-  // called when single item checkbox changes.
-  const onCheckChanged = (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => {
-    if (e.target.checked) {
-      selectedPendings.set(value.id, value)
-    } else {
-      selectedPendings.delete(value.id)
-    }
-
-    setSelectedPending(selectedPendings)
   }
 
   // called when filter changes
@@ -97,31 +133,7 @@ const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityH
       <TabContentFrame>
         <SubmissionColumn>
           <TableHeader />
-
-          {!loading && (
-            <>
-              <SubmissionsList
-                list={pendingClaims}
-                itemView={(item: ClaimQuestType, index: number) => {
-                  return (
-                    <PendingItem
-                      active={selectedPendings.has(item.id)}
-                      onChange={onCheckChanged}
-                      claimQuest={item}
-                      key={index}
-                    />
-                  )
-                }}
-              />
-              <ActionButtons communityHandle={selectedCommunity.handle} />
-            </>
-          )}
-
-          {loading && (
-            <TableLoadingFrame>
-              <MoonLoader />
-            </TableLoadingFrame>
-          )}
+          <PendingContent loading={loading} />
         </SubmissionColumn>
         <FilterColumn>
           <Filter onFilterChanged={onFilterChanged} />

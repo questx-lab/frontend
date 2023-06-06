@@ -1,5 +1,3 @@
-'use client'
-
 import { FunctionComponent } from 'react'
 
 import styled from 'styled-components'
@@ -12,8 +10,8 @@ import TwitterJoinSpace from '@/modules/create-quest/quest-type/twitter-join-spa
 import TwitterReaction from '@/modules/create-quest/quest-type/twitter-reaction'
 import TwitterReply from '@/modules/create-quest/quest-type/twitter-reply'
 import TwitterTweet from '@/modules/create-quest/quest-type/twitter-tweet'
-import NewQuestStore from '@/store/local/new-quest.store'
-import { Divider } from '@/styles/common.style'
+import NewQuestStore from '@/store/local/new-quest'
+import { Divider } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
 
 const TypeButtonFrame = tw.div`

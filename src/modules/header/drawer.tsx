@@ -11,9 +11,8 @@ import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunitiesNavigation from '@/modules/community/communities-navigation'
-import { CommunityStore } from '@/store/local/community'
+import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
-import { Divider } from '@/styles/common.style'
 import { Image } from '@/widgets/image'
 import BaseModal from '@/widgets/modal/base'
 import {
@@ -22,6 +21,7 @@ import {
   Vertical,
   VerticalFullWidth,
 } from '@/widgets/orientation'
+import { Divider } from '@/widgets/separator'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
 const DrawerModal = tw(Horizontal)`

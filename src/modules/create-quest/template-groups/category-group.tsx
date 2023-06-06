@@ -4,13 +4,12 @@ import tw from 'twin.macro'
 
 import { SizeEnum } from '@/constants/common.const'
 import QuestCardDetails from '@/modules/quest/quest-card-details'
-import NewQuestStore from '@/store/local/new-quest.store'
-import { Gap } from '@/styles/common.style'
-import { emptyQuest } from '@/types/quest'
-import { QuestType } from '@/utils/type'
-import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
+import NewQuestStore from '@/store/local/new-quest'
+import { emptyQuest, QuestType } from '@/types/quest'
+import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, Vertical, VerticalCenter, VerticalFullWidth } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { NormalText } from '@/widgets/text'
 
 const WidthFullPaddingY = tw(Vertical)`

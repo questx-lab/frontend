@@ -5,9 +5,9 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { CommunityRoleEnum } from '@/constants/common.const'
-import { ActiveQuestStore } from '@/store/local/active-quest'
-import { CommunityStore } from '@/store/local/community'
-import { DangerButton as DangerousButton } from '@/widgets/buttons/button'
+import ActiveQuestStore from '@/store/local/active-quest'
+import CommunityStore from '@/store/local/community'
+import { DangerButton as DangerousButton } from '@/widgets/buttons'
 import { Image } from '@/widgets/image'
 import { VerticalCenter, VerticalFullWidth } from '@/widgets/orientation'
 

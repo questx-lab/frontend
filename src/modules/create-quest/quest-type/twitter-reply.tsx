@@ -2,9 +2,9 @@ import { FunctionComponent } from 'react'
 
 import { TwitterEnum } from '@/constants/common.const'
 import { Padding } from '@/modules/create-quest/quest-type/mini-widget'
-import NewQuestStore from '@/store/local/new-quest.store'
-import { Divider, Gap } from '@/styles/common.style'
-import { MultipleInputBox } from '@/styles/input.style'
+import NewQuestStore from '@/store/local/new-quest'
+import MultipleInputBox from '@/widgets/input/multiple-input-box'
+import { Divider, Gap } from '@/widgets/separator'
 import { Label, SmallText } from '@/widgets/text'
 
 const TwitterReply: FunctionComponent = () => {

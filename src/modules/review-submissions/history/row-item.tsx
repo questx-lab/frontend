@@ -15,8 +15,8 @@ import {
   VerticalLeftMargin,
 } from '@/modules/review-submissions/mini-widget'
 import { ClaimedSubmit } from '@/modules/review-submissions/pending/row-item'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { ClaimQuestType } from '@/utils/type'
+import ClaimReviewStore from '@/store/local/claim-review'
+import { ClaimQuestType } from '@/types'
 import { Image } from '@/widgets/image'
 import { HorizontalBetweenCenterFullWidth, Vertical } from '@/widgets/orientation'
 
@@ -50,15 +50,15 @@ const RowItem: FunctionComponent<{
   onChange: (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => void
   claim: ClaimQuestType
 }> = ({ active, onChange, claim }) => {
-  const onSubmissionModalChanged = NewClaimReviewStore.useStoreActions(
+  const onSubmissionModalChanged = ClaimReviewStore.useStoreActions(
     (actions) => actions.setShowClaimDetails
   )
-  const setClaimActive = NewClaimReviewStore.useStoreActions((actions) => actions.setClaimActive)
+  const setClaimActive = ClaimReviewStore.useStoreActions((actions) => actions.setClaimActive)
 
   return (
     <Vertical>
       <HorizontalBetweenCenterFullWidth>
-        <Row active={false}>
+        <Row>
           <FullWidth>
             <Details
               onClick={() => {

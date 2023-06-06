@@ -7,9 +7,10 @@ import {
   QuestTypeMap,
   TwitterEnum,
 } from '@/constants/common.const'
+import { ReqNewQuestType } from '@/types'
 import { StateToModel } from '@/types/conversion'
+import { QuestQuizType, QuestType, ValidationQuest } from '@/types/quest'
 import { isTwitterType } from '@/types/twitter'
-import { QuestQuizType, QuestType, ReqNewQuestType, ValidationQuest } from '@/utils/type'
 
 export interface NewQuestModel {
   title: string
@@ -32,6 +33,7 @@ export interface NewQuestModel {
   pointReward: number
   activeReward: number
   highlighted: boolean
+  includedWords: string[]
 
   quizzes: QuestQuizType[]
 
@@ -60,6 +62,7 @@ export interface NewQuestModel {
   setQuizzes: Action<NewQuestModel, QuestQuizType[]>
   setOptions: Action<NewQuestModel, { quizIndex: number; options: string[] }>
   setHighlighted: Action<NewQuestModel, boolean>
+  setIncludedWords: Action<NewQuestModel, string[]>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -91,6 +94,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     },
   ],
   highlighted: false,
+  includedWords: [],
 
   // Set all the fields for the state
   setQuest: action((state, quest) => {
@@ -227,6 +231,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   setHighlighted: action((state, highlighted) => {
     state.highlighted = highlighted
   }),
+
+  setIncludedWords: action((state, included_words) => {
+    state.includedWords = included_words
+  }),
 })
 
 /**
@@ -287,6 +295,7 @@ export const stateToNewQuestRequest = (
           case TwitterEnum.REPLY:
             validations.reply = true
             validations.tweet_url = state.tweetUrl
+            validations.default_reply = state.replyTw
             type = QuestTypeEnum.TWITTER_REACTION
 
             break
@@ -296,7 +305,7 @@ export const stateToNewQuestRequest = (
             type = QuestTypeEnum.TWITTER_REACTION
             break
           case TwitterEnum.TWEET:
-            validations.included_words = []
+            validations.included_words = state.includedWords
             validations.default_tweet = state.contentTw
             type = QuestTypeEnum.TWITTER_TWEET
             break
@@ -312,7 +321,7 @@ export const stateToNewQuestRequest = (
       validations.invite_link = state.discordLink
       break
     case QuestTypeEnum.JOIN_TELEGRAM:
-      validations.invite_link = state.telegramLink
+      validations.group_link = state.telegramLink
       break
     case QuestTypeEnum.INVITES:
       validations.number = state.invites

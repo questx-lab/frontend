@@ -1,5 +1,3 @@
-'use client'
-
 import { FunctionComponent } from 'react'
 
 import tw from 'twin.macro'
@@ -8,7 +6,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import { Horizontal } from '@/widgets/orientation'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
-export const FSearchInputStyle = tw.input`
+const InputStyle = tw.input`
   border-0
   ring-0
   outline-none
@@ -16,7 +14,7 @@ export const FSearchInputStyle = tw.input`
   w-full
 `
 
-const FSearchBox = tw(Horizontal)`
+const Border = tw(Horizontal)`
   gap-3
   border
   border-solid
@@ -39,15 +37,9 @@ export const SearchInput: FunctionComponent<{
   }, 500)
 
   return (
-    <>
-      <FSearchBox>
-        <MagnifyingGlassIcon className='w-5 h-5 text-gray-500' />
-        <FSearchInputStyle
-          className='border-0 ring-0 outline-none text-lg'
-          placeholder={hint}
-          onChange={(e) => debounced(e.target.value)}
-        />
-      </FSearchBox>
-    </>
+    <Border>
+      <MagnifyingGlassIcon className='w-5 h-5 text-gray-500' />
+      <InputStyle placeholder={hint} onChange={(e) => debounced(e.target.value)} />
+    </Border>
   )
 }

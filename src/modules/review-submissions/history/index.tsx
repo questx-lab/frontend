@@ -2,7 +2,7 @@ import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 
-import { listClaimedQuestsApi } from '@/app/api/client/claim'
+import { listClaimedQuestsApi } from '@/api/claim'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import Filter from '@/modules/review-submissions/filter'
 import TableHeader from '@/modules/review-submissions/history/header'
@@ -14,19 +14,20 @@ import {
   TableLoadingFrame,
 } from '@/modules/review-submissions/mini-widget'
 import { SubmissionsList } from '@/modules/review-submissions/submissions-list'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { ClaimQuestType, ListClaimQuestType, QuestType, Rsp } from '@/utils/type'
+import ClaimReviewStore from '@/store/local/claim-review'
+import { ClaimQuestType, ListClaimQuestType, Rsp } from '@/types'
+import { QuestType } from '@/types/quest'
 
 const ClaimStatus = ClaimedQuestStatus.ACCEPTED + ',' + ClaimedQuestStatus.REJECTED
 
 const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
   // data
-  const historyClaims = NewClaimReviewStore.useStoreState((state) => state.historyClaims)
-  const selectedHistories = NewClaimReviewStore.useStoreState((state) => state.selectedHistories)
+  const historyClaims = ClaimReviewStore.useStoreState((state) => state.historyClaims)
+  const selectedHistories = ClaimReviewStore.useStoreState((state) => state.selectedHistories)
 
   // actions
-  const setHistoryClaims = NewClaimReviewStore.useStoreActions((state) => state.setHistoryClaims)
-  const setSelectedHistory = NewClaimReviewStore.useStoreActions(
+  const setHistoryClaims = ClaimReviewStore.useStoreActions((state) => state.setHistoryClaims)
+  const setSelectedHistory = ClaimReviewStore.useStoreActions(
     (actions) => actions.setSelectedHistory
   )
 

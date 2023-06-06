@@ -8,8 +8,8 @@ import tw from 'twin.macro'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import { GlobalStoreModel } from '@/store/store'
+import { UserType } from '@/types'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
-import { UserType } from '@/utils/type'
 import { Image } from '@/widgets/image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Popover } from '@headlessui/react'
@@ -97,7 +97,8 @@ export const UserPopover: FunctionComponent = () => {
     setUser(undefined)
     delCookies()
     clearLocalStorage()
-    // TODO: Navigate to home
+
+    navigate(RouterConst.HOME)
   }
 
   return (

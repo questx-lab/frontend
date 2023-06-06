@@ -5,21 +5,21 @@ import {
   HeaderSortFrame,
   HeaderTitleFrame,
 } from '@/modules/review-submissions/mini-widget'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
+import ClaimReviewStore from '@/store/local/claim-review'
 import { CheckBox } from '@/widgets/input'
 import { BarsArrowDownIcon } from '@heroicons/react/24/outline'
 
 const TableHeader: FunctionComponent<{}> = () => {
   // data
-  const historyClaims = NewClaimReviewStore.useStoreState((state) => state.historyClaims)
-  const selectedHistories = NewClaimReviewStore.useStoreState((state) => state.selectedHistories)
-  const allHistoryChecked = NewClaimReviewStore.useStoreState((state) => state.allHistoryChecked)
+  const historyClaims = ClaimReviewStore.useStoreState((state) => state.historyClaims)
+  const selectedHistories = ClaimReviewStore.useStoreState((state) => state.selectedHistories)
+  const allHistoryChecked = ClaimReviewStore.useStoreState((state) => state.allHistoryChecked)
 
   // action
-  const setCheckAllHistory = NewClaimReviewStore.useStoreActions(
+  const setCheckAllHistory = ClaimReviewStore.useStoreActions(
     (actions) => actions.setCheckAllHistory
   )
-  const setSelectedHistory = NewClaimReviewStore.useStoreActions(
+  const setSelectedHistory = ClaimReviewStore.useStoreActions(
     (actions) => actions.setSelectedHistory
   )
 

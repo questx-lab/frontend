@@ -4,14 +4,14 @@ import { useStoreActions } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { getTwitterAccessTokenApi, linkOAuth2, TwitterVerifyType } from '@/app/api/client/oauth'
-import { getUserApi } from '@/app/api/client/user'
+import { getTwitterAccessTokenApi, linkOAuth2, TwitterVerifyType } from '@/api/oauth'
+import { getUserApi } from '@/api/user'
 import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
+import { OAuth2LinkReq, UserType } from '@/types'
 import { getAccessToken, setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
-import { OAuth2LinkReq, UserType } from '@/utils/type'
 import LoadingModal from '@/widgets/modal/loading'
 
 // filling up the query parameters needed to request for getting the token

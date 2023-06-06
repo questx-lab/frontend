@@ -2,13 +2,12 @@ import { Fragment, FunctionComponent, useState } from 'react'
 
 import { useDebouncedCallback } from 'use-debounce'
 
-import { getCommunityApi } from '@/app/api/client/communitiy'
+import { getCommunityApi } from '@/api/communitiy'
 import { ErrorCodes } from '@/constants/code.const'
 import { Main, NextButton, Title } from '@/modules/create-community/mini-widget'
-import NewCommunityStore from '@/store/local/new-community.store'
-import { LabelInput } from '@/styles/input.style'
+import NewCommunityStore from '@/store/local/new-community'
 import { MultipleTextField, TextField } from '@/widgets/form'
-import { RequiredText } from '@/widgets/text'
+import { LabelInput, RequiredText } from '@/widgets/text'
 
 const HandleNameBox: FunctionComponent = () => {
   const [isValid, setValid] = useState<boolean | undefined>(undefined)

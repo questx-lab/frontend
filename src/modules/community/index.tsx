@@ -7,14 +7,14 @@ import { newQuestRoute } from '@/constants/router.const'
 import { Quests } from '@/modules/community/quests'
 import Templates from '@/modules/community/templates'
 import { CreateOrEditQuest } from '@/modules/create-quest'
-import { CommunityStore } from '@/store/local/community'
-import NewQuestStore from '@/store/local/new-quest.store'
-import { Gap } from '@/styles/common.style'
+import CommunityStore from '@/store/local/community'
+import NewQuestStore from '@/store/local/new-quest'
 import { ControlPanelTab } from '@/types/community'
 import { emptyQuest } from '@/types/quest'
-import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
+import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, HorizontalBetweenCenter } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { Large3xlText } from '@/widgets/text'
 
 const OuterBoxPadding = tw(Horizontal)`
@@ -32,6 +32,7 @@ const FullWidthHeight = tw.div`
 
 const FullWidthCenter = tw(HorizontalBetweenCenter)`
   w-full
+  mb-4
 `
 
 const ButtonAlignment = tw(Horizontal)`
@@ -68,7 +69,7 @@ export const Index: FunctionComponent = () => {
     <OuterBoxPadding>
       <FullWidthHeight>
         <FullWidthCenter>
-          <Large3xlText>Quest</Large3xlText>
+          <Large3xlText>{'Quests'}</Large3xlText>
           {canEdit && (
             // Only shown for owner
             <ButtonAlignment>
@@ -91,12 +92,8 @@ export const Index: FunctionComponent = () => {
             </ButtonAlignment>
           )}
         </FullWidthCenter>
-
-        <Gap height={6} />
         {canEdit && <Templates communityHandle={community.handle} />}
-
-        <Gap height={6} />
-        <Quests show={true} categoryTitle={'All Quests'} />
+        <Quests show={true} categoryTitle={''} />
       </FullWidthHeight>
 
       <BasicModal

@@ -1,7 +1,7 @@
 import { Mutex } from 'async-mutex'
 import axios, { AxiosError } from 'axios'
 
-import { refreshTokenApi } from '@/app/api/client/user'
+import { refreshTokenApi } from '@/api/user'
 import { ErrorCodes } from '@/constants/code.const'
 import { EnvVariables } from '@/constants/env.const'
 import {
@@ -13,7 +13,7 @@ import {
 } from '@/utils/helper'
 
 const mutex = new Mutex()
-const baseURL = EnvVariables.NEXT_PUBLIC_API_URL
+const baseURL = EnvVariables.API_SERVER
 
 export const api = axios.create({
   baseURL,

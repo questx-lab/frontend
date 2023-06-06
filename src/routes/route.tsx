@@ -5,14 +5,16 @@ import { Toaster } from 'react-hot-toast'
 import { json, useLoaderData } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import { getFollowCommunitiesApi, getMyCommunitiesApi } from '@/app/api/client/communitiy'
-import { getMyReferralInfoApi } from '@/app/api/client/reward'
+import { getFollowCommunitiesApi, getMyCommunitiesApi } from '@/api/communitiy'
+import { getMyReferralInfoApi } from '@/api/reward'
+import { getUserApi } from '@/api/user'
 import { EnvVariables } from '@/constants/env.const'
-import { Header } from '@/modules/header/header'
+import { Header } from '@/modules/header'
 import { HomePage } from '@/routes'
 import { GlobalStoreModel } from '@/store/store'
+import { CollaboratorType, RefferalType, UserType } from '@/types'
+import { CommunityType } from '@/types/community'
 import { getUserLocal } from '@/utils/helper'
-import { CollaboratorType, CommunityType, RefferalType } from '@/utils/type'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export const RootLoader = async () => {
@@ -23,12 +25,14 @@ export const RootLoader = async () => {
     const myCommunitiesResult = await getMyCommunitiesApi()
     const followingCommunitiesResult = await getFollowCommunitiesApi()
     const referralResult = await getMyReferralInfoApi()
+    const userResult = await getUserApi()
 
     return json(
       {
         myCommunities: myCommunitiesResult.data?.collaborators || [],
         followingCommunities: followingCommunitiesResult.data?.communities || [],
         referral: referralResult.data || undefined,
+        user: userResult.data || undefined,
       },
       { status: 200 }
     )
@@ -53,6 +57,7 @@ export const Root: FunctionComponent = () => {
     myCommunities: CollaboratorType[]
     followingCommunities: CommunityType[]
     referral: RefferalType
+    user: UserType
   }
 
   // action
@@ -63,15 +68,17 @@ export const Root: FunctionComponent = () => {
   const setCommunitiesFollowing = useStoreActions<GlobalStoreModel>(
     (action) => action.setCommunitiesFollowing
   )
+  const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   useEffect(() => {
     // set data
-    if (data) {
+    if (data.user) {
       setReferral(data.referral)
       setCommunitiesCollab(data.myCommunities)
       setCommunitiesFollowing(data.followingCommunities)
+      setUser(data.user)
     }
-  }, [])
+  }, [data, data.user])
 
   return (
     <GoogleOAuthProvider clientId={EnvVariables.GOOGLE_ID}>

@@ -1,12 +1,12 @@
-import { api } from '@/app/api/config/api'
+import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
-import { OAuth2LinkReq, OAuth2VerifyResp, Rsp, UserType } from '@/utils/type'
+import { OAuth2LinkReq, OAuth2VerifyResp, Rsp, TelegramAuthType, UserType } from '@/types'
 
 export const verifyOAuth2 = async (
   type: string,
   access_token: string
 ): Promise<OAuth2VerifyResp> => {
-  const result = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + `/verifyOAuth2`, {
+  const result = await api.post(EnvVariables.API_SERVER + `/verifyOAuth2`, {
     type,
     access_token,
   })
@@ -29,11 +29,16 @@ export const getTwitterAccessTokenApi = async (
     refresh_token: string
   }>
 > => {
-  const result = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + `/verifyOAuth2`, data)
+  const result = await api.post(EnvVariables.API_SERVER + `/verifyOAuth2`, data)
   return result.data
 }
 
 export const linkOAuth2 = async (payload: OAuth2LinkReq): Promise<OAuth2VerifyResp> => {
-  const result = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + `/linkOAuth2`, payload)
+  const result = await api.post(EnvVariables.API_SERVER + `/linkOAuth2`, payload)
   return result.data
+}
+
+export const linkTelegram = async (payload: TelegramAuthType): Promise<Rsp<{}>> => {
+  const { data } = await api.post(EnvVariables.API_SERVER + `/linkTelegram`, payload)
+  return data
 }

@@ -1,19 +1,21 @@
 import { FunctionComponent, useState } from 'react'
 
+import { useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import { claimRewardApi } from '@/app/api/client/claim'
+import { claimRewardApi } from '@/api/claim'
 import { ClaimedQuestStatus, CommunityRoleEnum, QuestTypeEnum } from '@/constants/common.const'
 import { editQuestRoute } from '@/constants/router.const'
-import { ActiveQuestStore } from '@/store/local/active-quest'
-import { CommunityStore } from '@/store/local/community'
-import NewQuestStore from '@/store/local/new-quest.store'
+import ActiveQuestStore, { canClaimQuest } from '@/store/local/active-quest'
+import CommunityStore from '@/store/local/community'
+import NewQuestStore from '@/store/local/new-quest'
+import { GlobalStoreModel } from '@/store/store'
+import { UserType } from '@/types'
+import { QuestType } from '@/types/quest'
 import { uploadFile } from '@/utils/file'
-import { getUserLocal } from '@/utils/helper'
-import { QuestType } from '@/utils/type'
-import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons/button'
+import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
 import { Horizontal } from '@/widgets/orientation'
 
@@ -50,6 +52,7 @@ const handleSubmit = async (
       break
     case QuestTypeEnum.QUIZ:
       inp = JSON.stringify({ answers: quizAnswers })
+
       break
     case QuestTypeEnum.TWITTER_REACTION:
       inp = replyUrlSubmit
@@ -60,6 +63,12 @@ const handleSubmit = async (
     default:
       break
   }
+
+  if (quest.type === QuestTypeEnum.IMAGE && inp === '') {
+    setLoading(false)
+    return
+  }
+
   try {
     const data = await claimRewardApi({
       quest_id: quest?.id,
@@ -94,13 +103,15 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   const navigate = useNavigate()
 
   // data
+  const store = ActiveQuestStore.useStore()
   const role = CommunityStore.useStoreState((state) => state.role)
   const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
-  const urlSubmit = ActiveQuestStore.useStoreState((state) => state.urlSubmit)
+  const urlSubmit = ActiveQuestStore.useStoreState((state) => state.url)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
   const replyUrlSubmit = ActiveQuestStore.useStoreState((state) => state.replyUrlSubmit)
   const quizAnswers = ActiveQuestStore.useStoreState((state) => state.quizAnswers)
-  const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
+
+  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
   // action
   const setEditQuest = NewQuestStore.useStoreActions((action) => action.setQuest)
@@ -112,8 +123,6 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)
 
-  let block = true
-
   const onEdit = () => {
     setEditQuest(quest)
     navigate(editQuestRoute(quest.community.handle))
@@ -123,51 +132,7 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     setShowDeleteConfirmation(true)
   }
 
-  switch (quest.type) {
-    case QuestTypeEnum.IMAGE:
-      if (fileUpload.length > 0) {
-        block = false
-      }
-      break
-    case QuestTypeEnum.URL:
-      if (urlSubmit !== '') {
-        block = false
-      }
-      break
-    case QuestTypeEnum.VISIT_LINK:
-      if (visitLink) {
-        block = false
-      }
-
-      break
-    case QuestTypeEnum.EMPTY:
-      block = false
-
-      break
-    case QuestTypeEnum.TEXT:
-      if (textSubmit !== '') {
-        block = false
-      }
-      break
-    case QuestTypeEnum.QUIZ:
-      if (quizAnswers.length === quest.validation_data?.quizzes?.length) {
-        block = false
-      }
-      break
-
-    case QuestTypeEnum.TWITTER:
-    case QuestTypeEnum.TWITTER_FOLLOW:
-    case QuestTypeEnum.TWITTER_JOIN_SPACE:
-    case QuestTypeEnum.TWITTER_REACTION:
-    case QuestTypeEnum.TWITTER_TWEET:
-      const user = getUserLocal()
-      if (user && user.services && user.services.twitter) {
-        block = false
-      }
-      break
-    default:
-      break
-  }
+  const canClaim = canClaimQuest(store.getState(), user, quest)
 
   switch (role) {
     case CommunityRoleEnum.EDITOR:
@@ -186,14 +151,16 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
             isOpen={showDeleteConfirmation}
             onClose={() => setShowDeleteConfirmation(false)}
           >
-            AAAAA
+            {
+              // TODO: Show delete confirmation modal here.
+            }
           </BasicModal>
         </>
       )
 
     default:
       return (
-        <PositiveButton isFull block={block} loading={loading} onClick={onSubmit} requireLogin>
+        <PositiveButton isFull block={!canClaim} loading={loading} onClick={onSubmit} requireLogin>
           {'Claim Reward'}
         </PositiveButton>
       )

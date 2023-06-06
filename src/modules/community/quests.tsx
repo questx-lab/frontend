@@ -1,15 +1,13 @@
-'use client'
-
 import { FunctionComponent } from 'react'
 
 import tw from 'twin.macro'
 
-import QuestCardToView from '@/modules/quest/quest-card-to-view'
-import { CommunityStore } from '@/store/local/community'
-import { Gap } from '@/styles/common.style'
-import { HeaderText } from '@/styles/home.style'
-import { QuestType } from '@/utils/type'
+import { QuestCardToView } from '@/modules/quest/quest-card-to-view'
+import CommunityStore from '@/store/local/community'
+import { QuestType } from '@/types/quest'
 import { VerticalFullWidth } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
+import { HeaderText } from '@/widgets/text'
 
 const Grid = tw.div`
   w-full

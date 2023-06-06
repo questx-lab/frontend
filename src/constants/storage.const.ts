@@ -8,7 +8,7 @@ export const StorageConst = {
     alt: 'Google',
   },
   TELEGRAM_DIR: {
-    src: '/images/logos/telegram.svg',
+    src: '/images/icons/telegram.svg',
     alt: 'Telegram',
   },
   DISCORD_DIR: {
@@ -87,9 +87,9 @@ export const StorageConst = {
     src: '/images/icons/upload.svg',
     alt: 'Upload image',
   },
-  COIN: {
-    src: '/images/icons/coin.svg',
-    alt: 'Coin',
+  USDT: {
+    src: '/images/icons/usdt.svg',
+    alt: 'USDT',
   },
   EARN_REWARD: {
     src: '/images/logos/earn_reward.svg',

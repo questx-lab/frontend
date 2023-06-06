@@ -2,8 +2,8 @@ import { FunctionComponent, ReactNode } from 'react'
 
 import tw from 'twin.macro'
 
-import { Divider, Gap } from '@/styles/common.style'
 import { VerticalFullWidth } from '@/widgets/orientation'
+import { Divider, Gap } from '@/widgets/separator'
 import { Label, SmallText } from '@/widgets/text'
 
 export const OuterBox = tw(VerticalFullWidth)`

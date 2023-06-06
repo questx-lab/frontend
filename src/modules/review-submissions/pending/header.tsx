@@ -5,21 +5,21 @@ import {
   HeaderSortFrame,
   HeaderTitleFrame,
 } from '@/modules/review-submissions/mini-widget'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
+import ClaimReviewStore from '@/store/local/claim-review'
 import { CheckBox } from '@/widgets/input'
 import { BarsArrowDownIcon } from '@heroicons/react/24/outline'
 
 const TableHeader: FunctionComponent<{}> = () => {
   // data
-  const selectedClaims = NewClaimReviewStore.useStoreState((state) => state.selectedPendings)
-  const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
-  const allPendingChecked = NewClaimReviewStore.useStoreState((state) => state.allPendingChecked)
+  const selectedClaims = ClaimReviewStore.useStoreState((state) => state.selectedPendings)
+  const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)
+  const allPendingChecked = ClaimReviewStore.useStoreState((state) => state.allPendingChecked)
 
   // action
-  const setCheckAllPending = NewClaimReviewStore.useStoreActions(
+  const setCheckAllPending = ClaimReviewStore.useStoreActions(
     (actions) => actions.setCheckAllPending
   )
-  const setSelectedPending = NewClaimReviewStore.useStoreActions(
+  const setSelectedPending = ClaimReviewStore.useStoreActions(
     (actions) => actions.setSelectedPending
   )
 

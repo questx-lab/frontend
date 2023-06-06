@@ -1,8 +1,14 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { CommunityRoleEnum } from '@/constants/common.const'
-import { CommunityIndexMode, ControlPanelTab, emptyCommunity } from '@/types/community'
-import { CategoryType, CommunityType, QuestType } from '@/utils/type'
+import { CategoryType } from '@/types'
+import {
+  CommunityIndexMode,
+  CommunityType,
+  ControlPanelTab,
+  emptyCommunity,
+} from '@/types/community'
+import { QuestType } from '@/types/quest'
 
 interface CommunityModel {
   selectedCommunity: CommunityType
@@ -72,4 +78,4 @@ const CommunityStore = createContextStore<CommunityModel>({
     state.quests = quests
   }),
 })
-export { CommunityStore }
+export default CommunityStore

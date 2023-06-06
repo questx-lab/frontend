@@ -5,13 +5,15 @@ import { json, Outlet, Params, useLoaderData } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { getCommunityApi } from '@/app/api/client/communitiy'
-import { getTemplatesApi, listQuestApi } from '@/app/api/client/quest'
+import { getCommunityApi } from '@/api/communitiy'
+import { getTemplatesApi, listQuestApi } from '@/api/quest'
 import { CommunityRoleEnum } from '@/constants/common.const'
 import { ControlPanel } from '@/modules/community/control-panel'
-import { CommunityStore } from '@/store/local/community'
+import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
-import { CollaboratorType, CommunityType, QuestType } from '@/utils/type'
+import { CollaboratorType } from '@/types'
+import { CommunityType } from '@/types/community'
+import { QuestType } from '@/types/quest'
 import { Horizontal } from '@/widgets/orientation'
 
 export const Loader = async (args: { params: Params }) => {
@@ -61,10 +63,12 @@ export const Community = () => {
   const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
   // Check if user is the admin of this community
   let collab: CollaboratorType | undefined = undefined
-  for (let communityCollab of myCommunities) {
-    if (communityCollab.community.handle === community.handle) {
-      collab = communityCollab
-      break
+  if (myCommunities) {
+    for (let communityCollab of myCommunities) {
+      if (communityCollab.community.handle === community.handle) {
+        collab = communityCollab
+        break
+      }
     }
   }
 
@@ -96,7 +100,7 @@ export const Community = () => {
         setRole(CommunityRoleEnum.NOT_LOGIN)
       }
     }
-  }, [setSelectedCommunity, collab, data.community, data.templates])
+  }, [collab, data])
 
   if (!community) {
     return <>Failed to load community data</>
@@ -104,7 +108,7 @@ export const Community = () => {
 
   // load quests
   const loadQuests = async () => {
-    const result = await listQuestApi(community.handle, '')
+    const result = await listQuestApi(data.community.handle, '')
     if (result.code === 0) {
       setQuests(result.data?.quests || [])
     } else {

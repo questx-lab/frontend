@@ -5,9 +5,11 @@ import tw from 'twin.macro'
 
 import { ButtonSocialType, QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
+import { handleLoginTwitter } from '@/handler/auth/twitter'
 import QuestTwitterAction from '@/modules/quest/view-quest/twitter/action'
 import { GlobalStoreModel } from '@/store/store'
-import { QuestTwitterActionType, QuestType } from '@/utils/type'
+import { QuestTwitterActionType } from '@/types'
+import { QuestType } from '@/types/quest'
 import { SocialButton } from '@/widgets/buttons/button-social'
 import { Image } from '@/widgets/image'
 import { VerticalBetween, VerticalCenter } from '@/widgets/orientation'
@@ -94,14 +96,9 @@ const TwitterConnectBox: FunctionComponent = () => {
     return <></>
   }
 
-  const onConnect = async () => {
-    // signIn('twitter')
-    // TODO: Complete this
-  }
-
   return (
     <TwitterConnectFrame>
-      <SocialButton btnType={ButtonSocialType.TWITTER} onClick={onConnect}>
+      <SocialButton btnType={ButtonSocialType.TWITTER} onClick={handleLoginTwitter}>
         <Image
           width={30}
           height={30}

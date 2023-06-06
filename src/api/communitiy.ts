@@ -1,15 +1,15 @@
-import { api } from '@/app/api/config/api'
+import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
 import {
   CollaboratorType,
-  CommunityType,
   ListCommunitiesType,
   OAuth2VerifyResp,
   ReqNewCommunity,
   Rsp,
   UpdateCommunityRequest,
   UpdateCommunityResponse,
-} from '@/utils/type'
+} from '@/types'
+import { CommunityType } from '@/types/community'
 
 class CommunityLoader {
   myCommunities: CollaboratorType[] | undefined
@@ -46,7 +46,7 @@ export const listCommunitiesApi = async (
     url = url + `&by_trending=${byTrending}`
   }
 
-  const rs = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + url)
+  const rs = await api.get(EnvVariables.API_SERVER + url)
   return rs.data as Rsp<ListCommunitiesType>
 }
 
@@ -62,24 +62,22 @@ export const getMyCommunitiesApi = async (): Promise<
   }
 
   // Load from server
-  const rs = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + '/getMyCollaborators')
+  const rs = await api.get(EnvVariables.API_SERVER + '/getMyCollaborators')
   return rs.data
 }
 
 export const getFollowCommunitiesApi = async (): Promise<Rsp<{ communities: CommunityType[] }>> => {
-  const rs = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + '/getMyFollowing')
+  const rs = await api.get(EnvVariables.API_SERVER + '/getMyFollowing')
   return rs.data
 }
 
 export const getCommunityApi = async (id: string): Promise<Rsp<{ community: CommunityType }>> => {
-  const rs = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/getCommunity?community_handle=${id}`
-  )
+  const rs = await api.get(EnvVariables.API_SERVER + `/getCommunity?community_handle=${id}`)
   return rs.data
 }
 
 export const newCommunityApi = async (body: ReqNewCommunity): Promise<Rsp<{ handle: string }>> => {
-  const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/createCommunity', body)
+  const rs = await api.post(EnvVariables.API_SERVER + '/createCommunity', body)
   return rs.data
 }
 
@@ -87,7 +85,7 @@ export const getMyFollowerInfoApi = async (
   communityHandle: string
 ): Promise<Rsp<{ invite_code: string }>> => {
   const rs = await api.get(
-    EnvVariables.NEXT_PUBLIC_API_URL + `/getMyFollowerInfo?community_handle=${communityHandle}`
+    EnvVariables.API_SERVER + `/getMyFollowerInfo?community_handle=${communityHandle}`
   )
   return rs.data
 }
@@ -97,7 +95,7 @@ export const updateCommunityDiscord = async (
   server_id: string,
   oauth_access_token: string
 ): Promise<OAuth2VerifyResp> => {
-  const result = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + `/updateCommunityDiscord`, {
+  const result = await api.post(EnvVariables.API_SERVER + `/updateCommunityDiscord`, {
     community_handle: handle,
     access_token: oauth_access_token,
     server_id: server_id,
@@ -108,7 +106,6 @@ export const updateCommunityDiscord = async (
 export const updateCommunityApi = async (
   data: UpdateCommunityRequest
 ): Promise<Rsp<UpdateCommunityResponse>> => {
-  const rs = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/updateCommunity', data)
+  const rs = await api.post(EnvVariables.API_SERVER + '/updateCommunity', data)
   return rs.data
 }
-

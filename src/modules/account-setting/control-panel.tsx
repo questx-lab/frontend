@@ -5,9 +5,9 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
-import AccountSettingStore from '@/store/local/account-setting.store'
+import AccountSettingsStore from '@/store/local/account-settings'
 import { GlobalStoreModel } from '@/store/store'
-import { AccoutSettingTabEnum, UserType } from '@/utils/type'
+import { AccoutSettingTabEnum, UserType } from '@/types'
 import { CircularImage } from '@/widgets/circular-image'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { LargeText } from '@/widgets/text'
@@ -61,8 +61,8 @@ const SettingItemHorizontal = styled(Horizontal)<{ active?: boolean }>(({ active
 
 const ControlPanel: FunctionComponent = () => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-  const tabType = AccountSettingStore.useStoreState((state) => state.tabType)
-  const setTabType = AccountSettingStore.useStoreActions((action) => action.setTabType)
+  const tabType = AccountSettingsStore.useStoreState((state) => state.tabType)
+  const setTabType = AccountSettingsStore.useStoreActions((action) => action.setTabType)
 
   const onClick = (value: number) => {
     if (tabType !== value) {

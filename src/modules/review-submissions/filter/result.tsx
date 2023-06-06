@@ -3,8 +3,8 @@ import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { NewQuestSearchStore } from '@/store/local/quest-search.store'
-import { QuestType } from '@/utils/type'
+import NewQuestSearchStore from '@/store/local/quest-search'
+import { QuestType } from '@/types/quest'
 import { CheckBox } from '@/widgets/input'
 import { Combobox } from '@headlessui/react'
 

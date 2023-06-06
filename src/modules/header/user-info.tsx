@@ -4,6 +4,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
 import { AuthEnum } from '@/constants/common.const'
+import InviteCommunity from '@/modules/header/invite-community'
 import Login from '@/modules/header/login'
 import { UserPopover } from '@/modules/header/user-popover'
 import { GlobalStoreModel } from '@/store/store'
@@ -88,8 +89,7 @@ export const UserInfoBox: FunctionComponent = () => {
           isOpen={isInvite}
           onClose={() => setInvite(false)}
         >
-          {/* <InviteCommunity /> */}
-          Add back the InviteCommunity here
+          <InviteCommunity />
         </BasicModal>
         <BaseModal isOpen={showLoginModal}>
           <ModalBox>

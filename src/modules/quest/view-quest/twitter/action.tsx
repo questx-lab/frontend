@@ -10,9 +10,9 @@ import TwitterLike from '@/modules/quest/view-quest/twitter/action-like'
 import TwitterReply from '@/modules/quest/view-quest/twitter/action-reply'
 import TwitterRetweet from '@/modules/quest/view-quest/twitter/action-retweet'
 import TwitterTweet from '@/modules/quest/view-quest/twitter/action-tweet'
-import { WarningBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
+import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import { GlobalStoreModel } from '@/store/store'
-import { QuestTwitterActionType } from '@/utils/type'
+import { QuestTwitterActionType } from '@/types'
 import { VerticalFullWidthBetween, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
@@ -61,10 +61,10 @@ const QuestTwitterAction: FunctionComponent<{
     <VerticalAction>
       <NormalText>{'To complete this challenge:'}</NormalText>
       <VerticalFullWidthBetween>{renderActions}</VerticalFullWidthBetween>
-      <WarningBox boxColor={ColorEnum.WARNING}>
+      <ColorBox boxColor={ColorEnum.WARNING}>
         <ExclamationCircleIcon className='w-7 h-7 text-warning' />
         {'After completion, it can take up to 10s before your claim succeeds.'}
-      </WarningBox>
+      </ColorBox>
     </VerticalAction>
   )
 }

@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { listCommunitiesApi } from '@/app/api/client/communitiy'
+import { listCommunitiesApi } from '@/api/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/modules/community/community-box'
-import { CommunityType } from '@/utils/type'
-import { NegativeButton } from '@/widgets/buttons/button'
+import { CommunityType } from '@/types/community'
+import { NegativeButton } from '@/widgets/buttons'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
 import { Image } from '@/widgets/image'
@@ -252,7 +252,7 @@ const Content: FunctionComponent = () => {
                 </Description>
                 <NegativeButton
                   onClick={() => {
-                    // TODO: router.push(RouterConst.COMMUNITIES)}
+                    navigate(RouterConst.COMMUNITIES)
                   }}
                 >
                   {'Explore'}

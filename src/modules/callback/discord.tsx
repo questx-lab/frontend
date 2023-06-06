@@ -4,13 +4,13 @@ import { useStoreActions } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { updateCommunityDiscord } from '@/app/api/client/communitiy'
-import { linkOAuth2, verifyOAuth2 } from '@/app/api/client/oauth'
-import { getUserApi } from '@/app/api/client/user'
+import { updateCommunityDiscord } from '@/api/communitiy'
+import { linkOAuth2, verifyOAuth2 } from '@/api/oauth'
+import { getUserApi } from '@/api/user'
 import { newQuestRoute, RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
+import { OAuth2LinkReq } from '@/types'
 import { getAccessToken, setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
-import { OAuth2LinkReq } from '@/utils/type'
 import LoadingModal from '@/widgets/modal/loading'
 
 const DiscordCallback: FC = () => {

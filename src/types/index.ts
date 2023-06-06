@@ -1,3 +1,6 @@
+import { CommunityType } from '@/types/community'
+import { QuestType, ValidationQuest } from '@/types/quest'
+
 export type ReturnTuple<T> = {
   value?: T
   error?: string
@@ -28,13 +31,14 @@ export type Rsp<T> = {
 }
 
 export type UserType = {
-  id?: string
+  id: string
   wallet_address?: string
-  name?: string
+  name: string
   services?: {
     discord?: string
     twitter?: string
     google?: string
+    telegram?: string
   }
   is_new_user?: boolean
   role?: string
@@ -72,21 +76,6 @@ export type ReqNewCommunity = {
   twitter?: string
 }
 
-export type CommunityType = {
-  created_at?: string
-  updated_at?: string
-  created_by?: string
-  display_name: string
-  handle: string
-  twitter?: string
-  discord?: string
-  telegram?: string
-  introduction: string
-  website_url?: string
-  logo_url: string
-  number_of_quests?: number
-}
-
 export type ListCommunitiesType = {
   communities: CommunityType[]
 }
@@ -119,59 +108,6 @@ export type RewardType = {
   data: {
     points?: number
     role?: string
-  }
-}
-
-export type ValidationQuest = {
-  auto_validate?: boolean
-  answer?: string
-  question?: string
-  options?: string[]
-  link?: string
-  included_words?: string[]
-  default_tweet?: string
-  twitter_handle?: string
-  tweet_url?: string
-  retweet?: boolean
-  reply?: boolean
-  like?: boolean
-  space_url?: string
-  invite_link?: string
-  number?: number
-  quizzes?: QuestQuizType[]
-}
-
-// TODO: Move this to type/quest.ts
-export interface QuestType {
-  id: string
-  community: CommunityType
-  category_id?: string
-  title: string
-  type: string
-  status: string
-  description: string
-  recurrence: string
-  condition_op?: string
-  created_at?: string
-  updated_at?: string
-  points: number
-  rewards?: RewardType[]
-  category: CategoryType
-  validation_data: {
-    tweet_url?: string
-    like?: boolean
-    reply?: boolean
-    retweet?: boolean
-    default_reply?: string
-    link?: string
-    invite_url?: string
-    twitter_handle?: string
-    default_tweet?: string
-    auto_validate?: boolean
-    answer?: string
-    space_url?: string
-    number?: number
-    quizzes?: QuestQuizType[]
   }
 }
 
@@ -225,13 +161,6 @@ export type QuestTwitterActionType = {
   link: string
 }
 
-export type QuestQuizType = {
-  id?: number
-  question: string
-  options: string[]
-  answers: string[]
-}
-
 export type OAuth2VerifyResp = {
   error: string
   code: number
@@ -255,6 +184,15 @@ export type OAuth2LinkReq = {
 
   // For Implicit flow.
   id_token?: string
+}
+
+export type TelegramAuthType = {
+  id: string
+  first_name?: string
+  last_name?: string
+  username?: string
+  auth_date?: number
+  hash?: string
 }
 
 export type UploadCommunityLogoResponse = {

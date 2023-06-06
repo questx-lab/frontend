@@ -1,7 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { SocialDisplay } from '@/constants/common.const'
-import { AccoutSettingTabEnum } from '@/utils/type'
+import { AccoutSettingTabEnum } from '@/types'
 
 interface AccountSettingsModel {
   username: string
@@ -17,7 +17,7 @@ interface AccountSettingsModel {
   setTabType: Action<AccountSettingsModel, number>
 }
 
-const AccountSettingStore = createContextStore<AccountSettingsModel>({
+const AccountSettingsStore = createContextStore<AccountSettingsModel>({
   username: '',
   inviteCode: '',
   metamask: '',
@@ -41,4 +41,4 @@ const AccountSettingStore = createContextStore<AccountSettingsModel>({
   }),
 })
 
-export default AccountSettingStore
+export default AccountSettingsStore

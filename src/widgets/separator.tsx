@@ -1,5 +1,11 @@
-import styled, { CSSProperties } from 'styled-components'
+import styled from 'styled-components'
 import tw from 'twin.macro'
+
+export const Divider = tw.div`
+  bg-gray-300
+  h-[1px]
+  w-full
+`
 
 type GapProps = {
   width?: number
@@ -76,22 +82,3 @@ export const Gap = styled.div<GapProps>(({ width = 4, height = 4 }) => [
   () => widthFormat(width),
   () => heightFormat(height),
 ])
-
-export const Divider = tw.div`
-  bg-gray-300
-  h-[1px]
-  w-full
-`
-
-export const VDevider = tw.div`
-  bg-gray-500
-  w-[1.5px]
-  h-full
-  mx-6
-`
-
-export const SpinnerStyle: CSSProperties = {
-  display: 'block',
-  margin: '0 auto',
-  borderColor: '#000',
-}

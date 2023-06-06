@@ -4,15 +4,15 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { getUserApi, updateUserApi } from '@/app/api/client/user'
+import { getUserApi, updateUserApi } from '@/api/user'
 import { StorageConst } from '@/constants/storage.const'
 import SocialConnect from '@/modules/account-setting/general/social-connect'
 import { ButtonBox, ColumnBox, RowBox } from '@/modules/account-setting/mini-widget'
-import AccountSettingStore from '@/store/local/account-setting.store'
+import AccountSettingsStore from '@/store/local/account-settings'
 import { GlobalStoreModel } from '@/store/store'
+import { SocialType, UserType } from '@/types'
 import { setUserLocal } from '@/utils/helper'
-import { SocialType, UserType } from '@/utils/type'
-import { NegativeButton, PositiveButton } from '@/widgets/buttons/button'
+import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import { TextField } from '@/widgets/form'
 import { Image } from '@/widgets/image'
 import { Vertical } from '@/widgets/orientation'
@@ -29,7 +29,7 @@ export const ActionUpdate: FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   // data
-  const username = AccountSettingStore.useStoreState((state) => state.username)
+  const username = AccountSettingsStore.useStoreState((state) => state.username)
 
   // action
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
@@ -70,12 +70,12 @@ export const ActionUpdate: FunctionComponent = () => {
 export const BasicInfo: FunctionComponent = () => {
   // data
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-  const username = AccountSettingStore.useStoreState((state) => state.username)
-  const inviteCode = AccountSettingStore.useStoreState((state) => state.inviteCode)
+  const username = AccountSettingsStore.useStoreState((state) => state.username)
+  const inviteCode = AccountSettingsStore.useStoreState((state) => state.inviteCode)
 
   // action
-  const setUsername = AccountSettingStore.useStoreActions((action) => action.setUsername)
-  const setInviteCode = AccountSettingStore.useStoreActions((action) => action.setInviteCode)
+  const setUsername = AccountSettingsStore.useStoreActions((action) => action.setUsername)
+  const setInviteCode = AccountSettingsStore.useStoreActions((action) => action.setInviteCode)
 
   // hook
   useEffect(() => {

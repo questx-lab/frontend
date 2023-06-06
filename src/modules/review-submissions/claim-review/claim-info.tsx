@@ -3,12 +3,12 @@ import { Fragment, FunctionComponent } from 'react'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { updateClaimedQuestApi } from '@/app/api/client/claim'
+import { updateClaimedQuestApi } from '@/api/claim'
 import { ClaimedQuestStatus, ReviewBtnEnum } from '@/constants/common.const'
 import { RowButtons } from '@/modules/review-submissions/button'
 import { ClaimedSubmit } from '@/modules/review-submissions/pending/row-item'
-import { NewClaimReviewStore } from '@/store/local/claim-review'
-import { MultipleInputBox } from '@/styles/input.style'
+import ClaimReviewStore from '@/store/local/claim-review'
+import MultipleInputBox from '@/widgets/input/multiple-input-box'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import { Label } from '@/widgets/text'
 
@@ -23,14 +23,12 @@ const GapVertical = tw(VerticalFullWidth)`
 
 const Review: FunctionComponent = () => {
   // data
-  const pendingClaims = NewClaimReviewStore.useStoreState((state) => state.pendingClaims)
-  const claimQuestActive = NewClaimReviewStore.useStoreState((state) => state.claimQuestActive)
+  const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)
+  const claimQuestActive = ClaimReviewStore.useStoreState((state) => state.claimQuestActive)
 
   // action
-  const setPendingClaims = NewClaimReviewStore.useStoreActions(
-    (actions) => actions.setPendingClaims
-  )
-  const setShowClaimDetails = NewClaimReviewStore.useStoreActions(
+  const setPendingClaims = ClaimReviewStore.useStoreActions((actions) => actions.setPendingClaims)
+  const setShowClaimDetails = ClaimReviewStore.useStoreActions(
     (actions) => actions.setShowClaimDetails
   )
   // handler
@@ -70,7 +68,7 @@ const Review: FunctionComponent = () => {
 }
 
 const ClaimInfo: FunctionComponent = () => {
-  const claimQuestActive = NewClaimReviewStore.useStoreState((state) => state.claimQuestActive)
+  const claimQuestActive = ClaimReviewStore.useStoreState((state) => state.claimQuestActive)
 
   return (
     <ClaimBox>

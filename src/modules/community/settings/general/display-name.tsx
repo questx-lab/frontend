@@ -1,9 +1,9 @@
 import { FC } from 'react'
 
-import NewCommunityStore from '@/store/local/new-community.store'
-import { Gap } from '@/styles/common.style'
+import NewCommunityStore from '@/store/local/new-community'
 import { TextField } from '@/widgets/form'
 import { Horizontal } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { HeaderText3, RequiredText } from '@/widgets/text'
 
 const DisplayName: FC = () => {

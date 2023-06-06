@@ -4,10 +4,10 @@ import tw from 'twin.macro'
 
 import { FieldTitle } from '@/modules/create-quest/mini-widget'
 import AnswerItem from '@/modules/create-quest/quest-type/quiz-answer-item'
-import NewQuestStore from '@/store/local/new-quest.store'
-import { Gap } from '@/styles/common.style'
+import NewQuestStore from '@/store/local/new-quest'
 import { MultipleTextField } from '@/widgets/form'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { NormalText } from '@/widgets/text'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 

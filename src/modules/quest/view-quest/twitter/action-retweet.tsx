@@ -4,10 +4,10 @@ import { useStoreState } from 'easy-peasy'
 import { Link } from 'react-router-dom'
 
 import { ColorEnum, SizeEnum } from '@/constants/common.const'
-import { ActionTwitterFrame, WarningBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
+import { ActionTwitterFrame, ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import { GlobalStoreModel } from '@/store/store'
-import { QuestTwitterActionType } from '@/utils/type'
-import { NegativeButton } from '@/widgets/buttons/button'
+import { QuestTwitterActionType } from '@/types'
+import { NegativeButton } from '@/widgets/buttons'
 import { HorizontalStartCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { ArrowPathRoundedSquareIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
@@ -35,12 +35,12 @@ const TwitterRetweet: FunctionComponent<{ action: QuestTwitterActionType }> = ({
         </Link>
 
         {warningRetweet && (
-          <WarningBox boxColor={ColorEnum.DANGER}>
+          <ColorBox boxColor={ColorEnum.DANGER}>
             <ExclamationTriangleIcon className='w-7 h-7 text-danger' />
             {
               'Be sure to claim this quest right after your retweet, as we are only looking at your 50 last retweets'
             }
-          </WarningBox>
+          </ColorBox>
         )}
       </VerticalFullWidth>
     </div>

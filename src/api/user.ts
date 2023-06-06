@@ -1,15 +1,15 @@
 import { EnvVariables } from '@/constants/env.const'
-import { Rsp, UserType } from '@/utils/type'
+import { Rsp, UserType } from '@/types'
 
-import { api } from '../config/api'
+import { api } from './interceptor'
 
 export const getUserApi = async (): Promise<Rsp<UserType>> => {
-  const result = await api.get(EnvVariables.NEXT_PUBLIC_API_URL + '/getMe')
+  const result = await api.get(EnvVariables.API_SERVER + '/getMe')
   return result.data
 }
 
 export const updateUserApi = async (name: string): Promise<Rsp<{}>> => {
-  const result = await api.post(EnvVariables.NEXT_PUBLIC_API_URL + '/updateUser', {
+  const result = await api.post(EnvVariables.API_SERVER + '/updateUser', {
     name,
   })
   return result.data

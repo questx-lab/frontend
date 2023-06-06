@@ -2,9 +2,9 @@ import { FunctionComponent } from 'react'
 
 import { TwitterEnum } from '@/constants/common.const'
 import { Padding } from '@/modules/create-quest/quest-type/mini-widget'
-import NewQuestStore from '@/store/local/new-quest.store'
-import { Divider } from '@/styles/common.style'
+import NewQuestStore from '@/store/local/new-quest'
 import { TextField } from '@/widgets/form'
+import { Divider } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
 
 const TwitterJoinSpace: FunctionComponent = () => {

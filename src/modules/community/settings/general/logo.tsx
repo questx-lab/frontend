@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
 import { AvatarUpload } from '@/modules/create-community/avatar-upload'
-import { Gap } from '@/styles/common.style'
 import { GrayBorderBox } from '@/widgets/box'
+import { Gap } from '@/widgets/separator'
 import { HeaderText3, PrimaryText } from '@/widgets/text'
 
 const Logo: FC = () => {
