@@ -1,12 +1,9 @@
 name: Build and Deploy to GKE
 
 on:
-  push:
-    branches: ['staging', 'production', 'master', 'benja/new-frontend']
-    types: ['closed']
   pull_request:
-    branches: ['staging', 'production', 'master', 'benja/new-frontend']
-    # types: ['closed']
+    branches: ['staging', 'production']
+    types: ['closed']
 
 env:
   PROJECT_ID: ${{ vars.PROJECT_ID }} # TODO: update Google Cloud project id
@@ -21,12 +18,12 @@ env:
 
 jobs:
   deploy:
-    # if: ${{ github.event.pull_request.merged }} #! only merged to master
+    if: ${{ github.event.pull_request.merged }} #! only merged to master
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
       id-token: 'write'
-    environment: staging
+    environment: ${{ github.base_ref }}
 
     runs-on: ubuntu-latest
     steps:
