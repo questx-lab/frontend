@@ -122,8 +122,7 @@ const DiscordCallback: FC = () => {
     } catch (error) {
       setSuccess(false)
       setMessage('Connect to Discord was failed, please try more again')
-      // setTimeout(() => navigate(RouterConst.HOME, { replace: true }), 1000)
-    } finally {
+      setTimeout(() => navigate(RouterConst.HOME, { replace: true }), 1000)
     }
   }
 
