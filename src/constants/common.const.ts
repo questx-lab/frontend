@@ -117,13 +117,8 @@ export const QuestRecurrencesStringMap = new Map<String, QuestRecurrence>([
   ['monthly', QuestRecurrence.MONTHLY],
 ])
 
-export const QuestRewards = ['Gem', 'Discord Role', 'Other']
-
-export enum SideEnum {
-  QUEST,
-  REVIEW_SUBMISSION,
-  SETTINGS,
-}
+// export const QuestRewards = ['Gem', 'Discord Role', 'Other']
+export const QuestRewards = ['Gem']
 
 export enum TabReviewEnum {
   PENDING,
@@ -146,10 +141,10 @@ export enum ClaimedQuestStatus {
   ALL = 'rejected,accepted',
 }
 
-export const ClaimedQuestMap = new Map<ClaimedQuestStatus, String>([
+export const ClaimedQuestMap = new Map<ClaimedQuestStatus, string>([
   [ClaimedQuestStatus.PENDING, 'Pending'],
-  [ClaimedQuestStatus.ACCEPTED, 'Accept'],
-  [ClaimedQuestStatus.REJECTED, 'Reject'],
+  [ClaimedQuestStatus.ACCEPTED, 'Accepted'],
+  [ClaimedQuestStatus.REJECTED, 'Rejected'],
   [ClaimedQuestStatus.ALL, 'All'],
 ])
 
@@ -166,10 +161,11 @@ export enum AnswerStatusEnum {
 }
 
 export enum CommunityRoleEnum {
-  NONE,
-  GUEST,
-  OWNER,
-  EDITOR,
+  NOT_LOGIN = '',
+  GUEST = 'guest',
+  OWNER = 'owner',
+  EDITOR = 'editor',
+  REVIEWER = 'reviewer',
 }
 
 export enum ButtonSocialType {
@@ -239,7 +235,7 @@ export enum ConnectSocialPlatformEnum {
 export enum AuthEnum {
   LOGIN,
   REGISTER,
-  INPUT_FORM,
+  CHOOSE_USERNAME,
 }
 
 export enum SocialDisplay {

@@ -1,14 +1,13 @@
 import { FunctionComponent } from 'react'
 
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { IMAGES_SOURCE } from '@/constants/images'
-import { RouterConst } from '@/constants/router.const'
+import { communityRoute } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
-import { CommunityType } from '@/utils/type'
+import { CommunityType } from '@/types/community'
+import { Image } from '@/widgets/image'
 import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
 
 const ContentProjectBox = tw(Vertical)`
@@ -99,38 +98,29 @@ const Title = tw.p`
   3xl:text-xl
 `
 
-const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({
-  community,
-}) => {
-  const router = useRouter()
+const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({ community }) => {
+  const navigate = useNavigate()
 
   return (
-    <CommunityBoxWrap
-      onClick={() => router.push(RouterConst.PROJECT + community.handle)}
-    >
+    <CommunityBoxWrap onClick={() => navigate(communityRoute(community.handle))}>
       <Top>
         <ImageProjectBox
           width={60}
           height={60}
-          src={community.logo_url || IMAGES_SOURCE.community_default}
-          alt={'avatar'}
+          src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
+          alt='community'
         />
         <ContentProjectBox>
           <Title>{community.display_name!}</Title>
           <InfoSection>
-            <Info>{'8 Quests'}</Info>
+            <Info>{`${community.number_of_quests} Quests`}</Info>
           </InfoSection>
           <Description>{community.introduction}</Description>
         </ContentProjectBox>
       </Top>
       <Bottom>
         <RewardBox>
-          <Image
-            width={25}
-            height={25}
-            src={StorageConst.POINT_ICON.src}
-            alt={StorageConst.POINT_ICON.alt}
-          />
+          <Image width={25} height={25} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
           <RewardText>{'300 Gems'}</RewardText>
         </RewardBox>
       </Bottom>

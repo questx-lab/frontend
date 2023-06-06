@@ -1,5 +1,10 @@
 import tw from 'twin.macro'
 
+export const FullWidthHeight = tw.div`
+  w-full
+  h-full
+`
+
 export const Horizontal = tw.div`
   flex
   flex-row
@@ -37,11 +42,13 @@ export const HorizontalBetweenCenter = tw.div`
   items-center
 `
 
-export const HorizontalBetweenCenterFullWidth = tw.div`
-  flex
-  flex-row
+export const HorizontalBetweenCenterFullWidth = tw(Horizontal)`
   justify-between
   items-center
+  w-full
+`
+
+export const HorizontalFullWidth = tw(Horizontal)`
   w-full
 `
 
@@ -66,9 +73,12 @@ export const VerticalFullWidth = tw(Vertical)`
   gap-2
 `
 
+export const VerticalFullWidthHeight = tw(VerticalFullWidth)`
+  h-full
+`
+
 export const VerticalFullWidthCenter = tw(VerticalCenter)`
   w-full
-  gap-2
 `
 
 export const VerticalFullWidthStartCenter = tw(VerticalFullWidth)`
@@ -84,5 +94,4 @@ export const VerticalBetween = tw.div`
 
 export const VerticalFullWidthBetween = tw(VerticalBetween)`
   w-full
-  gap-2
 `

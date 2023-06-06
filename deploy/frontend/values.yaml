@@ -45,14 +45,15 @@ service:
 ingress:
   enabled: true
   className: ''
-  annotations: {}
-  # kubernetes.io/ingress.class: nginx
-  # kubernetes.io/tls-acme: "true"
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: questx.app
+    - host: chart-example.local
       paths:
         - path: /
-          pathType: Prefix
+          pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

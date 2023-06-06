@@ -1,0 +1,9 @@
+{
+  "autoFormat": "onSave",
+  "wrappingStyle": {
+    "maxBindingNamesPerLine": 0,
+    "maxDefaultAndBindingNamesPerLine": 0
+  },
+  "hasSemicolon": false,
+  "maxLineLength": 100
+}

@@ -1,12 +1,12 @@
 import { FunctionComponent, ReactNode } from 'react'
 
-import Image from 'next/image'
 import Carousel from 'react-multi-carousel'
 import { ArrowProps } from 'react-multi-carousel/lib/types'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
+import { Image } from '@/widgets/image'
 import { VerticalCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
@@ -26,11 +26,11 @@ const responsive = {
     items: 4,
   },
   desktop: {
-    breakpoint: { max: 1920, min: 1441 },
+    breakpoint: { max: 1920, min: 1440 },
     items: 4,
   },
   mediumDesktop: {
-    breakpoint: { max: 1440, min: 1025 },
+    breakpoint: { max: 1439, min: 1025 },
     items: 3,
   },
   tablet: {
@@ -94,9 +94,7 @@ const CarouselList: FunctionComponent<{
           alt={StorageConst.CHICKEN.alt}
         />
         <NormalText className='text-center'>
-          {
-            "Ohhh! This doesn't have any data yet. Please follow and come back at a later time."
-          }
+          {"Ohhh! This doesn't have any data yet. Please come back at a later time."}
         </NormalText>
       </EmptyBox>
     )
