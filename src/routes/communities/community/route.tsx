@@ -61,6 +61,8 @@ export const Community = () => {
   const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
+  const showPanel: boolean = canEdit && user
+
   // Check if user is the admin of this community
   let collab: CollaboratorType | undefined = undefined
   if (myCommunities) {
@@ -118,8 +120,8 @@ export const Community = () => {
 
   return (
     <>
-      <ControlPanel community={community} show={canEdit} />
-      <PaddingLeft hasPanel={canEdit}>
+      <ControlPanel community={community} show={showPanel} />
+      <PaddingLeft hasPanel={showPanel}>
         <Outlet />
       </PaddingLeft>
     </>
