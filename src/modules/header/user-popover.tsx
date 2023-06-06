@@ -97,7 +97,8 @@ export const UserPopover: FunctionComponent = () => {
     setUser(undefined)
     delCookies()
     clearLocalStorage()
-    // TODO: Navigate to home
+
+    navigate(RouterConst.HOME)
   }
 
   return (
