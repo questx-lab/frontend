@@ -142,9 +142,13 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({ set
   const referral: RefferalType = useStoreState<GlobalStoreModel>((state) => state.referral)
   let block = true
 
+  if (!user) {
+    return <></>
+  }
+
   // handler
   const onCopy = () => {
-    if (user && user.referral_code) {
+    if (user.referral_code) {
       navigator.clipboard.writeText(user.referral_code)
       toast('Copied!', {
         icon: '👏',
@@ -158,7 +162,6 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({ set
   }
 
   if (
-    user &&
     user.wallet_address !== '' &&
     referral.total_claimable_communities &&
     referral.total_claimable_communities !== 0
@@ -178,7 +181,7 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({ set
         <Label>{'GUIDE 📚'}</Label>
         <NormalText>{'Copy code and share with your friend when they create project. '}</NormalText>
         <NegativeButton onClick={onCopy}>
-          {user && user.referral_code}
+          {user.referral_code}
           <CheckIcon className='w-5 h-5 text-success' />
         </NegativeButton>
         <Label>{'SUBMISSION 📝'}</Label>
@@ -188,7 +191,7 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({ set
         <RewardBox>
           <Label>{'REWARD'}</Label>
           <CoinBox>
-            <Image width={30} height={30} src={StorageConst.COIN.src} alt={StorageConst.COIN.alt} />
+            <Image width={30} height={30} src={StorageConst.USDT.src} alt={StorageConst.USDT.alt} />
             {(referral.total_claimable_communities ?? 0) * (referral.reward_amount ?? 0)}
           </CoinBox>
         </RewardBox>

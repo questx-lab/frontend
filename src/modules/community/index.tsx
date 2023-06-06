@@ -32,6 +32,7 @@ const FullWidthHeight = tw.div`
 
 const FullWidthCenter = tw(HorizontalBetweenCenter)`
   w-full
+  mb-4
 `
 
 const ButtonAlignment = tw(Horizontal)`
