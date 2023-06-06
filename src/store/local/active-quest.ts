@@ -1,5 +1,7 @@
-import { action, Action, createContextStore } from 'easy-peasy'
+import { action, Action, createContextStore, FilterActionTypes, StateMapper } from 'easy-peasy'
 
+import { QuestTypeEnum } from '@/constants/common.const'
+import { UserType } from '@/types'
 import { emptyQuest, QuestType } from '@/types/quest'
 
 /**
@@ -70,5 +72,86 @@ const ActiveQuestStore = createContextStore<ActiveQuestModel>({
     state.telegramSubmit = telegram
   }),
 })
+
+/**
+ * This functions takes a active quest state and returns if user is eligible to claim it or could
+ * not claim because of some missing data.
+ */
+export const canClaimQuest = (
+  state: StateMapper<FilterActionTypes<ActiveQuestModel>>,
+  user: UserType,
+  quest: QuestType
+): boolean => {
+  if (!user) {
+    return false
+  }
+
+  let canClaim = false
+  const fileUpload = state.fileUpload
+  const urlSubmit = state.urlSubmit
+  const textSubmit = state.textSubmit
+  const quizAnswers = state.quizAnswers
+  const visitLink = state.visitLink
+  const telegramSubmit = state.telegramSubmit
+
+  switch (quest.type) {
+    case QuestTypeEnum.IMAGE:
+      if (fileUpload.length > 0) {
+        canClaim = true
+      }
+      break
+    case QuestTypeEnum.URL:
+      if (urlSubmit !== '') {
+        canClaim = true
+      }
+      break
+    case QuestTypeEnum.VISIT_LINK:
+      if (visitLink) {
+        canClaim = true
+      }
+      break
+
+    case QuestTypeEnum.EMPTY:
+      canClaim = true
+      break
+
+    case QuestTypeEnum.TEXT:
+      if (textSubmit !== '') {
+        canClaim = true
+      }
+      break
+
+    case QuestTypeEnum.QUIZ:
+      if (quizAnswers.length === quest.validation_data?.quizzes?.length) {
+        canClaim = true
+      }
+      break
+
+    case QuestTypeEnum.TWITTER:
+    case QuestTypeEnum.TWITTER_FOLLOW:
+    case QuestTypeEnum.TWITTER_JOIN_SPACE:
+    case QuestTypeEnum.TWITTER_REACTION:
+    case QuestTypeEnum.TWITTER_TWEET:
+      if (user && user.services && user.services.twitter) {
+        canClaim = true
+      }
+      break
+    case QuestTypeEnum.DISCORD:
+      if (user && user.services && user.services.discord) {
+        canClaim = true
+      }
+      break
+
+    case QuestTypeEnum.JOIN_TELEGRAM:
+      if (telegramSubmit) {
+        canClaim = true
+      }
+      break
+    default:
+    // do nothing
+  }
+
+  return canClaim
+}
 
 export default ActiveQuestStore
