@@ -124,9 +124,18 @@ const TwitterCallback: FC = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search)
     const authCode = searchParams.get('code')
+    const error = searchParams.get('error')
 
     if (authCode) {
       twitterAuth(authCode)
+    } else {
+      if (error) {
+        setMessage(error)
+      } else {
+        setMessage('No response from Twitter. Redirecting to home...')
+      }
+      setSuccess(false)
+      setTimeout(() => navigate(RouterConst.HOME, { replace: true }), 2000)
     }
   }, [])
 
