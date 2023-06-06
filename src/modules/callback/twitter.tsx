@@ -132,7 +132,7 @@ const TwitterCallback: FC = () => {
       if (error) {
         setMessage(error)
       } else {
-        setMessage('Not responding from twitter')
+        setMessage('No response from Twitter. Redirecting to home...')
       }
       setSuccess(false)
       setTimeout(() => navigate(RouterConst.HOME, { replace: true }), 2000)
