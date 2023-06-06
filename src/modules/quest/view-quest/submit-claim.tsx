@@ -106,7 +106,7 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   const store = ActiveQuestStore.useStore()
   const role = CommunityStore.useStoreState((state) => state.role)
   const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
-  const urlSubmit = ActiveQuestStore.useStoreState((state) => state.urlSubmit)
+  const urlSubmit = ActiveQuestStore.useStoreState((state) => state.url)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
   const replyUrlSubmit = ActiveQuestStore.useStoreState((state) => state.replyUrlSubmit)
   const quizAnswers = ActiveQuestStore.useStoreState((state) => state.quizAnswers)

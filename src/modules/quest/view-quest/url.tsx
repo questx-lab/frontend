@@ -21,7 +21,7 @@ const UrlBox = tw(Horizontal)`
 const QuestUrl: FunctionComponent = () => {
   // data
   const role = CommunityStore.useStoreState((state) => state.role)
-  const urlSutmit = ActiveQuestStore.useStoreState((state) => state.urlSubmit)
+  const urlSutmit = ActiveQuestStore.useStoreState((state) => state.url)
 
   // action
   const setUrlSubmit = ActiveQuestStore.useStoreActions((action) => action.setUrlSubmit)

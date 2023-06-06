@@ -3,6 +3,7 @@ import { action, Action, createContextStore, FilterActionTypes, StateMapper } fr
 import { QuestTypeEnum } from '@/constants/common.const'
 import { UserType } from '@/types'
 import { emptyQuest, QuestType } from '@/types/quest'
+import { isValidUrl } from '@/utils/validation'
 
 /**
  * This is a model for user to view quest and then claim.
@@ -12,7 +13,7 @@ import { emptyQuest, QuestType } from '@/types/quest'
 interface ActiveQuestModel {
   quest: QuestType
 
-  urlSubmit: string
+  url: string
   textSubmit: string
   replyUrlSubmit: string
   fileUpload: File[]
@@ -32,7 +33,7 @@ interface ActiveQuestModel {
 
 const ActiveQuestStore = createContextStore<ActiveQuestModel>({
   quest: emptyQuest(),
-  urlSubmit: '',
+  url: '',
   textSubmit: '',
   replyUrlSubmit: '',
   fileUpload: [],
@@ -45,7 +46,7 @@ const ActiveQuestStore = createContextStore<ActiveQuestModel>({
   }),
 
   setUrlSubmit: action((state, url) => {
-    state.urlSubmit = url
+    state.url = url
   }),
 
   setTextSubmit: action((state, text) => {
@@ -88,7 +89,7 @@ export const canClaimQuest = (
 
   let canClaim = false
   const fileUpload = state.fileUpload
-  const urlSubmit = state.urlSubmit
+  const url = state.url
   const textSubmit = state.textSubmit
   const quizAnswers = state.quizAnswers
   const visitLink = state.visitLink
@@ -101,7 +102,7 @@ export const canClaimQuest = (
       }
       break
     case QuestTypeEnum.URL:
-      if (urlSubmit !== '') {
+      if (isValidUrl(url)) {
         canClaim = true
       }
       break
