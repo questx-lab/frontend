@@ -12,7 +12,7 @@ env:
   APP_NAME: ${{ vars.APP_NAME }}
   GKE_CLUSTER_NAME: ${{ vars.GKE_CLUSTER_NAME }}
   CLUSTER_REGION: ${{ vars.CLUSTER_REGION }}
-  ENV_FILE: ${{ secrets.ENV_FILE }}
+  ENV_FILE: ${{ vars.ENV_FILE }}
   GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
   DOMAIN: ${{ vars.DOMAIN }}
 
