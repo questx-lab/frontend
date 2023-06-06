@@ -63,7 +63,7 @@ export const UploadImageStep: FunctionComponent = () => {
 
     getMyProjects()
     setLoading(false)
-    navigator(RouterConst.COMMUNITIES + createdCommunityHandle)
+    navigator(RouterConst.COMMUNITIES + `/${createdCommunityHandle}`)
   }
 
   return (
