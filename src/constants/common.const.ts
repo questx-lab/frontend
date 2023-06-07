@@ -186,7 +186,7 @@ export const LeaderboardRangeMap = new Map<LeaderboardRangeEnum, string>([
   [LeaderboardRangeEnum.MONTH, 'MONTH'],
 ])
 
-export enum LeaderboardConst {
+export enum LeaderboardSortType {
   POINT = 'point',
   TASK = 'task',
 }

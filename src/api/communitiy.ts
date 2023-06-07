@@ -1,4 +1,7 @@
 import { api } from '@/api/interceptor'
+import { getCache, setCacheWithExpiration } from '@/cache'
+import { leaderboardCacheKey } from '@/cache/keys'
+import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import {
   CollaboratorType,
@@ -11,6 +14,7 @@ import {
   UpdateCommunityResponse,
 } from '@/types'
 import { CommunityType, FollowCommunityType } from '@/types/community'
+import { ONE_MINUTE_MILLIS } from '@/utils/time'
 
 class CommunityLoader {
   myCommunities: CollaboratorType[] | undefined
@@ -126,12 +130,37 @@ export const newFollowCommunityApi = async (
 
 export const getLeaderboardApi = async (
   communityHandle: string,
-  range: string,
-  type: string
+  range: LeaderboardRangeEnum,
+  type: LeaderboardSortType,
+  limit: number
 ): Promise<Rsp<{ leaderboard: LeaderboardType[] }>> => {
-  const rs = await api.get(
-    EnvVariables.API_SERVER +
-      `/getLeaderBoard?community_handle=${communityHandle}&period=${range}&type=${type}&ordered_by=point`
-  )
-  return rs.data
+  const cacheKey = leaderboardCacheKey(communityHandle, range, type)
+  // try getting from cache.
+  const cachedValue = getCache<LeaderboardType[]>(cacheKey)
+  if (cachedValue) {
+    return {
+      code: 0,
+      data: { leaderboard: cachedValue },
+    }
+  }
+
+  // fetch from server and saves the result into cache for 5 minutes.
+  try {
+    const result = await api.get(
+      EnvVariables.API_SERVER +
+        `/getLeaderBoard?community_handle=${communityHandle}&period=${range}&type=${type}&ordered_by=point&limit=${limit}`
+    )
+
+    const data = result.data as Rsp<{ leaderboard: LeaderboardType[] }>
+    if (data && data.code === 0) {
+      // cache the data.
+      setCacheWithExpiration(cacheKey, data.data, Date.now() + 5 * ONE_MINUTE_MILLIS)
+    }
+
+    return data
+  } catch {
+    return {
+      code: -1,
+    }
+  }
 }

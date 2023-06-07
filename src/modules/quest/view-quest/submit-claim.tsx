@@ -53,7 +53,6 @@ const handleSubmit = async (
       break
     case QuestTypeEnum.QUIZ:
       inp = JSON.stringify({ answers: quizAnswers })
-
       break
     case QuestTypeEnum.TWITTER_REACTION:
       inp = replyUrlSubmit
