@@ -2,6 +2,7 @@ import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
 import {
   CollaboratorType,
+  LeaderboardType,
   ListCommunitiesType,
   OAuth2VerifyResp,
   ReqNewCommunity,
@@ -9,7 +10,7 @@ import {
   UpdateCommunityRequest,
   UpdateCommunityResponse,
 } from '@/types'
-import { CommunityType } from '@/types/community'
+import { CommunityType, FollowCommunityType } from '@/types/community'
 
 class CommunityLoader {
   myCommunities: CollaboratorType[] | undefined
@@ -66,7 +67,9 @@ export const getMyCommunitiesApi = async (): Promise<
   return rs.data
 }
 
-export const getFollowCommunitiesApi = async (): Promise<Rsp<{ communities: CommunityType[] }>> => {
+export const getFollowCommunitiesApi = async (): Promise<
+  Rsp<{ followers: FollowCommunityType[] }>
+> => {
   const rs = await api.get(EnvVariables.API_SERVER + '/getMyFollowing')
   return rs.data
 }
@@ -107,5 +110,28 @@ export const updateCommunityApi = async (
   data: UpdateCommunityRequest
 ): Promise<Rsp<UpdateCommunityResponse>> => {
   const rs = await api.post(EnvVariables.API_SERVER + '/updateCommunity', data)
+  return rs.data
+}
+
+export const newFollowCommunityApi = async (
+  communityHandle: string,
+  invitedBy: string
+): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/follow', {
+    community_handle: communityHandle,
+    invited_by: invitedBy,
+  })
+  return rs.data
+}
+
+export const getLeaderboardApi = async (
+  communityHandle: string,
+  range: string,
+  type: string
+): Promise<Rsp<{ leaderboard: LeaderboardType[] }>> => {
+  const rs = await api.get(
+    EnvVariables.API_SERVER +
+      `/getLeaderBoard?community_handle=${communityHandle}&period=${range}&type=${type}&ordered_by=point`
+  )
   return rs.data
 }

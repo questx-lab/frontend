@@ -24,6 +24,7 @@ export interface QuestType {
   points: number
   rewards?: RewardType[]
   category: CategoryType
+  is_highlight?: boolean
   validation_data: {
     tweet_url?: string
     like?: boolean

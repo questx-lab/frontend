@@ -144,8 +144,7 @@ export type CategoryType = {
 export type LeaderboardType = {
   user_id?: string
   user?: UserType
-  total_task: number
-  total_point: number
+  value: number
   prev_rank: number
   current_rank: number
 }

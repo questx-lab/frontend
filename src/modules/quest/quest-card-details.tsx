@@ -51,6 +51,7 @@ const TitleQuestBox = tw(MediumText)`
 `
 
 const Description = tw.div`
+  w-full
   px-4
   text-gray-700
   font-normal
