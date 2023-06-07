@@ -1,4 +1,4 @@
-import { UserType } from './'
+import { UserType } from '@/types'
 
 export enum ControlPanelTab {
   QUESTS,
