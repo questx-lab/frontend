@@ -5,7 +5,6 @@ import CommunityQuests from '@/modules/community/community-view/guest-or-anonymo
 import FollowCommunity from '@/modules/community/community-view/guest-or-anonymous/follow-community'
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
 import CommunityStore from '@/store/local/community'
-import LeaderboardStore from '@/store/local/leaderboard'
 import { PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
@@ -115,9 +114,7 @@ export default function CommunityGuestOrAnonymous() {
         </FullWidthHorizontal>
       </PaddingHorizontal>
       <CommunityQuests />
-      <LeaderboardStore.Provider>
-        <Leaderboard />
-      </LeaderboardStore.Provider>
+      <Leaderboard />
     </Content>
   )
 }

@@ -42,12 +42,6 @@ const CenterNormalText = tw(NormalText)`
   text-center
 `
 
-interface CacheItem {
-  handle: string
-  range: string
-  data: LeaderboardType[]
-}
-
 const Empty: FunctionComponent = () => {
   return (
     <EmptyBox>
@@ -81,67 +75,6 @@ const RenderList: FunctionComponent<{ data: LeaderboardType[] }> = ({ data }) =>
   return <>{reanderItems}</>
 }
 
-const getLeaderboard = async (
-  range: string,
-  handle: string
-): Promise<LeaderboardType[] | undefined> => {
-  try {
-    const data = await getLeaderboardApi(handle, range, LeaderboardConst.POINT)
-    if (data.error) {
-      toast.error(data.error)
-    }
-
-    if (data.data && data.data?.leaderboard) {
-      return data.data?.leaderboard
-    }
-
-    return undefined
-  } catch (error) {}
-}
-
-const leaderboardCaching = async (
-  range: string,
-  handle: string
-): Promise<LeaderboardType[] | undefined> => {
-  const rawData = localStorage.getItem(range)
-  if (rawData) {
-    const caches = JSON.parse(rawData) as CacheItem
-
-    // get from cached
-    if (caches.handle !== handle) {
-      localStorage.removeItem(range)
-      const data = await getLeaderboard(range, handle)
-      if (data) {
-        localStorage.setItem(
-          range,
-          JSON.stringify({
-            handle,
-            range,
-            data,
-          })
-        )
-      }
-      return data
-    }
-    return caches.data
-  } else {
-    // get from server
-    const data = await getLeaderboard(range, handle)
-    if (data) {
-      localStorage.setItem(
-        range,
-        JSON.stringify({
-          handle,
-          data,
-        })
-      )
-      return data
-    }
-  }
-
-  return undefined
-}
-
 const RenderLeaderboard: FunctionComponent<{
   range: string
 }> = ({ range }) => {
@@ -157,9 +90,13 @@ const RenderLeaderboard: FunctionComponent<{
     if (community.handle) {
       setLoading(true)
       try {
-        const data = await leaderboardCaching(range, community.handle)
-        if (data) {
-          setLeaderboard(data)
+        const data = await getLeaderboardApi(community.handle, range, LeaderboardConst.POINT)
+        if (data.error) {
+          toast.error(data.error)
+        }
+
+        if (data.data && data.data?.leaderboard) {
+          setLeaderboard(data.data?.leaderboard)
         }
       } catch (error) {
       } finally {
