@@ -82,7 +82,10 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   }
 }
 
-const Index: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+const Index: FunctionComponent<{
+  quest: QuestType
+  onQuestDeleted: (quest: QuestType) => void
+}> = ({ onQuestDeleted, quest }) => {
   return (
     <OuterPadding>
       <ContextFrame>
@@ -92,7 +95,7 @@ const Index: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
         </ContentPadding>
       </ContextFrame>
 
-      <QuestReward quest={quest} />
+      <QuestReward quest={quest} onQuestDeleted={onQuestDeleted} />
     </OuterPadding>
   )
 }

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { claimRewardApi } from '@/api/claim'
+import { deleteQuest } from '@/api/quest'
 import { ClaimedQuestStatus, CommunityRoleEnum, QuestTypeEnum } from '@/constants/common.const'
 import { editQuestRoute } from '@/constants/router.const'
 import ActiveQuestStore, { canClaimQuest } from '@/store/local/active-quest'
@@ -16,7 +17,7 @@ import { UserType } from '@/types'
 import { QuestType } from '@/types/quest'
 import { uploadFile } from '@/utils/file'
 import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons'
-import BasicModal from '@/widgets/modal/basic'
+import ConfirmationModal from '@/widgets/modal/confirmation'
 import { Horizontal } from '@/widgets/orientation'
 
 const ButtonFrame = tw(Horizontal)`
@@ -97,7 +98,10 @@ const handleSubmit = async (
   }
 }
 
-const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+const SubmitClaim: FunctionComponent<{
+  quest: QuestType
+  onQuestDeleted: (quest: QuestType) => void
+}> = ({ quest, onQuestDeleted }) => {
   // hook
   const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
@@ -128,8 +132,16 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
     navigate(editQuestRoute(quest.community.handle))
   }
 
-  const onDelete = () => {
-    setShowDeleteConfirmation(true)
+  const onDeleteConfirmed = async () => {
+    try {
+      // Make a request to delete the quest
+      const result = await deleteQuest(quest.id)
+      if (result.code === 0) {
+        onQuestDeleted(quest)
+      }
+    } finally {
+      setShowDeleteConfirmation(false)
+    }
   }
 
   const canClaim = canClaimQuest(store.getState(), user, quest)
@@ -143,18 +155,16 @@ const SubmitClaim: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
             <NegativeButton isFull onClick={onEdit}>
               {'Edit'}
             </NegativeButton>
-            <DangerButton isFull onClick={onDelete}>
+            <DangerButton isFull onClick={() => setShowDeleteConfirmation(true)}>
               {'Delete'}
             </DangerButton>
           </ButtonFrame>
-          <BasicModal
+          <ConfirmationModal
+            title={'Are you sure you want to delete this quest?'}
             isOpen={showDeleteConfirmation}
             onClose={() => setShowDeleteConfirmation(false)}
-          >
-            {
-              // TODO: Show delete confirmation modal here.
-            }
-          </BasicModal>
+            onPositiveClicked={onDeleteConfirmed}
+          />
         </>
       )
 

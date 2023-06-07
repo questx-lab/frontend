@@ -1,9 +1,9 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent } from 'react'
 
 import QuestCardDetails from '@/modules/quest/quest-card-details'
 import ViewQuest from '@/modules/quest/view-quest'
 import ActiveQuestStore from '@/store/local/active-quest'
-import { QuestType } from '@/types/quest'
+import { emptyQuest, QuestType } from '@/types/quest'
 import BasicModal from '@/widgets/modal/basic'
 
 /**
@@ -13,27 +13,38 @@ const QuestCardToView: FunctionComponent<{
   quest: QuestType
   isTemplate?: boolean
 }> = ({ quest, isTemplate = false }) => {
+  // data
+  const activeQuest = ActiveQuestStore.useStoreState((state) => state.quest)
+
   // action
   const setActiveQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
+  const setDeletedQuestId = ActiveQuestStore.useStoreActions((action) => action.setDeletedQuestId)
 
   // local hook
-  const [isOpen, setOpen] = useState<boolean>(false)
   const onCloseModal = () => {
-    setOpen(false)
+    setActiveQuest(emptyQuest())
   }
 
   const onClick = () => {
     // Set the data in the NewQuest store
     setActiveQuest(quest)
+  }
 
-    setOpen(true)
+  const onQuestDeleted = () => {
+    onCloseModal()
+
+    setDeletedQuestId(quest.id)
   }
 
   return (
     <>
       <QuestCardDetails quest={quest} isTemplate={isTemplate} onClick={onClick} />
-      <BasicModal title={`${quest.title}`} isOpen={isOpen} onClose={onCloseModal}>
-        <ViewQuest quest={quest} />
+      <BasicModal
+        title={`${activeQuest.title}`}
+        isOpen={activeQuest.id !== '' && activeQuest.id === quest.id}
+        onClose={onCloseModal}
+      >
+        <ViewQuest quest={quest} onQuestDeleted={onQuestDeleted} />
       </BasicModal>
     </>
   )

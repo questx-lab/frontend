@@ -7,8 +7,6 @@ import { isValidUrl } from '@/utils/validation'
 
 /**
  * This is a model for user to view quest and then claim.
- *
- * TODO: Change this store to quest claim model.
  */
 interface ActiveQuestModel {
   quest: QuestType
@@ -20,6 +18,9 @@ interface ActiveQuestModel {
   visitLink: boolean
   quizAnswers: string[]
   telegramSubmit: boolean
+  // id of the quest that has been recently deleted. Setting this variable to a new value will
+  // trigger data load in multiple view components.
+  deletedQuestId: string
 
   setQuest: Action<ActiveQuestModel, QuestType>
   setUrlSubmit: Action<ActiveQuestModel, string>
@@ -29,6 +30,7 @@ interface ActiveQuestModel {
   setVisitLink: Action<ActiveQuestModel, boolean>
   setQuizAnswers: Action<ActiveQuestModel, string[]>
   setTelegramSubmit: Action<ActiveQuestModel, boolean>
+  setDeletedQuestId: Action<ActiveQuestModel, string>
 }
 
 const ActiveQuestStore = createContextStore<ActiveQuestModel>({
@@ -40,6 +42,7 @@ const ActiveQuestStore = createContextStore<ActiveQuestModel>({
   visitLink: false,
   quizAnswers: [],
   telegramSubmit: false,
+  deletedQuestId: '',
 
   setQuest: action((state, quest) => {
     state.quest = quest
@@ -71,6 +74,10 @@ const ActiveQuestStore = createContextStore<ActiveQuestModel>({
 
   setTelegramSubmit: action((state, telegram) => {
     state.telegramSubmit = telegram
+  }),
+
+  setDeletedQuestId: action((state, deletedQuestId) => {
+    state.deletedQuestId = deletedQuestId
   }),
 })
 
