@@ -100,29 +100,30 @@ const handleSubmit = async (
 
 const SubmitClaim: FunctionComponent<{
   quest: QuestType
-  onQuestDeleted: (quest: QuestType) => void
-}> = ({ quest, onQuestDeleted }) => {
+}> = ({ quest }) => {
   // hook
   const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
 
   // data
-  const store = ActiveQuestStore.useStore()
   const role = CommunityStore.useStoreState((state) => state.role)
   const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
-  const urlSubmit = ActiveQuestStore.useStoreState((state) => state.url)
+  const url = ActiveQuestStore.useStoreState((state) => state.url)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
   const replyUrlSubmit = ActiveQuestStore.useStoreState((state) => state.replyUrlSubmit)
   const quizAnswers = ActiveQuestStore.useStoreState((state) => state.quizAnswers)
+  const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
+  const telegramSubmit = ActiveQuestStore.useStoreState((state) => state.telegramSubmit)
 
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
   // action
   const setEditQuest = NewQuestStore.useStoreActions((action) => action.setQuest)
+  const setDeletedQuestId = ActiveQuestStore.useStoreActions((action) => action.setDeletedQuestId)
 
   // handler
   const onSubmit = () => {
-    handleSubmit(quest, fileUpload, urlSubmit, textSubmit, replyUrlSubmit, quizAnswers, setLoading)
+    handleSubmit(quest, fileUpload, url, textSubmit, replyUrlSubmit, quizAnswers, setLoading)
   }
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)
@@ -137,14 +138,23 @@ const SubmitClaim: FunctionComponent<{
       // Make a request to delete the quest
       const result = await deleteQuest(quest.id)
       if (result.code === 0) {
-        onQuestDeleted(quest)
+        setDeletedQuestId(quest.id)
       }
     } finally {
       setShowDeleteConfirmation(false)
     }
   }
 
-  const canClaim = canClaimQuest(store.getState(), user, quest)
+  const canClaim = canClaimQuest({
+    user,
+    quest,
+    fileUpload,
+    url,
+    textSubmit,
+    quizAnswers,
+    visitLink,
+    telegramSubmit,
+  })
 
   switch (role) {
     case CommunityRoleEnum.EDITOR:

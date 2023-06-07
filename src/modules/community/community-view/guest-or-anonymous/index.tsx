@@ -1,3 +1,6 @@
+import { FC } from 'react'
+
+import { Link } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
@@ -5,7 +8,6 @@ import CommunityQuests from '@/modules/community/community-view/guest-or-anonymo
 import FollowCommunity from '@/modules/community/community-view/guest-or-anonymous/follow-community'
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
 import CommunityStore from '@/store/local/community'
-import { PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import {
@@ -69,7 +71,41 @@ const CenterEndHorizontal = tw(HorizontalCenter)`
   justify-end
 `
 
-export default function CommunityGuestOrAnonymous() {
+const TwitterLink: FC<{ twitterUrl?: string }> = ({ twitterUrl }) => {
+  if (!twitterUrl) {
+    return <></>
+  }
+
+  return (
+    <Link to={twitterUrl}>
+      <Image
+        width={30}
+        height={30}
+        src={StorageConst.TWITTER_BLACK_DIR.src}
+        alt={StorageConst.TWITTER_BLACK_DIR.alt}
+      />
+    </Link>
+  )
+}
+
+const DiscordLink: FC<{ discordUrl?: string }> = ({ discordUrl }) => {
+  if (!discordUrl) {
+    return <></>
+  }
+
+  return (
+    <Link to={discordUrl}>
+      <Image
+        width={30}
+        height={30}
+        src={StorageConst.DISCORD_BLACK_DIR.src}
+        alt={StorageConst.DISCORD_BLACK_DIR.alt}
+      />
+    </Link>
+  )
+}
+
+const CommunityGuestOrAnonymous: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   if (!community) {
@@ -90,22 +126,11 @@ export default function CommunityGuestOrAnonymous() {
             <Large2xlText>{community.display_name}</Large2xlText>
             <Introduce>{community.introduction}</Introduce>
             <HorizontalStartCenter>
-              <Image
-                width={30}
-                height={30}
-                src={StorageConst.TWITTER_BLACK_DIR.src}
-                alt={StorageConst.TWITTER_BLACK_DIR.alt}
-              />
-              <Image
-                width={30}
-                height={30}
-                src={StorageConst.DISCORD_BLACK_DIR.src}
-                alt={StorageConst.DISCORD_BLACK_DIR.alt}
-              />
+              <TwitterLink twitterUrl={community.twitter} />
+              <DiscordLink discordUrl={community.discord} />
             </HorizontalStartCenter>
             <ReponsiveHorizontal>
-              {/* TODO: Town hall */}
-              <PositiveButton block>{'Join Town Hall'}</PositiveButton>
+              {/* TODO: Town hall <PositiveButton block>{'Join Town Hall'}</PositiveButton> */}
               <CenterEndHorizontal>
                 <FollowCommunity community={community} />
               </CenterEndHorizontal>
@@ -118,3 +143,5 @@ export default function CommunityGuestOrAnonymous() {
     </Content>
   )
 }
+
+export default CommunityGuestOrAnonymous
