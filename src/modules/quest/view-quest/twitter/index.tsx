@@ -25,37 +25,52 @@ const TwitterConnectFrame = tw(VerticalCenter)`
   gap-3
 `
 
-const generateTweetLink = (defaultTweet: string): string => {
-  return `https://twitter.com/compose/tweet?text=${defaultTweet}`
-}
+const getTweetIdFromUrl = (url: string): string => url.split('/').at(-1) || ''
 
 const generateRetweetLink = (status_link: string): string => {
-  const status_id = status_link.split('/').at(-1)
+  const status_id = getTweetIdFromUrl(status_link)
   return `https://twitter.com/intent/retweet?tweet_id=${status_id}`
 }
 
 const generateReplyLink = (status_link: string, default_reply: string): string => {
-  const status_id = status_link.split('/').at(-1)
-  return `https://twitter.com/intent/tweet?in_reply_to=${status_id}&text=${default_reply}`
+  const status_id = getTweetIdFromUrl(status_link)
+  const urlEncode = new URLSearchParams(default_reply)
+
+  return `https://twitter.com/intent/tweet?in_reply_to=${status_id}&text=${urlEncode}`
 }
 
 const getActions = (quest: QuestType): QuestTwitterActionType[] => {
   let actions: QuestTwitterActionType[] = []
 
-  const { tweet_url, twitter_handle, default_reply, like, reply, retweet, default_tweet } =
-    quest.validation_data
+  const {
+    tweet_url,
+    twitter_handle,
+    default_reply,
+    like,
+    reply,
+    retweet,
+    default_tweet,
+    included_words,
+    twitter_name,
+    twitter_photo_url,
+    twitter_screen_name,
+  } = quest.validation_data
 
   switch (quest.type) {
     case QuestTypeEnum.TWITTER_TWEET:
       actions.push({
-        link: generateTweetLink(default_tweet || ''),
+        link: default_tweet || '',
         action: TwitterEnum.TWEET,
+        included_words,
       })
       break
     case QuestTypeEnum.TWITTER_FOLLOW:
       actions.push({
         action: TwitterEnum.FOLLOW,
         link: twitter_handle || '',
+        twitter_name,
+        twitter_photo_url,
+        twitter_screen_name,
       })
       break
     case QuestTypeEnum.TWITTER_JOIN_SPACE:
@@ -69,18 +84,21 @@ const getActions = (quest: QuestType): QuestTwitterActionType[] => {
         actions.push({
           action: TwitterEnum.RETWEET,
           link: generateRetweetLink(tweet_url ?? ''),
+          tweetId: getTweetIdFromUrl(tweet_url || ''),
         })
       }
       if (like) {
         actions.push({
           action: TwitterEnum.LIKE,
           link: tweet_url ?? '',
+          tweetId: getTweetIdFromUrl(tweet_url || ''),
         })
       }
       if (reply) {
         actions.push({
           action: TwitterEnum.REPLY,
           link: generateReplyLink(tweet_url || '', default_reply || ''),
+          tweetId: getTweetIdFromUrl(tweet_url || ''),
         })
       }
       break
@@ -89,11 +107,13 @@ const getActions = (quest: QuestType): QuestTwitterActionType[] => {
   return actions
 }
 
-const TwitterConnectBox: FunctionComponent = () => {
+const TwitterConnectBox: FunctionComponent<{ actions: QuestTwitterActionType[] }> = ({
+  actions,
+}) => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
-  if (user.services?.twitter) {
-    return <></>
+  if (user && user.services && user.services?.twitter) {
+    return <QuestTwitterAction actions={actions} />
   }
 
   return (
@@ -119,8 +139,7 @@ export const QuestTwitter: FunctionComponent<{
 
   return (
     <FrameWithGap>
-      <TwitterConnectBox />
-      <QuestTwitterAction actions={actions} />
+      <TwitterConnectBox actions={actions} />
     </FrameWithGap>
   )
 }

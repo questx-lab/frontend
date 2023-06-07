@@ -12,12 +12,16 @@ import { HorizontalStartCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { HeartIcon } from '@heroicons/react/24/outline'
 
+const generateLikeLink = (tweetId: string) => {
+  return `https://twitter.com/intent/like?tweet_id=${tweetId}`
+}
+
 const TwitterLike: FunctionComponent<{ action: QuestTwitterActionType }> = ({ action }) => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
   return (
-    <Link to={action.link} target='_blank'>
+    <Link to={generateLikeLink(action.link.split('/').at(-1) || '')} target='_blank'>
       <ActionTwitterFrame>
         <HorizontalStartCenter>
           <HeartIcon className='h-7 w-7 text-info' />

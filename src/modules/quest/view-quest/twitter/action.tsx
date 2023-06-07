@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
+import { TwitterTweetEmbed } from 'react-twitter-embed'
 import tw from 'twin.macro'
 
 import { ColorEnum, TwitterEnum } from '@/constants/common.const'
@@ -13,13 +14,34 @@ import TwitterTweet from '@/modules/quest/view-quest/twitter/action-tweet'
 import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestTwitterActionType } from '@/types'
-import { VerticalFullWidthBetween, VerticalFullWidthCenter } from '@/widgets/orientation'
+import {
+  FullWidthHeight,
+  VerticalFullWidthBetween,
+  VerticalFullWidthCenter,
+} from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
 
 const VerticalAction = tw(VerticalFullWidthCenter)`
-  gap-4
+  gap-6
 `
+
+const TwitterEmbed: FunctionComponent<{ actions: QuestTwitterActionType[] }> = ({ actions }) => {
+  if (actions.length === 0) {
+    return <></>
+  }
+
+  const twitterId = actions[0]?.tweetId || ''
+  if (twitterId === '') {
+    return <></>
+  }
+
+  return (
+    <FullWidthHeight>
+      <TwitterTweetEmbed tweetId={twitterId} />
+    </FullWidthHeight>
+  )
+}
 
 const QuestTwitterAction: FunctionComponent<{
   actions: QuestTwitterActionType[]
@@ -30,7 +52,7 @@ const QuestTwitterAction: FunctionComponent<{
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
-  if (!user.services?.twitter) {
+  if (user && user.services && !user.services?.twitter) {
     return <></>
   }
 
@@ -59,10 +81,11 @@ const QuestTwitterAction: FunctionComponent<{
 
   return (
     <VerticalAction>
+      <TwitterEmbed actions={actions} />
       <NormalText>{'To complete this challenge:'}</NormalText>
       <VerticalFullWidthBetween>{renderActions}</VerticalFullWidthBetween>
       <ColorBox boxColor={ColorEnum.WARNING}>
-        <ExclamationCircleIcon className='w-7 h-7 text-warning' />
+        <ExclamationCircleIcon className='w-10 h-10 text-warning' />
         {'After completion, it can take up to 10s before your claim succeeds.'}
       </ColorBox>
     </VerticalAction>
