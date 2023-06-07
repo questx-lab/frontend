@@ -56,21 +56,19 @@ const Empty: FunctionComponent = () => {
 }
 
 const RenderList: FunctionComponent<{ data: LeaderboardType[] }> = ({ data }) => {
-  const reanderItems =
-    data &&
-    data.map((ld, idx) => (
-      <PointerHorizontal key={idx}>
-        <GapHorizontalCenter>
-          <CircularImage width={40} height={40} src={StorageConst.USER_DEFAULT.src} alt={'logo'} />
-          <UsernameText>{ld.user?.name}</UsernameText>
-        </GapHorizontalCenter>
-        <RewardText>{ld.value}</RewardText>
-      </PointerHorizontal>
-    ))
-
   if (!data.length) {
     return <Empty />
   }
+
+  const reanderItems = data.map((ld, idx) => (
+    <PointerHorizontal key={idx}>
+      <GapHorizontalCenter>
+        <CircularImage width={40} height={40} src={StorageConst.USER_DEFAULT.src} alt={'logo'} />
+        <UsernameText>{ld.user?.name}</UsernameText>
+      </GapHorizontalCenter>
+      <RewardText>{ld.value}</RewardText>
+    </PointerHorizontal>
+  ))
 
   return <>{reanderItems}</>
 }
