@@ -51,6 +51,9 @@ const getActions = (quest: QuestType): QuestTwitterActionType[] => {
     retweet,
     default_tweet,
     included_words,
+    twitter_name,
+    twitter_photo_url,
+    twitter_screen_name,
   } = quest.validation_data
 
   switch (quest.type) {
@@ -65,7 +68,9 @@ const getActions = (quest: QuestType): QuestTwitterActionType[] => {
       actions.push({
         action: TwitterEnum.FOLLOW,
         link: twitter_handle || '',
-        tweetId: twitter_handle,
+        twitter_name,
+        twitter_photo_url,
+        twitter_screen_name,
       })
       break
     case QuestTypeEnum.TWITTER_JOIN_SPACE:

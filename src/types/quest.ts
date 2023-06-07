@@ -42,6 +42,9 @@ export interface QuestType {
     quizzes?: QuestQuizType[]
     group_link?: string
     included_words?: string[]
+    twitter_name?: string
+    twitter_photo_url?: string
+    twitter_screen_name?: string
   }
 }
 
