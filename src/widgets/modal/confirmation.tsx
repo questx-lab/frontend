@@ -69,7 +69,7 @@ const ConfirmationModal: FC<{
           <LargeText>{title}</LargeText>
           <Gap />
           <Horizontal>
-            <NegativeButton>Cancel</NegativeButton>
+            <NegativeButton onClick={onClose}>Cancel</NegativeButton>
             <Gap width={2} />
             <PositiveButton onClick={onPositiveClicked}>
               <Gap width={1} />

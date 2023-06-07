@@ -9,6 +9,7 @@ import { getCommunityApi } from '@/api/communitiy'
 import { getTemplatesApi, listQuestApi } from '@/api/quest'
 import { CommunityRoleEnum } from '@/constants/common.const'
 import { ControlPanel } from '@/modules/community/control-panel'
+import ActiveQuestStore from '@/store/local/active-quest'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/types'
@@ -59,6 +60,7 @@ export const Community = () => {
   // data
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
+  const deletedQuestId = ActiveQuestStore.useStoreState((state) => state.deletedQuestId)
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
   const showPanel: boolean = canEdit && user
@@ -97,8 +99,6 @@ export const Community = () => {
   // hook
   useEffect(() => {
     setSelectedCommunity(data.community)
-    loadQuests()
-
     if (collab) {
       switch (collab.name) {
         case CommunityRoleEnum.OWNER:
@@ -114,7 +114,12 @@ export const Community = () => {
         setRole(CommunityRoleEnum.NOT_LOGIN)
       }
     }
-  }, [collab, data])
+  }, [data.community, collab, data])
+
+  useEffect(() => {
+    // Reload all the quests whenever data community changes or a new quest is deleted.
+    loadQuests()
+  }, [deletedQuestId, data.community])
 
   if (!community) {
     return <HorizontalCenter>{'Failed to load community data'}</HorizontalCenter>

@@ -85,7 +85,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
 const Index: FunctionComponent<{
   quest: QuestType
   onQuestDeleted: (quest: QuestType) => void
-}> = ({ quest, onQuestDeleted }) => {
+}> = ({ onQuestDeleted, quest }) => {
   return (
     <OuterPadding>
       <ContextFrame>

@@ -18,6 +18,7 @@ const QuestCardToView: FunctionComponent<{
 
   // action
   const setActiveQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
+  const setDeletedQuestId = ActiveQuestStore.useStoreActions((action) => action.setDeletedQuestId)
 
   // local hook
   const onCloseModal = () => {
@@ -31,12 +32,18 @@ const QuestCardToView: FunctionComponent<{
 
   const onQuestDeleted = () => {
     onCloseModal()
+
+    setDeletedQuestId(quest.id)
   }
 
   return (
     <>
       <QuestCardDetails quest={quest} isTemplate={isTemplate} onClick={onClick} />
-      <BasicModal title={`${quest.title}`} isOpen={activeQuest.id !== ''} onClose={onCloseModal}>
+      <BasicModal
+        title={`${activeQuest.title}`}
+        isOpen={activeQuest.id !== '' && activeQuest.id === quest.id}
+        onClose={onCloseModal}
+      >
         <ViewQuest quest={quest} onQuestDeleted={onQuestDeleted} />
       </BasicModal>
     </>
