@@ -94,4 +94,5 @@ export const VerticalBetween = tw.div`
 
 export const VerticalFullWidthBetween = tw(VerticalBetween)`
   w-full
+  gap-2
 `

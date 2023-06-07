@@ -41,6 +41,7 @@ export interface QuestType {
     number?: number
     quizzes?: QuestQuizType[]
     group_link?: string
+    included_words?: string[]
   }
 }
 

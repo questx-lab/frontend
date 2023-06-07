@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
+import { TwitterTweetEmbed } from 'react-twitter-embed'
 import tw from 'twin.macro'
 
 import { ColorEnum, TwitterEnum } from '@/constants/common.const'
@@ -13,7 +14,11 @@ import TwitterTweet from '@/modules/quest/view-quest/twitter/action-tweet'
 import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestTwitterActionType } from '@/types'
-import { VerticalFullWidthBetween, VerticalFullWidthCenter } from '@/widgets/orientation'
+import {
+  FullWidthHeight,
+  VerticalFullWidthBetween,
+  VerticalFullWidthCenter,
+} from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
 
@@ -30,7 +35,7 @@ const QuestTwitterAction: FunctionComponent<{
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
-  if (!user.services?.twitter) {
+  if (user && user.services && !user.services?.twitter) {
     return <></>
   }
 
@@ -59,7 +64,11 @@ const QuestTwitterAction: FunctionComponent<{
 
   return (
     <VerticalAction>
+      <FullWidthHeight>
+        <TwitterTweetEmbed tweetId={(actions.length > 0 && actions[0]?.tweetId) || ''} />
+      </FullWidthHeight>
       <NormalText>{'To complete this challenge:'}</NormalText>
+
       <VerticalFullWidthBetween>{renderActions}</VerticalFullWidthBetween>
       <ColorBox boxColor={ColorEnum.WARNING}>
         <ExclamationCircleIcon className='w-7 h-7 text-warning' />

@@ -158,6 +158,8 @@ export type RefferalType = {
 export type QuestTwitterActionType = {
   action: string
   link: string
+  tweetId?: string
+  included_words?: string[]
 }
 
 export type OAuth2VerifyResp = {

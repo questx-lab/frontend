@@ -22,7 +22,9 @@ const TwitterFollow: FunctionComponent<{ action: QuestTwitterActionType }> = ({ 
           <LinkIcon className='h-5 w-5' />
           <NormalText>{action.link}</NormalText>
         </HorizontalStartCenter>
-        <PositiveButton block={!user.services?.twitter}>{action.action}</PositiveButton>
+        <PositiveButton block={user && user.services && !user.services?.twitter}>
+          {action.action}
+        </PositiveButton>
       </ActionTwitterFrame>
     </Link>
   )

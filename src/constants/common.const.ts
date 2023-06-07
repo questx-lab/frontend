@@ -252,10 +252,12 @@ export const SocialDisplayMap = new Map<SocialDisplay, string>([
 ])
 
 export enum SizeEnum {
+  NONE,
   x32,
   x48,
   x64,
   x96,
+  FULL,
 }
 
 export enum ColorEnum {
