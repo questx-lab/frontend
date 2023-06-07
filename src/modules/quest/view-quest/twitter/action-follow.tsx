@@ -18,6 +18,7 @@ const TwitterFollow: FunctionComponent<{ action: QuestTwitterActionType }> = ({ 
   return (
     <Link to={action.link} target='_blank'>
       <ActionTwitterFrame>
+        {/* TODO: Show information of twitter handle */}
         <HorizontalStartCenter>
           <LinkIcon className='h-5 w-5' />
           <NormalText>{action.link}</NormalText>
