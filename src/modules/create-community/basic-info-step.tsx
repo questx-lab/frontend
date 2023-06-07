@@ -16,8 +16,8 @@ const HandleRegex = /^[a-z0-9_]{4,32}$/
 
 const StartText = tw(SmallText)`text-start`
 
-const HandleNameInput: FunctionComponent<{ setValidation: (val: boolean) => void }> = ({
-  setValidation,
+const HandleNameInput: FunctionComponent<{ onValidChange: (val: boolean) => void }> = ({
+  onValidChange,
 }) => {
   const [isValid, setValid] = useState<boolean | undefined>(undefined)
   const [msg, setMsg] = useState<string>('')
@@ -29,7 +29,7 @@ const HandleNameInput: FunctionComponent<{ setValidation: (val: boolean) => void
   const debounced = useDebouncedCallback(async (value: string) => {
     const checkValid = await checkUserUrlValid()
     setValid(checkValid)
-    setValidation(checkValid)
+    onValidChange(checkValid)
   }, 300)
 
   const onChangeUrlName = (e: string) => {
@@ -38,7 +38,7 @@ const HandleNameInput: FunctionComponent<{ setValidation: (val: boolean) => void
       debounced(e)
     } else {
       setValid(false)
-      setValidation(false)
+      onValidChange(false)
     }
   }
 
@@ -78,8 +78,8 @@ const HandleNameInput: FunctionComponent<{ setValidation: (val: boolean) => void
   )
 }
 
-const DisplayNameInput: FunctionComponent<{ setValidation: (val: boolean) => void }> = ({
-  setValidation,
+const DisplayNameInput: FunctionComponent<{ onValidChange: (val: boolean) => void }> = ({
+  onValidChange,
 }) => {
   const title = NewCommunityStore.useStoreState((state) => state.displayName)
   const setTitle = NewCommunityStore.useStoreActions((action) => action.setDisplayName)
@@ -89,10 +89,10 @@ const DisplayNameInput: FunctionComponent<{ setValidation: (val: boolean) => voi
   useEffect(() => {
     if (DisplayNameRegex.test(title)) {
       setValid(true)
-      setValidation(true)
+      onValidChange(true)
     } else {
       setValid(false)
-      setValidation(false)
+      onValidChange(false)
     }
   }, [title])
 
@@ -115,14 +115,22 @@ const DisplayNameInput: FunctionComponent<{ setValidation: (val: boolean) => voi
 
 export const BasicInfo: FunctionComponent = () => {
   // hook
-  const [displayNameValid, setDisplayNameValid] = useState<boolean>(false)
-  const [handleValid, setHandleValid] = useState<boolean>(true)
+  const [validDisplayName, setValidDisplayName] = useState<boolean>(false)
+  const [validHandle, setHandleValid] = useState<boolean>(true)
 
   // data
   const description = NewCommunityStore.useStoreState((state) => state.introduction)
 
   //action
   const setDescription = NewCommunityStore.useStoreActions((action) => action.setIntroduction)
+
+  const onValidDisplayChange = (value: boolean) => {
+    setValidDisplayName(value)
+  }
+
+  const onValidHandleChange = (value: boolean) => {
+    setHandleValid(value)
+  }
 
   return (
     <Main>
@@ -131,9 +139,9 @@ export const BasicInfo: FunctionComponent = () => {
         {'DISPLAY NAME'}
         <RequiredText>{'*'}</RequiredText>
       </LabelInput>
-      <DisplayNameInput setValidation={setDisplayNameValid} />
+      <DisplayNameInput onValidChange={onValidDisplayChange} />
       <LabelInput>{'XQUEST HANDLE'}</LabelInput>
-      <HandleNameInput setValidation={setHandleValid} />
+      <HandleNameInput onValidChange={onValidHandleChange} />
       <LabelInput>{'DESCRIPTION'}</LabelInput>
       <MultipleTextField
         value={description}
@@ -142,7 +150,7 @@ export const BasicInfo: FunctionComponent = () => {
         rows={4}
         placeholder='The description of the quest is written here.'
       />
-      <NextButton block={!(handleValid && displayNameValid)} />
+      <NextButton block={!(validDisplayName && validHandle)} />
     </Main>
   )
 }
