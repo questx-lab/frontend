@@ -100,8 +100,7 @@ const handleSubmit = async (
 
 const SubmitClaim: FunctionComponent<{
   quest: QuestType
-  onQuestDeleted: (quest: QuestType) => void
-}> = ({ quest, onQuestDeleted }) => {
+}> = ({ quest }) => {
   // hook
   const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
@@ -119,6 +118,7 @@ const SubmitClaim: FunctionComponent<{
 
   // action
   const setEditQuest = NewQuestStore.useStoreActions((action) => action.setQuest)
+  const setDeletedQuestId = ActiveQuestStore.useStoreActions((action) => action.setDeletedQuestId)
 
   // handler
   const onSubmit = () => {
@@ -137,7 +137,7 @@ const SubmitClaim: FunctionComponent<{
       // Make a request to delete the quest
       const result = await deleteQuest(quest.id)
       if (result.code === 0) {
-        onQuestDeleted(quest)
+        setDeletedQuestId(quest.id)
       }
     } finally {
       setShowDeleteConfirmation(false)
