@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { LeaderboardRangeEnum, LeaderboardRangeMap } from '@/constants/common.const'
-import RenderLeaderboard from '@/modules/community/community-view/community-guest-or-anonymous/leaderboard/leaderboard-list'
+import RenderLeaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard/leaderboard-list'
 import { Tab } from '@headlessui/react'
 
 const Content = tw.div`

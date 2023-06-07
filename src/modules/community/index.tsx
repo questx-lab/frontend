@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect } from 'react'
 import tw from 'twin.macro'
 
 import CommunityCollab from '@/modules/community/community-view/community-collab'
-import CommunityGuestOrAnonymous from '@/modules/community/community-view/community-guest-or-anonymous'
+import CommunityGuestOrAnonymous from '@/modules/community/community-view/guest-or-anonymous'
 import CommunityStore from '@/store/local/community'
 import { ControlPanelTab } from '@/types/community'
 import { Horizontal } from '@/widgets/orientation'
