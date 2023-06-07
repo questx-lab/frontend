@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { getLeaderboardApi } from '@/api/communitiy'
-import { LeaderboardConst } from '@/constants/common.const'
+import { LeaderboardConst, LeaderboardRangeEnum } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityStore from '@/store/local/community'
 import { LeaderboardType } from '@/types'
@@ -74,7 +74,7 @@ const RenderList: FunctionComponent<{ data: LeaderboardType[] }> = ({ data }) =>
 }
 
 const RenderLeaderboard: FunctionComponent<{
-  range: string
+  range: LeaderboardRangeEnum
 }> = ({ range }) => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const [leaderboard, setLeaderboard] = useState<LeaderboardType[]>([])

@@ -82,7 +82,7 @@ export default function CommunityGuestOrAnonymous() {
         <CircularImage
           width={250}
           height={250}
-          src={StorageConst.COMMUNITY_DEFAULT.src}
+          src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
           alt={StorageConst.COMMUNITY_DEFAULT.alt}
         />
         <FullWidthHorizontal>

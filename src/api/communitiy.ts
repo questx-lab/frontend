@@ -1,4 +1,5 @@
 import { api } from '@/api/interceptor'
+import { LeaderboardRangeEnum } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import {
   CollaboratorType,
@@ -126,12 +127,13 @@ export const newFollowCommunityApi = async (
 
 export const getLeaderboardApi = async (
   communityHandle: string,
-  range: string,
+  range: LeaderboardRangeEnum,
   type: string
 ): Promise<Rsp<{ leaderboard: LeaderboardType[] }>> => {
   const rs = await api.get(
     EnvVariables.API_SERVER +
       `/getLeaderBoard?community_handle=${communityHandle}&period=${range}&type=${type}&ordered_by=point`
   )
+
   return rs.data
 }
