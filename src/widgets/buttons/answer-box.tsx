@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 import { AnswerStatusEnum } from '@/constants/common.const'
 
 // This comopnent is used as a border for answer in the quiz list.
-export const AnswerBox = styled.button<{ status?: number; block?: boolean }>(
+export const AnswerBox = styled.button<{ status?: AnswerStatusEnum; block?: boolean }>(
   ({ status = AnswerStatusEnum.DEFAULT, block = false }) => {
     const style = [
       tw`

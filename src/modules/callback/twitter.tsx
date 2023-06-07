@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 import { useStoreActions } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -10,7 +10,7 @@ import { EnvVariables } from '@/constants/env.const'
 import { KeysEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import { GlobalStoreModel } from '@/store/store'
-import { OAuth2LinkReq, UserType } from '@/types'
+import { OAuth2LinkReq } from '@/types'
 import { getAccessToken, setAccessToken, setRefreshToken, setUserLocal } from '@/utils/helper'
 import LoadingModal from '@/widgets/modal/loading'
 
@@ -21,7 +21,11 @@ export const twitterOauthTokenParams = {
 }
 
 // the main step 1 function, getting the access token from twitter using the code that twitter sent us
-const getTwitterOAuthToken = async (code: string) => {
+const getTwitterOAuthToken = async (
+  code: string,
+  setSuccess: (value: boolean) => void,
+  setMessage: (value: string) => void
+) => {
   try {
     // POST request to the token url to get the access token
     const codeVerifier = localStorage.getItem(KeysEnum.CODE_VERIFIER) ?? ''
@@ -45,6 +49,9 @@ const getTwitterOAuthToken = async (code: string) => {
         payload.code_verifier,
         payload.redirect_uri
       )
+      if (!user) {
+        return undefined
+      }
 
       return user?.data
     }
@@ -53,7 +60,8 @@ const getTwitterOAuthToken = async (code: string) => {
     const result = await getTwitterAccessTokenApi(payload)
 
     if (result?.error) {
-      toast.error(result.error)
+      setMessage(result.error)
+      setSuccess(false)
     }
 
     if (result?.data) {
@@ -83,8 +91,10 @@ const linkAccount = async (
     }
 
     const data = await linkOAuth2(payload)
+
     if (data.error) {
       toast.error(data.error)
+      return
     }
 
     if (data.code === 0) {
@@ -92,6 +102,7 @@ const linkAccount = async (
     }
 
     const user = await getUserApi()
+
     return user
   } catch (error) {
     toast.error('Link account was failed')
@@ -102,6 +113,8 @@ const TwitterCallback: FC = () => {
   // hook
   const location = useLocation()
   const navigate = useNavigate()
+  const [success, setSuccess] = useState<boolean>()
+  const [message, setMessage] = useState<string>('')
 
   const clientAccessToken = getAccessToken()
 
@@ -111,21 +124,37 @@ const TwitterCallback: FC = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search)
     const authCode = searchParams.get('code')
+    const error = searchParams.get('error')
 
     if (authCode) {
       twitterAuth(authCode)
+    } else {
+      if (error) {
+        setMessage(error)
+      } else {
+        setMessage('No response from Twitter. Redirecting to home...')
+      }
+      setSuccess(false)
+      setTimeout(() => navigate(RouterConst.HOME, { replace: true }), 2000)
     }
   }, [])
 
   const twitterAuth = async (authCode: string) => {
     try {
-      const user = await getTwitterOAuthToken(authCode)
-      if (user) {
-        setUser(user)
-        setUserLocal(user)
+      const user = await getTwitterOAuthToken(authCode, setSuccess, setMessage)
+      if (!user) {
+        setMessage('Connect to Twitter was failed, please try more again')
+        setSuccess(false)
+        return
       }
+
+      setUser(user)
+      setUserLocal(user)
+      setMessage('Connect to Twitter successfull')
+      setSuccess(true)
     } catch (error) {
-      toast.error('Connect to Twitter was failed, please try more again')
+      setMessage('Connect to Twitter was failed, please try more again')
+      setSuccess(false)
     } finally {
       if (clientAccessToken) {
         setTimeout(() => navigate(RouterConst.ACCOUNT_SETTING, { replace: true }), 2000)
@@ -135,10 +164,7 @@ const TwitterCallback: FC = () => {
     }
   }
 
-  return <LoadingModal isOpen />
+  return <LoadingModal isOpen isSuccess={success} message={message} />
 }
 
 export default TwitterCallback
-function setUser(data: UserType) {
-  throw new Error('Function not implemented.')
-}

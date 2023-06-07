@@ -1,3 +1,5 @@
+import { UserType } from '@/types'
+
 export enum ControlPanelTab {
   QUESTS,
   REVIEW_SUBMISSION,
@@ -22,6 +24,11 @@ export type CommunityType = {
   website_url?: string
   logo_url: string
   number_of_quests?: number
+}
+
+export type FollowCommunityType = {
+  community: CommunityType
+  user: UserType
 }
 
 export const emptyCommunity = (): CommunityType => {

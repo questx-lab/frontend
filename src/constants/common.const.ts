@@ -184,7 +184,6 @@ export enum LeaderboardRangeEnum {
 export const LeaderboardRangeMap = new Map<LeaderboardRangeEnum, string>([
   [LeaderboardRangeEnum.WEEK, 'WEEK'],
   [LeaderboardRangeEnum.MONTH, 'MONTH'],
-  [LeaderboardRangeEnum.TOTAL, 'ALL TIME'],
 ])
 
 export enum LeaderboardConst {

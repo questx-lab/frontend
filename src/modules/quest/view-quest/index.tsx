@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 
+import { useStoreState } from 'easy-peasy'
 import parseHtml from 'html-react-parser'
 import tw from 'twin.macro'
 
@@ -14,7 +15,8 @@ import { QuestText } from '@/modules/quest/view-quest/text'
 import { QuestTwitter } from '@/modules/quest/view-quest/twitter'
 import QuestUrl from '@/modules/quest/view-quest/url'
 import { QuestVisitLink } from '@/modules/quest/view-quest/vist-link'
-import { QuestType } from '@/types/quest'
+import { GlobalStoreModel } from '@/store/store'
+import { canClaimQuest, QuestType } from '@/types/quest'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { MediumText } from '@/widgets/text'
 
@@ -43,6 +45,11 @@ const ContentPadding = tw(VerticalFullWidth)`
 
 const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   const { quizzes } = quest.validation_data || {}
+  // store
+  const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+
+  const canClaim = canClaimQuest(quest, myCommunities, user)
 
   switch (quest?.type) {
     case QuestTypeEnum.URL:
@@ -62,7 +69,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
       return <QuestTwitter quest={quest} />
 
     case QuestTypeEnum.QUIZ:
-      return <QuestQuiz quizzes={quizzes!} />
+      return <QuestQuiz quizzes={quizzes!} canClaim={canClaim} />
 
     case QuestTypeEnum.EMPTY:
       return <></>
@@ -75,7 +82,10 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   }
 }
 
-const Index: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+const Index: FunctionComponent<{
+  quest: QuestType
+  onQuestDeleted: (quest: QuestType) => void
+}> = ({ onQuestDeleted, quest }) => {
   return (
     <OuterPadding>
       <ContextFrame>
@@ -85,7 +95,7 @@ const Index: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
         </ContentPadding>
       </ContextFrame>
 
-      <QuestReward quest={quest} />
+      <QuestReward quest={quest} onQuestDeleted={onQuestDeleted} />
     </OuterPadding>
   )
 }

@@ -4,10 +4,11 @@ import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { Item } from '@/modules/community/communities-navigation/item'
+import { FollowItem, Item } from '@/modules/community/communities-navigation/item'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/types'
+import { FollowCommunityType } from '@/types/community'
 import { Vertical } from '@/widgets/orientation'
 
 const Wrap = styled.div<{ isDrawer: boolean }>(({ isDrawer }) => {
@@ -58,9 +59,32 @@ const CommunityItems: FunctionComponent<{
   )
 }
 
+const CommunityFollowItems: FunctionComponent<{
+  followCommunities: FollowCommunityType[]
+}> = ({ followCommunities }) => {
+  const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  const selectedId = selectedCommunity === undefined ? undefined : selectedCommunity.handle
+
+  return (
+    <BoxContent>
+      {followCommunities.map((follow, idx) => (
+        <FollowItem
+          key={idx}
+          community={follow.community}
+          active={follow.community.handle === selectedId}
+        />
+      ))}
+    </BoxContent>
+  )
+}
+
 const CommunitiesNavigation: FunctionComponent<{ isDrawer?: boolean }> = ({ isDrawer = false }) => {
   const communitiesCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesCollab
+  )
+
+  const communitiesFollowing: FollowCommunityType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.communitiesFollowing
   )
 
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
@@ -71,6 +95,7 @@ const CommunitiesNavigation: FunctionComponent<{ isDrawer?: boolean }> = ({ isDr
   return (
     <Wrap isDrawer={isDrawer}>
       <CommunityItems collaboration={communitiesCollab} />
+      <CommunityFollowItems followCommunities={communitiesFollowing} />
     </Wrap>
   )
 }

@@ -120,6 +120,12 @@ export const HeaderText = tw.h2`
 
 ////////////////////////////////////////////////
 
+export const HeaderText2 = tw.div`
+  text-xl
+  font-medium
+  text-black
+`
+
 export const HeaderText3 = tw.div`
   text-lg
   font-medium

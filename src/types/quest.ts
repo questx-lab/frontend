@@ -1,5 +1,5 @@
 import { QuestRecurrence, QuestTypeEnum } from '@/constants/common.const'
-import { CategoryType, RewardType } from '@/types'
+import { CategoryType, CollaboratorType, RewardType, UserType } from '@/types'
 import { CommunityType, emptyCommunity } from '@/types/community'
 
 export type QuestQuizType = {
@@ -24,6 +24,7 @@ export interface QuestType {
   points: number
   rewards?: RewardType[]
   category: CategoryType
+  is_highlight?: boolean
   validation_data: {
     tweet_url?: string
     like?: boolean
@@ -86,4 +87,27 @@ export type ValidationQuest = {
   group_link?: string
   number?: number
   quizzes?: QuestQuizType[]
+}
+
+export const canClaimQuest = (
+  quest: QuestType,
+  myCommunities: CollaboratorType[],
+  user: UserType
+): boolean => {
+  if (!user) {
+    return false
+  }
+
+  // Check if user is the editor of this community
+  if (myCommunities) {
+    for (let communityCollab of myCommunities) {
+      if (communityCollab.community.handle === quest.community.handle) {
+        // Editor cannot claim quest
+        return false
+      }
+    }
+  }
+
+  // This is a guest
+  return true
 }

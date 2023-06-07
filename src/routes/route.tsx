@@ -30,7 +30,7 @@ export const RootLoader = async () => {
     return json(
       {
         myCommunities: myCommunitiesResult.data?.collaborators || [],
-        followingCommunities: followingCommunitiesResult.data?.communities || [],
+        followingCommunities: followingCommunitiesResult.data?.followers || [],
         referral: referralResult.data || undefined,
         user: userResult.data || undefined,
       },

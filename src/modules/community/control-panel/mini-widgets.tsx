@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 export const Tab = styled.div<{ active?: boolean }>(({ active = false }) => {
   if (active) {
     return tw`
-      bg-gray-200
+      bg-primary-100
       px-3
       py-2
       flex
@@ -12,7 +12,7 @@ export const Tab = styled.div<{ active?: boolean }>(({ active = false }) => {
       justify-start
       items-center
       rounded-lg
-      hover:bg-gray-200
+      hover:bg-primary-50
       cursor-pointer
       my-2
       text-sm
@@ -30,7 +30,7 @@ export const Tab = styled.div<{ active?: boolean }>(({ active = false }) => {
         justify-start
         items-center
         rounded-lg
-        hover:bg-gray-200
+        hover:bg-primary-50
         cursor-pointer
         my-2
         text-sm

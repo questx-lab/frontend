@@ -9,6 +9,7 @@ import { listQuestApi } from '@/api/quest'
 import { RouterConst } from '@/constants/router.const'
 import { StorageConst } from '@/constants/storage.const'
 import QuestCardToView from '@/modules/quest/quest-card-to-view'
+import ActiveQuestStore from '@/store/local/active-quest'
 import { QuestType } from '@/types/quest'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
@@ -80,6 +81,7 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [quests, setQuests] = useState<QuestType[]>([])
   const [intQuests, setInitQuests] = useState<QuestType[]>([])
+  const deletedQuestId = ActiveQuestStore.useStoreState((state) => state.deletedQuestId)
   const navigate = useNavigate()
 
   const onShowAllClicked = () => {
@@ -108,12 +110,12 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
     if (query.length > 2) {
       fetchListQuests(query)
     }
-  }, [query])
+  }, [query, deletedQuestId])
 
   // First fetch quests
   useEffect(() => {
     fetchListQuests('')
-  }, [])
+  }, [deletedQuestId])
 
   return (
     <SearchResult
