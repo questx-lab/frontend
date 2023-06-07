@@ -10,15 +10,11 @@ import {
   LeaderboardRangeEnum,
   LeaderboardRangeMap,
 } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
 import CommunityStore from '@/store/local/community'
 import LeaderboardStore from '@/store/local/leaderboard'
-import { LeaderboardType } from '@/types'
-import { CircularImage } from '@/widgets/circular-image'
-import { Image } from '@/widgets/image'
-import { HorizontalBetweenCenter, HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
-import { NormalText, RewardText } from '@/widgets/text'
 import { Tab } from '@headlessui/react'
+
+import RenderLeaderboard from './leaderboard-list'
 
 const Content = tw.div`
   w-[350px]
@@ -54,81 +50,8 @@ const TabPannel = styled(Tab.Panel)(tw`
   py-2
 `)
 
-const PointerHorizontal = tw(HorizontalBetweenCenter)`
-  relative
-  py-2
-  cursor-pointer
-`
-
-const GapHorizontalCenter = tw(HorizontalCenter)`
-  gap-3
-`
-
-const UsernameText = tw.span`
-  max-w-[120px]
-  font-normal
-  text-danger
-  text-lg
-  overflow-hidden
-  text-ellipsis
-`
-
-const EmptyBox = tw(VerticalCenter)`
-  w-full
-  p-3
-`
-
-const CenterNormalText = tw(NormalText)`
-  text-center
-`
-
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
-}
-
-const RenderList: FunctionComponent<{ data: LeaderboardType[] }> = ({ data }) => {
-  const reanderItems =
-    data &&
-    data.map((ld, idx) => (
-      <PointerHorizontal key={idx}>
-        <GapHorizontalCenter>
-          <CircularImage width={40} height={40} src={StorageConst.USER_DEFAULT.src} alt={'logo'} />
-          <UsernameText>{ld.user?.name}</UsernameText>
-        </GapHorizontalCenter>
-        <RewardText>{ld.value}</RewardText>
-      </PointerHorizontal>
-    ))
-
-  if (!data.length) {
-    return <Empty />
-  }
-
-  return <>{reanderItems}</>
-}
-
-const RenderLeaderboard: FunctionComponent<{
-  range: string
-  week: LeaderboardType[]
-  month: LeaderboardType[]
-}> = ({ range, week, month }) => {
-  if (range === LeaderboardRangeEnum.MONTH) {
-    return <RenderList data={month} />
-  }
-
-  return <RenderList data={week} />
-}
-
-const Empty: FunctionComponent = () => {
-  return (
-    <EmptyBox>
-      <Image width={300} height={300} src={StorageConst.HUSKY.src} alt={StorageConst.HUSKY.alt} />
-      <CenterNormalText>
-        {
-          'There is no information about the leaderboard yet. Create more quests and connect users to have this leaderboard.'
-        }
-      </CenterNormalText>
-    </EmptyBox>
-  )
 }
 
 const selectTab = ({ selected }: { selected: boolean }) =>
@@ -161,12 +84,14 @@ const Leaderboard: FunctionComponent = () => {
   }, [community])
 
   useEffect(() => {
+    // Only call one time in the first load
     if (!apiCall[1] && tab === LeaderboardRangeEnum.MONTH) {
       const shallow = apiCall
       shallow[1] = true
       setApiCall(shallow)
       getLeaderboard(LeaderboardRangeEnum.MONTH)
     }
+
     if (!apiCall[2] && tab === LeaderboardRangeEnum.TOTAL) {
       const shallow = apiCall
       shallow[2] = true

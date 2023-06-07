@@ -9,7 +9,7 @@ import { ErrorCodes } from '@/constants/code.const'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { CommunityType, FollowCommunityType } from '@/types/community'
-import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
+import { ButtonTypeEnum, NegativeButton, PositiveButton } from '@/widgets/buttons'
 import { CheckIcon } from '@heroicons/react/24/outline'
 
 const FollowCommunity: FunctionComponent<{
@@ -73,9 +73,9 @@ const FollowCommunity: FunctionComponent<{
   }
 
   return (
-    <PositiveButton type={ButtonTypeEnum.NEGATIVE} onClick={handleFollow}>
+    <NegativeButton onClick={handleFollow}>
       <ContentBtn />
-    </PositiveButton>
+    </NegativeButton>
   )
 }
 

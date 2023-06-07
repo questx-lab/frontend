@@ -24,8 +24,9 @@ const StartVertical = tw(VerticalFullWidth)`
 
 const CommunityQuests: FunctionComponent = () => {
   const location = useLocation()
-  const [questList, setListQuests] = useState<QuestType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const [questList, setListQuests] = useState<QuestType[]>([])
+  const [highlightedQuest, setHighlightedQuest] = useState<QuestType[]>([])
 
   useEffect(() => {
     getQuests()
@@ -40,6 +41,7 @@ const CommunityQuests: FunctionComponent = () => {
           toast.error(data.error)
         }
         if (data.data) {
+          setHighlightedQuest(data.data.quests.filter((quest) => quest.is_highlight === true))
           setListQuests(data.data?.quests ?? [])
           setLoading(false)
         }
@@ -54,20 +56,21 @@ const CommunityQuests: FunctionComponent = () => {
       <CategoryBox
         hasShowAll={false}
         loading={loading}
-        title='🔥 Trending Quests'
+        title='🔥 Highlighted Quests'
         onClick={() => {}}
       >
         <CarouselList
-          data={questList}
-          renderItemFunc={(quyest: QuestType) => {
+          data={highlightedQuest}
+          renderItemFunc={(quest: QuestType) => {
             return (
               <MarginTop>
-                <QuestCardToView quest={quyest} />
+                <QuestCardToView quest={quest} />
               </MarginTop>
             )
           }}
         />
       </CategoryBox>
+
       <Gap />
       <Divider />
       <Gap />
