@@ -66,7 +66,7 @@ const CommunityBoxWrap = tw(VerticalBetween)`
   mt-[16px]
   max-sm:w-full
   max-xl:mt-[16px]
-  h-[350px]
+  h-[320px]
   3xl:h-[500px]
   max-md:h-[280px]
   hover:shadow-lg
@@ -118,12 +118,6 @@ const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({ communi
           <Description>{community.introduction}</Description>
         </ContentProjectBox>
       </Top>
-      <Bottom>
-        <RewardBox>
-          <Image width={25} height={25} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
-          <RewardText>{'300 Gems'}</RewardText>
-        </RewardBox>
-      </Bottom>
     </CommunityBoxWrap>
   )
 }

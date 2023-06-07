@@ -12,7 +12,8 @@ import BasicModal from '@/widgets/modal/basic'
 const QuestCardToView: FunctionComponent<{
   quest: QuestType
   isTemplate?: boolean
-}> = ({ quest, isTemplate = false }) => {
+  showCommunity?: boolean
+}> = ({ quest, isTemplate = false, showCommunity = false }) => {
   // data
   const activeQuest = ActiveQuestStore.useStoreState((state) => state.quest)
 
@@ -38,7 +39,12 @@ const QuestCardToView: FunctionComponent<{
 
   return (
     <>
-      <QuestCardDetails quest={quest} isTemplate={isTemplate} onClick={onClick} />
+      <QuestCardDetails
+        showCommunity={showCommunity}
+        quest={quest}
+        isTemplate={isTemplate}
+        onClick={onClick}
+      />
       <BasicModal
         title={`${activeQuest.title}`}
         isOpen={activeQuest.id !== '' && activeQuest.id === quest.id}
