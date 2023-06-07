@@ -1,4 +1,4 @@
-import { action, Action, createContextStore, FilterActionTypes, StateMapper } from 'easy-peasy'
+import { action, Action, createContextStore } from 'easy-peasy'
 
 import { QuestTypeEnum } from '@/constants/common.const'
 import { UserType } from '@/types'
@@ -85,22 +85,30 @@ const ActiveQuestStore = createContextStore<ActiveQuestModel>({
  * This functions takes a active quest state and returns if user is eligible to claim it or could
  * not claim because of some missing data.
  */
-export const canClaimQuest = (
-  state: StateMapper<FilterActionTypes<ActiveQuestModel>>,
-  user: UserType,
+export const canClaimQuest = ({
+  user,
+  quest,
+  fileUpload,
+  url,
+  textSubmit,
+  quizAnswers,
+  visitLink,
+  telegramSubmit,
+}: {
+  user: UserType
   quest: QuestType
-): boolean => {
+  fileUpload: File[]
+  url: string
+  textSubmit: string
+  quizAnswers: string[]
+  visitLink: boolean
+  telegramSubmit: boolean
+}): boolean => {
   if (!user) {
     return false
   }
 
   let canClaim = false
-  const fileUpload = state.fileUpload
-  const url = state.url
-  const textSubmit = state.textSubmit
-  const quizAnswers = state.quizAnswers
-  const visitLink = state.visitLink
-  const telegramSubmit = state.telegramSubmit
 
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
