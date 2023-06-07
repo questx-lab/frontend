@@ -1,0 +1,178 @@
+import { FunctionComponent, useEffect, useState } from 'react'
+
+import toast from 'react-hot-toast'
+import tw from 'twin.macro'
+
+import { getLeaderboardApi } from '@/api/communitiy'
+import { LeaderboardConst } from '@/constants/common.const'
+import { StorageConst } from '@/constants/storage.const'
+import CommunityStore from '@/store/local/community'
+import { LeaderboardType } from '@/types'
+import { CircularImage } from '@/widgets/circular-image'
+import { Image } from '@/widgets/image'
+import { HorizontalBetweenCenter, HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
+import { SmallSpinner } from '@/widgets/spinner'
+import { NormalText, RewardText } from '@/widgets/text'
+
+const PointerHorizontal = tw(HorizontalBetweenCenter)`
+  relative
+  py-2
+  cursor-pointer
+`
+
+const GapHorizontalCenter = tw(HorizontalCenter)`
+  gap-3
+`
+
+const UsernameText = tw.span`
+  max-w-[120px]
+  font-normal
+  text-danger
+  text-lg
+  overflow-hidden
+  text-ellipsis
+`
+
+const EmptyBox = tw(VerticalCenter)`
+  w-full
+  p-3
+`
+
+const CenterNormalText = tw(NormalText)`
+  text-center
+`
+
+interface CacheItem {
+  handle: string
+  range: string
+  data: LeaderboardType[]
+}
+
+const Empty: FunctionComponent = () => {
+  return (
+    <EmptyBox>
+      <Image width={250} height={250} src={StorageConst.HUSKY.src} alt={StorageConst.HUSKY.alt} />
+      <CenterNormalText>
+        {
+          'There is no information about the leaderboard yet. Create more quests and connect users to have this leaderboard.'
+        }
+      </CenterNormalText>
+    </EmptyBox>
+  )
+}
+
+const RenderList: FunctionComponent<{ data: LeaderboardType[] }> = ({ data }) => {
+  const reanderItems =
+    data &&
+    data.map((ld, idx) => (
+      <PointerHorizontal key={idx}>
+        <GapHorizontalCenter>
+          <CircularImage width={40} height={40} src={StorageConst.USER_DEFAULT.src} alt={'logo'} />
+          <UsernameText>{ld.user?.name}</UsernameText>
+        </GapHorizontalCenter>
+        <RewardText>{ld.value}</RewardText>
+      </PointerHorizontal>
+    ))
+
+  if (!data.length) {
+    return <Empty />
+  }
+
+  return <>{reanderItems}</>
+}
+
+const getLeaderboard = async (
+  range: string,
+  handle: string
+): Promise<LeaderboardType[] | undefined> => {
+  try {
+    const data = await getLeaderboardApi(handle, range, LeaderboardConst.POINT)
+    if (data.error) {
+      toast.error(data.error)
+    }
+
+    if (data.data && data.data?.leaderboard) {
+      return data.data?.leaderboard
+    }
+
+    return undefined
+  } catch (error) {}
+}
+
+const leaderboardCaching = async (
+  range: string,
+  handle: string
+): Promise<LeaderboardType[] | undefined> => {
+  const rawData = localStorage.getItem(range)
+  if (rawData) {
+    const caches = JSON.parse(rawData) as CacheItem
+
+    // get from cached
+    if (caches.handle !== handle) {
+      localStorage.removeItem(range)
+      const data = await getLeaderboard(range, handle)
+      if (data) {
+        localStorage.setItem(
+          range,
+          JSON.stringify({
+            handle,
+            range,
+            data,
+          })
+        )
+      }
+      return data
+    }
+    return caches.data
+  } else {
+    // get from server
+    const data = await getLeaderboard(range, handle)
+    if (data) {
+      localStorage.setItem(
+        range,
+        JSON.stringify({
+          handle,
+          data,
+        })
+      )
+      return data
+    }
+  }
+
+  return undefined
+}
+
+const RenderLeaderboard: FunctionComponent<{
+  range: string
+}> = ({ range }) => {
+  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  const [leaderboard, setLeaderboard] = useState<LeaderboardType[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    getLeaderboard()
+  }, [community, range])
+
+  const getLeaderboard = async () => {
+    if (community.handle) {
+      setLoading(true)
+      try {
+        const data = await leaderboardCaching(range, community.handle)
+        if (data) {
+          setLeaderboard(data)
+        }
+      } catch (error) {
+      } finally {
+        setLoading(false)
+      }
+    }
+  }
+
+  if (loading) {
+    return <SmallSpinner />
+  }
+
+  return <RenderList data={leaderboard} />
+}
+
+export default RenderLeaderboard

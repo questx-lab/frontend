@@ -1,9 +1,9 @@
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
-import CommunityQuests from '@/modules/community/community-view/community-guest/community-quests'
-import FollowCommunity from '@/modules/community/community-view/community-guest/follow-community'
-import Leaderboard from '@/modules/community/community-view/community-guest/leaderboard'
+import CommunityQuests from '@/modules/community/community-view/community-guest-or-anonymous/community-quests'
+import FollowCommunity from '@/modules/community/community-view/community-guest-or-anonymous/follow-community'
+import Leaderboard from '@/modules/community/community-view/community-guest-or-anonymous/leaderboard'
 import CommunityStore from '@/store/local/community'
 import LeaderboardStore from '@/store/local/leaderboard'
 import { PositiveButton } from '@/widgets/buttons'
@@ -70,7 +70,7 @@ const CenterEndHorizontal = tw(HorizontalCenter)`
   justify-end
 `
 
-export default function CommunityGuest() {
+export default function CommunityGuestOrAnonymous() {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   if (!community) {

@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect } from 'react'
 import tw from 'twin.macro'
 
 import CommunityCollab from '@/modules/community/community-view/community-collab'
-import CommunityGuest from '@/modules/community/community-view/community-guest'
+import CommunityGuestOrAnonymous from '@/modules/community/community-view/community-guest-or-anonymous'
 import CommunityStore from '@/store/local/community'
 import { ControlPanelTab } from '@/types/community'
 import { Horizontal } from '@/widgets/orientation'
@@ -21,7 +21,7 @@ const CommunityContent: FunctionComponent = () => {
     return <CommunityCollab />
   }
 
-  return <CommunityGuest />
+  return <CommunityGuestOrAnonymous />
 }
 
 export const Index: FunctionComponent = () => {
