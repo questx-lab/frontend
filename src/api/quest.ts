@@ -43,6 +43,14 @@ export const updateAllClaimedQuestApi = async (
   return data
 }
 
+export const deleteQuest = async (id: string): Promise<Rsp<{}>> => {
+  const { data } = await api.post(EnvVariables.API_SERVER + `/deleteQuest`, {
+    id,
+  })
+
+  return data
+}
+
 // Templates
 export const getTemplatesApi = async (): Promise<Rsp<{ templates: QuestType[] }>> => {
   const { data } = await api.get(EnvVariables.API_SERVER + `/getTemplates`)

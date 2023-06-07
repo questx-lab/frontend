@@ -20,7 +20,8 @@ const FrameShape = tw(Vertical)`
 
 const QuestReward: FunctionComponent<{
   quest: QuestType
-}> = ({ quest }) => {
+  onQuestDeleted: (quest: QuestType) => void
+}> = ({ quest, onQuestDeleted }) => {
   return (
     <FrameShape>
       <BorderBox>
@@ -29,7 +30,7 @@ const QuestReward: FunctionComponent<{
           <Image width={40} height={40} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
           <RewardText>{`${quest.points} Points`}</RewardText>
         </RewardRow>
-        <SubmitClaim quest={quest} />
+        <SubmitClaim quest={quest} onQuestDeleted={onQuestDeleted} />
       </BorderBox>
     </FrameShape>
   )

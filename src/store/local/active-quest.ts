@@ -7,8 +7,6 @@ import { isValidUrl } from '@/utils/validation'
 
 /**
  * This is a model for user to view quest and then claim.
- *
- * TODO: Change this store to quest claim model.
  */
 interface ActiveQuestModel {
   quest: QuestType
