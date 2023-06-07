@@ -144,16 +144,8 @@ export const TextField: FunctionComponent<{
   onChange: (e: any) => void
   msg?: string
   isValid?: boolean
-  min?: number
-}> = ({ required = false, placeholder = '', value, onChange, msg = '', isValid, min }) => {
+}> = ({ required = false, placeholder = '', value, onChange, msg = '', isValid }) => {
   let danger = required && value === ''
-
-  if (min && value) {
-    if (value.length <= min) {
-      danger = true
-      msg = `Require more than ${min} characters`
-    }
-  }
 
   return (
     <ErrorBox>

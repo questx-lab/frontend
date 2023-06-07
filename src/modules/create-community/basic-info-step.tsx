@@ -1,5 +1,6 @@
-import { Fragment, FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
+import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
 
 import { getCommunityApi } from '@/api/communitiy'
@@ -7,9 +8,17 @@ import { ErrorCodes } from '@/constants/code.const'
 import { Main, NextButton, Title } from '@/modules/create-community/mini-widget'
 import NewCommunityStore from '@/store/local/new-community'
 import { MultipleTextField, TextField } from '@/widgets/form'
-import { LabelInput, RequiredText } from '@/widgets/text'
+import { VerticalFullWidth } from '@/widgets/orientation'
+import { LabelInput, RequiredText, SmallText } from '@/widgets/text'
 
-const HandleNameBox: FunctionComponent = () => {
+const DisplayNameRegex = /^[a-zA-Z0-9]{4,32}$/
+const HandleRegex = /^[a-z0-9_]{4,32}$/
+
+const StartText = tw(SmallText)`text-start`
+
+const HandleNameInput: FunctionComponent<{ setValidation: (val: boolean) => void }> = ({
+  setValidation,
+}) => {
   const [isValid, setValid] = useState<boolean | undefined>(undefined)
   const [msg, setMsg] = useState<string>('')
   const urlName = NewCommunityStore.useStoreState((state) => state.logoUrl)
@@ -20,6 +29,7 @@ const HandleNameBox: FunctionComponent = () => {
   const debounced = useDebouncedCallback(async (value: string) => {
     const checkValid = await checkUserUrlValid()
     setValid(checkValid)
+    setValidation(checkValid)
   }, 300)
 
   const onChangeUrlName = (e: string) => {
@@ -27,13 +37,17 @@ const HandleNameBox: FunctionComponent = () => {
     if (e.length > 4) {
       debounced(e)
     } else {
-      setValid(undefined)
-      setMsg('')
+      setValid(false)
+      setValidation(false)
     }
   }
 
   const checkUserUrlValid = async (): Promise<boolean> => {
     try {
+      if (!HandleRegex.test(urlName)) {
+        return false
+      }
+
       const data = await getCommunityApi(urlName)
       if (data.code === ErrorCodes.RECORD_NOT_FOUND) {
         setMsg('Url name is valid')
@@ -48,27 +62,66 @@ const HandleNameBox: FunctionComponent = () => {
   }
 
   return (
-    <Fragment>
-      <LabelInput>{'XQUEST HANDLE'}</LabelInput>
+    <VerticalFullWidth>
       <TextField
         value={urlName}
         onChange={(e) => onChangeUrlName(e.target.value)}
         placeholder='The url name of the quest is written here.'
         isValid={isValid}
         msg={msg}
-        min={4}
       />
-    </Fragment>
+      <StartText>
+        {"Display name contains only characters from a->z, 0->9, '_' and must " +
+          'be between 4 and 32 characters in length'}
+      </StartText>
+    </VerticalFullWidth>
+  )
+}
+
+const DisplayNameInput: FunctionComponent<{ setValidation: (val: boolean) => void }> = ({
+  setValidation,
+}) => {
+  const title = NewCommunityStore.useStoreState((state) => state.displayName)
+  const setTitle = NewCommunityStore.useStoreActions((action) => action.setDisplayName)
+
+  const [valid, setValid] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (DisplayNameRegex.test(title)) {
+      setValid(true)
+      setValidation(true)
+    } else {
+      setValid(false)
+      setValidation(false)
+    }
+  }, [title])
+
+  return (
+    <VerticalFullWidth>
+      <TextField
+        value={title}
+        required
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder='The name of the quest is written here.'
+        isValid={valid}
+      />
+      <StartText>
+        {'Display name contains only characters from a->z, A->Z, 0->9 and must' +
+          ' be between 4 and 32 characters in length'}
+      </StartText>
+    </VerticalFullWidth>
   )
 }
 
 export const BasicInfo: FunctionComponent = () => {
+  // hook
+  const [displayNameValid, setDisplayNameValid] = useState<boolean>(false)
+  const [handleValid, setHandleValid] = useState<boolean>(true)
+
   // data
-  const title = NewCommunityStore.useStoreState((state) => state.displayName)
   const description = NewCommunityStore.useStoreState((state) => state.introduction)
 
   //action
-  const setTitle = NewCommunityStore.useStoreActions((action) => action.setDisplayName)
   const setDescription = NewCommunityStore.useStoreActions((action) => action.setIntroduction)
 
   return (
@@ -78,13 +131,9 @@ export const BasicInfo: FunctionComponent = () => {
         {'DISPLAY NAME'}
         <RequiredText>{'*'}</RequiredText>
       </LabelInput>
-      <TextField
-        value={title}
-        required
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder='The name of the quest is written here.'
-      />
-      <HandleNameBox />
+      <DisplayNameInput setValidation={setDisplayNameValid} />
+      <LabelInput>{'XQUEST HANDLE'}</LabelInput>
+      <HandleNameInput setValidation={setHandleValid} />
       <LabelInput>{'DESCRIPTION'}</LabelInput>
       <MultipleTextField
         value={description}
@@ -93,7 +142,7 @@ export const BasicInfo: FunctionComponent = () => {
         rows={4}
         placeholder='The description of the quest is written here.'
       />
-      <NextButton block={title === ''} />
+      <NextButton block={!(handleValid && displayNameValid)} />
     </Main>
   )
 }
