@@ -1,4 +1,5 @@
 export const EnvVariables = {
+  MODE: process.env.REACT_APP_MODE,
   FRONTEND_URL: process.env.REACT_APP_FRONTEND_URL,
   API_SERVER: process.env.REACT_APP_SERVER_API || '',
   GOOGLE_ID: process.env.REACT_APP_GOOGLE_ID || '',
