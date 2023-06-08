@@ -20,6 +20,8 @@ const VerticalFrame = tw(VerticalFullWidth)`
   w-2/3
   max-2xl:px-12
   max-lg:px-6
+  py-4
+  px-36
 `
 
 const HorizontalFullWidthEnd = tw(HorizontalFullWidth)`
