@@ -60,7 +60,7 @@ const General: FC = () => {
     const payload = stateToUpdateCommunityRequest(state, community.handle)
     const result = await updateCommunityApi(payload)
     if (result.code === 0 && result.data) {
-      toast.success('Community is updaetd successfully')
+      toast.success('Community is updated successfully')
 
       // update the community store
       setSelectedCommunity(result.data.community)
