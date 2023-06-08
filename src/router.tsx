@@ -6,6 +6,7 @@ import AdminRouter from '@/admin-portal/router'
 import { EnvVariables } from '@/constants/env.const'
 import PlatformRouter from '@/platform/router'
 import { AppMode } from '@/types/app-mode'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export const RouterComponent: FunctionComponent = () => {
   let routes: RouteObject[]
@@ -14,5 +15,9 @@ export const RouterComponent: FunctionComponent = () => {
   } else {
     routes = PlatformRouter
   }
-  return <RouterProvider router={createBrowserRouter(routes)} />
+  return (
+    <GoogleOAuthProvider clientId={EnvVariables.GOOGLE_ID}>
+      <RouterProvider router={createBrowserRouter(routes)} />
+    </GoogleOAuthProvider>
+  )
 }

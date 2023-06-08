@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import { json, useLoaderData } from 'react-router-dom'
 
-import Login from '@/admin-portal/modules/login'
+import AdminLogin from '@/admin-portal/modules/login'
 import { getUserApi } from '@/api/user'
 import { EnvVariables } from '@/constants/env.const'
 import { UserType } from '@/types'
@@ -35,8 +35,9 @@ const Root: FC = () => {
     user: UserType
   }
 
-  if (!data.user) {
-    return <Login />
+  // if (!data.user) {
+  if (true) {
+    return <AdminLogin />
   }
 
   return (

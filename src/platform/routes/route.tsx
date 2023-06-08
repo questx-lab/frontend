@@ -8,14 +8,12 @@ import tw from 'twin.macro'
 import { getFollowCommunitiesApi, getMyCommunitiesApi } from '@/api/communitiy'
 import { getMyReferralInfoApi } from '@/api/reward'
 import { getUserApi } from '@/api/user'
-import { EnvVariables } from '@/constants/env.const'
 import { Header } from '@/modules/header'
 import { HomePage } from '@/platform/routes'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType, RefferalType, UserType } from '@/types'
 import { CommunityType } from '@/types/community'
 import { getUserLocal } from '@/utils/helper'
-import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export const RootLoader = async () => {
   const localUser = getUserLocal()
@@ -81,7 +79,7 @@ export const Root: FunctionComponent = () => {
   }, [data, data.user])
 
   return (
-    <GoogleOAuthProvider clientId={EnvVariables.GOOGLE_ID}>
+    <>
       <Main>
         <OverscrollY>
           <HomePage />
@@ -89,6 +87,6 @@ export const Root: FunctionComponent = () => {
         <Header />
       </Main>
       <Toaster position='top-center' reverseOrder={false} />
-    </GoogleOAuthProvider>
+    </>
   )
 }
