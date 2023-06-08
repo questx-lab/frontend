@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 
 import CommunityCollab from '@/modules/community/community-view/community-collab'
 import CommunityGuestOrAnonymous from '@/modules/community/community-view/guest-or-anonymous'
-import InviteModal from '@/modules/community/invitte-modal'
+import InviteModal from '@/modules/community/invite-modal'
 import CommunityStore from '@/store/local/community'
 import { ControlPanelTab } from '@/types/community'
 import { Horizontal } from '@/widgets/orientation'
@@ -48,7 +48,7 @@ export const Index: FunctionComponent = () => {
   return (
     <OuterBoxPadding>
       <CommunityContent />
-      <InviteModal inviteCode={query.get('invitation') || ''} />
+      <InviteModal community={community} inviteCode={query.get('invitation') || ''} />
     </OuterBoxPadding>
   )
 }

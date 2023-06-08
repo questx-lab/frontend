@@ -108,7 +108,7 @@ const ActionButton: FunctionComponent<{
         }
 
         if (result.code === ErrorCodes.NOT_ERROR) {
-          toast.success('Join community succes')
+          toast.success('Successfully joined community!')
         }
 
         // Update following community
@@ -133,10 +133,12 @@ const ActionButton: FunctionComponent<{
   )
 }
 
-const InviteModal: FunctionComponent<{ inviteCode: string }> = ({ inviteCode }) => {
+const InviteModal: FunctionComponent<{ inviteCode: string; community: CommunityType }> = ({
+  inviteCode,
+  community,
+}) => {
   const [openModal, setOpenModal] = useState<boolean>(inviteCode !== '')
   const [userInvite, setUserInvite] = useState<UserType>()
-  const [communityInvite, setCommunityInvite] = useState<CommunityType>()
 
   const role = CommunityStore.useStoreState((state) => state.role)
 
@@ -154,7 +156,9 @@ const InviteModal: FunctionComponent<{ inviteCode: string }> = ({ inviteCode }) 
 
       if (result.data) {
         setUserInvite(result.data.user)
-        setCommunityInvite(result.data.community)
+        if (result.data.community.handle !== community.handle) {
+          setOpenModal(false)
+        }
       }
     } catch (error) {}
   }
@@ -167,11 +171,11 @@ const InviteModal: FunctionComponent<{ inviteCode: string }> = ({ inviteCode }) 
     ) {
       setOpenModal(false)
     } else {
-      if (inviteCode !== '') {
+      if (inviteCode !== '' && community.handle !== '') {
         getInvite()
       }
     }
-  }, [role])
+  }, [role, community])
 
   return (
     <BasicModal
@@ -181,12 +185,8 @@ const InviteModal: FunctionComponent<{ inviteCode: string }> = ({ inviteCode }) 
     >
       <Content>
         <LargeText>{'You have been invited to join'}</LargeText>
-        <CommunityContent community={communityInvite} />
-        <ActionButton
-          community={communityInvite}
-          userInvite={userInvite}
-          onChangeModal={onChangeModal}
-        />
+        <CommunityContent community={community} />
+        <ActionButton community={community} userInvite={userInvite} onChangeModal={onChangeModal} />
       </Content>
     </BasicModal>
   )

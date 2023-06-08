@@ -35,8 +35,6 @@ export const QuestInvites: FunctionComponent<{ quest: QuestType }> = ({ quest })
 
   const fetchMyFollowerInfo = async () => {
     try {
-      // TODO: getMyFollowerInfoApi is broken. Checks with backend and remove this comment when it's
-      // fixed.
       const resp = await getMyFollowerInfoApi(quest.community.handle)
       if (resp.error) {
         toast.error(resp.error)
@@ -70,6 +68,7 @@ export const QuestInvites: FunctionComponent<{ quest: QuestType }> = ({ quest })
   }
 
   // TODO: Handle logic if user does not follow community
+  // Block when integrate unclaimable quest
   return (
     <>
       <Label>{'Invite link:'}</Label>
