@@ -12,6 +12,7 @@ import {
   Rsp,
   UpdateCommunityRequest,
   UpdateCommunityResponse,
+  UserType,
 } from '@/types'
 import { CommunityType, FollowCommunityType } from '@/types/community'
 import { ONE_MINUTE_MILLIS } from '@/utils/time'
@@ -163,4 +164,16 @@ export const getLeaderboardApi = async (
       code: -1,
     }
   }
+}
+
+export const getInviteApi = async (
+  inviteCode: string
+): Promise<
+  Rsp<{
+    user: UserType
+    community: CommunityType
+  }>
+> => {
+  const rs = await api.get(EnvVariables.API_SERVER + `/getInvite?invite_code=${inviteCode}`)
+  return rs.data
 }
