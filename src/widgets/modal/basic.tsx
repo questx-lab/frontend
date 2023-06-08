@@ -72,7 +72,7 @@ const BasicModal: FunctionComponent<{
   styled?: string
 }> = ({ isOpen, children, title = '', onClose, hasHeader = true, styled }) => {
   return (
-    <BaseModal isOpen={isOpen}>
+    <BaseModal onClose={onClose} isOpen={isOpen}>
       <ModalBox>
         <ModalContent className={styled}>
           <TopModal hasHeader={hasHeader} title={title} onClose={onClose} />
