@@ -14,14 +14,6 @@ import { Horizontal } from '@/widgets/orientation'
 import { PopItem, PopoverPosition, PopPanel } from '@/widgets/popover'
 import { Popover } from '@headlessui/react'
 
-export const FixedFrame = tw.div`
-  w-80
-  fixed
-  border-r-2
-  border-gray-200
-  h-full
-`
-
 const RightSection = tw(Horizontal)`
   w-full
   items-end
