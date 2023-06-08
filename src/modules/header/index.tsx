@@ -17,7 +17,7 @@ import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/wi
 import { NormalText } from '@/widgets/text'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 
-const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
+export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
   tw`
   w-full
   flex
@@ -41,7 +41,7 @@ const Wrap = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
   `,
 ])
 
-const LeftSession = tw(HorizontalStartCenter)`
+const LeftSection = tw(HorizontalStartCenter)`
   gap-4
   h-full
   w-full
@@ -54,7 +54,7 @@ const ImageLogoBox = styled(Image)(tw`
   max-2xl:w-[120px]
 `)
 
-const RightSession = tw(Horizontal)`
+const RightSection = tw(Horizontal)`
   w-full
   items-center
   justify-end
@@ -145,9 +145,9 @@ export const Header: FunctionComponent<{}> = () => {
   const isApp: boolean = user !== undefined
 
   return (
-    <Wrap isApp={isApp}>
+    <HeaderBox isApp={isApp}>
       <Body isApp={isApp}>
-        <LeftSession>
+        <LeftSection>
           {/* For mobile */}
           <MobileView>
             <Drawer navActive={navActive} />
@@ -174,11 +174,11 @@ export const Header: FunctionComponent<{}> = () => {
               {navActive === NavigationEnum.QUESTCARD && <Underline />}
             </Route>
           </BoxLink>
-        </LeftSession>
-        <RightSession>
+        </LeftSection>
+        <RightSection>
           <UserInfoBox />
-        </RightSession>
+        </RightSection>
       </Body>
-    </Wrap>
+    </HeaderBox>
   )
 }
