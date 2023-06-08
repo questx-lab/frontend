@@ -7,7 +7,6 @@ import tw from 'twin.macro'
 import TemplateGroup from '@/modules/create-quest/template-groups/category-group'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestType } from '@/types/quest'
-import { GrayBorderBox } from '@/widgets/box'
 import { PrimaryText } from '@/widgets/text'
 import { Disclosure } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/24/outline'
@@ -17,16 +16,22 @@ type TemplateGroupType = {
   quests: QuestType[]
 }
 
-const BorderBoxFrame = tw(GrayBorderBox)`
+const BorderRightBox = tw.div`
+  border-r
+  border-solid
+  border-gray-200
+`
+
+const BorderBoxFrame = tw(BorderRightBox)`
   w-80
-  h-[calc(100%_-_48px)]
+  h-[calc(100%_-_110px)]
   border-r-[1px]
   fixed
   overflow-y-scroll
-  pb-24
   px-6
   pt-2
   rounded-l-lg
+  z-50
 `
 
 const DisclosureButton = styled(Disclosure.Button)(tw`

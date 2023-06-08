@@ -61,7 +61,7 @@ const CommunityCollab: FunctionComponent = () => {
       <BasicModal
         isOpen={showTemplateModal}
         onClose={() => setShowTemplateModal(false)}
-        styled={'flex flex-col !justify-start !items-start !w-5/6'}
+        styled={'flex flex-col !justify-start !items-start !w-[1180px]'}
       >
         <CreateOrEditQuest
           isTemplate

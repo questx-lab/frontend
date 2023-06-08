@@ -27,7 +27,7 @@ const responsive = {
   },
   desktop: {
     breakpoint: { max: 1920, min: 1440 },
-    items: 4,
+    items: 3,
   },
   mediumDesktop: {
     breakpoint: { max: 1439, min: 1025 },
