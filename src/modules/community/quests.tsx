@@ -20,6 +20,10 @@ const Grid = tw.div`
   items-center
 `
 
+const PaddingVertical = tw(VerticalFullWidth)`
+  py-6
+`
+
 export const QuestListView: FunctionComponent<{
   quests: QuestType[]
 }> = ({ quests }) => {
@@ -44,13 +48,13 @@ export const Quests: FunctionComponent<{
 
   return (
     <>
-      <VerticalFullWidth>
+      <PaddingVertical>
         <HeaderText>{categoryTitle}</HeaderText>
         <Gap height={6} />
         <Grid>
           <QuestListView quests={quests} />
         </Grid>
-      </VerticalFullWidth>
+      </PaddingVertical>
     </>
   )
 }
