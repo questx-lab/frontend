@@ -11,7 +11,7 @@ import { MultipleTextField, TextField } from '@/widgets/form'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import { LabelInput, RequiredText, SmallText } from '@/widgets/text'
 
-const DisplayNameRegex = /^[a-zA-Z0-9]{4,32}$/
+const DisplayNameRegex = /^[a-z ,.'-]+$/i
 const HandleRegex = /^[a-z0-9_]{4,32}$/
 
 const StartText = tw(SmallText)`text-start`
@@ -71,7 +71,7 @@ const HandleNameInput: FunctionComponent<{ onValidChange: (val: boolean) => void
         msg={msg}
       />
       <StartText>
-        {"Display name contains only characters from a->z, 0->9, '_' and must " +
+        {"Handle should contain only characters from a->z, 0->9, '_' and must " +
           'be between 4 and 32 characters in length'}
       </StartText>
     </VerticalFullWidth>
@@ -105,10 +105,6 @@ const DisplayNameInput: FunctionComponent<{ onValidChange: (val: boolean) => voi
         placeholder='The name of the quest is written here.'
         isValid={valid}
       />
-      <StartText>
-        {'Display name contains only characters from a->z, A->Z, 0->9 and must' +
-          ' be between 4 and 32 characters in length'}
-      </StartText>
     </VerticalFullWidth>
   )
 }
