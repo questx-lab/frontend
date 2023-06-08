@@ -5,11 +5,10 @@ import tw from 'twin.macro'
 
 import CommunityCollab from '@/modules/community/community-view/community-collab'
 import CommunityGuestOrAnonymous from '@/modules/community/community-view/guest-or-anonymous'
+import InviteModal from '@/modules/community/invitte-modal'
 import CommunityStore from '@/store/local/community'
 import { ControlPanelTab } from '@/types/community'
 import { Horizontal } from '@/widgets/orientation'
-
-import InviteModal from './invitte-modal'
 
 const OuterBoxPadding = tw(Horizontal)`
   w-full
