@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, ReactNode } from 'react'
+import { Fragment, FunctionComponent, ReactNode, useEffect } from 'react'
 
 import { Background, FixedOverflow } from '@/widgets/modal/mini-widgets'
 import { Dialog, Transition } from '@headlessui/react'
@@ -6,7 +6,18 @@ import { Dialog, Transition } from '@headlessui/react'
 const BaseModal: FunctionComponent<{
   isOpen: boolean
   children: ReactNode
-}> = ({ isOpen, children }) => {
+  onClose?: (value: boolean) => void
+}> = ({ isOpen, children, onClose }) => {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose && onClose(false)
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={() => {}}>
