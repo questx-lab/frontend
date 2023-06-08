@@ -166,6 +166,8 @@ export enum CommunityRoleEnum {
   OWNER = 'owner',
   EDITOR = 'editor',
   REVIEWER = 'reviewer',
+  ADMIN = 'admin',
+  SUPER_ADMIN = 'super_admin',
 }
 
 export enum ButtonSocialType {
