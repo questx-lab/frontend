@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 
 import { listQuestApi } from '@/api/quest'
 import QuestCardToView from '@/modules/quest/quest-card-to-view'
-import { OtherQuests } from '@/routes/questercamp'
+import { OtherQuests } from '@/platform/routes/questercamp'
 import { QuestType } from '@/types/quest'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
