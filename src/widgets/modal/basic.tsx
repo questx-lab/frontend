@@ -46,6 +46,23 @@ const Title = tw.div`
   text-black
 `
 
+const TopModal: FunctionComponent<{ hasHeader: boolean; title?: string; onClose: () => void }> = ({
+  hasHeader,
+  title,
+  onClose,
+}) => {
+  if (!hasHeader) {
+    return <></>
+  }
+
+  return (
+    <PaddingHorizontal>
+      <Title>{title}</Title>
+      <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} />
+    </PaddingHorizontal>
+  )
+}
+
 const BasicModal: FunctionComponent<{
   isOpen: boolean
   children: ReactNode
@@ -58,12 +75,7 @@ const BasicModal: FunctionComponent<{
     <BaseModal isOpen={isOpen}>
       <ModalBox>
         <ModalContent className={styled}>
-          {hasHeader && (
-            <PaddingHorizontal>
-              <Title>{title}</Title>
-              <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} />
-            </PaddingHorizontal>
-          )}
+          <TopModal hasHeader={hasHeader} title={title} onClose={onClose} />
           {children}
         </ModalContent>
       </ModalBox>
