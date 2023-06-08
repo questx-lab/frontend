@@ -14,7 +14,7 @@ import CommunityStore from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
-import { QuestType } from '@/types/quest'
+import { emptyQuest, QuestType } from '@/types/quest'
 import { uploadFile } from '@/utils/file'
 import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons'
 import ConfirmationModal from '@/widgets/modal/confirmation'
@@ -119,6 +119,7 @@ const SubmitClaim: FunctionComponent<{
   // action
   const setEditQuest = NewQuestStore.useStoreActions((action) => action.setQuest)
   const setDeletedQuestId = ActiveQuestStore.useStoreActions((action) => action.setDeletedQuestId)
+  const setActiveQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
 
   // handler
   const onSubmit = () => {
@@ -129,6 +130,7 @@ const SubmitClaim: FunctionComponent<{
 
   const onEdit = () => {
     setEditQuest(quest)
+    setActiveQuest(emptyQuest())
     navigate(editQuestRoute(quest.community.handle))
   }
 
