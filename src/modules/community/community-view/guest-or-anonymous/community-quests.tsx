@@ -1,7 +1,7 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import tw from 'twin.macro'
 
 import { listQuestApi } from '@/api/quest'
@@ -22,7 +22,36 @@ const StartVertical = tw(VerticalFullWidth)`
   gap-6
 `
 
-const CommunityQuests: FunctionComponent = () => {
+const HighlightedQuests: FC<{ highlightedQuest: QuestType[]; loading: boolean }> = ({
+  highlightedQuest,
+  loading,
+}) => {
+  if (highlightedQuest.length === 0) {
+    return <></>
+  }
+
+  return (
+    <CategoryBox
+      hasShowAll={false}
+      loading={loading}
+      title='🔥 Highlighted Quests'
+      onClick={() => {}}
+    >
+      <CarouselList
+        data={highlightedQuest}
+        renderItemFunc={(quest: QuestType) => {
+          return (
+            <MarginTop>
+              <QuestCardToView quest={quest} />
+            </MarginTop>
+          )
+        }}
+      />
+    </CategoryBox>
+  )
+}
+
+const CommunityQuests: FC = () => {
   const location = useLocation()
   const [loading, setLoading] = useState<boolean>(true)
   const [questList, setListQuests] = useState<QuestType[]>([])
@@ -53,23 +82,7 @@ const CommunityQuests: FunctionComponent = () => {
 
   return (
     <VerticalFullWidth>
-      <CategoryBox
-        hasShowAll={false}
-        loading={loading}
-        title='🔥 Highlighted Quests'
-        onClick={() => {}}
-      >
-        <CarouselList
-          data={highlightedQuest}
-          renderItemFunc={(quest: QuestType) => {
-            return (
-              <MarginTop>
-                <QuestCardToView quest={quest} />
-              </MarginTop>
-            )
-          }}
-        />
-      </CategoryBox>
+      <HighlightedQuests highlightedQuest={highlightedQuest} loading={loading} />
 
       <Gap />
       <Divider />
