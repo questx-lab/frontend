@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import Dropzone from 'react-dropzone'
 import styled from 'styled-components'
@@ -53,7 +53,48 @@ const Camera = styled(CameraIcon)<{ dimension: number }>(({ dimension }) => {
   `
 })
 
-export const AvatarUpload: FunctionComponent<{ imageSize: number }> = ({ imageSize }) => {
+const PlaceHolderImage: FC<{ avatar: File | undefined; logoUrl: string; imageSize: number }> = ({
+  avatar,
+  logoUrl,
+  imageSize,
+}) => {
+  const hasLogoOrFile: boolean = avatar !== undefined || logoUrl !== ''
+  if (hasLogoOrFile) {
+    return (
+      <>
+        <Image
+          width={imageSize}
+          height={imageSize}
+          src={
+            (avatar && (avatar as any).preview) ||
+            (logoUrl && logoUrl) ||
+            StorageConst.UPLOAD_IMG.src
+          }
+          alt={StorageConst.UPLOAD_IMG.alt}
+          className='absolute object-cover '
+        />
+
+        <Overlay dimension={imageSize}>
+          <Camera dimension={imageSize / 3} />
+        </Overlay>
+      </>
+    )
+  }
+
+  return (
+    <Image
+      width={imageSize}
+      height={imageSize}
+      src={
+        (avatar && (avatar as any).preview) || (logoUrl && logoUrl) || StorageConst.UPLOAD_IMG.src
+      }
+      alt={StorageConst.UPLOAD_IMG.alt}
+      className='absolute object-cover '
+    />
+  )
+}
+
+export const AvatarUpload: FC<{ imageSize: number }> = ({ imageSize }) => {
   // data
   const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
   const logoUrl = NewCommunityStore.useStoreState((state) => state.logoUrl)
@@ -63,16 +104,6 @@ export const AvatarUpload: FunctionComponent<{ imageSize: number }> = ({ imageSi
 
   return (
     <Container dimension={imageSize}>
-      <Image
-        width={imageSize}
-        height={imageSize}
-        src={
-          (avatar && (avatar as any).preview) || (logoUrl && logoUrl) || StorageConst.UPLOAD_IMG.src
-        }
-        alt={StorageConst.UPLOAD_IMG.alt}
-        className='absolute object-cover '
-      />
-
       <Dropzone
         onDrop={(acceptedFiles) => {
           const upFile = acceptedFiles[0]
@@ -90,9 +121,7 @@ export const AvatarUpload: FunctionComponent<{ imageSize: number }> = ({ imageSi
             })}
           >
             <UploadInput {...getInputProps()} />
-            <Overlay dimension={imageSize}>
-              <Camera dimension={imageSize / 3} />
-            </Overlay>
+            <PlaceHolderImage avatar={avatar} logoUrl={logoUrl} imageSize={imageSize} />
           </SectionUploadImg>
         )}
       </Dropzone>
