@@ -3,7 +3,7 @@ import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
 import { listQuestApi } from '@/api/quest'
-import { OtherQuests } from '@/routes/questercamp'
+import { OtherQuests } from '@/platform/routes/questercamp'
 import { QuestType } from '@/types/quest'
 import Trending from '@/widgets/trending'
 
