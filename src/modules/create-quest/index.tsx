@@ -28,8 +28,8 @@ const BodyFrame = styled(Horizontal)<{ isTemplate?: boolean }>(({ isTemplate = f
       w-full
       h-full
       justify-center
-      pr-12
-      mb-12
+      pr-4
+      mb-4
     `
   }
 
@@ -43,7 +43,7 @@ const EditInfoFrame = tw(Vertical)`
   h-full
   bg-white
   py-8
-  pl-12
+  pl-8
   gap-3
 `
 

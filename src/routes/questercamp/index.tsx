@@ -56,7 +56,10 @@ const QuestsGrid = tw.div`
 
 const MarginTop = tw.div`mt-4`
 
-export const OtherQuests: FunctionComponent<{ quests: QuestType[] }> = ({ quests }) => {
+export const OtherQuests: FunctionComponent<{ quests: QuestType[]; showCommunity?: boolean }> = ({
+  quests,
+  showCommunity = false,
+}) => {
   if (!quests || quests.length === 0) {
     return (
       <VerticalFullWidthCenter>
@@ -69,7 +72,7 @@ export const OtherQuests: FunctionComponent<{ quests: QuestType[] }> = ({ quests
     <>
       <QuestsGrid>
         {quests.map((quest) => (
-          <QuestCardToView key={quest.id} quest={quest} />
+          <QuestCardToView showCommunity={showCommunity} key={quest.id} quest={quest} />
         ))}
       </QuestsGrid>
     </>
@@ -130,7 +133,7 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
           renderItemFunc={(quyest: QuestType) => {
             return (
               <MarginTop>
-                <QuestCardToView quest={quyest} />
+                <QuestCardToView showCommunity quest={quyest} />
               </MarginTop>
             )
           }}
@@ -139,7 +142,7 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
 
       <StartVertical>
         <Large2xlText>{'🕑 New Quests'}</Large2xlText>
-        <OtherQuests quests={intQuests} />
+        <OtherQuests showCommunity quests={intQuests} />
       </StartVertical>
     </SearchResult>
   )

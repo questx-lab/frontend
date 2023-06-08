@@ -12,9 +12,11 @@ import CategoryBox from '@/widgets/category-box'
 import { Gap } from '@/widgets/separator'
 
 const BackgroundAndBorder = tw(GrayBorderBox)`
-  px-16
+  px-6
   bg-gray-100
   py-6
+  w-full
+  rounded-lg
 `
 
 const Templates: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {

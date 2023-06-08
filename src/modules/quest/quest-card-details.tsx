@@ -5,9 +5,11 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
+import { CommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
+import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
-import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
+import { Horizontal, HorizontalStartCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { MediumText, RewardText } from '@/widgets/text'
 
@@ -50,17 +52,27 @@ const TitleQuestBox = tw(MediumText)`
   max-lg:text-sm
 `
 
-const Description = tw.div`
-  w-full
-  px-4
-  text-gray-700
-  font-normal
-  text-lg
-  max-lg:text-sm
-  overflow-hidden
-  text-ellipsis
-  line-clamp-6
-`
+const Description = styled.div<{ showCommunity: boolean }>(({ showCommunity }) => {
+  const styles = [
+    tw`
+    w-full
+    px-4
+    text-gray-700
+    font-normal
+    text-lg
+    max-lg:text-sm
+    overflow-hidden
+    text-ellipsis
+    line-clamp-6
+  `,
+  ]
+
+  if (showCommunity) {
+    styles.push(tw`!line-clamp-4`)
+  }
+
+  return styles
+})
 
 const Body = tw(Horizontal)`
   w-full
@@ -77,17 +89,45 @@ const HeaderBox = tw(Horizontal)`
   items-center
 `
 
+const CommunityDisplayname = tw(MediumText)`
+  overflow-auto
+  text-ellipsis
+  line-clamp-1
+`
+
+const GapHorizontal = tw(HorizontalStartCenter)`px-3 pt-3 w-full`
+
+const CommunityFrame: FunctionComponent<{ community?: CommunityType; showCommunity: boolean }> = ({
+  community,
+  showCommunity,
+}) => {
+  if (!showCommunity || !community) {
+    return <></>
+  }
+
+  return (
+    <GapHorizontal>
+      <CircularImage height={50} width={50} src={StorageConst.COMMUNITY_DEFAULT.src} />
+      <CommunityDisplayname>{community?.display_name}</CommunityDisplayname>
+    </GapHorizontal>
+  )
+}
+
 const QuestCardDetails: FunctionComponent<{
   quest: QuestType
   isTemplate?: boolean
   onClick: (e: QuestType) => void
-}> = ({ quest, isTemplate = false, onClick = () => {} }) => {
+  showCommunity?: boolean
+}> = ({ quest, isTemplate = false, onClick = () => {}, showCommunity = false }) => {
   return (
     <BorderBox isTemplate={isTemplate} onClick={() => onClick(quest)}>
+      <CommunityFrame showCommunity={showCommunity} community={quest.community} />
       <BasicInfoFrame>
         <TitleQuestBox>{quest.title}</TitleQuestBox>
         <Gap height={4} />
-        <Description>{parseHtml(quest.description ?? '')}</Description>
+        <Description showCommunity={showCommunity}>
+          {parseHtml(quest.description ?? '')}
+        </Description>
       </BasicInfoFrame>
 
       <Body>

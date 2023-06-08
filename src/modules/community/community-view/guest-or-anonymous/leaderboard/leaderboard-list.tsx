@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { getLeaderboardApi } from '@/api/communitiy'
-import { LeaderboardConst } from '@/constants/common.const'
+import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import { StorageConst } from '@/constants/storage.const'
 import CommunityStore from '@/store/local/community'
 import { LeaderboardType } from '@/types'
@@ -74,7 +74,7 @@ const RenderList: FunctionComponent<{ data: LeaderboardType[] }> = ({ data }) =>
 }
 
 const RenderLeaderboard: FunctionComponent<{
-  range: string
+  range: LeaderboardRangeEnum
 }> = ({ range }) => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const [leaderboard, setLeaderboard] = useState<LeaderboardType[]>([])
@@ -88,7 +88,8 @@ const RenderLeaderboard: FunctionComponent<{
     if (community.handle) {
       setLoading(true)
       try {
-        const data = await getLeaderboardApi(community.handle, range, LeaderboardConst.POINT)
+        // TODO: Support infinite scrolling here.
+        const data = await getLeaderboardApi(community.handle, range, LeaderboardSortType.POINT, 50)
         if (data.error) {
           toast.error(data.error)
         }

@@ -11,7 +11,7 @@ import { StorageConst } from '@/constants/storage.const'
 import CommunityBox from '@/modules/community/community-box'
 import LandingPage from '@/routes/landing-page'
 import { GlobalStoreModel } from '@/store/store'
-import { CommunityType } from '@/types/community'
+import { CommunityType, FollowCommunityType } from '@/types/community'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
 import { Image } from '@/widgets/image'
@@ -92,7 +92,7 @@ export const HomePage: FunctionComponent = () => {
   const [communities, setCommunities] = useState<CommunityType[]>([])
 
   // global data
-  const communitiesFollowing: CommunityType[] = useStoreState<GlobalStoreModel>(
+  const communitiesFollowing: FollowCommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesFollowing
   )
 
@@ -125,7 +125,7 @@ export const HomePage: FunctionComponent = () => {
         <Main>
           <Title />
 
-          <OtherCommunities communities={communitiesFollowing} />
+          <OtherCommunities communities={communitiesFollowing.map((follow) => follow.community)} />
 
           <CategoryBox loading={loading} title='🔥 Trending Communities' onClick={onShowAllClicked}>
             <CarouselList

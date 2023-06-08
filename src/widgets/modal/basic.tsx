@@ -32,19 +32,36 @@ const ModalContent = styled(Dialog.Panel)(
   `
 )
 
-const MDHead = tw(Horizontal)`
+const PaddingHorizontal = tw(Horizontal)`
   w-full
   justify-between
   items-center
   px-8
   py-4
+`
+
+const Title = tw.div`
   text-2xl
   font-normal
   text-black
-  border
-  border-solid
-  border-gray-200
 `
+
+const TopModal: FunctionComponent<{ hasHeader: boolean; title?: string; onClose: () => void }> = ({
+  hasHeader,
+  title,
+  onClose,
+}) => {
+  if (!hasHeader) {
+    return <></>
+  }
+
+  return (
+    <PaddingHorizontal>
+      <Title>{title}</Title>
+      <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} />
+    </PaddingHorizontal>
+  )
+}
 
 const BasicModal: FunctionComponent<{
   isOpen: boolean
@@ -58,12 +75,7 @@ const BasicModal: FunctionComponent<{
     <BaseModal isOpen={isOpen}>
       <ModalBox>
         <ModalContent className={styled}>
-          {hasHeader && (
-            <MDHead>
-              {title}
-              <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} />
-            </MDHead>
-          )}
+          <TopModal hasHeader={hasHeader} title={title} onClose={onClose} />
           {children}
         </ModalContent>
       </ModalBox>

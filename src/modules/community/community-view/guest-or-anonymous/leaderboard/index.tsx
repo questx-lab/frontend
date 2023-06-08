@@ -55,7 +55,7 @@ const selectTab = ({ selected }: { selected: boolean }) =>
 
 const Leaderboard: FunctionComponent = () => {
   // hook
-  const [tab, setTab] = useState<string>(LeaderboardRangeEnum.WEEK)
+  const [tab, setTab] = useState<LeaderboardRangeEnum>(LeaderboardRangeEnum.WEEK)
 
   return (
     <Content>
