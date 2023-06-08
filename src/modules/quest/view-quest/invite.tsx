@@ -1,40 +1,40 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { getMyFollowerInfoApi } from '@/api/communitiy'
-import { QuestTypeEnum } from '@/constants/common.const'
+import { ColorEnum, CommunityRoleEnum, QuestTypeEnum } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
-import { StorageConst } from '@/constants/storage.const'
+import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
+import CommunityStore from '@/store/local/community'
 import { QuestType } from '@/types/quest'
-import { Image } from '@/widgets/image'
-import { HorizontalBetweenCenter } from '@/widgets/orientation'
-import { Divider, Gap } from '@/widgets/separator'
+import { HorizontalCenter } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
+import { ClipboardIcon } from '@heroicons/react/24/outline'
 
-const LinkText = tw.div`
-  text-info-700
-`
-
-const generateInviteLink = (code: string): string => {
-  return `${EnvVariables.FRONTEND_URL}/invites/${code}`
+const generateInviteLink = (code: string, communityHandle: string): string => {
+  return `${EnvVariables.FRONTEND_URL}/communities/${communityHandle}?invitation=${code}`
 }
+
+const CursorLinkBox = tw(HorizontalCenter)`
+  cursor-pointer
+  gap-1
+`
 
 export const QuestInvites: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   const [inviteCode, setInviteCode] = useState<string>('')
+  const role = CommunityStore.useStoreState((state) => state.role)
 
   useEffect(() => {
-    if (quest && quest.type === QuestTypeEnum.INVITES) {
+    if (quest && quest.type === QuestTypeEnum.INVITES && role === CommunityRoleEnum.GUEST) {
       fetchMyFollowerInfo()
     }
   }, [quest])
 
   const fetchMyFollowerInfo = async () => {
     try {
-      // TODO: getMyFollowerInfoApi is broken. Checks with backend and remove this comment when it's
-      // fixed.
       const resp = await getMyFollowerInfoApi(quest.community.handle)
       if (resp.error) {
         toast.error(resp.error)
@@ -52,23 +52,31 @@ export const QuestInvites: FunctionComponent<{ quest: QuestType }> = ({ quest })
     }
   }
 
-  const link = generateInviteLink(inviteCode)
+  const link = generateInviteLink(inviteCode, quest.community.handle)
   const onCopy = () => {
-    toast.success('Copied to clipboard successfully')
+    if (link) {
+      navigator.clipboard.writeText(link)
+      toast('Copied!', {
+        icon: '👏',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      })
+    }
   }
 
+  // TODO: Handle logic if user does not follow community
+  // Block when integrate unclaimable quest
   return (
-    <CopyToClipboard text={link} onCopy={onCopy}>
-      <>
-        <Divider />
-        <Label>Invite link:</Label>
-        <HorizontalBetweenCenter>
-          <LinkText> {link} </LinkText>
-          <Gap width={2} />
-
-          <Image width={30} height={30} src={StorageConst.COPY.src} alt={StorageConst.COPY.alt} />
-        </HorizontalBetweenCenter>
-      </>
-    </CopyToClipboard>
+    <>
+      <Label>{'Invite link:'}</Label>
+      <CursorLinkBox onClick={onCopy}>
+        <ColorBox boxColor={ColorEnum.SUCCESS}> {link} </ColorBox>
+        <Gap width={2} />
+        <ClipboardIcon className='w-7 h-7' />
+      </CursorLinkBox>
+    </>
   )
 }

@@ -170,6 +170,9 @@ export const canClaimQuest = ({
         canClaim = true
       }
       break
+    case QuestTypeEnum.INVITES:
+      canClaim = true
+      break
     default:
     // do nothing
   }
