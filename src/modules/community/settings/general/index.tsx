@@ -5,6 +5,7 @@ import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { updateCommunityApi } from '@/api/communitiy'
+import { SizeEnum } from '@/constants/common.const'
 import Description from '@/modules/community/settings/general/description'
 import DisplayName from '@/modules/community/settings/general/display-name'
 import Logo from '@/modules/community/settings/general/logo'
@@ -15,6 +16,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { uploadFileForCommunity } from '@/utils/file'
 import { PositiveButton } from '@/widgets/buttons'
 import { HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
+import { Divider, Gap } from '@/widgets/separator'
 
 const VerticalFrame = tw(VerticalFullWidth)`
   w-2/3
@@ -77,12 +79,17 @@ const General: FC = () => {
   return (
     <VerticalFrame>
       <DisplayName />
+      <Gap />
       <Description />
+      <Gap />
       <Logo />
       <SocialConnection />
+      <Gap />
+      <Divider />
+      <Gap />
       <HorizontalFullWidthEnd>
-        <PositiveButton onClick={onSaveClicked} loading={loading}>
-          Save
+        <PositiveButton width={SizeEnum.x48} onClick={onSaveClicked} loading={loading}>
+          {'Save'}
         </PositiveButton>
       </HorizontalFullWidthEnd>
     </VerticalFrame>

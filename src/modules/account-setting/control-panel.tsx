@@ -70,11 +70,20 @@ const ControlPanel: FunctionComponent = () => {
     }
   }
 
+  if (!user) {
+    return <></>
+  }
+
   return (
     <MainFrame>
       <PersonVertical>
-        <CircularImage width={80} height={80} src={StorageConst.USER_DEFAULT.src} alt={'Avatar'} />
-        <LargeText>{user && user.name}</LargeText>
+        <CircularImage
+          width={80}
+          height={80}
+          src={user.avatar_url || StorageConst.USER_DEFAULT.src}
+          alt={'Avatar'}
+        />
+        <LargeText>{user.name}</LargeText>
       </PersonVertical>
       <SettingVertical>
         <SettingItemHorizontal

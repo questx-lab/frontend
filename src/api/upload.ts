@@ -20,3 +20,12 @@ export const uploadCommunityLogo = async (body: FormData): Promise<Rsp<{ url: st
   })
   return data
 }
+
+export const uploadAvatarUserApi = async (body: FormData): Promise<Rsp<{ url: string }>> => {
+  const result = await api.post(EnvVariables.API_SERVER + '/uploadAvatar', body, {
+    headers: {
+      'Content-Type': `multipart/form-data`,
+    },
+  })
+  return result.data
+}
