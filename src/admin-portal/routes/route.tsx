@@ -2,12 +2,13 @@ import { FC } from 'react'
 
 import { json, useLoaderData } from 'react-router-dom'
 
-import Login from '@/admin-portal/modules/login'
+import AdminLogin from '@/admin-portal/modules/login'
+import Portal from '@/admin-portal/modules/portal'
 import { getUserApi } from '@/api/user'
-import { EnvVariables } from '@/constants/env.const'
+import { CommunityRoleEnum } from '@/constants/common.const'
+import AdminPortalStore from '@/store/local/admin-portal'
 import { UserType } from '@/types'
 import { getUserLocal } from '@/utils/helper'
-import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export const RootLoader = async () => {
   const localUser = getUserLocal()
@@ -26,23 +27,26 @@ export const RootLoader = async () => {
   return {}
 }
 
-const PortalOrLogin: FC = () => {
-  return <></>
-}
-
 const Root: FC = () => {
   const data = useLoaderData() as {
     user: UserType
   }
 
   if (!data.user) {
-    return <Login />
+    return <AdminLogin />
+  }
+
+  if (
+    data.user.role !== CommunityRoleEnum.ADMIN &&
+    data.user.role !== CommunityRoleEnum.SUPER_ADMIN
+  ) {
+    return <AdminLogin />
   }
 
   return (
-    <GoogleOAuthProvider clientId={EnvVariables.GOOGLE_ID}>
-      <PortalOrLogin />
-    </GoogleOAuthProvider>
+    <AdminPortalStore.Provider>
+      <Portal />
+    </AdminPortalStore.Provider>
   )
 }
 
