@@ -87,7 +87,7 @@ export const Community = () => {
   // load quests
   const loadQuests = async () => {
     if (data.community && data.community.handle) {
-      const result = await listQuestApi(data.community.handle, '')
+      const result = await listQuestApi(data.community.handle, '', true)
       if (result.code === 0) {
         setQuests(result.data?.quests || [])
       } else {

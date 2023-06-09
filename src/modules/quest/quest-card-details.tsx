@@ -9,9 +9,15 @@ import { CommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
-import { Horizontal, HorizontalStartCenter, VerticalFullWidth } from '@/widgets/orientation'
+import {
+  Horizontal,
+  HorizontalBetweenCenterFullWidth,
+  HorizontalStartCenter,
+  VerticalFullWidth,
+} from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { MediumText, RewardText } from '@/widgets/text'
+import { LockClosedIcon } from '@heroicons/react/24/outline'
 
 const BorderBox = styled.div<{
   isTemplate: boolean
@@ -113,6 +119,14 @@ const CommunityFrame: FunctionComponent<{ community?: CommunityType; showCommuni
   )
 }
 
+const LockIcon: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+  if (quest.unclaimable_reason === '') {
+    return <></>
+  }
+
+  return <LockClosedIcon className='w-6 h-6 text-gray mr-2' />
+}
+
 const QuestCardDetails: FunctionComponent<{
   quest: QuestType
   isTemplate?: boolean
@@ -123,7 +137,10 @@ const QuestCardDetails: FunctionComponent<{
     <BorderBox isTemplate={isTemplate} onClick={() => onClick(quest)}>
       <CommunityFrame showCommunity={showCommunity} community={quest.community} />
       <BasicInfoFrame>
-        <TitleQuestBox>{quest.title}</TitleQuestBox>
+        <HorizontalBetweenCenterFullWidth>
+          <TitleQuestBox>{quest.title}</TitleQuestBox>
+          <LockIcon quest={quest} />
+        </HorizontalBetweenCenterFullWidth>
         <Gap height={4} />
         <Description showCommunity={showCommunity}>
           {parseHtml(quest.description ?? '')}

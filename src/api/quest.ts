@@ -15,13 +15,15 @@ export const newQuestApi = async (body: ReqNewQuestType): Promise<Rsp<{ id: stri
 
 export const listQuestApi = async (
   communityHandle: string,
-  search: string
+  search: string,
+  includeUnclaimableReason: boolean = false
 ): Promise<Rsp<LQuestType>> => {
   if (search === undefined) {
     search = ''
   }
   const { data } = await api.get(
-    EnvVariables.API_SERVER + `/getQuests?community_handle=${communityHandle}&limit=40&q=${search}`
+    EnvVariables.API_SERVER +
+      `/getQuests?community_handle=${communityHandle}&limit=40&q=${search}&include_unclaimable_reason=${includeUnclaimableReason}`
   )
   return data
 }

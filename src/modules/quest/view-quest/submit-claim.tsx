@@ -33,7 +33,7 @@ const handleSubmit = async (
   replyUrlSubmit: string,
   quizAnswers: string[],
   setLoading: (e: boolean) => void
-) => {
+): Promise<boolean> => {
   setLoading(true)
   let inp = ''
   switch (quest.type) {
@@ -66,7 +66,8 @@ const handleSubmit = async (
 
   if (quest.type === QuestTypeEnum.IMAGE && inp === '') {
     setLoading(false)
-    return
+    toast.error('Url image is invalid, please try again!')
+    return false
   }
 
   try {
@@ -77,6 +78,7 @@ const handleSubmit = async (
 
     if (data.error) {
       toast.error(data.error)
+      return false
     }
 
     if (data.data) {
@@ -85,16 +87,20 @@ const handleSubmit = async (
           toast.success('Submit quest success, we will consider your submition')
           break
         case ClaimedQuestStatus.AUTO_REJECTED:
-          toast.error('Submit failed')
-          break
+          toast.error(data.data.message || 'Your claimed auto rejected')
+          return false
+
         default:
           toast.success('Claim reward successfully')
       }
     }
   } catch (error) {
+    return false
   } finally {
     setLoading(false)
   }
+
+  return true
 }
 
 const SubmitClaim: FunctionComponent<{
@@ -122,8 +128,23 @@ const SubmitClaim: FunctionComponent<{
   const setActiveQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
 
   // handler
-  const onSubmit = () => {
-    handleSubmit(quest, fileUpload, url, textSubmit, replyUrlSubmit, quizAnswers, setLoading)
+  const onSubmit = async () => {
+    try {
+      const result = await handleSubmit(
+        quest,
+        fileUpload,
+        url,
+        textSubmit,
+        replyUrlSubmit,
+        quizAnswers,
+        setLoading
+      )
+
+      if (result) {
+        // Reload page after done claim
+        navigate(0)
+      }
+    } catch (error) {}
   }
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)
@@ -146,16 +167,19 @@ const SubmitClaim: FunctionComponent<{
     }
   }
 
-  const canClaim = canClaimQuest({
-    user,
-    quest,
-    fileUpload,
-    url,
-    textSubmit,
-    quizAnswers,
-    visitLink,
-    telegramSubmit,
-  })
+  const canClaim =
+    quest.unclaimable_reason !== ''
+      ? false
+      : canClaimQuest({
+          user,
+          quest,
+          fileUpload,
+          url,
+          textSubmit,
+          quizAnswers,
+          visitLink,
+          telegramSubmit,
+        })
 
   switch (role) {
     case CommunityRoleEnum.EDITOR:
