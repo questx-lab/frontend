@@ -6,6 +6,7 @@ import AdminLogin from '@/admin-portal/modules/login'
 import Portal from '@/admin-portal/modules/portal'
 import { getUserApi } from '@/api/user'
 import { CommunityRoleEnum } from '@/constants/common.const'
+import AdminPortalStore from '@/store/local/admin-portal'
 import { UserType } from '@/types'
 import { getUserLocal } from '@/utils/helper'
 
@@ -42,7 +43,11 @@ const Root: FC = () => {
     return <AdminLogin />
   }
 
-  return <Portal />
+  return (
+    <AdminPortalStore.Provider>
+      <Portal />
+    </AdminPortalStore.Provider>
+  )
 }
 
 export default Root
