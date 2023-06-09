@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { getUserApi, updateUserApi } from '@/api/user'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { FieldTitle } from '@/modules/create-quest/mini-widget'
 import { PaddingVertical, Title } from '@/modules/header/login'
 import { GlobalStoreModel } from '@/store/store'

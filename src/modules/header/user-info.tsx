@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 import { AuthEnum } from '@/constants/common.const'
 import InviteCommunity from '@/modules/header/invite-community'
 import Login from '@/modules/header/login'
-import { UserPopover } from '@/modules/header/user-popover'
+import UserPopover from '@/modules/header/user-popover'
 import { GlobalStoreModel } from '@/store/store'
 import BaseModal from '@/widgets/modal/base'
 import BasicModal from '@/widgets/modal/basic'
@@ -60,7 +60,7 @@ const ModalBox = tw(HorizontalCenter)`
   py-6
 `
 
-export const UserInfoBox: FunctionComponent = () => {
+const UserInfoBox: FunctionComponent = () => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const showLoginModal = useStoreState<GlobalStoreModel>((state) => state.showLoginModal)
@@ -128,3 +128,5 @@ export const UserInfoBox: FunctionComponent = () => {
     </>
   )
 }
+
+export default UserInfoBox

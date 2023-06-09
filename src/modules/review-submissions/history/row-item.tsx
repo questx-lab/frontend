@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { ClaimedQuestMap, ClaimedQuestStatus } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import {
   Details,
   FullWidth,

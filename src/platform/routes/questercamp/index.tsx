@@ -7,7 +7,7 @@ import { useDebouncedCallback } from 'use-debounce'
 
 import { listQuestApi } from '@/api/quest'
 import { RouterConst } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import QuestCardToView from '@/modules/quest/quest-card-to-view'
 import ActiveQuestStore from '@/store/local/active-quest'
 import { QuestType } from '@/types/quest'
@@ -148,7 +148,7 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
   )
 }
 
-export const Index: FunctionComponent = () => {
+const Index: FunctionComponent = () => {
   // hook
   const [query, setQuery] = useState<string>('')
 
@@ -176,3 +176,5 @@ export const Index: FunctionComponent = () => {
     </PaddingVertical>
   )
 }
+
+export default Index

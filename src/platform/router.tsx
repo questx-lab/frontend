@@ -1,27 +1,27 @@
 import DiscordCallback from '@/modules/callback/discord'
 import TwitterCallback from '@/modules/callback/twitter'
-import { Index as CommunityIndex } from '@/modules/community'
-import { Index as ReviewSubmissionIndex } from '@/modules/review-submissions'
-import { Index as AccountSettingIndex } from '@/platform/routes/account-setting/index'
-import { AccoutSetting } from '@/platform/routes/account-setting/route'
-import { Index as CommunitiesIndex } from '@/platform/routes/communities'
-import { Index as CreateQuestIndex } from '@/platform/routes/communities/community/create'
-import { CreateQuest } from '@/platform/routes/communities/community/create/route'
+import CommunityIndex from '@/modules/community'
+import ReviewSubmissionIndex from '@/modules/review-submissions'
+import AccountSettingIndex from '@/platform/routes/account-setting/index'
+import AccoutSettings from '@/platform/routes/account-setting/route'
+import CommunitiesIndex from '@/platform/routes/communities'
+import CreateQuestIndex from '@/platform/routes/communities/community/create'
+import CreateQuest from '@/platform/routes/communities/community/create/route'
 import EditQuestIndex from '@/platform/routes/communities/community/edit-quest'
 import EditQuest from '@/platform/routes/communities/community/edit-quest/route'
-import { ReviewSubmissions } from '@/platform/routes/communities/community/review-submissions/route'
-import { Community, Loader as CommunityLoader } from '@/platform/routes/communities/community/route'
-import { Index as CommunitySettingsIndex } from '@/platform/routes/communities/community/settings'
-import { Settings } from '@/platform/routes/communities/community/settings/route'
-import { Communities } from '@/platform/routes/communities/route'
-import { Index as TrendingCommunitiesIndex } from '@/platform/routes/communities/trending'
+import ReviewSubmissions from '@/platform/routes/communities/community/review-submissions/route'
+import Community, { Loader as CommunityLoader } from '@/platform/routes/communities/community/route'
+import CommunitySettingsIndex from '@/platform/routes/communities/community/settings'
+import Settings from '@/platform/routes/communities/community/settings/route'
+import Communities from '@/platform/routes/communities/route'
+import TrendingCommunitiesIndex from '@/platform/routes/communities/trending'
 import TrendingCommunity from '@/platform/routes/communities/trending/route'
-import { HomeOrLanding as HomeIndex } from '@/platform/routes/homepage'
-import { Index as QuestercampIndex } from '@/platform/routes/questercamp'
-import { Questercamp } from '@/platform/routes/questercamp/route'
-import { Index as TrendingQuestsIndex } from '@/platform/routes/questercamp/trending'
+import HomeIndex from '@/platform/routes/homepage'
+import QuestercampIndex from '@/platform/routes/questercamp'
+import Questercamp from '@/platform/routes/questercamp/route'
+import TrendingQuestsIndex from '@/platform/routes/questercamp/trending'
 import TrendingQuest from '@/platform/routes/questercamp/trending/route'
-import { Root, RootLoader } from '@/platform/routes/route'
+import Root, { RootLoader } from '@/platform/routes/route'
 
 const router = [
   {
@@ -84,7 +84,7 @@ const router = [
       },
       {
         path: 'account-setting',
-        element: <AccoutSetting />,
+        element: <AccoutSettings />,
         children: [{ index: true, element: <AccountSettingIndex /> }],
       },
     ],

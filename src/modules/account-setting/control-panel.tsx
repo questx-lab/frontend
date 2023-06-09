@@ -4,7 +4,7 @@ import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import AccountSettingsStore from '@/store/local/account-settings'
 import { GlobalStoreModel } from '@/store/store'
 import { AccoutSettingTabEnum, UserType } from '@/types'

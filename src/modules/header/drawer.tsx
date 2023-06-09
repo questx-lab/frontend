@@ -9,7 +9,7 @@ import tw from 'twin.macro'
 
 import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import CommunitiesNavigation from '@/modules/community/communities-navigation'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'

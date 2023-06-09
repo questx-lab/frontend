@@ -109,7 +109,7 @@ const DisplayNameInput: FunctionComponent<{ onValidChange: (val: boolean) => voi
   )
 }
 
-export const BasicInfo: FunctionComponent = () => {
+const BasicInfo: FunctionComponent = () => {
   // hook
   const [validDisplayName, setValidDisplayName] = useState<boolean>(false)
   const [validHandle, setHandleValid] = useState<boolean>(true)
@@ -150,3 +150,5 @@ export const BasicInfo: FunctionComponent = () => {
     </Main>
   )
 }
+
+export default BasicInfo

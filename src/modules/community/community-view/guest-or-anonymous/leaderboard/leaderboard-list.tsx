@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 
 import { getLeaderboardApi } from '@/api/communitiy'
 import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import CommunityStore from '@/store/local/community'
 import { LeaderboardType } from '@/types'
 import { CircularImage } from '@/widgets/circular-image'

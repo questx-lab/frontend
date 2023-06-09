@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import NewCommunityStore from '@/store/local/new-community'
 import { Image } from '@/widgets/image'
 
@@ -26,18 +26,6 @@ const Container = styled.div<{ dimension: number }>(({ dimension }) => {
   return `
     width: ${dimension}px
     height: ${dimension}px
-  `
-})
-
-const Overlay = styled.div<{ dimension: number }>(({ dimension }) => {
-  return `
-    width: ${dimension}px;
-    height: ${dimension}px;
-    background: white;
-    opacity: 0.4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   `
 })
 

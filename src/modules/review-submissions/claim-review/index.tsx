@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react'
 import parseHtml from 'html-react-parser'
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { BorderBox, RewardRow } from '@/modules/quest/view-quest/mini-widget'
 import ClaimInfo from '@/modules/review-submissions/claim-review/claim-info'
 import ClaimReviewStore from '@/store/local/claim-review'

@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import CommunityQuests from '@/modules/community/community-view/guest-or-anonymous/community-quests'
 import FollowCommunity from '@/modules/community/community-view/guest-or-anonymous/follow-community'
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
