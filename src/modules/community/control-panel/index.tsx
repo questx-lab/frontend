@@ -38,7 +38,7 @@ const Padding = tw.div`
   px-4
 `
 
-export const ControlPanel: FunctionComponent<{
+const ControlPanel: FunctionComponent<{
   community: CommunityType
   show: boolean
 }> = ({ community, show }) => {
@@ -71,3 +71,5 @@ export const ControlPanel: FunctionComponent<{
     </FixedFrame>
   )
 }
+
+export default ControlPanel

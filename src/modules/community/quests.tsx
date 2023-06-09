@@ -36,7 +36,7 @@ export const QuestListView: FunctionComponent<{
   return <>{questListView}</>
 }
 
-export const Quests: FunctionComponent<{
+const Quests: FunctionComponent<{
   show: boolean
   categoryTitle: string
 }> = ({ show, categoryTitle }) => {
@@ -58,3 +58,5 @@ export const Quests: FunctionComponent<{
     </>
   )
 }
+
+export default Quests

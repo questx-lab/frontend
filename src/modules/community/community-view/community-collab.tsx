@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { newQuestRoute } from '@/constants/router.const'
 import { ButtonAlignment, FullWidthCenter } from '@/modules/community/mini-widget'
-import { Quests } from '@/modules/community/quests'
+import Quests from '@/modules/community/quests'
 import Templates from '@/modules/community/templates'
 import { CreateOrEditQuest } from '@/modules/create-quest'
 import CommunityStore from '@/store/local/community'

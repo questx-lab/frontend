@@ -66,7 +66,7 @@ const PlaceHolderImage: FC<{ avatar: File | undefined; imageSize: number }> = ({
   )
 }
 
-export const AvatarUpload: FC<{ imageSize: number }> = ({ imageSize }) => {
+const AvatarUpload: FC<{ imageSize: number }> = ({ imageSize }) => {
   // data
   const avatar = AccountSettingsStore.useStoreState((state) => state.avatar)
 
@@ -99,3 +99,5 @@ export const AvatarUpload: FC<{ imageSize: number }> = ({ imageSize }) => {
     </Container>
   )
 }
+
+export default AvatarUpload

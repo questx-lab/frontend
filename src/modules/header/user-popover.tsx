@@ -58,7 +58,7 @@ const OptionxBox = tw.div`
   hover:bg-primary-100
 `
 
-export const UserPopover: FunctionComponent = () => {
+const UserPopover: FunctionComponent = () => {
   const navigate = useNavigate()
 
   // data
@@ -131,3 +131,5 @@ export const UserPopover: FunctionComponent = () => {
     </PopoverPosition>
   )
 }
+
+export default UserPopover

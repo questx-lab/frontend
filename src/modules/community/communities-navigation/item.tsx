@@ -51,7 +51,7 @@ export const Item: FunctionComponent<{
   )
 }
 
-export const FollowItem: FunctionComponent<{
+const FollowItem: FunctionComponent<{
   community: CommunityType
   active: boolean
 }> = ({ community, active }) => {
@@ -74,3 +74,5 @@ export const FollowItem: FunctionComponent<{
     </>
   )
 }
+
+export default FollowItem

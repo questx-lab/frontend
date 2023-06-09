@@ -29,18 +29,6 @@ const Container = styled.div<{ dimension: number }>(({ dimension }) => {
   `
 })
 
-const Overlay = styled.div<{ dimension: number }>(({ dimension }) => {
-  return `
-    width: ${dimension}px;
-    height: ${dimension}px;
-    background: white;
-    opacity: 0.4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `
-})
-
 const PlaceHolderImage: FC<{ avatar: File | undefined; logoUrl: string; imageSize: number }> = ({
   avatar,
   logoUrl,

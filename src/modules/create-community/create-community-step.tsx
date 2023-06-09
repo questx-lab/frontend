@@ -31,7 +31,7 @@ const WarningText = tw.span`
   text-start
 `
 
-export const CreateCommunityStep: FunctionComponent = () => {
+const CreateCommunityStep: FunctionComponent = () => {
   // data
   const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
   const inviteCode = NewCommunityStore.useStoreState((state) => state.inviteCode)
@@ -104,3 +104,5 @@ export const CreateCommunityStep: FunctionComponent = () => {
     </Main>
   )
 }
+
+export default CreateCommunityStep
