@@ -2,7 +2,7 @@ import { Fragment, FunctionComponent, ReactNode } from 'react'
 
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
 import { Horizontal, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { SmallSpinner } from '@/widgets/spinner'

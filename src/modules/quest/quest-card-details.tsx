@@ -4,7 +4,7 @@ import parseHtml from 'html-react-parser'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { CommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
 import { CircularImage } from '@/widgets/circular-image'

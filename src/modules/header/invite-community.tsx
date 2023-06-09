@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { claimReferralApi, getMyReferralInfoApi } from '@/api/reward'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { signWallet } from '@/handler/auth/metamask'
 import { GlobalStoreModel } from '@/store/store'
 import { RefferalType, UserType } from '@/types'

@@ -1,7 +1,7 @@
 import { FC, FunctionComponent } from 'react'
 
 import { SizeEnum } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { handleLoginDiscord } from '@/handler/auth/discord'
 import CommunityStore from '@/store/local/community'
 import NewCommunityStore from '@/store/local/new-community'

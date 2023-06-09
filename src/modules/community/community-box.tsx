@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { communityRoute } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { CommunityType } from '@/types/community'
 import { Image } from '@/widgets/image'
 import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'

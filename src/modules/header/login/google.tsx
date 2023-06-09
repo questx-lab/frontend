@@ -4,7 +4,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
 
 import { AuthEnum } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { SocialBox } from '@/modules/header/login'
 import { GlobalStoreModel } from '@/store/store'
 import { updateAccessToken } from '@/utils/storage'

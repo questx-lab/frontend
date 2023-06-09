@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { ButtonSocialType, ColorEnum } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { handleLoginDiscord } from '@/handler/auth/discord'
 import { SocialBox } from '@/modules/header/login'
 import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'

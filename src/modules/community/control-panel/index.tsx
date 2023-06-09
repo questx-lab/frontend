@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import QuestsTab from '@/modules/community/control-panel/quests'
 import ReviewSubmissionsTab from '@/modules/community/control-panel/review-submissions'
 import SettingsTab from '@/modules/community/control-panel/settings'

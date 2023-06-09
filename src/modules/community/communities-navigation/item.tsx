@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { communityRoute } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { CollaboratorType } from '@/types'
 import { CommunityType } from '@/types/community'
 import { CircularImage } from '@/widgets/circular-image'

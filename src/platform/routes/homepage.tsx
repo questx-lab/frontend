@@ -7,7 +7,7 @@ import tw from 'twin.macro'
 
 import { listCommunitiesApi } from '@/api/communitiy'
 import { RouterConst } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import CommunityBox from '@/modules/community/community-box'
 import LandingPage from '@/platform/routes/landing-page'
 import { GlobalStoreModel } from '@/store/store'
