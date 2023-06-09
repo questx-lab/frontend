@@ -20,6 +20,8 @@ const VerticalFrame = tw(VerticalFullWidth)`
   w-2/3
   max-2xl:px-12
   max-lg:px-6
+  py-4
+  px-36
 `
 
 const HorizontalFullWidthEnd = tw(HorizontalFullWidth)`
@@ -60,7 +62,7 @@ const General: FC = () => {
     const payload = stateToUpdateCommunityRequest(state, community.handle)
     const result = await updateCommunityApi(payload)
     if (result.code === 0 && result.data) {
-      toast.success('Community is updaetd successfully')
+      toast.success('Community is updated successfully')
 
       // update the community store
       setSelectedCommunity(result.data.community)

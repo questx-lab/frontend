@@ -12,36 +12,10 @@ import { UserType } from '@/types'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
 import { Image } from '@/widgets/image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
+import { PopItem, PopoverPosition, PopPanel } from '@/widgets/popover'
 import { Popover } from '@headlessui/react'
 
-const PopWrap = styled(Popover)(tw`
-  relative
-  z-10
-`)
-
-const AvatarBox = styled(Image)(tw`ml-4`)
-
-const PopPanel = styled(Popover.Panel)(tw`
-  divide-y
-  right-0
-  rounded-lg
-  mt-5
-  absolute z-10
-  bg-white
-  shadow-lg
-  border
-  border-solid
-  border-gray-300
-  w-[350px]
-  flex
-  flex-col
-`)
-
-const PopItem = tw(Vertical)`
-  w-full
-  py-2
-  px-4
-`
+export const AvatarBox = styled(Image)(tw`ml-4`)
 
 const UserBox = tw(Vertical)`
   w-full
@@ -102,7 +76,7 @@ export const UserPopover: FunctionComponent = () => {
   }
 
   return (
-    <PopWrap>
+    <PopoverPosition>
       <Popover.Button className={'outline-0'}>
         <AvatarBox
           width={40}
@@ -144,6 +118,6 @@ export const UserPopover: FunctionComponent = () => {
           <OptionxBox onClick={handleLogout}>{'Sign out'}</OptionxBox>
         </PopItem>
       </PopPanel>
-    </PopWrap>
+    </PopoverPosition>
   )
 }
