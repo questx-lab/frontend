@@ -1,10 +1,7 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 
-import toast from 'react-hot-toast'
-import { useLocation } from 'react-router'
 import tw from 'twin.macro'
 
-import { listQuestApi } from '@/api/quest'
 import QuestCardToView from '@/modules/quest/quest-card-to-view'
 import { OtherQuests } from '@/platform/routes/questercamp'
 import CommunityStore from '@/store/local/community'
@@ -53,43 +50,13 @@ const HighlightedQuests: FC<{ highlightedQuest: QuestType[]; loading: boolean }>
 }
 
 const CommunityQuests: FC = () => {
-  const location = useLocation()
-  const [loading, setLoading] = useState<boolean>(true)
-  const [questList, setListQuests] = useState<QuestType[]>([])
-  const [highlightedQuest, setHighlightedQuest] = useState<QuestType[]>([])
   const quests = CommunityStore.useStoreState((state) => state.quests)
 
-  useEffect(() => {
-    // Check quests was fetched before?
-    if (quests) {
-      setHighlightedQuest(quests.filter((quest) => quest.is_highlight === true))
-      setListQuests(quests ?? [])
-      setLoading(false)
-    } else {
-      getQuests()
-    }
-  }, [location, quests])
-
-  const getQuests = async () => {
-    try {
-      const id = location.pathname?.split('/').at(-1)
-      if (id) {
-        const data = await listQuestApi(id, '', true)
-        if (data.error) {
-          toast.error(data.error)
-        }
-        if (data.data) {
-          setLoading(false)
-        }
-      }
-    } catch (error) {
-      toast.error('error')
-    }
-  }
+  const highlightedQuests = quests && quests.filter((quest) => quest.is_highlight === true)
 
   return (
     <VerticalFullWidth>
-      <HighlightedQuests highlightedQuest={highlightedQuest} loading={loading} />
+      <HighlightedQuests highlightedQuest={highlightedQuests} loading={false} />
 
       <Gap />
       <Divider />
@@ -97,7 +64,7 @@ const CommunityQuests: FC = () => {
 
       <StartVertical>
         <Large2xlText>{'👋 Onboarding'}</Large2xlText>
-        <OtherQuests quests={questList} />
+        <OtherQuests quests={quests} />
       </StartVertical>
     </VerticalFullWidth>
   )
