@@ -153,9 +153,9 @@ export const getLeaderboardApi = async (
     )
 
     const data = result.data as Rsp<{ leaderboard: LeaderboardType[] }>
-    if (data && data.code === 0) {
+    if (data && data.code === 0 && data.data?.leaderboard) {
       // cache the data.
-      setCacheWithExpiration(cacheKey, data.data, Date.now() + 5 * ONE_MINUTE_MILLIS)
+      setCacheWithExpiration(cacheKey, data.data?.leaderboard, Date.now() + 5 * ONE_MINUTE_MILLIS)
     }
 
     return data

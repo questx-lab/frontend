@@ -7,6 +7,7 @@ import tw from 'twin.macro'
 import { listQuestApi } from '@/api/quest'
 import QuestCardToView from '@/modules/quest/quest-card-to-view'
 import { OtherQuests } from '@/platform/routes/questercamp'
+import CommunityStore from '@/store/local/community'
 import { QuestType } from '@/types/quest'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
@@ -56,22 +57,28 @@ const CommunityQuests: FC = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [questList, setListQuests] = useState<QuestType[]>([])
   const [highlightedQuest, setHighlightedQuest] = useState<QuestType[]>([])
+  const quests = CommunityStore.useStoreState((state) => state.quests)
 
   useEffect(() => {
-    getQuests()
-  }, [location])
+    // Check quests was fetched before?
+    if (quests) {
+      setHighlightedQuest(quests.filter((quest) => quest.is_highlight === true))
+      setListQuests(quests ?? [])
+      setLoading(false)
+    } else {
+      getQuests()
+    }
+  }, [location, quests])
 
   const getQuests = async () => {
     try {
       const id = location.pathname?.split('/').at(-1)
       if (id) {
-        const data = await listQuestApi(id, '')
+        const data = await listQuestApi(id, '', true)
         if (data.error) {
           toast.error(data.error)
         }
         if (data.data) {
-          setHighlightedQuest(data.data.quests.filter((quest) => quest.is_highlight === true))
-          setListQuests(data.data?.quests ?? [])
           setLoading(false)
         }
       }

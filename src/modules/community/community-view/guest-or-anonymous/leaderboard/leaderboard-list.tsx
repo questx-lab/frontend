@@ -79,7 +79,6 @@ const RenderLeaderboard: FunctionComponent<{
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const [leaderboard, setLeaderboard] = useState<LeaderboardType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
-
   useEffect(() => {
     getLeaderboard()
   }, [community, range])
