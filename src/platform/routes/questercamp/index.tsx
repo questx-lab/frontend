@@ -148,7 +148,7 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
   )
 }
 
-export const Index: FunctionComponent = () => {
+const Index: FunctionComponent = () => {
   // hook
   const [query, setQuery] = useState<string>('')
 
@@ -176,3 +176,5 @@ export const Index: FunctionComponent = () => {
     </PaddingVertical>
   )
 }
+
+export default Index

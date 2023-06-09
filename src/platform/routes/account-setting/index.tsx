@@ -23,7 +23,7 @@ const RenderContent: FunctionComponent = () => {
   return <General />
 }
 
-export const Index: FunctionComponent = () => {
+const Index: FunctionComponent = () => {
   return (
     <MainFrame>
       <AccountSettingsStore.Provider>
@@ -33,3 +33,5 @@ export const Index: FunctionComponent = () => {
     </MainFrame>
   )
 }
+
+export default Index

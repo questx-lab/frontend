@@ -9,7 +9,7 @@ import NewCommunityStore from '@/store/local/new-community'
 import { GlobalStoreModel } from '@/store/store'
 import { ControlPanelTab } from '@/types/community'
 
-export const Settings: FunctionComponent = () => {
+const Settings: FunctionComponent = () => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const canEdit = CommunityStore.useStoreState((action) => action.canEdit)
@@ -35,3 +35,5 @@ export const Settings: FunctionComponent = () => {
     </NewCommunityStore.Provider>
   )
 }
+
+export default Settings

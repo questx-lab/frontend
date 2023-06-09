@@ -7,7 +7,7 @@ const FullWidth = tw.div`
   w-full
 `
 
-export const Questercamp = () => {
+const Questercamp = () => {
   return (
     <LayoutWithLeftPanel>
       <FullWidth>
@@ -16,3 +16,5 @@ export const Questercamp = () => {
     </LayoutWithLeftPanel>
   )
 }
+
+export default Questercamp

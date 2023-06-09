@@ -1,5 +1,7 @@
 import { Outlet } from 'react-router-dom'
 
-export const AccoutSetting = () => {
+export const AccoutSettings = () => {
   return <Outlet />
 }
+
+export default AccoutSettings

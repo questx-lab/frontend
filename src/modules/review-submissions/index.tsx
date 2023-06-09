@@ -36,7 +36,7 @@ const ContentPadding = tw(Vertical)`
   w-full
 `
 
-export const Index: FunctionComponent = () => {
+const Index: FunctionComponent = () => {
   // data
   const submissionModal = ClaimReviewStore.useStoreState((state) => state.showClaimDetails)
   const tabReviewState = ClaimReviewStore.useStoreState((state) => state.selectedTab)
@@ -99,3 +99,5 @@ export const Index: FunctionComponent = () => {
     </VerticalFullWidth>
   )
 }
+
+export default Index

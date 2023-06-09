@@ -7,8 +7,7 @@ import { OtherCommunities } from '@/platform/routes/homepage'
 import { CommunityType } from '@/types/community'
 import Trending from '@/widgets/trending'
 
-export const Index: FunctionComponent = () => {
-  const [query, setQuery] = useState<string>('')
+const Index: FunctionComponent = () => {
   const [communities, setCommunities] = useState<CommunityType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -36,3 +35,5 @@ export const Index: FunctionComponent = () => {
     </Trending>
   )
 }
+
+export default Index

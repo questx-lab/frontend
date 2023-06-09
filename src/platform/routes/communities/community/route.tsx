@@ -49,7 +49,7 @@ const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true
   return tw``
 })
 
-export const Community = () => {
+const Community = () => {
   // TODO: handle load failure here.
   // loader data
   let data = useLoaderData() as {
@@ -134,3 +134,5 @@ export const Community = () => {
     </>
   )
 }
+
+export default Community

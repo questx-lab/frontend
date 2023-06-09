@@ -7,7 +7,7 @@ const FullWidth = tw.div`
   w-full
 `
 
-export const Communities = () => {
+const Communities = () => {
   return (
     <LayoutWithLeftPanel>
       <FullWidth>
@@ -16,3 +16,5 @@ export const Communities = () => {
     </LayoutWithLeftPanel>
   )
 }
+
+export default Communities
