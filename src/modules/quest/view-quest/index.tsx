@@ -4,7 +4,7 @@ import { useStoreState } from 'easy-peasy'
 import parseHtml from 'html-react-parser'
 import tw from 'twin.macro'
 
-import { QuestTypeEnum } from '@/constants/common.const'
+import { ColorEnum, QuestTypeEnum } from '@/constants/common.const'
 import { QuestDiscord } from '@/modules/quest/view-quest/discord'
 import QuestImage from '@/modules/quest/view-quest/image'
 import { QuestInvites } from '@/modules/quest/view-quest/invite'
@@ -13,17 +13,24 @@ import QuestReward from '@/modules/quest/view-quest/reward'
 import QuestTelegram from '@/modules/quest/view-quest/telegram'
 import { QuestText } from '@/modules/quest/view-quest/text'
 import { QuestTwitter } from '@/modules/quest/view-quest/twitter'
+import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import QuestUrl from '@/modules/quest/view-quest/url'
 import { QuestVisitLink } from '@/modules/quest/view-quest/vist-link'
 import { GlobalStoreModel } from '@/store/store'
 import { canClaimQuest, QuestType } from '@/types/quest'
-import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
+import { Horizontal, HorizontalCenter, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { MediumText } from '@/widgets/text'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 const OuterPadding = tw(Horizontal)`
   w-full
   gap-5
   p-6
+`
+
+const RelativeFrame = tw.div`
+  relative
+  w-full
 `
 
 const ContextFrame = tw(Vertical)`
@@ -35,13 +42,39 @@ const ContextFrame = tw(Vertical)`
   border-solid
   border-gray-300
   rounded-lg
-  w-2/3
+  w-full
   p-6
+`
+
+const BlockBox = tw(HorizontalCenter)`
+  absolute
+  items-start
+  w-full
+  h-full
+  rounded-lg
+  bg-[rgba(0, 0, 0, 0.5)]
+  py-4
+  px-6
 `
 
 const ContentPadding = tw(VerticalFullWidth)`
   gap-3
 `
+
+const BlockContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+  if (quest.unclaimable_reason === '') {
+    return <></>
+  }
+
+  return (
+    <BlockBox>
+      <ColorBox boxColor={ColorEnum.DANGER}>
+        <ExclamationTriangleIcon className='w-7 h-7 text-danger' />
+        {quest.unclaimable_reason}
+      </ColorBox>
+    </BlockBox>
+  )
+}
 
 const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   const { quizzes } = quest.validation_data || {}
@@ -87,12 +120,15 @@ const Index: FunctionComponent<{
 }> = ({ quest }) => {
   return (
     <OuterPadding>
-      <ContextFrame>
-        <ContentPadding>
-          <MediumText>{parseHtml(quest.description ?? '')}</MediumText>
-          <QuestContent quest={quest} />
-        </ContentPadding>
-      </ContextFrame>
+      <RelativeFrame>
+        <BlockContent quest={quest} />
+        <ContextFrame>
+          <ContentPadding>
+            <MediumText>{parseHtml(quest.description ?? '')}</MediumText>
+            <QuestContent quest={quest} />
+          </ContentPadding>
+        </ContextFrame>
+      </RelativeFrame>
 
       <QuestReward quest={quest} />
     </OuterPadding>

@@ -26,7 +26,7 @@ const CommunityContent: FunctionComponent = () => {
   return <CommunityGuestOrAnonymous />
 }
 
-export const Index: FunctionComponent = () => {
+const Index: FunctionComponent = () => {
   // data
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const location = useLocation()
@@ -52,3 +52,5 @@ export const Index: FunctionComponent = () => {
     </OuterBoxPadding>
   )
 }
+
+export default Index

@@ -56,7 +56,7 @@ const SocialInput = tw.input`
   rounded-lg
 `
 
-export const SetTwitterDiscordStep: FunctionComponent = () => {
+const SetTwitterDiscordStep: FunctionComponent = () => {
   // data
   const twitterUrl = NewCommunityStore.useStoreState((state) => state.twitterUrl)
   const websiteUrl = NewCommunityStore.useStoreState((state) => state.websiteUrl)
@@ -95,3 +95,5 @@ export const SetTwitterDiscordStep: FunctionComponent = () => {
     </Main>
   )
 }
+
+export default SetTwitterDiscordStep

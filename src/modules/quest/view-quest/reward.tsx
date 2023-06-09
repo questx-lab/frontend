@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { BorderBox, RewardRow } from '@/modules/quest/view-quest/mini-widget'
 import SubmitClaim from '@/modules/quest/view-quest/submit-claim'
 import { QuestType } from '@/types/quest'

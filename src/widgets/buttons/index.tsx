@@ -36,6 +36,7 @@ const BaseStyle = styled.button<{
       justify-center
       items-center
       outline-0
+      gap-2
     `,
   ]
 

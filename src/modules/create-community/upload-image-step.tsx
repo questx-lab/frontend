@@ -14,7 +14,7 @@ import { uploadFileForCommunity } from '@/utils/file'
 import { PositiveButton } from '@/widgets/buttons'
 import { LabelInput } from '@/widgets/text'
 
-export const UploadImageStep: FunctionComponent = () => {
+const UploadImageStep: FunctionComponent = () => {
   // hook
   const [loading, setLoading] = useState<boolean>(false)
   const navigator = useNavigate()
@@ -76,3 +76,5 @@ export const UploadImageStep: FunctionComponent = () => {
     </Main>
   )
 }
+
+export default UploadImageStep

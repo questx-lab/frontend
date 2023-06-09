@@ -8,7 +8,7 @@ import tw from 'twin.macro'
 import { getCommunityApi } from '@/api/communitiy'
 import { getTemplatesApi, listQuestApi } from '@/api/quest'
 import { CommunityRoleEnum } from '@/constants/common.const'
-import { ControlPanel } from '@/modules/community/control-panel'
+import ControlPanel from '@/modules/community/control-panel'
 import ActiveQuestStore from '@/store/local/active-quest'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
@@ -49,7 +49,7 @@ const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true
   return tw``
 })
 
-export const Community = () => {
+const Community = () => {
   // TODO: handle load failure here.
   // loader data
   let data = useLoaderData() as {
@@ -87,7 +87,7 @@ export const Community = () => {
   // load quests
   const loadQuests = async () => {
     if (data.community && data.community.handle) {
-      const result = await listQuestApi(data.community.handle, '')
+      const result = await listQuestApi(data.community.handle, '', true)
       if (result.code === 0) {
         setQuests(result.data?.quests || [])
       } else {
@@ -134,3 +134,5 @@ export const Community = () => {
     </>
   )
 }
+
+export default Community

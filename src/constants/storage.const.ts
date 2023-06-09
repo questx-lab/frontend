@@ -1,4 +1,4 @@
-export const StorageConst = {
+const StorageConst = {
   APP_LOGO_DIR: {
     src: '/images/logos/app_logo.svg',
     alt: 'Logo',
@@ -132,3 +132,5 @@ export const StorageConst = {
     alt: 'User Default',
   },
 }
+
+export default StorageConst

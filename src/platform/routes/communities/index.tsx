@@ -67,7 +67,7 @@ const NewCommunity: FunctionComponent<{
   )
 }
 
-export const Index: FunctionComponent = () => {
+const Index: FunctionComponent = () => {
   // hook
   const [isOpen, setOpen] = useState<boolean>(false)
   const [query, setQuery] = useState<string>('')
@@ -105,3 +105,5 @@ export const Index: FunctionComponent = () => {
     </PaddingVertical>
   )
 }
+
+export default Index
