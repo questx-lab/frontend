@@ -93,7 +93,12 @@ export const UserPopover: FunctionComponent = () => {
       <PopPanel>
         <PopItem>
           <UserBox>
-            <Avatar width={80} height={80} src={StorageConst.USER_DEFAULT.src} alt={'Avatar'} />
+            <Avatar
+              width={80}
+              height={80}
+              src={user.avatar_url || StorageConst.USER_DEFAULT.src}
+              alt={'Avatar'}
+            />
             <RowBox>
               <NameText>{user.name}</NameText>
             </RowBox>
