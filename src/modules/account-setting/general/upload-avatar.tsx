@@ -1,11 +1,14 @@
 import { FC } from 'react'
 
+import { useStoreState } from 'easy-peasy'
 import Dropzone from 'react-dropzone'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { StorageConst } from '@/constants/storage.const'
-import NewCommunityStore from '@/store/local/new-community'
+import AccountSettingsStore from '@/store/local/account-settings'
+import { GlobalStoreModel } from '@/store/store'
+import { UserType } from '@/types'
 import { Image } from '@/widgets/image'
 
 const SectionUploadImg = tw.section`
@@ -29,24 +32,13 @@ const Container = styled.div<{ dimension: number }>(({ dimension }) => {
   `
 })
 
-const Overlay = styled.div<{ dimension: number }>(({ dimension }) => {
-  return `
-    width: ${dimension}px;
-    height: ${dimension}px;
-    background: white;
-    opacity: 0.4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `
-})
-
-const PlaceHolderImage: FC<{ avatar: File | undefined; logoUrl: string; imageSize: number }> = ({
+const PlaceHolderImage: FC<{ avatar: File | undefined; imageSize: number }> = ({
   avatar,
-  logoUrl,
   imageSize,
 }) => {
-  const hasLogoOrFile: boolean = avatar !== undefined || logoUrl !== ''
+  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+
+  const hasLogoOrFile: boolean = avatar !== undefined || user.avatar_url !== ''
   if (hasLogoOrFile) {
     return (
       <>
@@ -54,11 +46,9 @@ const PlaceHolderImage: FC<{ avatar: File | undefined; logoUrl: string; imageSiz
           width={imageSize}
           height={imageSize}
           src={
-            (avatar && (avatar as any).preview) ||
-            (logoUrl && logoUrl) ||
-            StorageConst.UPLOAD_IMG.src
+            (avatar && (avatar as any).preview) || user.avatar_url || StorageConst.USER_DEFAULT.src
           }
-          alt={StorageConst.UPLOAD_IMG.alt}
+          alt={StorageConst.USER_DEFAULT.alt}
           className=' object-cover rounded-lg'
         />
       </>
@@ -69,9 +59,7 @@ const PlaceHolderImage: FC<{ avatar: File | undefined; logoUrl: string; imageSiz
     <Image
       width={imageSize}
       height={imageSize}
-      src={
-        (avatar && (avatar as any).preview) || (logoUrl && logoUrl) || StorageConst.UPLOAD_IMG.src
-      }
+      src={(avatar && (avatar as any).preview) || StorageConst.UPLOAD_IMG.src}
       alt={StorageConst.UPLOAD_IMG.alt}
       className=' object-cover '
     />
@@ -80,11 +68,10 @@ const PlaceHolderImage: FC<{ avatar: File | undefined; logoUrl: string; imageSiz
 
 export const AvatarUpload: FC<{ imageSize: number }> = ({ imageSize }) => {
   // data
-  const avatar = NewCommunityStore.useStoreState((state) => state.avatar)
-  const logoUrl = NewCommunityStore.useStoreState((state) => state.logoUrl)
+  const avatar = AccountSettingsStore.useStoreState((state) => state.avatar)
 
   // action
-  const setAvatar = NewCommunityStore.useStoreActions((action) => action.setAvatar)
+  const setAvatar = AccountSettingsStore.useStoreActions((action) => action.setAvatar)
 
   return (
     <Container dimension={imageSize}>
@@ -105,7 +92,7 @@ export const AvatarUpload: FC<{ imageSize: number }> = ({ imageSize }) => {
             })}
           >
             <UploadInput {...getInputProps()} />
-            <PlaceHolderImage avatar={avatar} logoUrl={logoUrl} imageSize={imageSize} />
+            <PlaceHolderImage avatar={avatar} imageSize={imageSize} />
           </SectionUploadImg>
         )}
       </Dropzone>

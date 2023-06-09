@@ -1,26 +1,57 @@
-import { FC } from 'react'
+import { FC, FunctionComponent } from 'react'
 
-import tw from 'twin.macro'
-
+import { SizeEnum } from '@/constants/common.const'
+import { StorageConst } from '@/constants/storage.const'
+import { handleLoginDiscord } from '@/handler/auth/discord'
+import CommunityStore from '@/store/local/community'
 import NewCommunityStore from '@/store/local/new-community'
+import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import { TextField } from '@/widgets/form'
-import { HorizontalFullWidth, Vertical } from '@/widgets/orientation'
+import { Image } from '@/widgets/image'
+import { VerticalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { HeaderText3 } from '@/widgets/text'
 
-const LeftColumn = tw(Vertical)`
-  w-full
-  pr-2
-`
+const DiscordConnect: FunctionComponent = () => {
+  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
-// TODO: Finish linking community's Twitter, Discord page.
-const RightColumn = tw(Vertical)`
-  w-1/2
-  pl-2
-`
+  if (community.discord !== '') {
+    return (
+      <PositiveButton block width={SizeEnum.x64}>
+        <Image
+          width={30}
+          height={30}
+          src={StorageConst.DISCORD_DIR.src}
+          alt={StorageConst.DISCORD_DIR.alt}
+        />
+        {community.discord}
+      </PositiveButton>
+    )
+  }
+
+  return (
+    <PositiveButton
+      onClick={() =>
+        handleLoginDiscord({
+          joinCommunity: true,
+          communityHandle: community.handle,
+        })
+      }
+      type={ButtonTypeEnum.NEGATIVE}
+      width={SizeEnum.x64}
+    >
+      <Image
+        width={30}
+        height={30}
+        src={StorageConst.DISCORD_DIR.src}
+        alt={StorageConst.DISCORD_DIR.alt}
+      />
+      {'Connect Discord'}
+    </PositiveButton>
+  )
+}
 
 const SocialConnection: FC = () => {
-  // TODO: Complete this
   // data
   const websiteUrl = NewCommunityStore.useStoreState((state) => state.websiteUrl)
 
@@ -28,29 +59,16 @@ const SocialConnection: FC = () => {
   const setWebsiteUrl = NewCommunityStore.useStoreActions((action) => action.setWebsiteUrl)
 
   return (
-    <HorizontalFullWidth>
-      <LeftColumn>
-        <HeaderText3>WEBSITE URL</HeaderText3>
+    <VerticalFullWidth>
+      <VerticalFullWidth>
+        <HeaderText3>{'WEBSITE URL'}</HeaderText3>
         <TextField value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)}></TextField>
         <Gap height={6} />
-      </LeftColumn>
+      </VerticalFullWidth>
 
-      {
-        // TODO: Finish linking community's Twitter, Discord page.
-        /* <RightColumn>
-        <HeaderText3>TWITTER</HeaderText3>
-        <SocialButton btnType={ButtonSocialType.TWITTER} onClick={() => {}}>
-          <Image
-            width={30}
-            height={30}
-            src={StorageConst.TWITTER_DIR.src}
-            alt={StorageConst.TWITTER_DIR.alt}
-          />
-          {'Connect Twitter'}
-        </SocialButton>
-      </RightColumn> */
-      }
-    </HorizontalFullWidth>
+      <HeaderText3>{'SOCIAL CONNECTION'}</HeaderText3>
+      <DiscordConnect />
+    </VerticalFullWidth>
   )
 }
 

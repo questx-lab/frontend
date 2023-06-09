@@ -10,6 +10,7 @@ import { StorageConst } from '@/constants/storage.const'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
+import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { PopItem, PopoverPosition, PopPanel } from '@/widgets/popover'
@@ -75,13 +76,17 @@ export const UserPopover: FunctionComponent = () => {
     navigate(RouterConst.HOME)
   }
 
+  if (!user) {
+    return <></>
+  }
+
   return (
     <PopoverPosition>
       <Popover.Button className={'outline-0'}>
-        <AvatarBox
+        <CircularImage
           width={40}
           height={40}
-          src={StorageConst.USER_DEFAULT.src}
+          src={user.avatar_url || StorageConst.USER_DEFAULT.src}
           alt={StorageConst.USER_DEFAULT.alt}
         />
       </Popover.Button>
@@ -90,7 +95,7 @@ export const UserPopover: FunctionComponent = () => {
           <UserBox>
             <Avatar width={80} height={80} src={StorageConst.USER_DEFAULT.src} alt={'Avatar'} />
             <RowBox>
-              <NameText>{user && user.name}</NameText>
+              <NameText>{user.name}</NameText>
             </RowBox>
           </UserBox>
         </PopItem>
