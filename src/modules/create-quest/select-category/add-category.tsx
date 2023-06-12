@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { createCategoryApi, getCategoriesApi } from '@/api/communitiy'
+import { createCategoryApi } from '@/api/communitiy'
 import CommunityStore from '@/store/local/community'
 import { InputBox } from '@/widgets/form'
 import { Horizontal } from '@/widgets/orientation'
@@ -82,34 +82,29 @@ const AddCategoryButton = styled.button<{ block?: boolean }>(({ block = true }) 
 const AddCategory: FunctionComponent = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [name, setName] = useState<string>('')
+
+  // data
+  const categories = CommunityStore.useStoreState((state) => state.categories)
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
+
+  // action
   const setCategories = CommunityStore.useStoreActions((action) => action.setCategories)
 
   const addCategory = async () => {
     try {
       const result = await createCategoryApi(selectedCommunity.handle, name)
+
       if (result.error) {
         toast.error(result.error)
-      } else {
-        fetchCategory()
       }
+      if (result.data && result.data.category) {
+        setCategories([...categories, result.data.category])
+      }
+
       setShowMenu(false)
     } catch (error) {
       toast.error('Server error')
     }
-  }
-
-  const fetchCategory = async () => {
-    try {
-      const result = await getCategoriesApi(selectedCommunity.handle)
-      if (result.error) {
-        toast.error(result.error)
-      }
-
-      if (result.data && result.data?.categories) {
-        setCategories(result.data?.categories)
-      }
-    } catch (error) {}
   }
 
   return (

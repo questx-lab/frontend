@@ -182,7 +182,7 @@ export const getInviteApi = async (
 export const createCategoryApi = async (
   communityHandle: string,
   name: string
-): Promise<Rsp<{}>> => {
+): Promise<Rsp<{ category: CategoryType }>> => {
   const rs = await api.post(EnvVariables.API_SERVER + '/createCategory', {
     community_handle: communityHandle,
     name,

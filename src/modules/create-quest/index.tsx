@@ -21,6 +21,7 @@ import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
 import ProgressModal from '@/widgets/modal/progress'
 import { Horizontal, Vertical } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
 
 const BodyFrame = styled(Horizontal)<{ isTemplate?: boolean }>(({ isTemplate = false }) => {
@@ -142,6 +143,7 @@ export const CreateOrEditQuest: FunctionComponent<{
                 onChange={(e) => setTitle(e.target.value)}
                 msg='You must have a quest title to create this quest.'
               />
+              <Gap />
               <Label>{'QUEST DESCRIPTION'}</Label>
               <Editor
                 onChange={(value) => {
