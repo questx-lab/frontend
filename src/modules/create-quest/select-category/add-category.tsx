@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { createCategoryApi, getCategoriesApi } from '@/api/communitiy'
-import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import CommunityStore from '@/store/local/community'
+import { InputBox } from '@/widgets/form'
 import { Horizontal } from '@/widgets/orientation'
 import { Menu } from '@headlessui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
@@ -45,28 +45,15 @@ const MenuItem = styled(Menu.Items)<{ isshow: boolean }>(({ isshow }) => {
   return styles
 })
 
+const Input = tw(InputBox)`
+  !p-[6px]
+`
+
 const GapHorizontal = tw(Horizontal)`
   p-2
   w-full
   gap-3
 `
-
-const Input = tw.input`
-  py-2
-  px-4
-  text-sm
-  font-normal
-  text-black
-  border
-  border-solid
-  border-gray-200
-  rounded-lg
-  w-full
-  outline-primary
-  
-`
-
-const PointerColorBox = tw(ColorBox)`cursor-pointer text-sm `
 
 const AddCategoryButton = styled.button<{ block?: boolean }>(({ block = true }) => {
   const styles = [

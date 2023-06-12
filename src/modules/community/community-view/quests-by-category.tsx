@@ -15,13 +15,11 @@ const RenderQuestsByCategory: FunctionComponent = () => {
   if (!categories) {
     return <></>
   }
-  console.log('quests', quests)
 
   const listQuests =
     quests &&
     categories.map((category) => {
       const questsFilter = quests.filter((quest) => quest.category.id === category.id)
-      console.log('questsFilter', questsFilter)
       return <Quests quests={questsFilter} show={true} categoryTitle={category.name} />
     })
 
@@ -50,8 +48,14 @@ const QuestsByCategory: FunctionComponent = () => {
 
   // hook
   useEffect(() => {
-    fetchCategory()
+    if (selectedCommunity.handle !== '') {
+      fetchCategory()
+    }
   }, [selectedCommunity])
+
+  if (!selectedCommunity) {
+    return <></>
+  }
 
   const fetchCategory = async () => {
     try {
