@@ -150,9 +150,14 @@ const SubmitClaim: FC<{
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)
 
   const onEdit = () => {
-    setEditQuest(quest)
-    setActiveQuest(emptyQuest())
-    navigate(editQuestRoute(quest.community.handle))
+    switch (role) {
+      case CommunityRoleEnum.EDITOR:
+      case CommunityRoleEnum.OWNER:
+        setEditQuest(quest)
+        setActiveQuest(emptyQuest())
+        navigate(editQuestRoute(quest.community.handle))
+        break
+    }
   }
 
   const onDeleteConfirmed = async () => {
