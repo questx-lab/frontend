@@ -3,7 +3,7 @@ import { Fragment, FunctionComponent, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
 import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import { HorizontalStartCenter } from '@/widgets/orientation'

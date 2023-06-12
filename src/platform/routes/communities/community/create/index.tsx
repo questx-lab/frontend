@@ -6,7 +6,7 @@ import { communityRoute } from '@/constants/router.const'
 import { CreateOrEditQuest } from '@/modules/create-quest'
 import CommunityStore from '@/store/local/community'
 
-export const Index: FunctionComponent = () => {
+const Index: FunctionComponent = () => {
   // data
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
@@ -21,3 +21,5 @@ export const Index: FunctionComponent = () => {
     ></CreateOrEditQuest>
   )
 }
+
+export default Index

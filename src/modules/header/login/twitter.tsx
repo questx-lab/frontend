@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { useStoreState } from 'easy-peasy'
 
 import { AuthEnum } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { handleLoginTwitter } from '@/handler/auth/twitter'
 import { SocialBox } from '@/modules/header/login'
 import { GlobalStoreModel } from '@/store/store'

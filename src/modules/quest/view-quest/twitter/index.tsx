@@ -4,7 +4,7 @@ import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
 import { ButtonSocialType, QuestTypeEnum, TwitterEnum } from '@/constants/common.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { handleLoginTwitter } from '@/handler/auth/twitter'
 import QuestTwitterAction from '@/modules/quest/view-quest/twitter/action'
 import { GlobalStoreModel } from '@/store/store'

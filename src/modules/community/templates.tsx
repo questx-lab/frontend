@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react'
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
-import { QuestCardToTemplate } from '@/modules/quest/quest-card-to-template'
+import QuestCardToTemplate from '@/modules/quest/quest-card-to-template'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestType } from '@/types/quest'
 import { GrayBorderBox } from '@/widgets/box'

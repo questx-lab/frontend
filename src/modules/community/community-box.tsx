@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { communityRoute } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { CommunityType } from '@/types/community'
 import { Image } from '@/widgets/image'
 import { Horizontal, Vertical, VerticalBetween } from '@/widgets/orientation'
@@ -50,11 +50,6 @@ const Info = tw.div`
   3xl:py-2
 `
 
-const Bottom = tw(Horizontal)`
-  w-full
-  items-center
-`
-
 const CommunityBoxWrap = tw(VerticalBetween)`
   cursor-pointer
   p-5
@@ -75,18 +70,6 @@ const CommunityBoxWrap = tw(VerticalBetween)`
 const Top = tw(Vertical)`
   w-full
   h-full
-`
-
-const RewardBox = tw(Horizontal)`
-  gap-1
-  items-center
-`
-
-const RewardText = tw.span`
-  text-[#FF7B05]
-  text-sm
-  font-medium
-  3xl:text-xl
 `
 
 const Title = tw.p`

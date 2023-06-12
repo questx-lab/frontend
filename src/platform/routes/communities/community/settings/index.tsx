@@ -5,7 +5,7 @@ import CommunityStore from '@/store/local/community'
 import NewCommunityStore from '@/store/local/new-community'
 import { ControlPanelTab } from '@/types/community'
 
-export const Index: FunctionComponent = () => {
+const Index: FunctionComponent = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const setCommunity = NewCommunityStore.useStoreActions((action) => action.setCommunity)
   const setActiveControlPanelTab = CommunityStore.useStoreActions(
@@ -22,3 +22,5 @@ export const Index: FunctionComponent = () => {
 
   return <CommunitySettings />
 }
+
+export default Index

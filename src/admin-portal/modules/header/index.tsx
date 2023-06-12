@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { HeaderBox } from '@/modules/header'
 import { AvatarBox } from '@/modules/header/user-popover'
 import { GlobalStoreModel } from '@/store/store'

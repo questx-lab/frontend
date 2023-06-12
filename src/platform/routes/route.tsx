@@ -49,7 +49,7 @@ const OverscrollY = tw.div`
   overflow-scroll
 `
 
-export const Root: FunctionComponent = () => {
+const Root: FunctionComponent = () => {
   // props
   const data = useLoaderData() as {
     myCommunities: CollaboratorType[]
@@ -90,3 +90,5 @@ export const Root: FunctionComponent = () => {
     </>
   )
 }
+
+export default Root

@@ -7,7 +7,7 @@ import { OtherQuests } from '@/platform/routes/questercamp'
 import { QuestType } from '@/types/quest'
 import Trending from '@/widgets/trending'
 
-export const Index: FunctionComponent = () => {
+const Index: FunctionComponent = () => {
   const [query, setQuery] = useState<string>('')
   const [quests, setQuests] = useState<QuestType[]>([])
   const [initQuests, setInitQuests] = useState<QuestType[]>([])
@@ -46,3 +46,5 @@ export const Index: FunctionComponent = () => {
     </Trending>
   )
 }
+
+export default Index

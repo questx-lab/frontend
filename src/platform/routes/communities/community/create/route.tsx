@@ -6,7 +6,7 @@ import { CommunityRoleEnum } from '@/constants/common.const'
 import { communityRoute } from '@/constants/router.const'
 import CommunityStore from '@/store/local/community'
 
-export const CreateQuest: FunctionComponent = () => {
+const CreateQuest: FunctionComponent = () => {
   const navigate = useNavigate()
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const role = CommunityStore.useStoreState((state) => state.role)
@@ -18,3 +18,5 @@ export const CreateQuest: FunctionComponent = () => {
 
   return <Outlet />
 }
+
+export default CreateQuest
