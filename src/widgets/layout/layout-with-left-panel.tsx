@@ -10,7 +10,7 @@ import { Horizontal } from '@/widgets/orientation'
 
 const TopMargin = tw(Horizontal)`
   min-h-screen
-  pt-[70px]
+  pt-[64px]
 `
 
 export const MainContent = tw.div`

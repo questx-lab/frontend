@@ -9,7 +9,7 @@ export const SocialButton = styled.button<{ btnType?: number; isFull?: boolean }
       tw`
         border
         border-solid
-        text-lg
+        text-sm
         font-medium
         bg-white
         py-2

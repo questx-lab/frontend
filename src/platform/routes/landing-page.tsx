@@ -21,7 +21,7 @@ import {
   VerticalCenter,
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
-import { LargeText, NormalText } from '@/widgets/text'
+import { NormalText, TextXl } from '@/widgets/text'
 
 const Wrap = tw(Vertical)`
   min-h-screen
@@ -51,7 +51,7 @@ const HeadBody = tw(Vertical)`
 
 const HeadBox = tw(HorizontalBetweenCenter)`
   w-full
-  max-md:pt-[70px]
+  max-md:pt-[64px]
   max-md:flex-col-reverse
 `
 
@@ -76,7 +76,7 @@ const Title = tw.span`
   max-md:text-4xl
 `
 
-const Description = tw(LargeText)`
+const Description = tw(TextXl)`
   text-gray-700
   font-normal
   3xl:text-3xl
@@ -178,7 +178,7 @@ const RewardView: FunctionComponent<{
   return (
     <RewardBox>
       <Image width={600} height={600} src={imgSrc} alt={'logo'} />
-      <LargeText>{name}</LargeText>
+      <TextXl>{name}</TextXl>
       <RewardTextText>{des}</RewardTextText>
     </RewardBox>
   )

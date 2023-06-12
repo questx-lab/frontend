@@ -8,7 +8,7 @@ import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
 import { HorizontalStartCenter } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
-import { Large3xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
 const TitleBox = tw(HorizontalStartCenter)`
   px-12
@@ -35,7 +35,7 @@ const TopLabel: FunctionComponent<{
           alt={StorageConst.ARROW_BACK_ICON.alt}
         />
         <Gap width={3} />
-        <Large3xlText>{title}</Large3xlText>
+        <Text2xl>{title}</Text2xl>
       </TitleBox>
     </>
   )

@@ -7,7 +7,7 @@ import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
 import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import { HorizontalStartCenter } from '@/widgets/orientation'
-import { Large3xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
 import { SmallSpinner } from './spinner'
 
@@ -38,7 +38,7 @@ const TopLabel: FunctionComponent<{ title: string }> = ({ title }) => {
           src={StorageConst.ARROW_BACK_ICON.src}
           alt={StorageConst.ARROW_BACK_ICON.alt}
         />
-        <Large3xlText>{title}</Large3xlText>
+        <Text2xl>{title}</Text2xl>
       </TitleBox>
     </>
   )

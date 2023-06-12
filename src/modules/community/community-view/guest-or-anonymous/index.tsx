@@ -17,7 +17,7 @@ import {
   Vertical,
   VerticalFullWidth,
 } from '@/widgets/orientation'
-import { Large2xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
 const Content = tw(Vertical)`
   max-sm:px-2
@@ -132,14 +132,14 @@ const CommunityGuestOrAnonymous: FC = () => {
     <Content>
       <PaddingHorizontal>
         <CircularImage
-          width={250}
-          height={250}
+          width={200}
+          height={200}
           src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
           alt={StorageConst.COMMUNITY_DEFAULT.alt}
         />
         <FullWidthHorizontal>
           <VerticalCenter>
-            <Large2xlText>{community.display_name}</Large2xlText>
+            <Text2xl>{community.display_name}</Text2xl>
             <Introduce>{community.introduction}</Introduce>
             <HorizontalStartCenter>
               <TwitterLink twitterUrl={community.twitter} />
