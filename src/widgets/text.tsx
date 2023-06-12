@@ -40,48 +40,6 @@ export const MediumText = tw.div`
   max-sm:text-sm
 `
 
-export const TextXs = tw.div`
-  text-xs
-  text-gray-900
-  font-normal
-  max-md:text-lg
-`
-
-export const TextSm = tw.div`
-  text-sm
-  text-gray-900
-  font-normal
-  max-md:text-lg
-`
-
-export const TextBase = tw.div`
-  text-lg
-  text-gray-900
-  font-normal
-  max-md:text-lg
-`
-
-export const TextXl = tw.div`
-  text-xl
-  text-gray-900
-  font-medium
-  max-md:text-lg
-`
-
-export const Text2xl = tw.div`
-  text-2xl
-  text-gray-900
-  font-medium
-  max-md:text-lg
-`
-
-export const Text4xl = tw.div`
-  text-4xl
-  text-gray-900
-  font-medium
-  max-md:text-lg
-`
-
 export const Label = tw.div`
   flex
   flex-row
@@ -151,4 +109,46 @@ export const HeaderText3 = tw.div`
   text-lg
   font-medium
   text-black
+`
+
+export const TextXs = tw.div`
+  text-xs
+  text-gray-900
+  font-normal
+  max-md:text-lg
+`
+
+export const TextSm = tw.div`
+  text-sm
+  text-gray-900
+  font-normal
+  max-md:text-lg
+`
+
+export const TextBase = tw.div`
+  text-lg
+  text-gray-900
+  font-normal
+  max-md:text-lg
+`
+
+export const TextXl = tw.div`
+  text-xl
+  text-gray-900
+  font-medium
+  max-md:text-lg
+`
+
+export const Text2xl = tw.div`
+  text-2xl
+  text-gray-900
+  font-medium
+  max-md:text-lg
+`
+
+export const Text4xl = tw.div`
+  text-4xl
+  text-gray-900
+  font-medium
+  max-md:text-lg
 `
