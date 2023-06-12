@@ -7,7 +7,7 @@ import { ControlPanelTab } from '@/admin-portal/types/control-panel-tab'
 import { Tab } from '@/modules/community/control-panel/mini-widgets'
 import AdminPortalStore from '@/store/local/admin-portal'
 
-const TemplatesTab: FC = () => {
+const BadgesTab: FC = () => {
   // data
   const activeTab = AdminPortalStore.useStoreState((state) => state.activeTab)
 
@@ -16,15 +16,15 @@ const TemplatesTab: FC = () => {
   return (
     <Tab
       onClick={() => {
-        if (activeTab !== ControlPanelTab.TEMPLATES) {
-          navigate(AdminRoutes.TEMPLATES)
+        if (activeTab !== ControlPanelTab.BADGES) {
+          navigate(AdminRoutes.BADGES)
         }
       }}
-      active={activeTab === ControlPanelTab.TEMPLATES}
+      active={activeTab === ControlPanelTab.BADGES}
     >
-      {'Templates'}
+      {'Badges'}
     </Tab>
   )
 }
 
-export default TemplatesTab
+export default BadgesTab
