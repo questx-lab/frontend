@@ -10,7 +10,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { AccoutSettingTabEnum, UserType } from '@/types'
 import { CircularImage } from '@/widgets/circular-image'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
-import { LargeText } from '@/widgets/text'
+import { TextXl } from '@/widgets/text'
 
 const MainFrame = tw(Vertical)`
   fixed
@@ -83,7 +83,7 @@ const ControlPanel: FunctionComponent = () => {
           src={user.avatar_url || StorageConst.USER_DEFAULT.src}
           alt={'Avatar'}
         />
-        <LargeText>{user.name}</LargeText>
+        <TextXl>{user.name}</TextXl>
       </PersonVertical>
       <SettingVertical>
         <SettingItemHorizontal

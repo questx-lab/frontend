@@ -17,7 +17,7 @@ import { CircularImage } from '@/widgets/circular-image'
 import BasicModal from '@/widgets/modal/basic'
 import { VerticalFullWidthCenter } from '@/widgets/orientation'
 import { SmallSpinner } from '@/widgets/spinner'
-import { Large3xlText, LargeText } from '@/widgets/text'
+import { Text2xl, TextXl } from '@/widgets/text'
 
 const Content = tw(VerticalFullWidthCenter)`
   w-full
@@ -26,7 +26,7 @@ const Content = tw(VerticalFullWidthCenter)`
   p-4
 `
 
-const PrimaryLargeText = tw(Large3xlText)`
+const PrimaryTextXl = tw(Text2xl)`
   text-primary
   font-bold
   line-clamp-1
@@ -50,7 +50,7 @@ const CommunityContent: FunctionComponent<{ community: CommunityType | undefined
         height={80}
         src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
       />
-      <PrimaryLargeText>{community.display_name}</PrimaryLargeText>
+      <PrimaryTextXl>{community.display_name}</PrimaryTextXl>
     </VerticalFullWidthCenter>
   )
 }
@@ -184,7 +184,7 @@ const InviteModal: FunctionComponent<{ inviteCode: string; community: CommunityT
       styled={'flex flex-col !justify-start !items-start !w-[500px] !h-[300px]'}
     >
       <Content>
-        <LargeText>{'You have been invited to join'}</LargeText>
+        <TextXl>{'You have been invited to join'}</TextXl>
         <CommunityContent community={community} />
         <ActionButton community={community} userInvite={userInvite} onChangeModal={onChangeModal} />
       </Content>

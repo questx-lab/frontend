@@ -66,3 +66,10 @@ export const OptionxBox = tw.div`
   rounded-lg
   hover:bg-primary-100
 `
+
+export const PopoverButton = tw(Popover.Button)`
+  flex
+  justify-center
+  items-center
+  outline-0
+`

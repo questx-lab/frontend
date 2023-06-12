@@ -13,8 +13,7 @@ import { clearLocalStorage, delCookies } from '@/utils/helper'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
-import { OptionxBox, PopItem, PopoverPosition, PopPanel } from '@/widgets/popover'
-import { Popover } from '@headlessui/react'
+import { OptionxBox, PopItem, PopoverButton, PopoverPosition, PopPanel } from '@/widgets/popover'
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
 
@@ -71,14 +70,14 @@ const UserPopover: FunctionComponent = () => {
 
   return (
     <PopoverPosition>
-      <Popover.Button className={'outline-0'}>
+      <PopoverButton>
         <CircularImage
-          width={40}
-          height={40}
+          width={32}
+          height={32}
           src={user.avatar_url || StorageConst.USER_DEFAULT.src}
           alt={StorageConst.USER_DEFAULT.alt}
         />
-      </Popover.Button>
+      </PopoverButton>
       <PopPanel>
         <PopItem>
           <UserBox>

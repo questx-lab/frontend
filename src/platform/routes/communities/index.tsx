@@ -15,7 +15,7 @@ import {
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
 import { Divider } from '@/widgets/separator'
-import { Large3xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
 
 const SearchPadding = tw(Horizontal)`
@@ -81,7 +81,7 @@ const Index: FunctionComponent = () => {
     <PaddingVertical>
       <MainContent>
         <HorizontalBetweenCenterFullWidth>
-          <Large3xlText>{'👋 Communities'}</Large3xlText>
+          <Text2xl>{'👋 Communities'}</Text2xl>
           <NewCommunity setOpen={setOpen} />
         </HorizontalBetweenCenterFullWidth>
       </MainContent>
