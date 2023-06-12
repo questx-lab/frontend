@@ -3,6 +3,8 @@ import { FunctionComponent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { newQuestRoute } from '@/constants/router.const'
+import Category from '@/modules/community/community-view/community-collab/category'
+import HighlightedQuests from '@/modules/community/community-view/highlight-quests'
 import { ButtonAlignment, FullWidthCenter } from '@/modules/community/mini-widget'
 import Quests from '@/modules/community/quests'
 import Templates from '@/modules/community/templates'
@@ -24,9 +26,12 @@ const CommunityCollab: FunctionComponent = () => {
   // data
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const canEdit = CommunityStore.useStoreState((action) => action.canEdit)
+  const quests = CommunityStore.useStoreState((state) => state.quests)
 
   // action
   const setQuest = NewQuestStore.useStoreActions((actions) => actions.setQuest)
+
+  const highlightedQuests = quests && quests.filter((quest) => quest.is_highlight === true)
 
   return (
     <>
@@ -56,7 +61,9 @@ const CommunityCollab: FunctionComponent = () => {
           )}
         </FullWidthCenter>
         {canEdit && <Templates communityHandle={community.handle} />}
-        <Quests show={true} categoryTitle={''} />
+        <Category />
+        <HighlightedQuests highlightedQuest={highlightedQuests} loading={false} />
+        <Quests show={true} categoryTitle='Orther Quests' />
       </VerticalFullWidth>
       <BasicModal
         isOpen={showTemplateModal}

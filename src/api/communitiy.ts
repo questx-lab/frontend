@@ -4,6 +4,7 @@ import { leaderboardCacheKey } from '@/cache/keys'
 import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import {
+  CategoryType,
   CollaboratorType,
   LeaderboardType,
   ListCommunitiesType,
@@ -175,5 +176,25 @@ export const getInviteApi = async (
   }>
 > => {
   const rs = await api.get(EnvVariables.API_SERVER + `/getInvite?invite_code=${inviteCode}`)
+  return rs.data
+}
+
+export const createCategoryApi = async (
+  communityHandle: string,
+  name: string
+): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/createCategory', {
+    community_handle: communityHandle,
+    name,
+  })
+  return rs.data
+}
+
+export const getCategoriesApi = async (
+  communityHandle: string
+): Promise<Rsp<{ categories: CategoryType[] }>> => {
+  const rs = await api.get(
+    EnvVariables.API_SERVER + `/getCategories?community_handle=${communityHandle}`
+  )
   return rs.data
 }

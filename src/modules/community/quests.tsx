@@ -6,7 +6,6 @@ import QuestCardToView from '@/modules/quest/quest-card-to-view'
 import CommunityStore from '@/store/local/community'
 import { QuestType } from '@/types/quest'
 import { VerticalFullWidth } from '@/widgets/orientation'
-import { Gap } from '@/widgets/separator'
 import { HeaderText } from '@/widgets/text'
 
 const Grid = tw.div`
@@ -22,6 +21,7 @@ const Grid = tw.div`
 
 const PaddingVertical = tw(VerticalFullWidth)`
   py-6
+  gap-6
 `
 
 export const QuestListView: FunctionComponent<{
@@ -38,7 +38,7 @@ export const QuestListView: FunctionComponent<{
 
 const Quests: FunctionComponent<{
   show: boolean
-  categoryTitle: string
+  categoryTitle?: string
 }> = ({ show, categoryTitle }) => {
   const quests = CommunityStore.useStoreState((action) => action.quests)
 
@@ -49,8 +49,7 @@ const Quests: FunctionComponent<{
   return (
     <>
       <PaddingVertical>
-        <HeaderText>{categoryTitle}</HeaderText>
-        <Gap height={6} />
+        {categoryTitle && <HeaderText>{categoryTitle}</HeaderText>}
         <Grid>
           <QuestListView quests={quests} />
         </Grid>
