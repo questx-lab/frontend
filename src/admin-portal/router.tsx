@@ -1,4 +1,6 @@
 import PortalIndex from '@/admin-portal/routes'
+import BadgesIndex from '@/admin-portal/routes/badges/'
+import BadgesRoute from '@/admin-portal/routes/badges/route'
 import CommunitiesIndex from '@/admin-portal/routes/communities/'
 import CommunitiesRoute from '@/admin-portal/routes/communities/route'
 import ReferralsIndex from '@/admin-portal/routes/referrals/'
@@ -24,6 +26,11 @@ const router = [
         element: <TemplatesRoute />,
         loader: TemplatesLoader,
         children: [{ index: true, element: <TemplatesIndex /> }],
+      },
+      {
+        path: 'badges',
+        element: <BadgesRoute />,
+        children: [{ index: true, element: <BadgesIndex /> }],
       },
       {
         path: 'referrals',
