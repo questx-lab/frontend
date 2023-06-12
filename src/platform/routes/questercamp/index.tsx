@@ -24,7 +24,7 @@ import {
 } from '@/widgets/orientation'
 import SearchResult from '@/widgets/search-result'
 import { Divider } from '@/widgets/separator'
-import { Large2xlText, Large3xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
 const SearchPadding = tw(Horizontal)`
   w-full gap-3 py-3
@@ -141,7 +141,7 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
       </CategoryBox>
 
       <StartVertical>
-        <Large2xlText>{'🕑 New Quests'}</Large2xlText>
+        <Text2xl>{'🕑 New Quests'}</Text2xl>
         <OtherQuests showCommunity quests={intQuests} />
       </StartVertical>
     </SearchResult>
@@ -161,7 +161,7 @@ const Index: FunctionComponent = () => {
     <PaddingVertical>
       <MainContent>
         <HorizontalBetweenCenterFullWidth>
-          <Large3xlText>{'⚡ QuesterCamp'}</Large3xlText>
+          <Text2xl>{'⚡ QuesterCamp'}</Text2xl>
         </HorizontalBetweenCenterFullWidth>
       </MainContent>
       <Divider />

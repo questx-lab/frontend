@@ -58,6 +58,13 @@ const OptionxBox = tw.div`
   hover:bg-primary-100
 `
 
+const PopoverButton = tw(Popover.Button)`
+  flex
+  justify-center
+  items-center
+  outline-0
+`
+
 const UserPopover: FunctionComponent = () => {
   const navigate = useNavigate()
 
@@ -82,14 +89,14 @@ const UserPopover: FunctionComponent = () => {
 
   return (
     <PopoverPosition>
-      <Popover.Button className={'outline-0'}>
+      <PopoverButton>
         <CircularImage
-          width={40}
-          height={40}
+          width={32}
+          height={32}
           src={user.avatar_url || StorageConst.USER_DEFAULT.src}
           alt={StorageConst.USER_DEFAULT.alt}
         />
-      </Popover.Button>
+      </PopoverButton>
       <PopPanel>
         <PopItem>
           <UserBox>
