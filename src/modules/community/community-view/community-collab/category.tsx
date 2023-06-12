@@ -36,26 +36,31 @@ const MenuButton = styled(Menu.Button)(tw`
   cursor-pointer
 `)
 
-const MenuItem = styled(Menu.Items)<{ isshow: boolean }>(({ isshow }) => [
-  isshow
-    ? tw`
-  absolute
-  left-0
-  mt-2
-  w-72
-  origin-top-right
-  divide-y
-  divide-gray-100
-  rounded-md
-  bg-white
-  shadow-lg
-  ring-1
-  ring-black
-  ring-opacity-5
-  focus:outline-none
-`
-    : tw`hidden`,
-])
+const MenuItem = styled(Menu.Items)<{ isshow: boolean }>(({ isshow }) => {
+  const styles = []
+  if (isshow) {
+    styles.push(tw`
+    absolute
+    left-0
+    mt-2
+    w-72
+    origin-top-right
+    divide-y
+    divide-gray-100
+    rounded-md
+    bg-white
+    shadow-lg
+    ring-1
+    ring-black
+    ring-opacity-5
+    focus:outline-none
+  `)
+  } else {
+    styles.push(tw`hidden`)
+  }
+
+  return styles
+})
 
 const GapHorizontal = tw(Horizontal)`
   p-2
