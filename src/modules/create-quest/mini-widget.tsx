@@ -7,9 +7,7 @@ import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 import { RequiredText } from '@/widgets/text'
 
 const Padding = tw(VerticalFullWidth)`
-  py-2
   px-6
-  gap-4
 `
 
 const Label = tw(Horizontal)`
@@ -25,7 +23,7 @@ const Label = tw(Horizontal)`
  * @returns
  */
 export const QuestFieldsBox: FunctionComponent<{
-  title: string
+  title?: string
   children: ReactNode
   required?: boolean
 }> = ({ title, children, required = false }) => {
@@ -39,7 +37,7 @@ export const QuestFieldsBox: FunctionComponent<{
   )
 }
 
-export const FieldTitle: FunctionComponent<{ title: string; required?: boolean }> = ({
+export const FieldTitle: FunctionComponent<{ title?: string; required?: boolean }> = ({
   title,
   required,
 }) => {

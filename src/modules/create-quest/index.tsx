@@ -12,6 +12,7 @@ import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
 import QuestTypeSelection from '@/modules/create-quest/quest-type/selection'
 import Recurrence from '@/modules/create-quest/recurrence'
 import QuestReward from '@/modules/create-quest/reward'
+import SelectCategory from '@/modules/create-quest/select-category'
 import TemplateGroups from '@/modules/create-quest/template-groups'
 import TopLabel from '@/modules/create-quest/top-label'
 import CommunityStore from '@/store/local/community'
@@ -156,6 +157,10 @@ export const CreateOrEditQuest: FunctionComponent<{
 
             <QuestFieldsBox title={'Repeat'} required={true}>
               <Recurrence />
+            </QuestFieldsBox>
+
+            <QuestFieldsBox>
+              <SelectCategory />
             </QuestFieldsBox>
 
             <QuestFieldsBox title={'Highlighted'}>

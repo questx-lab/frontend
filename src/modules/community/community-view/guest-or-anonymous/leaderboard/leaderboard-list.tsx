@@ -60,7 +60,7 @@ const RenderList: FunctionComponent<{ data: LeaderboardType[] }> = ({ data }) =>
     return <Empty />
   }
 
-  const reanderItems = data.map((ld, idx) => (
+  const renderItems = data.map((ld, idx) => (
     <PointerHorizontal key={idx}>
       <GapHorizontalCenter>
         <CircularImage width={40} height={40} src={StorageConst.USER_DEFAULT.src} alt={'logo'} />
@@ -70,7 +70,7 @@ const RenderList: FunctionComponent<{ data: LeaderboardType[] }> = ({ data }) =>
     </PointerHorizontal>
   ))
 
-  return <>{reanderItems}</>
+  return <>{renderItems}</>
 }
 
 const RenderLeaderboard: FunctionComponent<{

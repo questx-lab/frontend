@@ -93,7 +93,7 @@ export type ReqNewQuestType = {
   type: string
   title: string
   description: string
-  categories?: string[]
+  category_id?: string
   recurrence: string
   points: number
   validation_data: ValidationQuest
