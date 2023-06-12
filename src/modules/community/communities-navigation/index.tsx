@@ -4,7 +4,7 @@ import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { FollowItem, Item } from '@/modules/community/communities-navigation/item'
+import FollowItem, { Item } from '@/modules/community/communities-navigation/item'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType } from '@/types'

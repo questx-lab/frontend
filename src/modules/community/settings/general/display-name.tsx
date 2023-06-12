@@ -17,9 +17,7 @@ const DisplayName: FC = () => {
         <Gap width={1} />
         <RequiredText>{'*'}</RequiredText>
       </Horizontal>
-      <Gap height={2} />
-      <TextField value={dislayName} onChange={(e) => setDisplayName(e.target.valeu)}></TextField>
-      <Gap height={6} />
+      <TextField value={dislayName} onChange={(e) => setDisplayName(e.target.value)} />
     </>
   )
 }

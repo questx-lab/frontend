@@ -9,12 +9,14 @@ interface AccountSettingsModel {
   metamask: string
   socialDisplay: number
   tabType: number
+  avatar: File | undefined
 
   setUsername: Action<AccountSettingsModel, string>
   setInviteCode: Action<AccountSettingsModel, string>
   setMetaMask: Action<AccountSettingsModel, string>
   setSocialDisplay: Action<AccountSettingsModel, number>
   setTabType: Action<AccountSettingsModel, number>
+  setAvatar: Action<AccountSettingsModel, File | undefined>
 }
 
 const AccountSettingsStore = createContextStore<AccountSettingsModel>({
@@ -23,6 +25,7 @@ const AccountSettingsStore = createContextStore<AccountSettingsModel>({
   metamask: '',
   socialDisplay: SocialDisplay.NONE,
   tabType: AccoutSettingTabEnum.GENERAL,
+  avatar: undefined,
 
   setUsername: action((state, username) => {
     state.username = username
@@ -38,6 +41,9 @@ const AccountSettingsStore = createContextStore<AccountSettingsModel>({
   }),
   setTabType: action((state, tab) => {
     state.tabType = tab
+  }),
+  setAvatar: action((state, avatar) => {
+    state.avatar = avatar
   }),
 })
 

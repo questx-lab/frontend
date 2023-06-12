@@ -6,10 +6,11 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
+import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { PopItem, PopoverPosition, PopPanel } from '@/widgets/popover'
@@ -57,7 +58,7 @@ const OptionxBox = tw.div`
   hover:bg-primary-100
 `
 
-export const UserPopover: FunctionComponent = () => {
+const UserPopover: FunctionComponent = () => {
   const navigate = useNavigate()
 
   // data
@@ -75,22 +76,31 @@ export const UserPopover: FunctionComponent = () => {
     navigate(RouterConst.HOME)
   }
 
+  if (!user) {
+    return <></>
+  }
+
   return (
     <PopoverPosition>
       <Popover.Button className={'outline-0'}>
-        <AvatarBox
+        <CircularImage
           width={40}
           height={40}
-          src={StorageConst.USER_DEFAULT.src}
+          src={user.avatar_url || StorageConst.USER_DEFAULT.src}
           alt={StorageConst.USER_DEFAULT.alt}
         />
       </Popover.Button>
       <PopPanel>
         <PopItem>
           <UserBox>
-            <Avatar width={80} height={80} src={StorageConst.USER_DEFAULT.src} alt={'Avatar'} />
+            <Avatar
+              width={80}
+              height={80}
+              src={user.avatar_url || StorageConst.USER_DEFAULT.src}
+              alt={'Avatar'}
+            />
             <RowBox>
-              <NameText>{user && user.name}</NameText>
+              <NameText>{user.name}</NameText>
             </RowBox>
           </UserBox>
         </PopItem>
@@ -121,3 +131,5 @@ export const UserPopover: FunctionComponent = () => {
     </PopoverPosition>
   )
 }
+
+export default UserPopover

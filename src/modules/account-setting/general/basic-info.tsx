@@ -5,18 +5,21 @@ import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { getUserApi, updateUserApi } from '@/api/user'
-import { StorageConst } from '@/constants/storage.const'
+import { SizeEnum } from '@/constants/common.const'
+import StorageConst from '@/constants/storage.const'
 import SocialConnect from '@/modules/account-setting/general/social-connect'
+import AvatarUpload from '@/modules/account-setting/general/upload-avatar'
 import { ButtonBox, ColumnBox, RowBox } from '@/modules/account-setting/mini-widget'
 import AccountSettingsStore from '@/store/local/account-settings'
 import { GlobalStoreModel } from '@/store/store'
 import { SocialType, UserType } from '@/types'
+import { uploadFileForUser } from '@/utils/file'
 import { setUserLocal } from '@/utils/helper'
-import { NegativeButton, PositiveButton } from '@/widgets/buttons'
+import { PositiveButton } from '@/widgets/buttons'
 import { TextField } from '@/widgets/form'
-import { Image } from '@/widgets/image'
 import { Vertical } from '@/widgets/orientation'
-import { Label, PrimaryText } from '@/widgets/text'
+import { Divider } from '@/widgets/separator'
+import { Label } from '@/widgets/text'
 
 const PaddingVertical = tw(Vertical)`
   w-2/3
@@ -31,6 +34,8 @@ export const ActionUpdate: FunctionComponent = () => {
   // data
   const username = AccountSettingsStore.useStoreState((state) => state.username)
 
+  const avatar = AccountSettingsStore.useStoreState((state) => state.avatar)
+
   // action
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
@@ -38,6 +43,15 @@ export const ActionUpdate: FunctionComponent = () => {
   const handleSubmit = async () => {
     setLoading(true)
     try {
+      // Upload user avatar
+      if (avatar) {
+        const resultUpload = await uploadFileForUser(avatar)
+        if (resultUpload.error) {
+          toast.error(resultUpload.error)
+          return
+        }
+      }
+
       const update = await updateUserApi(username)
       if (update.error) {
         return toast.error(update.error)
@@ -57,9 +71,9 @@ export const ActionUpdate: FunctionComponent = () => {
   const block = username === ''
   return (
     <PaddingVertical>
+      <Divider />
       <ButtonBox>
-        <NegativeButton>{'Cancel'}</NegativeButton>
-        <PositiveButton loading={loading} onClick={handleSubmit} block={block}>
+        <PositiveButton loading={loading} width={SizeEnum.x48} onClick={handleSubmit} block={block}>
           {'Save'}
         </PositiveButton>
       </ButtonBox>
@@ -93,18 +107,8 @@ export const BasicInfo: FunctionComponent = () => {
         required
         placeholder=''
       />
-      <Label>{'INVITE COMMUNITY CODE'}</Label>
-      <TextField
-        value={inviteCode}
-        onChange={(e) => setInviteCode(e.target.value)}
-        required={false}
-        placeholder=''
-      />
       <RowBox>
-        <ColumnBox>
-          <Image width={250} height={250} src={StorageConst.USER_DEFAULT.src} alt={'avatar'} />
-          <PrimaryText>{'*Max 5.0MB, Size 200x200px'}</PrimaryText>
-        </ColumnBox>
+        <AvatarUpload imageSize={250} />
         <ColumnBox>
           <SocialConnect
             logoAlt={StorageConst.DISCORD_DIR.src}

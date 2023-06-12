@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import QuestsTab from '@/modules/community/control-panel/quests'
 import ReviewSubmissionsTab from '@/modules/community/control-panel/review-submissions'
 import SettingsTab from '@/modules/community/control-panel/settings'
@@ -38,7 +38,7 @@ const Padding = tw.div`
   px-4
 `
 
-export const ControlPanel: FunctionComponent<{
+const ControlPanel: FunctionComponent<{
   community: CommunityType
   show: boolean
 }> = ({ community, show }) => {
@@ -71,3 +71,5 @@ export const ControlPanel: FunctionComponent<{
     </FixedFrame>
   )
 }
+
+export default ControlPanel

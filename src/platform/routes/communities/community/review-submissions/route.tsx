@@ -9,7 +9,7 @@ import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { ControlPanelTab } from '@/types/community'
 
-export const ReviewSubmissions: FunctionComponent = () => {
+const ReviewSubmissions: FunctionComponent = () => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const canEdit = CommunityStore.useStoreState((action) => action.canEdit)
@@ -35,3 +35,5 @@ export const ReviewSubmissions: FunctionComponent = () => {
     </ClaimReviewStore.Provider>
   )
 }
+
+export default ReviewSubmissions

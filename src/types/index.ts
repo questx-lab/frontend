@@ -43,6 +43,7 @@ export type UserType = {
   is_new_user?: boolean
   role?: string
   referral_code?: string
+  avatar_url?: string
 }
 
 export type UpdateCommunityRequest = {

@@ -5,7 +5,7 @@ import { ArrowProps } from 'react-multi-carousel/lib/types'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
 import { VerticalCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'

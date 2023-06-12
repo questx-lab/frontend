@@ -28,7 +28,7 @@ export const updateClaimedQuestApi = async (ids: string[], action: string): Prom
 
 export const claimRewardApi = async (
   body: ReqClaimReward
-): Promise<Rsp<{ id: string; status: string }>> => {
+): Promise<Rsp<{ id: string; status: string; message?: string }>> => {
   const { data } = await api.post(EnvVariables.API_SERVER + '/claim', body)
   return data
 }

@@ -7,7 +7,7 @@ import tw from 'twin.macro'
 
 import { listCommunitiesApi } from '@/api/communitiy'
 import { RouterConst } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import CommunityBox from '@/modules/community/community-box'
 import LandingPage from '@/platform/routes/landing-page'
 import { GlobalStoreModel } from '@/store/store'
@@ -76,15 +76,6 @@ export const OtherCommunities: FunctionComponent<{ communities: CommunityType[] 
   )
 }
 
-export const HomeOrLanding: FunctionComponent = () => {
-  const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  if (!user) {
-    return <LandingPage />
-  }
-
-  return <HomePage />
-}
-
 export const HomePage: FunctionComponent = () => {
   // hook
   const navigate = useNavigate()
@@ -140,3 +131,14 @@ export const HomePage: FunctionComponent = () => {
     </LayoutWithLeftPanel>
   )
 }
+
+const HomeOrLanding: FunctionComponent = () => {
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  if (!user) {
+    return <LandingPage />
+  }
+
+  return <HomePage />
+}
+
+export default HomeOrLanding

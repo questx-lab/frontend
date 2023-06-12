@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 import tw from 'twin.macro'
 
 import { communityRoute } from '@/constants/router.const'
-import { StorageConst } from '@/constants/storage.const'
+import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
 import { HorizontalStartCenter } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
