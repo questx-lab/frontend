@@ -1,4 +1,6 @@
 import PortalIndex from '@/admin-portal/routes'
+import CommunitiesIndex from '@/admin-portal/routes/communities/'
+import CommunitiesRoute from '@/admin-portal/routes/communities/route'
 import ReferralsIndex from '@/admin-portal/routes/referrals/'
 import ReferralsRoute from '@/admin-portal/routes/referrals/route'
 import Root, { RootLoader } from '@/admin-portal/routes/route'
@@ -12,6 +14,11 @@ const router = [
     loader: RootLoader,
     children: [
       { index: true, element: <PortalIndex /> },
+      {
+        path: 'communities',
+        element: <CommunitiesRoute />,
+        children: [{ index: true, element: <CommunitiesIndex /> }],
+      },
       {
         path: 'templates',
         element: <TemplatesRoute />,
