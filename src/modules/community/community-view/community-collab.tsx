@@ -14,7 +14,7 @@ import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
-import { Large3xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
 const CommunityCollab: FunctionComponent = () => {
   // hook
@@ -32,7 +32,7 @@ const CommunityCollab: FunctionComponent = () => {
     <>
       <VerticalFullWidth>
         <FullWidthCenter>
-          <Large3xlText>{'Quests'}</Large3xlText>
+          <Text2xl>{'Quests'}</Text2xl>
           {canEdit && (
             // Only shown for owner
             <ButtonAlignment>

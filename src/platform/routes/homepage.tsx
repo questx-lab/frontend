@@ -17,7 +17,7 @@ import CategoryBox from '@/widgets/category-box'
 import { Image } from '@/widgets/image'
 import { LayoutWithLeftPanel } from '@/widgets/layout/layout-with-left-panel'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
-import { Large3xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
 const PaddingTop = tw(VerticalFullWidthCenter)`
   pt-[90px]
@@ -46,7 +46,7 @@ const Title: FunctionComponent = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   return (
     <VerticalFullWidthCenter>
-      <Large3xlText>{`👋 Hi, ${user && user.name}`}</Large3xlText>
+      <Text2xl>{`👋 Hi, ${user && user.name}`}</Text2xl>
     </VerticalFullWidthCenter>
   )
 }

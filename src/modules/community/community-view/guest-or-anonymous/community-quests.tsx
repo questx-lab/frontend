@@ -10,7 +10,7 @@ import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import { Divider, Gap } from '@/widgets/separator'
-import { Large2xlText } from '@/widgets/text'
+import { TextXl } from '@/widgets/text'
 
 const MarginTop = tw.div`mt-4`
 
@@ -63,7 +63,7 @@ const CommunityQuests: FC = () => {
       <Gap />
 
       <StartVertical>
-        <Large2xlText>{'👋 Onboarding'}</Large2xlText>
+        <TextXl>{'👋 Onboarding'}</TextXl>
         <OtherQuests quests={quests} />
       </StartVertical>
     </VerticalFullWidth>

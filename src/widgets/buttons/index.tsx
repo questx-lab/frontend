@@ -26,9 +26,9 @@ const BaseStyle = styled.button<{
 }>(({ isFull = false, width, block = false, buttonType = ButtonTypeEnum.NEGATIVE }) => {
   const style = [
     tw`
-      text-lg
+      text-sm
       text-white
-      font-normal
+      font-medium
       py-2
       px-6
       rounded-lg

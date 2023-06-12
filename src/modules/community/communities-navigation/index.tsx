@@ -37,7 +37,7 @@ const BoxContent = tw(Vertical)`
   rounded-lg
   items-center
   py-3
-  gap-2
+  gap-3
 `
 
 const CommunityItems: FunctionComponent<{
