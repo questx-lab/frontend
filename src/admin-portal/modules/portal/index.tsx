@@ -29,13 +29,13 @@ const Portal: FC = () => {
     <>
       <Header />
 
-      <FixedFrame>
-        <ControlPanel />
-      </FixedFrame>
-
       <ContentFrame>
         <Outlet />
       </ContentFrame>
+
+      <FixedFrame>
+        <ControlPanel />
+      </FixedFrame>
     </>
   )
 }
