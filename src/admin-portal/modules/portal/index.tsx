@@ -9,8 +9,8 @@ import { FullWidthHeight, Vertical } from '@/widgets/orientation'
 
 const ContentFrame = tw(FullWidthHeight)`
   fixed
-  pt-[64px]
-  pl-80
+  mt-[64px]
+  ml-80
 `
 
 const FixedFrame = tw(Vertical)`
@@ -28,14 +28,13 @@ const Portal: FC = () => {
   return (
     <>
       <Header />
+      <ContentFrame>
+        <Outlet />
+      </ContentFrame>
 
       <FixedFrame>
         <ControlPanel />
       </FixedFrame>
-
-      <ContentFrame>
-        <Outlet />
-      </ContentFrame>
     </>
   )
 }
