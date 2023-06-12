@@ -34,6 +34,7 @@ export interface NewQuestModel {
   activeReward: number
   highlighted: boolean
   includedWords: string[]
+  categoryId: string
 
   quizzes: QuestQuizType[]
 
@@ -63,6 +64,7 @@ export interface NewQuestModel {
   setOptions: Action<NewQuestModel, { quizIndex: number; options: string[] }>
   setHighlighted: Action<NewQuestModel, boolean>
   setIncludedWords: Action<NewQuestModel, string[]>
+  setCategoryId: Action<NewQuestModel, string>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -85,6 +87,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   pointReward: 100,
   activeReward: 0,
   spaceUrlTw: '',
+  categoryId: '',
   quizzes: [
     {
       id: 0,
@@ -235,6 +238,10 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   setIncludedWords: action((state, included_words) => {
     state.includedWords = included_words
   }),
+
+  setCategoryId: action((state, id) => {
+    state.categoryId = id
+  }),
 })
 
 /**
@@ -334,7 +341,7 @@ export const stateToNewQuestRequest = (
     type,
     title: state.title,
     description: state.description,
-    categories: [],
+    category_id: state.categoryId,
     recurrence: state.recurrence,
     points: state.pointReward, // Other types of rewards are not supported for now
     validation_data: validations,

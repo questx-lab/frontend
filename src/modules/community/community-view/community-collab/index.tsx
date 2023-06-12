@@ -3,8 +3,9 @@ import { FunctionComponent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { newQuestRoute } from '@/constants/router.const'
+import Category from '@/modules/community/community-view/community-collab/category'
+import QuestsByCategory from '@/modules/community/community-view/quests-by-category'
 import { ButtonAlignment, FullWidthCenter } from '@/modules/community/mini-widget'
-import Quests from '@/modules/community/quests'
 import Templates from '@/modules/community/templates'
 import { CreateOrEditQuest } from '@/modules/create-quest'
 import CommunityStore from '@/store/local/community'
@@ -56,7 +57,8 @@ const CommunityCollab: FunctionComponent = () => {
           )}
         </FullWidthCenter>
         {canEdit && <Templates communityHandle={community.handle} />}
-        <Quests show={true} categoryTitle={''} />
+        <Category />
+        <QuestsByCategory />
       </VerticalFullWidth>
       <BasicModal
         isOpen={showTemplateModal}
