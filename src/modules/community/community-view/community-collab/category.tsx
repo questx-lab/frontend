@@ -83,27 +83,29 @@ const Input = tw.input`
 
 `
 
-const AddCategoryButton = styled.button<{ block?: boolean }>(({ block = true }) => [
-  block
-    ? tw`
-  py-2
-  px-4
-  bg-primary-300
-  text-sm
-  font-medium
-  text-white
-  rounded-lg
-`
-    : tw`
-  py-2
-  px-4
-  bg-primary
-  text-sm
-  font-medium
-  text-white
-  rounded-lg
-`,
-])
+const AddCategoryButton = styled.button<{ block?: boolean }>(({ block = true }) => {
+  const styles = [
+    tw`
+      py-2
+      px-4
+      text-sm
+      font-medium
+      rounded-lg
+      text-white
+    `,
+  ]
+  if (block) {
+    styles.push(tw`
+      bg-primary-300
+    `)
+  } else {
+    styles.push(tw`
+      bg-primary
+    `)
+  }
+
+  return styles
+})
 
 const Category: FunctionComponent = () => {
   // data

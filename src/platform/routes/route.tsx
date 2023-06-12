@@ -8,7 +8,6 @@ import tw from 'twin.macro'
 import { getFollowCommunitiesApi, getMyCommunitiesApi } from '@/api/communitiy'
 import { getMyReferralInfoApi } from '@/api/reward'
 import { getUserApi } from '@/api/user'
-import { RouterConst } from '@/constants/router.const'
 import { Header } from '@/modules/header'
 import { HomePage } from '@/platform/routes'
 import { GlobalStoreModel } from '@/store/store'
@@ -79,7 +78,6 @@ const Root: FunctionComponent = () => {
       setUser(undefined)
       delCookies()
       clearLocalStorage()
-      navigate(RouterConst.HOME)
     }
   }, [location])
 
