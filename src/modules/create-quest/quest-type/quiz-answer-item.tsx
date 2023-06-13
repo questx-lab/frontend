@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -57,7 +57,7 @@ const AnswerText = styled.div<{ status?: number }>(({ status = AnswerStatusEnum.
   }
 })
 
-const AnswerItem: FunctionComponent<{ quizIndex: number }> = ({ quizIndex }) => {
+const AnswerItem: FC<{ quizIndex: number }> = ({ quizIndex }) => {
   // data
   const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
   const options = quizzes[quizIndex].options

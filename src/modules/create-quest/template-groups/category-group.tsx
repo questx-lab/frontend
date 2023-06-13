@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import tw from 'twin.macro'
 
@@ -31,7 +31,7 @@ const GapButton = tw(HorizontalBetweenCenterFullWidth)`gap-4`
 
 const TextCenter = tw(TextBase)`text-center`
 
-const TemplateGroup: FunctionComponent<{
+const TemplateGroup: FC<{
   quests: QuestType[]
   onItemClicked: (e: QuestType) => void
 }> = ({ quests, onItemClicked: onClickItem }) => {

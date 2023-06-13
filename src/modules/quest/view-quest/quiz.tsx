@@ -1,4 +1,4 @@
-import { FC, FunctionComponent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import tw from 'twin.macro'
 
@@ -86,7 +86,7 @@ const NextButton: FC<{
   )
 }
 
-export const QuizItem: FunctionComponent<{
+export const QuizItem: FC<{
   quiz: QuestQuizType
   quizNum: number
   canClaim: boolean
@@ -152,7 +152,7 @@ export const QuizItem: FunctionComponent<{
   )
 }
 
-export const QuestQuiz: FunctionComponent<{ quizzes: QuestQuizType[]; canClaim: boolean }> = ({
+export const QuestQuiz: FC<{ quizzes: QuestQuizType[]; canClaim: boolean }> = ({
   quizzes,
   canClaim,
 }) => {

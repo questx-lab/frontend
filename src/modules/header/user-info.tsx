@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
@@ -61,7 +61,7 @@ const ModalBox = tw(HorizontalCenter)`
   py-6
 `
 
-const UserInfoBox: FunctionComponent = () => {
+const UserInfoBox: FC = () => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const showLoginModal = useStoreState<GlobalStoreModel>((state) => state.showLoginModal)

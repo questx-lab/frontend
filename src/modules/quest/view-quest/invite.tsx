@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
@@ -23,7 +23,7 @@ const CursorLinkBox = tw(HorizontalCenter)`
   gap-1
 `
 
-export const QuestInvites: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+export const QuestInvites: FC<{ quest: QuestType }> = ({ quest }) => {
   const [inviteCode, setInviteCode] = useState<string>('')
   const role = CommunityStore.useStoreState((state) => state.role)
 

@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { MobileView } from 'react-device-detect'
@@ -116,7 +116,7 @@ export const MenuIcon = styled(Bars3Icon)(() => [
 `,
 ])
 
-export const Header: FunctionComponent<{}> = () => {
+export const Header: FC<{}> = () => {
   // hook
   const navigate = useNavigate()
   const [navActive, setNavActive] = useState<string>('')

@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -38,7 +38,7 @@ const Padding = tw.div`
   px-4
 `
 
-const ControlPanel: FunctionComponent<{
+const ControlPanel: FC<{
   community: CommunityType
   show: boolean
 }> = ({ community, show }) => {

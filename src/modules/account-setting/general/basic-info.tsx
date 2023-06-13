@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -28,7 +28,7 @@ const PaddingVertical = tw(Vertical)`
   pt-6
 `
 
-export const ActionUpdate: FunctionComponent = () => {
+export const ActionUpdate: FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   // data
@@ -81,7 +81,7 @@ export const ActionUpdate: FunctionComponent = () => {
   )
 }
 
-export const BasicInfo: FunctionComponent = () => {
+export const BasicInfo: FC = () => {
   // data
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   const username = AccountSettingsStore.useStoreState((state) => state.username)

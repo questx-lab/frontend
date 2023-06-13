@@ -1,9 +1,9 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { BodyFrame, PaddingHorizontal } from '@/modules/account-setting/mini-widget'
 import { Text2xl } from '@/widgets/text'
 
-const Achievement: FunctionComponent = () => {
+const Achievement: FC = () => {
   return (
     <BodyFrame>
       <PaddingHorizontal>

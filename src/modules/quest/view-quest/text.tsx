@@ -1,11 +1,11 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { CommunityRoleEnum } from '@/constants/common.const'
 import ActiveQuestStore from '@/store/local/active-quest'
 import CommunityStore from '@/store/local/community'
 import { TextField } from '@/widgets/form'
 
-export const QuestText: FunctionComponent = () => {
+export const QuestText: FC = () => {
   // data
   const role = CommunityStore.useStoreState((state) => state.role)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)

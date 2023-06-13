@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, ReactNode } from 'react'
+import { FC, Fragment, ReactNode } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
@@ -24,7 +24,7 @@ const Content = tw(MainContent)`
   py-6
 `
 
-const TopLabel: FunctionComponent<{ title: string }> = ({ title }) => {
+const TopLabel: FC<{ title: string }> = ({ title }) => {
   const navigate = useNavigate()
 
   return (
@@ -44,10 +44,7 @@ const TopLabel: FunctionComponent<{ title: string }> = ({ title }) => {
   )
 }
 
-const ListItems: FunctionComponent<{ loading: boolean; children: ReactNode }> = ({
-  loading,
-  children,
-}) => {
+const ListItems: FC<{ loading: boolean; children: ReactNode }> = ({ loading, children }) => {
   if (loading) {
     return <SmallSpinner />
   }
@@ -55,7 +52,7 @@ const ListItems: FunctionComponent<{ loading: boolean; children: ReactNode }> = 
   return <Fragment>{children}</Fragment>
 }
 
-const Trending: FunctionComponent<{
+const Trending: FC<{
   title: string
   loading: boolean
   children: ReactNode

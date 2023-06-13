@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { Link } from 'react-router-dom'
@@ -16,7 +16,7 @@ const generateLikeLink = (tweetId: string) => {
   return `https://twitter.com/intent/like?tweet_id=${tweetId}`
 }
 
-const TwitterLike: FunctionComponent<{ action: QuestTwitterActionType }> = ({ action }) => {
+const TwitterLike: FC<{ action: QuestTwitterActionType }> = ({ action }) => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 

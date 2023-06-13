@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent } from 'react'
+import { ChangeEvent, FC } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -45,7 +45,7 @@ const Status = styled.div<{ claimStatus?: string }>(
   ]
 )
 
-const RowItem: FunctionComponent<{
+const RowItem: FC<{
   active: boolean
   onChange: (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => void
   claim: ClaimQuestType

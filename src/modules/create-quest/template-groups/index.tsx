@@ -1,4 +1,4 @@
-import { FC, FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { styled } from 'goober'
@@ -78,7 +78,7 @@ const TemplateGroupsContent: FC<{ templateGroups: TemplateGroupType[] }> = ({ te
   return <>{groupsView}</>
 }
 
-const TemplateGroups: FunctionComponent<{ show: boolean }> = ({ show }) => {
+const TemplateGroups: FC<{ show: boolean }> = ({ show }) => {
   const templates: QuestType[] = useStoreState<GlobalStoreModel>((state) => state.templates)
   if (!show) {
     return <></>

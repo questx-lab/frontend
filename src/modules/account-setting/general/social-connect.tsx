@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -56,7 +56,7 @@ const SocialText = tw.div`
   text-gray-700
 `
 
-const SocialConnect: FunctionComponent<{
+const SocialConnect: FC<{
   logoSrc: string
   logoAlt: string
   type: string

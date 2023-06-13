@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent } from 'react'
+import { FC, Fragment } from 'react'
 
 import { handleLoginDiscord } from '@/handler/auth/discord'
 import CommunityStore from '@/store/local/community'
@@ -8,7 +8,7 @@ import { TextField } from '@/widgets/form'
 import { Gap } from '@/widgets/separator'
 import { NormalText } from '@/widgets/text'
 
-const Discord: FunctionComponent = () => {
+const Discord: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const discordLink = NewQuestStore.useStoreState((state) => state.discordLink)
   const setDiscordLink = NewQuestStore.useStoreActions((action) => action.setDiscordLink)

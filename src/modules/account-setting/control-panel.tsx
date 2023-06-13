@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
@@ -59,7 +59,7 @@ const SettingItemHorizontal = styled(Horizontal)<{ active?: boolean }>(({ active
   return styled
 })
 
-const ControlPanel: FunctionComponent = () => {
+const ControlPanel: FC = () => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   const tabType = AccountSettingsStore.useStoreState((state) => state.tabType)
   const setTabType = AccountSettingsStore.useStoreActions((action) => action.setTabType)

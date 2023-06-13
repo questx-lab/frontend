@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { toast } from 'react-hot-toast'
@@ -32,9 +32,7 @@ const PrimaryTextXl = tw(Text2xl)`
   line-clamp-1
 `
 
-const CommunityContent: FunctionComponent<{ community: CommunityType | undefined }> = ({
-  community,
-}) => {
+const CommunityContent: FC<{ community: CommunityType | undefined }> = ({ community }) => {
   if (!community) {
     return (
       <VerticalFullWidthCenter>
@@ -55,7 +53,7 @@ const CommunityContent: FunctionComponent<{ community: CommunityType | undefined
   )
 }
 
-const ActionButton: FunctionComponent<{
+const ActionButton: FC<{
   community: CommunityType | undefined
   userInvite: UserType | undefined
   onChangeModal: (value: boolean) => void
@@ -133,7 +131,7 @@ const ActionButton: FunctionComponent<{
   )
 }
 
-const InviteModal: FunctionComponent<{ inviteCode: string; community: CommunityType }> = ({
+const InviteModal: FC<{ inviteCode: string; community: CommunityType }> = ({
   inviteCode,
   community,
 }) => {

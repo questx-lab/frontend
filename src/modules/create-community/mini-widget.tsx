@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -38,7 +38,7 @@ const BackBtn = tw.button`
   text-lg
 `
 
-export const NextButton: FunctionComponent<{
+export const NextButton: FC<{
   block?: boolean
   onClick?: () => void
 }> = ({ block = false, onClick }) => {
@@ -63,7 +63,7 @@ export const NextButton: FunctionComponent<{
   )
 }
 
-export const BackButton: FunctionComponent = () => {
+export const BackButton: FC = () => {
   const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
 
   // action

@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -56,7 +56,7 @@ const SocialInput = tw.input`
   rounded-lg
 `
 
-const SetTwitterDiscordStep: FunctionComponent = () => {
+const SetTwitterDiscordStep: FC = () => {
   // data
   const twitterUrl = NewCommunityStore.useStoreState((state) => state.twitterUrl)
   const websiteUrl = NewCommunityStore.useStoreState((state) => state.websiteUrl)

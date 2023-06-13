@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
@@ -56,7 +56,7 @@ const QuestsGrid = tw.div`
 
 const MarginTop = tw.div`mt-4`
 
-export const OtherQuests: FunctionComponent<{ quests: QuestType[]; showCommunity?: boolean }> = ({
+export const OtherQuests: FC<{ quests: QuestType[]; showCommunity?: boolean }> = ({
   quests,
   showCommunity = false,
 }) => {
@@ -79,7 +79,7 @@ export const OtherQuests: FunctionComponent<{ quests: QuestType[]; showCommunity
   )
 }
 
-const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
+const QuestContent: FC<{ query: string }> = ({ query }) => {
   // Hook
   const [loading, setLoading] = useState<boolean>(false)
   const [quests, setQuests] = useState<QuestType[]>([])
@@ -148,7 +148,7 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
   )
 }
 
-const Index: FunctionComponent = () => {
+const Index: FC = () => {
   // hook
   const [query, setQuery] = useState<string>('')
 

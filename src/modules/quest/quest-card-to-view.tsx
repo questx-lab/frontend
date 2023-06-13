@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import QuestCardDetails from '@/modules/quest/quest-card-details'
 import ActiveQuestStore from '@/store/local/active-quest'
@@ -7,7 +7,7 @@ import { QuestType } from '@/types/quest'
 /**
  * This component allows user to view the quest upon clicking on it.
  */
-const QuestCardToView: FunctionComponent<{
+const QuestCardToView: FC<{
   quest: QuestType
   isTemplate?: boolean
   showCommunity?: boolean
