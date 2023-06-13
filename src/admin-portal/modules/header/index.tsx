@@ -20,6 +20,8 @@ const RightSection = tw(Horizontal)`
   justify-end
 `
 
+const ZIndexHeader = tw(HeaderBox)`z-10`
+
 const Header: FC = () => {
   const navigate = useNavigate()
   // action
@@ -35,7 +37,7 @@ const Header: FC = () => {
   }
 
   return (
-    <HeaderBox isApp className='z-10'>
+    <ZIndexHeader>
       <RightSection>
         <PopoverPosition>
           <Popover.Button className={'outline-0'}>
@@ -52,7 +54,7 @@ const Header: FC = () => {
           </PopPanel>
         </PopoverPosition>
       </RightSection>
-    </HeaderBox>
+    </ZIndexHeader>
   )
 }
 
