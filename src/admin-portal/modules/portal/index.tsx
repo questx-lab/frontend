@@ -27,13 +27,14 @@ const Portal: FC = () => {
   return (
     <>
       <Header />
-      <ContentFrame>
-        <Outlet />
-      </ContentFrame>
 
       <FixedFrame>
         <ControlPanel />
       </FixedFrame>
+
+      <ContentFrame>
+        <Outlet />
+      </ContentFrame>
     </>
   )
 }

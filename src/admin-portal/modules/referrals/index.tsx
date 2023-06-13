@@ -112,6 +112,10 @@ const ReferralBody: FunctionComponent<{
   //data
   const referrals = AdminPortalStore.useStoreState((state) => state.referrals)
 
+  if (!referrals) {
+    return <></>
+  }
+
   return (
     <>
       <tbody>

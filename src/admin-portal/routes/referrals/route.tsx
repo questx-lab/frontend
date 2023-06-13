@@ -30,6 +30,7 @@ const Referrals: FC = () => {
 
   useEffect(() => {
     setTab(ControlPanelTab.REFERRALS)
+    console.log('referrals', data.referrals)
     if (data.referrals) {
       setReferrals(data.referrals)
     }
