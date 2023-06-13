@@ -1,5 +1,13 @@
 import { FC } from 'react'
 
+import {
+  Content,
+  FieldText,
+  GapHorizontal,
+  HorizontalFullWidthCenter,
+  InfoText,
+  MarginVertical,
+} from '@/admin-portal/modules/referrals/mini-widget'
 import { ReferralActionEnum } from '@/admin-portal/types/control-panel-tab'
 import StorageConst from '@/constants/storage.const'
 import AdminReferralStore from '@/store/local/admin-referral'
@@ -10,15 +18,6 @@ import BasicModal from '@/widgets/modal/basic'
 import { Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { Divider } from '@/widgets/separator'
 import { TextXl } from '@/widgets/text'
-
-import {
-  Content,
-  FieldText,
-  GapHorizontal,
-  HorizontalFullWidthCenter,
-  InfoText,
-  MarginVertical,
-} from './mini-widget'
 
 const CommunityDetailModal: FC<{
   openModal: boolean

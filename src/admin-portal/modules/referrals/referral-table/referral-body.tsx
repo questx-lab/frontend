@@ -8,7 +8,7 @@ import ReferralStatus from '@/admin-portal/modules/referrals/referral-table/refe
 import StorageConst from '@/constants/storage.const'
 import AdminPortalStore from '@/store/local/admin-portal'
 import { UserType } from '@/types'
-import { CommunityType } from '@/types/community'
+import { CommunityType, ReferralType } from '@/types/community'
 import { CircularImage } from '@/widgets/circular-image'
 import { HorizontalStartCenter } from '@/widgets/orientation'
 import { TextBase } from '@/widgets/text'
@@ -16,14 +16,23 @@ import { TextBase } from '@/widgets/text'
 const Td = styled.td<{ highlight?: boolean }>(({ highlight = false }) => {
   const styles = [
     tw`
-  p-4
-  font-normal
-  text-base
-  text-gray-500
-`,
+      p-4
+      font-normal
+      text-base
+      text-gray-500
+    `,
   ]
   if (highlight) {
     styles.push(tw`font-medium text-info`)
+  }
+
+  return styles
+})
+
+const Tr = styled.tr<{ index: number }>(({ index }) => {
+  const styles = [tw`py-3`]
+  if (index === 0) {
+    styles.push(tw`border-t border-solid border-gray-300`)
   }
 
   return styles
@@ -44,27 +53,28 @@ const ReferralBody: FC<{
     return <></>
   }
 
+  const UserTd: FC<{ referral: ReferralType }> = ({ referral }) => {
+    return (
+      <Td rowSpan={referral.communities.length}>
+        <PointerHorizontal onClick={() => onClickUser(referral.referred_by)}>
+          <CircularImage
+            width={40}
+            height={40}
+            src={referral.referred_by.avatar_url || StorageConst.USER_DEFAULT.src}
+          />
+          <MediumTextBase>{referral.referred_by.name}</MediumTextBase>
+        </PointerHorizontal>
+      </Td>
+    )
+  }
+
   return (
     <>
       <tbody>
         {referrals.map((referral) =>
-          referral.communities.map((community, index) => (
-            <tr
-              key={index}
-              className={`py-3 ${index === 0 ? 'border-t border-solid border-gray-300' : ''}`}
-            >
-              {index === 0 ? (
-                <Td rowSpan={referral.communities.length}>
-                  <PointerHorizontal onClick={() => onClickUser(referral.referred_by)}>
-                    <CircularImage
-                      width={40}
-                      height={40}
-                      src={referral.referred_by.avatar_url || StorageConst.USER_DEFAULT.src}
-                    />
-                    <MediumTextBase>{referral.referred_by.name}</MediumTextBase>
-                  </PointerHorizontal>
-                </Td>
-              ) : null}
+          referral.communities.map((community: CommunityType, index) => (
+            <Tr key={index} index={index}>
+              {index === 0 && <UserTd referral={referral} />}
               <Td>
                 <PointerHorizontal onClick={() => onClickCommunity(community)}>
                   <CircularImage
@@ -78,7 +88,7 @@ const ReferralBody: FC<{
               <Td highlight={community.discord !== ''}>{community.discord || 'not connect'}</Td>
               <Td highlight={community.twitter !== ''}>{community.twitter || 'not connect'}</Td>
               <ReferralStatus community={community} />
-            </tr>
+            </Tr>
           ))
         )}
       </tbody>

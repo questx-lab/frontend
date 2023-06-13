@@ -11,7 +11,7 @@ import { CommunityType } from '@/types/community'
 import ReferralTable from '@/widgets/table/referral-table'
 
 const Th = tw.th`
-border-b border-gray-300 bg-gray-100 p-4
+  border-b border-gray-300 bg-gray-100 p-4
 `
 
 const TABLE_HEAD = ['From User', 'Community', 'Discord', 'Twitter', 'Status']

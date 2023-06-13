@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 
 import Header from '@/admin-portal/modules/header'
 import ControlPanel from '@/admin-portal/modules/portal/control-panel'
-import { FullWidthHeight, Vertical } from '@/widgets/orientation'
+import { FullWidthHeight, Horizontal, Vertical } from '@/widgets/orientation'
 
 const ContentFrame = tw(FullWidthHeight)`
   pt-[64px]
@@ -25,9 +25,7 @@ const FixedFrame = tw(Vertical)`
 
 const Portal: FC = () => {
   return (
-    <>
-      <Header />
-
+    <Horizontal>
       <FixedFrame>
         <ControlPanel />
       </FixedFrame>
@@ -35,7 +33,9 @@ const Portal: FC = () => {
       <ContentFrame>
         <Outlet />
       </ContentFrame>
-    </>
+
+      <Header />
+    </Horizontal>
   )
 }
 

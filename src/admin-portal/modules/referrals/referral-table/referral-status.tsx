@@ -27,10 +27,6 @@ const Td = styled.td<{ highlight?: boolean }>(({ highlight = false }) => {
   return styles
 })
 
-const Th = tw.th`
-border-b border-gray-300 bg-gray-100 p-4
-`
-
 const GapHorizontal = tw(Horizontal)`
   gap-2
 `

@@ -1,9 +1,8 @@
 import tw from 'twin.macro'
 
+import ReferralContent from '@/admin-portal/modules/referrals/referral-table'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import { Text2xl } from '@/widgets/text'
-
-import ReferralContent from './referral-table'
 
 export default function Referral() {
   const GapVertical = tw(VerticalFullWidth)`
