@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { Link } from 'react-router-dom'
@@ -19,7 +19,7 @@ import { MediumText, NormalText } from '@/widgets/text'
 const GapHorizontalStart = tw(HorizontalStartCenter)`gap-5`
 const VerticalStart = tw(VerticalCenter)`items-start`
 
-const TwitterFollow: FunctionComponent<{ action: QuestTwitterActionType }> = ({ action }) => {
+const TwitterFollow: FC<{ action: QuestTwitterActionType }> = ({ action }) => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 

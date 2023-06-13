@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent, useState } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
 
 import toast from 'react-hot-toast'
 import { MoonLoader } from 'react-spinners'
@@ -44,9 +44,7 @@ const PaddingHorizontal = tw.div`
   pb-4
 `
 
-export const ClaimedSubmit: FunctionComponent<{ claimQuest: ClaimQuestType }> = ({
-  claimQuest,
-}) => {
+export const ClaimedSubmit: FC<{ claimQuest: ClaimQuestType }> = ({ claimQuest }) => {
   if (claimQuest.quest.type === QuestTypeEnum.IMAGE) {
     return (
       <PaddingBottom>
@@ -69,7 +67,7 @@ export const ClaimedSubmit: FunctionComponent<{ claimQuest: ClaimQuestType }> = 
   )
 }
 
-const PendingItem: FunctionComponent<{
+const PendingItem: FC<{
   active: boolean
   onChange: (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => void
   claimQuest: ClaimQuestType

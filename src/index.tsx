@@ -1,7 +1,7 @@
 import './index.css'
 import 'react-multi-carousel/lib/styles.css'
 
-import React, { FunctionComponent, ReactNode, useEffect } from 'react'
+import React, { FC, ReactNode, useEffect } from 'react'
 
 import { StoreProvider, useStoreActions } from 'easy-peasy'
 import ReactDOM from 'react-dom/client'
@@ -21,9 +21,7 @@ declare global {
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
-const Content: FunctionComponent<{
-  children: ReactNode
-}> = ({ children }) => {
+const Content: FC<{ children: ReactNode }> = ({ children }) => {
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
   const localUser = getUserLocal()
 

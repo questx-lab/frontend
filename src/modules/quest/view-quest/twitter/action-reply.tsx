@@ -1,4 +1,4 @@
-import { Dispatch, FunctionComponent, SetStateAction } from 'react'
+import { Dispatch, FC, SetStateAction } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { Link } from 'react-router-dom'
@@ -13,7 +13,7 @@ import { HorizontalStartCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline'
 
-const TwitterReply: FunctionComponent<{
+const TwitterReply: FC<{
   action: QuestTwitterActionType
   inputReply: boolean
   setInputReply: Dispatch<SetStateAction<boolean>>

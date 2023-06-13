@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
@@ -16,7 +16,7 @@ const CommunitiesGrid = tw.div`
   w-full
 `
 
-export const List: FunctionComponent<{ communities: CommunityType[]; loading: boolean }> = ({
+export const List: FC<{ communities: CommunityType[]; loading: boolean }> = ({
   communities,
   loading,
 }) => {

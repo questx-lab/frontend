@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useLocation } from 'react-router-dom'
 import tw from 'twin.macro'
@@ -16,7 +16,7 @@ const OuterBoxPadding = tw(Horizontal)`
   px-8
 `
 
-const CommunityContent: FunctionComponent = () => {
+const CommunityContent: FC = () => {
   const canEdit = CommunityStore.useStoreState((action) => action.canEdit)
 
   if (canEdit) {
@@ -26,7 +26,7 @@ const CommunityContent: FunctionComponent = () => {
   return <CommunityGuestOrAnonymous />
 }
 
-const Index: FunctionComponent = () => {
+const Index: FC = () => {
   // data
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const location = useLocation()

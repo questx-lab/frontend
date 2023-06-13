@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import toast from 'react-hot-toast'
 import styled from 'styled-components'
@@ -79,7 +79,7 @@ const AddCategoryButton = styled.button<{ block?: boolean }>(({ block = true }) 
   return styles
 })
 
-const AddCategory: FunctionComponent = () => {
+const AddCategory: FC = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [name, setName] = useState<string>('')
 

@@ -1,10 +1,10 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { QuestRecurrence, QuestRecurrencesMap } from '@/constants/common.const'
 import NewQuestStore from '@/store/local/new-quest'
 import TypesSelection from '@/widgets/types-selection'
 
-const Recurrence: FunctionComponent = () => {
+const Recurrence: FC = () => {
   // Data
   const recurrence = NewQuestStore.useStoreState((state) => state.recurrence)
   const display = [

@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import parseHtml from 'html-react-parser'
@@ -32,7 +32,7 @@ const Decription = tw.div`
   text-ellipsis
   line-clamp-3
 `
-const DiscordAction: FunctionComponent<{ link: string }> = ({ link }) => {
+const DiscordAction: FC<{ link: string }> = ({ link }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
   if (user && user.services && !user.services.discord) {
@@ -62,7 +62,7 @@ const DiscordAction: FunctionComponent<{ link: string }> = ({ link }) => {
   )
 }
 
-export const QuestDiscord: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+export const QuestDiscord: FC<{ quest: QuestType }> = ({ quest }) => {
   return (
     <PaddingVertical>
       <DiscordAction link={quest.validation_data.invite_link || ''} />

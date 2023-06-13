@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
@@ -27,7 +27,7 @@ const Border = tw(Horizontal)`
   rounded-lg
 `
 
-export const SearchInput: FunctionComponent<{
+export const SearchInput: FC<{
   hint?: string
   onChanged: (value: string) => void
 }> = ({ hint, onChanged }) => {

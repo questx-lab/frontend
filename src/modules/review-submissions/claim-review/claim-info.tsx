@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent } from 'react'
+import { FC, Fragment } from 'react'
 
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
@@ -21,7 +21,7 @@ const GapVertical = tw(VerticalFullWidth)`
   gap-4
 `
 
-const Review: FunctionComponent = () => {
+const Review: FC = () => {
   // data
   const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)
   const claimQuestActive = ClaimReviewStore.useStoreState((state) => state.claimQuestActive)
@@ -67,7 +67,7 @@ const Review: FunctionComponent = () => {
   )
 }
 
-const ClaimInfo: FunctionComponent = () => {
+const ClaimInfo: FC = () => {
   const claimQuestActive = ClaimReviewStore.useStoreState((state) => state.claimQuestActive)
 
   return (

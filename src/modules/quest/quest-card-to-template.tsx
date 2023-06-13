@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useNavigate } from 'react-router'
 
@@ -11,7 +11,7 @@ import { QuestType } from '@/types/quest'
  * This Quest component holds template data. When user clicks on the quest card, it navigates (or
  * opens a modal) with prepopulated quest data and allow user to create a new quest.
  */
-const QuestCardToTemplate: FunctionComponent<{
+const QuestCardToTemplate: FC<{
   quest: QuestType
   communityHandle: string
 }> = ({ quest, communityHandle }) => {

@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { OuterBox } from '@/modules/create-quest/quest-type/mini-widget'
 import QuestQuiz from '@/modules/create-quest/quest-type/quiz'
@@ -29,7 +29,7 @@ const canAddMoreQuiz = (quizzes: QuestQuizType[]): boolean => {
   return true
 }
 
-const AddQuestQuiz: FunctionComponent = () => {
+const AddQuestQuiz: FC = () => {
   const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
   const setQuizzes = NewQuestStore.useStoreActions((action) => action.setQuizzes)
 
@@ -55,14 +55,14 @@ const AddQuestQuiz: FunctionComponent = () => {
   )
 }
 
-const ListQuizzes: FunctionComponent = () => {
+const ListQuizzes: FC = () => {
   const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
   const renderQuizzes = quizzes.map((e, i) => <QuestQuiz key={i} quizIndex={i} />)
 
   return <>{renderQuizzes}</>
 }
 
-const Quizzes: FunctionComponent = () => {
+const Quizzes: FC = () => {
   return (
     <OuterBox>
       <ListQuizzes />

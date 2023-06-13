@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -33,7 +33,7 @@ const BorderBox = tw(RoundedGrayBorderBox)`
   gap-4
 `
 
-const QuestReward: FunctionComponent = () => {
+const QuestReward: FC = () => {
   // Data
   const activeReward = NewQuestStore.useStoreState((state) => state.activeReward)
   const pointReward = NewQuestStore.useStoreState((state) => state.pointReward)

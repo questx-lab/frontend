@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import Dropzone from 'react-dropzone'
 import styled from 'styled-components'
@@ -62,7 +62,7 @@ const CenteredFrame = tw(VerticalCenter)`
   outline-0
 `
 
-const ShowImage: FunctionComponent = () => {
+const ShowImage: FC = () => {
   const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
   const setFileUpload = ActiveQuestStore.useStoreActions((action) => action.setFileUpload)
 
@@ -109,7 +109,7 @@ const ShowImage: FunctionComponent = () => {
   )
 }
 
-const QuestImage: FunctionComponent = () => {
+const QuestImage: FC = () => {
   // data
   const role = CommunityStore.useStoreState((state) => state.role)
 

@@ -1,11 +1,11 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import NewQuestStore from '@/store/local/new-quest'
 import Toggle from '@/widgets/input/toggle'
 import { HorizontalCenter } from '@/widgets/orientation'
 import { SmallText } from '@/widgets/text'
 
-const Highlighted: FunctionComponent = () => {
+const Highlighted: FC = () => {
   // data
   const highlighted = NewQuestStore.useStoreState((state) => state.highlighted)
 

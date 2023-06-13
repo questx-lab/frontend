@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { useNavigate } from 'react-router-dom'
@@ -46,7 +46,7 @@ const NameText = tw.p`
   max-w-[150px]
 `
 
-const UserPopover: FunctionComponent = () => {
+const UserPopover: FC = () => {
   const navigate = useNavigate()
 
   // data

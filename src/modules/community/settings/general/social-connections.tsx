@@ -1,4 +1,4 @@
-import { FC, FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { SizeEnum } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
@@ -12,7 +12,7 @@ import { VerticalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { HeaderText3 } from '@/widgets/text'
 
-const DiscordConnect: FunctionComponent = () => {
+const DiscordConnect: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   if (community.discord !== '') {

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
@@ -56,7 +56,7 @@ const GapVertical = tw(VerticalFullWidthCenter)`
   gap-8
 `
 
-const NewCommunity: FunctionComponent<{
+const NewCommunity: FC<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   return (
@@ -67,7 +67,7 @@ const NewCommunity: FunctionComponent<{
   )
 }
 
-const Index: FunctionComponent = () => {
+const Index: FC = () => {
   // hook
   const [isOpen, setOpen] = useState<boolean>(false)
   const [query, setQuery] = useState<string>('')

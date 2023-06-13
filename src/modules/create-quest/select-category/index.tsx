@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, useEffect, useState } from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -32,7 +32,7 @@ const ListButton = tw(Listbox.Button)`
   py-2
   pl-3
   pr-10
-  text-left 
+  text-left
   focus:outline-none
   sm:text-sm
   border
@@ -109,7 +109,7 @@ const TitleOption = styled.div<{ selected: boolean }>(({ selected }) => {
   return styles
 })
 
-const ListOptionRender: FunctionComponent<{ categories: CategoryType[] }> = ({ categories }) => {
+const ListOptionRender: FC<{ categories: CategoryType[] }> = ({ categories }) => {
   return (
     <Transition
       as={Fragment}

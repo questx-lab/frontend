@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -12,7 +12,7 @@ import { CommunityType, FollowCommunityType } from '@/types/community'
 import { ButtonTypeEnum, NegativeButton, PositiveButton } from '@/widgets/buttons'
 import { CheckIcon } from '@heroicons/react/24/outline'
 
-const FollowCommunity: FunctionComponent<{
+const FollowCommunity: FC<{
   community: CommunityType
 }> = ({ community }) => {
   const [loading, setLoading] = useState<boolean>(false)

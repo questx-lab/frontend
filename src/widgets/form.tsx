@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -118,7 +118,7 @@ const ErrorMsg = styled.span<{ danger: boolean; isValid?: boolean }>(({ danger, 
   `,
 ])
 
-const MsgBox: FunctionComponent<{
+const MsgBox: FC<{
   danger: boolean
   msg: string
   isValid?: boolean
@@ -137,7 +137,7 @@ const MsgBox: FunctionComponent<{
   return <></>
 }
 
-export const TextField: FunctionComponent<{
+export const TextField: FC<{
   required?: boolean
   placeholder?: string
   value?: string
@@ -160,7 +160,7 @@ export const TextField: FunctionComponent<{
     </ErrorBox>
   )
 }
-export const MultipleTextField: FunctionComponent<{
+export const MultipleTextField: FC<{
   required?: boolean
   placeholder: string
   value: string

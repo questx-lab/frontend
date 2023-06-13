@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
@@ -99,13 +99,13 @@ export const PolicyText = tw(HorizontalCenter)`
   gap-2
 `
 
-const Login: FunctionComponent<{
+const Login: FC<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   // data
   const authBox = useStoreState<GlobalStoreModel>((state) => state.authBox)
 
-  const Content: FunctionComponent = () => {
+  const Content: FC = () => {
     switch (authBox) {
       case AuthEnum.LOGIN:
       case AuthEnum.REGISTER:

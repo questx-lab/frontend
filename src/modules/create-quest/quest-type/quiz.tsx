@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -21,7 +21,7 @@ const QuestQuizBox = tw(VerticalFullWidth)`
   p-4
 `
 
-const QuestQuiz: FunctionComponent<{ quizIndex: number }> = ({ quizIndex }) => {
+const QuestQuiz: FC<{ quizIndex: number }> = ({ quizIndex }) => {
   const quizzes = NewQuestStore.useStoreState((state) => state.quizzes)
   const setQuizzes = NewQuestStore.useStoreActions((action) => action.setQuizzes)
 

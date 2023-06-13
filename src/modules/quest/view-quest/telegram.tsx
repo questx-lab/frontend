@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { toast } from 'react-hot-toast'
@@ -29,7 +29,7 @@ const PaddingVertical = tw(VerticalFullWidth)`
   gap-6
 `
 
-const TelegramAction: FunctionComponent<{ link: string }> = ({ link }) => {
+const TelegramAction: FC<{ link: string }> = ({ link }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   const setTelegramSubmit = ActiveQuestStore.useStoreActions((action) => action.setTelegramSubmit)
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
@@ -88,7 +88,7 @@ const TelegramAction: FunctionComponent<{ link: string }> = ({ link }) => {
   )
 }
 
-const QuestTelegram: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+const QuestTelegram: FC<{ quest: QuestType }> = ({ quest }) => {
   return (
     <PaddingVertical>
       <TelegramAction link={quest.validation_data.group_link || ''} />

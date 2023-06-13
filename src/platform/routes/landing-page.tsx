@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
@@ -170,7 +170,7 @@ const RewardMapData = new Map<RewardBoxEnum, RewardDataType>([
   ],
 ])
 
-const RewardView: FunctionComponent<{
+const RewardView: FC<{
   name: string
   imgSrc: string
   des: string
@@ -184,7 +184,7 @@ const RewardView: FunctionComponent<{
   )
 }
 
-const Footer: FunctionComponent = () => {
+const Footer: FC = () => {
   return (
     <FooterBox>
       <FooterText>{'Copyright © 2023 XQuest.'}</FooterText>
@@ -206,7 +206,7 @@ const Footer: FunctionComponent = () => {
   )
 }
 
-const Content: FunctionComponent = () => {
+const Content: FC = () => {
   // hook
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
@@ -300,7 +300,7 @@ const Content: FunctionComponent = () => {
   )
 }
 
-const LandingPage: FunctionComponent = () => {
+const LandingPage: FC = () => {
   return <Content />
 }
 

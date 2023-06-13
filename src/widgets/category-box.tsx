@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
@@ -15,7 +15,7 @@ const HeaderBox = tw(HorizontalBetweenCenter)`
   w-full
 `
 
-const Header: FunctionComponent<{ title: string; show: boolean; onClick: () => void }> = ({
+const Header: FC<{ title: string; show: boolean; onClick: () => void }> = ({
   title,
   show,
   onClick,
@@ -39,7 +39,7 @@ const Header: FunctionComponent<{ title: string; show: boolean; onClick: () => v
   )
 }
 
-const CategoryBox: FunctionComponent<{
+const CategoryBox: FC<{
   title: string
   children: ReactNode
   onClick: () => void
