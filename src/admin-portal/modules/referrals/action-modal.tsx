@@ -3,13 +3,12 @@ import { FC, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
+import { Content, GapHorizontal } from '@/admin-portal/modules/referrals/mini-widget'
 import { approveReferralApi } from '@/api/communitiy'
 import AdminReferralStore from '@/store/local/admin-referral'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
 import { TextBase, TextXl } from '@/widgets/text'
-
-import { Content, GapHorizontal } from './mini-widget'
 
 export const ActionModal: FC<{}> = () => {
   const [loading, setLoading] = useState<boolean>(false)

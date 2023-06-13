@@ -1,5 +1,12 @@
 import { FC } from 'react'
 
+import {
+  Content,
+  FieldText,
+  HorizontalFullWidthCenter,
+  InfoText,
+  MarginVertical,
+} from '@/admin-portal/modules/referrals/mini-widget'
 import StorageConst from '@/constants/storage.const'
 import { UserType } from '@/types'
 import { CircularImage } from '@/widgets/circular-image'
@@ -7,14 +14,6 @@ import BasicModal from '@/widgets/modal/basic'
 import { Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { Divider } from '@/widgets/separator'
 import { TextXl } from '@/widgets/text'
-
-import {
-  Content,
-  FieldText,
-  HorizontalFullWidthCenter,
-  InfoText,
-  MarginVertical,
-} from './mini-widget'
 
 const UserDetailModal: FC<{
   openModal: boolean
