@@ -15,7 +15,7 @@ import {
   UpdateCommunityResponse,
   UserType,
 } from '@/types'
-import { CommunityType, FollowCommunityType } from '@/types/community'
+import { CommunityType, FollowCommunityType, ReferralType } from '@/types/community'
 import { ONE_MINUTE_MILLIS } from '@/utils/time'
 
 class CommunityLoader {
@@ -196,5 +196,18 @@ export const getCategoriesApi = async (
   const rs = await api.get(
     EnvVariables.API_SERVER + `/getCategories?community_handle=${communityHandle}`
   )
+  return rs.data
+}
+
+export const getReferralApi = async (): Promise<Rsp<{ referrals: ReferralType[] }>> => {
+  const rs = await api.get(EnvVariables.API_SERVER + `/getReferrals`)
+  return rs.data
+}
+
+export const approveReferralApi = async (handle: string, action: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/reviewReferral', {
+    community_handle: handle,
+    action,
+  })
   return rs.data
 }

@@ -8,7 +8,6 @@ import ControlPanel from '@/admin-portal/modules/portal/control-panel'
 import { FullWidthHeight, Vertical } from '@/widgets/orientation'
 
 const ContentFrame = tw(FullWidthHeight)`
-  fixed
   pt-[64px]
   pl-80
 `
