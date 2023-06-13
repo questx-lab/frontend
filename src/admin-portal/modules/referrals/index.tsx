@@ -6,9 +6,9 @@ import { Text2xl } from '@/widgets/text'
 
 export default function Referral() {
   const GapVertical = tw(VerticalFullWidth)`
-  gap-6
-  p-6
-`
+    gap-6
+    p-6
+  `
 
   return (
     <GapVertical>
