@@ -47,8 +47,8 @@ const ReferralContent: FC = () => {
       <ReferralTable>
         <thead>
           <tr>
-            {TABLE_HEAD.map((head) => (
-              <Th>{head}</Th>
+            {TABLE_HEAD.map((head, index) => (
+              <Th key={index}>{head}</Th>
             ))}
           </tr>
         </thead>

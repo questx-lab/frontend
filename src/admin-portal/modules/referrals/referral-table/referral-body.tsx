@@ -73,7 +73,7 @@ const ReferralBody: FC<{
       <tbody>
         {referrals.map((referral) =>
           referral.communities.map((community: CommunityType, index) => (
-            <Tr key={index} index={index}>
+            <Tr key={`${community.handle}-${index}`} index={index}>
               {index === 0 && <UserTd referral={referral} />}
               <Td>
                 <PointerHorizontal onClick={() => onClickCommunity(community)}>
