@@ -16,6 +16,7 @@ export enum ButtonTypeEnum {
   WARNING,
   SUCCESS,
   SUCCESS_BORDER,
+  POSITVE_BORDER,
 }
 
 const BaseStyle = styled.button<{
@@ -120,6 +121,16 @@ const BaseStyle = styled.button<{
                 border-solid
                 border-danger
               `)
+        break
+      case ButtonTypeEnum.POSITVE_BORDER:
+        style.push(tw`
+                  bg-primary-50
+                  hover:bg-primary-100
+                  text-primary
+                  border
+                  border-solid
+                  border-primary
+                `)
         break
     }
   }

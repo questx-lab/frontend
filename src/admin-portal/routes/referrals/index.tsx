@@ -1,7 +1,10 @@
-import { FC } from 'react'
+import Referral from '@/admin-portal/modules/referrals'
+import AdminReferralStore from '@/store/local/admin-referral'
 
-const Index: FC = () => {
-  return <>This is referrals index</>
+export default function Index() {
+  return (
+    <AdminReferralStore.Provider>
+      <Referral />
+    </AdminReferralStore.Provider>
+  )
 }
-
-export default Index
