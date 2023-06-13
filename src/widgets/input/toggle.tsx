@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -30,7 +30,7 @@ const Switch = styled.div<{ checked: boolean }>(({ checked }) => {
   return style
 })
 
-const Toggle: FunctionComponent<{ checked: boolean; onClicked: (value: boolean) => void }> = ({
+const Toggle: FC<{ checked: boolean; onClicked: (value: boolean) => void }> = ({
   checked,
   onClicked,
 }) => {

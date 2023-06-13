@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -18,7 +18,7 @@ const FrameShape = tw(Vertical)`
   items-end
 `
 
-const QuestReward: FunctionComponent<{
+const QuestReward: FC<{
   quest: QuestType
 }> = ({ quest }) => {
   return (

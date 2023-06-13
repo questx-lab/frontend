@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
@@ -31,7 +31,7 @@ const WarningText = tw.span`
   text-start
 `
 
-const CreateCommunityStep: FunctionComponent = () => {
+const CreateCommunityStep: FC = () => {
   // data
   const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
   const inviteCode = NewCommunityStore.useStoreState((state) => state.inviteCode)

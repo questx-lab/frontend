@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -103,7 +103,7 @@ const handleSubmit = async (
   return true
 }
 
-const SubmitClaim: FunctionComponent<{
+const SubmitClaim: FC<{
   quest: QuestType
 }> = ({ quest }) => {
   // hook
@@ -150,9 +150,14 @@ const SubmitClaim: FunctionComponent<{
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)
 
   const onEdit = () => {
-    setEditQuest(quest)
-    setActiveQuest(emptyQuest())
-    navigate(editQuestRoute(quest.community.handle))
+    switch (role) {
+      case CommunityRoleEnum.EDITOR:
+      case CommunityRoleEnum.OWNER:
+        setEditQuest(quest)
+        setActiveQuest(emptyQuest())
+        navigate(editQuestRoute(quest.community.handle))
+        break
+    }
   }
 
   const onDeleteConfirmed = async () => {
@@ -182,6 +187,7 @@ const SubmitClaim: FunctionComponent<{
         })
 
   switch (role) {
+    case CommunityRoleEnum.ADMIN:
     case CommunityRoleEnum.EDITOR:
     case CommunityRoleEnum.OWNER:
       return (

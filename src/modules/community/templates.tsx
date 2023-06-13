@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
@@ -19,7 +19,7 @@ const BackgroundAndBorder = tw(GrayBorderBox)`
   rounded-lg
 `
 
-const Templates: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
+const Templates: FC<{ communityHandle: string }> = ({ communityHandle }) => {
   const templates = useStoreState<GlobalStoreModel>((state) => state.templates)
 
   if (templates === undefined || templates.length === 0) {

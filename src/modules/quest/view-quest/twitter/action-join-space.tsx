@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { Link } from 'react-router-dom'
@@ -11,7 +11,7 @@ import { NegativeButton } from '@/widgets/buttons'
 import { HorizontalStartCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 
-const TwitterJoinSpace: FunctionComponent<{ action: QuestTwitterActionType }> = ({ action }) => {
+const TwitterJoinSpace: FC<{ action: QuestTwitterActionType }> = ({ action }) => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 

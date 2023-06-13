@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 
@@ -10,10 +10,7 @@ import { CheckBadgeIcon, ExclamationTriangleIcon } from '@heroicons/react/24/out
 import { VerticalFullWidthCenter } from '../orientation'
 import { NormalText } from '../text'
 
-const RenderContent: FunctionComponent<{ isSuccess?: boolean; message?: string }> = ({
-  isSuccess,
-  message,
-}) => {
+const RenderContent: FC<{ isSuccess?: boolean; message?: string }> = ({ isSuccess, message }) => {
   if (isSuccess === false) {
     return (
       <VerticalFullWidthCenter>
@@ -44,7 +41,7 @@ const RenderContent: FunctionComponent<{ isSuccess?: boolean; message?: string }
   )
 }
 
-const LoadingModal: FunctionComponent<{
+const LoadingModal: FC<{
   isOpen?: boolean
   isSuccess?: boolean
   message?: string

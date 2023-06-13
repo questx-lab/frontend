@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useNavigate } from 'react-router'
 import tw from 'twin.macro'
@@ -16,7 +16,7 @@ const TitleBox = tw(HorizontalStartCenter)`
   w-full
 `
 
-const TopLabel: FunctionComponent<{
+const TopLabel: FC<{
   communityHandle: string
   isEdit: boolean
 }> = ({ communityHandle, isEdit }) => {

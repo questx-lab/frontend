@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent, ReactNode } from 'react'
+import { ChangeEvent, FC, ReactNode } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -80,7 +80,7 @@ const InputStyle = styled.input<{ full: boolean }>(({ full }) => {
   return style
 })
 
-export const NumberInput: FunctionComponent<{
+export const NumberInput: FC<{
   full?: boolean
   leftChild?: ReactNode
   min?: number
@@ -101,7 +101,7 @@ export const NumberInput: FunctionComponent<{
   )
 }
 
-export const TextInput: FunctionComponent<{
+export const TextInput: FC<{
   full?: boolean
   leftChild?: ReactNode
   defaultValue?: string

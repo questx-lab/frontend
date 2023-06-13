@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import parseHtml from 'html-react-parser'
 import tw from 'twin.macro'
@@ -34,7 +34,7 @@ const QuestColumn = tw(Vertical)`
   gap-4
 `
 
-const QuestDetail: FunctionComponent = () => {
+const QuestDetail: FC = () => {
   const claimQuestActive = ClaimReviewStore.useStoreState((state) => state.claimQuestActive)
   return (
     <QuestColumn>
@@ -59,7 +59,7 @@ const QuestDetail: FunctionComponent = () => {
   )
 }
 
-const ClaimReview: FunctionComponent = () => {
+const ClaimReview: FC = () => {
   return (
     <OuterFrame>
       <ClaimColumn>

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
@@ -26,7 +26,7 @@ const VerticalAction = tw(VerticalFullWidthCenter)`
   gap-6
 `
 
-const TwitterEmbed: FunctionComponent<{ actions: QuestTwitterActionType[] }> = ({ actions }) => {
+const TwitterEmbed: FC<{ actions: QuestTwitterActionType[] }> = ({ actions }) => {
   if (actions.length === 0) {
     return <></>
   }
@@ -43,7 +43,7 @@ const TwitterEmbed: FunctionComponent<{ actions: QuestTwitterActionType[] }> = (
   )
 }
 
-const QuestTwitterAction: FunctionComponent<{
+const QuestTwitterAction: FC<{
   actions: QuestTwitterActionType[]
 }> = ({ actions }) => {
   // hook

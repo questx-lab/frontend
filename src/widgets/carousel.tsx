@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import Carousel from 'react-multi-carousel'
 import { ArrowProps } from 'react-multi-carousel/lib/types'
@@ -76,7 +76,7 @@ const CustomLeftArrow = ({ onClick }: ArrowProps) => {
   )
 }
 
-const CarouselList: FunctionComponent<{
+const CarouselList: FC<{
   data: any[]
   renderItemFunc: (item: any, index?: number) => ReactNode
 }> = ({ data, renderItemFunc }) => {

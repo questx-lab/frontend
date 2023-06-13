@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -47,7 +47,7 @@ const TypeButton = styled.div<{ active?: boolean }>(({ active = false }) => {
   `
 })
 
-const TypesSelection: FunctionComponent<{
+const TypesSelection: FC<{
   list: any[]
   onClick: (item: any, index: number) => void
   itemView: (item: any, index?: number) => ReactNode

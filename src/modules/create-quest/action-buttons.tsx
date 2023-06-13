@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -12,7 +12,7 @@ const FullWidthFrame = tw(HorizontalBetweenCenter)`
   gap-4
 `
 
-const ActionButtons: FunctionComponent<{
+const ActionButtons: FC<{
   onSubmit: (status: string) => void
 }> = ({ onSubmit }) => {
   const title = NewQuestStore.useStoreState((state) => state.title)

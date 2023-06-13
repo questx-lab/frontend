@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -36,7 +36,7 @@ const ContentPadding = tw(Vertical)`
   w-full
 `
 
-const Index: FunctionComponent = () => {
+const Index: FC = () => {
   // data
   const submissionModal = ClaimReviewStore.useStoreState((state) => state.showClaimDetails)
   const tabReviewState = ClaimReviewStore.useStoreState((state) => state.selectedTab)

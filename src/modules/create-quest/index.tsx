@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { EasyPeasyConfig, Store } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -91,7 +91,7 @@ const handleSubmit = async (
   return false
 }
 
-export const CreateOrEditQuest: FunctionComponent<{
+export const CreateOrEditQuest: FC<{
   isTemplate?: boolean
   isEdit?: boolean
   onQuestCreated: () => void

@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useStoreActions } from 'easy-peasy'
 import { Toaster } from 'react-hot-toast'
@@ -49,7 +49,7 @@ const OverscrollY = tw.div`
   overflow-scroll
 `
 
-const Root: FunctionComponent = () => {
+const Root: FC = () => {
   // props
   const data = useLoaderData() as {
     myCommunities: CollaboratorType[]

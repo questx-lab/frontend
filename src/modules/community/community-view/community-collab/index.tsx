@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -17,7 +17,7 @@ import { VerticalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { Text2xl } from '@/widgets/text'
 
-const CommunityCollab: FunctionComponent = () => {
+const CommunityCollab: FC = () => {
   // hook
   const [showTemplateModal, setShowTemplateModal] = useState<boolean>(false)
   const navigate = useNavigate()

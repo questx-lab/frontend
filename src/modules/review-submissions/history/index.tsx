@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 
@@ -20,7 +20,7 @@ import { QuestType } from '@/types/quest'
 
 const ClaimStatus = ClaimedQuestStatus.ACCEPTED + ',' + ClaimedQuestStatus.REJECTED
 
-const HistoryTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
+const HistoryTab: FC<{ communityHandle: string }> = ({ communityHandle }) => {
   // data
   const historyClaims = ClaimReviewStore.useStoreState((state) => state.historyClaims)
   const selectedHistories = ClaimReviewStore.useStoreState((state) => state.selectedHistories)

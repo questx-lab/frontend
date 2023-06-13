@@ -1,6 +1,6 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
-export const Image: FunctionComponent<{
+export const Image: FC<{
   height?: number
   width?: number
   src?: string

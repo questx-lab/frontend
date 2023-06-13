@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -30,7 +30,7 @@ const NotFoundBox = tw.div`
   text-gray-700
 `
 
-const ResultBox: FunctionComponent<{ filteredQuests: QuestType[] }> = ({ filteredQuests }) => {
+const ResultBox: FC<{ filteredQuests: QuestType[] }> = ({ filteredQuests }) => {
   const selectedQuests = NewQuestSearchStore.useStoreState((state) => state.selectedQuest)
 
   if (!filteredQuests.length) {

@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -34,7 +34,7 @@ const CenterNormalText = tw(NormalText)`
   text-center
 `
 
-export const QuestListView: FunctionComponent<{
+export const QuestListView: FC<{
   quests: QuestType[]
 }> = ({ quests }) => {
   if (!quests) {
@@ -46,7 +46,7 @@ export const QuestListView: FunctionComponent<{
   return <>{questListView}</>
 }
 
-const RenderQuest: FunctionComponent<{ quests: QuestType[] }> = ({ quests }) => {
+const RenderQuest: FC<{ quests: QuestType[] }> = ({ quests }) => {
   if (quests.length === 0) {
     return (
       <EmptyBox>
@@ -62,7 +62,7 @@ const RenderQuest: FunctionComponent<{ quests: QuestType[] }> = ({ quests }) => 
   )
 }
 
-const Quests: FunctionComponent<{
+const Quests: FC<{
   quests: QuestType[]
   show: boolean
   categoryTitle?: string

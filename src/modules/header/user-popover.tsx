@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { useNavigate } from 'react-router-dom'
@@ -13,8 +13,7 @@ import { clearLocalStorage, delCookies } from '@/utils/helper'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
-import { PopItem, PopoverPosition, PopPanel } from '@/widgets/popover'
-import { Popover } from '@headlessui/react'
+import { OptionxBox, PopItem, PopoverButton, PopoverPosition, PopPanel } from '@/widgets/popover'
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
 
@@ -47,25 +46,7 @@ const NameText = tw.p`
   max-w-[150px]
 `
 
-const OptionxBox = tw.div`
-  w-full
-  text-lg
-  font-normal
-  text-gray-700
-  p-2
-  px-3
-  rounded-lg
-  hover:bg-primary-100
-`
-
-const PopoverButton = tw(Popover.Button)`
-  flex
-  justify-center
-  items-center
-  outline-0
-`
-
-const UserPopover: FunctionComponent = () => {
+const UserPopover: FC = () => {
   const navigate = useNavigate()
 
   // data

@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { Outlet, useNavigate } from 'react-router-dom'
@@ -9,7 +9,7 @@ import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { ControlPanelTab } from '@/types/community'
 
-const ReviewSubmissions: FunctionComponent = () => {
+const ReviewSubmissions: FC = () => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const canEdit = CommunityStore.useStoreState((action) => action.canEdit)

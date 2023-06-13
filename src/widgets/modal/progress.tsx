@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 
@@ -13,7 +13,7 @@ import {
 import { Gap } from '@/widgets/separator'
 import { SpinnerStyle } from '@/widgets/spinner'
 
-const ProgressModal: FunctionComponent<{
+const ProgressModal: FC<{
   isOpen: boolean
   title: string
   lines: string[]

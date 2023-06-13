@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -42,7 +42,7 @@ const CommunityGrid = tw.div`
   max-sm:grid-cols-1
 `
 
-const Title: FunctionComponent = () => {
+const Title: FC = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   return (
     <VerticalFullWidthCenter>
@@ -51,9 +51,7 @@ const Title: FunctionComponent = () => {
   )
 }
 
-export const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({
-  communities,
-}) => {
+export const OtherCommunities: FC<{ communities: CommunityType[] }> = ({ communities }) => {
   if (!communities || communities.length === 0) {
     return (
       <VerticalFullWidthCenter>
@@ -76,7 +74,7 @@ export const OtherCommunities: FunctionComponent<{ communities: CommunityType[] 
   )
 }
 
-export const HomePage: FunctionComponent = () => {
+export const HomePage: FC = () => {
   // hook
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(true)
@@ -132,7 +130,7 @@ export const HomePage: FunctionComponent = () => {
   )
 }
 
-const HomeOrLanding: FunctionComponent = () => {
+const HomeOrLanding: FC = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   if (!user) {
     return <LandingPage />

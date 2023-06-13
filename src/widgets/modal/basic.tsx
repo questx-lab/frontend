@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -46,7 +46,7 @@ const Title = tw.div`
   text-black
 `
 
-const TopModal: FunctionComponent<{ hasHeader: boolean; title?: string; onClose: () => void }> = ({
+const TopModal: FC<{ hasHeader: boolean; title?: string; onClose: () => void }> = ({
   hasHeader,
   title,
   onClose,
@@ -63,7 +63,7 @@ const TopModal: FunctionComponent<{ hasHeader: boolean; title?: string; onClose:
   )
 }
 
-const BasicModal: FunctionComponent<{
+const BasicModal: FC<{
   isOpen: boolean
   children: ReactNode
   title?: string

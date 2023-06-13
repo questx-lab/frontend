@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
@@ -20,7 +20,7 @@ const StartVertical = tw(VerticalFullWidth)`
   items-start
 `
 
-const CommunityContent: FunctionComponent<{ query: string }> = ({ query }) => {
+const CommunityContent: FC<{ query: string }> = ({ query }) => {
   // Hook
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)

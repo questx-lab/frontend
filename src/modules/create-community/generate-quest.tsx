@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, useEffect, useState } from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
@@ -57,7 +57,7 @@ const createQuests = async (quests: QuestType[], communityHandle: string) => {
   }
 }
 
-const ListQuests: FunctionComponent<{
+const ListQuests: FC<{
   quests: QuestType[]
   questsSelect: QuestType[]
   setQuestsSelect: (e: QuestType[]) => void
@@ -88,7 +88,7 @@ const ListQuests: FunctionComponent<{
   return <Fragment>{renderQuests}</Fragment>
 }
 
-const Templates: FunctionComponent<{
+const Templates: FC<{
   questsSelect: QuestType[]
   setQuestsSelect: (e: QuestType[]) => void
 }> = ({ questsSelect, setQuestsSelect }) => {
@@ -117,7 +117,7 @@ const Templates: FunctionComponent<{
   )
 }
 
-const GenerateQuest: FunctionComponent = () => {
+const GenerateQuest: FC = () => {
   const [questsSelect, setQuestsSelect] = useState<QuestType[]>([])
   const createdCommunityHandle = NewCommunityStore.useStoreState(
     (state) => state.createdCommunityHandle

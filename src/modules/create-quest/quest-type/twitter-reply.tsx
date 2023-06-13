@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { TwitterEnum } from '@/constants/common.const'
 import { Padding } from '@/modules/create-quest/quest-type/mini-widget'
@@ -7,7 +7,7 @@ import MultipleInputBox from '@/widgets/input/multiple-input-box'
 import { Divider, Gap } from '@/widgets/separator'
 import { Label, SmallText } from '@/widgets/text'
 
-const TwitterReply: FunctionComponent = () => {
+const TwitterReply: FC = () => {
   const actionTwitter = NewQuestStore.useStoreState((state) => state.actionTwitter)
   const setReplyTwitter = NewQuestStore.useStoreActions((actions) => actions.setReplyTwitter)
 

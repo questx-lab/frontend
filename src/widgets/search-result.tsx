@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, ReactNode } from 'react'
+import { FC, Fragment, ReactNode } from 'react'
 
 import tw from 'twin.macro'
 
@@ -17,7 +17,7 @@ const HorizotalStart = tw(Horizontal)`
   gap-3
 `
 
-const SearchResult: FunctionComponent<{
+const SearchResult: FC<{
   query: string
   data: any[]
   loading?: boolean

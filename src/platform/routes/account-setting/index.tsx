@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -13,7 +13,7 @@ const MainFrame = tw.div`
   h-full
 `
 
-const RenderContent: FunctionComponent = () => {
+const RenderContent: FC = () => {
   const tabActive = AccountSettingsStore.useStoreState((state) => state.tabType)
 
   if (tabActive === AccoutSettingTabEnum.ACHIEVEMENTS) {
@@ -23,7 +23,7 @@ const RenderContent: FunctionComponent = () => {
   return <General />
 }
 
-const Index: FunctionComponent = () => {
+const Index: FC = () => {
   return (
     <MainFrame>
       <AccountSettingsStore.Provider>

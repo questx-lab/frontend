@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { MoonLoader } from 'react-spinners'
@@ -153,7 +153,7 @@ const BaseStyle = styled.button<{
   return style
 })
 
-export const Button: FunctionComponent<{
+export const Button: FC<{
   loading?: boolean
   children: ReactNode
   onClick?: () => void
@@ -212,7 +212,7 @@ export const Button: FunctionComponent<{
   )
 }
 
-export const PositiveButton: FunctionComponent<{
+export const PositiveButton: FC<{
   loading?: boolean
   children: ReactNode | ReactNode[]
   onClick?: () => void
@@ -246,7 +246,7 @@ export const PositiveButton: FunctionComponent<{
   )
 }
 
-export const NegativeButton: FunctionComponent<{
+export const NegativeButton: FC<{
   loading?: boolean
   children: ReactNode
   onClick?: () => void
@@ -278,7 +278,7 @@ export const NegativeButton: FunctionComponent<{
   )
 }
 
-export const DangerButton: FunctionComponent<{
+export const DangerButton: FC<{
   loading?: boolean
   children: ReactNode
   onClick?: () => void

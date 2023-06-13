@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -23,7 +23,7 @@ const CategoryBox = tw.div`
   cursor-pointer
 `
 
-const Category: FunctionComponent = () => {
+const Category: FC = () => {
   // data
   const categories = CommunityStore.useStoreState((state) => state.categories)
 
