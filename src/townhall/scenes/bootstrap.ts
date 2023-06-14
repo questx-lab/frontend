@@ -10,6 +10,7 @@ export default class Bootstrap extends Phaser.Scene {
   }
 
   preload() {
+    // TODO: lazy loading
     this.load.baseURL = EnvVariables.TOWNHALL_ASSET_CDN
 
     this.load.atlas('cloud_day', '/background/cloud_day.png', '/background/cloud_day.json')

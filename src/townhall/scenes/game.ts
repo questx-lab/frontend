@@ -55,7 +55,6 @@ export default class Game extends Phaser.Scene {
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16)
 
     // TODO: temporary add hard user here
-    this.myPlayer.setPlayerName('Test user')
     this.myPlayer.setPlayerTexture('adam')
 
     // import chair objects from Tiled map to Phaser
