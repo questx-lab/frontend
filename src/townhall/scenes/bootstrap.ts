@@ -1,5 +1,7 @@
 import Phaser from 'phaser'
 
+import { EnvVariables } from '@/constants/env.const'
+
 export default class Bootstrap extends Phaser.Scene {
   private preloadComplete = false
 
@@ -8,8 +10,7 @@ export default class Bootstrap extends Phaser.Scene {
   }
 
   preload() {
-    console.log('vao boostrap')
-    this.load.baseURL = 'https://xquestgame.s3.us-west-004.backblazeb2.com'
+    this.load.baseURL = EnvVariables.TOWNHALL_ASSET_CDN
 
     this.load.atlas('cloud_day', '/background/cloud_day.png', '/background/cloud_day.json')
     this.load.image('backdrop_day', '/background/backdrop_day.png')
@@ -71,7 +72,6 @@ export default class Bootstrap extends Phaser.Scene {
 
   launchGame() {
     if (!this.preloadComplete) return
-    console.log('launch thanh cong')
     this.scene.launch('game', {})
   }
 }

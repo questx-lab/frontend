@@ -27,23 +27,9 @@ export const Connectting: FC = () => {
     }, 5000)
   }, [])
 
-  useEffect(() => {
-    // TODO: connect to server
-    handleSubmit()
-  }, [game])
-
-  const handleSubmit = () => {
-    console.log('game.myPlayer', game)
-    if (game) {
-      console.log('heree to set')
-      game.registerKeys()
-    }
-  }
-
   const handleConnect = () => {
     const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
     bootstrap.launchGame()
-    handleSubmit()
   }
 
   if (roomJoined) {

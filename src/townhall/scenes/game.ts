@@ -36,7 +36,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    console.log('vao game')
+    this.registerKeys()
     createCharacterAnims(this.anims)
 
     this.map = this.make.tilemap({ key: 'tilemap' })

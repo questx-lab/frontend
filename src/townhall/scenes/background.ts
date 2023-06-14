@@ -10,7 +10,6 @@ export default class Background extends Phaser.Scene {
   }
 
   create() {
-    console.log('vao bg')
     const sceneHeight = this.cameras.main.height
     const sceneWidth = this.cameras.main.width
 
