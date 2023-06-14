@@ -1,4 +1,4 @@
-import { lazy } from 'react'
+import { lazy, Suspense } from 'react'
 
 import DiscordCallback from '@/modules/callback/discord'
 import TwitterCallback from '@/modules/callback/twitter'
@@ -96,7 +96,11 @@ const router = [
   {
     path: '/townhall',
     index: true,
-    element: <TownHall />,
+    element: (
+      <Suspense fallback={<>...</>}>
+        <TownHall />
+      </Suspense>
+    ),
   },
   {
     path: 'api/auth/callback/twitter',
