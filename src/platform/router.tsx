@@ -1,3 +1,5 @@
+import { lazy } from 'react'
+
 import DiscordCallback from '@/modules/callback/discord'
 import TwitterCallback from '@/modules/callback/twitter'
 import CommunityIndex from '@/modules/community'
@@ -22,6 +24,8 @@ import Questercamp from '@/platform/routes/questercamp/route'
 import TrendingQuestsIndex from '@/platform/routes/questercamp/trending'
 import TrendingQuest from '@/platform/routes/questercamp/trending/route'
 import Root, { RootLoader } from '@/platform/routes/route'
+
+const TownHall = lazy(() => import('@/townhall'))
 
 const router = [
   {
@@ -88,6 +92,11 @@ const router = [
         children: [{ index: true, element: <AccountSettingIndex /> }],
       },
     ],
+  },
+  {
+    path: '/townhall',
+    index: true,
+    element: <TownHall />,
   },
   {
     path: 'api/auth/callback/twitter',

@@ -44,7 +44,8 @@
     "typescript": "^5.0.4",
     "use-debounce": "^9.0.4",
     "web-vitals": "^2.1.0",
-    "web3": "^1.10.0"
+    "web3": "^1.10.0",
+    "phaser": "^3.55.2"
   },
   "scripts": {
     "dev": "GENERATE_SOURCEMAP=false PORT=4000 craco start",

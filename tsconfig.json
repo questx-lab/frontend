@@ -29,6 +29,8 @@
   "include": [
     "src"
   ],
-  "typeRoots": ["global.d.ts" ],
+  "typeRoots": [
+    "global.d.ts"
+  ],
   "extends": "./tsconfig.paths.json"
 }
