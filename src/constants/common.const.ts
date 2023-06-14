@@ -274,3 +274,8 @@ export enum CarouselType {
   QUEST,
   COMMUNITY,
 }
+
+export enum TownhallStatus {
+  ENABLE = 'enable',
+  DISABLE = 'disable',
+}

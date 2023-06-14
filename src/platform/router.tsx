@@ -1,3 +1,9 @@
+import { lazy, Suspense } from 'react'
+
+import { RouteObject } from 'react-router-dom'
+
+import { TownhallStatus } from '@/constants/common.const'
+import { EnvVariables } from '@/constants/env.const'
 import DiscordCallback from '@/modules/callback/discord'
 import TwitterCallback from '@/modules/callback/twitter'
 import CommunityIndex from '@/modules/community'
@@ -23,82 +29,101 @@ import TrendingQuestsIndex from '@/platform/routes/questercamp/trending'
 import TrendingQuest from '@/platform/routes/questercamp/trending/route'
 import Root, { RootLoader } from '@/platform/routes/route'
 
-const router = [
-  {
-    path: '/',
-    element: <Root />,
-    loader: RootLoader,
-    children: [
-      { index: true, element: <HomeIndex /> },
-      {
-        path: 'communities',
-        element: <Communities />,
-        children: [
-          { index: true, element: <CommunitiesIndex /> },
-          {
-            loader: CommunityLoader,
-            path: ':communityHandle',
-            element: <Community />,
-            children: [
-              { index: true, element: <CommunityIndex /> },
-              {
-                path: 'review',
-                element: <ReviewSubmissions />,
-                children: [{ index: true, element: <ReviewSubmissionIndex /> }],
-              },
-              {
-                path: 'settings',
-                element: <Settings />,
-                children: [{ index: true, element: <CommunitySettingsIndex /> }],
-              },
-              {
-                path: 'create-quest',
-                element: <CreateQuest />,
-                children: [{ index: true, element: <CreateQuestIndex /> }],
-              },
-              {
-                path: 'edit-quest',
-                element: <EditQuest />,
-                children: [{ index: true, element: <EditQuestIndex /> }],
-              },
-            ],
-          },
-          {
-            path: 'trending',
-            element: <TrendingCommunity />,
-            children: [{ index: true, element: <TrendingCommunitiesIndex /> }],
-          },
-        ],
-      },
-      {
-        path: 'questercamp',
-        element: <Questercamp />,
-        children: [
-          { index: true, element: <QuestercampIndex /> },
-          {
-            path: 'trending',
-            element: <TrendingQuest />,
-            children: [{ index: true, element: <TrendingQuestsIndex /> }],
-          },
-        ],
-      },
-      {
-        path: 'account-setting',
-        element: <AccoutSettings />,
-        children: [{ index: true, element: <AccountSettingIndex /> }],
-      },
-    ],
-  },
-  {
-    path: 'api/auth/callback/twitter',
-    index: true,
-    element: <TwitterCallback />,
-  },
-  {
-    path: 'api/auth/callback/discord',
-    index: true,
-    element: <DiscordCallback />,
-  },
-]
+const TownHall = lazy(() => import('@/townhall'))
 
-export default router
+const PlatformRouter = (): RouteObject[] => {
+  const router: RouteObject[] = [
+    {
+      path: '/',
+      element: <Root />,
+      loader: RootLoader,
+      children: [
+        { index: true, element: <HomeIndex /> },
+        {
+          path: 'communities',
+          element: <Communities />,
+          children: [
+            { index: true, element: <CommunitiesIndex /> },
+            {
+              loader: CommunityLoader,
+              path: ':communityHandle',
+              element: <Community />,
+              children: [
+                { index: true, element: <CommunityIndex /> },
+                {
+                  path: 'review',
+                  element: <ReviewSubmissions />,
+                  children: [{ index: true, element: <ReviewSubmissionIndex /> }],
+                },
+                {
+                  path: 'settings',
+                  element: <Settings />,
+                  children: [{ index: true, element: <CommunitySettingsIndex /> }],
+                },
+                {
+                  path: 'create-quest',
+                  element: <CreateQuest />,
+                  children: [{ index: true, element: <CreateQuestIndex /> }],
+                },
+                {
+                  path: 'edit-quest',
+                  element: <EditQuest />,
+                  children: [{ index: true, element: <EditQuestIndex /> }],
+                },
+              ],
+            },
+            {
+              path: 'trending',
+              element: <TrendingCommunity />,
+              children: [{ index: true, element: <TrendingCommunitiesIndex /> }],
+            },
+          ],
+        },
+        {
+          path: 'questercamp',
+          element: <Questercamp />,
+          children: [
+            { index: true, element: <QuestercampIndex /> },
+            {
+              path: 'trending',
+              element: <TrendingQuest />,
+              children: [{ index: true, element: <TrendingQuestsIndex /> }],
+            },
+          ],
+        },
+        {
+          path: 'account-setting',
+          element: <AccoutSettings />,
+          children: [{ index: true, element: <AccountSettingIndex /> }],
+        },
+      ],
+    },
+
+    {
+      path: 'api/auth/callback/twitter',
+      index: true,
+      element: <TwitterCallback />,
+    },
+    {
+      path: 'api/auth/callback/discord',
+      index: true,
+      element: <DiscordCallback />,
+    },
+  ]
+
+  if (EnvVariables.TOWNHALL_STATUS === TownhallStatus.ENABLE) {
+    router.push({
+      path: '/townhall',
+      index: true,
+      element: (
+        <Suspense fallback={<>...</>}>
+          <TownHall />
+        </Suspense>
+      ),
+    })
+  }
+
+  return router
+}
+
+export default PlatformRouter

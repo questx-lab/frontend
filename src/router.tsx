@@ -13,7 +13,7 @@ export const RouterComponent: FC = () => {
   if (EnvVariables.MODE === AppMode.ADMIN_PORTAL) {
     routes = AdminRouter
   } else {
-    routes = PlatformRouter
+    routes = PlatformRouter()
   }
   return (
     <GoogleOAuthProvider clientId={EnvVariables.GOOGLE_ID}>
