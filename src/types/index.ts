@@ -207,6 +207,7 @@ export type UploadCommunityLogoResponse = {
 export enum AccoutSettingTabEnum {
   GENERAL,
   ACHIEVEMENTS,
+  HISTORY,
 }
 
 export enum SocialType {

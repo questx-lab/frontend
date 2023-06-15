@@ -7,6 +7,7 @@ import { AuthEnum } from '@/constants/common.const'
 import InviteCommunity from '@/modules/header/invite-community'
 import Login from '@/modules/header/login'
 import UserPopover from '@/modules/header/user-popover'
+import UserProfile from '@/modules/header/user-profile'
 import { GlobalStoreModel } from '@/store/store'
 import BaseModal from '@/widgets/modal/base'
 import BasicModal from '@/widgets/modal/basic'
@@ -65,9 +66,16 @@ const UserInfoBox: FC = () => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const showLoginModal = useStoreState<GlobalStoreModel>((state) => state.showLoginModal)
+  const showUserProfileModal = useStoreState<GlobalStoreModel>(
+    (state) => state.showUserProfileModal
+  )
+
   //action
   const setAuthBox = useStoreActions<GlobalStoreModel>((action) => action.setAuthBox)
   const setShowLoginModal = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
+  const setShowUserProfileModal = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowUserProfileModal
+  )
 
   // hook
   const [isInvite, setInvite] = useState<boolean>(false)
@@ -97,6 +105,13 @@ const UserInfoBox: FC = () => {
             <Login setOpen={setShowLoginModal} />
           </ModalBox>
         </BaseModal>
+        <BasicModal
+          isOpen={showUserProfileModal}
+          title={'My Profile'}
+          onClose={() => setShowUserProfileModal(false)}
+        >
+          <UserProfile user={user} />
+        </BasicModal>
       </UserSession>
     )
   }

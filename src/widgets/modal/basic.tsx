@@ -8,29 +8,49 @@ import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
+export enum BasicModalWidthSize {
+  ONE_HALF,
+  TWO_THIRD,
+}
+
 const ModalBox = tw(HorizontalCenter)`
   flex
   h-full
   py-6
 `
 
-const ModalContent = styled(Dialog.Panel)(
-  tw`
-  w-1/2
-  max-xl:w-2/3
-  h-full
-  bg-white
-  align-middle
-  overflow-y-scroll
-  shadow-xl
-  transition-all
-  flex
-  flex-col
-  justify-start
-  items-center
-  rounded-lg
-  `
-)
+const ModalContent = styled(Dialog.Panel)<{ widthSize: BasicModalWidthSize }>(({ widthSize }) => {
+  const styles = [
+    tw`
+      w-1/2
+      max-xl:w-2/3
+      h-full
+      bg-white
+      align-middle
+      overflow-y-scroll
+      shadow-xl
+      transition-all
+      flex
+      flex-col
+      justify-start
+      items-center
+      rounded-lg
+    `,
+  ]
+
+  switch (widthSize) {
+    case BasicModalWidthSize.ONE_HALF:
+      styles.push(tw`w-1/2`)
+      break
+    case BasicModalWidthSize.TWO_THIRD:
+      styles.push(tw`w-2/3`)
+      break
+    default:
+      styles.push(tw`w-1/2`)
+  }
+
+  return styles
+})
 
 const PaddingHorizontal = tw(Horizontal)`
   w-full
@@ -46,7 +66,7 @@ const Title = tw.div`
   text-black
 `
 
-const TopModal: FC<{ hasHeader: boolean; title?: string; onClose: () => void }> = ({
+export const TopModal: FC<{ hasHeader: boolean; title?: string; onClose: () => void }> = ({
   hasHeader,
   title,
   onClose,
@@ -70,11 +90,20 @@ const BasicModal: FC<{
   onClose: () => void
   hasHeader?: boolean
   styled?: string
-}> = ({ isOpen, children, title = '', onClose, hasHeader = true, styled }) => {
+  widthSize?: BasicModalWidthSize
+}> = ({
+  isOpen,
+  children,
+  title = '',
+  onClose,
+  hasHeader = true,
+  styled,
+  widthSize = BasicModalWidthSize.ONE_HALF,
+}) => {
   return (
     <BaseModal onClose={onClose} isOpen={isOpen}>
       <ModalBox>
-        <ModalContent className={styled}>
+        <ModalContent className={styled} widthSize={widthSize}>
           <TopModal hasHeader={hasHeader} title={title} onClose={onClose} />
           {children}
         </ModalContent>

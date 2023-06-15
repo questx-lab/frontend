@@ -54,6 +54,9 @@ const UserPopover: FC = () => {
 
   // action
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
+  const setShowUserProfileModal = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowUserProfileModal
+  )
 
   // handler
   const handleLogout = () => {
@@ -93,20 +96,17 @@ const UserPopover: FC = () => {
           </UserBox>
         </PopItem>
         <PopItem>
-          {
-            // TODO: Add back My community & My Profile
-            /* <OptionxBox>{'My Community'}</OptionxBox>
           <OptionxBox
             onClick={() => {
-              // TODO: Route to my profile
+              setShowUserProfileModal(true)
             }}
           >
             {'My Profile'}
-          </OptionxBox> */
-          }
+          </OptionxBox>
           <OptionxBox
             onClick={() => {
-              navigate(RouterConst.ACCOUNT_SETTING)
+              console.log('Account settings clicked')
+              navigate(RouterConst.ACCOUNT_SETTINGS)
             }}
           >
             {'Account Settings'}
