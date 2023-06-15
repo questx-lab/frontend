@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
 import { Content, GapHorizontal } from '@/admin-portal/modules/referrals/mini-widget'
-import { approveReferralApi, approvePendingCommunityApi } from '@/api/communitiy'
+import { approvePendingCommunityApi } from '@/api/communitiy'
 import AdminCommunityStore from '@/store/local/admin-community'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
@@ -29,6 +29,8 @@ export const ActionModal: FC<{}> = () => {
   const onAction = async () => {
     setLoading(true)
     try {
+      console.log(action)
+
       let result: Rsp<{}>
       switch (action) {
         case 'Active':
@@ -51,12 +53,16 @@ export const ActionModal: FC<{}> = () => {
         default:
           return
       }
+      console.log(result)
+
       if (result.error) {
+        onCloseConfirmModal()
         toast.error(result.error)
       }
 
       if (result.code === 0) {
         toast.success(`${action} successful`)
+        onCloseConfirmModal()
         navigate(0)
       }
     } catch (error) {

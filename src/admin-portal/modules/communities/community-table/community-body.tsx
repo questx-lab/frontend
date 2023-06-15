@@ -50,8 +50,6 @@ const CommunityBody: FC<{
   //data
   const communities = AdminPortalStore.useStoreState((state) => state.communities)
 
-  console.log('communities', communities)
-
   if (!communities) {
     return <></>
   }
@@ -86,7 +84,7 @@ const CommunityBody: FC<{
           </Tr>
         ))}
       </tbody>
-      {/* <ActionModal /> */}
+      <ActionModal />
     </>
   )
 }

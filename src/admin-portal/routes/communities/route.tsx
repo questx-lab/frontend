@@ -32,7 +32,6 @@ const Communities: FC = () => {
   useEffect(() => {
     setTab(ControlPanelTab.COMMUNITIES)
     if (data.communities) {
-      console.log('data.communities', data.communities)
       setCommunities(data.communities)
     }
   }, [data.communities])
