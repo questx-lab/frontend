@@ -22,10 +22,9 @@
     "easy-peasy": "^6.0.0",
     "env-cmd": "^10.1.0",
     "heroicons": "^2.0.18",
-    "colyseus.js": "^0.14.13",
-    "websocket": "^1.0.34",
     "html-react-parser": "^3.0.16",
     "jwt-decode": "^3.1.2",
+    "phaser": "^3.55.2",
     "randomstring": "^1.2.3",
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
@@ -47,7 +46,7 @@
     "use-debounce": "^9.0.4",
     "web-vitals": "^2.1.0",
     "web3": "^1.10.0",
-    "phaser": "^3.55.2"
+    "websocket": "^1.0.34"
   },
   "scripts": {
     "dev": "GENERATE_SOURCEMAP=false PORT=4000 craco start",
