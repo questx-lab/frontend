@@ -2,6 +2,7 @@ export const EnvVariables = {
   MODE: process.env.REACT_APP_MODE,
   FRONTEND_URL: process.env.REACT_APP_FRONTEND_URL,
   API_SERVER: process.env.REACT_APP_SERVER_API || '',
+  SOCKET_SERVER: process.env.REACT_APP_SOCKET_SERVER || '',
   GOOGLE_ID: process.env.REACT_APP_GOOGLE_ID || '',
   TWITTER_ID: process.env.REACT_APP_TWITTER_ID || '',
   DISCORD_ID: process.env.REACT_APP_DISCORD_ID || '',

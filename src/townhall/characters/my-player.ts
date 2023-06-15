@@ -196,7 +196,7 @@ Phaser.GameObjects.GameObjectFactory.register(
     frame?: string | number
   ) {
     const sprite = new MyPlayer(this.scene, x, y, texture, id, frame)
-
+    console.log('create myplayer object')
     this.displayList.add(sprite)
     this.updateList.add(sprite)
 

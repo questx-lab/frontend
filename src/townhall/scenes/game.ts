@@ -1,16 +1,22 @@
 import '@/townhall/characters/my-player'
+import '@/townhall/characters/other-player'
 
 import Phaser from 'phaser'
 
 import { createCharacterAnims } from '@/townhall/anims/CharacterAnims'
 import MyPlayer from '@/townhall/characters/my-player'
+import OtherPlayer from '@/townhall/characters/other-player'
 import PlayerSelector from '@/townhall/characters/player-selecter'
 import Chair from '@/townhall/items/Chair'
-import { Keyboard, NavKeys } from '@/types/townhall'
+import Network from '@/townhall/services/network'
+import { IPlayer, Keyboard, NavKeys } from '@/types/townhall'
 
 export default class Game extends Phaser.Scene {
+  network!: Network
   private map!: Phaser.Tilemaps.Tilemap
   myPlayer!: MyPlayer
+  private otherPlayers!: Phaser.Physics.Arcade.Group
+  private otherPlayerMap = new Map<string, OtherPlayer>()
   private cursors!: NavKeys
   private keyE!: Phaser.Input.Keyboard.Key
   private keyR!: Phaser.Input.Keyboard.Key
@@ -35,7 +41,36 @@ export default class Game extends Phaser.Scene {
     this.input.keyboard.disableGlobalCapture()
   }
 
-  create() {
+  private handlePlayersOverlap() {
+    // TODO: interactive when overlap
+  }
+
+  // function to add new player to the otherPlayer group
+  private handlePlayerJoined(newPlayer: IPlayer, id: string) {
+    console.log('aloo onPlayerJoined')
+    const otherPlayer = this.add.otherPlayer(newPlayer.x, newPlayer.y, 'adam', id, newPlayer.name)
+    this.otherPlayers.add(otherPlayer)
+    this.otherPlayerMap.set(id, otherPlayer)
+  }
+
+  // function to remove the player who left from the otherPlayer group
+  private handlePlayerLeft(id: string) {
+    if (this.otherPlayerMap.has(id)) {
+      const otherPlayer = this.otherPlayerMap.get(id)
+      if (!otherPlayer) return
+      this.otherPlayers.remove(otherPlayer, true, true)
+      this.otherPlayerMap.delete(id)
+    }
+  }
+
+  create(data: { network: Network }) {
+    console.log('enter game file')
+    if (!data.network) {
+      throw new Error('server instance missing')
+    } else {
+      this.network = data.network
+    }
+
     this.registerKeys()
     createCharacterAnims(this.anims)
 
@@ -78,11 +113,26 @@ export default class Game extends Phaser.Scene {
     this.addGroupFromTiled('GenericObjectsOnCollide', 'generic', 'Generic', true)
     this.addGroupFromTiled('Basement', 'basement', 'Basement', true)
 
+    this.otherPlayers = this.physics.add.group({ classType: OtherPlayer })
+
     this.cameras.main.zoom = 1.5
     this.cameras.main.startFollow(this.myPlayer, true)
 
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], groundLayer)
     this.physics.add.overlap(this.playerSelector, [chairs], () => {}, undefined, this)
+
+    this.physics.add.overlap(
+      this.myPlayer,
+      this.otherPlayers,
+      this.handlePlayersOverlap,
+      undefined,
+      this
+    )
+
+    // register network event listeners
+    console.log('vao day trc', this.network)
+    this.network.onPlayerJoined(this.handlePlayerJoined, this)
+    this.network.onPlayerLeft(this.handlePlayerLeft, this)
   }
 
   private addObjectFromTiled(

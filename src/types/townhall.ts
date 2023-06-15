@@ -20,3 +20,20 @@ export type Keyboard = {
 }
 
 export type NavKeys = Keyboard & Phaser.Types.Input.Keyboard.CursorKeys
+
+export interface IPlayer {
+  name: string
+  x: number
+  y: number
+  anim: string
+}
+
+export interface IOfficeState {
+  players: IPlayer[]
+}
+
+export enum RoomType {
+  LOBBY = 'lobby',
+  PUBLIC = 'skyoffice',
+  CUSTOM = 'custom',
+}

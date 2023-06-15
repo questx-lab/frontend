@@ -1,9 +1,11 @@
 import Phaser from 'phaser'
 
 import { EnvVariables } from '@/constants/env.const'
+import Network from '@/townhall/services/network'
 
 export default class Bootstrap extends Phaser.Scene {
   private preloadComplete = false
+  network!: Network
 
   constructor() {
     super('bootstrap')
@@ -64,7 +66,8 @@ export default class Bootstrap extends Phaser.Scene {
   }
 
   init() {
-    // TODO: init
+    console.log('init bootstrap')
+    this.network = new Network()
   }
 
   private launchBackground() {
@@ -73,6 +76,8 @@ export default class Bootstrap extends Phaser.Scene {
 
   launchGame() {
     if (!this.preloadComplete) return
-    this.scene.launch('game', {})
+    this.scene.launch('game', {
+      network: this.network,
+    })
   }
 }
