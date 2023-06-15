@@ -109,7 +109,7 @@ const UserPopover: FC = () => {
               navigate(RouterConst.ACCOUNT_SETTING)
             }}
           >
-            {'Account Setting'}
+            {'Account Settings'}
           </OptionxBox>
         </PopItem>
         <PopItem>
