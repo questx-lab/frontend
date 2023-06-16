@@ -1,7 +1,11 @@
 import { FC } from 'react'
 
+import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
+import ClaimHistory from '@/modules/header/user-profile/claim-history'
+import { GlobalStoreModel } from '@/store/store'
+import { UserType } from '@/types'
 import { Vertical } from '@/widgets/orientation'
 import { Tab, TabItem } from '@/widgets/tab-group/focus-light-primary'
 
@@ -22,10 +26,18 @@ const ControlTabs: FC = () => {
   )
 }
 
-const RewardsBadges: FC = () => {
+const RewardsBadges: FC<{ user: UserType }> = ({ user }) => {
+  // TODO: Add badges and ranking
+  const me: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+  if (user.id !== me.id) {
+    return <></>
+  }
+
   return (
     <BoundingBox>
-      <ControlTabs></ControlTabs>
+      <ControlTabs />
+
+      <ClaimHistory user={user} />
     </BoundingBox>
   )
 }

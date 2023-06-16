@@ -19,7 +19,7 @@ const ModalBox = tw(HorizontalCenter)`
   py-6
 `
 
-const ModalContent = styled(Dialog.Panel)<{ widthSize: BasicModalWidthSize }>(({ widthSize }) => {
+const ModalContent = styled(Dialog.Panel)<{ widthsize: BasicModalWidthSize }>(({ widthsize }) => {
   const styles = [
     tw`
       w-1/2
@@ -38,7 +38,7 @@ const ModalContent = styled(Dialog.Panel)<{ widthSize: BasicModalWidthSize }>(({
     `,
   ]
 
-  switch (widthSize) {
+  switch (widthsize) {
     case BasicModalWidthSize.ONE_HALF:
       styles.push(tw`w-1/2`)
       break
@@ -90,7 +90,7 @@ const BasicModal: FC<{
   onClose: () => void
   hasHeader?: boolean
   styled?: string
-  widthSize?: BasicModalWidthSize
+  widthsize?: BasicModalWidthSize
 }> = ({
   isOpen,
   children,
@@ -98,12 +98,12 @@ const BasicModal: FC<{
   onClose,
   hasHeader = true,
   styled,
-  widthSize = BasicModalWidthSize.ONE_HALF,
+  widthsize = BasicModalWidthSize.ONE_HALF,
 }) => {
   return (
     <BaseModal onClose={onClose} isOpen={isOpen}>
       <ModalBox>
-        <ModalContent className={styled} widthSize={widthSize}>
+        <ModalContent className={styled} widthsize={widthsize}>
           <TopModal hasHeader={hasHeader} title={title} onClose={onClose} />
           {children}
         </ModalContent>

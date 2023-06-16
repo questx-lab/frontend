@@ -19,7 +19,7 @@ const UserProfile: FC<{ user: UserType }> = ({ user }) => {
       <Divider />
       <ContentFrame>
         <BasicInfo user={user} />
-        <RewardsBadges />
+        <RewardsBadges user={user} />
       </ContentFrame>
     </VerticalFullWidthHeight>
   )
