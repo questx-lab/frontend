@@ -4,8 +4,18 @@ import { Rsp, UserType } from '@/types'
 import { api } from './interceptor'
 
 export const getUserApi = async (): Promise<Rsp<UserType>> => {
-  const result = await api.get(EnvVariables.API_SERVER + '/getMe')
-  return result.data
+  try {
+    const result = await api.get(EnvVariables.API_SERVER + '/getMe')
+    return {
+      code: result.data.code,
+      data: result.data?.data.user,
+      error: result.data.error,
+    }
+  } catch (err) {
+    return {
+      code: -1,
+    }
+  }
 }
 
 export const updateUserApi = async (name: string): Promise<Rsp<{}>> => {
