@@ -66,7 +66,6 @@ export default class Bootstrap extends Phaser.Scene {
   }
 
   init() {
-    console.log('init bootstrap')
     this.network = new Network()
   }
 

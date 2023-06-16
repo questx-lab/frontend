@@ -47,7 +47,6 @@ export default class Game extends Phaser.Scene {
 
   // function to add new player to the otherPlayer group
   private handlePlayerJoined(newPlayer: IPlayer, id: string) {
-    console.log('aloo onPlayerJoined')
     const otherPlayer = this.add.otherPlayer(newPlayer.x, newPlayer.y, 'adam', id, newPlayer.name)
     this.otherPlayers.add(otherPlayer)
     this.otherPlayerMap.set(id, otherPlayer)
@@ -63,8 +62,13 @@ export default class Game extends Phaser.Scene {
     }
   }
 
+  // function to update target position upon receiving player updates
+  private handlePlayerUpdated(field: string, value: number | string, id: string) {
+    const otherPlayer = this.otherPlayerMap.get(id)
+    otherPlayer?.updateOtherPlayer(field, value)
+  }
+
   create(data: { network: Network }) {
-    console.log('enter game file')
     if (!data.network) {
       throw new Error('server instance missing')
     } else {
@@ -87,10 +91,11 @@ export default class Game extends Phaser.Scene {
 
     // add my player
     this.myPlayer = this.add.myPlayer(705, 500, 'adam', 'c54gxiLbP')
+    this.myPlayer.setPlayerTexture('adam')
+
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16)
 
     // TODO: temporary add hard user here
-    this.myPlayer.setPlayerTexture('adam')
 
     // import chair objects from Tiled map to Phaser
     const chairs = this.physics.add.staticGroup({ classType: Chair })
@@ -130,8 +135,9 @@ export default class Game extends Phaser.Scene {
     )
 
     // register network event listeners
-    console.log('vao day trc', this.network)
     this.network.onPlayerJoined(this.handlePlayerJoined, this)
+    this.network.onPlayerLeft(this.handlePlayerLeft, this)
+    this.network.onPlayerUpdated(this.handlePlayerUpdated, this)
     this.network.onPlayerLeft(this.handlePlayerLeft, this)
   }
 
@@ -183,7 +189,7 @@ export default class Game extends Phaser.Scene {
   update(t: number, dt: number) {
     if (this.myPlayer) {
       this.playerSelector.update(this.myPlayer, this.cursors)
-      this.myPlayer.update(this.playerSelector, this.cursors, this.keyE, this.keyR)
+      this.myPlayer.update(this.playerSelector, this.cursors, this.keyE, this.keyR, this.network)
     }
   }
 }

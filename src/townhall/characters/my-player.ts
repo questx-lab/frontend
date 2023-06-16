@@ -4,6 +4,7 @@ import Player, { sittingShiftData } from '@/townhall/characters/Player'
 import PlayerSelector from '@/townhall/characters/player-selecter'
 import { Event, phaserEvents } from '@/townhall/events/event-center'
 import Chair from '@/townhall/items/Chair'
+import Network from '@/townhall/services/network'
 import { ItemType, NavKeys, PlayerBehavior } from '@/types/townhall'
 
 export default class MyPlayer extends Player {
@@ -26,6 +27,14 @@ export default class MyPlayer extends Player {
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name)
   }
 
+  updateMyPlayer(name: string, x: number, y: number, id: string) {
+    this.playerName.setText(name)
+    this.playerId = id
+    this.x = x
+    this.y = y
+    phaserEvents.emit(Event.MY_PLAYER_CHANGE, x, y, id)
+  }
+
   setPlayerTexture(texture: string) {
     this.playerTexture = texture
     this.anims.play(`${this.playerTexture}_idle_down`, true)
@@ -38,7 +47,8 @@ export default class MyPlayer extends Player {
     playerSelector: PlayerSelector,
     cursors: NavKeys,
     keyE: Phaser.Input.Keyboard.Key,
-    keyR: Phaser.Input.Keyboard.Key
+    keyR: Phaser.Input.Keyboard.Key,
+    network: Network
   ) {
     if (!cursors) return
 
@@ -57,6 +67,7 @@ export default class MyPlayer extends Player {
     if (!this.anims.currentAnim) {
       return
     }
+
     switch (this.playerBehavior) {
       case PlayerBehavior.IDLE:
         // if press E in front of selected chair
@@ -94,7 +105,11 @@ export default class MyPlayer extends Player {
               } else {
                 playerSelector.setPosition(0, 0)
               }
-              // TODO: send new location and anim to server
+              // DONE: send new location and anim to server
+              if (!this.anims.currentAnim) {
+                return
+              }
+              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
             },
             loop: false,
           })
@@ -133,7 +148,8 @@ export default class MyPlayer extends Player {
         this.playContainerBody.setVelocity(vx, vy)
         this.playContainerBody.velocity.setLength(speed)
 
-        // TODO: update animation according to velocity and send new location and anim to server
+        // update animation according to velocity and send new location and anim to server
+        if (vx !== 0 || vy !== 0) network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
         if (vx > 0) {
           this.play(`${this.playerTexture}_run_right`, true)
         } else if (vx < 0) {
@@ -149,7 +165,8 @@ export default class MyPlayer extends Player {
           // this prevents idle animation keeps getting called
           if (this.anims.currentAnim.key !== newAnim) {
             this.play(parts.join('_'), true)
-            // TODO: send new location and anim to server
+            // send new location and anim to server
+            network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
           }
         }
         break
@@ -196,7 +213,6 @@ Phaser.GameObjects.GameObjectFactory.register(
     frame?: string | number
   ) {
     const sprite = new MyPlayer(this.scene, x, y, texture, id, frame)
-    console.log('create myplayer object')
     this.displayList.add(sprite)
     this.updateList.add(sprite)
 
