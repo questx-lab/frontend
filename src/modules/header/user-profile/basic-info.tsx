@@ -15,6 +15,7 @@ const BorderBox = tw(GrayBorderBox)`
   flex
   flex-col
   mr-2
+  rounded-lg
 `
 
 const PersonVertical = tw(VerticalFullWidth)`

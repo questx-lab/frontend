@@ -9,7 +9,8 @@ import { HorizontalFullWidth, VerticalFullWidthHeight } from '@/widgets/orientat
 import { Divider } from '@/widgets/separator'
 
 const ContentFrame = tw(HorizontalFullWidth)`
-  p-4
+  py-4
+  px-8
 `
 
 const UserProfile: FC<{ user: UserType }> = ({ user }) => {
