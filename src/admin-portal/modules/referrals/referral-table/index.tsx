@@ -8,7 +8,7 @@ import UserDetailModal from '@/admin-portal/modules/referrals/user-detail'
 import AdminReferralStore from '@/store/local/admin-referral'
 import { UserType } from '@/types'
 import { CommunityType } from '@/types/community'
-import ReferralTable from '@/widgets/table/referral-table'
+import SimpleTable from '@/widgets/table/simple-table'
 
 const Th = tw.th`
   border-b border-gray-300 bg-gray-100 p-4
@@ -44,7 +44,7 @@ const ReferralContent: FC = () => {
 
   return (
     <>
-      <ReferralTable>
+      <SimpleTable>
         <thead>
           <tr>
             {TABLE_HEAD.map((head, index) => (
@@ -53,7 +53,7 @@ const ReferralContent: FC = () => {
           </tr>
         </thead>
         <ReferralBody onClickUser={onClickUser} onClickCommunity={onClickCommunity} />
-      </ReferralTable>
+      </SimpleTable>
       <UserDetailModal user={user} openModal={openUserModal} onCloseModel={onCloseUserModel} />
       <CommunityDetailModal
         community={community}

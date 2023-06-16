@@ -1,13 +1,13 @@
 import { FC, useState } from 'react'
 
 import tw from 'twin.macro'
-
+import CommunityDetailModal from '@/admin-portal/modules/communities/community-detail'
 import CommunityBody from '@/admin-portal/modules/communities/community-table/community-body'
 import UserDetailModal from '@/admin-portal/modules/referrals/user-detail'
-import AdminPortalStore from '@/store/local/admin-portal'
+import AdminCommunityStore from '@/store/local/admin-community'
 import { UserType } from '@/types'
 import { CommunityType } from '@/types/community'
-import ReferralTable from '@/widgets/table/referral-table'
+import SimpleTable from '@/widgets/table/simple-table'
 
 const Th = tw.th`
   border-b border-gray-300 bg-gray-100 p-4
@@ -20,9 +20,8 @@ const CommunityContent: FC = () => {
   const [openCommunityModal, setOpenCommunityModal] = useState<boolean>(false)
   const [user, setUser] = useState<UserType>()
 
-  const communities = AdminPortalStore.useStoreState((state) => state.communities)
-
-  // const setCommunity = AdminPortalStore.useStoreActions((action) => action.setCommunity)
+  const community = AdminCommunityStore.useStoreState((state) => state.community)
+  const setCommunity = AdminCommunityStore.useStoreActions((action) => action.setCommunity)
 
   const onClickUser = (user: UserType) => {
     setOpenUserModal(true)
@@ -31,7 +30,7 @@ const CommunityContent: FC = () => {
 
   const onClickCommunity = (community: CommunityType) => {
     setOpenCommunityModal(true)
-    // setCommunity(community)
+    setCommunity(community)
   }
 
   const onCloseUserModel = () => {
@@ -44,7 +43,7 @@ const CommunityContent: FC = () => {
 
   return (
     <>
-      <ReferralTable>
+      <SimpleTable>
         <thead>
           <tr>
             {TABLE_HEAD.map((head, index) => (
@@ -53,13 +52,13 @@ const CommunityContent: FC = () => {
           </tr>
         </thead>
         <CommunityBody onClickUser={onClickUser} onClickCommunity={onClickCommunity} />
-      </ReferralTable>
+      </SimpleTable>
       <UserDetailModal user={user} openModal={openUserModal} onCloseModel={onCloseUserModel} />
-      {/* <CommunityDetailModal
+      <CommunityDetailModal
         community={community}
         openModal={openCommunityModal}
         onCloseModel={onCloseCommunityModel}
-      /> */}
+      />
     </>
   )
 }

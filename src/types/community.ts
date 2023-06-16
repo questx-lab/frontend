@@ -14,7 +14,7 @@ export enum CommunityIndexMode {
 export type CommunityType = {
   created_at?: string
   updated_at?: string
-  created_by?: UserType
+  created_by?: string
   display_name: string
   handle: string
   twitter?: string

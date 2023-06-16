@@ -29,31 +29,29 @@ export const ActionModal: FC<{}> = () => {
   const onAction = async () => {
     setLoading(true)
     try {
-      console.log(action)
-
       let result: Rsp<{}>
       switch (action) {
         case 'Active':
           result = await approvePendingCommunityApi(community.handle)
           break
 
-        case 'Reject':
-          result = await approvePendingCommunityApi(community.handle)
-          break
-        case 'Pending':
-          result = await approvePendingCommunityApi(community.handle)
-          break
-        case 'Pause':
-          result = await approvePendingCommunityApi(community.handle)
-          break
-        case 'Edit':
-          result = await approvePendingCommunityApi(community.handle)
-          break
+        //TODO: we should do this in future
+        // case 'Reject':
+        //   result = await approvePendingCommunityApi(community.handle)
+        //   break
+        // case 'Pending':
+        //   result = await approvePendingCommunityApi(community.handle)
+        //   break
+        // case 'Pause':
+        //   result = await approvePendingCommunityApi(community.handle)
+        //   break
+        // case 'Edit':
+        //   result = await approvePendingCommunityApi(community.handle)
+        //   break
 
         default:
           return
       }
-      console.log(result)
 
       if (result.error) {
         onCloseConfirmModal()

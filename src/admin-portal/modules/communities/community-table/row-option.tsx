@@ -28,34 +28,9 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
 
   const setAction = AdminCommunityStore.useStoreActions((action) => action.setAction)
 
-  const onActiveClicked = () => {
+  const onActionClicked = (action: string) => {
     setCommunity(community)
-    setAction('Active')
-    setShowActiveModal(true)
-  }
-  const onRejectClicked = () => {
-    setCommunity(community)
-    setAction('Reject')
-    setShowActiveModal(true)
-  }
-  const onPendingClicked = () => {
-    setCommunity(community)
-    setAction('Pending')
-    setShowActiveModal(true)
-  }
-  const onPauseClicked = () => {
-    setCommunity(community)
-    setAction('Pause')
-    setShowActiveModal(true)
-  }
-  const onDeleteClicked = () => {
-    setCommunity(community)
-    setAction('Delete')
-    setShowActiveModal(true)
-  }
-  const onEditClicked = () => {
-    setCommunity(community)
-    setAction('Edit')
+    setAction(action)
     setShowActiveModal(true)
   }
 
@@ -64,22 +39,22 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
       <PopoverButton className={'outline-0'}>...</PopoverButton>
       <PopPanel size={PopoverSize.SMALL}>
         <PopItem>
-          <OptionxBox onClick={onActiveClicked}>{'Active'}</OptionxBox>
+          <OptionxBox onClick={() => onActionClicked('Action')}>{'Active'}</OptionxBox>
         </PopItem>
         <PopItem>
-          <OptionxBox onClick={onRejectClicked}>{'Reject'}</OptionxBox>
+          <OptionxBox onClick={() => onActionClicked('Reject')}>{'Reject'}</OptionxBox>
         </PopItem>
         <PopItem>
-          <OptionxBox onClick={onPendingClicked}>{'Pending'}</OptionxBox>
+          <OptionxBox onClick={() => onActionClicked('Pending')}>{'Pending'}</OptionxBox>
         </PopItem>
         <PopItem>
-          <OptionxBox onClick={onPauseClicked}>{'Pause'}</OptionxBox>
+          <OptionxBox onClick={() => onActionClicked('Pause')}>{'Pause'}</OptionxBox>
         </PopItem>
         <PopItem>
-          <OptionxBox onClick={onDeleteClicked}>{'Delete'}</OptionxBox>
+          <OptionxBox onClick={() => onActionClicked('Delete')}>{'Delete'}</OptionxBox>
         </PopItem>
         <PopItem>
-          <OptionxBox onClick={onEditClicked}>{'Edit'}</OptionxBox>
+          <OptionxBox onClick={() => onActionClicked('Edit')}>{'Edit'}</OptionxBox>
         </PopItem>
       </PopPanel>
     </PopoverPosition>

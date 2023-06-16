@@ -22,3 +22,8 @@ export const refreshTokenApi = async (refreshToken: string) => {
 
   return data
 }
+
+export const getUserByIdApi = async (userId: string): Promise<Rsp<UserType>> => {
+  const result = await api.get(EnvVariables.API_SERVER + `/getUser?user_id=${userId}`)
+  return result.data
+}

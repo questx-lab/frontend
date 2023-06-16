@@ -1,11 +1,10 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
-
+import { toast } from 'react-hot-toast'
 import { ActionModal } from '@/admin-portal/modules/communities/action-modal'
 import RowOption from '@/admin-portal/modules/communities/community-table/row-option'
-// import CommunityStatus from '@/admin-portal/modules/communities/community-table/community-status'
 import StorageConst from '@/constants/storage.const'
 import AdminPortalStore from '@/store/local/admin-portal'
 import { UserType } from '@/types'
@@ -13,6 +12,7 @@ import { CommunityType } from '@/types/community'
 import { CircularImage } from '@/widgets/circular-image'
 import { HorizontalStartCenter } from '@/widgets/orientation'
 import { TextBase } from '@/widgets/text'
+import { getUserByIdApi } from '@/api/user'
 
 const Td = styled.td<{ highlight?: boolean }>(({ highlight = false }) => {
   const styles = [
@@ -44,7 +44,7 @@ const MediumTextBase = tw(TextBase)`font-medium`
 const PointerHorizontal = tw(HorizontalStartCenter)`cursor-pointer`
 
 const CommunityBody: FC<{
-  onClickUser: (user: UserType) => void
+  onClickUser: (userId: UserType) => void
   onClickCommunity: (community: CommunityType) => void
 }> = ({ onClickUser, onClickCommunity }) => {
   //data
@@ -54,7 +54,35 @@ const CommunityBody: FC<{
     return <></>
   }
 
-  const UserTd: FC<{ user: UserType }> = ({ user }) => {
+  const CommunityTd: FC<{ community: CommunityType }> = ({ community }) => {
+    return (
+      <Td>
+        <PointerHorizontal onClick={() => onClickCommunity(community)}>
+          <CircularImage
+            width={40}
+            height={40}
+            src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
+          />
+          <MediumTextBase>{community.display_name}</MediumTextBase>
+        </PointerHorizontal>
+      </Td>
+    )
+  }
+
+  const UserTd: FC<{ userId: string }> = ({ userId }) => {
+    const [user, setUser] = useState<UserType>({} as UserType)
+    const fetchUser = async () => {
+      try {
+        const result = await getUserByIdApi(userId)
+        if (result.error) {
+          toast.error(result.error)
+        }
+        if (result.code === 0 && result.data) setUser(result.data)
+      } catch (error) {}
+    }
+    useEffect(() => {
+      fetchUser()
+    })
     return (
       <Td>
         <PointerHorizontal onClick={() => onClickUser(user)}>
@@ -73,9 +101,9 @@ const CommunityBody: FC<{
       <tbody>
         {communities.map((community, index) => (
           <Tr key={`${community.handle}`} index={index}>
-            <Td highlight={community.display_name !== ''}>{community.display_name || ''}</Td>
+            <CommunityTd community={community} />
             <Td>{community.status || ''}</Td>
-            <UserTd user={community.created_by as UserType} />
+            <UserTd userId={community.created_by || ''} />
             <Td>{community.created_at}</Td>
             <Td>{community.number_of_quests || 0}</Td>
             <Td>{community.followers || 0}</Td>
