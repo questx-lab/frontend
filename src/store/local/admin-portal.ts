@@ -1,7 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
 import { ControlPanelTab } from '@/admin-portal/types/control-panel-tab'
-import { ReferralType, CommunityType } from '@/types/community'
+import { CommunityType, ReferralType } from '@/types/community'
 
 interface AdminPortalModel {
   activeTab: ControlPanelTab
@@ -11,6 +11,7 @@ interface AdminPortalModel {
   setTab: Action<AdminPortalModel, ControlPanelTab>
   setReferrals: Action<AdminPortalModel, ReferralType[]>
   setCommunities: Action<AdminPortalModel, CommunityType[]>
+  removeCommunity: Action<AdminPortalModel, CommunityType>
 }
 
 const AdminPortalStore = createContextStore<AdminPortalModel>({
@@ -28,6 +29,17 @@ const AdminPortalStore = createContextStore<AdminPortalModel>({
 
   setCommunities: action((state, communities) => {
     state.communities = communities
+  }),
+
+  removeCommunity: action((state, community) => {
+    const newCommunities = []
+    for (let c of state.communities) {
+      if (c.handle !== community.handle) {
+        newCommunities.push(c)
+      }
+    }
+
+    state.communities = newCommunities
   }),
 })
 

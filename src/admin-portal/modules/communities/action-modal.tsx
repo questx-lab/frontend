@@ -1,24 +1,27 @@
 import { FC, useState } from 'react'
 
 import { toast } from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
 
 import { Content, GapHorizontal } from '@/admin-portal/modules/referrals/mini-widget'
 import { approvePendingCommunityApi } from '@/api/communitiy'
 import AdminCommunityStore from '@/store/local/admin-community'
+import AdminPortalStore from '@/store/local/admin-portal'
+import { Rsp } from '@/types'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
-import { TextBase, TextXl } from '@/widgets/text'
-import { Rsp } from '@/types'
+import { TextBase } from '@/widgets/text'
 
 export const ActionModal: FC<{}> = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const navigate = useNavigate()
+
+  // data
   const showActiveModal = AdminCommunityStore.useStoreState((state) => state.showActiveModal)
   const community = AdminCommunityStore.useStoreState((state) => state.community)
   const action = AdminCommunityStore.useStoreState((state) => state.action)
 
-  // data
+  // action
+  const removeCommunity = AdminPortalStore.useStoreActions((action) => action.removeCommunity)
+
   const setShowActiveModal = AdminCommunityStore.useStoreActions(
     (action) => action.setShowActiveModal
   )
@@ -48,7 +51,9 @@ export const ActionModal: FC<{}> = () => {
       if (result.code === 0) {
         toast.success(`${action} successful`)
         onCloseConfirmModal()
-        navigate(0)
+
+        // Remove this community from the list
+        removeCommunity(community)
       }
     } catch (error) {
     } finally {
@@ -62,13 +67,15 @@ export const ActionModal: FC<{}> = () => {
 
   return (
     <BasicModal
+      title='Confirmation'
       isOpen={showActiveModal}
       onClose={onCloseConfirmModal}
       styled={'flex flex-col !justify-start !items-start !w-[400px] !h-[250px]'}
     >
       <Content>
-        <TextXl>{`${action} reward?`}</TextXl>
-        <TextBase>{`Do you really want to ${action} reward`}</TextBase>
+        <TextBase>
+          {`Do you really want to make community "${community.display_name}" ${action}?`}
+        </TextBase>
         <GapHorizontal>
           <PositiveButton onClick={onCloseConfirmModal} type={ButtonTypeEnum.NEGATIVE}>
             {'Cancel'}
