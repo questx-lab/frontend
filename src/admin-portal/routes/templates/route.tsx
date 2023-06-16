@@ -5,7 +5,7 @@ import { json, Outlet, Params, useLoaderData } from 'react-router'
 
 import { ControlPanelTab } from '@/admin-portal/types/control-panel-tab'
 import { getTemplatesApi } from '@/api/quest'
-import AdminPortalStore from '@/store/admin/admin-portal'
+import AdminPortalStore from '@/store/admin/portal'
 import ActiveQuestStore from '@/store/local/active-quest'
 import CommunityStore from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest'

@@ -4,8 +4,8 @@ import { json, Outlet, useLoaderData } from 'react-router-dom'
 
 import { ControlPanelTab } from '@/admin-portal/types/control-panel-tab'
 import { getPendingCommunitiesApi } from '@/api/communitiy'
-import AdminCommunityStore from '@/store/admin/admin-community'
-import AdminPortalStore from '@/store/admin/admin-portal'
+import AdminCommunityStore from '@/store/admin/community'
+import AdminPortalStore from '@/store/admin/portal'
 import { CommunityType } from '@/types/community'
 
 export const Loader = async () => {

@@ -3,7 +3,7 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import AdminCommunityStore from '@/store/admin/admin-community'
+import AdminCommunityStore from '@/store/admin/community'
 import { CommunityType } from '@/types/community'
 import { Image } from '@/widgets/image'
 import { OptionxBox, PopItem, PopoverButton, PopoverSize, PopPanel } from '@/widgets/popover'

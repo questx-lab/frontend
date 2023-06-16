@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Content, GapHorizontal } from '@/admin-portal/modules/referrals/mini-widget'
 import { approveReferralApi } from '@/api/communitiy'
-import AdminReferralStore from '@/store/admin/admin-referral'
+import AdminReferralStore from '@/store/admin/referral'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
 import { TextBase, TextXl } from '@/widgets/text'
