@@ -16,7 +16,7 @@ import {
   VerticalFullWidth,
 } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
-import { Tab, TabItem } from '@/widgets/tab-group'
+import { Tab, TabItem } from '@/widgets/tab-group/focus-white-background'
 import { HeaderText3 } from '@/widgets/text'
 import { ArrowPathIcon, ClockIcon } from '@heroicons/react/24/outline'
 

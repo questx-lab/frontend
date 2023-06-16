@@ -3,7 +3,8 @@ import tw from 'twin.macro'
 
 import { Horizontal } from '@/widgets/orientation'
 
-// This is the tab used in the "Review Submission" or Settings of a community
+// This is the tab used in the "Review Submission" or Settings of a community. It has a property
+// where the focused tab has a white background and primary text color.
 export const Tab = tw(Horizontal)`
   w-full
   bg-gray-100
