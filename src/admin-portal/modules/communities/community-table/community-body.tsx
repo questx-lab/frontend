@@ -10,7 +10,7 @@ import { getUserByIdApi } from '@/api/user'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import { Status } from '@/modules/review-submissions/history/row-item'
-import AdminPortalStore from '@/store/local/admin-portal'
+import AdminCommunityStore from '@/store/local/admin-community'
 import { UserType } from '@/types'
 import { CommunityType } from '@/types/community'
 import { CircularImage } from '@/widgets/circular-image'
@@ -116,7 +116,7 @@ const CommunityBody: FC<{
   onClickCommunity: (community: CommunityType) => void
 }> = ({ onClickUser, onClickCommunity }) => {
   //data
-  const communities = AdminPortalStore.useStoreState((state) => state.communities)
+  const communities = AdminCommunityStore.useStoreState((state) => state.communities)
 
   if (!communities) {
     return <></>

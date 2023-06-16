@@ -5,7 +5,6 @@ import { toast } from 'react-hot-toast'
 import { Content, GapHorizontal } from '@/admin-portal/modules/referrals/mini-widget'
 import { approvePendingCommunityApi } from '@/api/communitiy'
 import AdminCommunityStore from '@/store/local/admin-community'
-import AdminPortalStore from '@/store/local/admin-portal'
 import { Rsp } from '@/types'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
@@ -20,7 +19,7 @@ export const ActionModal: FC<{}> = () => {
   const action = AdminCommunityStore.useStoreState((state) => state.action)
 
   // action
-  const removeCommunity = AdminPortalStore.useStoreActions((action) => action.removeCommunity)
+  const removeCommunity = AdminCommunityStore.useStoreActions((action) => action.removeCommunity)
 
   const setShowActiveModal = AdminCommunityStore.useStoreActions(
     (action) => action.setShowActiveModal
