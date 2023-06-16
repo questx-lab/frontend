@@ -43,6 +43,57 @@ const MediumTextBase = tw(TextBase)`font-medium`
 
 const PointerHorizontal = tw(HorizontalStartCenter)`cursor-pointer`
 
+const CommunityTd: FC<{
+  community: CommunityType
+  onClickCommunity: (community: CommunityType) => void
+}> = ({ community, onClickCommunity }) => {
+  return (
+    <Td>
+      <PointerHorizontal onClick={() => onClickCommunity(community)}>
+        <CircularImage
+          width={40}
+          height={40}
+          src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
+        />
+        <MediumTextBase>{community.display_name}</MediumTextBase>
+      </PointerHorizontal>
+    </Td>
+  )
+}
+
+const UserTd: FC<{ userId: string; onClickUser: (userId: UserType) => void }> = ({
+  userId,
+  onClickUser,
+}) => {
+  const [user, setUser] = useState<UserType>({} as UserType)
+  const fetchUser = async () => {
+    try {
+      const result = await getUserByIdApi(userId)
+      console.log(result)
+
+      if (result.error) {
+        toast.error(result.error)
+      }
+      if (result.code === 0 && result.data) setUser(result.data)
+    } catch (error) {}
+  }
+  useEffect(() => {
+    fetchUser()
+  }, [])
+  return (
+    <Td>
+      <PointerHorizontal onClick={() => onClickUser(user)}>
+        <CircularImage
+          width={40}
+          height={40}
+          src={user.avatar_url || StorageConst.USER_DEFAULT.src}
+        />
+        <MediumTextBase>{user.name}</MediumTextBase>
+      </PointerHorizontal>
+    </Td>
+  )
+}
+
 const CommunityBody: FC<{
   onClickUser: (userId: UserType) => void
   onClickCommunity: (community: CommunityType) => void
@@ -54,56 +105,14 @@ const CommunityBody: FC<{
     return <></>
   }
 
-  const CommunityTd: FC<{ community: CommunityType }> = ({ community }) => {
-    return (
-      <Td>
-        <PointerHorizontal onClick={() => onClickCommunity(community)}>
-          <CircularImage
-            width={40}
-            height={40}
-            src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
-          />
-          <MediumTextBase>{community.display_name}</MediumTextBase>
-        </PointerHorizontal>
-      </Td>
-    )
-  }
-
-  const UserTd: FC<{ userId: string }> = ({ userId }) => {
-    const [user, setUser] = useState<UserType>({} as UserType)
-    const fetchUser = async () => {
-      try {
-        const result = await getUserByIdApi(userId)
-        if (result.error) {
-          toast.error(result.error)
-        }
-        if (result.code === 0 && result.data) setUser(result.data)
-      } catch (error) {}
-    }
-    useEffect(() => {
-      fetchUser()
-    })
-    return (
-      <Td>
-        <PointerHorizontal onClick={() => onClickUser(user)}>
-          <CircularImage
-            width={40}
-            height={40}
-            src={user.avatar_url || StorageConst.USER_DEFAULT.src}
-          />
-          <MediumTextBase>{user.name}</MediumTextBase>
-        </PointerHorizontal>
-      </Td>
-    )
-  }
   return (
     <>
       <tbody>
         {communities.map((community, index) => (
           <Tr key={`${community.handle}`} index={index}>
-            <CommunityTd community={community} />
+            <CommunityTd community={community} onClickCommunity={onClickCommunity} />
             <Td>{community.status || ''}</Td>
-            <UserTd userId={community.created_by || ''} />
+            <UserTd userId={community.created_by || ''} onClickUser={onClickUser} />
             <Td>{community.created_at}</Td>
             <Td>{community.number_of_quests || 0}</Td>
             <Td>{community.followers || 0}</Td>
