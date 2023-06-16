@@ -26,7 +26,6 @@ const Absolute = tw.div`
 
 const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
   // action
-
   const setShowActiveModal = AdminCommunityStore.useStoreActions(
     (action) => action.setShowActiveModal
   )
@@ -47,22 +46,7 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
       <Absolute>
         <PopPanel size={PopoverSize.SMALL}>
           <PopItem>
-            <OptionxBox onClick={() => onActionClicked('Active')}>{'Active'}</OptionxBox>
-          </PopItem>
-          <PopItem>
-            <OptionxBox onClick={() => onActionClicked('Reject')}>{'Reject'}</OptionxBox>
-          </PopItem>
-          <PopItem>
-            <OptionxBox onClick={() => onActionClicked('Pending')}>{'Pending'}</OptionxBox>
-          </PopItem>
-          <PopItem>
-            <OptionxBox onClick={() => onActionClicked('Pause')}>{'Pause'}</OptionxBox>
-          </PopItem>
-          <PopItem>
-            <OptionxBox onClick={() => onActionClicked('Delete')}>{'Delete'}</OptionxBox>
-          </PopItem>
-          <PopItem>
-            <OptionxBox onClick={() => onActionClicked('Edit')}>{'Edit'}</OptionxBox>
+            <OptionxBox onClick={() => onActionClicked('Active')}>{'Activate'}</OptionxBox>
           </PopItem>
         </PopPanel>
       </Absolute>
