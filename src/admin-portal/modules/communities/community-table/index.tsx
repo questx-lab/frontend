@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 
 import tw from 'twin.macro'
+
 import CommunityDetailModal from '@/admin-portal/modules/communities/community-detail'
 import CommunityBody from '@/admin-portal/modules/communities/community-table/community-body'
 import UserDetailModal from '@/admin-portal/modules/referrals/user-detail'
@@ -13,7 +14,16 @@ const Th = tw.th`
   border-b border-gray-300 bg-gray-100 p-4
 `
 
-const TABLE_HEAD = ['Name', 'Status', 'Owner', 'Date Created', 'Quests', 'Members', 'DAU', 'Action']
+const TABLE_HEAD = [
+  'Name',
+  'Status',
+  'Created By',
+  'Date Created',
+  'Quests',
+  'Members',
+  'DAU',
+  'Action',
+]
 
 const CommunityContent: FC = () => {
   const [openUserModal, setOpenUserModal] = useState<boolean>(false)

@@ -1,18 +1,21 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, ReactNode, useEffect, useState } from 'react'
 
+import { toast } from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { toast } from 'react-hot-toast'
+
 import { ActionModal } from '@/admin-portal/modules/communities/action-modal'
 import RowOption from '@/admin-portal/modules/communities/community-table/row-option'
+import { getUserByIdApi } from '@/api/user'
+import { ClaimedQuestStatus } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
+import { Status } from '@/modules/review-submissions/history/row-item'
 import AdminPortalStore from '@/store/local/admin-portal'
 import { UserType } from '@/types'
 import { CommunityType } from '@/types/community'
 import { CircularImage } from '@/widgets/circular-image'
-import { HorizontalStartCenter } from '@/widgets/orientation'
+import { Horizontal, HorizontalStartCenter } from '@/widgets/orientation'
 import { TextBase } from '@/widgets/text'
-import { getUserByIdApi } from '@/api/user'
 
 const Td = styled.td<{ highlight?: boolean }>(({ highlight = false }) => {
   const styles = [
@@ -93,6 +96,21 @@ const UserTd: FC<{ userId: string; onClickUser: (userId: UserType) => void }> = 
   )
 }
 
+const StatusTd: FC<{ status: string }> = ({ status }) => {
+  let inner: ReactNode = status
+  switch (status) {
+    case 'pending':
+      inner = <Status claimStatus={ClaimedQuestStatus.PENDING}>Pending</Status>
+      break
+  }
+
+  return (
+    <Td>
+      <Horizontal>{inner}</Horizontal>
+    </Td>
+  )
+}
+
 const CommunityBody: FC<{
   onClickUser: (userId: UserType) => void
   onClickCommunity: (community: CommunityType) => void
@@ -110,7 +128,7 @@ const CommunityBody: FC<{
         {communities.map((community, index) => (
           <Tr key={`${community.handle}`} index={index}>
             <CommunityTd community={community} onClickCommunity={onClickCommunity} />
-            <Td>{community.status || ''}</Td>
+            <StatusTd status={community.status || ''} />
             <UserTd userId={community.created_by || ''} onClickUser={onClickUser} />
             <Td>{community.created_at}</Td>
             <Td>{community.number_of_quests || 0}</Td>

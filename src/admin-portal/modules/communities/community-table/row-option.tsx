@@ -6,16 +6,23 @@ import tw from 'twin.macro'
 import AdminCommunityStore from '@/store/local/admin-community'
 import { CommunityType } from '@/types/community'
 import { Image } from '@/widgets/image'
-import {
-  OptionxBox,
-  PopItem,
-  PopoverButton,
-  PopoverPosition,
-  PopoverSize,
-  PopPanel,
-} from '@/widgets/popover'
+import { OptionxBox, PopItem, PopoverButton, PopoverSize, PopPanel } from '@/widgets/popover'
+import { Popover } from '@headlessui/react'
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
+
+const PopoverPosition = styled(Popover)(tw`
+  relative
+  flex
+  flex-row
+  justify-center
+  mt-4
+`)
+
+const Absolute = tw.div`
+  absolute
+  z-50
+`
 
 const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
   // action
@@ -37,26 +44,28 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
   return (
     <PopoverPosition>
       <PopoverButton className={'outline-0'}>...</PopoverButton>
-      <PopPanel size={PopoverSize.SMALL}>
-        <PopItem>
-          <OptionxBox onClick={() => onActionClicked('Active')}>{'Active'}</OptionxBox>
-        </PopItem>
-        <PopItem>
-          <OptionxBox onClick={() => onActionClicked('Reject')}>{'Reject'}</OptionxBox>
-        </PopItem>
-        <PopItem>
-          <OptionxBox onClick={() => onActionClicked('Pending')}>{'Pending'}</OptionxBox>
-        </PopItem>
-        <PopItem>
-          <OptionxBox onClick={() => onActionClicked('Pause')}>{'Pause'}</OptionxBox>
-        </PopItem>
-        <PopItem>
-          <OptionxBox onClick={() => onActionClicked('Delete')}>{'Delete'}</OptionxBox>
-        </PopItem>
-        <PopItem>
-          <OptionxBox onClick={() => onActionClicked('Edit')}>{'Edit'}</OptionxBox>
-        </PopItem>
-      </PopPanel>
+      <Absolute>
+        <PopPanel size={PopoverSize.SMALL}>
+          <PopItem>
+            <OptionxBox onClick={() => onActionClicked('Active')}>{'Active'}</OptionxBox>
+          </PopItem>
+          <PopItem>
+            <OptionxBox onClick={() => onActionClicked('Reject')}>{'Reject'}</OptionxBox>
+          </PopItem>
+          <PopItem>
+            <OptionxBox onClick={() => onActionClicked('Pending')}>{'Pending'}</OptionxBox>
+          </PopItem>
+          <PopItem>
+            <OptionxBox onClick={() => onActionClicked('Pause')}>{'Pause'}</OptionxBox>
+          </PopItem>
+          <PopItem>
+            <OptionxBox onClick={() => onActionClicked('Delete')}>{'Delete'}</OptionxBox>
+          </PopItem>
+          <PopItem>
+            <OptionxBox onClick={() => onActionClicked('Edit')}>{'Edit'}</OptionxBox>
+          </PopItem>
+        </PopPanel>
+      </Absolute>
     </PopoverPosition>
   )
 }
