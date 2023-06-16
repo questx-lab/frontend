@@ -8,11 +8,12 @@ import { GrayBorderBox } from '@/widgets/box'
 import { CircularImage } from '@/widgets/circular-image'
 import {
   HorizontalFullWidth,
+  Vertical,
   VerticalFullWidth,
   VerticalFullWidthHeight,
 } from '@/widgets/orientation'
 import { Divider, Gap } from '@/widgets/separator'
-import { TextXl } from '@/widgets/text'
+import { TextBase, TextXl } from '@/widgets/text'
 
 const ContentFrame = tw(HorizontalFullWidth)`
   p-4
@@ -28,11 +29,28 @@ const LeftSideStyled = tw(GrayBorderBox)`
 const PersonVertical = tw(VerticalFullWidth)`
   justify-center
   items-center
-  py-8
   gap-2
 `
 
+const StatisticFrame = tw(Vertical)`
+  p-4
+`
+
+const StatisticRowTitle = tw(TextBase)`
+  flex
+  flex-1
+`
+
 const LeftSide: FC<{ user: UserType }> = ({ user }) => {
+  const StatisticRow: FC<{ title: string; value: string }> = ({ title, value }) => {
+    return (
+      <HorizontalFullWidth>
+        <StatisticRowTitle>{title}</StatisticRowTitle>
+        <TextBase>{value}</TextBase>
+      </HorizontalFullWidth>
+    )
+  }
+
   return (
     <LeftSideStyled>
       <PersonVertical>
@@ -46,6 +64,14 @@ const LeftSide: FC<{ user: UserType }> = ({ user }) => {
         <Gap height={8} />
         <Divider />
       </PersonVertical>
+      <StatisticFrame>
+        <StatisticRow
+          title={'Quest Completed'}
+          value={`${user.total_claimed_quests}`}
+        ></StatisticRow>
+        <Gap />
+        <StatisticRow title={'Community Joined'} value={`${user.total_communities}`}></StatisticRow>
+      </StatisticFrame>
     </LeftSideStyled>
   )
 }

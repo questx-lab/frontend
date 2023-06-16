@@ -44,6 +44,8 @@ export type UserType = {
   role?: string
   referral_code?: string
   avatar_url?: string
+  total_communities?: number
+  total_claimed_quests?: number
 }
 
 export type UpdateCommunityRequest = {
