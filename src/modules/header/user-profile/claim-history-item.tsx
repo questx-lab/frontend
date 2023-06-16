@@ -8,26 +8,25 @@ import { Status } from '@/modules/review-submissions/history/row-item'
 import { ClaimQuestType } from '@/types'
 import { GrayBorderBox } from '@/widgets/box'
 import { CircularImage } from '@/widgets/circular-image'
+import { Image } from '@/widgets/image'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
-import { TextBase } from '@/widgets/text'
+import { TextBase, TextSm } from '@/widgets/text'
 
 const BorderBox = tw(GrayBorderBox)`
   w-full
   rounded-lg
   p-4
+  mb-2
 `
 
 const InfoBox = tw(Vertical)`
   flex-1
 `
 
-const PointBox = tw.div`
-  h-full
-  flex
-  flex-col
-  justify-center
-  items-center
+const GemBox = tw.div`
+  rounded-full
+  bg-orange-100
 `
 
 const ClaimItem: FC<{ claim: ClaimQuestType }> = ({ claim }) => {
@@ -47,9 +46,13 @@ const ClaimItem: FC<{ claim: ClaimQuestType }> = ({ claim }) => {
           <Gap height={2} />
           <TextBase>{claim.quest.title}</TextBase>
         </InfoBox>
-        <PointBox>
-          <TextBase>AAAA</TextBase>
-        </PointBox>
+        <Horizontal>
+          <GemBox>
+            <Image width={18} height={18} src={StorageConst.GEM.src} />
+          </GemBox>
+          <Gap width={1} />
+          <TextSm>{claim.quest.points}</TextSm>
+        </Horizontal>
       </Horizontal>
     </BorderBox>
   )

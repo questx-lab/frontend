@@ -15,6 +15,7 @@ const BorderBox = tw(GrayBorderBox)`
   flex
   flex-col
   mr-2
+  pt-8
   rounded-lg
 `
 
@@ -53,7 +54,7 @@ const BasicInfo: FC<{ user: UserType }> = ({ user }) => {
           alt={'Avatar'}
         />
         <TextXl>{user.name}</TextXl>
-        <Gap height={8} />
+        <Gap height={4} />
         <Divider />
       </PersonVertical>
       <StatisticFrame>

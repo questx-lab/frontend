@@ -26,7 +26,6 @@ const ClaimHistory: FC<{ user: UserType }> = ({ user }) => {
   const fetchClaims = async () => {
     try {
       const result = await getMyClaims(user.id)
-      console.log('result = ', result)
       if (result.code === 0) {
         setClaims(result.data?.claimed_quests)
       }
@@ -36,7 +35,6 @@ const ClaimHistory: FC<{ user: UserType }> = ({ user }) => {
   }
 
   if (claims === undefined) {
-    console.log('AAA')
     return (
       <LoadingPosition>
         <MoonLoader />
