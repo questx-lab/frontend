@@ -7,8 +7,8 @@ export const getUserApi = async (): Promise<Rsp<UserType>> => {
   try {
     const result = await api.get(EnvVariables.API_SERVER + '/getMe')
     return {
-      code: result.data,
-      data: result.data?.user,
+      code: result.data.code,
+      data: result.data?.data.user,
       error: result.data.error,
     }
   } catch (err) {
