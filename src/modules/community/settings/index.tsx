@@ -7,7 +7,7 @@ import CommunityStore from '@/store/local/community'
 import NewCommunityStore from '@/store/local/new-community'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
-import { Tab, TabItem } from '@/widgets/tab-group'
+import { Tab, TabItem } from '@/widgets/tab-group/focus-white-background'
 import { HeaderText3 } from '@/widgets/text'
 
 enum TabEnum {

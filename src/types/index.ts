@@ -44,6 +44,8 @@ export type UserType = {
   role?: string
   referral_code?: string
   avatar_url?: string
+  total_communities?: number
+  total_claimed_quests?: number
 }
 
 export type UpdateCommunityRequest = {
@@ -208,6 +210,7 @@ export type UploadCommunityLogoResponse = {
 export enum AccoutSettingTabEnum {
   GENERAL,
   ACHIEVEMENTS,
+  HISTORY,
 }
 
 export enum SocialType {

@@ -92,7 +92,7 @@ const PlatformRouter = (): RouteObject[] => {
           ],
         },
         {
-          path: 'account-setting',
+          path: 'account-settings',
           element: <AccoutSettings />,
           children: [{ index: true, element: <AccountSettingIndex /> }],
         },

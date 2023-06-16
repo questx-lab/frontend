@@ -18,6 +18,17 @@ export const listClaimedQuestsApi = async (
   return data
 }
 
+export const getMyClaims = async (
+  userId: string,
+  offset: number = 0,
+  limit: number = 10
+): Promise<Rsp<ListClaimQuestType>> => {
+  const { data } = await api.get(
+    EnvVariables.API_SERVER + `/getClaimedQuests?user_id=${userId}&offset=${offset}&limit=${limit}`
+  )
+  return data
+}
+
 export const updateClaimedQuestApi = async (ids: string[], action: string): Promise<Rsp<{}>> => {
   const { data } = await api.post(EnvVariables.API_SERVER + `/review`, {
     ids,

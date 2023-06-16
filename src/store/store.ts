@@ -14,6 +14,7 @@ export interface GlobalStoreModel {
   authBox: number
   username: string
   showLoginModal: boolean
+  showUserProfileModal: boolean
   templates: QuestType[]
 
   setShowNavigationDrawer: Action<GlobalStoreModel, boolean>
@@ -26,9 +27,9 @@ export interface GlobalStoreModel {
   setShowLoginModal: Action<GlobalStoreModel, boolean>
   setTemplates: Action<GlobalStoreModel, QuestType[]>
   updateCommunityCollab: Action<GlobalStoreModel, CommunityType>
+  setShowUserProfileModal: Action<GlobalStoreModel, boolean>
 }
 
-// TODO: Make this as a export default
 const store = createStore<GlobalStoreModel>({
   showNavigationDrawer: false,
   user: undefined,
@@ -38,6 +39,7 @@ const store = createStore<GlobalStoreModel>({
   authBox: AuthEnum.LOGIN,
   username: '',
   showLoginModal: false,
+  showUserProfileModal: false,
   templates: [],
 
   setShowNavigationDrawer: action((state, drawer) => {
@@ -89,6 +91,10 @@ const store = createStore<GlobalStoreModel>({
     if (found) {
       state.communitiesCollab = clone
     }
+  }),
+
+  setShowUserProfileModal: action((state, showUserProfileModal) => {
+    state.showUserProfileModal = showUserProfileModal
   }),
 })
 
