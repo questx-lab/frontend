@@ -2,10 +2,10 @@ import { FC, useState } from 'react'
 
 import tw from 'twin.macro'
 
-import CommunityDetailModal from '@/admin-portal/modules/referrals/community-detail'
-import ReferralBody from '@/admin-portal/modules/referrals/referral-table/referral-body'
+import CommunityDetailModal from '@/admin-portal/modules/communities/community-detail'
+import CommunityBody from '@/admin-portal/modules/communities/community-table/community-body'
 import UserDetailModal from '@/admin-portal/modules/referrals/user-detail'
-import AdminReferralStore from '@/store/local/admin-referral'
+import AdminCommunityStore from '@/store/local/admin-community'
 import { UserType } from '@/types'
 import { CommunityType } from '@/types/community'
 import SimpleTable from '@/widgets/table/simple-table'
@@ -14,15 +14,24 @@ const Th = tw.th`
   border-b border-gray-300 bg-gray-100 p-4
 `
 
-const TABLE_HEAD = ['From User', 'Community', 'Discord', 'Twitter', 'Status']
+const TABLE_HEAD = [
+  'Name',
+  'Status',
+  'Created By',
+  'Date Created',
+  'Quests',
+  'Members',
+  'DAU',
+  'Action',
+]
 
-const ReferralContent: FC = () => {
+const CommunityContent: FC = () => {
   const [openUserModal, setOpenUserModal] = useState<boolean>(false)
   const [openCommunityModal, setOpenCommunityModal] = useState<boolean>(false)
   const [user, setUser] = useState<UserType>()
 
-  const community = AdminReferralStore.useStoreState((state) => state.community)
-  const setCommunity = AdminReferralStore.useStoreActions((action) => action.setCommunity)
+  const community = AdminCommunityStore.useStoreState((state) => state.community)
+  const setCommunity = AdminCommunityStore.useStoreActions((action) => action.setCommunity)
 
   const onClickUser = (user: UserType) => {
     setOpenUserModal(true)
@@ -52,7 +61,7 @@ const ReferralContent: FC = () => {
             ))}
           </tr>
         </thead>
-        <ReferralBody onClickUser={onClickUser} onClickCommunity={onClickCommunity} />
+        <CommunityBody onClickUser={onClickUser} onClickCommunity={onClickCommunity} />
       </SimpleTable>
       <UserDetailModal user={user} openModal={openUserModal} onCloseModel={onCloseUserModel} />
       <CommunityDetailModal
@@ -64,4 +73,4 @@ const ReferralContent: FC = () => {
   )
 }
 
-export default ReferralContent
+export default CommunityContent

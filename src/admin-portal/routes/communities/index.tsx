@@ -1,7 +1,13 @@
 import { FC } from 'react'
+import Community from '@/admin-portal/modules/communities'
+import AdminCommunityStore from '@/store/local/admin-community'
 
 const Index: FC = () => {
-  return <>This is communities index</>
+  return (
+    <AdminCommunityStore.Provider>
+      <Community />
+    </AdminCommunityStore.Provider>
+  )
 }
 
 export default Index

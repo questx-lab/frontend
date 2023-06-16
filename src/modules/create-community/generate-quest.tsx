@@ -118,10 +118,23 @@ const Templates: FC<{
 }
 
 const GenerateQuest: FC = () => {
+  // data
+  const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
+
+  // action
+  const setCurrentStep = NewCommunityStore.useStoreActions((action) => action.setCurrentStep)
+
   const [questsSelect, setQuestsSelect] = useState<QuestType[]>([])
   const createdCommunityHandle = NewCommunityStore.useStoreState(
     (state) => state.createdCommunityHandle
   )
+
+  const onNextClicked = () => {
+    // TODO: add loading state while creating a quests
+    createQuests(questsSelect, createdCommunityHandle)
+    setCurrentStep(currentStep + 1)
+  }
+
   return (
     <Main>
       <Title>{'Well done!'}</Title>
@@ -131,7 +144,7 @@ const GenerateQuest: FC = () => {
       <Templates questsSelect={questsSelect} setQuestsSelect={setQuestsSelect} />
       <HorizotalFullWidth>
         <BackButton />
-        <NextButton onClick={() => createQuests(questsSelect, createdCommunityHandle)} />
+        <NextButton onClick={onNextClicked} />
       </HorizotalFullWidth>
     </Main>
   )

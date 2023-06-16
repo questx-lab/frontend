@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import tw from 'twin.macro'
 
@@ -10,12 +10,12 @@ import {
   Title,
 } from '@/modules/create-community/mini-widget'
 import NewCommunityStore from '@/store/local/new-community'
+import { isValidEmail } from '@/utils/validation'
 import { TextField } from '@/widgets/form'
 import { HorizontalCenter } from '@/widgets/orientation'
-import { NormalText } from '@/widgets/text'
+import { NormalText, RequiredText, TextSm } from '@/widgets/text'
 
 const Label = tw.label`
-  py-2
   flex
   items-center
   w-full
@@ -56,14 +56,34 @@ const SocialInput = tw.input`
   rounded-lg
 `
 
+const ErrorText = tw(TextSm)`
+  text-start
+  text-danger-700
+`
+
 const SetTwitterDiscordStep: FC = () => {
   // data
   const twitterUrl = NewCommunityStore.useStoreState((state) => state.twitterUrl)
   const websiteUrl = NewCommunityStore.useStoreState((state) => state.websiteUrl)
+  const email = NewCommunityStore.useStoreState((state) => state.email)
+  const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
 
   // action
   const setTwitterUrl = NewCommunityStore.useStoreActions((action) => action.setTwitterUrl)
   const setWebsiteUrl = NewCommunityStore.useStoreActions((action) => action.setWebsiteUrl)
+  const setEmail = NewCommunityStore.useStoreActions((action) => action.setEmail)
+  const setCurrentStep = NewCommunityStore.useStoreActions((action) => action.setCurrentStep)
+
+  const [showEmailError, setShowEmailError] = useState<boolean>(false)
+
+  const onNextClicked = () => {
+    if (!isValidEmail(email)) {
+      setShowEmailError(true)
+      return
+    }
+
+    setCurrentStep(currentStep + 1)
+  }
 
   return (
     <Main>
@@ -82,6 +102,18 @@ const SetTwitterDiscordStep: FC = () => {
           placeholder='Username'
         />
       </SocialBoxInput>
+      <Label>
+        {'EMAIL'}
+        <RequiredText>{'*'}</RequiredText>
+      </Label>
+      <TextField value={email} onChange={(e) => setEmail(e.target.value)} placeholder='' />
+      {showEmailError && (
+        <ErrorText>
+          {
+            'A valid email is required for new community approval (we will never sell your private info)'
+          }
+        </ErrorText>
+      )}
       <Label>{'WEBSITE'}</Label>
       <TextField
         value={websiteUrl}
@@ -90,7 +122,7 @@ const SetTwitterDiscordStep: FC = () => {
       />
       <HorizotalFullWidth>
         <BackButton />
-        <NextButton />
+        <NextButton onClick={onNextClicked} />
       </HorizotalFullWidth>
     </Main>
   )
