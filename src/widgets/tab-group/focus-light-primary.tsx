@@ -13,7 +13,33 @@ export const Tab = tw(Horizontal)`
 
 export const TabItem = styled.div<{ active: boolean; tabCount: number; position: number }>(
   ({ active, tabCount, position }) => {
-    const style = []
+    const style = [
+      tw`
+        flex
+        flex-row
+        justify-center
+        items-center
+        text-sm
+        font-medium
+        py-4
+        border-y
+        border-solid
+        border-gray-300
+        cursor-pointer
+      `,
+    ]
+
+    if (active) {
+      style.push(tw`
+        bg-primary-100
+        text-primary
+      `)
+    } else {
+      style.push(tw`
+        bg-white
+        text-black
+      `)
+    }
 
     switch (tabCount) {
       case 1:
@@ -31,40 +57,6 @@ export const TabItem = styled.div<{ active: boolean; tabCount: number; position:
       case 5:
         style.push(tw`w-1/5`)
         break
-    }
-
-    if (active) {
-      style.push(tw`
-        bg-primary-100
-        flex
-        flex-row
-        justify-center
-        items-center
-        text-sm
-        font-medium
-        text-primary
-        py-4
-        border-y
-        border-solid
-        border-gray-300
-        cursor-pointer
-      `)
-    } else {
-      style.push(tw`
-        bg-white
-        flex
-        flex-row
-        justify-center
-        items-center
-        text-sm
-        font-medium
-        text-black
-        py-4
-        border-y
-        border-solid
-        border-gray-300
-        cursor-pointer
-      `)
     }
 
     // Rounded border
