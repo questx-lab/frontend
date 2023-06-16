@@ -36,20 +36,6 @@ export const ActionModal: FC<{}> = () => {
           result = await approvePendingCommunityApi(community.handle)
           break
 
-        //TODO: we should do this in future
-        // case 'Reject':
-        //   result = await approvePendingCommunityApi(community.handle)
-        //   break
-        // case 'Pending':
-        //   result = await approvePendingCommunityApi(community.handle)
-        //   break
-        // case 'Pause':
-        //   result = await approvePendingCommunityApi(community.handle)
-        //   break
-        // case 'Edit':
-        //   result = await approvePendingCommunityApi(community.handle)
-        //   break
-
         default:
           return
       }
