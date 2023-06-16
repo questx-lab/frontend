@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 import { ActionModal } from '@/admin-portal/modules/referrals/action-modal'
 import ReferralStatus from '@/admin-portal/modules/referrals/referral-table/referral-status'
 import StorageConst from '@/constants/storage.const'
-import AdminPortalStore from '@/store/local/admin-portal'
+import AdminReferralStore from '@/store/local/admin-referral'
 import { UserType } from '@/types'
 import { CommunityType, ReferralType } from '@/types/community'
 import { CircularImage } from '@/widgets/circular-image'
@@ -47,7 +47,7 @@ const ReferralBody: FC<{
   onClickCommunity: (community: CommunityType) => void
 }> = ({ onClickUser, onClickCommunity }) => {
   //data
-  const referrals = AdminPortalStore.useStoreState((state) => state.referrals)
+  const referrals = AdminReferralStore.useStoreState((state) => state.referrals)
 
   if (!referrals) {
     return <></>
