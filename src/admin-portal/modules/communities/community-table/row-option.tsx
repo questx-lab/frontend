@@ -39,7 +39,7 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
       <PopoverButton className={'outline-0'}>...</PopoverButton>
       <PopPanel size={PopoverSize.SMALL}>
         <PopItem>
-          <OptionxBox onClick={() => onActionClicked('Action')}>{'Active'}</OptionxBox>
+          <OptionxBox onClick={() => onActionClicked('Active')}>{'Active'}</OptionxBox>
         </PopItem>
         <PopItem>
           <OptionxBox onClick={() => onActionClicked('Reject')}>{'Reject'}</OptionxBox>

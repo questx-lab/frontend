@@ -69,7 +69,6 @@ const UserTd: FC<{ userId: string; onClickUser: (userId: UserType) => void }> = 
   const fetchUser = async () => {
     try {
       const result = await getUserByIdApi(userId)
-      console.log(result)
 
       if (result.error) {
         toast.error(result.error)

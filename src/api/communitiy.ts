@@ -219,3 +219,10 @@ export const approvePendingCommunityApi = async (handle: string): Promise<Rsp<{}
   })
   return rs.data
 }
+
+export const getPendingCommunitiesApi = async (): Promise<Rsp<ListCommunitiesType>> => {
+  let url = `/getPendingCommunities`
+
+  const rs = await api.get(EnvVariables.API_SERVER + url)
+  return rs.data as Rsp<ListCommunitiesType>
+}

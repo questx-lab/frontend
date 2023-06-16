@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react'
 
 import { json, Outlet, useLoaderData } from 'react-router-dom'
-import { listCommunitiesApi } from '@/api/communitiy'
+import { getPendingCommunitiesApi } from '@/api/communitiy'
 
 import { ControlPanelTab } from '@/admin-portal/types/control-panel-tab'
 import AdminPortalStore from '@/store/local/admin-portal'
@@ -9,7 +9,7 @@ import AdminPortalStore from '@/store/local/admin-portal'
 import { CommunityType } from '@/types/community'
 
 export const Loader = async () => {
-  const communityResult = await listCommunitiesApi()
+  const communityResult = await getPendingCommunitiesApi()
   if (communityResult.code === 0 && communityResult.data) {
     return json(
       {

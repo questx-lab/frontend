@@ -60,10 +60,12 @@ const SetTwitterDiscordStep: FC = () => {
   // data
   const twitterUrl = NewCommunityStore.useStoreState((state) => state.twitterUrl)
   const websiteUrl = NewCommunityStore.useStoreState((state) => state.websiteUrl)
+  const email = NewCommunityStore.useStoreState((state) => state.email)
 
   // action
   const setTwitterUrl = NewCommunityStore.useStoreActions((action) => action.setTwitterUrl)
   const setWebsiteUrl = NewCommunityStore.useStoreActions((action) => action.setWebsiteUrl)
+  const setEmail = NewCommunityStore.useStoreActions((action) => action.setEmail)
 
   return (
     <Main>
@@ -82,6 +84,8 @@ const SetTwitterDiscordStep: FC = () => {
           placeholder='Username'
         />
       </SocialBoxInput>
+      <Label>{'EMAIL'}</Label>
+      <TextField value={email} onChange={(e) => setEmail(e.target.value)} placeholder='' />
       <Label>{'WEBSITE'}</Label>
       <TextField
         value={websiteUrl}

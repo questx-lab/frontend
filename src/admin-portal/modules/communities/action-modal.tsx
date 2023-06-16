@@ -28,6 +28,7 @@ export const ActionModal: FC<{}> = () => {
 
   const onAction = async () => {
     setLoading(true)
+
     try {
       let result: Rsp<{}>
       switch (action) {

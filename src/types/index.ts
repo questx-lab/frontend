@@ -75,6 +75,7 @@ export type ReqNewCommunity = {
   website_url?: string
   discord?: string
   twitter?: string
+  owner_email?: string
 }
 
 export type ListCommunitiesType = {
