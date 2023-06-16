@@ -54,8 +54,9 @@ export const NextButton: FC<{
       onClick={() => {
         if (onClick) {
           onClick()
+        } else {
+          setCurrentStep(currentStep + 1)
         }
-        setCurrentStep(currentStep + 1)
       }}
     >
       {'Next'}
