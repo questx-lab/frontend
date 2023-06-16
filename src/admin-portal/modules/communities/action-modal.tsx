@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast'
 
 import { Content, GapHorizontal } from '@/admin-portal/modules/referrals/mini-widget'
 import { approvePendingCommunityApi } from '@/api/communitiy'
-import AdminCommunityStore from '@/store/local/admin-community'
+import AdminCommunityStore from '@/store/admin/admin-community'
 import { Rsp } from '@/types'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'

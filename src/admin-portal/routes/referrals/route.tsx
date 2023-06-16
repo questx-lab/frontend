@@ -4,8 +4,8 @@ import { json, Outlet, useLoaderData } from 'react-router-dom'
 
 import { ControlPanelTab } from '@/admin-portal/types/control-panel-tab'
 import { getReferralApi } from '@/api/communitiy'
-import AdminPortalStore from '@/store/local/admin-portal'
-import AdminReferralStore from '@/store/local/admin-referral'
+import AdminPortalStore from '@/store/admin/admin-portal'
+import AdminReferralStore from '@/store/admin/admin-referral'
 import { ReferralType } from '@/types/community'
 
 export const Loader = async () => {

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { ReferralActionEnum, ReferralStatusEnum } from '@/admin-portal/types/control-panel-tab'
-import AdminReferralStore from '@/store/local/admin-referral'
+import AdminReferralStore from '@/store/admin/admin-referral'
 import { CommunityType } from '@/types/community'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import { Horizontal } from '@/widgets/orientation'

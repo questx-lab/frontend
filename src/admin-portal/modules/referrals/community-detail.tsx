@@ -10,7 +10,7 @@ import {
 } from '@/admin-portal/modules/referrals/mini-widget'
 import { ReferralActionEnum } from '@/admin-portal/types/control-panel-tab'
 import StorageConst from '@/constants/storage.const'
-import AdminReferralStore from '@/store/local/admin-referral'
+import AdminReferralStore from '@/store/admin/admin-referral'
 import { CommunityType } from '@/types/community'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
