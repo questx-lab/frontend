@@ -6,7 +6,7 @@ import AdminLogin from '@/admin-portal/modules/login'
 import Portal from '@/admin-portal/modules/portal'
 import { getUserApi } from '@/api/user'
 import { CommunityRoleEnum } from '@/constants/common.const'
-import AdminPortalStore from '@/store/local/admin-portal'
+import AdminPortalStore from '@/store/admin/portal'
 import { UserType } from '@/types'
 import { getUserLocal } from '@/utils/helper'
 

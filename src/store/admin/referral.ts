@@ -1,8 +1,9 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { CommunityType } from '@/types/community'
+import { CommunityType, ReferralType } from '@/types/community'
 
 interface AdminReferrallModel {
+  referrals: ReferralType[]
   community: CommunityType | undefined
   showActiveModal: boolean
   action: string
@@ -10,12 +11,14 @@ interface AdminReferrallModel {
   setCommunity: Action<AdminReferrallModel, CommunityType>
   setShowActiveModal: Action<AdminReferrallModel, boolean>
   setAction: Action<AdminReferrallModel, string>
+  setReferrals: Action<AdminReferrallModel, ReferralType[]>
 }
 
 const AdminReferralStore = createContextStore<AdminReferrallModel>({
   community: undefined,
   showActiveModal: false,
   action: '',
+  referrals: [],
 
   setCommunity: action((state, community) => {
     state.community = community
@@ -27,6 +30,10 @@ const AdminReferralStore = createContextStore<AdminReferrallModel>({
 
   setAction: action((state, action) => {
     state.action = action
+  }),
+
+  setReferrals: action((state, referrals) => {
+    state.referrals = referrals
   }),
 })
 

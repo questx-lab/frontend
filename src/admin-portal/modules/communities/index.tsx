@@ -14,7 +14,7 @@ const GapVertical = tw(VerticalFullWidth)`
 const Community: FC = () => {
   return (
     <GapVertical>
-      <Text2xl>{'Community Tracking'}</Text2xl>
+      <Text2xl>{'New Communities'}</Text2xl>
       <CommunityContent />
     </GapVertical>
   )
