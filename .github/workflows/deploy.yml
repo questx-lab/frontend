@@ -74,7 +74,7 @@ jobs:
           helm upgrade --install frontend ./deploy/frontend \
           --namespace frontend \
           --set=image.tag="${{ github.sha }}" \
-          --set=image.repository="$IMG" \4
+          --set=image.repository="$IMG" \
           --set=ingress.hosts[0].host=${{ env.DOMAIN }} \
           --set=ingress.hosts[0].paths[0].path="/" \
           --set=ingress.hosts[0].paths[0].pathType=Prefix \
