@@ -1,17 +1,25 @@
 import { FC } from 'react'
 
 import tw from 'twin.macro'
+import styled from 'styled-components'
+import { RoleType } from '@/types'
 
-import { QuestRewards } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import NewQuestStore from '@/store/local/new-quest'
 import { RoundedGrayBorderBox } from '@/widgets/box'
 import { Image } from '@/widgets/image'
-import { NumberInput } from '@/widgets/input'
+import { NumberInput, CheckBox } from '@/widgets/input'
 import { Vertical } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
-import TypesSelection from '@/widgets/types-selection'
+import { Combobox } from '@headlessui/react'
+
+const mockRoles: RoleType[] = [
+  {
+    id: '1',
+    name: 'test',
+  },
+]
 
 const FrameShape = tw(Vertical)`
   py-8
@@ -33,6 +41,59 @@ const BorderBox = tw(RoundedGrayBorderBox)`
   gap-4
 `
 
+const CheckboxFrame = tw.span`
+  absolute
+  inset-y-0
+  left-0
+  flex
+  items-center
+  pl-3
+`
+
+const NotFoundBox = tw.div`
+  relative
+  cursor-default
+  select-none
+  py-2
+  px-4
+  text-gray-700
+`
+
+const Title = styled.span<{ selected: boolean }>(({ selected = false }) => [
+  selected ? tw`block truncate font-medium` : tw`block truncate font-normal`,
+])
+
+const RoleBox: FC<{ roles: RoleType[] }> = ({ roles }) => {
+  if (!roles.length) {
+    return <NotFoundBox>No Quest matched.</NotFoundBox>
+  }
+
+  return (
+    <>
+      {roles.map((role) => (
+        <Combobox.Option
+          key={role.id}
+          className='relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900'
+          value={role}
+        >
+          {() => {
+            const selected = roles.some((selectedRole) => selectedRole.id === role.id)
+
+            return (
+              <>
+                <Title selected={selected}>{role.name}</Title>
+                <CheckboxFrame>
+                  <CheckBox checked={selected} onChange={() => {}} type='checkbox' />
+                </CheckboxFrame>
+              </>
+            )
+          }}
+        </Combobox.Option>
+      ))}
+    </>
+  )
+}
+
 const QuestReward: FC = () => {
   // Data
   const activeReward = NewQuestStore.useStoreState((state) => state.activeReward)
@@ -48,12 +109,13 @@ const QuestReward: FC = () => {
         <Label>{'REWARD'}</Label>
         <Gap height={2} />
 
-        <TypesSelection
+        {/* <TypesSelection
           list={QuestRewards}
           activeFunc={(item, index) => index === activeReward}
           onClick={(item, index) => onActiveRewardChanged(index)}
           itemView={(item: string) => item}
-        />
+        /> */}
+        <Label>{'Gem'}</Label>
         <Gap height={6} />
 
         <FullWidthInput
@@ -70,6 +132,7 @@ const QuestReward: FC = () => {
         />
         <Gap height={6} />
 
+        <RoleBox roles={mockRoles} />
         {
           // TODO: add this back when we have a doc for how level is calculated.
           /* <UnderlinedText>{'Learn more here about how the levels are calculated.'}</UnderlinedText> */

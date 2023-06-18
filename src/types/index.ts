@@ -219,3 +219,8 @@ export enum SocialType {
   GOOGLE = 'google',
   METAMASK = 'wallet',
 }
+
+export type RoleType = {
+  name: string
+  id: string
+}

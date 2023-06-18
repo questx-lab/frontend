@@ -77,10 +77,10 @@ const SetTwitterDiscordStep: FC = () => {
   const [showEmailError, setShowEmailError] = useState<boolean>(false)
 
   const onNextClicked = () => {
-    if (!isValidEmail(email)) {
-      setShowEmailError(true)
-      return
-    }
+    // if (!isValidEmail(email)) {
+    //   setShowEmailError(true)
+    //   return
+    // }
 
     setCurrentStep(currentStep + 1)
   }
@@ -102,7 +102,7 @@ const SetTwitterDiscordStep: FC = () => {
           placeholder='Username'
         />
       </SocialBoxInput>
-      <Label>
+      {/* <Label>
         {'EMAIL'}
         <RequiredText>{'*'}</RequiredText>
       </Label>
@@ -113,7 +113,7 @@ const SetTwitterDiscordStep: FC = () => {
             'A valid email is required for new community approval (we will never sell your private info)'
           }
         </ErrorText>
-      )}
+      )} */}
       <Label>{'WEBSITE'}</Label>
       <TextField
         value={websiteUrl}
