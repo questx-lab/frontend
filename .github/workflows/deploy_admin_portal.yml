@@ -1,4 +1,4 @@
-name: Build and Deploy to GKE
+name: Build and Deploy to GKE for admin portal
 
 on:
   pull_request:
@@ -65,7 +65,7 @@ jobs:
 
       - name: Clean deployments
         run: |-
-          kubectl delete deployment frontend -n frontend --ignore-not-found
+          kubectl delete deployment admin-portal -n frontend --ignore-not-found
 
       - name: Deploy
         run: |-
