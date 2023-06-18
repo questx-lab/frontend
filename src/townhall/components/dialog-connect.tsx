@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
@@ -35,14 +35,18 @@ const DialogConnect: FC<{ showDialog: boolean; onCloseShowDialog: () => void }> 
     handleConnect()
   }
 
+  useEffect(() => {
+    console.log(game.myPlayer)
+  }, [game.myPlayer])
+
   const handleConnect = async () => {
     // TODO: hard connection
     const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
     console.log('====here to conect====')
-    bootstrap.network
-      .jointoMap(user)
-      .then(() => bootstrap.launchGame())
-      .catch((error) => console.error(error))
+    bootstrap.launchGame()
+    setTimeout(async () => {
+      await bootstrap.network.jointoMap(user)
+    }, 1000)
     game.registerKeys()
   }
 
