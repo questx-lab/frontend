@@ -16,12 +16,12 @@ import CommunityStore from '@/store/local/community'
 import { getDiscordRolesApi } from '@/api/communitiy'
 import { toast } from 'react-hot-toast'
 import { HorizontalFullWidth } from '@/widgets/orientation'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { CommunityType } from '@/types/community'
 import { ColorEnum } from '@/constants/common.const'
 import { handleLoginDiscord } from '@/handler/auth/discord'
 import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 
 const FrameShape = tw(Vertical)`
   py-8
@@ -46,6 +46,7 @@ const BorderBox = tw(RoundedGrayBorderBox)`
 const AddDiscordBtn = tw.div`
   text-primary-500
   font-bold
+  cursor-pointer	
 `
 
 const Relative = tw.div`
@@ -204,7 +205,7 @@ const DiscordAction: FC<{ community: CommunityType; roles: DiscordRoleType[] }> 
           <ListButton>
             <Title>{selectedRole?.name || 'Choose a role'}</Title>
             <UpDown>
-              <ChevronUpDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
+              <ChevronDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
             </UpDown>
           </ListButton>
           <ListOptionRender roles={roles} />
@@ -231,7 +232,11 @@ const QuestReward: FC = () => {
   )
 
   const openDiscordRole = () => {
-    setIsOpenDiscordRole(!isOpenDiscordRole)
+    setIsOpenDiscordRole(true)
+  }
+
+  const closeDiscordRole = () => {
+    setIsOpenDiscordRole(false)
   }
 
   const fetchRoles = async () => {
@@ -275,7 +280,13 @@ const QuestReward: FC = () => {
         )}
         {isOpenDiscordRole && (
           <>
-            <Label>{'Discord role'}</Label>
+            <div className='justify-between flex'>
+              <Label>{'Discord role'}</Label>
+              <XMarkIcon
+                onClick={closeDiscordRole}
+                className='h-5 w-5 cursor-pointer	text-[#EF4444]'
+              />
+            </div>
             <Gap height={6} />
             <DiscordAction community={community} roles={roles} />
           </>
