@@ -30,6 +30,7 @@ export type Rsp<T> = {
   error?: string
 }
 
+// TODO: Move this to user
 export type UserType = {
   id: string
   wallet_address?: string
