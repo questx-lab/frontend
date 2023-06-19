@@ -128,7 +128,7 @@ const PlatformRouter = (): RouteObject[] => {
             {
               index: true,
               element: (
-                <Suspense fallback={<>...</>}>
+                <Suspense fallback={<></>}>
                   <RoomIndex />
                 </Suspense>
               ),
