@@ -21,7 +21,7 @@ const TableBox = tw.table`
   text-left
 `
 
-const ReferralTable: FC<{ children: ReactNode }> = ({ children }) => {
+const SimpleTable: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <Frame>
       <TableBox>{children}</TableBox>
@@ -29,4 +29,4 @@ const ReferralTable: FC<{ children: ReactNode }> = ({ children }) => {
   )
 }
 
-export default ReferralTable
+export default SimpleTable

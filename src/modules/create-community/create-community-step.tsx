@@ -40,6 +40,7 @@ const CreateCommunityStep: FC = () => {
   const twitterUrl = NewCommunityStore.useStoreState((state) => state.twitterUrl)
   const description = NewCommunityStore.useStoreState((state) => state.introduction)
   const urlName = NewCommunityStore.useStoreState((state) => state.logoUrl)
+  const email = NewCommunityStore.useStoreState((state) => state.email)
 
   // action
   const setCurrentStep = NewCommunityStore.useStoreActions((action) => action.setCurrentStep)
@@ -61,6 +62,7 @@ const CreateCommunityStep: FC = () => {
         handle: urlName,
         website_url: websiteUrl,
         twitter: twitterUrl,
+        owner_email: email,
       }
 
       const data = await newCommunityApi(payload)

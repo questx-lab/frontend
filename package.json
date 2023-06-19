@@ -50,6 +50,7 @@
   },
   "scripts": {
     "dev": "GENERATE_SOURCEMAP=false PORT=4000 craco start",
+    "admin": "GENERATE_SOURCEMAP=false PORT=3000 craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",

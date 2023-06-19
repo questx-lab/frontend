@@ -145,6 +145,10 @@ module.exports = {
         500: '#14B8A6',
         DEFAULT: '#14B8A6',
       },
+      orange: {
+        100: '#FFF0DE',
+        DEFAULT: '#FF7B05',
+      },
     },
     fontWeight: {
       light: '300',

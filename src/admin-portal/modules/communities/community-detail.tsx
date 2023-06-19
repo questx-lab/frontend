@@ -3,16 +3,12 @@ import { FC } from 'react'
 import {
   Content,
   FieldText,
-  GapHorizontal,
   HorizontalFullWidthCenter,
   InfoText,
   MarginVertical,
 } from '@/admin-portal/modules/referrals/mini-widget'
-import { ReferralActionEnum } from '@/admin-portal/types/control-panel-tab'
 import StorageConst from '@/constants/storage.const'
-import AdminReferralStore from '@/store/admin/referral'
 import { CommunityType } from '@/types/community'
-import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
 import BasicModal from '@/widgets/modal/basic'
 import { Vertical, VerticalFullWidth } from '@/widgets/orientation'
@@ -24,16 +20,6 @@ const CommunityDetailModal: FC<{
   onCloseModel: () => void
   community: CommunityType | undefined
 }> = ({ community, openModal, onCloseModel }) => {
-  const setAction = AdminReferralStore.useStoreActions((action) => action.setAction)
-  const setShowActiveModal = AdminReferralStore.useStoreActions(
-    (action) => action.setShowActiveModal
-  )
-
-  const onOpenConfirmModal = (action: string) => {
-    setAction(action)
-    setShowActiveModal(true)
-  }
-
   if (!community) {
     return <></>
   }
@@ -45,7 +31,7 @@ const CommunityDetailModal: FC<{
       styled={'flex flex-col !justify-start !items-start !w-[500px] !h-[600px]'}
     >
       <Content>
-        <TextXl>{'Comminity'}</TextXl>
+        <TextXl>{'Community'}</TextXl>
         <MarginVertical>
           <HorizontalFullWidthCenter>
             <CircularImage
@@ -77,20 +63,6 @@ const CommunityDetailModal: FC<{
             </HorizontalFullWidthCenter>
           </VerticalFullWidth>
         </MarginVertical>
-        <GapHorizontal>
-          <PositiveButton
-            onClick={() => onOpenConfirmModal(ReferralActionEnum.REJECT)}
-            type={ButtonTypeEnum.DANGEROUS_BORDER}
-          >
-            {'Reject'}
-          </PositiveButton>
-          <PositiveButton
-            onClick={() => onOpenConfirmModal(ReferralActionEnum.APPROVE)}
-            type={ButtonTypeEnum.POSITVE_BORDER}
-          >
-            {'Approve Reward'}
-          </PositiveButton>
-        </GapHorizontal>
       </Content>
     </BasicModal>
   )

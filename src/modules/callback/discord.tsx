@@ -79,7 +79,7 @@ const DiscordCallback: FC = () => {
       setMessage('Link account was failed')
       setSuccess(false)
     } finally {
-      setTimeout(() => navigate(RouterConst.ACCOUNT_SETTING, { replace: true }), 3000)
+      setTimeout(() => navigate(RouterConst.ACCOUNT_SETTINGS, { replace: true }), 3000)
     }
   }
 
