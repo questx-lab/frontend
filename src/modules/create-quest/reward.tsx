@@ -12,7 +12,7 @@ import { NumberInput, CheckBox } from '@/widgets/input'
 import { Vertical } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
-import { Combobox } from '@headlessui/react'
+import { Combobox, Transition } from '@headlessui/react'
 
 const mockRoles: RoleType[] = [
   {
@@ -59,40 +59,15 @@ const NotFoundBox = tw.div`
   text-gray-700
 `
 
+const ComboBoxFrame = tw.div`
+  relative
+  mx-4
+  mb-6
+`
+
 const Title = styled.span<{ selected: boolean }>(({ selected = false }) => [
   selected ? tw`block truncate font-medium` : tw`block truncate font-normal`,
 ])
-
-const RoleBox: FC<{ roles: RoleType[] }> = ({ roles }) => {
-  if (!roles.length) {
-    return <NotFoundBox>No Quest matched.</NotFoundBox>
-  }
-
-  return (
-    <>
-      {roles.map((role) => (
-        <Combobox.Option
-          key={role.id}
-          className='relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900'
-          value={role}
-        >
-          {() => {
-            const selected = roles.some((selectedRole) => selectedRole.id === role.id)
-
-            return (
-              <>
-                <Title selected={selected}>{role.name}</Title>
-                <CheckboxFrame>
-                  <CheckBox checked={selected} onChange={() => {}} type='checkbox' />
-                </CheckboxFrame>
-              </>
-            )
-          }}
-        </Combobox.Option>
-      ))}
-    </>
-  )
-}
 
 const QuestReward: FC = () => {
   // Data
@@ -131,12 +106,23 @@ const QuestReward: FC = () => {
           defaultValue={pointReward}
         />
         <Gap height={6} />
-
-        <RoleBox roles={mockRoles} />
-        {
-          // TODO: add this back when we have a doc for how level is calculated.
-          /* <UnderlinedText>{'Learn more here about how the levels are calculated.'}</UnderlinedText> */
-        }
+        <label
+          for='countries_disabled'
+          className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+        >
+          Select an option
+        </label>
+        <select
+          disabled
+          id='countries_disabled'
+          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+        >
+          <option selected>Choose a country</option>
+          <option value='US'>United States</option>
+          <option value='CA'>Canada</option>
+          <option value='FR'>France</option>
+          <option value='DE'>Germany</option>
+        </select>
       </BorderBox>
     </FrameShape>
   )
