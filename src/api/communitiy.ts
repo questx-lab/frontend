@@ -14,6 +14,7 @@ import {
   UpdateCommunityRequest,
   UpdateCommunityResponse,
   UserType,
+  ListDiscordRoleType,
 } from '@/types'
 import { CommunityType, FollowCommunityType, ReferralType } from '@/types/community'
 import { ONE_MINUTE_MILLIS } from '@/utils/time'
@@ -225,4 +226,9 @@ export const getPendingCommunitiesApi = async (): Promise<Rsp<ListCommunitiesTyp
 
   const rs = await api.get(EnvVariables.API_SERVER + url)
   return rs.data as Rsp<ListCommunitiesType>
+}
+
+export const getDiscordRolesApi = async (handle: string): Promise<Rsp<ListDiscordRoleType>> => {
+  const rs = await api.get(EnvVariables.API_SERVER + `/getDiscordRoles?community_handle=${handle}`)
+  return rs.data
 }

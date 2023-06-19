@@ -1,25 +1,27 @@
-import { FC } from 'react'
-
-import tw from 'twin.macro'
+import { FC, useEffect, useState, Fragment } from 'react'
 import styled from 'styled-components'
-import { RoleType } from '@/types'
-
+import tw from 'twin.macro'
+import { DiscordRoleType } from '@/types'
+import { SocialBox } from '@/modules/header/login'
+import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import StorageConst from '@/constants/storage.const'
 import NewQuestStore from '@/store/local/new-quest'
 import { RoundedGrayBorderBox } from '@/widgets/box'
 import { Image } from '@/widgets/image'
-import { NumberInput, CheckBox } from '@/widgets/input'
+import { NumberInput } from '@/widgets/input'
 import { Vertical } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
-import { Combobox, Transition } from '@headlessui/react'
-
-const mockRoles: RoleType[] = [
-  {
-    id: '1',
-    name: 'test',
-  },
-]
+import CommunityStore from '@/store/local/community'
+import { getDiscordRolesApi } from '@/api/communitiy'
+import { toast } from 'react-hot-toast'
+import { HorizontalFullWidth } from '@/widgets/orientation'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { CommunityType } from '@/types/community'
+import { ColorEnum } from '@/constants/common.const'
+import { handleLoginDiscord } from '@/handler/auth/discord'
+import { Listbox, Transition } from '@headlessui/react'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 const FrameShape = tw(Vertical)`
   py-8
@@ -41,42 +43,209 @@ const BorderBox = tw(RoundedGrayBorderBox)`
   gap-4
 `
 
-const CheckboxFrame = tw.span`
+const AddDiscordBtn = tw.div`
+  text-primary-500
+  font-bold
+`
+
+const Relative = tw.div`
+  relative mt-1
+`
+
+const ListButton = tw(Listbox.Button)`
+  relative
+  w-full
+  cursor-pointer
+  rounded-lg
+  bg-white
+  py-2
+  pl-3
+  pr-10
+  text-left
+  focus:outline-none
+  sm:text-sm
+  border
+  border-solid
+  border-gray-200
+`
+
+const Title = tw.div`
+  block
+  truncate
+  text-lg
+  font-normal
+  text-gray-900
+`
+const UpDown = tw.div`
+  pointer-events-none
+  absolute
+  inset-y-0
+  right-0
+  flex
+  items-center
+  pr-2
+`
+
+const ListOption = tw(Listbox.Options)`
+  absolute
+  mt-1
+  max-h-60
+  w-full
+  overflow-auto
+  rounded-md
+  bg-white
+  py-1
+  text-lg
+  focus:outline-none
+  sm:text-sm
+  border
+  border-solid
+  border-gray-200
+`
+
+const CheckIconBox = tw.div`
   absolute
   inset-y-0
   left-0
   flex
   items-center
   pl-3
+  text-gray-600
 `
+const activeOption = ({ active }: { active: boolean }) =>
+  `relative cursor-default select-none py-2 pl-10 pr-4 cursor-pointer ${
+    active ? 'bg-gray-100 text-gray-900' : 'text-gray-900'
+  }`
 
-const NotFoundBox = tw.div`
-  relative
-  cursor-default
-  select-none
-  py-2
-  px-4
-  text-gray-700
-`
+const TitleOption = styled.div<{ selected: boolean }>(({ selected }) => {
+  const styles = [tw`block truncate`]
+  if (selected) {
+    styles.push(tw`font-medium`)
+  } else {
+    styles.push(tw`font-normal`)
+  }
 
-const ComboBoxFrame = tw.div`
-  relative
-  mx-4
-  mb-6
-`
+  return styles
+})
 
-const Title = styled.span<{ selected: boolean }>(({ selected = false }) => [
-  selected ? tw`block truncate font-medium` : tw`block truncate font-normal`,
-])
+const ListOptionRender: FC<{ roles: DiscordRoleType[] }> = ({ roles }) => {
+  return (
+    <Transition
+      as={Fragment}
+      leave='transition ease-in duration-100'
+      leaveFrom='opacity-100'
+      leaveTo='opacity-0'
+    >
+      <ListOption>
+        {roles &&
+          roles.map((role) => (
+            <Listbox.Option key={role.id} className={activeOption} value={role}>
+              {({ selected }) => (
+                <>
+                  <TitleOption selected={selected}>{role.name}</TitleOption>
+                  {selected ? (
+                    <CheckIconBox>
+                      <CheckIcon className='h-5 w-5' aria-hidden='true' />
+                    </CheckIconBox>
+                  ) : null}
+                </>
+              )}
+            </Listbox.Option>
+          ))}
+      </ListOption>
+    </Transition>
+  )
+}
+
+const DiscordAction: FC<{ community: CommunityType; roles: DiscordRoleType[] }> = ({
+  community,
+  roles,
+}) => {
+  const selectedRole = NewQuestStore.useStoreState((state) => state.discordRole)
+
+  const setSelectedRole = NewQuestStore.useStoreActions((action) => action.setDiscordRole)
+
+  if (!community.discord) {
+    return (
+      <ColorBox boxColor={ColorEnum.WARNING}>
+        <HorizontalFullWidth>
+          <ExclamationTriangleIcon className='w-7 h-7 text-warning' />
+          {'You need to connect Discord'}
+        </HorizontalFullWidth>
+        <SocialBox
+          onClick={() =>
+            handleLoginDiscord({
+              joinCommunity: true,
+              communityHandle: community.handle,
+            })
+          }
+        >
+          <Image
+            width={30}
+            height={30}
+            src={StorageConst.DISCORD_DIR.src}
+            alt={StorageConst.DISCORD_DIR.alt}
+          />
+          {'Connect Discord'}
+        </SocialBox>
+      </ColorBox>
+    )
+  }
+
+  return (
+    <>
+      <Listbox
+        value={selectedRole}
+        onChange={(e) => {
+          setSelectedRole(e)
+        }}
+      >
+        <Relative>
+          <ListButton>
+            <Title>{selectedRole?.name || 'Choose a role'}</Title>
+            <UpDown>
+              <ChevronUpDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
+            </UpDown>
+          </ListButton>
+          <ListOptionRender roles={roles} />
+        </Relative>
+      </Listbox>
+    </>
+  )
+}
 
 const QuestReward: FC = () => {
   // Data
-  const activeReward = NewQuestStore.useStoreState((state) => state.activeReward)
   const pointReward = NewQuestStore.useStoreState((state) => state.pointReward)
 
+  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
+
+  const isOpenDiscordRole = NewQuestStore.useStoreState((state) => state.isOpenDiscordRole)
+
+  const [roles, setRoles] = useState<DiscordRoleType[]>([])
+
   // Actions
-  const onActiveRewardChanged = NewQuestStore.useStoreActions((actions) => actions.setActiveReward)
   const setPointReward = NewQuestStore.useStoreActions((actions) => actions.setPointReward)
+  const setIsOpenDiscordRole = NewQuestStore.useStoreActions(
+    (actions) => actions.setIsOpenDiscordRole
+  )
+
+  const openDiscordRole = () => {
+    setIsOpenDiscordRole(!isOpenDiscordRole)
+  }
+
+  const fetchRoles = async () => {
+    const resp = await getDiscordRolesApi(community.handle)
+    if (resp.error) {
+      toast.error(resp.error)
+      return
+    }
+    if (resp.code === 0 && resp.data) setRoles(resp.data?.roles || [])
+  }
+
+  useEffect(() => {
+    if (isOpenDiscordRole) fetchRoles()
+  }, [isOpenDiscordRole])
 
   return (
     <FrameShape>
@@ -84,12 +253,6 @@ const QuestReward: FC = () => {
         <Label>{'REWARD'}</Label>
         <Gap height={2} />
 
-        {/* <TypesSelection
-          list={QuestRewards}
-          activeFunc={(item, index) => index === activeReward}
-          onClick={(item, index) => onActiveRewardChanged(index)}
-          itemView={(item: string) => item}
-        /> */}
         <Label>{'Gem'}</Label>
         <Gap height={6} />
 
@@ -105,24 +268,18 @@ const QuestReward: FC = () => {
           min={0}
           defaultValue={pointReward}
         />
+
         <Gap height={6} />
-        <label
-          for='countries_disabled'
-          className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
-        >
-          Select an option
-        </label>
-        <select
-          disabled
-          id='countries_disabled'
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        >
-          <option selected>Choose a country</option>
-          <option value='US'>United States</option>
-          <option value='CA'>Canada</option>
-          <option value='FR'>France</option>
-          <option value='DE'>Germany</option>
-        </select>
+        {!isOpenDiscordRole && (
+          <AddDiscordBtn onClick={openDiscordRole}> + Add Discord role</AddDiscordBtn>
+        )}
+        {isOpenDiscordRole && (
+          <>
+            <Label>{'Discord role'}</Label>
+            <Gap height={6} />
+            <DiscordAction community={community} roles={roles} />
+          </>
+        )}
       </BorderBox>
     </FrameShape>
   )

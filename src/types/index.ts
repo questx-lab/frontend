@@ -220,7 +220,11 @@ export enum SocialType {
   METAMASK = 'wallet',
 }
 
-export type RoleType = {
+export type DiscordRoleType = {
   name: string
   id: string
+}
+
+export type ListDiscordRoleType = {
+  roles: DiscordRoleType[]
 }
