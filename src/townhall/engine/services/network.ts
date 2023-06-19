@@ -1,8 +1,8 @@
 import WebSocket from '@/api/socket'
 import { MessageReceiverEnum } from '@/constants/townhall'
-import { Event, phaserEvents } from '@/townhall/events/event-center'
+import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
+import Game from '@/townhall/engine/scenes/game'
 import phaserGame from '@/townhall/phaser-game'
-import Game from '@/townhall/scenes/game'
 import { UserType } from '@/types'
 import {
   IPlayer,
@@ -19,12 +19,17 @@ export default class Network {
     this.socket = null
   }
 
+  async socketDisconnect() {
+    if (this.socket) {
+      this.socket.disconnect()
+    }
+  }
+
   // TODO: Add player hardcode
   // TODO: Log file for debug
   async jointoMap(myPlayerData: UserType, roomId: string) {
     const game = phaserGame.scene.keys.game as Game
     this.socket = new WebSocket(roomId)
-    console.log('====socket connection===')
     if (!this.socket.socket) {
       return
     }
@@ -32,18 +37,15 @@ export default class Network {
       const message = JSON.parse(event.data.toString()) as MessageReceiver
       if (message.type === MessageReceiverEnum.INIT) {
         // Init
-        console.log('===room init===', message)
         ;(message.value as MessageInitValue).users.forEach((user) => {
           const { x, y } = user.pixel_position
           const { name, id } = user.user
 
           if (myPlayerData.id === user.user.id) {
-            console.log('****myplayer****')
             if (game.myPlayer) {
               game.myPlayer.updateMyPlayer(name, x, y, id)
             }
           } else {
-            console.log('****other****')
             const player: IPlayer = {
               name,
               x,
@@ -56,10 +58,8 @@ export default class Network {
       }
 
       if (message.type === MessageReceiverEnum.JOIN) {
-        console.log('===room join===', message)
         // Join
         const value = message.value as MessageJoinValue
-        console.log('join check', myPlayerData.id !== value.user.id)
         if (myPlayerData.id !== value.user.id) {
           const player: IPlayer = {
             name: value.user.name,
@@ -74,6 +74,7 @@ export default class Network {
       if (message.type === MessageReceiverEnum.MOVE) {
         // Move
         const value = message.value as MessageMoveValue
+        // TODO: hardcode character name
         phaserEvents.emit(
           Event.PLAYER_UPDATED,
           'anim',
@@ -101,7 +102,6 @@ export default class Network {
 
   // method to register event listener and call back function when a player joined
   onPlayerJoined(callback: (Player: IPlayer, key: string) => void, context?: any) {
-    console.log('PLAYER_JOINED')
     phaserEvents.on(Event.PLAYER_JOINED, callback, context)
   }
 
@@ -120,7 +120,6 @@ export default class Network {
     callback: (field: string, value: number | string, key: string) => void,
     context?: any
   ) {
-    console.log('PLAYER_UPDATED')
     phaserEvents.on(Event.PLAYER_UPDATED, callback, context)
   }
 

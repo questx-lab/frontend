@@ -1,30 +1,33 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
+import StorageConst from '@/constants/storage.const'
 import { GlobalStoreModel } from '@/store/store'
 import RoomStore from '@/store/townhall/room'
+import Bootstrap from '@/townhall/engine/scenes/bootstrap'
+import Game from '@/townhall/engine/scenes/game'
 import phaserGame from '@/townhall/phaser-game'
-import Bootstrap from '@/townhall/scenes/bootstrap'
-import Game from '@/townhall/scenes/game'
 import { UserType } from '@/types'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
+import { CircularImage } from '@/widgets/circular-image'
 import BasicModal from '@/widgets/modal/basic'
-import { VerticalFullWidth } from '@/widgets/orientation'
+import { HorizontalCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { TextXl } from '@/widgets/text'
 
-export const Content = tw(VerticalFullWidth)`
+const Content = tw(VerticalFullWidth)`
   w-full
   h-full
   gap-4
   p-4
 `
 
-const DialogConnect: FC<{ showDialog: boolean; onCloseShowDialog: () => void }> = ({
-  showDialog,
-  onCloseShowDialog,
-}) => {
+const FullWidthCenter = tw(HorizontalCenter)`
+  w-full
+`
+
+const DialogConnect: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(true)
   const game = phaserGame.scene.keys.game as Game
 
@@ -40,10 +43,6 @@ const DialogConnect: FC<{ showDialog: boolean; onCloseShowDialog: () => void }> 
     setRoomJoined(true)
     handleConnect()
   }
-
-  useEffect(() => {
-    console.log(game.myPlayer)
-  }, [game.myPlayer])
 
   const handleConnect = async () => {
     const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
@@ -62,10 +61,18 @@ const DialogConnect: FC<{ showDialog: boolean; onCloseShowDialog: () => void }> 
     <BasicModal
       isOpen={showModal}
       onClose={() => setShowModal(false)}
-      styled={'flex flex-col !justify-start !items-start !w-[400px] !h-[180px]'}
+      styled={'flex flex-col !justify-start !items-start !w-[400px] !h-[250px]'}
     >
       <Content>
-        <TextXl>{`Welcome To ${community.display_name}`}</TextXl>
+        <FullWidthCenter>
+          <CircularImage
+            width={80}
+            height={80}
+            src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
+            alt={StorageConst.COMMUNITY_DEFAULT.alt}
+          />
+          <TextXl>{`Welcome To ${community.display_name}`}</TextXl>
+        </FullWidthCenter>
         <PositiveButton isFull onClick={onAction} type={ButtonTypeEnum.POSITVE}>
           {'Connect'}
         </PositiveButton>

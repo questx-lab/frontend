@@ -1,6 +1,6 @@
-import MyPlayer from '@/townhall/characters/my-player'
-import Player, { sittingShiftData } from '@/townhall/characters/Player'
-import { Event, phaserEvents } from '@/townhall/events/event-center'
+import MyPlayer from '@/townhall/engine/characters/my-player'
+import Player, { sittingShiftData } from '@/townhall/engine/characters/Player'
+import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
 
 export default class OtherPlayer extends Player {
   private targetPosition: [number, number]

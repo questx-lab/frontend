@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -13,11 +13,6 @@ const GapVertical = tw(VerticalCenter)`
 
 export const Connectting: FC = () => {
   const roomJoined = RoomStore.useStoreState((state) => state.roomJoined)
-  const [showDialog, setSetShowDialog] = useState<boolean>(true)
-
-  const onCloseShowDialog = () => {
-    setSetShowDialog(false)
-  }
 
   if (roomJoined) {
     return <></>
@@ -26,7 +21,7 @@ export const Connectting: FC = () => {
   return (
     <GapVertical>
       <TextBase> Connecting to server...</TextBase>
-      <DialogConnect showDialog={showDialog} onCloseShowDialog={onCloseShowDialog} />
+      <DialogConnect />
     </GapVertical>
   )
 }

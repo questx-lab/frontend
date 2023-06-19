@@ -1,10 +1,10 @@
 import Phaser from 'phaser'
 
-import Player, { sittingShiftData } from '@/townhall/characters/Player'
-import PlayerSelector from '@/townhall/characters/player-selecter'
-import { Event, phaserEvents } from '@/townhall/events/event-center'
-import Chair from '@/townhall/items/Chair'
-import Network from '@/townhall/services/network'
+import Player, { sittingShiftData } from '@/townhall/engine/characters/Player'
+import PlayerSelector from '@/townhall/engine/characters/player-selecter'
+import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
+import Chair from '@/townhall/engine/items/Chair'
+import Network from '@/townhall/engine/services/network'
 import { ItemType, NavKeys, PlayerBehavior } from '@/types/townhall'
 
 export default class MyPlayer extends Player {

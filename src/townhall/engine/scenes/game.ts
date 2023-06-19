@@ -1,14 +1,14 @@
-import '@/townhall/characters/my-player'
-import '@/townhall/characters/other-player'
+import '@/townhall/engine/characters/my-player'
+import '@/townhall/engine/characters/other-player'
 
 import Phaser from 'phaser'
 
-import { createCharacterAnims } from '@/townhall/anims/CharacterAnims'
-import MyPlayer from '@/townhall/characters/my-player'
-import OtherPlayer from '@/townhall/characters/other-player'
-import PlayerSelector from '@/townhall/characters/player-selecter'
-import Chair from '@/townhall/items/Chair'
-import Network from '@/townhall/services/network'
+import { createCharacterAnims } from '@/townhall/engine/anims/CharacterAnims'
+import MyPlayer from '@/townhall/engine/characters/my-player'
+import OtherPlayer from '@/townhall/engine/characters/other-player'
+import PlayerSelector from '@/townhall/engine/characters/player-selecter'
+import Chair from '@/townhall/engine/items/Chair'
+import Network from '@/townhall/engine/services/network'
 import { IPlayer, Keyboard, NavKeys } from '@/types/townhall'
 
 export default class Game extends Phaser.Scene {

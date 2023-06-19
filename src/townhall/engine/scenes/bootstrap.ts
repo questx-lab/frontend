@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
 import { EnvVariables } from '@/constants/env.const'
-import Network from '@/townhall/services/network'
+import Network from '@/townhall/engine/services/network'
 
 export default class Bootstrap extends Phaser.Scene {
   private preloadComplete = false
