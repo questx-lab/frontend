@@ -15,12 +15,12 @@ const Backdrop = tw(VerticalCenter)`
 `
 
 const Townhall: FC = () => {
+  const community = RoomStore.useStoreState((state) => state.community)
+  console.log(community)
   return (
-    <RoomStore.Provider>
-      <Backdrop id='phaser-container'>
-        <Connectting />
-      </Backdrop>
-    </RoomStore.Provider>
+    <Backdrop id='phaser-container'>
+      <Connectting />
+    </Backdrop>
   )
 }
 

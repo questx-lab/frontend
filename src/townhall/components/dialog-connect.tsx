@@ -26,9 +26,15 @@ const DialogConnect: FC<{ showDialog: boolean; onCloseShowDialog: () => void }> 
   onCloseShowDialog,
 }) => {
   const [showModal, setShowModal] = useState<boolean>(true)
-  const setRoomJoined = RoomStore.useStoreActions((action) => action.setRoomJoined)
-  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   const game = phaserGame.scene.keys.game as Game
+
+  // data
+  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+  const community = RoomStore.useStoreState((state) => state.community)
+  const gameRooms = RoomStore.useStoreState((state) => state.gameRooms)
+
+  // action
+  const setRoomJoined = RoomStore.useStoreActions((action) => action.setRoomJoined)
 
   const onAction = () => {
     setRoomJoined(true)
@@ -40,12 +46,14 @@ const DialogConnect: FC<{ showDialog: boolean; onCloseShowDialog: () => void }> 
   }, [game.myPlayer])
 
   const handleConnect = async () => {
-    // TODO: hard connection
     const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
-    console.log('====here to conect====')
     bootstrap.launchGame()
+
+    // TODO: hardcode get first room
+    const roomId = gameRooms.length > 0 ? gameRooms[0].id : ''
+
     setTimeout(async () => {
-      await bootstrap.network.jointoMap(user)
+      await bootstrap.network.jointoMap(user, roomId)
     }, 1000)
     game.registerKeys()
   }
@@ -57,7 +65,7 @@ const DialogConnect: FC<{ showDialog: boolean; onCloseShowDialog: () => void }> 
       styled={'flex flex-col !justify-start !items-start !w-[400px] !h-[180px]'}
     >
       <Content>
-        <TextXl>{`Welcome To Townhall`}</TextXl>
+        <TextXl>{`Welcome To ${community.display_name}`}</TextXl>
         <PositiveButton isFull onClick={onAction} type={ButtonTypeEnum.POSITVE}>
           {'Connect'}
         </PositiveButton>

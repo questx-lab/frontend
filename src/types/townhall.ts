@@ -78,3 +78,16 @@ export interface MessageReceiver {
   type: string
   value: MessageInitValue | MessageJoinValue | MessageMoveValue
 }
+
+export interface MapData {
+  id: string
+  config_url: string
+  tilesets: any[]
+  players: Player[]
+}
+
+export interface RoomDataType {
+  id: string
+  name: string
+  map: MapData
+}

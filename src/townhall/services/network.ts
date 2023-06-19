@@ -12,11 +12,8 @@ import {
   MessageReceiver,
 } from '@/types/townhall'
 
-const roomId = '043686e5-b9c8-4fc7-b4b2-13d615723020'
-
 export default class Network {
   socket: null | WebSocket
-
   constructor() {
     // TODO: hardcode roomId
     this.socket = null
@@ -24,7 +21,7 @@ export default class Network {
 
   // TODO: Add player hardcode
   // TODO: Log file for debug
-  async jointoMap(myPlayerData: UserType) {
+  async jointoMap(myPlayerData: UserType, roomId: string) {
     const game = phaserGame.scene.keys.game as Game
     this.socket = new WebSocket(roomId)
     console.log('====socket connection===')
