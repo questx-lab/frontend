@@ -30,6 +30,7 @@ export type Rsp<T> = {
   error?: string
 }
 
+// TODO: Move this to user
 export type UserType = {
   id: string
   wallet_address?: string
@@ -218,4 +219,13 @@ export enum SocialType {
   TWITTER = 'twitter',
   GOOGLE = 'google',
   METAMASK = 'wallet',
+}
+
+export type DiscordRoleType = {
+  name: string
+  id: string
+}
+
+export type ListDiscordRoleType = {
+  roles: DiscordRoleType[]
 }

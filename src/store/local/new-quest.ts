@@ -7,7 +7,7 @@ import {
   QuestTypeMap,
   TwitterEnum,
 } from '@/constants/common.const'
-import { ReqNewQuestType } from '@/types'
+import { DiscordRoleType, ReqNewQuestType, RewardType } from '@/types'
 import { StateToModel } from '@/types/conversion'
 import { QuestQuizType, QuestType, ValidationQuest } from '@/types/quest'
 import { isTwitterType } from '@/types/twitter'
@@ -35,6 +35,8 @@ export interface NewQuestModel {
   highlighted: boolean
   includedWords: string[]
   categoryId: string
+  discordRole: DiscordRoleType
+  isOpenDiscordRole: boolean
 
   quizzes: QuestQuizType[]
 
@@ -65,6 +67,8 @@ export interface NewQuestModel {
   setHighlighted: Action<NewQuestModel, boolean>
   setIncludedWords: Action<NewQuestModel, string[]>
   setCategoryId: Action<NewQuestModel, string>
+  setDiscordRole: Action<NewQuestModel, DiscordRoleType>
+  setIsOpenDiscordRole: Action<NewQuestModel, boolean>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -98,6 +102,8 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   ],
   highlighted: false,
   includedWords: [],
+  discordRole: {} as DiscordRoleType,
+  isOpenDiscordRole: false,
 
   // Set all the fields for the state
   setQuest: action((state, quest) => {
@@ -242,6 +248,13 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   setCategoryId: action((state, id) => {
     state.categoryId = id
   }),
+
+  setDiscordRole: action((state, role) => {
+    state.discordRole = role
+  }),
+  setIsOpenDiscordRole: action((state, isOpenDiscordRole) => {
+    state.isOpenDiscordRole = isOpenDiscordRole
+  }),
 })
 
 /**
@@ -261,6 +274,8 @@ export const stateToNewQuestRequest = (
 
   let type = state.type
   const validations: ValidationQuest = {}
+
+  const rewards: RewardType[] = []
 
   switch (state.type) {
     case QuestTypeEnum.URL:
@@ -334,11 +349,19 @@ export const stateToNewQuestRequest = (
       validations.number = state.invites
       break
   }
-
+  if (state.isOpenDiscordRole) {
+    rewards.push({
+      type: 'discord_role',
+      data: {
+        role: state.discordRole.name,
+      },
+    })
+  }
   const payload: ReqNewQuestType = {
     id: questId,
     community_handle: community_handle,
     type,
+    rewards: rewards,
     title: state.title,
     description: state.description,
     category_id: state.categoryId,
