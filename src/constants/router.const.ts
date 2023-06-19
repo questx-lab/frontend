@@ -8,6 +8,7 @@ export enum RouterConst {
   CREATE_COMMUNITIES = '/communities/new ',
   USER = '/users/',
   ACCOUNT_SETTING = '/account-setting',
+  TOWNHALL = '/townhall',
 }
 
 export const communityRoute = (communityHandle: string): string => {

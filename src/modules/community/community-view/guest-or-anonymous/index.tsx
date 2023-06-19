@@ -1,13 +1,17 @@
 import { FC } from 'react'
 
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
+import { SizeEnum } from '@/constants/common.const'
+import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import CommunityQuests from '@/modules/community/community-view/guest-or-anonymous/community-quests'
 import FollowCommunity from '@/modules/community/community-view/guest-or-anonymous/follow-community'
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
 import CommunityStore from '@/store/local/community'
+import { PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import {
@@ -123,6 +127,7 @@ const DiscordLink: FC<{ discordUrl?: string }> = ({ discordUrl }) => {
 
 const CommunityGuestOrAnonymous: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  const navigate = useNavigate()
 
   if (!community) {
     return <></>
@@ -146,7 +151,12 @@ const CommunityGuestOrAnonymous: FC = () => {
               <DiscordLink discordUrl={community.discord} />
             </HorizontalStartCenter>
             <ReponsiveHorizontal>
-              {/* TODO: Town hall <PositiveButton block>{'Join Town Hall'}</PositiveButton> */}
+              <PositiveButton
+                onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
+                width={SizeEnum.x48}
+              >
+                {'Join Town Hall'}
+              </PositiveButton>
               <CenterEndHorizontal>
                 <FollowCommunity community={community} />
               </CenterEndHorizontal>

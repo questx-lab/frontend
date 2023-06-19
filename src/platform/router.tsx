@@ -31,6 +31,7 @@ import Root, { RootLoader } from '@/platform/routes/route'
 import TownhallRoom, { Loader } from '@/townhall/room/route'
 import Townhall from '@/townhall/route'
 import ErrorPage from '@/widgets/error'
+import { SmallSpinner } from '@/widgets/spinner'
 
 const RoomIndex = lazy(() => import('@/townhall/room'))
 
@@ -128,7 +129,7 @@ const PlatformRouter = (): RouteObject[] => {
             {
               index: true,
               element: (
-                <Suspense fallback={<></>}>
+                <Suspense fallback={<SmallSpinner />}>
                   <RoomIndex />
                 </Suspense>
               ),
