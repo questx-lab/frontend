@@ -7,7 +7,6 @@ import { createCharacterAnims } from '@/townhall/engine/anims/CharacterAnims'
 import MyPlayer from '@/townhall/engine/characters/my-player'
 import OtherPlayer from '@/townhall/engine/characters/other-player'
 import PlayerSelector from '@/townhall/engine/characters/player-selecter'
-import Chair from '@/townhall/engine/items/Chair'
 import Network from '@/townhall/engine/services/network'
 import { IPlayer, Keyboard, NavKeys } from '@/types/townhall'
 
@@ -80,35 +79,24 @@ export default class Game extends Phaser.Scene {
 
     this.map = this.make.tilemap({ key: 'tilemap' })
     const FloorAndGround = this.map.addTilesetImage('FloorAndGround', 'tiles_wall')
+
     if (!FloorAndGround) {
       return
     }
-    const groundLayer = this.map.createLayer('Ground', FloorAndGround)
-    if (!groundLayer) {
+    this.map.createLayer('Ground', FloorAndGround)
+    const wallLayer = this.map.createLayer('Wall', FloorAndGround)
+    this.map.createLayer('Float', FloorAndGround)
+
+    if (!wallLayer) {
       return
     }
-    groundLayer.setCollisionByProperty({ collides: true })
+    wallLayer.setCollisionByProperty({ collides: true })
 
     // add my player
     this.myPlayer = this.add.myPlayer(705, 500, 'adam', 'c54gxiLbP')
     this.myPlayer.setPlayerTexture('adam')
 
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16)
-
-    // TODO: temporary add hard user here
-
-    // import chair objects from Tiled map to Phaser
-    const chairs = this.physics.add.staticGroup({ classType: Chair })
-    const chairLayer = this.map.getObjectLayer('Chair')
-    if (!chairLayer) {
-      return
-    }
-
-    chairLayer.objects.forEach((chairObj) => {
-      const item = this.addObjectFromTiled(chairs, chairObj, 'chairs', 'chair') as Chair
-      // custom properties[0] is the object direction specified in Tiled
-      item.itemDirection = chairObj.properties[0].value
-    })
 
     // import other objects from Tiled map to Phaser
     this.addGroupFromTiled('Wall', 'tiles_wall', 'FloorAndGround', false)
@@ -120,11 +108,11 @@ export default class Game extends Phaser.Scene {
 
     this.otherPlayers = this.physics.add.group({ classType: OtherPlayer })
 
-    this.cameras.main.zoom = 1.5
+    this.cameras.main.zoom = 0.6
     this.cameras.main.startFollow(this.myPlayer, true)
 
-    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], groundLayer)
-    this.physics.add.overlap(this.playerSelector, [chairs], () => {}, undefined, this)
+    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], wallLayer)
+    wallLayer.setCollisionBetween(1, 1000)
 
     this.physics.add.overlap(
       this.myPlayer,
