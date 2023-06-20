@@ -21,8 +21,8 @@ export default class Bootstrap extends Phaser.Scene {
     this.load.image('backdrop_night', '/background/backdrop_night.png')
     this.load.image('sun_moon', '/background/sun_moon.png')
 
-    this.load.tilemapTiledJSON('tilemap', '/map/map.json')
-    this.load.spritesheet('tiles_wall', '/map/FloorAndGround.png', {
+    this.load.tilemapTiledJSON('tilemap', '/map/jp_map.json')
+    this.load.spritesheet('tiles_wall', '/map/jp_tileset.png', {
       frameWidth: 32,
       frameHeight: 32,
     })
