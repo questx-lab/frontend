@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -18,7 +18,7 @@ const LabelCheckText = tw.span`
   text-black
 `
 
-export const QuestTypeText: FunctionComponent = () => {
+export const QuestTypeText: FC = () => {
   // data
   const anwser = NewQuestStore.useStoreState((state) => state.anwser)
   const textAutoValid = NewQuestStore.useStoreState((state) => state.textAutoValid)

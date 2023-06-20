@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -53,7 +53,7 @@ const selectTab = ({ selected }: { selected: boolean }) =>
       : 'text-black  hover:text-black border-b-[1px] border-gray-200'
   )
 
-const Leaderboard: FunctionComponent = () => {
+const Leaderboard: FC = () => {
   // hook
   const [tab, setTab] = useState<LeaderboardRangeEnum>(LeaderboardRangeEnum.WEEK)
 

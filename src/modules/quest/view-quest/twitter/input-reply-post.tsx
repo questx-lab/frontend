@@ -1,9 +1,9 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import ActiveQuestStore from '@/store/local/active-quest'
 import { TextField } from '@/widgets/form'
 
-const InputReplyPost: FunctionComponent<{ inputReply: boolean }> = ({ inputReply }) => {
+const InputReplyPost: FC<{ inputReply: boolean }> = ({ inputReply }) => {
   // data
   const replyUrlSubmit = ActiveQuestStore.useStoreState((state) => state.replyUrlSubmit)
 

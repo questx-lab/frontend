@@ -3,8 +3,12 @@ import { FC, ReactNode } from 'react'
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
+import RowOption from '@/admin-portal/routes/templates/row-option'
+import ViewQuest from '@/modules/quest/view-quest'
+import ActiveQuestStore from '@/store/local/active-quest'
 import { GlobalStoreModel } from '@/store/store'
-import { QuestType } from '@/types/quest'
+import { emptyQuest, QuestType } from '@/types/quest'
+import BasicModal from '@/widgets/modal/basic'
 import Table from '@/widgets/table'
 
 enum ColumnType {
@@ -41,7 +45,11 @@ const RenderCell = (props: {
     case 4:
       return <CellPadding>{props.item.points}</CellPadding>
     case 5:
-      return <CellPadding>{props.item.points}</CellPadding>
+      return (
+        <CellPadding>
+          <RowOption quest={props.item} />
+        </CellPadding>
+      )
   }
 
   return <></>
@@ -56,10 +64,25 @@ const Index: FC = () => {
     ColumnType.POINTS,
     ColumnType.EDIT,
   ]
+  // data
   const templates = useStoreState<GlobalStoreModel>((state) => state.templates)
+  const activeQuest = ActiveQuestStore.useStoreState((state) => state.quest)
+
+  // action
+  const setActiveQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
+
   return (
     <Frame>
       <Table columns={columns} data={templates} cellView={RenderCell} />
+      <BasicModal
+        title={`${activeQuest.title}`}
+        isOpen={activeQuest.id !== ''}
+        onClose={() => {
+          setActiveQuest(emptyQuest())
+        }}
+      >
+        <ViewQuest quest={activeQuest} />
+      </BasicModal>
     </Frame>
   )
 }

@@ -1,10 +1,10 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
 import { HorizontalBetweenCenter, Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
-import { Large2xlText, PrimaryText } from '@/widgets/text'
+import { PrimaryText, TextXl } from '@/widgets/text'
 import { ArrowSmallRightIcon } from '@heroicons/react/24/outline'
 
 const FullWidth = tw(Vertical)`
@@ -15,7 +15,7 @@ const HeaderBox = tw(HorizontalBetweenCenter)`
   w-full
 `
 
-const Header: FunctionComponent<{ title: string; show: boolean; onClick: () => void }> = ({
+const Header: FC<{ title: string; show: boolean; onClick: () => void }> = ({
   title,
   show,
   onClick,
@@ -23,14 +23,14 @@ const Header: FunctionComponent<{ title: string; show: boolean; onClick: () => v
   if (!show) {
     return (
       <HeaderBox>
-        <Large2xlText>{title}</Large2xlText>
+        <TextXl>{title}</TextXl>
       </HeaderBox>
     )
   }
 
   return (
     <HeaderBox>
-      <Large2xlText>{title}</Large2xlText>
+      <TextXl>{title}</TextXl>
       <PrimaryText isHover size='lg' onClick={onClick}>
         {'Show all'}
         <ArrowSmallRightIcon className='text-primary w-7 h-7' />
@@ -39,7 +39,7 @@ const Header: FunctionComponent<{ title: string; show: boolean; onClick: () => v
   )
 }
 
-const CategoryBox: FunctionComponent<{
+const CategoryBox: FC<{
   title: string
   children: ReactNode
   onClick: () => void

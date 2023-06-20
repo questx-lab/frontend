@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent } from 'react'
+import { ChangeEvent, FC } from 'react'
 
 import {
   HeaderFullWidth,
@@ -9,7 +9,7 @@ import ClaimReviewStore from '@/store/local/claim-review'
 import { CheckBox } from '@/widgets/input'
 import { BarsArrowDownIcon } from '@heroicons/react/24/outline'
 
-const TableHeader: FunctionComponent<{}> = () => {
+const TableHeader: FC<{}> = () => {
   // data
   const selectedClaims = ClaimReviewStore.useStoreState((state) => state.selectedPendings)
   const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)

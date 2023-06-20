@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
@@ -107,9 +107,7 @@ const getActions = (quest: QuestType): QuestTwitterActionType[] => {
   return actions
 }
 
-const TwitterConnectBox: FunctionComponent<{ actions: QuestTwitterActionType[] }> = ({
-  actions,
-}) => {
+const TwitterConnectBox: FC<{ actions: QuestTwitterActionType[] }> = ({ actions }) => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
   if (user && user.services && user.services?.twitter) {
@@ -132,7 +130,7 @@ const TwitterConnectBox: FunctionComponent<{ actions: QuestTwitterActionType[] }
   )
 }
 
-export const QuestTwitter: FunctionComponent<{
+export const QuestTwitter: FC<{
   quest: QuestType
 }> = ({ quest }) => {
   const actions = getActions(quest)

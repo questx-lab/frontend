@@ -7,7 +7,7 @@ import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import BaseModal from '@/widgets/modal/base'
 import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
 import { Divider, Gap } from '@/widgets/separator'
-import { HeaderText2, LargeText } from '@/widgets/text'
+import { HeaderText2, TextXl } from '@/widgets/text'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
@@ -66,7 +66,7 @@ const ConfirmationModal: FC<{
           <Divider />
           <Gap />
 
-          <LargeText>{title}</LargeText>
+          <TextXl>{title}</TextXl>
           <Gap />
           <Horizontal>
             <NegativeButton onClick={onClose}>Cancel</NegativeButton>

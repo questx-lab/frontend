@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import { FixedSizeList as List } from 'react-window'
 import tw from 'twin.macro'
@@ -12,7 +12,7 @@ const NothingBox = tw.div`
   min-h-[270px]
 `
 
-export const SubmissionsList: FunctionComponent<{
+export const SubmissionsList: FC<{
   list: any[]
   itemView: (item: any, index: number) => ReactNode
 }> = ({ list, itemView }) => {

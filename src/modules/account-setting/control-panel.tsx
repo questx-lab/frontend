@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
@@ -10,7 +10,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { AccoutSettingTabEnum, UserType } from '@/types'
 import { CircularImage } from '@/widgets/circular-image'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
-import { LargeText } from '@/widgets/text'
+import { TextXl } from '@/widgets/text'
 
 const MainFrame = tw(Vertical)`
   fixed
@@ -59,7 +59,7 @@ const SettingItemHorizontal = styled(Horizontal)<{ active?: boolean }>(({ active
   return styled
 })
 
-const ControlPanel: FunctionComponent = () => {
+const ControlPanel: FC = () => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   const tabType = AccountSettingsStore.useStoreState((state) => state.tabType)
   const setTabType = AccountSettingsStore.useStoreActions((action) => action.setTabType)
@@ -83,7 +83,7 @@ const ControlPanel: FunctionComponent = () => {
           src={user.avatar_url || StorageConst.USER_DEFAULT.src}
           alt={'Avatar'}
         />
-        <LargeText>{user.name}</LargeText>
+        <TextXl>{user.name}</TextXl>
       </PersonVertical>
       <SettingVertical>
         <SettingItemHorizontal

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { useStoreActions } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -14,7 +14,7 @@ import { uploadFileForCommunity } from '@/utils/file'
 import { PositiveButton } from '@/widgets/buttons'
 import { LabelInput } from '@/widgets/text'
 
-const UploadImageStep: FunctionComponent = () => {
+const UploadImageStep: FC = () => {
   // hook
   const [loading, setLoading] = useState<boolean>(false)
   const navigator = useNavigate()

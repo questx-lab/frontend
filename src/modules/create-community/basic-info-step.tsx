@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
@@ -16,9 +16,7 @@ const HandleRegex = /^[a-z0-9_]{4,32}$/
 
 const StartText = tw(SmallText)`text-start`
 
-const HandleNameInput: FunctionComponent<{ onValidChange: (val: boolean) => void }> = ({
-  onValidChange,
-}) => {
+const HandleNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onValidChange }) => {
   const [isValid, setValid] = useState<boolean | undefined>(undefined)
   const [msg, setMsg] = useState<string>('')
   const urlName = NewCommunityStore.useStoreState((state) => state.logoUrl)
@@ -78,9 +76,7 @@ const HandleNameInput: FunctionComponent<{ onValidChange: (val: boolean) => void
   )
 }
 
-const DisplayNameInput: FunctionComponent<{ onValidChange: (val: boolean) => void }> = ({
-  onValidChange,
-}) => {
+const DisplayNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onValidChange }) => {
   const title = NewCommunityStore.useStoreState((state) => state.displayName)
   const setTitle = NewCommunityStore.useStoreActions((action) => action.setDisplayName)
 
@@ -109,7 +105,7 @@ const DisplayNameInput: FunctionComponent<{ onValidChange: (val: boolean) => voi
   )
 }
 
-const BasicInfo: FunctionComponent = () => {
+const BasicInfo: FC = () => {
   // hook
   const [validDisplayName, setValidDisplayName] = useState<boolean>(false)
   const [validHandle, setHandleValid] = useState<boolean>(true)

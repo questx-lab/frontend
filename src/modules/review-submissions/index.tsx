@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -16,7 +16,7 @@ import {
   VerticalFullWidth,
 } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
-import { Tab, TabItem } from '@/widgets/tab-group'
+import { Tab, TabItem } from '@/widgets/tab-group/focus-white-background'
 import { HeaderText3 } from '@/widgets/text'
 import { ArrowPathIcon, ClockIcon } from '@heroicons/react/24/outline'
 
@@ -36,7 +36,7 @@ const ContentPadding = tw(Vertical)`
   w-full
 `
 
-const Index: FunctionComponent = () => {
+const Index: FC = () => {
   // data
   const submissionModal = ClaimReviewStore.useStoreState((state) => state.showClaimDetails)
   const tabReviewState = ClaimReviewStore.useStoreState((state) => state.selectedTab)

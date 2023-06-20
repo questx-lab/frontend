@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router'
 import { AdminRoutes } from '@/admin-portal/routes/routes-navigation'
 import { ControlPanelTab } from '@/admin-portal/types/control-panel-tab'
 import { Tab } from '@/modules/community/control-panel/mini-widgets'
-import AdminPortalStore from '@/store/local/admin-portal'
+import AdminPortalStore from '@/store/admin/portal'
 
 const TemplatesTab: FC = () => {
   // data
@@ -16,7 +16,9 @@ const TemplatesTab: FC = () => {
   return (
     <Tab
       onClick={() => {
-        navigate(AdminRoutes.TEMPLATES)
+        if (activeTab !== ControlPanelTab.TEMPLATES) {
+          navigate(AdminRoutes.TEMPLATES)
+        }
       }}
       active={activeTab === ControlPanelTab.TEMPLATES}
     >

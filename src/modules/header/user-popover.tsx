@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { useNavigate } from 'react-router-dom'
@@ -13,8 +13,7 @@ import { clearLocalStorage, delCookies } from '@/utils/helper'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
-import { PopItem, PopoverPosition, PopPanel } from '@/widgets/popover'
-import { Popover } from '@headlessui/react'
+import { OptionxBox, PopItem, PopoverButton, PopoverPosition, PopPanel } from '@/widgets/popover'
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
 
@@ -47,18 +46,7 @@ const NameText = tw.p`
   max-w-[150px]
 `
 
-const OptionxBox = tw.div`
-  w-full
-  text-lg
-  font-normal
-  text-gray-700
-  p-2
-  px-3
-  rounded-lg
-  hover:bg-primary-100
-`
-
-const UserPopover: FunctionComponent = () => {
+const UserPopover: FC = () => {
   const navigate = useNavigate()
 
   // data
@@ -66,6 +54,9 @@ const UserPopover: FunctionComponent = () => {
 
   // action
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
+  const setShowUserProfileModal = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowUserProfileModal
+  )
 
   // handler
   const handleLogout = () => {
@@ -82,14 +73,14 @@ const UserPopover: FunctionComponent = () => {
 
   return (
     <PopoverPosition>
-      <Popover.Button className={'outline-0'}>
+      <PopoverButton>
         <CircularImage
-          width={40}
-          height={40}
+          width={32}
+          height={32}
           src={user.avatar_url || StorageConst.USER_DEFAULT.src}
           alt={StorageConst.USER_DEFAULT.alt}
         />
-      </Popover.Button>
+      </PopoverButton>
       <PopPanel>
         <PopItem>
           <UserBox>
@@ -105,23 +96,20 @@ const UserPopover: FunctionComponent = () => {
           </UserBox>
         </PopItem>
         <PopItem>
-          {
-            // TODO: Add back My community & My Profile
-            /* <OptionxBox>{'My Community'}</OptionxBox>
           <OptionxBox
             onClick={() => {
-              // TODO: Route to my profile
+              setShowUserProfileModal(true)
             }}
           >
             {'My Profile'}
-          </OptionxBox> */
-          }
+          </OptionxBox>
           <OptionxBox
             onClick={() => {
-              navigate(RouterConst.ACCOUNT_SETTING)
+              console.log('Account settings clicked')
+              navigate(RouterConst.ACCOUNT_SETTINGS)
             }}
           >
-            {'Account Setting'}
+            {'Account Settings'}
           </OptionxBox>
         </PopItem>
         <PopItem>

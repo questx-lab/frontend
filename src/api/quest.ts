@@ -23,7 +23,7 @@ export const listQuestApi = async (
   }
   const { data } = await api.get(
     EnvVariables.API_SERVER +
-      `/getQuests?community_handle=${communityHandle}&limit=40&q=${search}&include_unclaimable_reason=${includeUnclaimableReason}`
+      `/getQuests?community_handle=${communityHandle}&q=${search}&include_unclaimable_reason=${includeUnclaimableReason}`
   )
   return data
 }

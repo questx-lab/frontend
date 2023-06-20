@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
@@ -37,10 +37,10 @@ const BoxContent = tw(Vertical)`
   rounded-lg
   items-center
   py-3
-  gap-2
+  gap-3
 `
 
-const CommunityItems: FunctionComponent<{
+const CommunityItems: FC<{
   collaboration: CollaboratorType[]
 }> = ({ collaboration }) => {
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
@@ -59,7 +59,7 @@ const CommunityItems: FunctionComponent<{
   )
 }
 
-const CommunityFollowItems: FunctionComponent<{
+const CommunityFollowItems: FC<{
   followCommunities: FollowCommunityType[]
 }> = ({ followCommunities }) => {
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
@@ -78,7 +78,7 @@ const CommunityFollowItems: FunctionComponent<{
   )
 }
 
-const CommunitiesNavigation: FunctionComponent<{ isDrawer?: boolean }> = ({ isDrawer = false }) => {
+const CommunitiesNavigation: FC<{ isDrawer?: boolean }> = ({ isDrawer = false }) => {
   const communitiesCollab: CollaboratorType[] = useStoreState<GlobalStoreModel>(
     (state) => state.communitiesCollab
   )

@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, useEffect, useState } from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
@@ -57,7 +57,7 @@ const createQuests = async (quests: QuestType[], communityHandle: string) => {
   }
 }
 
-const ListQuests: FunctionComponent<{
+const ListQuests: FC<{
   quests: QuestType[]
   questsSelect: QuestType[]
   setQuestsSelect: (e: QuestType[]) => void
@@ -88,7 +88,7 @@ const ListQuests: FunctionComponent<{
   return <Fragment>{renderQuests}</Fragment>
 }
 
-const Templates: FunctionComponent<{
+const Templates: FC<{
   questsSelect: QuestType[]
   setQuestsSelect: (e: QuestType[]) => void
 }> = ({ questsSelect, setQuestsSelect }) => {
@@ -117,11 +117,24 @@ const Templates: FunctionComponent<{
   )
 }
 
-const GenerateQuest: FunctionComponent = () => {
+const GenerateQuest: FC = () => {
+  // data
+  const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
+
+  // action
+  const setCurrentStep = NewCommunityStore.useStoreActions((action) => action.setCurrentStep)
+
   const [questsSelect, setQuestsSelect] = useState<QuestType[]>([])
   const createdCommunityHandle = NewCommunityStore.useStoreState(
     (state) => state.createdCommunityHandle
   )
+
+  const onNextClicked = () => {
+    // TODO: add loading state while creating a quests
+    createQuests(questsSelect, createdCommunityHandle)
+    setCurrentStep(currentStep + 1)
+  }
+
   return (
     <Main>
       <Title>{'Well done!'}</Title>
@@ -131,7 +144,7 @@ const GenerateQuest: FunctionComponent = () => {
       <Templates questsSelect={questsSelect} setQuestsSelect={setQuestsSelect} />
       <HorizotalFullWidth>
         <BackButton />
-        <NextButton onClick={() => createQuests(questsSelect, createdCommunityHandle)} />
+        <NextButton onClick={onNextClicked} />
       </HorizotalFullWidth>
     </Main>
   )

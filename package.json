@@ -24,6 +24,7 @@
     "heroicons": "^2.0.18",
     "html-react-parser": "^3.0.16",
     "jwt-decode": "^3.1.2",
+    "phaser": "^3.55.2",
     "randomstring": "^1.2.3",
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
@@ -44,10 +45,12 @@
     "typescript": "^5.0.4",
     "use-debounce": "^9.0.4",
     "web-vitals": "^2.1.0",
-    "web3": "^1.10.0"
+    "web3": "^1.10.0",
+    "websocket": "^1.0.34"
   },
   "scripts": {
     "dev": "GENERATE_SOURCEMAP=false PORT=4000 craco start",
+    "admin": "GENERATE_SOURCEMAP=false PORT=3000 craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",

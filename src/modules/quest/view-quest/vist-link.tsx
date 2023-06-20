@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { Link } from 'react-router-dom'
 
@@ -7,7 +7,7 @@ import ActiveQuestStore from '@/store/local/active-quest'
 import { SocialButton } from '@/widgets/buttons/button-social'
 import { VerticalFullWidth } from '@/widgets/orientation'
 
-export const QuestVisitLink: FunctionComponent<{ link: string }> = ({ link }) => {
+export const QuestVisitLink: FC<{ link: string }> = ({ link }) => {
   const setVisitLink = ActiveQuestStore.useStoreActions((action) => action.setVisitLink)
 
   const onClick = () => {

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { Link } from 'react-router-dom'
@@ -12,7 +12,7 @@ import { HorizontalStartCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
 import { ArrowPathRoundedSquareIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
-const TwitterRetweet: FunctionComponent<{ action: QuestTwitterActionType }> = ({ action }) => {
+const TwitterRetweet: FC<{ action: QuestTwitterActionType }> = ({ action }) => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 

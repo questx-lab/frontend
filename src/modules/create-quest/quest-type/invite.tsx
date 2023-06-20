@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -15,7 +15,7 @@ const InputInviteBox = tw.input`
   rounded-lg
 `
 
-const Invite: FunctionComponent = () => {
+const Invite: FC = () => {
   // data
   const invites = NewQuestStore.useStoreState((state) => state.invites)
 

@@ -4,7 +4,9 @@ import axios, { AxiosError } from 'axios'
 import { refreshTokenApi } from '@/api/user'
 import { ErrorCodes } from '@/constants/code.const'
 import { EnvVariables } from '@/constants/env.const'
+import { RouterConst } from '@/constants/router.const'
 import {
+  clearLocalStorage,
   delCookies,
   getAccessToken,
   getRefreshToken,
@@ -44,6 +46,9 @@ api.interceptors.response.use(
         const refreshToken = getRefreshToken()
         const accessToken = getAccessToken()
         if (!refreshToken) {
+          delCookies()
+          clearLocalStorage()
+          window.location.href = RouterConst.HOME
           return response
         }
 

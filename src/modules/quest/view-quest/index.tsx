@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import parseHtml from 'html-react-parser'
@@ -61,7 +61,7 @@ const ContentPadding = tw(VerticalFullWidth)`
   gap-3
 `
 
-const BlockContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+const BlockContent: FC<{ quest: QuestType }> = ({ quest }) => {
   if (quest.unclaimable_reason === '') {
     return <></>
   }
@@ -76,7 +76,7 @@ const BlockContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   )
 }
 
-const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+const QuestContent: FC<{ quest: QuestType }> = ({ quest }) => {
   const { quizzes } = quest.validation_data || {}
   // store
   const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
@@ -115,7 +115,7 @@ const QuestContent: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   }
 }
 
-const Index: FunctionComponent<{
+const Index: FC<{
   quest: QuestType
 }> = ({ quest }) => {
   return (

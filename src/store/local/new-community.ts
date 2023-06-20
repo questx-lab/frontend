@@ -15,6 +15,7 @@ interface NewCommunityModel {
   websiteUrl: string
   createdCommunityHandle: string
   logoUrl: string
+  email: string
 
   setCommunity: Action<NewCommunityModel, CommunityType>
   setCurrentStep: Action<NewCommunityModel, number>
@@ -26,6 +27,7 @@ interface NewCommunityModel {
   setWebsiteUrl: Action<NewCommunityModel, string>
   setCreatedCommunityHandle: Action<NewCommunityModel, string>
   setHandle: Action<NewCommunityModel, string>
+  setEmail: Action<NewCommunityModel, string>
 }
 
 const NewCommunityStore = createContextStore<NewCommunityModel>({
@@ -38,6 +40,7 @@ const NewCommunityStore = createContextStore<NewCommunityModel>({
   twitterUrl: '',
   websiteUrl: '',
   createdCommunityHandle: '',
+  email: '',
 
   setCommunity: action((state, community) => {
     state.displayName = community.display_name
@@ -74,6 +77,9 @@ const NewCommunityStore = createContextStore<NewCommunityModel>({
 
   setHandle: action((state, url) => {
     state.logoUrl = url
+  }),
+  setEmail: action((state, email) => {
+    state.email = email
   }),
 })
 

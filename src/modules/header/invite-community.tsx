@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -87,7 +87,7 @@ enum Screen {
   ADDRESS_WALLET,
 }
 
-const AddressWallet: FunctionComponent = () => {
+const AddressWallet: FC = () => {
   // data
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   const [address, setAddress] = useState<string>('')
@@ -136,7 +136,7 @@ const AddressWallet: FunctionComponent = () => {
   )
 }
 
-const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({ setScreen }) => {
+const InfoReward: FC<{ setScreen: (e: number) => void }> = ({ setScreen }) => {
   // data
   const user: UserType | undefined = useStoreState<GlobalStoreModel>((state) => state.user)
   const referral: RefferalType = useStoreState<GlobalStoreModel>((state) => state.referral)
@@ -203,13 +203,13 @@ const InfoReward: FunctionComponent<{ setScreen: (e: number) => void }> = ({ set
   )
 }
 
-const InviteCommunity: FunctionComponent<{}> = () => {
+const InviteCommunity: FC<{}> = () => {
   // data
   const [screen, setScreen] = useState<number>(Screen.INFO_REWARD)
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
   // handler
-  const RenderScreen: FunctionComponent = () => {
+  const RenderScreen: FC = () => {
     if (screen === Screen.ADDRESS_WALLET) {
       return <AddressWallet />
     }
@@ -229,7 +229,7 @@ const InviteCommunity: FunctionComponent<{}> = () => {
     return <></>
   }
 
-  const WarningWallet: FunctionComponent = () => {
+  const WarningWallet: FC = () => {
     if (user && user.wallet_address !== '') {
       return <></>
     }

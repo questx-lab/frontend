@@ -1,13 +1,13 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { BodyFrame, PaddingHorizontal } from '@/modules/account-setting/mini-widget'
-import { Large2xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
-const Achievement: FunctionComponent = () => {
+const Achievement: FC = () => {
   return (
     <BodyFrame>
       <PaddingHorizontal>
-        <Large2xlText>{'Achievement'}</Large2xlText>
+        <Text2xl>{'Achievement'}</Text2xl>
       </PaddingHorizontal>
       <PaddingHorizontal></PaddingHorizontal>
     </BodyFrame>

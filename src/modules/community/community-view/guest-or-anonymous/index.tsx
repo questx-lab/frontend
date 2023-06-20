@@ -1,13 +1,17 @@
 import { FC } from 'react'
 
-import { Link } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
+import { SizeEnum } from '@/constants/common.const'
+import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import CommunityQuests from '@/modules/community/community-view/guest-or-anonymous/community-quests'
 import FollowCommunity from '@/modules/community/community-view/guest-or-anonymous/follow-community'
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
 import CommunityStore from '@/store/local/community'
+import { PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import {
@@ -17,7 +21,7 @@ import {
   Vertical,
   VerticalFullWidth,
 } from '@/widgets/orientation'
-import { Large2xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
 const Content = tw(Vertical)`
   max-sm:px-2
@@ -71,20 +75,37 @@ const CenterEndHorizontal = tw(HorizontalCenter)`
   justify-end
 `
 
+const PointerImage = tw(Image)`
+  cursor-pointer
+`
+
+const onCopy = (url: string) => {
+  if (url) {
+    navigator.clipboard.writeText(url)
+    toast(`Copied ${url}`, {
+      icon: '👏',
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+    })
+  }
+}
+
 const TwitterLink: FC<{ twitterUrl?: string }> = ({ twitterUrl }) => {
   if (!twitterUrl) {
     return <></>
   }
 
   return (
-    <Link to={twitterUrl}>
-      <Image
-        width={30}
-        height={30}
-        src={StorageConst.TWITTER_BLACK_DIR.src}
-        alt={StorageConst.TWITTER_BLACK_DIR.alt}
-      />
-    </Link>
+    <PointerImage
+      onClick={() => onCopy(twitterUrl)}
+      width={30}
+      height={30}
+      src={StorageConst.TWITTER_BLACK_DIR.src}
+      alt={StorageConst.TWITTER_BLACK_DIR.alt}
+    />
   )
 }
 
@@ -94,19 +115,19 @@ const DiscordLink: FC<{ discordUrl?: string }> = ({ discordUrl }) => {
   }
 
   return (
-    <Link to={discordUrl}>
-      <Image
-        width={30}
-        height={30}
-        src={StorageConst.DISCORD_BLACK_DIR.src}
-        alt={StorageConst.DISCORD_BLACK_DIR.alt}
-      />
-    </Link>
+    <PointerImage
+      onClick={() => onCopy(discordUrl)}
+      width={30}
+      height={30}
+      src={StorageConst.DISCORD_BLACK_DIR.src}
+      alt={StorageConst.DISCORD_BLACK_DIR.alt}
+    />
   )
 }
 
 const CommunityGuestOrAnonymous: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  const navigate = useNavigate()
 
   if (!community) {
     return <></>
@@ -116,21 +137,26 @@ const CommunityGuestOrAnonymous: FC = () => {
     <Content>
       <PaddingHorizontal>
         <CircularImage
-          width={250}
-          height={250}
+          width={200}
+          height={200}
           src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
           alt={StorageConst.COMMUNITY_DEFAULT.alt}
         />
         <FullWidthHorizontal>
           <VerticalCenter>
-            <Large2xlText>{community.display_name}</Large2xlText>
+            <Text2xl>{community.display_name}</Text2xl>
             <Introduce>{community.introduction}</Introduce>
             <HorizontalStartCenter>
               <TwitterLink twitterUrl={community.twitter} />
               <DiscordLink discordUrl={community.discord} />
             </HorizontalStartCenter>
             <ReponsiveHorizontal>
-              {/* TODO: Town hall <PositiveButton block>{'Join Town Hall'}</PositiveButton> */}
+              <PositiveButton
+                onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
+                width={SizeEnum.x48}
+              >
+                {'Join Town Hall'}
+              </PositiveButton>
               <CenterEndHorizontal>
                 <FollowCommunity community={community} />
               </CenterEndHorizontal>

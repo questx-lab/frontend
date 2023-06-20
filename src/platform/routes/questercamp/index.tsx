@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
@@ -24,7 +24,7 @@ import {
 } from '@/widgets/orientation'
 import SearchResult from '@/widgets/search-result'
 import { Divider } from '@/widgets/separator'
-import { Large2xlText, Large3xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
 const SearchPadding = tw(Horizontal)`
   w-full gap-3 py-3
@@ -56,7 +56,7 @@ const QuestsGrid = tw.div`
 
 const MarginTop = tw.div`mt-4`
 
-export const OtherQuests: FunctionComponent<{ quests: QuestType[]; showCommunity?: boolean }> = ({
+export const OtherQuests: FC<{ quests: QuestType[]; showCommunity?: boolean }> = ({
   quests,
   showCommunity = false,
 }) => {
@@ -79,7 +79,7 @@ export const OtherQuests: FunctionComponent<{ quests: QuestType[]; showCommunity
   )
 }
 
-const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
+const QuestContent: FC<{ query: string }> = ({ query }) => {
   // Hook
   const [loading, setLoading] = useState<boolean>(false)
   const [quests, setQuests] = useState<QuestType[]>([])
@@ -141,14 +141,14 @@ const QuestContent: FunctionComponent<{ query: string }> = ({ query }) => {
       </CategoryBox>
 
       <StartVertical>
-        <Large2xlText>{'🕑 New Quests'}</Large2xlText>
+        <Text2xl>{'🕑 New Quests'}</Text2xl>
         <OtherQuests showCommunity quests={intQuests} />
       </StartVertical>
     </SearchResult>
   )
 }
 
-const Index: FunctionComponent = () => {
+const Index: FC = () => {
   // hook
   const [query, setQuery] = useState<string>('')
 
@@ -161,7 +161,7 @@ const Index: FunctionComponent = () => {
     <PaddingVertical>
       <MainContent>
         <HorizontalBetweenCenterFullWidth>
-          <Large3xlText>{'⚡ QuesterCamp'}</Large3xlText>
+          <Text2xl>{'⚡ QuesterCamp'}</Text2xl>
         </HorizontalBetweenCenterFullWidth>
       </MainContent>
       <Divider />

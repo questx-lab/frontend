@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { toast } from 'react-hot-toast'
@@ -17,7 +17,7 @@ import { CircularImage } from '@/widgets/circular-image'
 import BasicModal from '@/widgets/modal/basic'
 import { VerticalFullWidthCenter } from '@/widgets/orientation'
 import { SmallSpinner } from '@/widgets/spinner'
-import { Large3xlText, LargeText } from '@/widgets/text'
+import { Text2xl, TextXl } from '@/widgets/text'
 
 const Content = tw(VerticalFullWidthCenter)`
   w-full
@@ -26,15 +26,13 @@ const Content = tw(VerticalFullWidthCenter)`
   p-4
 `
 
-const PrimaryLargeText = tw(Large3xlText)`
+const PrimaryTextXl = tw(Text2xl)`
   text-primary
   font-bold
   line-clamp-1
 `
 
-const CommunityContent: FunctionComponent<{ community: CommunityType | undefined }> = ({
-  community,
-}) => {
+const CommunityContent: FC<{ community: CommunityType | undefined }> = ({ community }) => {
   if (!community) {
     return (
       <VerticalFullWidthCenter>
@@ -50,12 +48,12 @@ const CommunityContent: FunctionComponent<{ community: CommunityType | undefined
         height={80}
         src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
       />
-      <PrimaryLargeText>{community.display_name}</PrimaryLargeText>
+      <PrimaryTextXl>{community.display_name}</PrimaryTextXl>
     </VerticalFullWidthCenter>
   )
 }
 
-const ActionButton: FunctionComponent<{
+const ActionButton: FC<{
   community: CommunityType | undefined
   userInvite: UserType | undefined
   onChangeModal: (value: boolean) => void
@@ -133,7 +131,7 @@ const ActionButton: FunctionComponent<{
   )
 }
 
-const InviteModal: FunctionComponent<{ inviteCode: string; community: CommunityType }> = ({
+const InviteModal: FC<{ inviteCode: string; community: CommunityType }> = ({
   inviteCode,
   community,
 }) => {
@@ -184,7 +182,7 @@ const InviteModal: FunctionComponent<{ inviteCode: string; community: CommunityT
       styled={'flex flex-col !justify-start !items-start !w-[500px] !h-[300px]'}
     >
       <Content>
-        <LargeText>{'You have been invited to join'}</LargeText>
+        <TextXl>{'You have been invited to join'}</TextXl>
         <CommunityContent community={community} />
         <ActionButton community={community} userInvite={userInvite} onChangeModal={onChangeModal} />
       </Content>

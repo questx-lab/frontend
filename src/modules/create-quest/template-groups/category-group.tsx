@@ -1,28 +1,37 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import tw from 'twin.macro'
 
-import { SizeEnum } from '@/constants/common.const'
 import QuestCardDetails from '@/modules/quest/quest-card-details'
 import NewQuestStore from '@/store/local/new-quest'
 import { emptyQuest, QuestType } from '@/types/quest'
-import { NegativeButton, PositiveButton } from '@/widgets/buttons'
+import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
-import { Horizontal, Vertical, VerticalCenter, VerticalFullWidth } from '@/widgets/orientation'
+import {
+  HorizontalBetweenCenterFullWidth,
+  Vertical,
+  VerticalFullWidth,
+  VerticalFullWidthCenter,
+} from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
-import { NormalText } from '@/widgets/text'
+import { TextBase } from '@/widgets/text'
 
 const WidthFullPaddingY = tw(Vertical)`
   w-full
   py-4
 `
 
-const ConfirmationModalFrame = tw(VerticalCenter)`
-  w-full
+const ConfirmationModalFrame = tw(VerticalFullWidthCenter)`
   h-full
+  gap-4
+  px-5
 `
 
-const TemplateGroup: FunctionComponent<{
+const GapButton = tw(HorizontalBetweenCenterFullWidth)`gap-4`
+
+const TextCenter = tw(TextBase)`text-center`
+
+const TemplateGroup: FC<{
   quests: QuestType[]
   onItemClicked: (e: QuestType) => void
 }> = ({ quests, onItemClicked: onClickItem }) => {
@@ -58,31 +67,30 @@ const TemplateGroup: FunctionComponent<{
         isOpen={openModal}
         hasHeader={false}
         onClose={() => setOpenModal(false)}
-        styled='!h-[400px]'
+        styled='!h-[150px] !w-[400px]'
       >
         <ConfirmationModalFrame>
-          <NormalText>{'Do you want to replace this quest by the new template?'}</NormalText>
-          <Gap />
-          <Horizontal>
-            <NegativeButton
+          <TextCenter>{'Do you want to replace this quest by the new template?'}</TextCenter>
+          <GapButton>
+            <PositiveButton
+              type={ButtonTypeEnum.NEGATIVE}
+              isFull
               onClick={() => {
                 setOpenModal(false)
               }}
             >
               Cancel
-            </NegativeButton>
-            <Gap width={4} />
+            </PositiveButton>
             <PositiveButton
               onClick={() => {
                 setQuest(selectedQuest)
                 setOpenModal(false)
               }}
-              width={SizeEnum.x48}
+              isFull
             >
               Use Template
             </PositiveButton>
-          </Horizontal>
-          <Gap />
+          </GapButton>
         </ConfirmationModalFrame>
       </BasicModal>
     </>

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { EasyPeasyConfig, Store } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -12,6 +12,7 @@ import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
 import QuestTypeSelection from '@/modules/create-quest/quest-type/selection'
 import Recurrence from '@/modules/create-quest/recurrence'
 import QuestReward from '@/modules/create-quest/reward'
+import SelectCategory from '@/modules/create-quest/select-category'
 import TemplateGroups from '@/modules/create-quest/template-groups'
 import TopLabel from '@/modules/create-quest/top-label'
 import CommunityStore from '@/store/local/community'
@@ -20,6 +21,7 @@ import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
 import ProgressModal from '@/widgets/modal/progress'
 import { Horizontal, Vertical } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
 
 const BodyFrame = styled(Horizontal)<{ isTemplate?: boolean }>(({ isTemplate = false }) => {
@@ -89,7 +91,7 @@ const handleSubmit = async (
   return false
 }
 
-export const CreateOrEditQuest: FunctionComponent<{
+export const CreateOrEditQuest: FC<{
   isTemplate?: boolean
   isEdit?: boolean
   onQuestCreated: () => void
@@ -141,6 +143,7 @@ export const CreateOrEditQuest: FunctionComponent<{
                 onChange={(e) => setTitle(e.target.value)}
                 msg='You must have a quest title to create this quest.'
               />
+              <Gap />
               <Label>{'QUEST DESCRIPTION'}</Label>
               <Editor
                 onChange={(value) => {
@@ -156,6 +159,10 @@ export const CreateOrEditQuest: FunctionComponent<{
 
             <QuestFieldsBox title={'Repeat'} required={true}>
               <Recurrence />
+            </QuestFieldsBox>
+
+            <QuestFieldsBox>
+              <SelectCategory />
             </QuestFieldsBox>
 
             <QuestFieldsBox title={'Highlighted'}>

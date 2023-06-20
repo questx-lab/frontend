@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -17,10 +17,23 @@ const FrameShape = tw(Vertical)`
   justify-start
   items-end
 `
+export const RewardDiscordRole = tw.span`
+  text-[#565ADD]
+  text-lg
+  font-medium
+`
 
-const QuestReward: FunctionComponent<{
+const QuestReward: FC<{
   quest: QuestType
 }> = ({ quest }) => {
+  const getRoleReward = () => {
+    if (!quest.rewards) return null
+    const discordRoles = quest.rewards.filter((reward) => reward.type === 'discord_role')
+    if (discordRoles.length > 0) return discordRoles[0]
+    return null
+  }
+
+  const discordRole = getRoleReward()
   return (
     <FrameShape>
       <BorderBox>
@@ -29,6 +42,17 @@ const QuestReward: FunctionComponent<{
           <Image width={40} height={40} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
           <RewardText>{`${quest.points} Points`}</RewardText>
         </RewardRow>
+        {discordRole && (
+          <RewardRow>
+            <Image
+              width={40}
+              height={40}
+              src={StorageConst.DISCORD_DIR.src}
+              alt={StorageConst.DISCORD_DIR.alt}
+            />
+            <RewardDiscordRole>{` ${discordRole.data.role} Role`}</RewardDiscordRole>
+          </RewardRow>
+        )}
         <SubmitClaim quest={quest} />
       </BorderBox>
     </FrameShape>

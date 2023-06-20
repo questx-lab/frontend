@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -81,7 +81,7 @@ const Title = tw.p`
   3xl:text-xl
 `
 
-const CommunityBox: FunctionComponent<{ community: CommunityType }> = ({ community }) => {
+const CommunityBox: FC<{ community: CommunityType }> = ({ community }) => {
   const navigate = useNavigate()
 
   return (

@@ -1,4 +1,4 @@
-import { Dispatch, FunctionComponent, SetStateAction } from 'react'
+import { Dispatch, FC, SetStateAction } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { Link } from 'react-router-dom'
@@ -26,7 +26,7 @@ const generateTweetLink = (defaultTweet: string): string => {
   return `https://twitter.com/intent/tweet?text=${urlEncode}`
 }
 
-const IncludedWords: FunctionComponent<{ includedWords: string[] }> = ({ includedWords }) => {
+const IncludedWords: FC<{ includedWords: string[] }> = ({ includedWords }) => {
   if (includedWords.length === 0) {
     return <></>
   }
@@ -45,7 +45,7 @@ const IncludedWords: FunctionComponent<{ includedWords: string[] }> = ({ include
   )
 }
 
-const TwitterTweet: FunctionComponent<{
+const TwitterTweet: FC<{
   action: QuestTwitterActionType
   inputReply: boolean
   setInputReply: Dispatch<SetStateAction<boolean>>

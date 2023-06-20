@@ -157,7 +157,7 @@ const TwitterCallback: FC = () => {
       setSuccess(false)
     } finally {
       if (clientAccessToken) {
-        setTimeout(() => navigate(RouterConst.ACCOUNT_SETTING, { replace: true }), 2000)
+        setTimeout(() => navigate(RouterConst.ACCOUNT_SETTINGS, { replace: true }), 2000)
       } else {
         setTimeout(() => navigate(RouterConst.HOME, { replace: true }), 2000)
       }
