@@ -36,7 +36,7 @@ export const setAccessToken = (cookie: string) => {
 
 export const setCookieSocket = () => {
   const domain = window.location.hostname.split('.').slice(-2).join('.')
-  const accessToken = getRefreshToken()
+  const accessToken = getAccessToken()
   if (accessToken) {
     document.cookie = `access_token=${accessToken};domain=${domain}`
   }
