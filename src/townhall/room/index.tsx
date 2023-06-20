@@ -4,8 +4,8 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import RoomStore from '@/store/townhall/room'
 import { Connectting } from '@/townhall/components/connect'
+import GameSidebar from '@/townhall/components/game-sidebar'
 import { VerticalCenter } from '@/widgets/orientation'
 
 const Backdrop = tw(VerticalCenter)`
@@ -16,11 +16,10 @@ const Backdrop = tw(VerticalCenter)`
 
 const Townhall: FC = () => {
   return (
-    <RoomStore.Provider>
-      <Backdrop id='phaser-container'>
-        <Connectting />
-      </Backdrop>
-    </RoomStore.Provider>
+    <Backdrop id='phaser-container'>
+      <Connectting />
+      <GameSidebar />
+    </Backdrop>
   )
 }
 

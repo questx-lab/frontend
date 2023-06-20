@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
 
-import Background from '@/townhall/scenes/background'
-import Bootstrap from '@/townhall/scenes/bootstrap'
-import Game from '@/townhall/scenes/game'
+import Background from '@/townhall/engine/scenes/background'
+import Bootstrap from '@/townhall/engine/scenes/bootstrap'
+import Game from '@/townhall/engine/scenes/game'
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,

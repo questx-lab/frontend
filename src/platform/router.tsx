@@ -28,8 +28,12 @@ import Questercamp from '@/platform/routes/questercamp/route'
 import TrendingQuestsIndex from '@/platform/routes/questercamp/trending'
 import TrendingQuest from '@/platform/routes/questercamp/trending/route'
 import Root, { RootLoader } from '@/platform/routes/route'
+import TownhallRoom, { Loader } from '@/townhall/room/route'
+import Townhall from '@/townhall/route'
+import ErrorPage from '@/widgets/error'
+import { SmallSpinner } from '@/widgets/spinner'
 
-const TownHall = lazy(() => import('@/townhall'))
+const RoomIndex = lazy(() => import('@/townhall/room'))
 
 const PlatformRouter = (): RouteObject[] => {
   const router: RouteObject[] = [
@@ -114,12 +118,25 @@ const PlatformRouter = (): RouteObject[] => {
   if (EnvVariables.TOWNHALL_STATUS === TownhallStatus.ENABLE) {
     router.push({
       path: '/townhall',
-      index: true,
-      element: (
-        <Suspense fallback={<>...</>}>
-          <TownHall />
-        </Suspense>
-      ),
+      element: <Townhall />,
+      children: [
+        {
+          path: ':communityHandle',
+          loader: Loader,
+          errorElement: <ErrorPage />,
+          element: <TownhallRoom />,
+          children: [
+            {
+              index: true,
+              element: (
+                <Suspense fallback={<SmallSpinner />}>
+                  <RoomIndex />
+                </Suspense>
+              ),
+            },
+          ],
+        },
+      ],
     })
   }
 

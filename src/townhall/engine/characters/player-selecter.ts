@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
-import MyPlayer from '@/townhall/characters/my-player'
-import Item from '@/townhall/items/Item'
+import MyPlayer from '@/townhall/engine/characters/my-player'
+import Item from '@/townhall/engine/items/Item'
 import { NavKeys, PlayerBehavior } from '@/types/townhall'
 
 export default class PlayerSelector extends Phaser.GameObjects.Zone {
