@@ -9,6 +9,7 @@ export default class WebSocket {
     this.socket = null
     const url = EnvVariables.SOCKET_SERVER + `/game?room_id=${roomId}`
     console.log(url)
+    console.log('wss')
 
     this.connect(url)
   }
