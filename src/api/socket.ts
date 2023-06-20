@@ -8,6 +8,8 @@ export default class WebSocket {
   constructor(roomId: string) {
     this.socket = null
     const url = EnvVariables.SOCKET_SERVER + `/game?room_id=${roomId}`
+    // console.log(url)
+
     this.connect(url)
   }
 
