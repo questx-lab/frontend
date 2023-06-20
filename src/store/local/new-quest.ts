@@ -7,7 +7,7 @@ import {
   QuestTypeMap,
   TwitterEnum,
 } from '@/constants/common.const'
-import { DiscordRoleType, ReqNewQuestType, RewardType } from '@/types'
+import { ConditionType, DiscordRoleType, ReqNewQuestType, RewardType } from '@/types'
 import { StateToModel } from '@/types/conversion'
 import { QuestQuizType, QuestType, ValidationQuest } from '@/types/quest'
 import { isTwitterType } from '@/types/twitter'
@@ -39,6 +39,7 @@ export interface NewQuestModel {
   isOpenDiscordRole: boolean
 
   quizzes: QuestQuizType[]
+  conditions: ConditionType[]
 
   // Actions
   setQuest: Action<NewQuestModel, QuestType>
@@ -69,6 +70,7 @@ export interface NewQuestModel {
   setCategoryId: Action<NewQuestModel, string>
   setDiscordRole: Action<NewQuestModel, DiscordRoleType>
   setIsOpenDiscordRole: Action<NewQuestModel, boolean>
+  setConditions: Action<NewQuestModel, ConditionType[]>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -104,6 +106,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   includedWords: [],
   discordRole: {} as DiscordRoleType,
   isOpenDiscordRole: false,
+  conditions: [],
 
   // Set all the fields for the state
   setQuest: action((state, quest) => {
@@ -254,6 +257,9 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   }),
   setIsOpenDiscordRole: action((state, isOpenDiscordRole) => {
     state.isOpenDiscordRole = isOpenDiscordRole
+  }),
+  setConditions: action((state, conditions) => {
+    state.conditions = conditions
   }),
 })
 

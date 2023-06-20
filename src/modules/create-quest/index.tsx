@@ -8,6 +8,7 @@ import tw from 'twin.macro'
 import { listQuestApi, newQuestApi, updateQuestApi } from '@/api/quest'
 import ActionButtons from '@/modules/create-quest/action-buttons'
 import Highlighted from '@/modules/create-quest/highlighted'
+import Condition from '@/modules/create-quest/condition'
 import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
 import QuestTypeSelection from '@/modules/create-quest/quest-type/selection'
 import Recurrence from '@/modules/create-quest/recurrence'
@@ -163,6 +164,10 @@ export const CreateOrEditQuest: FC<{
 
             <QuestFieldsBox>
               <SelectCategory />
+            </QuestFieldsBox>
+
+            <QuestFieldsBox>
+              <Condition />
             </QuestFieldsBox>
 
             <QuestFieldsBox title={'Highlighted'}>

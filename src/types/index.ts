@@ -229,3 +229,11 @@ export type DiscordRoleType = {
 export type ListDiscordRoleType = {
   roles: DiscordRoleType[]
 }
+
+export type ConditionType = {
+  type: string
+  data: {
+    op: string
+    quest_id: string
+  }
+}
