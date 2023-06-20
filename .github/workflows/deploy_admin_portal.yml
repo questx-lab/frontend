@@ -1,4 +1,4 @@
-name: Build and Deploy to GKE for platform
+name: Build and Deploy to GKE for admin portal
 
 on:
   pull_request:
@@ -8,13 +8,13 @@ on:
 env:
   PROJECT_ID: ${{ vars.PROJECT_ID }} # TODO: update Google Cloud project id
   GAR_LOCATION: ${{ vars.GAR_LOCATION }} # TODO: update Artifact Registry location
-  SERVICE: ${{ vars.SERVICE_NAME }} # TODO: update Cloud Run service name
   APP_NAME: ${{ vars.APP_NAME }}
   GKE_CLUSTER_NAME: ${{ vars.GKE_CLUSTER_NAME }}
   CLUSTER_REGION: ${{ vars.CLUSTER_REGION }}
-  ENV_FILE: ${{ vars.ENV_FILE }}
   GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
-  DOMAIN: ${{ vars.DOMAIN }}
+  ADMIN_ENV_FILE: ${{ vars.ADMIN_ENV_FILE }}
+  ADMIN_SERVICE: ${{ vars.ADMIN_SERVICE_NAME }}
+  ADMIN_DOMAIN: ${{ vars.ADMIN_DOMAIN }}
 
 jobs:
   deploy:
@@ -47,9 +47,10 @@ jobs:
 
       - name: Build and Push Container
         run: |-
-          echo "${{ env.ENV_FILE }}" > ./.env.local
-          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.APP_NAME }}/${{ env.SERVICE }}:${{ github.sha }}" . -f deploy/Dockerfile
-          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.APP_NAME }}/${{ env.SERVICE }}:${{ github.sha }}"
+
+          echo "${{ env.ADMIN_ENV_FILE }}" > ./.env.local
+          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.APP_NAME }}/${{ env.ADMIN_SERVICE }}:${{ github.sha }}" . -f deploy/Dockerfile
+          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.APP_NAME }}/${{ env.ADMIN_SERVICE }}:${{ github.sha }}"
 
       - name: Set up GKE credentials
         uses: google-github-actions/get-gke-credentials@v0
@@ -64,18 +65,19 @@ jobs:
 
       - name: Clean deployments
         run: |-
-          kubectl delete deployment frontend -n frontend --ignore-not-found
+          kubectl delete deployment admin-portal -n frontend --ignore-not-found
 
       - name: Deploy
         run: |-
-          IMG=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.APP_NAME }}/${{ env.SERVICE }}
+          IMG=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.APP_NAME }}/${{ env.ADMIN_SERVICE }}
           TAG=${{ github.sha }}
 
-          helm upgrade --install frontend ./deploy/frontend \
+
+          helm upgrade --install admin-portal ./deploy/frontend \
           --namespace frontend \
           --set=image.tag="${{ github.sha }}" \
           --set=image.repository="$IMG" \
-          --set=ingress.hosts[0].host=${{ env.DOMAIN }} \
+          --set=ingress.hosts[0].host=${{ env.ADMIN_DOMAIN }} \
           --set=ingress.hosts[0].paths[0].path="/" \
           --set=ingress.hosts[0].paths[0].pathType=Prefix \
           --create-namespace
