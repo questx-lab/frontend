@@ -93,7 +93,7 @@ export default class Game extends Phaser.Scene {
     wallLayer.setCollisionByProperty({ collides: true })
 
     // add my player
-    this.myPlayer = this.add.myPlayer(705, 500, 'adam', 'c54gxiLbP')
+    this.myPlayer = this.add.myPlayer(2368, 1792, 'adam', '')
     this.myPlayer.setPlayerTexture('adam')
 
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16)
