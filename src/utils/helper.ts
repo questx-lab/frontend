@@ -34,6 +34,14 @@ export const setAccessToken = (cookie: string) => {
   })
 }
 
+export const setCookieSocket = () => {
+  const domain = window.location.hostname.split('.').slice(-2).join('.')
+  const accessToken = getAccessToken()
+  if (accessToken) {
+    document.cookie = `access_token=${accessToken};domain=${domain}`
+  }
+}
+
 export const setRefreshToken = (cookie: string) => {
   const dToken: any = jwt(cookie)
   setCookie(KeysEnum.REFRESH_TOKEN, cookie, {

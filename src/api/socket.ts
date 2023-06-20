@@ -1,11 +1,13 @@
 import { w3cwebsocket } from 'websocket'
 
 import { EnvVariables } from '@/constants/env.const'
+import { setCookieSocket } from '@/utils/helper'
 
 export default class WebSocket {
   socket: null | w3cwebsocket
 
   constructor(roomId: string) {
+    setCookieSocket()
     this.socket = null
     const url = EnvVariables.SOCKET_SERVER + `/game?room_id=${roomId}`
     this.connect(url)
