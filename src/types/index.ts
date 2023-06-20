@@ -103,7 +103,7 @@ export type ReqNewQuestType = {
   validation_data: ValidationQuest
   rewards?: RewardType[]
   condition_op?: string
-  conditions?: []
+  conditions?: ConditionType[]
   status?: string
   is_highlight: boolean
 }
@@ -236,4 +236,9 @@ export type ConditionType = {
     op: string
     quest_id: string
   }
+}
+
+export type OpType = {
+  id: string
+  name: string
 }

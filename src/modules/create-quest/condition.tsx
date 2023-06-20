@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 import NewQuestStore from '@/store/local/new-quest'
 import { VerticalFullWidth, HorizontalBetween, VerticalCenter } from '@/widgets/orientation'
 import { Label, SmallText } from '@/widgets/text'
-import { ConditionType } from '@/types'
+import { ConditionType, OpType } from '@/types'
 import { Listbox, Transition } from '@headlessui/react'
 import { RoundedGrayBorderBox } from '@/widgets/box'
 import styled from 'styled-components'
@@ -16,7 +16,13 @@ import CommunityStore from '@/store/local/community'
 import { listQuestApi } from '@/api/quest'
 import toast from 'react-hot-toast'
 
-const conditionTypes: string[] = ['is completed', 'not completed']
+const ops: OpType[] = [
+  {
+    id: 'is_completed',
+    name: 'is completed',
+  },
+  { id: 'is_not_completed', name: 'is not completed' },
+]
 
 const AddConditionBtn = tw.div`
   text-primary-500
@@ -113,6 +119,10 @@ const AndBtn = tw.div`
   text-xs
 `
 
+const FullWidth = tw.div`
+  w-full z-20
+`
+
 const activeOption = ({ active }: { active: boolean }) =>
   `relative cursor-default select-none py-2 pl-10 pr-4 cursor-pointer ${
     active ? 'bg-gray-100 text-gray-900' : 'text-gray-900'
@@ -129,7 +139,7 @@ const TitleOption = styled.div<{ selected: boolean }>(({ selected }) => {
   return styles
 })
 
-const ListTypeOptionRender: FC<{ conditionTypes: string[] }> = ({ conditionTypes }) => {
+const ListTypeOptionRender: FC<{ ops: OpType[] }> = ({ ops }) => {
   return (
     <Transition
       as={Fragment}
@@ -138,12 +148,12 @@ const ListTypeOptionRender: FC<{ conditionTypes: string[] }> = ({ conditionTypes
       leaveTo='opacity-0'
     >
       <ListOption>
-        {conditionTypes &&
-          conditionTypes.map((conditionType) => (
-            <Listbox.Option key={conditionType} className={activeOption} value={conditionType}>
+        {ops &&
+          ops.map((op) => (
+            <Listbox.Option key={op.id} className={activeOption} value={op.id}>
               {({ selected }) => (
                 <>
-                  <TitleOption selected={selected}>{conditionType}</TitleOption>
+                  <TitleOption selected={selected}>{op.name}</TitleOption>
                   {selected ? (
                     <CheckIconBox>
                       <CheckIcon className='h-5 w-5' aria-hidden='true' />
@@ -169,7 +179,7 @@ const ListQuestOptionRender: FC<{ quests: QuestType[] }> = ({ quests }) => {
       <ListOption>
         {quests &&
           quests.map((quest) => (
-            <Listbox.Option key={quest.id} className={activeOption} value={quest.title}>
+            <Listbox.Option key={quest.id} className={activeOption} value={quest.id}>
               {({ selected }) => (
                 <>
                   <TitleOption selected={selected}>{quest.title}</TitleOption>
@@ -187,7 +197,7 @@ const ListQuestOptionRender: FC<{ quests: QuestType[] }> = ({ quests }) => {
   )
 }
 
-const ConditionTypeBox: FC<{ index: number }> = ({ index }) => {
+const ConditionTypeBox: FC<{ index: number; ops: OpType[] }> = ({ index, ops }) => {
   const conditions = NewQuestStore.useStoreState((state) => state.conditions)
   const setConditions = NewQuestStore.useStoreActions((action) => action.setConditions)
   const setConditionType = (e: string) => {
@@ -200,16 +210,29 @@ const ConditionTypeBox: FC<{ index: number }> = ({ index }) => {
       setConditions([...arr])
     }
   }
+
+  const getOpName = () => {
+    const opId = conditions[index].data.op
+    const op = ops.find((op) => op.id === opId)
+
+    if (op) return op.name
+    return null
+  }
+
+  const getOpId = () => {
+    return conditions[index].data.op
+  }
+
   return (
-    <Listbox value={conditions[index].data.op} onChange={setConditionType}>
+    <Listbox value={getOpId()} onChange={setConditionType}>
       <Relative>
         <ListButton>
-          <Title>{conditions[index].data.op || 'Choose a type'}</Title>
+          <Title>{getOpName() || 'Choose a type'}</Title>
           <UpDown>
             <ChevronDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
           </UpDown>
         </ListButton>
-        <ListTypeOptionRender conditionTypes={conditionTypes} />
+        <ListTypeOptionRender ops={ops} />
       </Relative>
     </Listbox>
   )
@@ -223,6 +246,7 @@ const QuestBox: FC<{ index: number; quests: QuestType[] }> = ({ index, quests })
     if (index > conditions.length) {
       return
     }
+
     if (arr[index].data) {
       arr[index].data.quest_id = e
       setConditions([...arr])
@@ -232,11 +256,16 @@ const QuestBox: FC<{ index: number; quests: QuestType[] }> = ({ index, quests })
   const getQuestTitle = () => {
     const questId = conditions[index].data.quest_id
     const quest = quests.find((q) => q.id === questId)
+
     if (quest) return quest.title
     return null
   }
+
+  const getQuestId = () => {
+    return conditions[index].data.quest_id
+  }
   return (
-    <Listbox value={conditions[index].data.quest_id} onChange={setQuest}>
+    <Listbox value={getQuestId()} onChange={setQuest}>
       <Relative>
         <ListButton>
           <Title>{getQuestTitle() || 'Choose a quest'}</Title>
@@ -274,7 +303,7 @@ const Condition: FC = () => {
     setConditions([
       ...conditions,
       {
-        type: '',
+        type: 'quest',
         data: {
           op: 'is completed',
           quest_id: '',
@@ -305,7 +334,7 @@ const Condition: FC = () => {
           <ConditionBox>
             <HorizontalBetween>
               <Label> Quest </Label>
-              <ConditionTypeBox index={index} />
+              <ConditionTypeBox index={index} ops={ops} />
               <QuestBox index={index} quests={quests} />
               <VerticalCenter>
                 <XMarkIcon

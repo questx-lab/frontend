@@ -375,7 +375,7 @@ export const stateToNewQuestRequest = (
     points: state.pointReward, // Other types of rewards are not supported for now
     validation_data: validations,
     condition_op: 'and',
-    conditions: [],
+    conditions: state.conditions,
     status,
     is_highlight: state.highlighted,
   }
