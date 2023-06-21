@@ -2,6 +2,7 @@ import WebSocket from '@/api/socket'
 import { MessageReceiverEnum } from '@/constants/townhall'
 import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
 import Game from '@/townhall/engine/scenes/game'
+import messagesManager from '@/townhall/engine/services/messages'
 import phaserGame from '@/townhall/phaser-game'
 import { UserType } from '@/types'
 import {
@@ -97,6 +98,11 @@ export default class Network {
       if (message.type === MessageReceiverEnum.EXIT) {
         phaserEvents.emit(Event.PLAYER_LEFT, message.user_id)
       }
+
+      if (message.type === MessageReceiverEnum.MESSAGE) {
+        console.log('New message in the network')
+        messagesManager.onNewMessage('')
+      }
     }
   }
 
@@ -133,6 +139,18 @@ export default class Network {
           direction: direction,
           x: parseInt(currentX.toFixed(0), 10),
           y: parseInt(currentY.toFixed(0), 10),
+        },
+      })
+    }
+  }
+
+  sendChatMessage(message: string) {
+    if (this.socket) {
+      console.log('SEnding message to server')
+      this.socket.send({
+        type: MessageReceiverEnum.MESSAGE,
+        value: {
+          message,
         },
       })
     }

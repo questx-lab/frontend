@@ -47,9 +47,9 @@ const Chat: FC = () => {
       <Divider />
 
       <ContentFrame>
-        {list.map(() => {
+        {list.map((item, index) => {
           return (
-            <Vertical>
+            <Vertical key={index}>
               <MessageItem />
               <Gap height={2} />
             </Vertical>

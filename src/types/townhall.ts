@@ -91,3 +91,7 @@ export interface RoomDataType {
   name: string
   map: MapData
 }
+
+export interface MessageMessage {
+  value: string
+}
