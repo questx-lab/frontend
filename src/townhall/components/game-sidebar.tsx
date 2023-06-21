@@ -9,17 +9,17 @@ import RoomStore from '@/store/townhall/room'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import phaserGame from '@/townhall/phaser-game'
 import { CircularImage } from '@/widgets/circular-image'
-import { Vertical, VerticalFullWidthHeight } from '@/widgets/orientation'
+import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@material-tailwind/react'
 
 const Frame = tw(Vertical)`
-  w-[64px]
   h-full
-  bg-white
   p-3
-  right-0
-  fixed
+`
+
+const Middle = tw(VerticalFullWidthCenter)`
+  flex-1
 `
 
 const GameSidebar: FC = () => {
@@ -49,7 +49,8 @@ const GameSidebar: FC = () => {
         </Vertical>
       </Tooltip>
 
-      <VerticalFullWidthHeight />
+      <Middle>Chat</Middle>
+
       <Vertical>
         <Tooltip content={'Exit'} placement='right'>
           <ArrowLeftOnRectangleIcon
