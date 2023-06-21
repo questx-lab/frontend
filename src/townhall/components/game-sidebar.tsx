@@ -23,7 +23,12 @@ const Middle = tw(VerticalFullWidthCenter)`
 `
 
 const GameSidebar: FC = () => {
+  // data
   const community = RoomStore.useStoreState((state) => state.community)
+  const showChat = RoomStore.useStoreState((state) => state.showChat)
+
+  // action
+  const setShowChat = RoomStore.useStoreActions((action) => action.setShowChat)
 
   const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
   const navigate = useNavigate()
@@ -49,7 +54,7 @@ const GameSidebar: FC = () => {
         </Vertical>
       </Tooltip>
 
-      <Middle>Chat</Middle>
+      <Middle onClick={() => setShowChat(!showChat)}>Chat</Middle>
 
       <Vertical>
         <Tooltip content={'Exit'} placement='right'>

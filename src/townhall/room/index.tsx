@@ -4,6 +4,7 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
+import RoomStore from '@/store/townhall/room'
 import { Connectting } from '@/townhall/components/connect'
 import GameSidebar from '@/townhall/components/game-sidebar'
 import Chat from '@/townhall/room/chat'
@@ -34,15 +35,22 @@ const GameSidebarFrame = tw(Vertical)`
 `
 
 const Townhall: FC = () => {
+  // data
+  const showChat = RoomStore.useStoreState((state) => state.showChat)
+
   return (
     <Backdrop id='phaser-container'>
       <Connectting />
 
       <LeftContent>
-        <ChatFrame>
-          <Chat />
-        </ChatFrame>
-        <VerticalDivider thickness={2} />
+        {showChat && (
+          <>
+            <ChatFrame>
+              <Chat />
+            </ChatFrame>
+            <VerticalDivider thickness={2} />
+          </>
+        )}
         <GameSidebarFrame>
           <GameSidebar />
         </GameSidebarFrame>

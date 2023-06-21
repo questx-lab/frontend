@@ -2,6 +2,7 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
+import RoomStore from '@/store/townhall/room'
 import MessageItem from '@/townhall/room/chat/message-item'
 import { TextInput } from '@/widgets/input'
 import { Horizontal, Stretch, Vertical, VerticalStretch } from '@/widgets/orientation'
@@ -31,13 +32,16 @@ const Header = tw(Horizontal)`
 const Chat: FC = () => {
   const list = [1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3]
 
+  // action
+  const setShowChat = RoomStore.useStoreActions((action) => action.setShowChat)
+
   return (
     <>
       <Header>
         <Stretch>
           <TextXl>Chatbox</TextXl>
         </Stretch>
-        <XMarkIcon className='w-7 h-7 cursor-pointer' />
+        <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={() => setShowChat(false)} />
       </Header>
 
       <Divider />
