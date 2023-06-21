@@ -73,10 +73,14 @@ export interface MessageMoveValue {
   y: number
 }
 
+export interface MessageEmoji {
+  emoji: string
+}
+
 export interface MessageReceiver {
   user_id: string
   type: string
-  value: MessageInitValue | MessageJoinValue | MessageMoveValue
+  value: MessageInitValue | MessageJoinValue | MessageMoveValue | MessageEmoji
 }
 
 export interface MapData {

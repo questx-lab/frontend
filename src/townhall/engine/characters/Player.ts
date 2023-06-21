@@ -27,9 +27,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   readyToConnect = false
   videoConnected = false
   playerName: Phaser.GameObjects.Text
+  playerEmoji: Phaser.GameObjects.Text
+  backgroundEmoji: Phaser.GameObjects.Text
   playerContainer: Phaser.GameObjects.Container
   private playerDialogBubble: Phaser.GameObjects.Container
-  private timeoutID?: number
 
   constructor(
     scene: Phaser.Scene,
@@ -60,7 +61,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       .setFontSize(12)
       .setColor('#000000')
       .setOrigin(0.5)
+
+    this.playerEmoji = this.scene.add
+      .text(0, -8, '')
+      .setFontFamily('Arial')
+      .setFontSize(18)
+      .setOrigin(0.5, 1.3)
+
+    this.backgroundEmoji = this.scene.add
+      .text(0, -8, '')
+      .setFontFamily('Arial')
+      .setFontSize(40)
+      .setOrigin(0.5, 0.8)
+
     this.playerContainer.add(this.playerName)
+    this.playerContainer.add(this.backgroundEmoji)
+    this.playerContainer.add(this.playerEmoji)
 
     this.scene.physics.world.enable(this.playerContainer)
     const playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body

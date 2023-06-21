@@ -6,6 +6,7 @@ import tw from 'twin.macro'
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import RoomStore from '@/store/townhall/room'
+import Emoji from '@/townhall/components/emoji'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import phaserGame from '@/townhall/phaser-game'
 import { CircularImage } from '@/widgets/circular-image'
@@ -20,6 +21,11 @@ const Frame = tw(Vertical)`
   p-3
   right-0
   fixed
+`
+
+const CenterVertical = tw(VerticalFullWidthHeight)`
+  justify-center
+  items-center
 `
 
 const GameSidebar: FC = () => {
@@ -48,8 +54,13 @@ const GameSidebar: FC = () => {
           />
         </Vertical>
       </Tooltip>
-
-      <VerticalFullWidthHeight />
+      <CenterVertical>
+        <Tooltip content={'Emoji'} placement='right'>
+          <Vertical>
+            <Emoji />
+          </Vertical>
+        </Tooltip>
+      </CenterVertical>
       <Vertical>
         <Tooltip content={'Exit'} placement='right'>
           <ArrowLeftOnRectangleIcon
