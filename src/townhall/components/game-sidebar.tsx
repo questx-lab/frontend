@@ -35,6 +35,7 @@ const GameSidebar: FC = () => {
   const setActiveTab = RoomStore.useStoreActions((action) => action.setActiveTab)
 
   const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
+  const game = phaserGame.scene.keys.game as Game
   const navigate = useNavigate()
 
   const onDiconnect = () => {
@@ -54,11 +55,11 @@ const GameSidebar: FC = () => {
   }
 
   const onChatClicked = () => {
-    // TODO: Disable WASD keys when user chats
-    const game = phaserGame.scene.keys.game as Game
-    if (activeTab === ActiveSidebarTab.CHAT) {
+    if (activeTab === ActiveSidebarTab.NONE) {
       game.deregisterKeys()
-    } else {
+    }
+
+    if (activeTab === ActiveSidebarTab.CHAT) {
       game.registerKeys()
     }
 
