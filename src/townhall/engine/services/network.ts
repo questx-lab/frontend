@@ -37,8 +37,6 @@ export default class Network {
     }
     this.socket.socket.onmessage = (event) => {
       const message = JSON.parse(event.data.toString()) as MessageReceiver
-      console.log('There is a new message 22222, message.type == ', message.type)
-
       if (message.type === MessageReceiverEnum.INIT) {
         // Init the message history
         messageManager.initMessageList((message.value as MessageInitValue).message_history)
@@ -106,7 +104,6 @@ export default class Network {
       }
 
       if (message.type === MessageReceiverEnum.MESSAGE) {
-        console.log('New message in the network')
         messageManager.onNewMessage(message.value as MessageHistoryItem)
       }
     }
@@ -152,17 +149,6 @@ export default class Network {
 
   sendChatMessage(message: string) {
     if (this.socket) {
-      console.log('SEnding message to server, message  =', message)
-      console.log(
-        'json = ',
-        JSON.stringify({
-          type: MessageReceiverEnum.MESSAGE,
-          value: {
-            message,
-          },
-        })
-      )
-
       this.socket.send({
         type: MessageReceiverEnum.MESSAGE,
         value: {
