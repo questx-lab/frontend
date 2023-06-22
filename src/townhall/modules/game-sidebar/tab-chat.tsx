@@ -1,10 +1,28 @@
 import { FC } from 'react'
 
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import StorageConst from '@/constants/storage.const'
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import Game from '@/townhall/engine/scenes/game'
 import phaserGame from '@/townhall/phaser-game'
 import { Image } from '@/widgets/image'
+
+const Background = styled.div<{ active: boolean }>(({ active }) => {
+  if (!active) {
+    return tw`
+      bg-white
+      p-2
+    `
+  }
+
+  return tw`
+    bg-primary-100
+    p-2
+    rounded-lg
+  `
+})
 
 const TabChat: FC = () => {
   // data
@@ -25,22 +43,18 @@ const TabChat: FC = () => {
     toggleTab(ActiveSidebarTab.CHAT)
   }
 
+  const active = activeTab === ActiveSidebarTab.CHAT
+
   return (
-    <Image
-      onClick={onChatClicked}
-      width={30}
-      height={30}
-      src={
-        activeTab === ActiveSidebarTab.CHAT
-          ? StorageConst.CHAT_BUBBLE_ACTIVE.src
-          : StorageConst.CHAT_BUBBLE.src
-      }
-      alt={
-        activeTab === ActiveSidebarTab.CHAT
-          ? StorageConst.CHAT_BUBBLE_ACTIVE.alt
-          : StorageConst.CHAT_BUBBLE.alt
-      }
-    />
+    <Background active={active}>
+      <Image
+        onClick={onChatClicked}
+        width={30}
+        height={30}
+        src={active ? StorageConst.CHAT_BUBBLE_ACTIVE.src : StorageConst.CHAT_BUBBLE.src}
+        alt={active ? StorageConst.CHAT_BUBBLE_ACTIVE.alt : StorageConst.CHAT_BUBBLE.alt}
+      />
+    </Background>
   )
 }
 
