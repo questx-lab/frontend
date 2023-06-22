@@ -10,7 +10,6 @@ import PlayerSelector from '@/townhall/engine/characters/player-selecter'
 import Network from '@/townhall/engine/services/network'
 import { IPlayer, Keyboard, LuckyBoxListType, NavKeys } from '@/types/townhall'
 import LuckyBox from '@/townhall/engine/items/LuckyBox'
-import { phaserEvents, Event } from '@/townhall/engine/events/event-center'
 
 const addMinutes = (date: Date, minutes: number): Date => {
   const result = new Date(date)
@@ -19,6 +18,7 @@ const addMinutes = (date: Date, minutes: number): Date => {
 }
 const mockLuckyBoxs: LuckyBoxListType[] = [
   {
+    id: '1',
     startTime: new Date().toISOString(),
     endTime: addMinutes(new Date(), 1).toISOString(),
     positions: [

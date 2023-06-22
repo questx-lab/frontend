@@ -98,6 +98,7 @@ export type PositionType = {
   y: number
 }
 export type LuckyBoxListType = {
+  id: string
   startTime: string
   endTime: string
   positions: PositionType[]
