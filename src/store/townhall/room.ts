@@ -7,6 +7,7 @@ export enum ActiveSidebarTab {
   NONE,
   EMOJI,
   CHAT,
+  LUCKY_BOX_SETTING,
 }
 
 interface RoomModel {

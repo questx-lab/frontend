@@ -7,6 +7,7 @@ import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import Emoji from '@/townhall/components/emoji'
+import LuckyBoxSetting from '@/townhall/components/lucky-box-setting'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import Game from '@/townhall/engine/scenes/game'
 import phaserGame from '@/townhall/phaser-game'
@@ -23,6 +24,7 @@ const Frame = tw(Vertical)`
 
 const Middle = tw(VerticalFullWidthCenter)`
   flex-1
+  gap-3
 `
 
 const GameSidebar: FC = () => {
@@ -78,11 +80,9 @@ const GameSidebar: FC = () => {
       </Tooltip>
 
       <Middle>
-        <Tooltip content={'Emoji'} placement='right'>
-          <Vertical>
-            <Emoji onTabClicked={() => switchTab(ActiveSidebarTab.EMOJI)} />
-          </Vertical>
-        </Tooltip>
+        <LuckyBoxSetting onTabClicked={() => switchTab(ActiveSidebarTab.LUCKY_BOX_SETTING)} />
+        <Emoji onTabClicked={() => switchTab(ActiveSidebarTab.EMOJI)} />
+
         <Image
           onClick={onChatClicked}
           width={30}

@@ -6,8 +6,9 @@ import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import Game from '@/townhall/engine/scenes/game'
 import phaserGame from '@/townhall/phaser-game'
-import { VerticalCenter } from '@/widgets/orientation'
+import { Vertical, VerticalCenter } from '@/widgets/orientation'
 import { FaceSmileIcon } from '@heroicons/react/24/outline'
+import { Tooltip } from '@material-tailwind/react'
 
 const emojies = [
   '🙂',
@@ -104,7 +105,11 @@ const Emoji: FC<{ onTabClicked: () => void }> = ({ onTabClicked }) => {
 
   return (
     <>
-      <FaceSmileIcon onClick={onTabClicked} className='cursor-pointer w-7 h-7 text-gray-900' />
+      <Tooltip content={'Emoji'} placement='right'>
+        <Vertical>
+          <FaceSmileIcon onClick={onTabClicked} className='cursor-pointer w-7 h-7 text-gray-900' />
+        </Vertical>
+      </Tooltip>
       <EmojiFrame isShow={activeTab === ActiveSidebarTab.EMOJI} />
     </>
   )
