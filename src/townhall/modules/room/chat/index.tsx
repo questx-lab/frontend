@@ -6,9 +6,9 @@ import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import messageManager from '@/townhall/engine/services/message-manager'
 import useMessageListener from '@/townhall/hooks/use-message-listener'
+import InputBox from '@/townhall/modules/room/chat/input-box'
+import MessageItem from '@/townhall/modules/room/chat/message-item'
 import phaserGame from '@/townhall/phaser-game'
-import InputBox from '@/townhall/room/chat/input-box'
-import MessageItem from '@/townhall/room/chat/message-item'
 import { MessageHistoryItem } from '@/types/townhall'
 import {
   Horizontal,
