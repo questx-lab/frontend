@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import { Connectting } from '@/townhall/components/connect'
-import GameSidebar from '@/townhall/components/game-sidebar'
+import GameSidebar from '@/townhall/modules/game-sidebar'
 import Chat from '@/townhall/room/chat'
 import { Horizontal, Vertical, VerticalCenter } from '@/widgets/orientation'
 import { VerticalDivider } from '@/widgets/separator'
