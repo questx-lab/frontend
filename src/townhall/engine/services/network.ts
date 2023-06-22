@@ -2,11 +2,12 @@ import WebSocket from '@/api/socket'
 import { MessageReceiverEnum } from '@/constants/townhall'
 import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
 import Game from '@/townhall/engine/scenes/game'
-import messagesManager from '@/townhall/engine/services/messages'
+import messageManager from '@/townhall/engine/services/message-manager'
 import phaserGame from '@/townhall/phaser-game'
 import { UserType } from '@/types'
 import {
   IPlayer,
+  MessageHistoryItem,
   MessageInitValue,
   MessageJoinValue,
   MessageMoveValue,
@@ -36,7 +37,12 @@ export default class Network {
     }
     this.socket.socket.onmessage = (event) => {
       const message = JSON.parse(event.data.toString()) as MessageReceiver
+      console.log('There is a new message 22222, message.type == ', message.type)
+
       if (message.type === MessageReceiverEnum.INIT) {
+        // Init the message history
+        messageManager.initMessageList((message.value as MessageInitValue).message_history)
+
         // Init
         ;(message.value as MessageInitValue).users.forEach((user) => {
           const { x, y } = user.pixel_position
@@ -101,7 +107,7 @@ export default class Network {
 
       if (message.type === MessageReceiverEnum.MESSAGE) {
         console.log('New message in the network')
-        messagesManager.onNewMessage('')
+        messageManager.onNewMessage(message.value as MessageHistoryItem)
       }
     }
   }
@@ -146,7 +152,17 @@ export default class Network {
 
   sendChatMessage(message: string) {
     if (this.socket) {
-      console.log('SEnding message to server')
+      console.log('SEnding message to server, message  =', message)
+      console.log(
+        'json = ',
+        JSON.stringify({
+          type: MessageReceiverEnum.MESSAGE,
+          value: {
+            message,
+          },
+        })
+      )
+
       this.socket.send({
         type: MessageReceiverEnum.MESSAGE,
         value: {

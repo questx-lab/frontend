@@ -14,7 +14,9 @@ export default class WebSocket {
   }
 
   private connect(url: string) {
+    console.log('Connecting...., url = ', url)
     this.socket = new w3cwebsocket(url)
+    console.log('Connected, url = ', url)
   }
 
   send(data: any) {

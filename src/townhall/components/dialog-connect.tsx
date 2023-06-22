@@ -53,9 +53,6 @@ const DialogConnect: FC = () => {
 
     setTimeout(async () => {
       await bootstrap.network.jointoMap(user, roomId)
-
-      // Test
-      bootstrap.network.sendChatMessage('AAAAA')
     }, 1000)
     game.registerKeys()
   }

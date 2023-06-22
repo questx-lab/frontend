@@ -7,6 +7,7 @@ import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import RoomStore from '@/store/townhall/room'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
+import Game from '@/townhall/engine/scenes/game'
 import phaserGame from '@/townhall/phaser-game'
 import { CircularImage } from '@/widgets/circular-image'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
@@ -41,6 +42,18 @@ const GameSidebar: FC = () => {
     phaserGame.destroy(true, false)
   }
 
+  const onChatClicked = () => {
+    // TODO: Disable WASD keys when user chats
+    const game = phaserGame.scene.keys.game as Game
+    if (showChat) {
+      game.deregisterKeys()
+    } else {
+      game.registerKeys()
+    }
+
+    setShowChat(!showChat)
+  }
+
   return (
     <Frame>
       <Tooltip content={community.display_name} placement='right'>
@@ -54,7 +67,7 @@ const GameSidebar: FC = () => {
         </Vertical>
       </Tooltip>
 
-      <Middle onClick={() => setShowChat(!showChat)}>Chat</Middle>
+      <Middle onClick={onChatClicked}>Chat</Middle>
 
       <Vertical>
         <Tooltip content={'Exit'} placement='right'>
