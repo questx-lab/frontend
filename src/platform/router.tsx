@@ -28,8 +28,8 @@ import Questercamp from '@/platform/routes/questercamp/route'
 import TrendingQuestsIndex from '@/platform/routes/questercamp/trending'
 import TrendingQuest from '@/platform/routes/questercamp/trending/route'
 import Root, { RootLoader } from '@/platform/routes/route'
-import TownhallRoom, { Loader } from '@/townhall/room/route'
 import Townhall from '@/townhall/route'
+import TownhallRoom, { Loader as TownhallCommunityLoader } from '@/townhall/routes/community/route'
 import ErrorPage from '@/widgets/error'
 import { SmallSpinner } from '@/widgets/spinner'
 
@@ -122,7 +122,7 @@ const PlatformRouter = (): RouteObject[] => {
       children: [
         {
           path: ':communityHandle',
-          loader: Loader,
+          loader: TownhallCommunityLoader,
           errorElement: <ErrorPage />,
           element: <TownhallRoom />,
           children: [
