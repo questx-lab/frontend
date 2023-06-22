@@ -2,11 +2,13 @@ import WebSocket from '@/api/socket'
 import { MessageReceiverEnum } from '@/constants/townhall'
 import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
 import Game from '@/townhall/engine/scenes/game'
+import messageManager from '@/townhall/engine/services/message-manager'
 import phaserGame from '@/townhall/phaser-game'
 import { UserType } from '@/types'
 import {
   IPlayer,
   MessageEmoji,
+  MessageHistoryItem,
   MessageInitValue,
   MessageJoinValue,
   MessageMoveValue,
@@ -37,6 +39,9 @@ export default class Network {
     this.socket.socket.onmessage = (event) => {
       const message = JSON.parse(event.data.toString()) as MessageReceiver
       if (message.type === MessageReceiverEnum.INIT) {
+        // Init the message history
+        messageManager.initMessageList((message.value as MessageInitValue).message_history)
+
         // Init
         ;(message.value as MessageInitValue).users.forEach((user) => {
           const { x, y } = user.pixel_position
@@ -102,6 +107,10 @@ export default class Network {
       if (message.type === MessageReceiverEnum.EXIT) {
         phaserEvents.emit(Event.PLAYER_LEFT, message.user_id)
       }
+
+      if (message.type === MessageReceiverEnum.MESSAGE) {
+        messageManager.onNewMessage(message.value as MessageHistoryItem)
+      }
     }
   }
 
@@ -151,6 +160,17 @@ export default class Network {
           direction: direction,
           x: parseInt(currentX.toFixed(0), 10),
           y: parseInt(currentY.toFixed(0), 10),
+        },
+      })
+    }
+  }
+
+  sendChatMessage(message: string) {
+    if (this.socket) {
+      this.socket.send({
+        type: MessageReceiverEnum.MESSAGE,
+        value: {
+          message,
         },
       })
     }

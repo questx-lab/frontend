@@ -103,7 +103,7 @@ export type ReqNewQuestType = {
   validation_data: ValidationQuest
   rewards?: RewardType[]
   condition_op?: string
-  conditions?: []
+  conditions?: ConditionType[]
   status?: string
   is_highlight: boolean
 }
@@ -228,4 +228,17 @@ export type DiscordRoleType = {
 
 export type ListDiscordRoleType = {
   roles: DiscordRoleType[]
+}
+
+export type ConditionType = {
+  type: string
+  data: {
+    op: string
+    quest_id: string
+  }
+}
+
+export type OpType = {
+  id: string
+  name: string
 }

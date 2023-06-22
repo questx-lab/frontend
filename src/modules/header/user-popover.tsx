@@ -105,7 +105,6 @@ const UserPopover: FC = () => {
           </OptionxBox>
           <OptionxBox
             onClick={() => {
-              console.log('Account settings clicked')
               navigate(RouterConst.ACCOUNT_SETTINGS)
             }}
           >
