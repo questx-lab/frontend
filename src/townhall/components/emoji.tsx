@@ -70,6 +70,9 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   const game = phaserGame.scene.keys.game as Game
   const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
 
+  // action
+  const setActiveTab = RoomStore.useStoreActions((action) => action.setActiveTab)
+
   if (!isShow) {
     return <></>
   }
@@ -86,6 +89,8 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
           game.myPlayer.setPlayerEmoji('')
           game.myPlayer.setBackgoundEmoji('')
         }, 2000)
+
+        setActiveTab(ActiveSidebarTab.NONE)
       }}
     >
       {emoji}
