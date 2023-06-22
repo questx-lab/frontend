@@ -22,9 +22,15 @@ export default class MyPlayer extends Player {
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body
   }
 
-  setPlayerName(name: string) {
-    this.playerName.setText(name)
-    phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name)
+  setPlayerEmoji(emoji: string) {
+    this.playerEmoji.setText(emoji)
+    phaserEvents.emit(Event.MY_PLAYER_EMOJI_CHANGE, emoji)
+  }
+
+  setBackgoundEmoji(emoji: string) {
+    this.backgroundEmoji.setText(emoji)
+
+    phaserEvents.emit(Event.BACKGROUND_EMOJI_CHANGE, emoji)
   }
 
   updateMyPlayer(name: string, x: number, y: number, id: string) {

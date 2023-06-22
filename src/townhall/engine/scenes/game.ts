@@ -40,6 +40,17 @@ export default class Game extends Phaser.Scene {
     this.input.keyboard.disableGlobalCapture()
   }
 
+  deregisterKeys() {
+    if (!this.input.keyboard) {
+      return
+    }
+
+    this.input.keyboard.removeKey('W')
+    this.input.keyboard.removeKey('S')
+    this.input.keyboard.removeKey('A')
+    this.input.keyboard.removeKey('D')
+  }
+
   private handlePlayersOverlap() {
     // TODO: interactive when overlap
   }

@@ -4,4 +4,5 @@ export enum MessageReceiverEnum {
   MOVE = 'move',
   MESSAGE = 'message',
   EXIT = 'exit',
+  EMOJI = 'emoji',
 }

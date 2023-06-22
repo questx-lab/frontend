@@ -58,9 +58,14 @@ export default class OtherPlayer extends Player {
         }
         break
 
-      case 'videoConnected':
-        if (typeof value === 'boolean') {
-          this.videoConnected = value
+      case 'emoji':
+        if (typeof value === 'string') {
+          if (value === '') {
+            this.backgroundEmoji.setText('')
+          } else {
+            this.backgroundEmoji.setText('🗨')
+          }
+          this.playerEmoji.setText(value)
         }
         break
     }
