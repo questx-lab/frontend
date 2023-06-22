@@ -23,6 +23,8 @@ class MessageManager {
     for (let listener of this.listeners.keys()) {
       listener(message)
     }
+
+    this.messages.push(message)
   }
 
   addListener(listener: (message: MessageHistoryItem) => void) {
