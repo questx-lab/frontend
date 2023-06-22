@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import moment from 'moment'
 import tw from 'twin.macro'
 
 import StorageConst from '@/constants/storage.const'
@@ -16,7 +17,7 @@ const MessageBox = tw(Vertical)`
 `
 
 const MessageItem: FC<{ message: MessageHistoryItem }> = ({ message }) => {
-  console.log('Time = ', message.created_at)
+  const timeago = moment(message.created_at).fromNow()
 
   return (
     <Horizontal>
@@ -25,7 +26,7 @@ const MessageItem: FC<{ message: MessageHistoryItem }> = ({ message }) => {
       <MessageBox>
         <TextSm>{message.message}</TextSm>
         <Gap height={1} />
-        <TextXs>3:37pm</TextXs>
+        <TextXs>{timeago}</TextXs>
       </MessageBox>
     </Horizontal>
   )
