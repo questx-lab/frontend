@@ -14,7 +14,6 @@ export default class LuckyBox extends Item {
 
   display() {
     this.value = this.scene.physics.add.image(this.position.x, this.position.y, 'lucky_box')
-    // this.value.addListener()
   }
 
   destroy() {
