@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 
 import tw from 'twin.macro'
 
@@ -45,6 +45,8 @@ const InputBox = tw.input`
 
 const Chat: FC = () => {
   const [messages, setMessages] = useState<MessageHistoryItem[]>([])
+  const messagesEndRef = useRef<null | HTMLDivElement>(null)
+
   const newMessage = useMessageListener()
 
   const [inputMessage, setInputMessage] = useState<string>('')
@@ -59,6 +61,16 @@ const Chat: FC = () => {
       setMessages((prev) => prev.concat(newMessage))
     }
   }, [newMessage, setMessages])
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
 
   // action
   const setActiveTab = RoomStore.useStoreActions((action) => action.setActiveTab)
@@ -97,6 +109,7 @@ const Chat: FC = () => {
             </Vertical>
           )
         })}
+        <div ref={messagesEndRef} />
       </ContentFrame>
       <Divider thickness={2} />
       <InputFrame>
