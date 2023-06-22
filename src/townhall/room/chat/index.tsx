@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 
 import tw from 'twin.macro'
 
-import RoomStore from '@/store/townhall/room'
+import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import messageManager from '@/townhall/engine/services/message-manager'
 import useMessageListener from '@/townhall/hooks/use-message-listener'
@@ -61,7 +61,7 @@ const Chat: FC = () => {
   }, [newMessage, setMessages])
 
   // action
-  const setShowChat = RoomStore.useStoreActions((action) => action.setShowChat)
+  const setActiveTab = RoomStore.useStoreActions((action) => action.setActiveTab)
 
   const handleKeyboardEvent = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
@@ -80,7 +80,10 @@ const Chat: FC = () => {
         <Stretch>
           <TextXl>Chatbox</TextXl>
         </Stretch>
-        <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={() => setShowChat(false)} />
+        <XMarkIcon
+          className='w-7 h-7 cursor-pointer'
+          onClick={() => setActiveTab(ActiveSidebarTab.NONE)}
+        />
       </Header>
 
       <Divider />

@@ -1,7 +1,8 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
+import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import Game from '@/townhall/engine/scenes/game'
 import phaserGame from '@/townhall/phaser-game'
@@ -73,8 +74,9 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
     return <></>
   }
 
-  const listEmojies = emojies.map((emoji) => (
+  const listEmojies = emojies.map((emoji, index) => (
     <Icon
+      key={index}
       onClick={() => {
         game.myPlayer.setBackgoundEmoji('🗨')
         game.myPlayer.setPlayerEmoji(emoji)
@@ -97,16 +99,13 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   )
 }
 
-const Emoji: FC = () => {
-  const [showEmoji, setShowEmoji] = useState<boolean>(false)
+const Emoji: FC<{ onTabClicked: () => void }> = ({ onTabClicked }) => {
+  const activeTab = RoomStore.useStoreState((state) => state.activeTab)
 
   return (
     <>
-      <FaceSmileIcon
-        onClick={() => setShowEmoji(!showEmoji)}
-        className='cursor-pointer w-7 h-7 text-gray-900'
-      />
-      <EmojiFrame isShow={showEmoji} />
+      <FaceSmileIcon onClick={onTabClicked} className='cursor-pointer w-7 h-7 text-gray-900' />
+      <EmojiFrame isShow={activeTab === ActiveSidebarTab.EMOJI} />
     </>
   )
 }
