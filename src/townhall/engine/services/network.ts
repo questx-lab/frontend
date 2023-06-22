@@ -7,6 +7,7 @@ import phaserGame from '@/townhall/phaser-game'
 import { UserType } from '@/types'
 import {
   IPlayer,
+  MessageEmoji,
   MessageHistoryItem,
   MessageInitValue,
   MessageJoinValue,
@@ -98,7 +99,11 @@ export default class Network {
           )
         }, 100)
       }
+      if (message.type === MessageReceiverEnum.EMOJI) {
+        const value = message.value as MessageEmoji
 
+        phaserEvents.emit(Event.PLAYER_UPDATED, 'emoji', value.emoji, message.user_id)
+      }
       if (message.type === MessageReceiverEnum.EXIT) {
         phaserEvents.emit(Event.PLAYER_LEFT, message.user_id)
       }
@@ -107,6 +112,19 @@ export default class Network {
         messageManager.onNewMessage(message.value as MessageHistoryItem)
       }
     }
+  }
+
+  async sendEmoji(emoji: string) {
+    if (!this.socket || !this.socket.socket) {
+      return
+    }
+
+    this.socket.send({
+      type: MessageReceiverEnum.EMOJI,
+      value: {
+        emoji,
+      },
+    })
   }
 
   // method to register event listener and call back function when a player joined

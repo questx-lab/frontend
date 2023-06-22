@@ -5,7 +5,8 @@ import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
-import RoomStore from '@/store/townhall/room'
+import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
+import Emoji from '@/townhall/components/emoji'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import Game from '@/townhall/engine/scenes/game'
 import phaserGame from '@/townhall/phaser-game'
@@ -27,10 +28,10 @@ const Middle = tw(VerticalFullWidthCenter)`
 const GameSidebar: FC = () => {
   // data
   const community = RoomStore.useStoreState((state) => state.community)
-  const showChat = RoomStore.useStoreState((state) => state.showChat)
+  const activeTab = RoomStore.useStoreState((state) => state.activeTab)
 
   // action
-  const setShowChat = RoomStore.useStoreActions((action) => action.setShowChat)
+  const setActiveTab = RoomStore.useStoreActions((action) => action.setActiveTab)
 
   const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
   const navigate = useNavigate()
@@ -43,16 +44,24 @@ const GameSidebar: FC = () => {
     phaserGame.destroy(true, false)
   }
 
+  const switchTab = (newTab: ActiveSidebarTab) => {
+    if (activeTab === newTab) {
+      setActiveTab(ActiveSidebarTab.NONE)
+    } else {
+      setActiveTab(newTab)
+    }
+  }
+
   const onChatClicked = () => {
     // TODO: Disable WASD keys when user chats
     const game = phaserGame.scene.keys.game as Game
-    if (showChat) {
+    if (activeTab === ActiveSidebarTab.CHAT) {
       game.deregisterKeys()
     } else {
       game.registerKeys()
     }
 
-    setShowChat(!showChat)
+    switchTab(ActiveSidebarTab.CHAT)
   }
 
   return (
@@ -68,12 +77,26 @@ const GameSidebar: FC = () => {
         </Vertical>
       </Tooltip>
 
-      <Middle onClick={onChatClicked}>
+      <Middle>
+        <Tooltip content={'Emoji'} placement='right'>
+          <Vertical>
+            <Emoji onTabClicked={() => switchTab(ActiveSidebarTab.EMOJI)} />
+          </Vertical>
+        </Tooltip>
         <Image
+          onClick={onChatClicked}
           width={30}
           height={30}
-          src={showChat ? StorageConst.CHAT_BUBBLE_ACTIVE.src : StorageConst.CHAT_BUBBLE.src}
-          alt={showChat ? StorageConst.CHAT_BUBBLE_ACTIVE.alt : StorageConst.CHAT_BUBBLE.alt}
+          src={
+            activeTab === ActiveSidebarTab.CHAT
+              ? StorageConst.CHAT_BUBBLE_ACTIVE.src
+              : StorageConst.CHAT_BUBBLE.src
+          }
+          alt={
+            activeTab === ActiveSidebarTab.CHAT
+              ? StorageConst.CHAT_BUBBLE_ACTIVE.alt
+              : StorageConst.CHAT_BUBBLE.alt
+          }
         />
       </Middle>
 
