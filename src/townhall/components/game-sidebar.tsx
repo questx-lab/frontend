@@ -10,6 +10,7 @@ import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import Game from '@/townhall/engine/scenes/game'
 import phaserGame from '@/townhall/phaser-game'
 import { CircularImage } from '@/widgets/circular-image'
+import { Image } from '@/widgets/image'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@material-tailwind/react'
@@ -67,7 +68,14 @@ const GameSidebar: FC = () => {
         </Vertical>
       </Tooltip>
 
-      <Middle onClick={onChatClicked}>Chat</Middle>
+      <Middle onClick={onChatClicked}>
+        <Image
+          width={30}
+          height={30}
+          src={showChat ? StorageConst.CHAT_BUBBLE_ACTIVE.src : StorageConst.CHAT_BUBBLE.src}
+          alt={showChat ? StorageConst.CHAT_BUBBLE_ACTIVE.alt : StorageConst.CHAT_BUBBLE.alt}
+        />
+      </Middle>
 
       <Vertical>
         <Tooltip content={'Exit'} placement='right'>
