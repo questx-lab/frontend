@@ -8,7 +8,35 @@ import MyPlayer from '@/townhall/engine/characters/my-player'
 import OtherPlayer from '@/townhall/engine/characters/other-player'
 import PlayerSelector from '@/townhall/engine/characters/player-selecter'
 import Network from '@/townhall/engine/services/network'
-import { IPlayer, Keyboard, NavKeys } from '@/types/townhall'
+import { IPlayer, Keyboard, LuckyBoxListType, NavKeys } from '@/types/townhall'
+import LuckyBox from '@/townhall/engine/items/LuckyBox'
+import { phaserEvents, Event } from '@/townhall/engine/events/event-center'
+
+const addMinutes = (date: Date, minutes: number): Date => {
+  const result = new Date(date)
+  result.setMinutes(result.getMinutes() + minutes)
+  return result
+}
+const mockLuckyBoxs: LuckyBoxListType[] = [
+  {
+    startTime: new Date().toISOString(),
+    endTime: addMinutes(new Date(), 1).toISOString(),
+    positions: [
+      {
+        x: 2368,
+        y: 1792,
+      },
+      {
+        x: 2312,
+        y: 1712,
+      },
+      {
+        x: 2378,
+        y: 1767,
+      },
+    ],
+  },
+]
 
 export default class Game extends Phaser.Scene {
   network!: Network
@@ -20,6 +48,8 @@ export default class Game extends Phaser.Scene {
   private keyE!: Phaser.Input.Keyboard.Key
   private keyR!: Phaser.Input.Keyboard.Key
   private playerSelector!: Phaser.GameObjects.Zone
+  private luckyBoxGroups!: LuckyBoxListType[]
+  private luckyBoxArcadeGroup!: Phaser.Physics.Arcade.Group
 
   constructor() {
     super('game')
@@ -92,6 +122,9 @@ export default class Game extends Phaser.Scene {
     }
     wallLayer.setCollisionByProperty({ collides: true })
 
+    // process lucky box logic
+    this.processLuckyBox()
+
     // add my player
     this.myPlayer = this.add.myPlayer(2368, 1792, 'adam', '')
     this.myPlayer.setPlayerTexture('adam')
@@ -118,6 +151,24 @@ export default class Game extends Phaser.Scene {
       this.myPlayer,
       this.otherPlayers,
       this.handlePlayersOverlap,
+      undefined,
+      this
+    )
+
+    this.physics.add.overlap(
+      this.myPlayer,
+      this.luckyBoxArcadeGroup,
+      (object1, object2) => {
+        if (object1 instanceof LuckyBox) {
+          // eaten
+          object1.destroy()
+        }
+
+        if (object2 instanceof LuckyBox) {
+          // eaten
+          object2.destroy()
+        }
+      },
       undefined,
       this
     )
@@ -180,4 +231,30 @@ export default class Game extends Phaser.Scene {
       this.myPlayer.update(this.playerSelector, this.cursors, this.keyE, this.keyR, this.network)
     }
   }
+
+  processLuckyBox() {
+    this.luckyBoxGroups = mockLuckyBoxs
+    this.luckyBoxArcadeGroup = this.physics.add.group({ classType: LuckyBox })
+
+    this.luckyBoxGroups.forEach((group) => {
+      const list = group.positions.map((pos) => new LuckyBox(this, pos))
+
+      list.forEach((l) => {
+        this.luckyBoxArcadeGroup.add(l)
+        l.display()
+      })
+
+      setTimeout(() => {
+        list.forEach((l) => {
+          l.destroy()
+        })
+      }, diffTime(new Date(group.startTime), new Date(group.endTime)))
+    })
+  }
+}
+
+const diffTime = (time1: Date, time2: Date): number => {
+  let differenceValue = time2.getTime() - time1.getTime()
+  let result: number = Math.abs(Math.round(differenceValue))
+  return result
 }

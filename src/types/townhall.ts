@@ -7,6 +7,7 @@ export enum ItemType {
   COMPUTER,
   WHITEBOARD,
   VENDINGMACHINE,
+  LUCKY_BOX,
 }
 
 export enum PlayerBehavior {
@@ -90,4 +91,14 @@ export interface RoomDataType {
   id: string
   name: string
   map: MapData
+}
+
+export type PositionType = {
+  x: number
+  y: number
+}
+export type LuckyBoxListType = {
+  startTime: string
+  endTime: string
+  positions: PositionType[]
 }

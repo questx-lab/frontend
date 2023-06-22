@@ -59,6 +59,12 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 48,
     })
 
+    // should change if we have lucky box image
+    this.load.spritesheet('lucky_box', '/items/vendingmachine.png', {
+      frameWidth: 48,
+      frameHeight: 72,
+    })
+
     this.load.on('complete', () => {
       this.preloadComplete = true
       this.launchBackground()
