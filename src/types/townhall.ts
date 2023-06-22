@@ -50,14 +50,22 @@ export interface Player {
   id: string
   name: string
 }
+
 interface User {
   direction: string
   pixel_position: PixelPosition
   player: Player
   user: UserType
 }
+
+export interface MessageHistoryItem {
+  created_at: any
+  message: string
+  user_id: string
+}
+
 export interface MessageInitValue {
-  message_history: any[]
+  message_history: MessageHistoryItem[]
   users: User[]
 }
 
@@ -76,7 +84,7 @@ export interface MessageMoveValue {
 export interface MessageReceiver {
   user_id: string
   type: string
-  value: MessageInitValue | MessageJoinValue | MessageMoveValue
+  value: MessageInitValue | MessageJoinValue | MessageMoveValue | MessageHistoryItem
 }
 
 export interface MapData {

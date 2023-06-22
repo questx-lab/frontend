@@ -7,23 +7,30 @@ import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import RoomStore from '@/store/townhall/room'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
+import Game from '@/townhall/engine/scenes/game'
 import phaserGame from '@/townhall/phaser-game'
 import { CircularImage } from '@/widgets/circular-image'
-import { Vertical, VerticalFullWidthHeight } from '@/widgets/orientation'
+import { Image } from '@/widgets/image'
+import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@material-tailwind/react'
 
 const Frame = tw(Vertical)`
-  w-[64px]
   h-full
-  bg-white
   p-3
-  right-0
-  fixed
+`
+
+const Middle = tw(VerticalFullWidthCenter)`
+  flex-1
 `
 
 const GameSidebar: FC = () => {
+  // data
   const community = RoomStore.useStoreState((state) => state.community)
+  const showChat = RoomStore.useStoreState((state) => state.showChat)
+
+  // action
+  const setShowChat = RoomStore.useStoreActions((action) => action.setShowChat)
 
   const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
   const navigate = useNavigate()
@@ -34,6 +41,18 @@ const GameSidebar: FC = () => {
       replace: true,
     })
     phaserGame.destroy(true, false)
+  }
+
+  const onChatClicked = () => {
+    // TODO: Disable WASD keys when user chats
+    const game = phaserGame.scene.keys.game as Game
+    if (showChat) {
+      game.deregisterKeys()
+    } else {
+      game.registerKeys()
+    }
+
+    setShowChat(!showChat)
   }
 
   return (
@@ -49,7 +68,15 @@ const GameSidebar: FC = () => {
         </Vertical>
       </Tooltip>
 
-      <VerticalFullWidthHeight />
+      <Middle onClick={onChatClicked}>
+        <Image
+          width={30}
+          height={30}
+          src={showChat ? StorageConst.CHAT_BUBBLE_ACTIVE.src : StorageConst.CHAT_BUBBLE.src}
+          alt={showChat ? StorageConst.CHAT_BUBBLE_ACTIVE.alt : StorageConst.CHAT_BUBBLE.alt}
+        />
+      </Middle>
+
       <Vertical>
         <Tooltip content={'Exit'} placement='right'>
           <ArrowLeftOnRectangleIcon

@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, ReactNode } from 'react'
+import { ChangeEvent, FC, KeyboardEventHandler, ReactNode } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -106,11 +106,17 @@ export const TextInput: FC<{
   leftChild?: ReactNode
   defaultValue?: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
-}> = ({ onChange, full = false, leftChild = <></>, defaultValue = '' }) => {
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
+}> = ({ onChange, full = false, leftChild = <></>, defaultValue = '', onKeyDown }) => {
   return (
     <InputBorder>
       {leftChild}
-      <InputStyle full={full} onChange={onChange} defaultValue={defaultValue} />
+      <InputStyle
+        full={full}
+        onChange={onChange}
+        defaultValue={defaultValue}
+        onKeyDown={onKeyDown}
+      />
     </InputBorder>
   )
 }
