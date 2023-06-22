@@ -13,6 +13,7 @@ import phaserGame from '@/townhall/phaser-game'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@material-tailwind/react'
 
@@ -83,6 +84,7 @@ const GameSidebar: FC = () => {
             <Emoji onTabClicked={() => switchTab(ActiveSidebarTab.EMOJI)} />
           </Vertical>
         </Tooltip>
+        <Gap />
         <Image
           onClick={onChatClicked}
           width={30}
