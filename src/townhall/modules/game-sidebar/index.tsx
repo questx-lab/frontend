@@ -6,10 +6,10 @@ import tw from 'twin.macro'
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import RoomStore from '@/store/townhall/room'
-import TabLucky from '@/townhall/components/lucky-box-setting'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import TabChat from '@/townhall/modules/game-sidebar/tab-chat'
 import TabEmoji from '@/townhall/modules/game-sidebar/tab-emoji'
+import TabLuckyBox from '@/townhall/modules/game-sidebar/tab-lucky-box'
 import phaserGame from '@/townhall/phaser-game'
 import { CircularImage } from '@/widgets/circular-image'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
@@ -56,7 +56,7 @@ const GameSidebar: FC = () => {
       </Tooltip>
 
       <Middle>
-        <TabLucky />
+        <TabLuckyBox />
         <TabEmoji />
         <Gap />
         <TabChat />

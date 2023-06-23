@@ -103,3 +103,11 @@ export interface RoomDataType {
   name: string
   map: MapData
 }
+
+export interface LuckyBoxReq {
+  room_id: string
+  number_of_boxes: number
+  point_per_box: number
+  start_time: string
+  duration: number
+}
