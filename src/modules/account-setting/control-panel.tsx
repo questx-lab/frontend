@@ -20,6 +20,7 @@ const MainFrame = tw(Vertical)`
   divide-gray-200
   border-r
   border-gray-200
+  max-sm:hidden
 `
 
 const PersonVertical = tw(VerticalFullWidth)`

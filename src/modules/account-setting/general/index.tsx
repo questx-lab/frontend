@@ -1,19 +1,19 @@
 import { FC } from 'react'
 
 import { ActionUpdate, BasicInfo } from '@/modules/account-setting/general/basic-info'
-import { BodyFrame, PaddingHorizontal } from '@/modules/account-setting/mini-widget'
+import { BodyFrame, PaddingVertical } from '@/modules/account-setting/mini-widget'
 import { Text2xl } from '@/widgets/text'
 
 const General: FC = () => {
   return (
     <BodyFrame>
-      <PaddingHorizontal>
+      <PaddingVertical>
         <Text2xl>{'General'}</Text2xl>
-      </PaddingHorizontal>
-      <PaddingHorizontal>
+      </PaddingVertical>
+      <PaddingVertical>
         <BasicInfo />
         <ActionUpdate />
-      </PaddingHorizontal>
+      </PaddingVertical>
     </BodyFrame>
   )
 }

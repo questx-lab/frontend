@@ -1,15 +1,15 @@
 import { FC } from 'react'
 
-import { BodyFrame, PaddingHorizontal } from '@/modules/account-setting/mini-widget'
+import { BodyFrame, PaddingVertical } from '@/modules/account-setting/mini-widget'
 import { Text2xl } from '@/widgets/text'
 
 const Achievement: FC = () => {
   return (
     <BodyFrame>
-      <PaddingHorizontal>
+      <PaddingVertical>
         <Text2xl>{'Achievement'}</Text2xl>
-      </PaddingHorizontal>
-      <PaddingHorizontal></PaddingHorizontal>
+      </PaddingVertical>
+      <PaddingVertical></PaddingVertical>
     </BodyFrame>
   )
 }

@@ -26,6 +26,7 @@ const Main = tw(Horizontal)`
   w-full
   h-full
   gap-5
+  max-sm:flex-col
 `
 
 const WalletMain = tw(VerticalCenter)`
@@ -42,11 +43,13 @@ const LeftSide = tw(Vertical)`
   border-solid
   border-gray-300
   rounded-lg
+  max-sm:w-full
 `
 
 const RightSide = tw(Vertical)`
   w-1/3
   gap-6
+  max-sm:w-full
 `
 
 const RewardBox = tw(Vertical)`
@@ -80,6 +83,8 @@ const WarningBox = tw(Horizontal)`
   text-gray-600
   gap-2
   items-center
+  max-sm:flex-col
+  max-sm:items-start
 `
 
 enum Screen {

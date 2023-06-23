@@ -3,13 +3,14 @@
 import { FC } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
+import ControlPanel from '@/modules/account-setting/control-panel'
 import CommunitiesNavigation from '@/modules/community/communities-navigation'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
@@ -93,59 +94,72 @@ const NavigateOption = styled(Link)<{ isactive: boolean }>(({ isactive }) => {
   return style
 })
 
-const Drawer: FC<{ navActive: string }> = ({ navActive }) => {
+const RenderContent: FC<{ navActive: string }> = ({ navActive }) => {
   // hook
   const navigate = useNavigate()
-
-  // Global data
-  const showNavigationDrawer = useStoreState<GlobalStoreModel>(
-    (state) => state.showNavigationDrawer
-  )
+  const location = useLocation()
 
   // Global action
   const setShowNavigationDrawer = useStoreActions<GlobalStoreModel>(
     (action) => action.setShowNavigationDrawer
   )
 
+  if (location.pathname.includes(RouterConst.ACCOUNT_SETTINGS)) {
+    return <ControlPanel />
+  }
+
+  return (
+    <>
+      <PaddingHorizontal>
+        <Image
+          width={100}
+          height={60}
+          onClick={() => {
+            navigate(RouterConst.HOME)
+            setShowNavigationDrawer(false)
+          }}
+          src={StorageConst.APP_LOGO_DIR.src}
+          alt={StorageConst.APP_LOGO_DIR.alt}
+        />
+        <CloseIcon onClick={() => setShowNavigationDrawer(false)} />
+      </PaddingHorizontal>
+      <NoPaddingDivider />
+      <NoGapHorizontal>
+        <CommunityStore.Provider>
+          <CommunitiesNavigation isDrawer />
+        </CommunityStore.Provider>
+        <NavigateBox>
+          <NavigateOption
+            onClick={() => setShowNavigationDrawer(false)}
+            to={RouterConst.COMMUNITIES}
+            isactive={navActive === NavigationEnum.COMMUNITY}
+          >
+            {'Communities'}
+          </NavigateOption>
+          <NavigateOption
+            onClick={() => setShowNavigationDrawer(false)}
+            to={RouterConst.QUESTBOARD}
+            isactive={navActive === NavigationEnum.QUESTCARD}
+          >
+            {'Questcard'}
+          </NavigateOption>
+        </NavigateBox>
+      </NoGapHorizontal>
+    </>
+  )
+}
+
+const Drawer: FC<{ navActive: string }> = ({ navActive }) => {
+  // Global data
+  const showNavigationDrawer = useStoreState<GlobalStoreModel>(
+    (state) => state.showNavigationDrawer
+  )
+
   return (
     <BaseModal isOpen={showNavigationDrawer}>
       <DrawerModal>
         <Content>
-          <PaddingHorizontal>
-            <Image
-              width={100}
-              height={60}
-              onClick={() => {
-                navigate(RouterConst.HOME)
-                setShowNavigationDrawer(false)
-              }}
-              src={StorageConst.APP_LOGO_DIR.src}
-              alt={StorageConst.APP_LOGO_DIR.alt}
-            />
-            <CloseIcon onClick={() => setShowNavigationDrawer(false)} />
-          </PaddingHorizontal>
-          <NoPaddingDivider />
-          <NoGapHorizontal>
-            <CommunityStore.Provider>
-              <CommunitiesNavigation isDrawer />
-            </CommunityStore.Provider>
-            <NavigateBox>
-              <NavigateOption
-                onClick={() => setShowNavigationDrawer(false)}
-                to={RouterConst.COMMUNITIES}
-                isactive={navActive === NavigationEnum.COMMUNITY}
-              >
-                {'Communities'}
-              </NavigateOption>
-              <NavigateOption
-                onClick={() => setShowNavigationDrawer(false)}
-                to={RouterConst.QUESTBOARD}
-                isactive={navActive === NavigationEnum.QUESTCARD}
-              >
-                {'Questcard'}
-              </NavigateOption>
-            </NavigateBox>
-          </NoGapHorizontal>
+          <RenderContent navActive={navActive} />
         </Content>
       </DrawerModal>
     </BaseModal>
