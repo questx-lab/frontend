@@ -8,7 +8,8 @@ import MyPlayer from '@/townhall/engine/characters/my-player'
 import OtherPlayer from '@/townhall/engine/characters/other-player'
 import PlayerSelector from '@/townhall/engine/characters/player-selecter'
 import Network from '@/townhall/engine/services/network'
-import { IPlayer, Keyboard, NavKeys } from '@/types/townhall'
+import { CollectLuckyBoxValue, IPlayer, Keyboard, LuckyBoxValue, NavKeys } from '@/types/townhall'
+import LuckyBox from '@/townhall/engine/items/LuckyBox'
 
 export default class Game extends Phaser.Scene {
   network!: Network
@@ -20,9 +21,12 @@ export default class Game extends Phaser.Scene {
   private keyE!: Phaser.Input.Keyboard.Key
   private keyR!: Phaser.Input.Keyboard.Key
   private playerSelector!: Phaser.GameObjects.Zone
+  luckyBoxes: LuckyBox[]
+  private luckyBoxArcadeGroup!: Phaser.Physics.Arcade.Group
 
   constructor() {
     super('game')
+    this.luckyBoxes = []
   }
 
   registerKeys() {
@@ -118,6 +122,7 @@ export default class Game extends Phaser.Scene {
     this.addGroupFromTiled('Basement', 'basement', 'Basement', true)
 
     this.otherPlayers = this.physics.add.group({ classType: OtherPlayer })
+    this.luckyBoxArcadeGroup = this.physics.add.group({ classType: LuckyBox })
 
     this.cameras.main.zoom = 1
     this.cameras.main.startFollow(this.myPlayer, true)
@@ -133,11 +138,41 @@ export default class Game extends Phaser.Scene {
       this
     )
 
+    this.physics.add.overlap(
+      this.myPlayer,
+      this.luckyBoxArcadeGroup,
+      async (object1, object2) => {
+        if (object1 instanceof LuckyBox) {
+          const box = this.luckyBoxes.find((box) => box.id === object1.id)
+
+          if (box) {
+            this.luckyBoxArcadeGroup.kill(box)
+            this.removeLuckyBoxById(object1.id)
+            await this.network.collectLuckyBox(object1.id)
+          }
+        }
+
+        if (object2 instanceof LuckyBox) {
+          const box = this.luckyBoxes.find((box) => box.id === object2.id)
+          if (box) {
+            this.luckyBoxArcadeGroup.kill(box)
+            this.removeLuckyBoxById(object2.id)
+            await this.network.collectLuckyBox(object2.id)
+          }
+        }
+      },
+      undefined,
+      this
+    )
+
     // register network event listeners
     this.network.onPlayerJoined(this.handlePlayerJoined, this)
     this.network.onPlayerLeft(this.handlePlayerLeft, this)
     this.network.onPlayerUpdated(this.handlePlayerUpdated, this)
     this.network.onPlayerLeft(this.handlePlayerLeft, this)
+    this.network.onCreateLuckyBoxes(this.handleCreateLuckyBoxes, this)
+    this.network.onCollectLuckyBox(this.handleCollectLuckyBox, this)
+    this.network.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
   }
 
   private addObjectFromTiled(
@@ -190,5 +225,60 @@ export default class Game extends Phaser.Scene {
       this.playerSelector.update(this.myPlayer, this.cursors)
       this.myPlayer.update(this.playerSelector, this.cursors, this.keyE, this.keyR, this.network)
     }
+  }
+
+  handleCreateLuckyBoxes(value: LuckyBoxValue) {
+    if (!value.luckyboxes) return
+    const newLuckyboxes = value.luckyboxes.map(
+      (luckyBox) =>
+        new LuckyBox(this, luckyBox.event_id, luckyBox.id, {
+          x: luckyBox.position.x,
+          y: luckyBox.position.y,
+        })
+    )
+    newLuckyboxes.forEach((box) => {
+      box.display()
+      this.luckyBoxArcadeGroup.add(box)
+    })
+    this.luckyBoxes = [...this.luckyBoxes, ...newLuckyboxes]
+  }
+
+  removeLuckyBoxById(id: string) {
+    const index = this.luckyBoxes.findIndex((box) => box.id === id)
+    if (index !== -1) {
+      this.luckyBoxArcadeGroup.kill(this.luckyBoxes[index])
+      this.luckyBoxes[index].destroy()
+      this.luckyBoxes.splice(index, 1)
+    }
+  }
+
+  handleCollectLuckyBox(value: CollectLuckyBoxValue, userId: string) {
+    this.removeLuckyBoxById(value.luckybox.id)
+    if (userId === this.myPlayer.playerId) {
+      this.myPlayer.setCollectLuckyBox(true)
+      setTimeout(() => {
+        this.myPlayer.setCollectLuckyBox(false)
+      }, 2000)
+    } else {
+      const otherPlayer = this.otherPlayerMap.get(userId)
+      if (otherPlayer) {
+        otherPlayer.setCollectLuckyBox(true)
+        setTimeout(() => {
+          otherPlayer.setCollectLuckyBox(false)
+        }, 2000)
+      }
+    }
+  }
+
+  removeLuckyBoxByIds(ids: string[]) {
+    if (ids.length === 0) return
+
+    ids.forEach((id) => this.removeLuckyBoxById(id))
+  }
+
+  handleRemoveLuckyBoxes(value: LuckyBoxValue) {
+    if (!value.luckyboxes) return
+    const ids = value.luckyboxes.map((box) => box.id)
+    this.removeLuckyBoxByIds(ids)
   }
 }

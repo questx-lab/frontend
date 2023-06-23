@@ -9,6 +9,7 @@ import RoomStore from '@/store/townhall/room'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import TabChat from '@/townhall/modules/game-sidebar/tab-chat'
 import TabEmoji from '@/townhall/modules/game-sidebar/tab-emoji'
+import TabLuckyBox from '@/townhall/modules/game-sidebar/tab-lucky-box'
 import phaserGame from '@/townhall/phaser-game'
 import { CircularImage } from '@/widgets/circular-image'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
@@ -23,6 +24,7 @@ const Frame = tw(Vertical)`
 
 const Middle = tw(VerticalFullWidthCenter)`
   flex-1
+  gap-3
 `
 
 const GameSidebar: FC = () => {
@@ -54,6 +56,7 @@ const GameSidebar: FC = () => {
       </Tooltip>
 
       <Middle>
+        <TabLuckyBox />
         <TabEmoji />
         <Gap />
         <TabChat />
