@@ -60,6 +60,7 @@ const EmailText = tw.span`
   font-normal
   text-gray-500
   max-w-[250px]
+  max-sm:max-w-[100px]
   overflow-hidden
   text-ellipsis
   line-clamp-1

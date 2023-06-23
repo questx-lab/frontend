@@ -45,8 +45,6 @@ const VerticalCenter = tw(VerticalFullWidth)`
 
 const PaddingHorizontal = tw(HorizontalBetweenCenterFullWidth)`
   max-sm:flex-col
-  max-sm:justify-start
-  max-sm:items-start
   p-3
   rounded-lg
   gap-6
@@ -69,6 +67,7 @@ const FullWidthHorizontal = tw(HorizontalCenter)`
 
 const ReponsiveHorizontal = tw(HorizontalBetweenCenterFullWidth)`
   max-sm:flex-col
+  gap-3
 `
 
 const CenterEndHorizontal = tw(HorizontalCenter)`
