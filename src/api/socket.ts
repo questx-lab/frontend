@@ -1,4 +1,4 @@
-import { w3cwebsocket } from 'websocket'
+import { ICloseEvent, w3cwebsocket } from 'websocket'
 
 import { EnvVariables } from '@/constants/env.const'
 import { setCookieSocket } from '@/utils/helper'
@@ -15,6 +15,12 @@ export default class WebSocket {
 
   private connect(url: string) {
     this.socket = new w3cwebsocket(url)
+    this.socket.onopen = () => {
+      console.log('Socket is opened')
+    }
+    this.socket.onclose = (event: ICloseEvent) => {
+      console.log('Socket is closed, close event = ', event)
+    }
   }
 
   send(data: any) {
