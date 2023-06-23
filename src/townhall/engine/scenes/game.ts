@@ -246,13 +246,14 @@ export default class Game extends Phaser.Scene {
   removeLuckyBoxById(id: string) {
     const index = this.luckyBoxes.findIndex((box) => box.id === id)
     if (index !== -1) {
+      this.luckyBoxArcadeGroup.kill(this.luckyBoxes[index])
       this.luckyBoxes[index].destroy()
       this.luckyBoxes.splice(index, 1)
     }
   }
 
   handleCollectLuckyBox(value: CollectLuckyBoxValue, userId: string) {
-    this.removeLuckyBoxById(value.luckybox_id)
+    this.removeLuckyBoxById(value.luckybox.id)
     if (userId === this.myPlayer.playerId) {
       this.myPlayer.setCollectLuckyBox(true)
       setTimeout(() => {

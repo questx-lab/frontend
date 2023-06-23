@@ -127,7 +127,7 @@ export type LuckyBoxValue = {
 }
 
 export type CollectLuckyBoxValue = {
-  luckybox_id: string
+  luckybox: LuckyBoxType
 }
 
 export interface LuckyBoxReq {
