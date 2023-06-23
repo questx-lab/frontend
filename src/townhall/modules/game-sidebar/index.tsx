@@ -34,18 +34,18 @@ const GameSidebar: FC = () => {
   const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
   const navigate = useNavigate()
 
-  const onDiconnect = () => {
+  const onDisconnect = () => {
     bootstrap.network.socketDisconnect()
     navigate(RouterConst.COMMUNITIES + `/${community.handle}`, {
       replace: true,
     })
-    phaserGame.destroy(true, false)
+    phaserGame.pause()
   }
 
   return (
     <Frame>
       <Tooltip content={community.display_name} placement='right'>
-        <Vertical onClick={onDiconnect}>
+        <Vertical onClick={onDisconnect}>
           <CircularImage
             width={50}
             height={50}
@@ -65,7 +65,7 @@ const GameSidebar: FC = () => {
       <Vertical>
         <Tooltip content={'Exit'} placement='right'>
           <ArrowLeftOnRectangleIcon
-            onClick={onDiconnect}
+            onClick={onDisconnect}
             className='cursor-pointer w-7 h-7 text-gray-900'
           />
         </Tooltip>
