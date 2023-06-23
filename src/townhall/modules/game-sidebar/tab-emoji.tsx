@@ -113,10 +113,14 @@ const Emoji: FC = () => {
 
   return (
     <>
-      <FaceSmileIcon
-        onClick={() => toggleTab(ActiveSidebarTab.EMOJI)}
-        className='cursor-pointer w-7 h-7 text-gray-900'
-      />
+      <Tooltip content={'Emoji'} placement='right'>
+        <Vertical>
+          <FaceSmileIcon
+            onClick={() => toggleTab(ActiveSidebarTab.EMOJI)}
+            className='cursor-pointer w-7 h-7 text-gray-900'
+          />
+        </Vertical>
+      </Tooltip>
       <EmojiFrame isShow={activeTab === ActiveSidebarTab.EMOJI} />
     </>
   )

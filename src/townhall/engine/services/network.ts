@@ -6,7 +6,9 @@ import messageManager from '@/townhall/engine/services/message-manager'
 import phaserGame from '@/townhall/phaser-game'
 import { UserType } from '@/types'
 import {
+  CollectLuckyBoxValue,
   IPlayer,
+  LuckyBoxValue,
   MessageEmoji,
   MessageHistoryItem,
   MessageInitValue,
@@ -61,6 +63,8 @@ export default class Network {
             phaserEvents.emit(Event.PLAYER_JOINED, player, user.user.id)
           }
         })
+
+        phaserEvents.emit(Event.CREATE_LUCKY_BOXES, message.value as LuckyBoxValue)
       }
 
       if (message.type === MessageReceiverEnum.JOIN) {
@@ -111,6 +115,22 @@ export default class Network {
       if (message.type === MessageReceiverEnum.MESSAGE) {
         messageManager.onNewMessage(message.value as MessageHistoryItem)
       }
+
+      if (message.type === MessageReceiverEnum.START_LUCKY_BOX) {
+        phaserEvents.emit(Event.CREATE_LUCKY_BOXES, message.value as LuckyBoxValue)
+      }
+
+      if (message.type === MessageReceiverEnum.COLLECT_LUCKY_BOX) {
+        phaserEvents.emit(
+          Event.COLLECT_LUCKY_BOX,
+          message.value as CollectLuckyBoxValue,
+          message.user_id
+        )
+      }
+
+      if (message.type === MessageReceiverEnum.STOP_LUCKY_BOX) {
+        phaserEvents.emit(Event.REMOVE_LUCKY_BOXES, message.value as LuckyBoxValue)
+      }
     }
   }
 
@@ -123,6 +143,19 @@ export default class Network {
       type: MessageReceiverEnum.EMOJI,
       value: {
         emoji,
+      },
+    })
+  }
+
+  async collectLuckyBox(id: string) {
+    if (!this.socket || !this.socket.socket) {
+      return
+    }
+
+    this.socket.send({
+      type: MessageReceiverEnum.COLLECT_LUCKY_BOX,
+      value: {
+        luckybox_id: id,
       },
     })
   }
@@ -148,6 +181,21 @@ export default class Network {
     context?: any
   ) {
     phaserEvents.on(Event.PLAYER_UPDATED, callback, context)
+  }
+
+  onCreateLuckyBoxes(callback: (value: LuckyBoxValue) => void, context?: any) {
+    phaserEvents.on(Event.CREATE_LUCKY_BOXES, callback, context)
+  }
+
+  onCollectLuckyBox(
+    callback: (value: CollectLuckyBoxValue, userId: string) => void,
+    context?: any
+  ) {
+    phaserEvents.on(Event.COLLECT_LUCKY_BOX, callback, context)
+  }
+
+  onRemoveLuckyBoxes(callback: (value: LuckyBoxValue) => void, context?: any) {
+    phaserEvents.on(Event.REMOVE_LUCKY_BOXES, callback, context)
   }
 
   // method to send player updates to Colyseus server
