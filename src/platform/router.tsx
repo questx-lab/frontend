@@ -28,10 +28,10 @@ import Questercamp from '@/platform/routes/questercamp/route'
 import TrendingQuestsIndex from '@/platform/routes/questercamp/trending'
 import TrendingQuest from '@/platform/routes/questercamp/trending/route'
 import Root, { RootLoader } from '@/platform/routes/route'
-import Townhall from '@/townhall/route'
 import TownhallCommunity, {
   Loader as TownhallCommunityLoader,
 } from '@/townhall/routes/community/route'
+import Townhall from '@/townhall/routes/route'
 import ErrorPage from '@/widgets/error'
 import { SmallSpinner } from '@/widgets/spinner'
 
