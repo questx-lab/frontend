@@ -258,6 +258,14 @@ export default class Game extends Phaser.Scene {
       setTimeout(() => {
         this.myPlayer.setCollectLuckyBox(false)
       }, 2000)
+    } else {
+      const otherPlayer = this.otherPlayerMap.get(userId)
+      if (otherPlayer) {
+        otherPlayer.setCollectLuckyBox(true)
+        setTimeout(() => {
+          otherPlayer.setCollectLuckyBox(false)
+        }, 2000)
+      }
     }
   }
 
@@ -266,6 +274,7 @@ export default class Game extends Phaser.Scene {
 
     ids.forEach((id) => this.removeLuckyBoxById(id))
   }
+
   handleRemoveLuckyBoxes(value: LuckyBoxValue) {
     if (!value.luckyboxes) return
     const ids = value.luckyboxes.map((box) => box.id)
