@@ -27,7 +27,7 @@ export const Loader = async (args: { params: Params }) => {
   return {}
 }
 
-const TownhallRoom: FC = () => {
+const TownhallCommunity: FC = () => {
   let data = useLoaderData() as {
     community: CommunityType
     gameRooms: RoomDataType[]
@@ -50,4 +50,4 @@ const TownhallRoom: FC = () => {
   return <Outlet />
 }
 
-export default TownhallRoom
+export default TownhallCommunity
