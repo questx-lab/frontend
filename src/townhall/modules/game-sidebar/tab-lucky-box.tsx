@@ -160,7 +160,7 @@ const LuckyBoxFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
           </HorizontalBetweenCenterFullWidth>
           <Slider
             max={360}
-            defaultValue={0}
+            defaultValue={10}
             onChange={(value) => setDuration(parseInt(value.target.value))}
           />
         </GapVertical>
