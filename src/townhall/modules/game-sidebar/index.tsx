@@ -7,22 +7,26 @@ import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import RoomStore from '@/store/townhall/room'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
+import TabChat from '@/townhall/modules/game-sidebar/tab-chat'
+import TabEmoji from '@/townhall/modules/game-sidebar/tab-emoji'
 import phaserGame from '@/townhall/phaser-game'
 import { CircularImage } from '@/widgets/circular-image'
-import { Vertical, VerticalFullWidthHeight } from '@/widgets/orientation'
+import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@material-tailwind/react'
 
 const Frame = tw(Vertical)`
-  w-[64px]
   h-full
-  bg-white
   p-3
-  right-0
-  fixed
+`
+
+const Middle = tw(VerticalFullWidthCenter)`
+  flex-1
 `
 
 const GameSidebar: FC = () => {
+  // data
   const community = RoomStore.useStoreState((state) => state.community)
 
   const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
@@ -49,7 +53,12 @@ const GameSidebar: FC = () => {
         </Vertical>
       </Tooltip>
 
-      <VerticalFullWidthHeight />
+      <Middle>
+        <TabEmoji />
+        <Gap />
+        <TabChat />
+      </Middle>
+
       <Vertical>
         <Tooltip content={'Exit'} placement='right'>
           <ArrowLeftOnRectangleIcon

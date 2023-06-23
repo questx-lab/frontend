@@ -131,6 +131,14 @@ const StorageConst = {
     src: '/images/icons/user_default.svg',
     alt: 'User Default',
   },
+  CHAT_BUBBLE: {
+    src: '/images/icons/chat-bubble.svg',
+    alt: 'Chat Bubble',
+  },
+  CHAT_BUBBLE_ACTIVE: {
+    src: '/images/icons/chat-bubble-active.svg',
+    alt: 'Chat Bubble Active',
+  },
 }
 
 export default StorageConst
