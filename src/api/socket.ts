@@ -1,4 +1,4 @@
-import { w3cwebsocket } from 'websocket'
+import { ICloseEvent, w3cwebsocket } from 'websocket'
 
 import { EnvVariables } from '@/constants/env.const'
 import { setCookieSocket } from '@/utils/helper'
@@ -18,8 +18,8 @@ export default class WebSocket {
     this.socket.onopen = () => {
       console.log('Socket is opened')
     }
-    this.socket.onclose = () => {
-      console.log('Socket is closed')
+    this.socket.onclose = (event: ICloseEvent) => {
+      console.log('Socket is closed, close event = ', event)
     }
   }
 
