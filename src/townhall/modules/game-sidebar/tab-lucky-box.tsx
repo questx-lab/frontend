@@ -147,6 +147,10 @@ const LuckyBoxFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
             }}
             minDate={new Date()}
             showTimeSelect
+            timeFormat='HH:mm'
+            timeIntervals={5}
+            timeCaption='time'
+            dateFormat='MMMM d, yyyy h:mm aa'
           />
         </GapVertical>
         <GapVertical>
