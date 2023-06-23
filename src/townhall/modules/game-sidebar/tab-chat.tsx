@@ -32,12 +32,14 @@ const TabChat: FC = () => {
   const toggleTab = RoomStore.useStoreActions((action) => action.toggleTab)
 
   const onChatClicked = () => {
-    // TODO: Disable WASD keys when user chats
     const game = phaserGame.scene.keys.game as Game
-    if (activeTab === ActiveSidebarTab.CHAT) {
-      game.deregisterKeys()
-    } else {
-      game.registerKeys()
+    switch (activeTab) {
+      case ActiveSidebarTab.NONE:
+        game.deregisterKeys()
+        break
+      case ActiveSidebarTab.CHAT:
+        game.registerKeys()
+        break
     }
 
     toggleTab(ActiveSidebarTab.CHAT)
