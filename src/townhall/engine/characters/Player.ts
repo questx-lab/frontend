@@ -28,6 +28,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   videoConnected = false
   playerName: Phaser.GameObjects.Text
   playerEmoji: Phaser.GameObjects.Text
+  luckyBoxCollected: Phaser.GameObjects.Image
   backgroundEmoji: Phaser.GameObjects.Text
   playerContainer: Phaser.GameObjects.Container
   private playerDialogBubble: Phaser.GameObjects.Container
@@ -74,9 +75,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       .setFontSize(40)
       .setOrigin(0.5, 0.8)
 
+    this.luckyBoxCollected = this.scene.add.image(0, -8, 'computer').setOrigin(0.5, 0.8)
+
+    this.luckyBoxCollected.setVisible(false)
+
     this.playerContainer.add(this.playerName)
     this.playerContainer.add(this.backgroundEmoji)
     this.playerContainer.add(this.playerEmoji)
+    this.playerContainer.add(this.luckyBoxCollected)
 
     this.scene.physics.world.enable(this.playerContainer)
     const playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body

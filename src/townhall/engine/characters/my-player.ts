@@ -33,6 +33,10 @@ export default class MyPlayer extends Player {
     phaserEvents.emit(Event.BACKGROUND_EMOJI_CHANGE, emoji)
   }
 
+  setCollectLuckyBox(active: boolean) {
+    this.luckyBoxCollected.setVisible(active)
+  }
+
   updateMyPlayer(name: string, x: number, y: number, id: string) {
     this.playerName.setText(name)
     this.playerId = id

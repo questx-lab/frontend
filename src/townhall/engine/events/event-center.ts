@@ -15,4 +15,7 @@ export enum Event {
   PLAYER_LEFT = 'player-left',
   PLAYER_UPDATED = 'player-updated',
   MY_PLAYER_READY = 'my-player-ready',
+  CREATE_LUCKY_BOXES = 'create-lucky-boxes',
+  COLLECT_LUCKY_BOX = 'collect-lucky-box',
+  REMOVE_LUCKY_BOXES = 'remove-lucky-box',
 }

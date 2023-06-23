@@ -8,35 +8,8 @@ import MyPlayer from '@/townhall/engine/characters/my-player'
 import OtherPlayer from '@/townhall/engine/characters/other-player'
 import PlayerSelector from '@/townhall/engine/characters/player-selecter'
 import Network from '@/townhall/engine/services/network'
-import { IPlayer, Keyboard, LuckyBoxListType, NavKeys } from '@/types/townhall'
+import { CollectLuckyBoxValue, IPlayer, Keyboard, LuckyBoxValue, NavKeys } from '@/types/townhall'
 import LuckyBox from '@/townhall/engine/items/LuckyBox'
-
-const addMinutes = (date: Date, minutes: number): Date => {
-  const result = new Date(date)
-  result.setMinutes(result.getMinutes() + minutes)
-  return result
-}
-const mockLuckyBoxs: LuckyBoxListType[] = [
-  {
-    id: '1',
-    startTime: new Date().toISOString(),
-    endTime: addMinutes(new Date(), 1).toISOString(),
-    positions: [
-      {
-        x: 2368,
-        y: 1792,
-      },
-      {
-        x: 2312,
-        y: 1712,
-      },
-      {
-        x: 2378,
-        y: 1767,
-      },
-    ],
-  },
-]
 
 export default class Game extends Phaser.Scene {
   network!: Network
@@ -48,11 +21,12 @@ export default class Game extends Phaser.Scene {
   private keyE!: Phaser.Input.Keyboard.Key
   private keyR!: Phaser.Input.Keyboard.Key
   private playerSelector!: Phaser.GameObjects.Zone
-  private luckyBoxGroups!: LuckyBoxListType[]
+  luckyBoxes: LuckyBox[]
   private luckyBoxArcadeGroup!: Phaser.Physics.Arcade.Group
 
   constructor() {
     super('game')
+    this.luckyBoxes = []
   }
 
   registerKeys() {
@@ -134,7 +108,7 @@ export default class Game extends Phaser.Scene {
     wallLayer.setCollisionByProperty({ collides: true })
 
     // process lucky box logic
-    this.processLuckyBox()
+    // this.processLuckyBox()
 
     // add my player
     this.myPlayer = this.add.myPlayer(2368, 1792, 'adam', '')
@@ -151,6 +125,7 @@ export default class Game extends Phaser.Scene {
     this.addGroupFromTiled('Basement', 'basement', 'Basement', true)
 
     this.otherPlayers = this.physics.add.group({ classType: OtherPlayer })
+    this.luckyBoxArcadeGroup = this.physics.add.group({ classType: LuckyBox })
 
     this.cameras.main.zoom = 1
     this.cameras.main.startFollow(this.myPlayer, true)
@@ -169,15 +144,24 @@ export default class Game extends Phaser.Scene {
     this.physics.add.overlap(
       this.myPlayer,
       this.luckyBoxArcadeGroup,
-      (object1, object2) => {
+      async (object1, object2) => {
         if (object1 instanceof LuckyBox) {
-          // eaten
-          object1.destroy()
+          const box = this.luckyBoxes.find((box) => box.id === object1.id)
+
+          if (box) {
+            this.luckyBoxArcadeGroup.kill(box)
+            this.removeLuckyBoxById(object1.id)
+            await this.network.collectLuckyBox(object1.id)
+          }
         }
 
         if (object2 instanceof LuckyBox) {
-          // eaten
-          object2.destroy()
+          const box = this.luckyBoxes.find((box) => box.id === object2.id)
+          if (box) {
+            this.luckyBoxArcadeGroup.kill(box)
+            this.removeLuckyBoxById(object2.id)
+            await this.network.collectLuckyBox(object2.id)
+          }
         }
       },
       undefined,
@@ -189,6 +173,9 @@ export default class Game extends Phaser.Scene {
     this.network.onPlayerLeft(this.handlePlayerLeft, this)
     this.network.onPlayerUpdated(this.handlePlayerUpdated, this)
     this.network.onPlayerLeft(this.handlePlayerLeft, this)
+    this.network.onCreateLuckyBoxes(this.handleCreateLuckyBoxes, this)
+    this.network.onCollectLuckyBox(this.handleCollectLuckyBox, this)
+    this.network.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
   }
 
   private addObjectFromTiled(
@@ -243,29 +230,48 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  processLuckyBox() {
-    this.luckyBoxGroups = mockLuckyBoxs
-    this.luckyBoxArcadeGroup = this.physics.add.group({ classType: LuckyBox })
-
-    this.luckyBoxGroups.forEach((group) => {
-      const list = group.positions.map((pos) => new LuckyBox(this, pos))
-
-      list.forEach((l) => {
-        this.luckyBoxArcadeGroup.add(l)
-        l.display()
-      })
-
-      setTimeout(() => {
-        list.forEach((l) => {
-          l.destroy()
+  handleCreateLuckyBoxes(value: LuckyBoxValue) {
+    if (!value.luckyboxes) return
+    const newLuckyboxes = value.luckyboxes.map(
+      (luckyBox) =>
+        new LuckyBox(this, luckyBox.event_id, luckyBox.id, {
+          x: luckyBox.position.x,
+          y: luckyBox.position.y,
         })
-      }, diffTime(new Date(group.startTime), new Date(group.endTime)))
+    )
+    newLuckyboxes.forEach((box) => {
+      box.display()
+      this.luckyBoxArcadeGroup.add(box)
     })
+    this.luckyBoxes = [...this.luckyBoxes, ...newLuckyboxes]
   }
-}
 
-const diffTime = (time1: Date, time2: Date): number => {
-  let differenceValue = time2.getTime() - time1.getTime()
-  let result: number = Math.abs(Math.round(differenceValue))
-  return result
+  removeLuckyBoxById(id: string) {
+    const index = this.luckyBoxes.findIndex((box) => box.id === id)
+    if (index !== -1) {
+      this.luckyBoxes[index].destroy()
+      this.luckyBoxes.splice(index, 1)
+    }
+  }
+
+  handleCollectLuckyBox(value: CollectLuckyBoxValue, userId: string) {
+    this.removeLuckyBoxById(value.luckybox_id)
+    if (userId === this.myPlayer.playerId) {
+      this.myPlayer.setCollectLuckyBox(true)
+      setTimeout(() => {
+        this.myPlayer.setCollectLuckyBox(false)
+      }, 2000)
+    }
+  }
+
+  removeLuckyBoxByIds(ids: string[]) {
+    if (ids.length === 0) return
+
+    ids.forEach((id) => this.removeLuckyBoxById(id))
+  }
+  handleRemoveLuckyBoxes(value: LuckyBoxValue) {
+    if (!value.luckyboxes) return
+    const ids = value.luckyboxes.map((box) => box.id)
+    this.removeLuckyBoxByIds(ids)
+  }
 }

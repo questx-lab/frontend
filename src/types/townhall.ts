@@ -68,6 +68,7 @@ export interface MessageHistoryItem {
 export interface MessageInitValue {
   message_history: MessageHistoryItem[]
   users: User[]
+  luckyboxes: LuckyBoxType[]
 }
 
 export interface MessageJoinValue {
@@ -89,7 +90,13 @@ export interface MessageEmoji {
 export interface MessageReceiver {
   user_id: string
   type: string
-  value: MessageInitValue | MessageJoinValue | MessageMoveValue | MessageEmoji | MessageHistoryItem
+  value:
+    | MessageInitValue
+    | MessageJoinValue
+    | MessageMoveValue
+    | MessageEmoji
+    | MessageHistoryItem
+    | LuckyBoxValue
 }
 
 export interface MapData {
@@ -109,9 +116,16 @@ export type PositionType = {
   x: number
   y: number
 }
-export type LuckyBoxListType = {
+
+export type LuckyBoxType = {
   id: string
-  startTime: string
-  endTime: string
-  positions: PositionType[]
+  event_id: string
+  position: PositionType
+}
+export type LuckyBoxValue = {
+  luckyboxes?: LuckyBoxType[]
+}
+
+export type CollectLuckyBoxValue = {
+  luckybox_id: string
 }
