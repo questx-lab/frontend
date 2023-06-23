@@ -107,9 +107,6 @@ export default class Game extends Phaser.Scene {
     }
     wallLayer.setCollisionByProperty({ collides: true })
 
-    // process lucky box logic
-    // this.processLuckyBox()
-
     // add my player
     this.myPlayer = this.add.myPlayer(2368, 1792, 'adam', '')
     this.myPlayer.setPlayerTexture('adam')

@@ -75,6 +75,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       .setFontSize(40)
       .setOrigin(0.5, 0.8)
 
+    // change image if we have coin image
     this.luckyBoxCollected = this.scene.add.image(0, -8, 'computer').setOrigin(0.5, 0.8)
 
     this.luckyBoxCollected.setVisible(false)
