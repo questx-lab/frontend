@@ -66,14 +66,14 @@ const LuckyBoxFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   // action
   const setNumberOfBox = LuckyBoxStore.useStoreActions((action) => action.setNumberOfBox)
   const setPoint = LuckyBoxStore.useStoreActions((action) => action.setPoint)
-  const setActiveTab = RoomStore.useStoreActions((action) => action.setActiveTab)
+  const toggleTab = RoomStore.useStoreActions((action) => action.toggleTab)
 
   if (!isShow) {
     return <></>
   }
 
   const onClose = () => {
-    setActiveTab(ActiveSidebarTab.NONE)
+    toggleTab(ActiveSidebarTab.NONE)
   }
 
   return (
@@ -108,10 +108,11 @@ const LuckyBoxFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   )
 }
 
-const LuckyBoxSetting: FC<{ onTabClicked: () => void }> = ({ onTabClicked }) => {
+const TabLucky: FC = () => {
   const activeTab = RoomStore.useStoreState((state) => state.activeTab)
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   const community = RoomStore.useStoreState((state) => state.community)
+  const toggleTab = RoomStore.useStoreActions((action) => action.toggleTab)
 
   if (user && community && user.id !== community.created_by) {
     return <></>
@@ -121,7 +122,10 @@ const LuckyBoxSetting: FC<{ onTabClicked: () => void }> = ({ onTabClicked }) => 
     <>
       <Tooltip content={'Lucky Box Setting'} placement='right'>
         <Vertical>
-          <GiftIcon onClick={onTabClicked} className='cursor-pointer w-7 h-7 text-gray-900' />
+          <GiftIcon
+            onClick={() => toggleTab(ActiveSidebarTab.LUCKY_BOX_SETTING)}
+            className='cursor-pointer w-7 h-7 text-gray-900'
+          />
         </Vertical>
       </Tooltip>
       <LuckyBoxStore.Provider>
@@ -131,4 +135,4 @@ const LuckyBoxSetting: FC<{ onTabClicked: () => void }> = ({ onTabClicked }) => 
   )
 }
 
-export default LuckyBoxSetting
+export default TabLucky

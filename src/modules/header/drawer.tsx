@@ -68,6 +68,7 @@ export const HorizotalFull = tw(Horizontal)`
 const NoGapHorizontal = tw(Horizontal)`
   w-full
   gap-0
+  h-full
 `
 
 const NavigateOption = styled(Link)<{ isactive: boolean }>(({ isactive }) => {

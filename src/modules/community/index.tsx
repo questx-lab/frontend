@@ -14,6 +14,7 @@ const OuterBoxPadding = tw(Horizontal)`
   w-full
   justify-center
   px-8
+  max-sm:px-2
 `
 
 const CommunityContent: FC = () => {

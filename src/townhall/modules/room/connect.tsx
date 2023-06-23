@@ -3,7 +3,7 @@ import { FC } from 'react'
 import tw from 'twin.macro'
 
 import RoomStore from '@/store/townhall/room'
-import DialogConnect from '@/townhall/components/dialog-connect'
+import DialogConnect from '@/townhall/modules/room/dialog-connect'
 import { VerticalCenter } from '@/widgets/orientation'
 import { TextBase } from '@/widgets/text'
 

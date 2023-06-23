@@ -19,7 +19,7 @@ interface RoomModel {
   setRoomJoined: Action<RoomModel, boolean>
   setCommunity: Action<RoomModel, CommunityType>
   setGameRooms: Action<RoomModel, RoomDataType[]>
-  setActiveTab: Action<RoomModel, ActiveSidebarTab>
+  toggleTab: Action<RoomModel, ActiveSidebarTab>
 }
 
 const RoomStore = createContextStore<RoomModel>({
@@ -40,8 +40,12 @@ const RoomStore = createContextStore<RoomModel>({
     state.gameRooms = rooms
   }),
 
-  setActiveTab: action((state, tab) => {
-    state.activeTab = tab
+  toggleTab: action((state, newTab) => {
+    if (state.activeTab === newTab) {
+      state.activeTab = ActiveSidebarTab.NONE
+    } else {
+      state.activeTab = newTab
+    }
   }),
 })
 

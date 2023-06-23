@@ -71,6 +71,9 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   const game = phaserGame.scene.keys.game as Game
   const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
 
+  // action
+  const setActiveTab = RoomStore.useStoreActions((action) => action.toggleTab)
+
   if (!isShow) {
     return <></>
   }
@@ -87,6 +90,8 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
           game.myPlayer.setPlayerEmoji('')
           game.myPlayer.setBackgoundEmoji('')
         }, 2000)
+
+        setActiveTab(ActiveSidebarTab.NONE)
       }}
     >
       {emoji}
@@ -100,14 +105,20 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   )
 }
 
-const Emoji: FC<{ onTabClicked: () => void }> = ({ onTabClicked }) => {
+const Emoji: FC = () => {
   const activeTab = RoomStore.useStoreState((state) => state.activeTab)
+
+  // action
+  const toggleTab = RoomStore.useStoreActions((action) => action.toggleTab)
 
   return (
     <>
       <Tooltip content={'Emoji'} placement='right'>
         <Vertical>
-          <FaceSmileIcon onClick={onTabClicked} className='cursor-pointer w-7 h-7 text-gray-900' />
+          <FaceSmileIcon
+            onClick={() => toggleTab(ActiveSidebarTab.EMOJI)}
+            className='cursor-pointer w-7 h-7 text-gray-900'
+          />
         </Vertical>
       </Tooltip>
       <EmojiFrame isShow={activeTab === ActiveSidebarTab.EMOJI} />
@@ -115,4 +126,14 @@ const Emoji: FC<{ onTabClicked: () => void }> = ({ onTabClicked }) => {
   )
 }
 
-export default Emoji
+const TabEmoji: FC = () => {
+  return (
+    <Tooltip content={'Emoji'} placement='right'>
+      <Vertical>
+        <Emoji />
+      </Vertical>
+    </Tooltip>
+  )
+}
+
+export default TabEmoji
