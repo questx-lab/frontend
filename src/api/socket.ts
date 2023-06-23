@@ -15,6 +15,12 @@ export default class WebSocket {
 
   private connect(url: string) {
     this.socket = new w3cwebsocket(url)
+    this.socket.onopen = () => {
+      console.log('Socket is opened')
+    }
+    this.socket.onclose = () => {
+      console.log('Socket is closed')
+    }
   }
 
   send(data: any) {
