@@ -2,7 +2,7 @@ import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
 import { Rsp } from '@/types'
 import { CommunityType } from '@/types/community'
-import { RoomDataType } from '@/types/townhall'
+import { LuckyBoxReq, RoomDataType } from '@/types/townhall'
 
 export const getRoomsByCommunityApi = async (
   handle: string
@@ -23,4 +23,9 @@ export const getRoomsByCommunityApi = async (
       code: -1,
     }
   }
+}
+
+export const createLuckyBoxApi = async (body: LuckyBoxReq): Promise<Rsp<{}>> => {
+  const { data } = await api.post(EnvVariables.API_SERVER + '/createLuckyboxEvent', body)
+  return data
 }
