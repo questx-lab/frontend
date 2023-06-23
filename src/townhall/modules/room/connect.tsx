@@ -1,9 +1,10 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 import tw from 'twin.macro'
 
 import RoomStore from '@/store/townhall/room'
 import DialogConnect from '@/townhall/modules/room/dialog-connect'
+import phaserGame from '@/townhall/phaser-game'
 import { VerticalCenter } from '@/widgets/orientation'
 import { TextBase } from '@/widgets/text'
 
@@ -13,6 +14,12 @@ const GapVertical = tw(VerticalCenter)`
 
 export const Connectting: FC = () => {
   const roomJoined = RoomStore.useStoreState((state) => state.roomJoined)
+
+  useEffect(() => {
+    if (phaserGame.isPaused) {
+      phaserGame.resume()
+    }
+  }, [])
 
   if (roomJoined) {
     return <></>
