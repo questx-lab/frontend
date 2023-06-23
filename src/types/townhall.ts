@@ -61,7 +61,7 @@ interface User {
 export interface MessageHistoryItem {
   created_at: any
   message: string
-  user_id: string
+  user: UserType
 }
 
 export interface MessageInitValue {

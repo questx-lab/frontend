@@ -15,7 +15,7 @@ export default function useMessageListener() {
     return () => {
       messageManager.removeListener(onMessage)
     }
-  })
+  }, [])
 
   return newMessage
 }
