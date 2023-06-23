@@ -158,6 +158,10 @@ export default class OtherPlayer extends Player {
       this.connected = false
     }
   }
+
+  setCollectLuckyBox(active: boolean) {
+    this.luckyBoxCollected.setVisible(active)
+  }
 }
 
 declare global {

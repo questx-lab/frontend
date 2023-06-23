@@ -7,6 +7,7 @@ export enum ItemType {
   COMPUTER,
   WHITEBOARD,
   VENDINGMACHINE,
+  LUCKY_BOX,
 }
 
 export enum PlayerBehavior {
@@ -67,6 +68,7 @@ export interface MessageHistoryItem {
 export interface MessageInitValue {
   message_history: MessageHistoryItem[]
   users: User[]
+  luckyboxes: LuckyBoxType[]
 }
 
 export interface MessageJoinValue {
@@ -88,7 +90,13 @@ export interface MessageEmoji {
 export interface MessageReceiver {
   user_id: string
   type: string
-  value: MessageInitValue | MessageJoinValue | MessageMoveValue | MessageEmoji | MessageHistoryItem
+  value:
+    | MessageInitValue
+    | MessageJoinValue
+    | MessageMoveValue
+    | MessageEmoji
+    | MessageHistoryItem
+    | LuckyBoxValue
 }
 
 export interface MapData {
@@ -102,4 +110,30 @@ export interface RoomDataType {
   id: string
   name: string
   map: MapData
+}
+
+export type PositionType = {
+  x: number
+  y: number
+}
+
+export type LuckyBoxType = {
+  id: string
+  event_id: string
+  position: PositionType
+}
+export type LuckyBoxValue = {
+  luckyboxes?: LuckyBoxType[]
+}
+
+export type CollectLuckyBoxValue = {
+  luckybox: LuckyBoxType
+}
+
+export interface LuckyBoxReq {
+  room_id: string
+  number_of_boxes: number
+  point_per_box: number
+  start_time: string
+  duration: number
 }

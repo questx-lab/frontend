@@ -1,7 +1,6 @@
 import { FC, useEffect } from 'react'
 
 import { useStoreActions } from 'easy-peasy'
-import { Toaster } from 'react-hot-toast'
 import { json, useLoaderData } from 'react-router-dom'
 import tw from 'twin.macro'
 
@@ -86,7 +85,6 @@ const Root: FC = () => {
         </OverscrollY>
         <Header />
       </Main>
-      <Toaster position='top-center' reverseOrder={false} />
     </>
   )
 }
