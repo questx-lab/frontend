@@ -6,10 +6,17 @@ import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import messageManager from '@/townhall/engine/services/message-manager'
 import useMessageListener from '@/townhall/hooks/use-message-listener'
+import InputBox from '@/townhall/modules/room/chat/input-box'
+import MessageItem from '@/townhall/modules/room/chat/message-item'
 import phaserGame from '@/townhall/phaser-game'
-import MessageItem from '@/townhall/room/chat/message-item'
 import { MessageHistoryItem } from '@/types/townhall'
-import { Horizontal, Stretch, Vertical, VerticalStretch } from '@/widgets/orientation'
+import {
+  Horizontal,
+  Stretch,
+  Vertical,
+  VerticalFullWidth,
+  VerticalStretch,
+} from '@/widgets/orientation'
 import { Divider, Gap } from '@/widgets/separator'
 import { TextXl } from '@/widgets/text'
 import { XMarkIcon } from '@heroicons/react/24/outline'
@@ -33,23 +40,11 @@ const Header = tw(Horizontal)`
   py-6
 `
 
-const InputBox = tw.input`
-  w-full
-  border
-  border-[1px]
-  border-solid
-  border-gray-300
-  p-3
-  rounded-lg
-`
-
 const Chat: FC = () => {
   const [messages, setMessages] = useState<MessageHistoryItem[]>([])
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
 
   const newMessage = useMessageListener()
-
-  const [inputMessage, setInputMessage] = useState<string>('')
 
   useEffect(() => {
     // Get the current list of chat history
@@ -73,17 +68,11 @@ const Chat: FC = () => {
   }, [messages])
 
   // action
-  const setActiveTab = RoomStore.useStoreActions((action) => action.setActiveTab)
+  const setActiveTab = RoomStore.useStoreActions((action) => action.toggleTab)
 
-  const handleKeyboardEvent = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      // Send the message
-
-      const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
-      bootstrap.network.sendChatMessage(inputMessage)
-
-      setInputMessage('')
-    }
+  const onNewMessagedEntered = (message: string) => {
+    const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
+    bootstrap.network.sendChatMessage(message)
   }
 
   return (
@@ -103,24 +92,17 @@ const Chat: FC = () => {
       <ContentFrame>
         {messages.map((item, index) => {
           return (
-            <Vertical key={index}>
+            <VerticalFullWidth key={index}>
               <MessageItem message={item} />
               <Gap height={2} />
-            </Vertical>
+            </VerticalFullWidth>
           )
         })}
         <div ref={messagesEndRef} />
       </ContentFrame>
       <Divider thickness={2} />
       <InputFrame>
-        <InputBox
-          value={inputMessage}
-          onKeyDown={handleKeyboardEvent}
-          onChange={(e) => {
-            setInputMessage(e.target.value)
-            e.stopPropagation()
-          }}
-        />
+        <InputBox onNewMessagedEntered={onNewMessagedEntered} />
       </InputFrame>
     </>
   )

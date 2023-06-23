@@ -6,8 +6,9 @@ import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import Game from '@/townhall/engine/scenes/game'
 import phaserGame from '@/townhall/phaser-game'
-import { VerticalCenter } from '@/widgets/orientation'
+import { Vertical, VerticalCenter } from '@/widgets/orientation'
 import { FaceSmileIcon } from '@heroicons/react/24/outline'
+import { Tooltip } from '@material-tailwind/react'
 
 const emojies = [
   '🙂',
@@ -71,7 +72,7 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
 
   // action
-  const setActiveTab = RoomStore.useStoreActions((action) => action.setActiveTab)
+  const setActiveTab = RoomStore.useStoreActions((action) => action.toggleTab)
 
   if (!isShow) {
     return <></>
@@ -104,15 +105,31 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   )
 }
 
-const Emoji: FC<{ onTabClicked: () => void }> = ({ onTabClicked }) => {
+const Emoji: FC = () => {
   const activeTab = RoomStore.useStoreState((state) => state.activeTab)
+
+  // action
+  const toggleTab = RoomStore.useStoreActions((action) => action.toggleTab)
 
   return (
     <>
-      <FaceSmileIcon onClick={onTabClicked} className='cursor-pointer w-7 h-7 text-gray-900' />
+      <FaceSmileIcon
+        onClick={() => toggleTab(ActiveSidebarTab.EMOJI)}
+        className='cursor-pointer w-7 h-7 text-gray-900'
+      />
       <EmojiFrame isShow={activeTab === ActiveSidebarTab.EMOJI} />
     </>
   )
 }
 
-export default Emoji
+const TabEmoji: FC = () => {
+  return (
+    <Tooltip content={'Emoji'} placement='right'>
+      <Vertical>
+        <Emoji />
+      </Vertical>
+    </Tooltip>
+  )
+}
+
+export default TabEmoji
