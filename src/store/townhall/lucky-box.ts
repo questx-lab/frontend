@@ -13,10 +13,10 @@ interface LuckyBoxModel {
 }
 
 const LuckyBoxStore = createContextStore<LuckyBoxModel>({
-  numberOfBox: 1,
-  point: 1,
+  numberOfBox: 10,
+  point: 100,
   startDate: new Date(),
-  duration: 0,
+  duration: 10,
 
   setNumberOfBox: action((state, number) => {
     state.numberOfBox = number
