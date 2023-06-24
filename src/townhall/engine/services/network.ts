@@ -38,6 +38,7 @@ export default class Network {
     if (!this.socket.socket) {
       return
     }
+
     this.socket.socket.onmessage = (event) => {
       const message = JSON.parse(event.data.toString()) as MessageReceiver
       if (message.type === MessageReceiverEnum.INIT) {

@@ -51,10 +51,11 @@ const DialogConnect: FC = () => {
     // TODO: hardcode get first room
     const roomId = gameRooms.length > 0 ? gameRooms[0].id : ''
 
+    // wait for phaser to create the game
     setTimeout(async () => {
       await bootstrap.network.jointoMap(user, roomId)
+      game.registerKeys()
     }, 1000)
-    game.registerKeys()
   }
 
   return (
