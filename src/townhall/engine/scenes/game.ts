@@ -7,9 +7,9 @@ import { createCharacterAnims } from '@/townhall/engine/anims/CharacterAnims'
 import MyPlayer from '@/townhall/engine/characters/my-player'
 import OtherPlayer from '@/townhall/engine/characters/other-player'
 import PlayerSelector from '@/townhall/engine/characters/player-selecter'
+import LuckyBox from '@/townhall/engine/items/LuckyBox'
 import Network from '@/townhall/engine/services/network'
 import { CollectLuckyBoxValue, IPlayer, Keyboard, LuckyBoxValue, NavKeys } from '@/types/townhall'
-import LuckyBox from '@/townhall/engine/items/LuckyBox'
 
 export default class Game extends Phaser.Scene {
   network!: Network
@@ -148,7 +148,7 @@ export default class Game extends Phaser.Scene {
           if (box) {
             this.luckyBoxArcadeGroup.kill(box)
             this.removeLuckyBoxById(object1.id)
-            await this.network.collectLuckyBox(object1.id)
+            // await this.network.collectLuckyBox(object1.id)
           }
         }
 
@@ -157,7 +157,7 @@ export default class Game extends Phaser.Scene {
           if (box) {
             this.luckyBoxArcadeGroup.kill(box)
             this.removeLuckyBoxById(object2.id)
-            await this.network.collectLuckyBox(object2.id)
+            // await this.network.collectLuckyBox(object2.id)
           }
         }
       },
@@ -166,13 +166,13 @@ export default class Game extends Phaser.Scene {
     )
 
     // register network event listeners
-    this.network.onPlayerJoined(this.handlePlayerJoined, this)
-    this.network.onPlayerLeft(this.handlePlayerLeft, this)
-    this.network.onPlayerUpdated(this.handlePlayerUpdated, this)
-    this.network.onPlayerLeft(this.handlePlayerLeft, this)
-    this.network.onCreateLuckyBoxes(this.handleCreateLuckyBoxes, this)
-    this.network.onCollectLuckyBox(this.handleCollectLuckyBox, this)
-    this.network.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
+    // this.network.onPlayerJoined(this.handlePlayerJoined, this)
+    // this.network.onPlayerLeft(this.handlePlayerLeft, this)
+    // this.network.onPlayerUpdated(this.handlePlayerUpdated, this)
+    // this.network.onPlayerLeft(this.handlePlayerLeft, this)
+    // this.network.onCreateLuckyBoxes(this.handleCreateLuckyBoxes, this)
+    // this.network.onCollectLuckyBox(this.handleCollectLuckyBox, this)
+    // this.network.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
   }
 
   private addObjectFromTiled(

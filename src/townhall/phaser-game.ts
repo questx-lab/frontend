@@ -1,12 +1,8 @@
 import Phaser from 'phaser'
 
-import Background from '@/townhall/engine/scenes/background'
-import Bootstrap from '@/townhall/engine/scenes/bootstrap'
-import Game from '@/townhall/engine/scenes/game'
-
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  parent: 'phaser-container',
+  parent: 'phaser-container-old',
   backgroundColor: '#93cbee',
   pixelArt: true, // Prevent pixel art from becoming blurred when scaled.
   scale: {
@@ -22,11 +18,13 @@ const config: Phaser.Types.Core.GameConfig = {
     },
   },
   autoFocus: true,
-  scene: [Bootstrap, Background, Game],
+  // scene: [Bootstrap, Background, Game],
+  scene: [],
 }
 
-const phaserGame = new Phaser.Game(config)
+// const phaserGame = {}
 
+const phaserGame = new Phaser.Game(config)
 ;(window as any).game = phaserGame
 
 export default phaserGame

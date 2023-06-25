@@ -119,7 +119,7 @@ export default class MyPlayer extends Player {
               if (!this.anims.currentAnim) {
                 return
               }
-              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
+              // network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
             },
             loop: false,
           })
@@ -159,7 +159,7 @@ export default class MyPlayer extends Player {
         this.playContainerBody.velocity.setLength(speed)
 
         // update animation according to velocity and send new location and anim to server
-        if (vx !== 0 || vy !== 0) network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
+        // if (vx !== 0 || vy !== 0) network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
         if (vx > 0) {
           this.play(`${this.playerTexture}_run_right`, true)
         } else if (vx < 0) {
@@ -176,7 +176,7 @@ export default class MyPlayer extends Player {
           if (this.anims.currentAnim.key !== newAnim) {
             this.play(parts.join('_'), true)
             // send new location and anim to server
-            network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
+            // network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
           }
         }
         break

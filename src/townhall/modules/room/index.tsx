@@ -4,12 +4,9 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
-import GameSidebar from '@/townhall/modules/game-sidebar'
-import Chat from '@/townhall/modules/room/chat'
-import { Connectting } from '@/townhall/modules/room/connect'
+import RoomStore from '@/store/townhall/room'
+import phaserGame from '@/townhall/engine/services/game-controller'
 import { Horizontal, Vertical, VerticalCenter } from '@/widgets/orientation'
-import { VerticalDivider } from '@/widgets/separator'
 
 const Backdrop = tw(VerticalCenter)`
   absolute
@@ -38,22 +35,30 @@ const Townhall: FC = () => {
   // data
   const activeTab = RoomStore.useStoreState((state) => state.activeTab)
 
+  phaserGame.loadResource('0000')
+
+  console.log('index 1')
+
+  // const t = phaserGame.config
+
+  console.log('index 2')
+
   return (
     <Backdrop id='phaser-container'>
-      <Connectting />
+      {/* <Connectting /> */}
 
       <LeftContent>
-        {activeTab === ActiveSidebarTab.CHAT && (
+        {/* {activeTab === ActiveSidebarTab.CHAT && (
           <>
             <ChatFrame>
               <Chat />
             </ChatFrame>
             <VerticalDivider thickness={2} />
           </>
-        )}
-        <GameSidebarFrame>
+        )} */}
+        {/* <GameSidebarFrame>
           <GameSidebar />
-        </GameSidebarFrame>
+        </GameSidebarFrame> */}
       </LeftContent>
     </Backdrop>
   )

@@ -6,9 +6,6 @@ import tw from 'twin.macro'
 import StorageConst from '@/constants/storage.const'
 import { GlobalStoreModel } from '@/store/store'
 import RoomStore from '@/store/townhall/room'
-import Bootstrap from '@/townhall/engine/scenes/bootstrap'
-import Game from '@/townhall/engine/scenes/game'
-import phaserGame from '@/townhall/phaser-game'
 import { UserType } from '@/types'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
@@ -29,7 +26,7 @@ const FullWidthCenter = tw(HorizontalCenter)`
 
 const DialogConnect: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(true)
-  const game = phaserGame.scene.keys.game as Game
+  // const game = phaserGame.scene.keys.game as Game
 
   // data
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
@@ -45,16 +42,16 @@ const DialogConnect: FC = () => {
   }
 
   const handleConnect = async () => {
-    const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
-    bootstrap.launchGame()
+    // const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
+    // bootstrap.launchGame()
 
     // TODO: hardcode get first room
     const roomId = gameRooms.length > 0 ? gameRooms[0].id : ''
 
     // wait for phaser to create the game
     setTimeout(async () => {
-      await bootstrap.network.jointoMap(user, roomId)
-      game.registerKeys()
+      // await bootstrap.network.jointoMap(user, roomId)
+      // game.registerKeys()
     }, 1000)
   }
 
