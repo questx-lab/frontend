@@ -2,13 +2,13 @@ import { FC, useEffect, useRef, useState } from 'react'
 
 import tw from 'twin.macro'
 
+import { MessageReceiverEnum } from '@/constants/townhall'
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
-import Bootstrap from '@/townhall/engine/scenes/bootstrap'
 import messageManager from '@/townhall/engine/services/message-manager'
+import network from '@/townhall/engine/services/network'
 import useMessageListener from '@/townhall/hooks/use-message-listener'
 import InputBox from '@/townhall/modules/room/chat/input-box'
 import MessageItem from '@/townhall/modules/room/chat/message-item'
-import phaserGame from '@/townhall/phaser-game'
 import { MessageHistoryItem } from '@/types/townhall'
 import {
   Horizontal,
@@ -71,8 +71,12 @@ const Chat: FC = () => {
   const setActiveTab = RoomStore.useStoreActions((action) => action.toggleTab)
 
   const onNewMessagedEntered = (message: string) => {
-    const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
-    bootstrap.network.sendChatMessage(message)
+    network.send({
+      type: MessageReceiverEnum.MESSAGE,
+      value: {
+        message,
+      },
+    })
   }
 
   return (

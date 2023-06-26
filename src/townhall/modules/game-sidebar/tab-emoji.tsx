@@ -2,10 +2,10 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
+import { MessageReceiverEnum } from '@/constants/townhall'
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
-import Bootstrap from '@/townhall/engine/scenes/bootstrap'
-import Game from '@/townhall/engine/scenes/game'
-import phaserGame from '@/townhall/phaser-game'
+import phaserGame from '@/townhall/engine/services/game-controller'
+import network from '@/townhall/engine/services/network'
 import { Vertical, VerticalCenter } from '@/widgets/orientation'
 import { FaceSmileIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@material-tailwind/react'
@@ -68,8 +68,8 @@ const Icon = tw(VerticalCenter)`
 `
 
 const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
-  const game = phaserGame.scene.keys.game as Game
-  const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
+  // const game = phaserGame.scene.keys.game as Game
+  // const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
 
   // action
   const setActiveTab = RoomStore.useStoreActions((action) => action.toggleTab)
@@ -82,14 +82,13 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
     <Icon
       key={index}
       onClick={() => {
-        game.myPlayer.setBackgoundEmoji('🗨')
-        game.myPlayer.setPlayerEmoji(emoji)
-        bootstrap.network.sendEmoji(emoji)
-        setTimeout(() => {
-          bootstrap.network.sendEmoji('')
-          game.myPlayer.setPlayerEmoji('')
-          game.myPlayer.setBackgoundEmoji('')
-        }, 2000)
+        network.send({
+          type: MessageReceiverEnum.EMOJI,
+          value: {
+            emoji,
+          },
+        })
+        phaserGame.setMyPlayerEmoji(emoji)
 
         setActiveTab(ActiveSidebarTab.NONE)
       }}

@@ -1,17 +1,25 @@
 import Phaser from 'phaser'
 
 import { EnvVariables } from '@/constants/env.const'
-import Network from '@/townhall/engine/services/network'
+
+export interface BootstrapListener {
+  onLoadComleted: () => void
+}
 
 export default class Bootstrap extends Phaser.Scene {
   private preloadComplete = false
-  network!: Network
+  private listener: BootstrapListener
 
-  constructor() {
+  constructor(listener: BootstrapListener) {
     super('bootstrap')
+    this.listener = listener
   }
 
   preload() {
+    if (this.preloadComplete) {
+      return
+    }
+
     // TODO: lazy loading
     this.load.baseURL = EnvVariables.TOWNHALL_ASSET_CDN
 
@@ -72,22 +80,15 @@ export default class Bootstrap extends Phaser.Scene {
 
     this.load.on('complete', () => {
       this.preloadComplete = true
-      this.launchBackground()
+      this.listener.onLoadComleted()
     })
-  }
-
-  init() {
-    this.network = new Network()
-  }
-
-  private launchBackground() {
-    this.scene.launch('background', { backgroundMode: 0 })
   }
 
   launchGame() {
     if (!this.preloadComplete) return
-    this.scene.launch('game', {
-      network: this.network,
-    })
+
+    // this.scene.launch('game', {
+    //   network: this.network,
+    // })
   }
 }
