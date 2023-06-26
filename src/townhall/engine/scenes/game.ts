@@ -179,6 +179,7 @@ export default class Game extends Phaser.Scene {
     phaserGame.onCreateLuckyBoxes(this.handleCreateLuckyBoxes, this)
     phaserGame.onCollectLuckyBox(this.handleCollectLuckyBox, this)
     phaserGame.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
+    phaserGame.onMyPlayerEmoji(this.handleMyPlayerEmoji, this)
   }
 
   private addObjectFromTiled(
@@ -286,5 +287,9 @@ export default class Game extends Phaser.Scene {
     if (!value.luckyboxes) return
     const ids = value.luckyboxes.map((box) => box.id)
     this.removeLuckyBoxByIds(ids)
+  }
+
+  handleMyPlayerEmoji(emoji: string) {
+    this.myPlayer.setPlayerEmoji(emoji)
   }
 }

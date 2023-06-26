@@ -123,6 +123,10 @@ class GameController extends Phaser.Game {
     },
   }
 
+  setMyPlayerEmoji(emoji: string) {
+    phaserEvents.emit(Event.MY_PLAYER_EMOJI_CHANGE, emoji)
+  }
+
   setUser(user: UserType) {
     this.myUser = user
   }
@@ -283,6 +287,10 @@ class GameController extends Phaser.Game {
 
   onRemoveLuckyBoxes(callback: (value: LuckyBoxValue) => void, context?: any) {
     phaserEvents.on(Event.REMOVE_LUCKY_BOXES, callback, context)
+  }
+
+  onMyPlayerEmoji(callback: (emoji: string) => void, context?: any) {
+    phaserEvents.on(Event.MY_PLAYER_EMOJI_CHANGE, callback, context)
   }
 
   // method to send player updates to Colyseus server

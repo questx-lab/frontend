@@ -24,13 +24,11 @@ export default class MyPlayer extends Player {
 
   setPlayerEmoji(emoji: string) {
     this.playerEmoji.setText(emoji)
-    phaserEvents.emit(Event.MY_PLAYER_EMOJI_CHANGE, emoji)
-  }
-
-  setBackgoundEmoji(emoji: string) {
-    this.backgroundEmoji.setText(emoji)
-
-    phaserEvents.emit(Event.BACKGROUND_EMOJI_CHANGE, emoji)
+    this.backgroundEmoji.setText('🗨')
+    setTimeout(() => {
+      this.playerEmoji.setText('')
+      this.backgroundEmoji.setText('')
+    }, 2000)
   }
 
   setCollectLuckyBox(active: boolean) {

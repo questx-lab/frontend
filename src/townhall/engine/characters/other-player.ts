@@ -60,12 +60,12 @@ export default class OtherPlayer extends Player {
 
       case 'emoji':
         if (typeof value === 'string') {
-          if (value === '') {
-            this.backgroundEmoji.setText('')
-          } else {
-            this.backgroundEmoji.setText('🗨')
-          }
           this.playerEmoji.setText(value)
+          this.backgroundEmoji.setText('🗨')
+          setTimeout(() => {
+            this.playerEmoji.setText('')
+            this.backgroundEmoji.setText('')
+          }, 2000)
         }
         break
     }
