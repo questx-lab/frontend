@@ -88,7 +88,7 @@ export interface MessageEmoji {
 }
 
 export interface MessageReceiver {
-  user_id: string
+  user_id?: string
   type: string
   value:
     | MessageInitValue
@@ -97,6 +97,7 @@ export interface MessageReceiver {
     | MessageEmoji
     | MessageHistoryItem
     | LuckyBoxValue
+    | CollectLuckyBox
 }
 
 export interface MapData {
@@ -124,6 +125,10 @@ export type LuckyBoxType = {
 }
 export type LuckyBoxValue = {
   luckyboxes?: LuckyBoxType[]
+}
+
+export type CollectLuckyBox = {
+  luckybox_id: string
 }
 
 export type CollectLuckyBoxValue = {

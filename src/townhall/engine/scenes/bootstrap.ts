@@ -8,7 +8,6 @@ export interface BootstrapListener {
 
 export default class Bootstrap extends Phaser.Scene {
   private preloadComplete = false
-
   private listener: BootstrapListener
 
   constructor(listener: BootstrapListener) {

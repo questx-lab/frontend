@@ -3,16 +3,18 @@ import '@/townhall/engine/characters/other-player'
 
 import Phaser from 'phaser'
 
+import { MessageReceiverEnum } from '@/constants/townhall'
 import { createCharacterAnims } from '@/townhall/engine/anims/CharacterAnims'
 import MyPlayer from '@/townhall/engine/characters/my-player'
 import OtherPlayer from '@/townhall/engine/characters/other-player'
 import PlayerSelector from '@/townhall/engine/characters/player-selecter'
 import LuckyBox from '@/townhall/engine/items/LuckyBox'
-import Network from '@/townhall/engine/services/network'
+import phaserGame from '@/townhall/engine/services/game-controller'
+import network from '@/townhall/engine/services/network'
+import NetworkOld from '@/townhall/engine/services/network-old'
 import { CollectLuckyBoxValue, IPlayer, Keyboard, LuckyBoxValue, NavKeys } from '@/types/townhall'
 
 export default class Game extends Phaser.Scene {
-  network!: Network
   private map!: Phaser.Tilemaps.Tilemap
   myPlayer!: MyPlayer
   private otherPlayers!: Phaser.Physics.Arcade.Group
@@ -82,13 +84,7 @@ export default class Game extends Phaser.Scene {
     otherPlayer?.updateOtherPlayer(field, value)
   }
 
-  create(data: { network: Network }) {
-    if (!data.network) {
-      throw new Error('server instance missing')
-    } else {
-      this.network = data.network
-    }
-
+  create(data: { network: NetworkOld }) {
     this.registerKeys()
     createCharacterAnims(this.anims)
 
@@ -148,7 +144,13 @@ export default class Game extends Phaser.Scene {
           if (box) {
             this.luckyBoxArcadeGroup.kill(box)
             this.removeLuckyBoxById(object1.id)
-            // await this.network.collectLuckyBox(object1.id)
+
+            network.send({
+              type: MessageReceiverEnum.COLLECT_LUCKY_BOX,
+              value: {
+                luckybox_id: object1.id,
+              },
+            })
           }
         }
 
@@ -157,7 +159,12 @@ export default class Game extends Phaser.Scene {
           if (box) {
             this.luckyBoxArcadeGroup.kill(box)
             this.removeLuckyBoxById(object2.id)
-            // await this.network.collectLuckyBox(object2.id)
+            network.send({
+              type: MessageReceiverEnum.COLLECT_LUCKY_BOX,
+              value: {
+                luckybox_id: object2.id,
+              },
+            })
           }
         }
       },
@@ -166,13 +173,13 @@ export default class Game extends Phaser.Scene {
     )
 
     // register network event listeners
-    // this.network.onPlayerJoined(this.handlePlayerJoined, this)
-    // this.network.onPlayerLeft(this.handlePlayerLeft, this)
-    // this.network.onPlayerUpdated(this.handlePlayerUpdated, this)
-    // this.network.onPlayerLeft(this.handlePlayerLeft, this)
-    // this.network.onCreateLuckyBoxes(this.handleCreateLuckyBoxes, this)
-    // this.network.onCollectLuckyBox(this.handleCollectLuckyBox, this)
-    // this.network.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
+    phaserGame.onPlayerJoined(this.handlePlayerJoined, this)
+    phaserGame.onPlayerLeft(this.handlePlayerLeft, this)
+    phaserGame.onPlayerUpdated(this.handlePlayerUpdated, this)
+    phaserGame.onPlayerLeft(this.handlePlayerLeft, this)
+    phaserGame.onCreateLuckyBoxes(this.handleCreateLuckyBoxes, this)
+    phaserGame.onCollectLuckyBox(this.handleCollectLuckyBox, this)
+    phaserGame.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
   }
 
   private addObjectFromTiled(
@@ -223,7 +230,7 @@ export default class Game extends Phaser.Scene {
   update(t: number, dt: number) {
     if (this.myPlayer) {
       this.playerSelector.update(this.myPlayer, this.cursors)
-      this.myPlayer.update(this.playerSelector, this.cursors, this.keyE, this.keyR, this.network)
+      this.myPlayer.update(this.playerSelector, this.cursors, this.keyE, this.keyR)
     }
   }
 

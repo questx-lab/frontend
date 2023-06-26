@@ -3,7 +3,6 @@ import { FC, useEffect } from 'react'
 import tw from 'twin.macro'
 
 import RoomStore from '@/store/townhall/room'
-import DialogConnect from '@/townhall/modules/room/dialog-connect'
 import { VerticalCenter } from '@/widgets/orientation'
 import { TextBase } from '@/widgets/text'
 
@@ -27,7 +26,7 @@ export const Connectting: FC = () => {
   return (
     <GapVertical>
       <TextBase> Connecting to server...</TextBase>
-      <DialogConnect />
+      {/* <DialogConnect /> */}
     </GapVertical>
   )
 }
