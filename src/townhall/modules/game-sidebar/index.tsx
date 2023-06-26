@@ -3,8 +3,10 @@ import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
+import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import RoomStore from '@/store/townhall/room'
+import phaserGame from '@/townhall/engine/services/game-controller'
 import TabChat from '@/townhall/modules/game-sidebar/tab-chat'
 import TabEmoji from '@/townhall/modules/game-sidebar/tab-emoji'
 import TabLuckyBox from '@/townhall/modules/game-sidebar/tab-lucky-box'
@@ -28,15 +30,13 @@ const GameSidebar: FC = () => {
   // data
   const community = RoomStore.useStoreState((state) => state.community)
 
-  // const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
   const navigate = useNavigate()
 
   const onDisconnect = () => {
-    // bootstrap.network.socketDisconnect()
-    // navigate(RouterConst.COMMUNITIES + `/${community.handle}`, {
-    //   replace: true,
-    // })
-    // phaserGame.pause()
+    phaserGame.quitGame()
+    navigate(RouterConst.COMMUNITIES + `/${community.handle}`, {
+      replace: true,
+    })
   }
 
   return (

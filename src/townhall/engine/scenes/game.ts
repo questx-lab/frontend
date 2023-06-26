@@ -45,7 +45,7 @@ export default class Game extends Phaser.Scene {
     this.input.keyboard.disableGlobalCapture()
   }
 
-  deregisterKeys() {
+  deRegisterKeys() {
     if (!this.input.keyboard) {
       return
     }

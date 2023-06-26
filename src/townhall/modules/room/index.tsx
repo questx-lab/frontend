@@ -1,16 +1,17 @@
-import '@/townhall/phaser-game'
-
 import { FC, useEffect } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
 import { GlobalStoreModel } from '@/store/store'
-import RoomStore from '@/store/townhall/room'
+import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import phaserGame from '@/townhall/engine/services/game-controller'
+import GameSidebar from '@/townhall/modules/game-sidebar'
+import Chat from '@/townhall/modules/room/chat'
 import { Connectting } from '@/townhall/modules/room/connect'
 import { UserType } from '@/types'
 import { Horizontal, Vertical, VerticalCenter } from '@/widgets/orientation'
+import { VerticalDivider } from '@/widgets/separator'
 
 const Backdrop = tw(VerticalCenter)`
   absolute
@@ -44,7 +45,7 @@ const Townhall: FC = () => {
 
   // TODO: support multiple room id. For now, only use the first room id.
   useEffect(() => {
-    phaserGame.loadResource(roomId)
+    phaserGame.bootstrap(roomId)
   }, [roomId])
 
   useEffect(() => {
@@ -56,17 +57,17 @@ const Townhall: FC = () => {
       <Connectting />
 
       <LeftContent>
-        {/* {activeTab === ActiveSidebarTab.CHAT && (
+        {activeTab === ActiveSidebarTab.CHAT && (
           <>
             <ChatFrame>
               <Chat />
             </ChatFrame>
             <VerticalDivider thickness={2} />
           </>
-        )} */}
-        {/* <GameSidebarFrame>
+        )}
+        <GameSidebarFrame>
           <GameSidebar />
-        </GameSidebarFrame> */}
+        </GameSidebarFrame>
       </LeftContent>
     </Backdrop>
   )

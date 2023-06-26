@@ -61,17 +61,15 @@ class GameController extends Phaser.Game {
 
   private bootstrapListener = {
     onLoadComleted: async () => {
-      console.log('Bootstrap completed, connecting to room ', this.currentRoomId)
-
       // We can now connect to the game
       network.connectRoom(this.currentRoomId)
+
+      this.broadcastState(GameState.CONNECTING)
     },
   } as BootstrapListener
 
   private networkListener = {
     onConnected: () => {
-      console.log('Connected')
-
       // TODO: handle reconnection after a temporary disconnection. In that case, we should not
       // launch the game.
       this.scene.remove(BOOTSTRAP_SCENE)
@@ -127,6 +125,28 @@ class GameController extends Phaser.Game {
 
   setUser(user: UserType) {
     this.myUser = user
+  }
+
+  quitGame() {
+    if (this.gameScene) {
+      this.scene.remove(GAME_SCENE)
+      this.gameScene = undefined
+    }
+
+    this.pause()
+    network.socketDisconnect()
+  }
+
+  registerKey() {
+    if (this.gameScene) {
+      this.gameScene.registerKeys()
+    }
+  }
+
+  deRegisterKey() {
+    if (this.gameScene) {
+      this.gameScene.deRegisterKeys()
+    }
   }
 
   /////////// Handle different kind of messages from server.
@@ -208,7 +228,7 @@ class GameController extends Phaser.Game {
 
   /////////// Game Related functions
 
-  loadResource(roomId: string) {
+  bootstrap(roomId: string) {
     if (this.currentRoomId === roomId) {
       // We are doing something with this room. No need to have duplicated action
       return
@@ -223,6 +243,8 @@ class GameController extends Phaser.Game {
     this.bootstrapScene = new Bootstrap(this.bootstrapListener)
     this.scene.add(BOOTSTRAP_SCENE, this.bootstrapScene)
     this.scene.start(this.bootstrapScene)
+
+    this.broadcastState(GameState.BOOTSTRAP)
   }
 
   // method to register event listener and call back function when a player joined
