@@ -11,7 +11,6 @@ import PlayerSelector from '@/townhall/engine/characters/player-selecter'
 import LuckyBox from '@/townhall/engine/items/LuckyBox'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import network from '@/townhall/engine/services/network'
-import NetworkOld from '@/townhall/engine/services/network-old'
 import { CollectLuckyBoxValue, IPlayer, Keyboard, LuckyBoxValue, NavKeys } from '@/types/townhall'
 
 export default class Game extends Phaser.Scene {
@@ -84,7 +83,7 @@ export default class Game extends Phaser.Scene {
     otherPlayer?.updateOtherPlayer(field, value)
   }
 
-  create(data: { network: NetworkOld }) {
+  create() {
     this.registerKeys()
     createCharacterAnims(this.anims)
 

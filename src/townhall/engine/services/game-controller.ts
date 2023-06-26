@@ -2,13 +2,28 @@ import { MessageReceiverEnum } from '@/constants/townhall'
 import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
 import Bootstrap, { BootstrapListener } from '@/townhall/engine/scenes/bootstrap'
 import Game from '@/townhall/engine/scenes/game'
+import { GameState } from '@/townhall/engine/services/game-state'
+import messageManager from '@/townhall/engine/services/message-manager'
 import network from '@/townhall/engine/services/network'
-import { CollectLuckyBoxValue, IPlayer, LuckyBoxValue, MessageReceiver } from '@/types/townhall'
+import { UserType } from '@/types'
+import {
+  CollectLuckyBoxValue,
+  IPlayer,
+  LuckyBoxValue,
+  MessageEmoji,
+  MessageHistoryItem,
+  MessageInitValue,
+  MessageJoinValue,
+  MessageMoveValue,
+  MessageReceiver,
+} from '@/types/townhall'
 
 const BOOTSTRAP_SCENE = 'Bootstrap'
 const GAME_SCENE = 'game'
 
-export interface GameListener {}
+export interface GameStateListener {
+  onStateChanged: (state: GameState, data?: any) => void
+}
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -35,6 +50,8 @@ class GameController extends Phaser.Game {
   private bootstrapScene?: Bootstrap
   private gameScene?: Game
   private currentRoomId = ''
+  private gamteStateListeners = new Set<GameStateListener>()
+  private myUser?: UserType
 
   constructor() {
     super(config)
@@ -63,12 +80,133 @@ class GameController extends Phaser.Game {
       this.gameScene = new Game()
       this.scene.add(GAME_SCENE, this.gameScene)
       this.scene.start(this.gameScene)
+      this.gameScene.registerKeys()
+
+      this.broadcastState(GameState.JOINED_ROOM)
     },
 
     onDisconnected: () => {},
 
-    onMessage: (event: MessageReceiver) => {},
+    onMessage: (message: MessageReceiver) => {
+      switch (message.type) {
+        case MessageReceiverEnum.INIT:
+          this.handleInitMessage(message)
+          break
+        case MessageReceiverEnum.JOIN:
+          this.handleJoinMessage(message)
+          break
+        case MessageReceiverEnum.MOVE:
+          this.handleMoveMessage(message)
+          break
+        case MessageReceiverEnum.EMOJI:
+          const value = message.value as MessageEmoji
+          phaserEvents.emit(Event.PLAYER_UPDATED, 'emoji', value.emoji, message.user_id)
+          break
+        case MessageReceiverEnum.EXIT:
+          phaserEvents.emit(Event.PLAYER_LEFT, message.user_id)
+          break
+        case MessageReceiverEnum.MESSAGE:
+          messageManager.onNewMessage(message.value as MessageHistoryItem)
+          break
+        case MessageReceiverEnum.START_LUCKY_BOX:
+          phaserEvents.emit(Event.CREATE_LUCKY_BOXES, message.value as LuckyBoxValue)
+          break
+        case MessageReceiverEnum.COLLECT_LUCKY_BOX:
+          phaserEvents.emit(
+            Event.COLLECT_LUCKY_BOX,
+            message.value as CollectLuckyBoxValue,
+            message.user_id
+          )
+          break
+        case MessageReceiverEnum.STOP_LUCKY_BOX:
+          phaserEvents.emit(Event.REMOVE_LUCKY_BOXES, message.value as LuckyBoxValue)
+          break
+      }
+    },
   }
+
+  setUser(user: UserType) {
+    this.myUser = user
+  }
+
+  /////////// Handle different kind of messages from server.
+
+  private handleInitMessage(message: MessageReceiver) {
+    const game = this.scene.keys.game as Game
+
+    // Init the message history
+    messageManager.initMessageList((message.value as MessageInitValue).message_history)
+
+    // Init
+    ;(message.value as MessageInitValue).users.forEach((user) => {
+      const { x, y } = user.pixel_position
+      const { name, id } = user.user
+
+      if (this.myUser?.id === user.user.id) {
+        if (game.myPlayer) {
+          game.myPlayer.updateMyPlayer(name, x, y, id)
+        }
+      } else {
+        const player: IPlayer = {
+          name,
+          x,
+          y,
+          anim: user.player.name,
+        }
+        phaserEvents.emit(Event.PLAYER_JOINED, player, user.user.id)
+      }
+    })
+
+    phaserEvents.emit(Event.CREATE_LUCKY_BOXES, message.value as LuckyBoxValue)
+  }
+
+  private handleJoinMessage(message: MessageReceiver) {
+    // Join
+    const value = message.value as MessageJoinValue
+    if (this.myUser?.id !== value.user.id) {
+      const player: IPlayer = {
+        name: value.user.name,
+        x: value.position.x,
+        y: value.position.y,
+        anim: value.user.name,
+      }
+      phaserEvents.emit(Event.PLAYER_JOINED, player, value.user.id)
+    }
+  }
+
+  private handleMoveMessage(message: MessageReceiver) {
+    // Move
+    const value = message.value as MessageMoveValue
+    // TODO: hardcode character name
+    phaserEvents.emit(Event.PLAYER_UPDATED, 'anim', `adam_run_${value.direction}`, message.user_id)
+    phaserEvents.emit(Event.PLAYER_UPDATED, 'x', value.x, message.user_id)
+    phaserEvents.emit(Event.PLAYER_UPDATED, 'y', value.y, message.user_id)
+
+    setTimeout(() => {
+      phaserEvents.emit(
+        Event.PLAYER_UPDATED,
+        'anim',
+        `adam_idle_${value.direction}`,
+        message.user_id
+      )
+    }, 100)
+  }
+
+  /////////// Add, Remove, broadcast message to receive update from this game controller.
+
+  addGameStateListeners(listener: GameStateListener) {
+    this.gamteStateListeners.add(listener)
+  }
+
+  removeGameStateListeners(listener: GameStateListener) {
+    this.gamteStateListeners.delete(listener)
+  }
+
+  broadcastState(state: GameState) {
+    this.gamteStateListeners.forEach((listener) => listener.onStateChanged(state))
+  }
+
+  /////////// Game Related functions
 
   loadResource(roomId: string) {
     if (this.currentRoomId === roomId) {
