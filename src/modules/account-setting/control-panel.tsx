@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
-import { useStoreState } from 'easy-peasy'
+import { useStoreActions, useStoreState } from 'easy-peasy'
+import { MobileView } from 'react-device-detect'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -9,18 +10,17 @@ import AccountSettingsStore from '@/store/local/account-settings'
 import { GlobalStoreModel } from '@/store/store'
 import { AccoutSettingTabEnum, UserType } from '@/types'
 import { CircularImage } from '@/widgets/circular-image'
+import { CloseIcon } from '@/widgets/image'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
+import { Divider } from '@/widgets/separator'
 import { TextXl } from '@/widgets/text'
 
 const MainFrame = tw(Vertical)`
   fixed
   w-80
   h-full
-  divide-y
-  divide-gray-200
   border-r
   border-gray-200
-  max-sm:hidden
 `
 
 const PersonVertical = tw(VerticalFullWidth)`
@@ -34,6 +34,12 @@ const SettingVertical = tw(VerticalFullWidth)`
   px-4
   py-6
   gap-2
+`
+
+const CloseFrame = tw(Vertical)`
+  items-end
+  p-3
+  w-80
 `
 
 const SettingItemHorizontal = styled(Horizontal)<{ active?: boolean }>(({ active = false }) => {
@@ -63,7 +69,12 @@ const SettingItemHorizontal = styled(Horizontal)<{ active?: boolean }>(({ active
 const ControlPanel: FC = () => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   const tabType = AccountSettingsStore.useStoreState((state) => state.tabType)
+
+  //  action
   const setTabType = AccountSettingsStore.useStoreActions((action) => action.setTabType)
+  const setShowNavigationDrawer = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowNavigationDrawer
+  )
 
   const onClick = (value: number) => {
     if (tabType !== value) {
@@ -77,6 +88,11 @@ const ControlPanel: FC = () => {
 
   return (
     <MainFrame>
+      <MobileView>
+        <CloseFrame>
+          <CloseIcon onClick={() => setShowNavigationDrawer(false)} />
+        </CloseFrame>
+      </MobileView>
       <PersonVertical>
         <CircularImage
           width={80}
@@ -86,6 +102,7 @@ const ControlPanel: FC = () => {
         />
         <TextXl>{user.name}</TextXl>
       </PersonVertical>
+      <Divider />
       <SettingVertical>
         <SettingItemHorizontal
           onClick={() => onClick(AccoutSettingTabEnum.GENERAL)}

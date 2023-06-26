@@ -1,20 +1,19 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
-import { MobileView } from 'react-device-detect'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { BrowserView, MobileView } from 'react-device-detect'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
+import BrowserNavigation from '@/modules/header/browser-navigate'
 import Drawer from '@/modules/header/drawer'
 import UserInfoBox from '@/modules/header/user-info'
 import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
-import { TextBase } from '@/widgets/text'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 
 export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
@@ -76,36 +75,8 @@ const Body = styled(HorizontalBetweenCenter)<{ isApp?: boolean }>(({ isApp = tru
       `,
 ])
 
-export const BoxLink = tw(Horizontal)`
-  h-full
-  w-full
-  items-center
-  max-md:hidden
-`
-
-export const Route = styled(Link)(
-  tw`
-  relative
-  text-black
-  text-xl
-  font-light
-  cursor-pointer
-  flex
-  flex-col
-  justify-center
-  items-center
-  h-full
-  px-4
-  `
-)
-
-export const Underline = tw.div`
-  h-[5px]
-  bg-primary-600
-  w-full
-  rounded-t-full
-  absolute
-  bottom-0
+const FullBrowser = tw(BrowserView)`
+  w-full h-full
 `
 
 export const MenuIcon = styled(Bars3Icon)(() => [
@@ -117,19 +88,7 @@ export const MenuIcon = styled(Bars3Icon)(() => [
 ])
 
 export const Header: FC<{}> = () => {
-  // hook
   const navigate = useNavigate()
-  const [navActive, setNavActive] = useState<string>('')
-  const location = useLocation()
-  useEffect(() => {
-    if (location.pathname.includes(NavigationEnum.COMMUNITY)) {
-      setNavActive(NavigationEnum.COMMUNITY)
-    } else if (location.pathname.includes(NavigationEnum.QUESTCARD)) {
-      setNavActive(NavigationEnum.QUESTCARD)
-    } else {
-      setNavActive(NavigationEnum.HOME)
-    }
-  }, [location])
 
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
@@ -150,7 +109,7 @@ export const Header: FC<{}> = () => {
         <LeftSection>
           {/* For mobile */}
           <MobileView>
-            <Drawer navActive={navActive} />
+            <Drawer />
             <MenuIcon onClick={() => !showNavigationDrawer && setShowNavigationDrawer(true)} />
           </MobileView>
           {/* ========== */}
@@ -164,16 +123,12 @@ export const Header: FC<{}> = () => {
             src={StorageConst.APP_LOGO_DIR.src}
             alt={StorageConst.APP_LOGO_DIR.alt}
           />
-          <BoxLink>
-            <Route to={RouterConst.COMMUNITIES}>
-              <TextBase>{'Communities'}</TextBase>
-              {navActive === NavigationEnum.COMMUNITY && <Underline />}
-            </Route>
-            <Route to={RouterConst.QUESTBOARD}>
-              <TextBase>{'QuesterCamp'}</TextBase>
-              {navActive === NavigationEnum.QUESTCARD && <Underline />}
-            </Route>
-          </BoxLink>
+
+          {/* For browser */}
+          <FullBrowser>
+            <BrowserNavigation />
+          </FullBrowser>
+          {/* ========== */}
         </LeftSection>
         <RightSection>
           <UserInfoBox />

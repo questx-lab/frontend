@@ -3,25 +3,22 @@
 import { FC } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
-import ControlPanel from '@/modules/account-setting/control-panel'
+import AccountControlPanel from '@/modules/account-setting/control-panel'
 import CommunitiesNavigation from '@/modules/community/communities-navigation'
+import CommunityControlPanel from '@/modules/community/control-panel'
+import DefaultDrawer from '@/modules/header/drawer/default'
+import AccountSettingsStore from '@/store/local/account-settings'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
 import BaseModal from '@/widgets/modal/base'
-import {
-  Horizontal,
-  HorizontalBetweenCenterFullWidth,
-  Vertical,
-  VerticalFullWidth,
-} from '@/widgets/orientation'
+import { Horizontal, HorizontalBetweenCenterFullWidth, Vertical } from '@/widgets/orientation'
 import { Divider } from '@/widgets/separator'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
@@ -40,7 +37,7 @@ export const CloseIcon = styled(XMarkIcon)(
 )
 
 const Content = tw(Vertical)`
-  w-5/6
+  w-80
   h-full
   bg-white
 `
@@ -52,12 +49,6 @@ const NoPaddingDivider = tw(Divider)`
 const PaddingHorizontal = tw(HorizontalBetweenCenterFullWidth)`
   px-4
   py-2
-`
-
-const NavigateBox = tw(VerticalFullWidth)`
-  gap-2
-  mx-2
-  mt-2
 `
 
 export const HorizotalFull = tw(Horizontal)`
@@ -72,29 +63,25 @@ const NoGapHorizontal = tw(Horizontal)`
   h-full
 `
 
-const NavigateOption = styled(Link)<{ isactive: boolean }>(({ isactive }) => {
-  const style = [
-    tw`
-    w-full
-    px-2
-    py-3
-    text-lg
-    font-normal
-    text-gray-700
-    rounded-lg
-  `,
-  ]
+const CanSettingCommunityOrDefault: FC = () => {
+  const location = useLocation()
+  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
-  if (isactive) {
-    style.push(tw`
-    bg-primary-50
-    text-primary
-  `)
+  const showPanel: boolean = canEdit && user
+
+  if (location.pathname.includes(RouterConst.COMMUNITIES + '/') && showPanel) {
+    return (
+      <div>
+        <CommunityControlPanel community={community} show={showPanel} />
+      </div>
+    )
   }
-  return style
-})
+  return <DefaultDrawer />
+}
 
-const RenderContent: FC<{ navActive: string }> = ({ navActive }) => {
+const RenderContent: FC = () => {
   // hook
   const navigate = useNavigate()
   const location = useLocation()
@@ -105,7 +92,11 @@ const RenderContent: FC<{ navActive: string }> = ({ navActive }) => {
   )
 
   if (location.pathname.includes(RouterConst.ACCOUNT_SETTINGS)) {
-    return <ControlPanel />
+    return (
+      <AccountSettingsStore.Provider>
+        <AccountControlPanel />
+      </AccountSettingsStore.Provider>
+    )
   }
 
   return (
@@ -125,31 +116,14 @@ const RenderContent: FC<{ navActive: string }> = ({ navActive }) => {
       </PaddingHorizontal>
       <NoPaddingDivider />
       <NoGapHorizontal>
-        <CommunityStore.Provider>
-          <CommunitiesNavigation isDrawer />
-        </CommunityStore.Provider>
-        <NavigateBox>
-          <NavigateOption
-            onClick={() => setShowNavigationDrawer(false)}
-            to={RouterConst.COMMUNITIES}
-            isactive={navActive === NavigationEnum.COMMUNITY}
-          >
-            {'Communities'}
-          </NavigateOption>
-          <NavigateOption
-            onClick={() => setShowNavigationDrawer(false)}
-            to={RouterConst.QUESTBOARD}
-            isactive={navActive === NavigationEnum.QUESTCARD}
-          >
-            {'Questcard'}
-          </NavigateOption>
-        </NavigateBox>
+        <CommunitiesNavigation isDrawer />
+        <CanSettingCommunityOrDefault />
       </NoGapHorizontal>
     </>
   )
 }
 
-const Drawer: FC<{ navActive: string }> = ({ navActive }) => {
+const Drawer: FC = () => {
   // Global data
   const showNavigationDrawer = useStoreState<GlobalStoreModel>(
     (state) => state.showNavigationDrawer
@@ -159,7 +133,7 @@ const Drawer: FC<{ navActive: string }> = ({ navActive }) => {
     <BaseModal isOpen={showNavigationDrawer}>
       <DrawerModal>
         <Content>
-          <RenderContent navActive={navActive} />
+          <RenderContent />
         </Content>
       </DrawerModal>
     </BaseModal>

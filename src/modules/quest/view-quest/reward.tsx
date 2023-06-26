@@ -16,6 +16,8 @@ const FrameShape = tw(Vertical)`
   h-full
   justify-start
   items-end
+  max-md:w-full
+  max-md:px-0
 `
 export const RewardDiscordRole = tw.span`
   text-[#565ADD]

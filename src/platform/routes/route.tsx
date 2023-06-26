@@ -9,6 +9,9 @@ import { getMyReferralInfoApi } from '@/api/reward'
 import { getUserApi } from '@/api/user'
 import { Header } from '@/modules/header'
 import { HomePage } from '@/platform/routes'
+import ActiveQuestStore from '@/store/local/active-quest'
+import CommunityStore from '@/store/local/community'
+import NewQuestStore from '@/store/local/new-quest'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType, RefferalType, UserType } from '@/types'
 import { CommunityType } from '@/types/community'
@@ -78,14 +81,18 @@ const Root: FC = () => {
   }, [data, data.user])
 
   return (
-    <>
-      <Main>
-        <OverscrollY>
-          <HomePage />
-        </OverscrollY>
-        <Header />
-      </Main>
-    </>
+    <Main>
+      <CommunityStore.Provider>
+        <NewQuestStore.Provider>
+          <ActiveQuestStore.Provider>
+            <OverscrollY>
+              <HomePage />
+            </OverscrollY>
+            <Header />
+          </ActiveQuestStore.Provider>
+        </NewQuestStore.Provider>
+      </CommunityStore.Provider>
+    </Main>
   )
 }
 

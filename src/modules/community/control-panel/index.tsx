@@ -17,6 +17,7 @@ export const FixedFrame = tw.div`
   border-r-2
   border-gray-200
   h-full
+  max-md:w-60
 `
 
 export const PersonWrap = tw(VerticalCenter)`

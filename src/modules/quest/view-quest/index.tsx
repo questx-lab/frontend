@@ -26,6 +26,7 @@ const OuterPadding = tw(Horizontal)`
   w-full
   gap-5
   p-6
+  max-md:flex-col
 `
 
 const RelativeFrame = tw.div`
