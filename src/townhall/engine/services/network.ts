@@ -1,24 +1,21 @@
-import WebSocket from '@/api/socket'
-import { MessageReceiverEnum } from '@/constants/townhall'
-import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
-import Game from '@/townhall/engine/scenes/game'
-import messageManager from '@/townhall/engine/services/message-manager'
-import phaserGame from '@/townhall/phaser-game'
-import { UserType } from '@/types'
-import {
-  CollectLuckyBoxValue,
-  IPlayer,
-  LuckyBoxValue,
-  MessageEmoji,
-  MessageHistoryItem,
-  MessageInitValue,
-  MessageJoinValue,
-  MessageMoveValue,
-  MessageReceiver,
-} from '@/types/townhall'
+import { ICloseEvent, IMessageEvent, w3cwebsocket } from 'websocket'
 
-export default class Network {
-  socket: null | WebSocket
+import { EnvVariables } from '@/constants/env.const'
+import { MessageReceiver } from '@/types/townhall'
+import { setCookieSocket } from '@/utils/helper'
+
+export interface NetworkListener {
+  onConnected: () => void
+  onDisconnected: () => void
+  onMessage: (event: MessageReceiver) => void
+}
+
+export type NetworkMessageType = {}
+
+class Network {
+  socket: null | w3cwebsocket
+  listeners = new Set<NetworkListener>()
+
   constructor() {
     // TODO: hardcode roomId
     this.socket = null
@@ -26,201 +23,52 @@ export default class Network {
 
   async socketDisconnect() {
     if (this.socket) {
-      this.socket.disconnect()
+      this.socket.close()
     }
   }
 
-  // TODO: Add player hardcode
-  // TODO: Log file for debug
-  async jointoMap(myPlayerData: UserType, roomId: string) {
-    const game = phaserGame.scene.keys.game as Game
-    this.socket = new WebSocket(roomId)
-    if (!this.socket.socket) {
-      return
+  addListener(listener: NetworkListener) {
+    this.listeners.add(listener)
+  }
+
+  removeListener(listener: NetworkListener) {
+    this.listeners.delete(listener)
+  }
+
+  async connectRoom(roomId: string) {
+    if (this.socket) {
+      // TODO: Disconnect and destsroy previous socket.
     }
-    this.socket.socket.onmessage = (event) => {
+
+    setCookieSocket()
+    const url = EnvVariables.SOCKET_SERVER + `/game?room_id=${roomId}`
+    this.socket = new w3cwebsocket(url)
+    this.socket.onopen = () => {
+      console.log('Socket is opened')
+      this.listeners.forEach((listener) => listener.onConnected())
+    }
+
+    this.socket.onclose = (event: ICloseEvent) => {
+      console.log('Socket is closed, close event = ', event)
+      this.listeners.forEach((listener) => listener.onDisconnected())
+    }
+
+    this.socket.onmessage = (event: IMessageEvent) => {
       const message = JSON.parse(event.data.toString()) as MessageReceiver
-      if (message.type === MessageReceiverEnum.INIT) {
-        // Init the message history
-        messageManager.initMessageList((message.value as MessageInitValue).message_history)
-
-        // Init
-        ;(message.value as MessageInitValue).users.forEach((user) => {
-          const { x, y } = user.pixel_position
-          const { name, id } = user.user
-
-          if (myPlayerData.id === user.user.id) {
-            if (game.myPlayer) {
-              game.myPlayer.updateMyPlayer(name, x, y, id)
-            }
-          } else {
-            const player: IPlayer = {
-              name,
-              x,
-              y,
-              anim: user.player.name,
-            }
-            phaserEvents.emit(Event.PLAYER_JOINED, player, user.user.id)
-          }
-        })
-
-        phaserEvents.emit(Event.CREATE_LUCKY_BOXES, message.value as LuckyBoxValue)
-      }
-
-      if (message.type === MessageReceiverEnum.JOIN) {
-        // Join
-        const value = message.value as MessageJoinValue
-        if (myPlayerData.id !== value.user.id) {
-          const player: IPlayer = {
-            name: value.user.name,
-            x: value.position.x,
-            y: value.position.y,
-            anim: value.user.name,
-          }
-          phaserEvents.emit(Event.PLAYER_JOINED, player, value.user.id)
-        }
-      }
-
-      if (message.type === MessageReceiverEnum.MOVE) {
-        // Move
-        const value = message.value as MessageMoveValue
-        // TODO: hardcode character name
-        phaserEvents.emit(
-          Event.PLAYER_UPDATED,
-          'anim',
-          `adam_run_${value.direction}`,
-          message.user_id
-        )
-        phaserEvents.emit(Event.PLAYER_UPDATED, 'x', value.x, message.user_id)
-        phaserEvents.emit(Event.PLAYER_UPDATED, 'y', value.y, message.user_id)
-
-        setTimeout(() => {
-          phaserEvents.emit(
-            Event.PLAYER_UPDATED,
-            'anim',
-            `adam_idle_${value.direction}`,
-            message.user_id
-          )
-        }, 100)
-      }
-      if (message.type === MessageReceiverEnum.EMOJI) {
-        const value = message.value as MessageEmoji
-
-        phaserEvents.emit(Event.PLAYER_UPDATED, 'emoji', value.emoji, message.user_id)
-      }
-      if (message.type === MessageReceiverEnum.EXIT) {
-        phaserEvents.emit(Event.PLAYER_LEFT, message.user_id)
-      }
-
-      if (message.type === MessageReceiverEnum.MESSAGE) {
-        messageManager.onNewMessage(message.value as MessageHistoryItem)
-      }
-
-      if (message.type === MessageReceiverEnum.START_LUCKY_BOX) {
-        phaserEvents.emit(Event.CREATE_LUCKY_BOXES, message.value as LuckyBoxValue)
-      }
-
-      if (message.type === MessageReceiverEnum.COLLECT_LUCKY_BOX) {
-        phaserEvents.emit(
-          Event.COLLECT_LUCKY_BOX,
-          message.value as CollectLuckyBoxValue,
-          message.user_id
-        )
-      }
-
-      if (message.type === MessageReceiverEnum.STOP_LUCKY_BOX) {
-        phaserEvents.emit(Event.REMOVE_LUCKY_BOXES, message.value as LuckyBoxValue)
-      }
+      this.listeners.forEach((listener) => listener.onMessage(message))
     }
   }
 
-  async sendEmoji(emoji: string) {
-    if (!this.socket || !this.socket.socket) {
+  send(message: any) {
+    if (!this.socket) {
       return
     }
 
-    this.socket.send({
-      type: MessageReceiverEnum.EMOJI,
-      value: {
-        emoji,
-      },
-    })
-  }
-
-  async collectLuckyBox(id: string) {
-    if (!this.socket || !this.socket.socket) {
-      return
-    }
-
-    this.socket.send({
-      type: MessageReceiverEnum.COLLECT_LUCKY_BOX,
-      value: {
-        luckybox_id: id,
-      },
-    })
-  }
-
-  // method to register event listener and call back function when a player joined
-  onPlayerJoined(callback: (Player: IPlayer, key: string) => void, context?: any) {
-    phaserEvents.on(Event.PLAYER_JOINED, callback, context)
-  }
-
-  // method to register event listener and call back function when a myplayer joined
-  onMyPlayerJoined(callback: (x: number, y: number, id: string) => void, context?: any) {
-    phaserEvents.on(Event.MY_PLAYER_JOINED, callback, context)
-  }
-
-  // method to register event listener and call back function when a player left
-  onPlayerLeft(callback: (key: string) => void, context?: any) {
-    phaserEvents.on(Event.PLAYER_LEFT, callback, context)
-  }
-
-  // method to register event listener and call back function when a player updated
-  onPlayerUpdated(
-    callback: (field: string, value: number | string, key: string) => void,
-    context?: any
-  ) {
-    phaserEvents.on(Event.PLAYER_UPDATED, callback, context)
-  }
-
-  onCreateLuckyBoxes(callback: (value: LuckyBoxValue) => void, context?: any) {
-    phaserEvents.on(Event.CREATE_LUCKY_BOXES, callback, context)
-  }
-
-  onCollectLuckyBox(
-    callback: (value: CollectLuckyBoxValue, userId: string) => void,
-    context?: any
-  ) {
-    phaserEvents.on(Event.COLLECT_LUCKY_BOX, callback, context)
-  }
-
-  onRemoveLuckyBoxes(callback: (value: LuckyBoxValue) => void, context?: any) {
-    phaserEvents.on(Event.REMOVE_LUCKY_BOXES, callback, context)
-  }
-
-  // method to send player updates to Colyseus server
-  updatePlayer(currentX: number, currentY: number, currentAnim: string) {
-    const direction = currentAnim.split('_').at(-1)
-    if (this.socket) {
-      this.socket.send({
-        type: MessageReceiverEnum.MOVE,
-        value: {
-          direction: direction,
-          x: parseInt(currentX.toFixed(0), 10),
-          y: parseInt(currentY.toFixed(0), 10),
-        },
-      })
-    }
-  }
-
-  sendChatMessage(message: string) {
-    if (this.socket) {
-      this.socket.send({
-        type: MessageReceiverEnum.MESSAGE,
-        value: {
-          message,
-        },
-      })
+    if (this.socket && this.socket.readyState === this.socket.OPEN) {
+      this.socket.send(JSON.stringify(message))
     }
   }
 }
+
+const network = new Network()
+export default network

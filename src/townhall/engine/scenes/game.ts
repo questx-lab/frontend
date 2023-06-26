@@ -3,16 +3,17 @@ import '@/townhall/engine/characters/other-player'
 
 import Phaser from 'phaser'
 
+import { MessageReceiverEnum } from '@/constants/townhall'
 import { createCharacterAnims } from '@/townhall/engine/anims/CharacterAnims'
 import MyPlayer from '@/townhall/engine/characters/my-player'
 import OtherPlayer from '@/townhall/engine/characters/other-player'
 import PlayerSelector from '@/townhall/engine/characters/player-selecter'
-import Network from '@/townhall/engine/services/network'
-import { CollectLuckyBoxValue, IPlayer, Keyboard, LuckyBoxValue, NavKeys } from '@/types/townhall'
 import LuckyBox from '@/townhall/engine/items/LuckyBox'
+import phaserGame from '@/townhall/engine/services/game-controller'
+import network from '@/townhall/engine/services/network'
+import { CollectLuckyBoxValue, IPlayer, Keyboard, LuckyBoxValue, NavKeys } from '@/types/townhall'
 
 export default class Game extends Phaser.Scene {
-  network!: Network
   private map!: Phaser.Tilemaps.Tilemap
   myPlayer!: MyPlayer
   private otherPlayers!: Phaser.Physics.Arcade.Group
@@ -21,12 +22,11 @@ export default class Game extends Phaser.Scene {
   private keyE!: Phaser.Input.Keyboard.Key
   private keyR!: Phaser.Input.Keyboard.Key
   private playerSelector!: Phaser.GameObjects.Zone
-  luckyBoxes: LuckyBox[]
+  luckyBoxes = new Map<string, LuckyBox>()
   private luckyBoxArcadeGroup!: Phaser.Physics.Arcade.Group
 
   constructor() {
     super('game')
-    this.luckyBoxes = []
   }
 
   registerKeys() {
@@ -44,7 +44,7 @@ export default class Game extends Phaser.Scene {
     this.input.keyboard.disableGlobalCapture()
   }
 
-  deregisterKeys() {
+  deRegisterKeys() {
     if (!this.input.keyboard) {
       return
     }
@@ -82,13 +82,7 @@ export default class Game extends Phaser.Scene {
     otherPlayer?.updateOtherPlayer(field, value)
   }
 
-  create(data: { network: Network }) {
-    if (!data.network) {
-      throw new Error('server instance missing')
-    } else {
-      this.network = data.network
-    }
-
+  create() {
     this.registerKeys()
     createCharacterAnims(this.anims)
 
@@ -100,7 +94,7 @@ export default class Game extends Phaser.Scene {
     }
     this.map.createLayer('Ground', FloorAndGround)
     const wallLayer = this.map.createLayer('Wall', FloorAndGround)
-    this.map.createLayer('Float', FloorAndGround)
+    this.map.createLayer('Float', FloorAndGround)?.setDepth(10000)
 
     if (!wallLayer) {
       return
@@ -143,21 +137,32 @@ export default class Game extends Phaser.Scene {
       this.luckyBoxArcadeGroup,
       async (object1, object2) => {
         if (object1 instanceof LuckyBox) {
-          const box = this.luckyBoxes.find((box) => box.id === object1.id)
+          const box = this.luckyBoxes.get(object1.id)
 
           if (box) {
             this.luckyBoxArcadeGroup.kill(box)
             this.removeLuckyBoxById(object1.id)
-            await this.network.collectLuckyBox(object1.id)
+
+            network.send({
+              type: MessageReceiverEnum.COLLECT_LUCKY_BOX,
+              value: {
+                luckybox_id: object1.id,
+              },
+            })
           }
         }
 
         if (object2 instanceof LuckyBox) {
-          const box = this.luckyBoxes.find((box) => box.id === object2.id)
+          const box = this.luckyBoxes.get(object2.id)
           if (box) {
             this.luckyBoxArcadeGroup.kill(box)
             this.removeLuckyBoxById(object2.id)
-            await this.network.collectLuckyBox(object2.id)
+            network.send({
+              type: MessageReceiverEnum.COLLECT_LUCKY_BOX,
+              value: {
+                luckybox_id: object2.id,
+              },
+            })
           }
         }
       },
@@ -166,13 +171,14 @@ export default class Game extends Phaser.Scene {
     )
 
     // register network event listeners
-    this.network.onPlayerJoined(this.handlePlayerJoined, this)
-    this.network.onPlayerLeft(this.handlePlayerLeft, this)
-    this.network.onPlayerUpdated(this.handlePlayerUpdated, this)
-    this.network.onPlayerLeft(this.handlePlayerLeft, this)
-    this.network.onCreateLuckyBoxes(this.handleCreateLuckyBoxes, this)
-    this.network.onCollectLuckyBox(this.handleCollectLuckyBox, this)
-    this.network.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
+    phaserGame.onPlayerJoined(this.handlePlayerJoined, this)
+    phaserGame.onPlayerLeft(this.handlePlayerLeft, this)
+    phaserGame.onPlayerUpdated(this.handlePlayerUpdated, this)
+    phaserGame.onPlayerLeft(this.handlePlayerLeft, this)
+    phaserGame.onCreateLuckyBoxes(this.handleCreateLuckyBoxes, this)
+    phaserGame.onCollectLuckyBox(this.handleCollectLuckyBox, this)
+    phaserGame.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
+    phaserGame.onMyPlayerEmoji(this.handleMyPlayerEmoji, this)
   }
 
   private addObjectFromTiled(
@@ -223,7 +229,7 @@ export default class Game extends Phaser.Scene {
   update(t: number, dt: number) {
     if (this.myPlayer) {
       this.playerSelector.update(this.myPlayer, this.cursors)
-      this.myPlayer.update(this.playerSelector, this.cursors, this.keyE, this.keyR, this.network)
+      this.myPlayer.update(this.playerSelector, this.cursors, this.keyE, this.keyR)
     }
   }
 
@@ -239,16 +245,16 @@ export default class Game extends Phaser.Scene {
     newLuckyboxes.forEach((box) => {
       box.display()
       this.luckyBoxArcadeGroup.add(box)
+      this.luckyBoxes.set(box.id, box)
     })
-    this.luckyBoxes = [...this.luckyBoxes, ...newLuckyboxes]
   }
 
   removeLuckyBoxById(id: string) {
-    const index = this.luckyBoxes.findIndex((box) => box.id === id)
-    if (index !== -1) {
-      this.luckyBoxArcadeGroup.kill(this.luckyBoxes[index])
-      this.luckyBoxes[index].destroy()
-      this.luckyBoxes.splice(index, 1)
+    const box = this.luckyBoxes.get(id)
+    if (box) {
+      this.luckyBoxArcadeGroup.kill(box)
+      box.destroy()
+      this.luckyBoxes.delete(id)
     }
   }
 
@@ -280,5 +286,9 @@ export default class Game extends Phaser.Scene {
     if (!value.luckyboxes) return
     const ids = value.luckyboxes.map((box) => box.id)
     this.removeLuckyBoxByIds(ids)
+  }
+
+  handleMyPlayerEmoji(emoji: string) {
+    this.myPlayer.setPlayerEmoji(emoji)
   }
 }

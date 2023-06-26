@@ -12,8 +12,6 @@ import { ErrorCodes } from '@/constants/code.const'
 import { GlobalStoreModel } from '@/store/store'
 import LuckyBoxStore from '@/store/townhall/lucky-box'
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
-import Game from '@/townhall/engine/scenes/game'
-import phaserGame from '@/townhall/phaser-game'
 import { UserType } from '@/types'
 import { LuckyBoxReq } from '@/types/townhall'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
@@ -199,7 +197,7 @@ const TabLuckyBox: FC = () => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   const community = RoomStore.useStoreState((state) => state.community)
   const toggleTab = RoomStore.useStoreActions((action) => action.toggleTab)
-  const game = phaserGame.scene.keys.game as Game
+  // const game = phaserGame.scene.keys.game as Game
 
   if (user && community && user.id !== community.created_by) {
     return <></>
@@ -207,14 +205,14 @@ const TabLuckyBox: FC = () => {
 
   const onClick = () => {
     toggleTab(ActiveSidebarTab.LUCKY_BOX_SETTING)
-    switch (activeTab) {
-      case ActiveSidebarTab.NONE:
-        game.deregisterKeys()
-        break
-      case ActiveSidebarTab.LUCKY_BOX_SETTING:
-        game.registerKeys()
-        break
-    }
+    // switch (activeTab) {
+    //   case ActiveSidebarTab.NONE:
+    //     game.deregisterKeys()
+    //     break
+    //   case ActiveSidebarTab.LUCKY_BOX_SETTING:
+    //     game.registerKeys()
+    //     break
+    // }
   }
 
   return (
