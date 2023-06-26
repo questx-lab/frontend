@@ -21,6 +21,7 @@ export default class Game extends Phaser.Scene {
   private cursors!: NavKeys
   private keyE!: Phaser.Input.Keyboard.Key
   private keyR!: Phaser.Input.Keyboard.Key
+  private keyX!: Phaser.Input.Keyboard.Key
   private playerSelector!: Phaser.GameObjects.Zone
   luckyBoxes = new Map<string, LuckyBox>()
   private luckyBoxArcadeGroup!: Phaser.Physics.Arcade.Group
@@ -41,6 +42,7 @@ export default class Game extends Phaser.Scene {
     // maybe we can have a dedicated method for adding keys if more keys are needed in the future
     this.keyE = this.input.keyboard.addKey('E')
     this.keyR = this.input.keyboard.addKey('R')
+    this.keyX = this.input.keyboard.addKey('X')
     this.input.keyboard.disableGlobalCapture()
   }
 
@@ -207,6 +209,8 @@ export default class Game extends Phaser.Scene {
   ) {
     const group = this.physics.add.staticGroup()
     const objectLayer = this.map.getObjectLayer(objectLayerName)
+    console.log('objectLayer', objectLayer)
+
     if (!objectLayer) {
       return
     }
@@ -229,7 +233,7 @@ export default class Game extends Phaser.Scene {
   update(t: number, dt: number) {
     if (this.myPlayer) {
       this.playerSelector.update(this.myPlayer, this.cursors)
-      this.myPlayer.update(this.playerSelector, this.cursors, this.keyE, this.keyR)
+      this.myPlayer.update(this.playerSelector, this.cursors, this.keyE, this.keyR, this.keyX)
     }
   }
 
@@ -244,6 +248,7 @@ export default class Game extends Phaser.Scene {
     )
     newLuckyboxes.forEach((box) => {
       box.display()
+
       this.luckyBoxArcadeGroup.add(box)
       this.luckyBoxes.set(box.id, box)
     })

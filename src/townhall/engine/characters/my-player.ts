@@ -55,7 +55,8 @@ export default class MyPlayer extends Player {
     playerSelector: PlayerSelector,
     cursors: NavKeys,
     keyE: Phaser.Input.Keyboard.Key,
-    keyR: Phaser.Input.Keyboard.Key
+    keyR: Phaser.Input.Keyboard.Key,
+    keyX: Phaser.Input.Keyboard.Key
   ) {
     if (!cursors) return
 
@@ -192,6 +193,9 @@ export default class MyPlayer extends Player {
           // TODO: send new action to server
         }
         break
+    }
+    if (Phaser.Input.Keyboard.JustDown(keyX)) {
+      console.log('press X')
     }
   }
 }

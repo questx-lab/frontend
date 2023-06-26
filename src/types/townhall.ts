@@ -8,6 +8,7 @@ export enum ItemType {
   WHITEBOARD,
   VENDINGMACHINE,
   LUCKY_BOX,
+  LEADER_BOARD,
 }
 
 export enum PlayerBehavior {
