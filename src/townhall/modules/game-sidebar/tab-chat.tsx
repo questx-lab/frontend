@@ -5,8 +5,7 @@ import tw from 'twin.macro'
 
 import StorageConst from '@/constants/storage.const'
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
-import Game from '@/townhall/engine/scenes/game'
-import phaserGame from '@/townhall/phaser-game'
+import phaserGame from '@/townhall/engine/services/game-controller'
 import { Image } from '@/widgets/image'
 
 const Background = styled.div<{ active: boolean }>(({ active }) => {
@@ -32,13 +31,12 @@ const TabChat: FC = () => {
   const toggleTab = RoomStore.useStoreActions((action) => action.toggleTab)
 
   const onChatClicked = () => {
-    const game = phaserGame.scene.keys.game as Game
     switch (activeTab) {
       case ActiveSidebarTab.NONE:
-        game.deregisterKeys()
+        phaserGame.deRegisterKey()
         break
       case ActiveSidebarTab.CHAT:
-        game.registerKeys()
+        phaserGame.registerKey()
         break
     }
 
