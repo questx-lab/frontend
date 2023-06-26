@@ -22,12 +22,11 @@ export default class Game extends Phaser.Scene {
   private keyE!: Phaser.Input.Keyboard.Key
   private keyR!: Phaser.Input.Keyboard.Key
   private playerSelector!: Phaser.GameObjects.Zone
-  luckyBoxes: LuckyBox[]
+  luckyBoxes = new Map<string, LuckyBox>()
   private luckyBoxArcadeGroup!: Phaser.Physics.Arcade.Group
 
   constructor() {
     super('game')
-    this.luckyBoxes = []
   }
 
   registerKeys() {
@@ -138,7 +137,7 @@ export default class Game extends Phaser.Scene {
       this.luckyBoxArcadeGroup,
       async (object1, object2) => {
         if (object1 instanceof LuckyBox) {
-          const box = this.luckyBoxes.find((box) => box.id === object1.id)
+          const box = this.luckyBoxes.get(object1.id)
 
           if (box) {
             this.luckyBoxArcadeGroup.kill(box)
@@ -154,7 +153,7 @@ export default class Game extends Phaser.Scene {
         }
 
         if (object2 instanceof LuckyBox) {
-          const box = this.luckyBoxes.find((box) => box.id === object2.id)
+          const box = this.luckyBoxes.get(object2.id)
           if (box) {
             this.luckyBoxArcadeGroup.kill(box)
             this.removeLuckyBoxById(object2.id)
@@ -246,16 +245,16 @@ export default class Game extends Phaser.Scene {
     newLuckyboxes.forEach((box) => {
       box.display()
       this.luckyBoxArcadeGroup.add(box)
+      this.luckyBoxes.set(box.id, box)
     })
-    this.luckyBoxes = [...this.luckyBoxes, ...newLuckyboxes]
   }
 
   removeLuckyBoxById(id: string) {
-    const index = this.luckyBoxes.findIndex((box) => box.id === id)
-    if (index !== -1) {
-      this.luckyBoxArcadeGroup.kill(this.luckyBoxes[index])
-      this.luckyBoxes[index].destroy()
-      this.luckyBoxes.splice(index, 1)
+    const box = this.luckyBoxes.get(id)
+    if (box) {
+      this.luckyBoxArcadeGroup.kill(box)
+      box.destroy()
+      this.luckyBoxes.delete(id)
     }
   }
 
