@@ -95,7 +95,7 @@ export default class Game extends Phaser.Scene {
     }
     this.map.createLayer('Ground', FloorAndGround)
     const wallLayer = this.map.createLayer('Wall', FloorAndGround)
-    this.map.createLayer('Float', FloorAndGround)
+    this.map.createLayer('Float', FloorAndGround)?.setDepth(10000)
 
     if (!wallLayer) {
       return
