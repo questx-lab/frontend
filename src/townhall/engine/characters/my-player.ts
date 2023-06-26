@@ -6,6 +6,7 @@ import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
 import Chair from '@/townhall/engine/items/Chair'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import { ItemType, NavKeys, PlayerBehavior } from '@/types/townhall'
+import LeaderBoard from '@/townhall/engine/items/LeaderBoard'
 
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body
@@ -61,6 +62,10 @@ export default class MyPlayer extends Player {
     if (!cursors) return
 
     const item = playerSelector.selectedItem
+
+    if (Phaser.Input.Keyboard.JustDown(keyX)) {
+      console.log(item)
+    }
 
     if (Phaser.Input.Keyboard.JustDown(keyR)) {
       switch (

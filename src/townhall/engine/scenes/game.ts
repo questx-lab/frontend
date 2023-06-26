@@ -12,6 +12,7 @@ import LuckyBox from '@/townhall/engine/items/LuckyBox'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import network from '@/townhall/engine/services/network'
 import { CollectLuckyBoxValue, IPlayer, Keyboard, LuckyBoxValue, NavKeys } from '@/types/townhall'
+import LeaderBoard from '@/townhall/engine/items/LeaderBoard'
 
 export default class Game extends Phaser.Scene {
   private map!: Phaser.Tilemaps.Tilemap
@@ -22,9 +23,10 @@ export default class Game extends Phaser.Scene {
   private keyE!: Phaser.Input.Keyboard.Key
   private keyR!: Phaser.Input.Keyboard.Key
   private keyX!: Phaser.Input.Keyboard.Key
-  private playerSelector!: Phaser.GameObjects.Zone
+  private playerSelector!: PlayerSelector
   luckyBoxes = new Map<string, LuckyBox>()
   private luckyBoxArcadeGroup!: Phaser.Physics.Arcade.Group
+  private leaderBoard!: LeaderBoard
 
   constructor() {
     super('game')
@@ -108,6 +110,15 @@ export default class Game extends Phaser.Scene {
     this.myPlayer.setPlayerTexture('adam')
 
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16)
+    this.leaderBoard = new LeaderBoard(this, 2368, 1792)
+
+    const whiteboards = this.physics.add.staticGroup({ classType: LeaderBoard })
+    const layer = this.map.createLayer('Whiteboars', 'whiteboard', 2368, 1792)
+    const whiteboardLayer = this.map.getObjectLayer('Whiteboards')
+    whiteboards.add(this.leaderBoard)
+    this.leaderBoard.display()
+    console.log(whiteboardLayer)
+    // this.addObjectFromTiled(whiteboards)
 
     // import other objects from Tiled map to Phaser
     this.addGroupFromTiled('Wall', 'tiles_wall', 'FloorAndGround', false)
@@ -124,7 +135,24 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.myPlayer, true)
 
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], wallLayer)
+    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], this.leaderBoard.zone)
+
     wallLayer.setCollisionBetween(1, 1000)
+
+    // overlap with leader board
+    this.physics.add.overlap(
+      this.leaderBoard.zone,
+      this.myPlayer,
+      async (object1, object2) => {
+        // this.leaderBoard.onOverlapDialog()
+        // this.playerSelector.update(this.leaderBoard)
+
+        // this.playerSelector.update(object1)
+        this.playerSelector.selectedItem = this.leaderBoard
+      },
+      undefined,
+      this
+    )
 
     this.physics.add.overlap(
       this.myPlayer,
@@ -209,7 +237,6 @@ export default class Game extends Phaser.Scene {
   ) {
     const group = this.physics.add.staticGroup()
     const objectLayer = this.map.getObjectLayer(objectLayerName)
-    console.log('objectLayer', objectLayer)
 
     if (!objectLayer) {
       return
