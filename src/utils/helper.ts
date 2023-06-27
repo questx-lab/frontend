@@ -38,9 +38,9 @@ export const setCookieSocket = () => {
   const domain = window.location.hostname.split('.').slice(-2).join('.')
   const accessToken = getAccessToken()
   if (accessToken) {
-    const dToken: any = jwt(accessToken)
+    const jwtToken: any = jwt(accessToken)
     const cookieExpDate: Date = new Date(
-      (Math.floor(Date.now() / 1000) + (dToken['exp'] - Math.floor(Date.now() / 1000))) * 1000
+      (Math.floor(Date.now() / 1000) + (jwtToken['exp'] - Math.floor(Date.now() / 1000))) * 1000
     )
     const cookieExpFormatted: string = cookieExpDate.toUTCString()
 
