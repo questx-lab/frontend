@@ -1,6 +1,8 @@
 import { deleteCookie, getCookie, hasCookie, setCookie } from 'cookies-next'
 import jwt from 'jwt-decode'
 
+import { refreshTokenApi } from '@/api/user'
+import { ErrorCodes } from '@/constants/code.const'
 import { KeysEnum } from '@/constants/key.const'
 import { UserType } from '@/types'
 
@@ -34,11 +36,33 @@ export const setAccessToken = (cookie: string) => {
   })
 }
 
-export const setCookieSocket = () => {
+export const setCookieSocket = async () => {
   const domain = window.location.hostname.split('.').slice(-2).join('.')
   const accessToken = getAccessToken()
+  const refreshToken = getAccessToken()
   if (accessToken) {
-    document.cookie = `access_token=${accessToken};domain=${domain};path=/`
+    const jwtToken: any = jwt(accessToken)
+    const cookieExpDate: Date = new Date(
+      (Math.floor(Date.now() / 1000) + (jwtToken['exp'] - Math.floor(Date.now() / 1000))) * 1000
+    )
+    const cookieExpFormatted: string = cookieExpDate.toUTCString()
+
+    document.cookie = `access_token=${accessToken};domain=${domain};path=/;expires=${cookieExpFormatted}`
+  }
+
+  if (!accessToken && refreshToken) {
+    const data = await refreshTokenApi(refreshToken)
+    if (data.code === ErrorCodes.NOT_ERROR && data.data) {
+      setAccessToken(data.data.access_token)
+      setRefreshToken(data.data.refresh_token)
+      const jwtToken: any = jwt(data.data.access_token)
+      const cookieExpDate: Date = new Date(
+        (Math.floor(Date.now() / 1000) + (jwtToken['exp'] - Math.floor(Date.now() / 1000))) * 1000
+      )
+      const cookieExpFormatted: string = cookieExpDate.toUTCString()
+
+      document.cookie = `access_token=${data.data.access_token};domain=${domain};path=/;expires=${cookieExpFormatted}`
+    }
   }
 }
 
