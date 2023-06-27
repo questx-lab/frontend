@@ -112,6 +112,7 @@ const AddressWallet: FC = () => {
 
   const summitClaim = async (address: string) => {
     try {
+      // TODO: Currently not working because blockchain is not available
       const result = await claimReferralApi(address)
       if (result.error) {
         toast.error(result.error)
