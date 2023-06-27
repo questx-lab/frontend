@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
@@ -10,7 +10,7 @@ import { Horizontal } from '@/widgets/orientation'
 
 const TopMargin = tw(Horizontal)`
   min-h-screen
-  pt-[70px]
+  pt-[64px]
 `
 
 export const MainContent = tw.div`
@@ -33,7 +33,7 @@ const LeftMargin = styled.div<{ hasUser: boolean }>(({ hasUser }) => {
   return tw`w-full`
 })
 
-export const LayoutWithLeftPanel: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
+export const LayoutWithLeftPanel: FC<{ children: ReactNode }> = ({ children }) => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
   return (

@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
 
@@ -7,7 +7,7 @@ import { OtherCommunities } from '@/platform/routes/homepage'
 import { CommunityType } from '@/types/community'
 import Trending from '@/widgets/trending'
 
-const Index: FunctionComponent = () => {
+const Index: FC = () => {
   const [communities, setCommunities] = useState<CommunityType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 

@@ -1,11 +1,37 @@
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-export const Divider = tw.div`
-  bg-gray-300
-  h-[1px]
-  w-full
-`
+export const Divider = styled.div<{ thickness?: number }>(({ thickness }) => {
+  if (thickness === 2) {
+    return tw`
+      bg-gray-300
+      h-[2px]
+      w-full
+    `
+  }
+
+  return tw`
+    bg-gray-300
+    h-[1px]
+    w-full
+  `
+})
+
+export const VerticalDivider = styled.div<{ thickness?: number }>(({ thickness }) => {
+  if (thickness === 2) {
+    return tw`
+      bg-gray-300
+      w-[2px]
+      h-full
+    `
+  }
+
+  return tw`
+    bg-gray-300
+    w-[1px]
+    h-full
+  `
+})
 
 type GapProps = {
   width?: number

@@ -1,13 +1,13 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
+import StorageConst from '@/constants/storage.const'
 import QuestCardToView from '@/modules/quest/quest-card-to-view'
-import CommunityStore from '@/store/local/community'
 import { QuestType } from '@/types/quest'
-import { VerticalFullWidth } from '@/widgets/orientation'
-import { Gap } from '@/widgets/separator'
-import { HeaderText } from '@/widgets/text'
+import { Image } from '@/widgets/image'
+import { VerticalCenter, VerticalFullWidth } from '@/widgets/orientation'
+import { HeaderText, NormalText } from '@/widgets/text'
 
 const Grid = tw.div`
   w-full
@@ -21,10 +21,20 @@ const Grid = tw.div`
 `
 
 const PaddingVertical = tw(VerticalFullWidth)`
-  py-6
+  py-3
+  gap-6
 `
 
-export const QuestListView: FunctionComponent<{
+const EmptyBox = tw(VerticalCenter)`
+  w-full
+  p-3
+`
+
+const CenterNormalText = tw(NormalText)`
+  text-center
+`
+
+export const QuestListView: FC<{
   quests: QuestType[]
 }> = ({ quests }) => {
   if (!quests) {
@@ -36,24 +46,36 @@ export const QuestListView: FunctionComponent<{
   return <>{questListView}</>
 }
 
-const Quests: FunctionComponent<{
-  show: boolean
-  categoryTitle: string
-}> = ({ show, categoryTitle }) => {
-  const quests = CommunityStore.useStoreState((action) => action.quests)
+const RenderQuest: FC<{ quests: QuestType[] }> = ({ quests }) => {
+  if (quests.length === 0) {
+    return (
+      <EmptyBox>
+        <Image width={250} height={250} src={StorageConst.HUSKY.src} alt={StorageConst.HUSKY.alt} />
+        <CenterNormalText>{'There is no quests yet.'}</CenterNormalText>
+      </EmptyBox>
+    )
+  }
+  return (
+    <Grid>
+      <QuestListView quests={quests} />
+    </Grid>
+  )
+}
 
-  if (!show) {
+const Quests: FC<{
+  quests: QuestType[]
+  show: boolean
+  categoryTitle?: string
+}> = ({ show, categoryTitle, quests }) => {
+  if (!show || !quests) {
     return <></>
   }
 
   return (
     <>
       <PaddingVertical>
-        <HeaderText>{categoryTitle}</HeaderText>
-        <Gap height={6} />
-        <Grid>
-          <QuestListView quests={quests} />
-        </Grid>
+        {categoryTitle && <HeaderText>{categoryTitle}</HeaderText>}
+        <RenderQuest quests={quests} />
       </PaddingVertical>
     </>
   )

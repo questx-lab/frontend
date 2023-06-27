@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent, ReactNode } from 'react'
+import { ChangeEvent, FC, KeyboardEventHandler, ReactNode } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -80,7 +80,7 @@ const InputStyle = styled.input<{ full: boolean }>(({ full }) => {
   return style
 })
 
-export const NumberInput: FunctionComponent<{
+export const NumberInput: FC<{
   full?: boolean
   leftChild?: ReactNode
   min?: number
@@ -101,16 +101,22 @@ export const NumberInput: FunctionComponent<{
   )
 }
 
-export const TextInput: FunctionComponent<{
+export const TextInput: FC<{
   full?: boolean
   leftChild?: ReactNode
   defaultValue?: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
-}> = ({ onChange, full = false, leftChild = <></>, defaultValue = '' }) => {
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
+}> = ({ onChange, full = false, leftChild = <></>, defaultValue = '', onKeyDown }) => {
   return (
     <InputBorder>
       {leftChild}
-      <InputStyle full={full} onChange={onChange} defaultValue={defaultValue} />
+      <InputStyle
+        full={full}
+        onChange={onChange}
+        defaultValue={defaultValue}
+        onKeyDown={onKeyDown}
+      />
     </InputBorder>
   )
 }

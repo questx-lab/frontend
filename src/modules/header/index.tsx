@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { MobileView } from 'react-device-detect'
@@ -14,7 +14,7 @@ import UserInfoBox from '@/modules/header/user-info'
 import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
-import { NormalText } from '@/widgets/text'
+import { TextBase } from '@/widgets/text'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 
 export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
@@ -24,7 +24,7 @@ export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
   flex-row
   justify-between
   items-center
-  h-[70px]
+  h-[64px]
   border-b-[1px]
   border-gray-200
   fixed
@@ -116,7 +116,7 @@ export const MenuIcon = styled(Bars3Icon)(() => [
 `,
 ])
 
-export const Header: FunctionComponent<{}> = () => {
+export const Header: FC<{}> = () => {
   // hook
   const navigate = useNavigate()
   const [navActive, setNavActive] = useState<string>('')
@@ -166,11 +166,11 @@ export const Header: FunctionComponent<{}> = () => {
           />
           <BoxLink>
             <Route to={RouterConst.COMMUNITIES}>
-              <NormalText>{'Communities'}</NormalText>
+              <TextBase>{'Communities'}</TextBase>
               {navActive === NavigationEnum.COMMUNITY && <Underline />}
             </Route>
             <Route to={RouterConst.QUESTBOARD}>
-              <NormalText>{'QuesterCamp'}</NormalText>
+              <TextBase>{'QuesterCamp'}</TextBase>
               {navActive === NavigationEnum.QUESTCARD && <Underline />}
             </Route>
           </BoxLink>

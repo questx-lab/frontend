@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
@@ -15,7 +15,7 @@ import {
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
 import { Divider } from '@/widgets/separator'
-import { Large3xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
 
 const SearchPadding = tw(Horizontal)`
@@ -56,7 +56,7 @@ const GapVertical = tw(VerticalFullWidthCenter)`
   gap-8
 `
 
-const NewCommunity: FunctionComponent<{
+const NewCommunity: FC<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   return (
@@ -67,7 +67,7 @@ const NewCommunity: FunctionComponent<{
   )
 }
 
-const Index: FunctionComponent = () => {
+const Index: FC = () => {
   // hook
   const [isOpen, setOpen] = useState<boolean>(false)
   const [query, setQuery] = useState<string>('')
@@ -81,7 +81,7 @@ const Index: FunctionComponent = () => {
     <PaddingVertical>
       <MainContent>
         <HorizontalBetweenCenterFullWidth>
-          <Large3xlText>{'👋 Communities'}</Large3xlText>
+          <Text2xl>{'👋 Communities'}</Text2xl>
           <NewCommunity setOpen={setOpen} />
         </HorizontalBetweenCenterFullWidth>
       </MainContent>

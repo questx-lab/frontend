@@ -1,10 +1,10 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { SubtypeBox } from '@/modules/create-quest/quest-type/mini-widget'
 import NewQuestStore from '@/store/local/new-quest'
 import { TextField } from '@/widgets/form'
 
-const JoinTelegarm: FunctionComponent = () => {
+const JoinTelegarm: FC = () => {
   // data
   const telegramLink = NewQuestStore.useStoreState((state) => state.telegramLink)
 

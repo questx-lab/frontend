@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
@@ -31,7 +31,7 @@ const WarningText = tw.span`
   text-start
 `
 
-const CreateCommunityStep: FunctionComponent = () => {
+const CreateCommunityStep: FC = () => {
   // data
   const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
   const inviteCode = NewCommunityStore.useStoreState((state) => state.inviteCode)
@@ -40,6 +40,7 @@ const CreateCommunityStep: FunctionComponent = () => {
   const twitterUrl = NewCommunityStore.useStoreState((state) => state.twitterUrl)
   const description = NewCommunityStore.useStoreState((state) => state.introduction)
   const urlName = NewCommunityStore.useStoreState((state) => state.logoUrl)
+  const email = NewCommunityStore.useStoreState((state) => state.email)
 
   // action
   const setCurrentStep = NewCommunityStore.useStoreActions((action) => action.setCurrentStep)
@@ -61,6 +62,7 @@ const CreateCommunityStep: FunctionComponent = () => {
         handle: urlName,
         website_url: websiteUrl,
         twitter: twitterUrl,
+        owner_email: email,
       }
 
       const data = await newCommunityApi(payload)

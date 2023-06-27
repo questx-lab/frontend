@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, ReactNode } from 'react'
+import { FC, Fragment, ReactNode } from 'react'
 
 import tw from 'twin.macro'
 
@@ -6,7 +6,7 @@ import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
 import { Horizontal, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { SmallSpinner } from '@/widgets/spinner'
-import { Large2xlText, NormalText } from '@/widgets/text'
+import { NormalText, Text2xl } from '@/widgets/text'
 
 const StartVertical = tw(VerticalFullWidthCenter)`
   gap-3
@@ -17,7 +17,7 @@ const HorizotalStart = tw(Horizontal)`
   gap-3
 `
 
-const SearchResult: FunctionComponent<{
+const SearchResult: FC<{
   query: string
   data: any[]
   loading?: boolean
@@ -28,7 +28,7 @@ const SearchResult: FunctionComponent<{
     return (
       <StartVertical>
         <HorizotalStart>
-          <Large2xlText>{'Results'}</Large2xlText>
+          <Text2xl>{'Results'}</Text2xl>
         </HorizotalStart>
         <SmallSpinner />
       </StartVertical>
@@ -40,7 +40,7 @@ const SearchResult: FunctionComponent<{
       return (
         <StartVertical>
           <HorizotalStart>
-            <Large2xlText>{'Results'}</Large2xlText>
+            <Text2xl>{'Results'}</Text2xl>
           </HorizotalStart>
           <Image
             width={300}
@@ -56,7 +56,7 @@ const SearchResult: FunctionComponent<{
     return (
       <StartVertical>
         <HorizotalStart>
-          <Large2xlText>{'Results'}</Large2xlText>
+          <Text2xl>{'Results'}</Text2xl>
         </HorizotalStart>
 
         {renderResult}

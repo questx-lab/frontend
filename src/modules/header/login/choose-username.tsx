@@ -1,4 +1,4 @@
-import { FC, FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -60,6 +60,7 @@ const EmailText = tw.span`
   font-normal
   text-gray-500
   max-w-[250px]
+  max-sm:max-w-[100px]
   overflow-hidden
   text-ellipsis
   line-clamp-1
@@ -176,7 +177,7 @@ const RenderLogoSocial: FC = () => {
   )
 }
 
-const UserBox: FunctionComponent = () => {
+const UserBox: FC = () => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
   return (
@@ -193,7 +194,7 @@ const UserBox: FunctionComponent = () => {
   )
 }
 
-const ChooseUserName: FunctionComponent<{
+const ChooseUserName: FC<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   // hook
@@ -227,7 +228,7 @@ const ChooseUserName: FunctionComponent<{
     }
   }
 
-  const LoadingBtn: FunctionComponent = () => {
+  const LoadingBtn: FC = () => {
     if (loading) {
       return <MoonLoader color='#fff' loading speedMultiplier={0.8} size={25} />
     }

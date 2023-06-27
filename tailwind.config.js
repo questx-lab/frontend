@@ -6,27 +6,26 @@ module.exports = {
     extend: {
       fontSize: {
         xs: [
-          '0.6rem',
+          '0.75rem',
           {
-            lineHeight: '1.2rem',
+            lineHeight: '1rem',
           },
         ],
         sm: [
-          '0.8rem',
+          '0.875rem',
           {
-            lineHeight: '1.4rem',
+            lineHeight: '1.25rem',
           },
         ],
         lg: [
           '1rem',
           {
-            lineHeight: '1.6rem',
+            lineHeight: '1.5rem',
           },
         ],
         xl: [
           '1.25rem',
           {
-            lineHeight: '1.8rem',
             letterSpacing: '-0.01em',
           },
         ],
@@ -34,76 +33,18 @@ module.exports = {
           '1.5rem',
           {
             lineHeight: '2rem',
-            letterSpacing: '-0.01em',
-          },
-        ],
-        '3xl': [
-          '1.875rem',
-          {
-            lineHeight: '2.25rem',
-            letterSpacing: '-0.02em',
           },
         ],
         '4xl': [
-          '2rem',
-          {
-            lineHeight: '2.25rem',
-            letterSpacing: '-0.02em',
-          },
-        ],
-        '5xl': [
           '2.25rem',
           {
-            lineHeight: '2.25rem',
-            letterSpacing: '-0.02em',
-          },
-        ],
-        '6xl': [
-          '2.5rem',
-          {
-            lineHeight: '2.25rem',
-            letterSpacing: '-0.02em',
-          },
-        ],
-        '7xl': [
-          '2.75rem',
-          {
-            lineHeight: '2.25rem',
-            letterSpacing: '-0.02em',
+            lineHeight: '2.5rem',
           },
         ],
         '8xl': [
           '3rem',
           {
             lineHeight: '2.25rem',
-            letterSpacing: '-0.02em',
-          },
-        ],
-        '9xl': [
-          '3.5rem',
-          {
-            lineHeight: '2.7rem',
-            letterSpacing: '-0.035em',
-          },
-        ],
-        '10xl': [
-          '4rem',
-          {
-            lineHeight: '3rem',
-            letterSpacing: '-0.05em',
-          },
-        ],
-        '11xl': [
-          '5rem',
-          {
-            lineHeight: '4rem',
-            letterSpacing: '-0.07em',
-          },
-        ],
-        '12xl': [
-          '6rem',
-          {
-            lineHeight: '5rem',
             letterSpacing: '-0.02em',
           },
         ],
@@ -204,11 +145,17 @@ module.exports = {
         500: '#14B8A6',
         DEFAULT: '#14B8A6',
       },
+      orange: {
+        100: '#FFF0DE',
+        DEFAULT: '#FF7B05',
+      },
+    },
+    fontWeight: {
+      light: '300',
+      normal: '400',
+      medium: '500',
+      bold: '600',
     },
   },
-  plugins: [
-    'babel-plugin-twin',
-    'babel-plugin-macros',
-    require('@tailwindcss/line-clamp'),
-  ],
+  plugins: ['babel-plugin-twin', 'babel-plugin-macros', require('@tailwindcss/line-clamp')],
 }

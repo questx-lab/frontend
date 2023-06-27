@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent } from 'react'
+import { ChangeEvent, FC } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -20,32 +20,46 @@ import { ClaimQuestType } from '@/types'
 import { Image } from '@/widgets/image'
 import { HorizontalBetweenCenterFullWidth, Vertical } from '@/widgets/orientation'
 
-const Status = styled.div<{ claimStatus?: string }>(
-  ({ claimStatus = ClaimedQuestStatus.PENDING }) => [
-    claimStatus === ClaimedQuestStatus.ACCEPTED &&
+export const Status = styled.div<{ claimStatus?: string }>(
+  ({ claimStatus = ClaimedQuestStatus.PENDING }) => {
+    const styles = [
       tw`
-  text-sm
-  font-medium
-  text-success-700
-  py-2
-  px-3
-  rounded-lg
-  bg-success-100
-  `,
-    claimStatus === ClaimedQuestStatus.REJECTED &&
-      tw`
-  text-sm
-  font-medium
-  text-danger-700
-  py-2
-  px-3
-  rounded-lg
-  bg-danger-100
-  `,
-  ]
+        text-sm
+        font-medium
+        py-2
+        px-3
+        rounded-lg
+    `,
+    ]
+
+    switch (claimStatus) {
+      case ClaimedQuestStatus.ACCEPTED:
+        styles.push(tw`
+          text-success-700
+          bg-success-100
+        `)
+        break
+
+      case ClaimedQuestStatus.REJECTED:
+        styles.push(tw`
+          text-danger-700
+          bg-danger-100
+        `)
+        break
+
+      case ClaimedQuestStatus.PENDING:
+        styles.push(tw`
+            text-warning-700
+            bg-warning-100
+          `)
+        break
+    }
+
+    return styles
+  }
 )
 
-const RowItem: FunctionComponent<{
+const RowItem: FC<{
   active: boolean
   onChange: (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => void
   claim: ClaimQuestType

@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import parseHtml from 'html-react-parser'
 import styled from 'styled-components'
@@ -49,7 +49,8 @@ const BorderBox = styled.div<{
 
 const BasicInfoFrame = tw(VerticalFullWidth)`
   h-full
-  py-2
+  px-5
+  pt-5
 `
 
 const TitleQuestBox = tw(MediumText)`
@@ -101,9 +102,9 @@ const CommunityDisplayname = tw(MediumText)`
   line-clamp-1
 `
 
-const GapHorizontal = tw(HorizontalStartCenter)`px-3 pt-3 w-full`
+const GapHorizontal = tw(HorizontalStartCenter)`px-5 pt-5 w-full`
 
-const CommunityFrame: FunctionComponent<{ community?: CommunityType; showCommunity: boolean }> = ({
+const CommunityFrame: FC<{ community?: CommunityType; showCommunity: boolean }> = ({
   community,
   showCommunity,
 }) => {
@@ -119,7 +120,7 @@ const CommunityFrame: FunctionComponent<{ community?: CommunityType; showCommuni
   )
 }
 
-const LockIcon: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
+const LockIcon: FC<{ quest: QuestType }> = ({ quest }) => {
   if (quest.unclaimable_reason === '') {
     return <></>
   }
@@ -127,7 +128,7 @@ const LockIcon: FunctionComponent<{ quest: QuestType }> = ({ quest }) => {
   return <LockClosedIcon className='w-6 h-6 text-gray mr-2' />
 }
 
-const QuestCardDetails: FunctionComponent<{
+const QuestCardDetails: FC<{
   quest: QuestType
   isTemplate?: boolean
   onClick: (e: QuestType) => void

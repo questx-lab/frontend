@@ -6,7 +6,7 @@ export const BodyFrame = tw.div`
   w-full
   pl-80
   h-full
-  mt-[70px]
+  mt-[64px]
   divide-y
   divide-gray-200
 `

@@ -30,6 +30,7 @@ export type Rsp<T> = {
   error?: string
 }
 
+// TODO: Move this to user
 export type UserType = {
   id: string
   wallet_address?: string
@@ -44,6 +45,8 @@ export type UserType = {
   role?: string
   referral_code?: string
   avatar_url?: string
+  total_communities?: number
+  total_claimed_quests?: number
 }
 
 export type UpdateCommunityRequest = {
@@ -75,6 +78,7 @@ export type ReqNewCommunity = {
   website_url?: string
   discord?: string
   twitter?: string
+  owner_email?: string
 }
 
 export type ListCommunitiesType = {
@@ -93,13 +97,13 @@ export type ReqNewQuestType = {
   type: string
   title: string
   description: string
-  categories?: string[]
+  category_id?: string
   recurrence: string
   points: number
   validation_data: ValidationQuest
   rewards?: RewardType[]
   condition_op?: string
-  conditions?: []
+  conditions?: ConditionType[]
   status?: string
   is_highlight: boolean
 }
@@ -207,6 +211,7 @@ export type UploadCommunityLogoResponse = {
 export enum AccoutSettingTabEnum {
   GENERAL,
   ACHIEVEMENTS,
+  HISTORY,
 }
 
 export enum SocialType {
@@ -214,4 +219,26 @@ export enum SocialType {
   TWITTER = 'twitter',
   GOOGLE = 'google',
   METAMASK = 'wallet',
+}
+
+export type DiscordRoleType = {
+  name: string
+  id: string
+}
+
+export type ListDiscordRoleType = {
+  roles: DiscordRoleType[]
+}
+
+export type ConditionType = {
+  type: string
+  data: {
+    op: string
+    quest_id: string
+  }
+}
+
+export type OpType = {
+  id: string
+  name: string
 }

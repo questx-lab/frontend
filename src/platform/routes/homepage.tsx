@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -17,7 +17,7 @@ import CategoryBox from '@/widgets/category-box'
 import { Image } from '@/widgets/image'
 import { LayoutWithLeftPanel } from '@/widgets/layout/layout-with-left-panel'
 import { Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
-import { Large3xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
 const PaddingTop = tw(VerticalFullWidthCenter)`
   pt-[90px]
@@ -35,25 +35,24 @@ export const Main = tw(Vertical)`
 const CommunityGrid = tw.div`
   w-full
   grid
-  grid-cols-4
+  xl:grid-cols-4
   gap-4
-  max-2xl:grid-cols-3
-  max-xl:grid-cols-2
+  lg:grid-cols-3
+  md:grid-cols-2
+  sm:grid-cols-1
   max-sm:grid-cols-1
 `
 
-const Title: FunctionComponent = () => {
+const Title: FC = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   return (
     <VerticalFullWidthCenter>
-      <Large3xlText>{`👋 Hi, ${user && user.name}`}</Large3xlText>
+      <Text2xl>{`👋 Hi, ${user && user.name}`}</Text2xl>
     </VerticalFullWidthCenter>
   )
 }
 
-export const OtherCommunities: FunctionComponent<{ communities: CommunityType[] }> = ({
-  communities,
-}) => {
+export const OtherCommunities: FC<{ communities: CommunityType[] }> = ({ communities }) => {
   if (!communities || communities.length === 0) {
     return (
       <VerticalFullWidthCenter>
@@ -76,7 +75,7 @@ export const OtherCommunities: FunctionComponent<{ communities: CommunityType[] 
   )
 }
 
-export const HomePage: FunctionComponent = () => {
+export const HomePage: FC = () => {
   // hook
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(true)
@@ -132,7 +131,7 @@ export const HomePage: FunctionComponent = () => {
   )
 }
 
-const HomeOrLanding: FunctionComponent = () => {
+const HomeOrLanding: FC = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   if (!user) {
     return <LandingPage />

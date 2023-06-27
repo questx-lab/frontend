@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import tw from 'twin.macro'
 
@@ -16,7 +16,7 @@ export const Padding = tw(VerticalFullWidth)`
   gap-4
 `
 
-export const SubtypeBox: FunctionComponent<{
+export const SubtypeBox: FC<{
   title: string
   description?: string
   children: ReactNode

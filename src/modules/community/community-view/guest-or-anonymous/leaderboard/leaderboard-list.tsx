@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
 import tw from 'twin.macro'
@@ -42,7 +42,7 @@ const CenterNormalText = tw(NormalText)`
   text-center
 `
 
-const Empty: FunctionComponent = () => {
+const Empty: FC = () => {
   return (
     <EmptyBox>
       <Image width={250} height={250} src={StorageConst.HUSKY.src} alt={StorageConst.HUSKY.alt} />
@@ -55,12 +55,12 @@ const Empty: FunctionComponent = () => {
   )
 }
 
-const RenderList: FunctionComponent<{ data: LeaderboardType[] }> = ({ data }) => {
+const RenderList: FC<{ data: LeaderboardType[] }> = ({ data }) => {
   if (!data.length) {
     return <Empty />
   }
 
-  const reanderItems = data.map((ld, idx) => (
+  const renderItems = data.map((ld, idx) => (
     <PointerHorizontal key={idx}>
       <GapHorizontalCenter>
         <CircularImage width={40} height={40} src={StorageConst.USER_DEFAULT.src} alt={'logo'} />
@@ -70,10 +70,10 @@ const RenderList: FunctionComponent<{ data: LeaderboardType[] }> = ({ data }) =>
     </PointerHorizontal>
   ))
 
-  return <>{reanderItems}</>
+  return <>{renderItems}</>
 }
 
-const RenderLeaderboard: FunctionComponent<{
+const RenderLeaderboard: FC<{
   range: LeaderboardRangeEnum
 }> = ({ range }) => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)

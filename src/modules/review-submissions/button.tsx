@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -16,7 +16,7 @@ const ColumnButtonsFrame = tw(Vertical)`
 `
 
 // For action in item pending quest
-export const RowButtons: FunctionComponent<{
+export const RowButtons: FC<{
   onButtonsAction: (submitType: number) => void
 }> = ({ onButtonsAction }) => {
   return (
@@ -38,7 +38,7 @@ export const RowButtons: FunctionComponent<{
 }
 
 // For action when open detail quest claim
-export const ColumnButtons: FunctionComponent<{
+export const ColumnButtons: FC<{
   onButtonsAction: (submitType: number) => void
 }> = ({ onButtonsAction }) => {
   return (

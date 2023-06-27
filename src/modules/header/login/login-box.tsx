@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 
@@ -10,7 +10,7 @@ import MetaMaskLogin from '@/modules/header/login/metamask'
 import TwitterLogin from '@/modules/header/login/twitter'
 import { GlobalStoreModel } from '@/store/store'
 
-const LoginBox: FunctionComponent = () => {
+const LoginBox: FC = () => {
   // data
   const authBox = useStoreState<GlobalStoreModel>((state) => state.authBox)
   let title = 'Log in to XQuest'

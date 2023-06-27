@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { toast } from 'react-hot-toast'
 
@@ -28,7 +28,7 @@ const getListClaimQuest = async (
   } catch (error) {}
 }
 
-const ActionButtons: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
+const ActionButtons: FC<{ communityHandle: string }> = ({ communityHandle }) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   // data

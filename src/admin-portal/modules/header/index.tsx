@@ -35,7 +35,7 @@ const Header: FC = () => {
   }
 
   return (
-    <HeaderBox isApp>
+    <HeaderBox>
       <RightSection>
         <PopoverPosition>
           <Popover.Button className={'outline-0'}>

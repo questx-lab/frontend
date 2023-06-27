@@ -24,6 +24,10 @@ export type CommunityType = {
   website_url?: string
   logo_url: string
   number_of_quests?: number
+  followers?: number
+  status?: string
+  referral_status?: string
+  dau?: number
 }
 
 export type FollowCommunityType = {
@@ -38,4 +42,9 @@ export const emptyCommunity = (): CommunityType => {
     introduction: '',
     logo_url: '',
   }
+}
+
+export type ReferralType = {
+  referred_by: UserType
+  communities: CommunityType[]
 }

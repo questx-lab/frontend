@@ -4,6 +4,7 @@ import { leaderboardCacheKey } from '@/cache/keys'
 import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import {
+  CategoryType,
   CollaboratorType,
   LeaderboardType,
   ListCommunitiesType,
@@ -13,8 +14,9 @@ import {
   UpdateCommunityRequest,
   UpdateCommunityResponse,
   UserType,
+  ListDiscordRoleType,
 } from '@/types'
-import { CommunityType, FollowCommunityType } from '@/types/community'
+import { CommunityType, FollowCommunityType, ReferralType } from '@/types/community'
 import { ONE_MINUTE_MILLIS } from '@/utils/time'
 
 class CommunityLoader {
@@ -175,5 +177,58 @@ export const getInviteApi = async (
   }>
 > => {
   const rs = await api.get(EnvVariables.API_SERVER + `/getInvite?invite_code=${inviteCode}`)
+  return rs.data
+}
+
+export const createCategoryApi = async (
+  communityHandle: string,
+  name: string
+): Promise<Rsp<{ category: CategoryType }>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/createCategory', {
+    community_handle: communityHandle,
+    name,
+  })
+  return rs.data
+}
+
+export const getCategoriesApi = async (
+  communityHandle: string
+): Promise<Rsp<{ categories: CategoryType[] }>> => {
+  const rs = await api.get(
+    EnvVariables.API_SERVER + `/getCategories?community_handle=${communityHandle}`
+  )
+  return rs.data
+}
+
+export const getReferralApi = async (): Promise<Rsp<{ referrals: ReferralType[] }>> => {
+  const rs = await api.get(EnvVariables.API_SERVER + `/getReferrals`)
+  return rs.data
+}
+
+export const approveReferralApi = async (handle: string, action: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/reviewReferral', {
+    community_handle: handle,
+    action,
+  })
+  return rs.data
+}
+
+// /approvePendingCommunity
+export const approvePendingCommunityApi = async (handle: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/approvePendingCommunity', {
+    community_handle: handle,
+  })
+  return rs.data
+}
+
+export const getPendingCommunitiesApi = async (): Promise<Rsp<ListCommunitiesType>> => {
+  let url = `/getPendingCommunities`
+
+  const rs = await api.get(EnvVariables.API_SERVER + url)
+  return rs.data as Rsp<ListCommunitiesType>
+}
+
+export const getDiscordRolesApi = async (handle: string): Promise<Rsp<ListDiscordRoleType>> => {
+  const rs = await api.get(EnvVariables.API_SERVER + `/getDiscordRoles?community_handle=${handle}`)
   return rs.data
 }

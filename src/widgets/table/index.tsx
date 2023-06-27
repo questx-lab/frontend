@@ -1,15 +1,45 @@
 import { FC, ReactNode } from 'react'
 
+import styled from 'styled-components'
 import tw from 'twin.macro'
 
-const TableStyled = tw.table`
+import { Card } from '@material-tailwind/react'
+
+const TableStyled = tw(Card)`
+  shadow-none
+  border
+  border-solid
+  border-gray-300
+  h-full
   w-full
-  table-auto
 `
 
-const ThStyled = tw.th`
-  border
+const TableBox = tw.table`
+  w-full
+  min-w-max
+  table-auto
+  text-left
 `
+
+const Th = tw.th`
+border-b border-gray-300 bg-gray-100 p-4
+`
+
+const Td = styled.td<{ highlight?: boolean }>(({ highlight = false }) => {
+  const styles = [
+    tw`
+  p-4
+  font-normal
+  text-base
+  text-gray-500
+`,
+  ]
+  if (highlight) {
+    styles.push(tw`font-medium text-info`)
+  }
+
+  return styles
+})
 
 const Table: FC<{
   columns: string[]
@@ -18,22 +48,24 @@ const Table: FC<{
 }> = ({ columns, data, cellView }) => {
   return (
     <TableStyled>
-      <thead>
-        <tr>
-          {columns.map((column, index) => (
-            <ThStyled key={index}>{column}</ThStyled>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((item, rowIndex) => (
-          <tr key={rowIndex}>
-            {columns.map((_, columnIndex) => (
-              <ThStyled key={columnIndex}>{cellView({ item, rowIndex, columnIndex })}</ThStyled>
+      <TableBox>
+        <thead>
+          <tr>
+            {columns.map((column, index) => (
+              <Th key={index}>{column}</Th>
             ))}
           </tr>
-        ))}
-      </tbody>
+        </thead>
+        <tbody>
+          {data.map((item, rowIndex) => (
+            <tr key={rowIndex}>
+              {columns.map((_, columnIndex) => (
+                <Td key={columnIndex}>{cellView({ item, rowIndex, columnIndex })}</Td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </TableBox>
     </TableStyled>
   )
 }

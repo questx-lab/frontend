@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, useEffect } from 'react'
+import { FC, Fragment, useEffect } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -79,7 +79,7 @@ export const Options = styled(Combobox.Options)(tw`
   sm:text-sm
 `)
 
-const SelectionCount: FunctionComponent<{ count: number }> = ({ count }) => {
+const SelectionCount: FC<{ count: number }> = ({ count }) => {
   if (count === 0) {
     return <></>
   }
@@ -88,10 +88,7 @@ const SelectionCount: FunctionComponent<{ count: number }> = ({ count }) => {
   return <div style={{ flex: 1 }}>{count}</div>
 }
 
-const ClearAll: FunctionComponent<{ count: number; onClick: () => void }> = ({
-  count,
-  onClick,
-}) => {
+const ClearAll: FC<{ count: number; onClick: () => void }> = ({ count, onClick }) => {
   if (count === 0) {
     return <></>
   }
@@ -99,7 +96,7 @@ const ClearAll: FunctionComponent<{ count: number; onClick: () => void }> = ({
   return <div onClick={onClick}>Clear All</div>
 }
 
-const Filter: FunctionComponent<{
+const Filter: FC<{
   onFilterChanged: (newSelectedQuests: QuestType[]) => void
 }> = ({ onFilterChanged }) => {
   // data - search store

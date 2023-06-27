@@ -1,9 +1,9 @@
-import { Fragment, FunctionComponent, ReactNode, useEffect } from 'react'
+import { FC, Fragment, ReactNode, useEffect } from 'react'
 
 import { Background, FixedOverflow } from '@/widgets/modal/mini-widgets'
 import { Dialog, Transition } from '@headlessui/react'
 
-const BaseModal: FunctionComponent<{
+const BaseModal: FC<{
   isOpen: boolean
   children: ReactNode
   onClose?: (value: boolean) => void

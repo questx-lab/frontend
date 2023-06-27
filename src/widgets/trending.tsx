@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, ReactNode } from 'react'
+import { FC, Fragment, ReactNode } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
@@ -7,7 +7,7 @@ import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
 import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import { HorizontalStartCenter } from '@/widgets/orientation'
-import { Large3xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
 import { SmallSpinner } from './spinner'
 
@@ -24,7 +24,7 @@ const Content = tw(MainContent)`
   py-6
 `
 
-const TopLabel: FunctionComponent<{ title: string }> = ({ title }) => {
+const TopLabel: FC<{ title: string }> = ({ title }) => {
   const navigate = useNavigate()
 
   return (
@@ -38,16 +38,13 @@ const TopLabel: FunctionComponent<{ title: string }> = ({ title }) => {
           src={StorageConst.ARROW_BACK_ICON.src}
           alt={StorageConst.ARROW_BACK_ICON.alt}
         />
-        <Large3xlText>{title}</Large3xlText>
+        <Text2xl>{title}</Text2xl>
       </TitleBox>
     </>
   )
 }
 
-const ListItems: FunctionComponent<{ loading: boolean; children: ReactNode }> = ({
-  loading,
-  children,
-}) => {
+const ListItems: FC<{ loading: boolean; children: ReactNode }> = ({ loading, children }) => {
   if (loading) {
     return <SmallSpinner />
   }
@@ -55,7 +52,7 @@ const ListItems: FunctionComponent<{ loading: boolean; children: ReactNode }> = 
   return <Fragment>{children}</Fragment>
 }
 
-const Trending: FunctionComponent<{
+const Trending: FC<{
   title: string
   loading: boolean
   children: ReactNode

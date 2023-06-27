@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "lib": [
       "dom",
       "dom.iterable",
@@ -29,6 +29,8 @@
   "include": [
     "src"
   ],
-  "typeRoots": ["global.d.ts" ],
+  "typeRoots": [
+    "global.d.ts"
+  ],
   "extends": "./tsconfig.paths.json"
 }

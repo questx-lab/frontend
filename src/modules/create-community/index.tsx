@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -56,7 +56,7 @@ const TitleBox = tw.div`
   text-white
 `
 
-const RenderStep: FunctionComponent = () => {
+const RenderStep: FC = () => {
   //data
   const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
 
@@ -76,7 +76,7 @@ const RenderStep: FunctionComponent = () => {
   return <BasicInfo />
 }
 
-const RenderTitle: FunctionComponent = () => {
+const RenderTitle: FC = () => {
   //data
   const currentStep = NewCommunityStore.useStoreState((state) => state.currentStep)
 
@@ -87,7 +87,7 @@ const RenderTitle: FunctionComponent = () => {
   return <TitleBox>{`STEP ${currentStep}/4`}</TitleBox>
 }
 
-const CreateCommunity: FunctionComponent<{
+const CreateCommunity: FC<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   return (

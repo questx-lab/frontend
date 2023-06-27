@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
@@ -13,14 +13,14 @@ import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import SearchResult from '@/widgets/search-result'
-import { Large2xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
 const StartVertical = tw(VerticalFullWidth)`
   justify-center
   items-start
 `
 
-const CommunityContent: FunctionComponent<{ query: string }> = ({ query }) => {
+const CommunityContent: FC<{ query: string }> = ({ query }) => {
   // Hook
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
@@ -78,7 +78,7 @@ const CommunityContent: FunctionComponent<{ query: string }> = ({ query }) => {
       </CategoryBox>
 
       <StartVertical>
-        <Large2xlText>{'🕑 New Communities'}</Large2xlText>
+        <Text2xl>{'🕑 New Communities'}</Text2xl>
         <OtherCommunities communities={initCommunities} />
       </StartVertical>
     </SearchResult>

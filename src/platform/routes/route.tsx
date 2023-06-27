@@ -1,7 +1,6 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useStoreActions } from 'easy-peasy'
-import { Toaster } from 'react-hot-toast'
 import { json, useLoaderData } from 'react-router-dom'
 import tw from 'twin.macro'
 
@@ -49,7 +48,7 @@ const OverscrollY = tw.div`
   overflow-scroll
 `
 
-const Root: FunctionComponent = () => {
+const Root: FC = () => {
   // props
   const data = useLoaderData() as {
     myCommunities: CollaboratorType[]
@@ -86,7 +85,6 @@ const Root: FunctionComponent = () => {
         </OverscrollY>
         <Header />
       </Main>
-      <Toaster position='top-center' reverseOrder={false} />
     </>
   )
 }

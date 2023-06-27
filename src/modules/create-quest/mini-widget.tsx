@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import tw from 'twin.macro'
 
@@ -7,9 +7,7 @@ import { Horizontal, VerticalFullWidth } from '@/widgets/orientation'
 import { RequiredText } from '@/widgets/text'
 
 const Padding = tw(VerticalFullWidth)`
-  py-2
   px-6
-  gap-4
 `
 
 const Label = tw(Horizontal)`
@@ -24,8 +22,8 @@ const Label = tw(Horizontal)`
  * This is a bounding box around several fields in the create quest flow.
  * @returns
  */
-export const QuestFieldsBox: FunctionComponent<{
-  title: string
+export const QuestFieldsBox: FC<{
+  title?: string
   children: ReactNode
   required?: boolean
 }> = ({ title, children, required = false }) => {
@@ -39,10 +37,7 @@ export const QuestFieldsBox: FunctionComponent<{
   )
 }
 
-export const FieldTitle: FunctionComponent<{ title: string; required?: boolean }> = ({
-  title,
-  required,
-}) => {
+export const FieldTitle: FC<{ title?: string; required?: boolean }> = ({ title, required }) => {
   return (
     <Label>
       {title}

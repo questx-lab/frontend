@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -15,7 +15,7 @@ const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
   active
     ? tw`
     rounded-full
-    p-1
+    p-[2px]
     border-2
     border-solid
     border-primary
@@ -23,7 +23,7 @@ const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
     : tw``,
 ])
 
-export const Item: FunctionComponent<{
+export const Item: FC<{
   collaboration: CollaboratorType
   active: boolean
 }> = ({ collaboration, active }) => {
@@ -40,8 +40,8 @@ export const Item: FunctionComponent<{
         <ActiveAvatar active={active}>
           <CircularImage
             onClick={() => navigate(communityRoute(collaboration.community.handle))}
-            width={45}
-            height={45}
+            width={40}
+            height={40}
             src={collaboration.community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
             alt='community'
           />
@@ -51,7 +51,7 @@ export const Item: FunctionComponent<{
   )
 }
 
-const FollowItem: FunctionComponent<{
+const FollowItem: FC<{
   community: CommunityType
   active: boolean
 }> = ({ community, active }) => {

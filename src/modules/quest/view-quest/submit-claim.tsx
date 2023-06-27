@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import toast from 'react-hot-toast'
@@ -15,6 +15,7 @@ import NewQuestStore from '@/store/local/new-quest'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { emptyQuest, QuestType } from '@/types/quest'
+import { hasDiscord } from '@/types/user'
 import { uploadFile } from '@/utils/file'
 import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons'
 import ConfirmationModal from '@/widgets/modal/confirmation'
@@ -27,6 +28,7 @@ const ButtonFrame = tw(Horizontal)`
 
 const handleSubmit = async (
   quest: QuestType,
+  user: UserType,
   fileUpload: File[],
   urlSubmit: string,
   textSubmit: string,
@@ -34,46 +36,56 @@ const handleSubmit = async (
   quizAnswers: string[],
   setLoading: (e: boolean) => void
 ): Promise<boolean> => {
-  setLoading(true)
-  let inp = ''
+  let submissionData = ''
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
       const tuple = await uploadFile(fileUpload)
       if (tuple.error) {
         toast.error(tuple.error)
       } else {
-        inp = tuple.value || ''
+        submissionData = tuple.value || ''
       }
       break
     case QuestTypeEnum.URL:
-      inp = urlSubmit
+      submissionData = urlSubmit
       break
     case QuestTypeEnum.TEXT:
-      inp = textSubmit
+      submissionData = textSubmit
       break
     case QuestTypeEnum.QUIZ:
-      inp = JSON.stringify({ answers: quizAnswers })
+      submissionData = JSON.stringify({ answers: quizAnswers })
       break
     case QuestTypeEnum.TWITTER_REACTION:
-      inp = replyUrlSubmit
+      submissionData = replyUrlSubmit
       break
     case QuestTypeEnum.TWITTER_TWEET:
-      inp = replyUrlSubmit
+      submissionData = replyUrlSubmit
       break
     default:
       break
   }
 
-  if (quest.type === QuestTypeEnum.IMAGE && inp === '') {
-    setLoading(false)
+  if (quest.type === QuestTypeEnum.IMAGE && submissionData === '') {
     toast.error('Url image is invalid, please try again!')
     return false
   }
 
+  // If quest has discord role reward & user has not link Discord yet, we need to ask user to
+  // link their discord in the settings.
+  if (quest.rewards && !hasDiscord(user)) {
+    for (let reward of quest.rewards) {
+      if (reward.type === 'discord_role') {
+        toast.error('You need to link your discord account to receive Discord Role reward')
+        return false
+      }
+    }
+  }
+
   try {
+    setLoading(true)
     const data = await claimRewardApi({
       quest_id: quest?.id,
-      submission_data: inp,
+      submission_data: submissionData,
     })
 
     if (data.error) {
@@ -103,7 +115,7 @@ const handleSubmit = async (
   return true
 }
 
-const SubmitClaim: FunctionComponent<{
+const SubmitClaim: FC<{
   quest: QuestType
 }> = ({ quest }) => {
   // hook
@@ -132,6 +144,7 @@ const SubmitClaim: FunctionComponent<{
     try {
       const result = await handleSubmit(
         quest,
+        user,
         fileUpload,
         url,
         textSubmit,
@@ -150,9 +163,14 @@ const SubmitClaim: FunctionComponent<{
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)
 
   const onEdit = () => {
-    setEditQuest(quest)
-    setActiveQuest(emptyQuest())
-    navigate(editQuestRoute(quest.community.handle))
+    switch (role) {
+      case CommunityRoleEnum.EDITOR:
+      case CommunityRoleEnum.OWNER:
+        setEditQuest(quest)
+        setActiveQuest(emptyQuest())
+        navigate(editQuestRoute(quest.community.handle))
+        break
+    }
   }
 
   const onDeleteConfirmed = async () => {
@@ -182,6 +200,7 @@ const SubmitClaim: FunctionComponent<{
         })
 
   switch (role) {
+    case CommunityRoleEnum.ADMIN:
     case CommunityRoleEnum.EDITOR:
     case CommunityRoleEnum.OWNER:
       return (

@@ -5,32 +5,35 @@ import { json, Outlet, Params, useLoaderData } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { getCommunityApi } from '@/api/communitiy'
+import { getCategoriesApi, getCommunityApi } from '@/api/communitiy'
 import { getTemplatesApi, listQuestApi } from '@/api/quest'
 import { CommunityRoleEnum } from '@/constants/common.const'
 import ControlPanel from '@/modules/community/control-panel'
 import ActiveQuestStore from '@/store/local/active-quest'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
-import { CollaboratorType } from '@/types'
+import { CategoryType, CollaboratorType } from '@/types'
 import { CommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
 import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
 
 export const Loader = async (args: { params: Params }) => {
-  const [communityResult, templatesResult] = await Promise.all([
+  const [communityResult, templatesResult, categoriesResult] = await Promise.all([
     getCommunityApi(args.params['communityHandle'] || ''),
     getTemplatesApi(),
+    getCategoriesApi(args.params['communityHandle'] || ''),
   ])
 
   const community = communityResult.code === 0 ? communityResult.data?.community : undefined
   const templates = templatesResult.code === 0 ? templatesResult.data?.templates : []
+  const categories = categoriesResult.code === 0 ? categoriesResult.data?.categories : []
 
   if (communityResult.code === 0) {
     return json(
       {
         community,
         templates,
+        categories,
       },
       { status: 200 }
     )
@@ -55,6 +58,7 @@ const Community = () => {
   let data = useLoaderData() as {
     community: CommunityType
     templates: QuestType[]
+    categories: CategoryType[]
   }
 
   // data
@@ -69,7 +73,7 @@ const Community = () => {
   let collab: CollaboratorType | undefined = undefined
   if (myCommunities) {
     for (let communityCollab of myCommunities) {
-      if (communityCollab.community.handle === community.handle) {
+      if (community && communityCollab.community.handle === community.handle) {
         collab = communityCollab
         break
       }
@@ -83,6 +87,7 @@ const Community = () => {
   )
   const setQuests = CommunityStore.useStoreActions((action) => action.setQuests)
   const setTemplates = useStoreActions<GlobalStoreModel>((action) => action.setTemplates)
+  const setCategories = CommunityStore.useStoreActions((action) => action.setCategories)
 
   // load quests
   const loadQuests = async () => {
@@ -99,6 +104,7 @@ const Community = () => {
   // hook
   useEffect(() => {
     setSelectedCommunity(data.community)
+    setCategories(data.categories)
     if (collab) {
       switch (collab.name) {
         case CommunityRoleEnum.OWNER:

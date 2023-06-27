@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 
 import { MoonLoader } from 'react-spinners'
 
@@ -20,7 +20,7 @@ import CommunityStore from '@/store/local/community'
 import { ClaimQuestType, ListClaimQuestType, Rsp } from '@/types'
 import { QuestType } from '@/types/quest'
 
-const PendingContent: FunctionComponent<{ loading: boolean }> = ({ loading }) => {
+const PendingContent: FC<{ loading: boolean }> = ({ loading }) => {
   // data
   const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)
   const selectedPendings = ClaimReviewStore.useStoreState((state) => state.selectedPendings)
@@ -70,7 +70,7 @@ const PendingContent: FunctionComponent<{ loading: boolean }> = ({ loading }) =>
   )
 }
 
-const PendingTab: FunctionComponent<{ communityHandle: string }> = ({ communityHandle }) => {
+const PendingTab: FC<{ communityHandle: string }> = ({ communityHandle }) => {
   // data
   const selectedCommunity = CommunityStore.useStoreState((state) => state.selectedCommunity)
 

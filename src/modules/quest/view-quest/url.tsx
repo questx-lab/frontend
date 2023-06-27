@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
@@ -18,7 +18,7 @@ const UrlBox = tw(Horizontal)`
   items-center
 `
 
-const QuestUrl: FunctionComponent = () => {
+const QuestUrl: FC = () => {
   // data
   const role = CommunityStore.useStoreState((state) => state.role)
   const urlSutmit = ActiveQuestStore.useStoreState((state) => state.url)

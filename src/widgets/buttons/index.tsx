@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { MoonLoader } from 'react-spinners'
@@ -16,6 +16,7 @@ export enum ButtonTypeEnum {
   WARNING,
   SUCCESS,
   SUCCESS_BORDER,
+  POSITVE_BORDER,
 }
 
 const BaseStyle = styled.button<{
@@ -26,9 +27,9 @@ const BaseStyle = styled.button<{
 }>(({ isFull = false, width, block = false, buttonType = ButtonTypeEnum.NEGATIVE }) => {
   const style = [
     tw`
-      text-lg
+      text-sm
       text-white
-      font-normal
+      font-medium
       py-2
       px-6
       rounded-lg
@@ -121,6 +122,16 @@ const BaseStyle = styled.button<{
                 border-danger
               `)
         break
+      case ButtonTypeEnum.POSITVE_BORDER:
+        style.push(tw`
+                  bg-primary-50
+                  hover:bg-primary-100
+                  text-primary
+                  border
+                  border-solid
+                  border-primary
+                `)
+        break
     }
   }
 
@@ -142,7 +153,7 @@ const BaseStyle = styled.button<{
   return style
 })
 
-export const Button: FunctionComponent<{
+export const Button: FC<{
   loading?: boolean
   children: ReactNode
   onClick?: () => void
@@ -201,7 +212,7 @@ export const Button: FunctionComponent<{
   )
 }
 
-export const PositiveButton: FunctionComponent<{
+export const PositiveButton: FC<{
   loading?: boolean
   children: ReactNode | ReactNode[]
   onClick?: () => void
@@ -235,7 +246,7 @@ export const PositiveButton: FunctionComponent<{
   )
 }
 
-export const NegativeButton: FunctionComponent<{
+export const NegativeButton: FC<{
   loading?: boolean
   children: ReactNode
   onClick?: () => void
@@ -267,7 +278,7 @@ export const NegativeButton: FunctionComponent<{
   )
 }
 
-export const DangerButton: FunctionComponent<{
+export const DangerButton: FC<{
   loading?: boolean
   children: ReactNode
   onClick?: () => void

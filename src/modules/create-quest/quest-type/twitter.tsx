@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -76,7 +76,7 @@ const TwitterBox = styled.div<{ activeType: number }>(({ activeType }) => {
   }
 })
 
-const TwitterList: FunctionComponent = () => {
+const TwitterList: FC = () => {
   // Data
   const actionTwitter = NewQuestStore.useStoreState((state) => state.actionTwitter)
 

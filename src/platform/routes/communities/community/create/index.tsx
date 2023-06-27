@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { useNavigate } from 'react-router'
 
@@ -6,7 +6,7 @@ import { communityRoute } from '@/constants/router.const'
 import { CreateOrEditQuest } from '@/modules/create-quest'
 import CommunityStore from '@/store/local/community'
 
-const Index: FunctionComponent = () => {
+const Index: FC = () => {
   // data
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
 

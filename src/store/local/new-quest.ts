@@ -7,7 +7,7 @@ import {
   QuestTypeMap,
   TwitterEnum,
 } from '@/constants/common.const'
-import { ReqNewQuestType } from '@/types'
+import { ConditionType, DiscordRoleType, ReqNewQuestType, RewardType } from '@/types'
 import { StateToModel } from '@/types/conversion'
 import { QuestQuizType, QuestType, ValidationQuest } from '@/types/quest'
 import { isTwitterType } from '@/types/twitter'
@@ -34,8 +34,12 @@ export interface NewQuestModel {
   activeReward: number
   highlighted: boolean
   includedWords: string[]
+  categoryId: string
+  discordRole: DiscordRoleType
+  isOpenDiscordRole: boolean
 
   quizzes: QuestQuizType[]
+  conditions: ConditionType[]
 
   // Actions
   setQuest: Action<NewQuestModel, QuestType>
@@ -63,6 +67,10 @@ export interface NewQuestModel {
   setOptions: Action<NewQuestModel, { quizIndex: number; options: string[] }>
   setHighlighted: Action<NewQuestModel, boolean>
   setIncludedWords: Action<NewQuestModel, string[]>
+  setCategoryId: Action<NewQuestModel, string>
+  setDiscordRole: Action<NewQuestModel, DiscordRoleType>
+  setIsOpenDiscordRole: Action<NewQuestModel, boolean>
+  setConditions: Action<NewQuestModel, ConditionType[]>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -85,6 +93,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   pointReward: 100,
   activeReward: 0,
   spaceUrlTw: '',
+  categoryId: '',
   quizzes: [
     {
       id: 0,
@@ -95,6 +104,9 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   ],
   highlighted: false,
   includedWords: [],
+  discordRole: {} as DiscordRoleType,
+  isOpenDiscordRole: false,
+  conditions: [],
 
   // Set all the fields for the state
   setQuest: action((state, quest) => {
@@ -235,6 +247,20 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   setIncludedWords: action((state, included_words) => {
     state.includedWords = included_words
   }),
+
+  setCategoryId: action((state, id) => {
+    state.categoryId = id
+  }),
+
+  setDiscordRole: action((state, role) => {
+    state.discordRole = role
+  }),
+  setIsOpenDiscordRole: action((state, isOpenDiscordRole) => {
+    state.isOpenDiscordRole = isOpenDiscordRole
+  }),
+  setConditions: action((state, conditions) => {
+    state.conditions = conditions
+  }),
 })
 
 /**
@@ -254,6 +280,8 @@ export const stateToNewQuestRequest = (
 
   let type = state.type
   const validations: ValidationQuest = {}
+
+  const rewards: RewardType[] = []
 
   switch (state.type) {
     case QuestTypeEnum.URL:
@@ -327,19 +355,27 @@ export const stateToNewQuestRequest = (
       validations.number = state.invites
       break
   }
-
+  if (state.isOpenDiscordRole) {
+    rewards.push({
+      type: 'discord_role',
+      data: {
+        role: state.discordRole.name,
+      },
+    })
+  }
   const payload: ReqNewQuestType = {
     id: questId,
     community_handle: community_handle,
     type,
+    rewards: rewards,
     title: state.title,
     description: state.description,
-    categories: [],
+    category_id: state.categoryId,
     recurrence: state.recurrence,
     points: state.pointReward, // Other types of rewards are not supported for now
     validation_data: validations,
     condition_op: 'and',
-    conditions: [],
+    conditions: state.conditions,
     status,
     is_highlight: state.highlighted,
   }

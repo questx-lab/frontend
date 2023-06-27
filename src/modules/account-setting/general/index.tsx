@@ -1,14 +1,14 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 import { ActionUpdate, BasicInfo } from '@/modules/account-setting/general/basic-info'
 import { BodyFrame, PaddingHorizontal } from '@/modules/account-setting/mini-widget'
-import { Large2xlText } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 
-const General: FunctionComponent = () => {
+const General: FC = () => {
   return (
     <BodyFrame>
       <PaddingHorizontal>
-        <Large2xlText>{'General'}</Large2xlText>
+        <Text2xl>{'General'}</Text2xl>
       </PaddingHorizontal>
       <PaddingHorizontal>
         <BasicInfo />
