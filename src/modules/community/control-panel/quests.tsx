@@ -27,11 +27,9 @@ const QuestsTab: FC = () => {
   return (
     <Tab
       onClick={() => {
-        // *** ONLY FOR MOBILE ***
         if (isMobile) {
           setShowNavigationDrawer(false)
         }
-        // ************************
 
         if (activeControlPanelTab === ControlPanelTab.QUESTS) {
           return

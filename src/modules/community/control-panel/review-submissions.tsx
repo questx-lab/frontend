@@ -27,11 +27,9 @@ const ReviewSubmissionsTab: FC = () => {
   return (
     <Tab
       onClick={() => {
-        // *** ONLY FOR MOBILE ***
         if (isMobile) {
           setShowNavigationDrawer(false)
         }
-        // ************************
 
         if (activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION) {
           return

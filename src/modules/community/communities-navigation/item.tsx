@@ -47,11 +47,9 @@ export const Item: FC<{
         <ActiveAvatar active={active}>
           <CircularImage
             onClick={() => {
-              // *** ONLY FOR MOBILE ***
               if (isMobile) {
                 setShowNavigationDrawer(false)
               }
-              // ************************
               navigate(communityRoute(collaboration.community.handle))
             }}
             width={40}
@@ -82,11 +80,9 @@ const FollowItem: FC<{
         <ActiveAvatar active={active}>
           <CircularImage
             onClick={() => {
-              // *** ONLY FOR MOBILE ***
               if (isMobile) {
                 setShowNavigationDrawer(false)
               }
-              // ************************
               navigate(communityRoute(community.handle))
             }}
             width={45}

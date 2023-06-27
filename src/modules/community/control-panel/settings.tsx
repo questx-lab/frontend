@@ -27,11 +27,9 @@ const SettingsTab: FC = () => {
   return (
     <Tab
       onClick={() => {
-        // *** ONLY FOR MOBILE ***
         if (isMobile) {
           setShowNavigationDrawer(false)
         }
-        // ************************
 
         if (activeControlPanelTab === ControlPanelTab.SETTINGS) {
           return

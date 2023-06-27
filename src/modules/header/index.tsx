@@ -107,12 +107,10 @@ export const Header: FC<{}> = () => {
     <HeaderBox isApp={isApp}>
       <Body isApp={isApp}>
         <LeftSection>
-          {/* For mobile */}
           <MobileView>
             <Drawer />
             <MenuIcon onClick={() => !showNavigationDrawer && setShowNavigationDrawer(true)} />
           </MobileView>
-          {/* ========== */}
 
           <ImageLogoBox
             width={150}
