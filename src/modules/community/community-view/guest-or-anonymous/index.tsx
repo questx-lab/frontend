@@ -79,15 +79,6 @@ const PointerImage = tw(Image)`
   cursor-pointer
 `
 
-const BorderShare = tw.div`
-  p-2
-  border
-  border-solid
-  border-gray-300
-  rounded-lg
-  cursor-pointer
-`
-
 const TwitterLink: FC<{ twitterUrl?: string }> = ({ twitterUrl }) => {
   if (!twitterUrl) {
     return <></>
