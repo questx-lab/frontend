@@ -23,7 +23,8 @@ const ModalContent = styled(Dialog.Panel)<{ widthsize: BasicModalWidthSize }>(({
   const styles = [
     tw`
       w-1/2
-      max-xl:w-2/3
+      max-xl:w-full
+      max-xl:mx-6
       h-full
       bg-white
       align-middle
@@ -64,6 +65,7 @@ const Title = tw.div`
   text-2xl
   font-normal
   text-black
+  max-sm:text-lg
 `
 
 export const TopModal: FC<{ hasHeader: boolean; title?: string; onClose: () => void }> = ({

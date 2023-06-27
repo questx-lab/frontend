@@ -20,7 +20,6 @@ const AuthBox = tw(Horizontal)`
 
 const UserSession = tw(HorizontalCenter)`
   cursor-pointer
-  max-md:hidden
   gap-4
 `
 

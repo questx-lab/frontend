@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { BrowserView } from 'react-device-detect'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
@@ -150,12 +151,14 @@ const CommunityGuestOrAnonymous: FC = () => {
               <DiscordLink discordUrl={community.discord} />
             </HorizontalStartCenter>
             <ReponsiveHorizontal>
-              <PositiveButton
-                onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
-                width={SizeEnum.x48}
-              >
-                {'Join Town Hall'}
-              </PositiveButton>
+              <BrowserView>
+                <PositiveButton
+                  onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
+                  width={SizeEnum.x48}
+                >
+                  {'Join Town Hall'}
+                </PositiveButton>
+              </BrowserView>
               <CenterEndHorizontal>
                 <FollowCommunity community={community} />
               </CenterEndHorizontal>

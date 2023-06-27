@@ -42,7 +42,7 @@ const TableHeader: FC<{}> = () => {
           onChange={onCheckAll}
           checked={allPendingChecked}
         />
-        {'Submission Pending'}
+        {'Pending'}
       </HeaderTitleFrame>
 
       <HeaderSortFrame>
