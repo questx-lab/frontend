@@ -2,6 +2,7 @@ import Item from '@/townhall/engine/items/Item'
 import { ItemType } from '@/types/townhall'
 
 export default class LeaderBoard extends Item {
+  id?: string
   itemDirection?: string
   zone!: Phaser.GameObjects.Zone
   x: number
@@ -23,6 +24,7 @@ export default class LeaderBoard extends Item {
   }
 
   onOverlapDialog() {
+    console.log('hereee to reach')
     this.setDialogBox('Press X to read')
 
     setTimeout(() => {

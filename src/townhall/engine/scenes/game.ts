@@ -8,11 +8,19 @@ import { createCharacterAnims } from '@/townhall/engine/anims/CharacterAnims'
 import MyPlayer from '@/townhall/engine/characters/my-player'
 import OtherPlayer from '@/townhall/engine/characters/other-player'
 import PlayerSelector from '@/townhall/engine/characters/player-selecter'
+import Item from '@/townhall/engine/items/Item'
+import LeaderBoard from '@/townhall/engine/items/LeaderBoard'
 import LuckyBox from '@/townhall/engine/items/LuckyBox'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import network from '@/townhall/engine/services/network'
-import { CollectLuckyBoxValue, IPlayer, Keyboard, LuckyBoxValue, NavKeys } from '@/types/townhall'
-import LeaderBoard from '@/townhall/engine/items/LeaderBoard'
+import {
+  CollectLuckyBoxValue,
+  IPlayer,
+  Keyboard,
+  LuckyBoxValue,
+  NavKeys,
+  PlayerBehavior,
+} from '@/types/townhall'
 
 export default class Game extends Phaser.Scene {
   private map!: Phaser.Tilemaps.Tilemap
@@ -86,6 +94,23 @@ export default class Game extends Phaser.Scene {
     otherPlayer?.updateOtherPlayer(field, value)
   }
 
+  private handleItemSelectorOverlap(playerSelector: any, selectionItem: any) {
+    const currentItem = playerSelector.selectedItem as Item
+    // currentItem is undefined if nothing was perviously selected
+    if (currentItem) {
+      // if the selection has not changed, do nothing
+      if (currentItem === selectionItem || currentItem.depth >= selectionItem.depth) {
+        return
+      }
+      // if selection changes, clear pervious dialog
+      if (this.myPlayer.playerBehavior !== PlayerBehavior.SITTING) currentItem.clearDialogBox()
+    }
+
+    // set selected item and set up new dialog
+    playerSelector.selectedItem = selectionItem
+    selectionItem.onOverlapDialog()
+  }
+
   create() {
     this.registerKeys()
     createCharacterAnims(this.anims)
@@ -110,14 +135,22 @@ export default class Game extends Phaser.Scene {
     this.myPlayer.setPlayerTexture('adam')
 
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16)
-    this.leaderBoard = new LeaderBoard(this, 2368, 1792)
 
     const whiteboards = this.physics.add.staticGroup({ classType: LeaderBoard })
-    const layer = this.map.createLayer('Whiteboars', 'whiteboard', 2368, 1792)
-    const whiteboardLayer = this.map.getObjectLayer('Whiteboards')
-    whiteboards.add(this.leaderBoard)
-    this.leaderBoard.display()
-    console.log(whiteboardLayer)
+    const whiteboardLayer = this.map.getObjectLayer('Whiteboard')
+    console.log('whiteboardLayer', whiteboardLayer)
+    if (whiteboardLayer) {
+      whiteboardLayer.objects.forEach((obj, i) => {
+        const item = this.addObjectFromTiled(
+          whiteboards,
+          obj,
+          'whiteboards',
+          'whiteboard'
+        ) as LeaderBoard
+        const id = `${i}`
+        // item.id = id
+      })
+    }
     // this.addObjectFromTiled(whiteboards)
 
     // import other objects from Tiled map to Phaser
@@ -135,29 +168,21 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.myPlayer, true)
 
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], wallLayer)
-    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], this.leaderBoard.zone)
 
     wallLayer.setCollisionBetween(1, 1000)
-
-    // overlap with leader board
-    this.physics.add.overlap(
-      this.leaderBoard.zone,
-      this.myPlayer,
-      async (object1, object2) => {
-        // this.leaderBoard.onOverlapDialog()
-        // this.playerSelector.update(this.leaderBoard)
-
-        // this.playerSelector.update(object1)
-        this.playerSelector.selectedItem = this.leaderBoard
-      },
-      undefined,
-      this
-    )
 
     this.physics.add.overlap(
       this.myPlayer,
       this.otherPlayers,
       this.handlePlayersOverlap,
+      undefined,
+      this
+    )
+
+    this.physics.add.overlap(
+      this.playerSelector,
+      [whiteboards],
+      this.handleItemSelectorOverlap,
       undefined,
       this
     )

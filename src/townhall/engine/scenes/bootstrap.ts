@@ -42,7 +42,7 @@ export default class Bootstrap extends Phaser.Scene {
       frameWidth: 96,
       frameHeight: 64,
     })
-    this.load.spritesheet('whiteboards', '/items/whiteboard.png', {
+    this.load.spritesheet('whiteboards ', '/items/whiteboard.png', {
       frameWidth: 64,
       frameHeight: 64,
     })
