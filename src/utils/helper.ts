@@ -1,5 +1,6 @@
 import { deleteCookie, getCookie, hasCookie, setCookie } from 'cookies-next'
 import jwt from 'jwt-decode'
+import toast from 'react-hot-toast'
 
 import { KeysEnum } from '@/constants/key.const'
 import { UserType } from '@/types'
@@ -89,4 +90,18 @@ export const isLogin = (user: UserType): boolean => {
   }
 
   return true
+}
+
+export const onCopy = (url: string) => {
+  if (url) {
+    navigator.clipboard.writeText(url)
+    toast(`Copied ${url}`, {
+      icon: '👏',
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+    })
+  }
 }
