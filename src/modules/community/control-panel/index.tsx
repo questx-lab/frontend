@@ -1,15 +1,15 @@
 import { FC } from 'react'
 
+import { BrowserView } from 'react-device-detect'
+import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import StorageConst from '@/constants/storage.const'
+import { RouterConst } from '@/constants/router.const'
 import QuestsTab from '@/modules/community/control-panel/quests'
 import ReviewSubmissionsTab from '@/modules/community/control-panel/review-submissions'
 import SettingsTab from '@/modules/community/control-panel/settings'
 import { CommunityType } from '@/types/community'
-import { CircularImage } from '@/widgets/circular-image'
-import { HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
-import { Divider, Gap } from '@/widgets/separator'
+import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 
 export const FixedFrame = tw.div`
   w-80
@@ -17,52 +17,38 @@ export const FixedFrame = tw.div`
   border-r-2
   border-gray-200
   h-full
-`
-
-export const PersonWrap = tw(VerticalCenter)`
-  p-6
-`
-
-const TextName = tw.p`
-  text-lg
-  font-medium
-  text-black
-  text-center
-  max-w-lg
-  text-ellipsis
-  overflow-hidden
-  max-w-[150px]
+  max-md:w-60
 `
 
 const Padding = tw.div`
   px-4
+  pt-6
 `
 
 const ControlPanel: FC<{
   community: CommunityType
   show: boolean
 }> = ({ community, show }) => {
+  const navigate = useNavigate()
+
   if (!show) {
     return <></>
   }
 
+  const onNavigation = () => {
+    navigate(RouterConst.TOWNHALL + `/${community.handle}`)
+  }
+
   return (
     <FixedFrame>
-      <PersonWrap>
-        <CircularImage
-          width={80}
-          height={80}
-          src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
-          alt={StorageConst.COMMUNITY_DEFAULT.alt}
-        />
-        <Gap height={6} />
+      <BrowserView>
+        <Padding>
+          <PositiveButton onClick={onNavigation} isFull type={ButtonTypeEnum.NEGATIVE}>
+            {'My Townhall'}
+          </PositiveButton>
+        </Padding>
+      </BrowserView>
 
-        <HorizontalCenter>
-          <TextName>{community.display_name}</TextName>
-          <Gap width={1} />
-        </HorizontalCenter>
-      </PersonWrap>
-      <Divider />
       <Padding>
         <QuestsTab />
         <ReviewSubmissionsTab />

@@ -41,7 +41,7 @@ const TableHeader: FC<{}> = () => {
           onChange={onCheckAllChanged}
           checked={allHistoryChecked}
         />
-        {'Submission History'}
+        {'History'}
       </HeaderTitleFrame>
 
       <HeaderSortFrame>

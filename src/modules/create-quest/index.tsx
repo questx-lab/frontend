@@ -7,8 +7,8 @@ import tw from 'twin.macro'
 
 import { listQuestApi, newQuestApi, updateQuestApi } from '@/api/quest'
 import ActionButtons from '@/modules/create-quest/action-buttons'
-import Highlighted from '@/modules/create-quest/highlighted'
 import Conditions from '@/modules/create-quest/conditions'
+import Highlighted from '@/modules/create-quest/highlighted'
 import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
 import QuestTypeSelection from '@/modules/create-quest/quest-type/selection'
 import Recurrence from '@/modules/create-quest/recurrence'
@@ -26,19 +26,25 @@ import { Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
 
 const BodyFrame = styled(Horizontal)<{ isTemplate?: boolean }>(({ isTemplate = false }) => {
+  const styles = [
+    tw`
+    max-md:flex-col-reverse
+    max-md:px-4
+    gap-4
+  `,
+  ]
+
   if (isTemplate) {
-    return tw`
+    styles.push(tw`
       w-full
       h-full
       justify-center
       pr-4
       mb-4
-    `
+    `)
   }
 
-  return tw`
-    w-full
-  `
+  return styles
 })
 
 const EditInfoFrame = tw(Vertical)`
@@ -46,8 +52,8 @@ const EditInfoFrame = tw(Vertical)`
   h-full
   bg-white
   py-8
-  pl-8
   gap-3
+  max-md:w-full
 `
 
 const EditFrame = styled(Vertical)<{ isTemplate: boolean }>(({ isTemplate }) => {

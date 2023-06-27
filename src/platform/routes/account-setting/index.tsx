@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { BrowserView } from 'react-device-detect'
 import tw from 'twin.macro'
 
 import Achievement from '@/modules/account-setting/achievement'
@@ -27,7 +28,9 @@ const Index: FC = () => {
   return (
     <MainFrame>
       <AccountSettingsStore.Provider>
-        <ControlPanel />
+        <BrowserView>
+          <ControlPanel />
+        </BrowserView>
         <RenderContent />
       </AccountSettingsStore.Provider>
     </MainFrame>
