@@ -32,7 +32,6 @@ const LoginBtn = tw.button`
   py-3
   px-6
   rounded-lg
-  max-md:hidden
   border
   border-gray-300
   border-solid
