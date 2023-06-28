@@ -1,7 +1,6 @@
 import { FC } from 'react'
 
 import { BrowserView } from 'react-device-detect'
-import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
@@ -12,6 +11,7 @@ import CommunityQuests from '@/modules/community/community-view/guest-or-anonymo
 import FollowCommunity from '@/modules/community/community-view/guest-or-anonymous/follow-community'
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
 import CommunityStore from '@/store/local/community'
+import { onCopy } from '@/utils/helper'
 import { PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
@@ -78,20 +78,6 @@ const CenterEndHorizontal = tw(HorizontalCenter)`
 const PointerImage = tw(Image)`
   cursor-pointer
 `
-
-const onCopy = (url: string) => {
-  if (url) {
-    navigator.clipboard.writeText(url)
-    toast(`Copied ${url}`, {
-      icon: '👏',
-      style: {
-        borderRadius: '10px',
-        background: '#333',
-        color: '#fff',
-      },
-    })
-  }
-}
 
 const TwitterLink: FC<{ twitterUrl?: string }> = ({ twitterUrl }) => {
   if (!twitterUrl) {

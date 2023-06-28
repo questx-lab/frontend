@@ -5,6 +5,7 @@ import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { claimReferralApi, getMyReferralInfoApi } from '@/api/reward'
+import { ErrorCodes } from '@/constants/code.const'
 import StorageConst from '@/constants/storage.const'
 import { signWallet } from '@/handler/auth/metamask'
 import { GlobalStoreModel } from '@/store/store'
@@ -111,8 +112,15 @@ const AddressWallet: FC = () => {
 
   const summitClaim = async (address: string) => {
     try {
-      await claimReferralApi(address)
-      toast.success('Successful')
+      // TODO: Currently not working because blockchain is not available
+      const result = await claimReferralApi(address)
+      if (result.error) {
+        toast.error(result.error)
+      }
+
+      if (result.code === ErrorCodes.NOT_ERROR) {
+        toast.success('Claim Reward Successful')
+      }
       getMyReferralInfo()
     } catch (error) {
       toast.error('Network error')
