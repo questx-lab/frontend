@@ -5,6 +5,7 @@ import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { claimReferralApi, getMyReferralInfoApi } from '@/api/reward'
+import { ErrorCodes } from '@/constants/code.const'
 import StorageConst from '@/constants/storage.const'
 import { signWallet } from '@/handler/auth/metamask'
 import { GlobalStoreModel } from '@/store/store'
@@ -26,6 +27,7 @@ const Main = tw(Horizontal)`
   w-full
   h-full
   gap-5
+  max-sm:flex-col
 `
 
 const WalletMain = tw(VerticalCenter)`
@@ -42,11 +44,13 @@ const LeftSide = tw(Vertical)`
   border-solid
   border-gray-300
   rounded-lg
+  max-sm:w-full
 `
 
 const RightSide = tw(Vertical)`
   w-1/3
   gap-6
+  max-sm:w-full
 `
 
 const RewardBox = tw(Vertical)`
@@ -80,6 +84,8 @@ const WarningBox = tw(Horizontal)`
   text-gray-600
   gap-2
   items-center
+  max-sm:flex-col
+  max-sm:items-start
 `
 
 enum Screen {
@@ -106,8 +112,15 @@ const AddressWallet: FC = () => {
 
   const summitClaim = async (address: string) => {
     try {
-      await claimReferralApi(address)
-      toast.success('Successful')
+      // TODO: Currently not working because blockchain is not available
+      const result = await claimReferralApi(address)
+      if (result.error) {
+        toast.error(result.error)
+      }
+
+      if (result.code === ErrorCodes.NOT_ERROR) {
+        toast.success('Claim Reward Successful')
+      }
       getMyReferralInfo()
     } catch (error) {
       toast.error('Network error')

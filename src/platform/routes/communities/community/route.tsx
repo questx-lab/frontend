@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import { BrowserView } from 'react-device-detect'
 import { json, Outlet, Params, useLoaderData } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -46,6 +47,7 @@ const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true
   if (hasPanel) {
     return tw`
       pl-80
+      max-md:pl-0
     `
   }
 
@@ -133,7 +135,9 @@ const Community = () => {
 
   return (
     <>
-      <ControlPanel community={community} show={showPanel} />
+      <BrowserView>
+        <ControlPanel community={community} show={showPanel} />
+      </BrowserView>
       <PaddingLeft hasPanel={showPanel}>
         <Outlet />
       </PaddingLeft>

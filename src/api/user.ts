@@ -25,7 +25,14 @@ export const updateUserApi = async (name: string): Promise<Rsp<{}>> => {
   return result.data
 }
 
-export const refreshTokenApi = async (refreshToken: string) => {
+export const refreshTokenApi = async (
+  refreshToken: string
+): Promise<
+  Rsp<{
+    access_token: string
+    refresh_token: string
+  }>
+> => {
   const { data } = await api.post('/refresh', {
     refresh_token: refreshToken,
   })

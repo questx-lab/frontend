@@ -13,7 +13,7 @@ const BoundingBox = tw(Vertical)`
   w-2/3
   flex
   flex-col
-  ml-2
+  max-sm:w-full
 `
 
 const ControlTabs: FC = () => {

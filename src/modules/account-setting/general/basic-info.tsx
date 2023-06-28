@@ -26,6 +26,7 @@ const PaddingVertical = tw(Vertical)`
   gap-5
   pb-3
   pt-6
+  max-md:w-full
 `
 
 export const ActionUpdate: FC = () => {

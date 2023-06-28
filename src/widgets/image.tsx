@@ -1,5 +1,10 @@
 import { FC } from 'react'
 
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
+import { XMarkIcon } from '@heroicons/react/24/outline'
+
 export const Image: FC<{
   height?: number
   width?: number
@@ -19,3 +24,10 @@ export const Image: FC<{
     />
   )
 }
+
+export const CloseIcon = styled(XMarkIcon)(
+  () => tw`
+  w-6
+  h-6
+`
+)

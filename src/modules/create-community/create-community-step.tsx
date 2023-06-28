@@ -63,6 +63,7 @@ const CreateCommunityStep: FC = () => {
         website_url: websiteUrl,
         twitter: twitterUrl,
         owner_email: email,
+        referral_code: inviteCode,
       }
 
       const data = await newCommunityApi(payload)

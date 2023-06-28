@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import toast from 'react-hot-toast'
+import { BrowserView } from 'react-device-detect'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
@@ -11,6 +11,7 @@ import CommunityQuests from '@/modules/community/community-view/guest-or-anonymo
 import FollowCommunity from '@/modules/community/community-view/guest-or-anonymous/follow-community'
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
 import CommunityStore from '@/store/local/community'
+import { onCopy } from '@/utils/helper'
 import { PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
@@ -78,20 +79,6 @@ const PointerImage = tw(Image)`
   cursor-pointer
 `
 
-const onCopy = (url: string) => {
-  if (url) {
-    navigator.clipboard.writeText(url)
-    toast(`Copied ${url}`, {
-      icon: '👏',
-      style: {
-        borderRadius: '10px',
-        background: '#333',
-        color: '#fff',
-      },
-    })
-  }
-}
-
 const TwitterLink: FC<{ twitterUrl?: string }> = ({ twitterUrl }) => {
   if (!twitterUrl) {
     return <></>
@@ -150,12 +137,14 @@ const CommunityGuestOrAnonymous: FC = () => {
               <DiscordLink discordUrl={community.discord} />
             </HorizontalStartCenter>
             <ReponsiveHorizontal>
-              <PositiveButton
-                onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
-                width={SizeEnum.x48}
-              >
-                {'Join Town Hall'}
-              </PositiveButton>
+              <BrowserView>
+                <PositiveButton
+                  onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
+                  width={SizeEnum.x48}
+                >
+                  {'Join Town Hall'}
+                </PositiveButton>
+              </BrowserView>
               <CenterEndHorizontal>
                 <FollowCommunity community={community} />
               </CenterEndHorizontal>

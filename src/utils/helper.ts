@@ -1,6 +1,9 @@
 import { deleteCookie, getCookie, hasCookie, setCookie } from 'cookies-next'
 import jwt from 'jwt-decode'
+import toast from 'react-hot-toast'
 
+import { refreshTokenApi } from '@/api/user'
+import { ErrorCodes } from '@/constants/code.const'
 import { KeysEnum } from '@/constants/key.const'
 import { UserType } from '@/types'
 
@@ -27,25 +30,36 @@ export const delCookies = () => {
   deleteCookie(KeysEnum.USER)
 }
 
-export const setAccessToken = (cookie: string) => {
-  const dToken: any = jwt(cookie)
-  setCookie(KeysEnum.ACCESS_TOKEN, cookie, {
-    maxAge: dToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
-  })
-}
-
-export const setCookieSocket = () => {
+export const setCookieSocket = async () => {
   const domain = window.location.hostname.split('.').slice(-2).join('.')
   const accessToken = getAccessToken()
+  const refreshToken = getAccessToken()
   if (accessToken) {
-    document.cookie = `access_token=${accessToken};domain=${domain};path=/`
+    setAccessToken(accessToken, domain)
+  }
+
+  if (!accessToken && refreshToken) {
+    const data = await refreshTokenApi(refreshToken)
+    if (data.code === ErrorCodes.NOT_ERROR && data.data) {
+      setAccessToken(data.data.access_token)
+      setRefreshToken(data.data.refresh_token)
+    }
   }
 }
 
-export const setRefreshToken = (cookie: string) => {
+export const setAccessToken = (cookie: string, domain?: string) => {
+  const jwtToken: any = jwt(cookie)
+  setCookie(KeysEnum.ACCESS_TOKEN, cookie, {
+    maxAge: jwtToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
+    domain,
+  })
+}
+
+export const setRefreshToken = (cookie: string, domain?: string) => {
   const dToken: any = jwt(cookie)
   setCookie(KeysEnum.REFRESH_TOKEN, cookie, {
     maxAge: dToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
+    domain,
   })
 }
 
@@ -89,4 +103,18 @@ export const isLogin = (user: UserType): boolean => {
   }
 
   return true
+}
+
+export const onCopy = (url: string) => {
+  if (url) {
+    navigator.clipboard.writeText(url)
+    toast(`Copied ${url}`, {
+      icon: '👏',
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+    })
+  }
 }

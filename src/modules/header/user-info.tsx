@@ -20,7 +20,6 @@ const AuthBox = tw(Horizontal)`
 
 const UserSession = tw(HorizontalCenter)`
   cursor-pointer
-  max-md:hidden
   gap-4
 `
 
@@ -33,7 +32,6 @@ const LoginBtn = tw.button`
   py-3
   px-6
   rounded-lg
-  max-md:hidden
   border
   border-gray-300
   border-solid
