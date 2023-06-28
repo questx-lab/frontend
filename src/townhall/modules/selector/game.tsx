@@ -28,6 +28,9 @@ const GameSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
 
   const onClose = () => {
     phaserGame.changePlayerSelectorListeners(ItemType.NONE)
+    if (phaserGame.isPaused) {
+      phaserGame.resume()
+    }
   }
 
   return (

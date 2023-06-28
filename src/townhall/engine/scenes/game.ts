@@ -136,7 +136,6 @@ export default class Game extends Phaser.Scene {
     if (gameLayer) {
       gameLayer.objects.forEach((obj, i) => {
         const item = this.addObjectFromTiled(games, obj, 'games', 'FloorAndGround') as GameItem
-        console.log('item', item)
         item.setDepth(item.y + item.height * 0.27)
         const id = `${i}`
         item.id = id

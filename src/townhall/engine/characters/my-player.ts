@@ -59,8 +59,8 @@ export default class MyPlayer extends Player {
       switch (item?.itemType) {
         // TODO: handle action
         case ItemType.GAME:
+          phaserGame.pause()
           phaserGame.changePlayerSelectorListeners(ItemType.GAME)
-          phaserGame.deRegisterKey()
           break
       }
     }
