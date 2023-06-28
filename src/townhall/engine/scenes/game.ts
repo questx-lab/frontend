@@ -7,11 +7,19 @@ import { MessageReceiverEnum } from '@/constants/townhall'
 import { createCharacterAnims } from '@/townhall/engine/anims/CharacterAnims'
 import MyPlayer from '@/townhall/engine/characters/my-player'
 import OtherPlayer from '@/townhall/engine/characters/other-player'
-import PlayerSelector from '@/townhall/engine/characters/player-selecter'
+import GameItem from '@/townhall/engine/items/game'
+import Item from '@/townhall/engine/items/Item'
 import LuckyBox from '@/townhall/engine/items/LuckyBox'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import network from '@/townhall/engine/services/network'
-import { CollectLuckyBoxValue, IPlayer, Keyboard, LuckyBoxValue, NavKeys } from '@/types/townhall'
+import {
+  CollectLuckyBoxValue,
+  IPlayer,
+  Keyboard,
+  LuckyBoxValue,
+  NavKeys,
+  PlayerBehavior,
+} from '@/types/townhall'
 
 export default class Game extends Phaser.Scene {
   private map!: Phaser.Tilemaps.Tilemap
@@ -21,7 +29,6 @@ export default class Game extends Phaser.Scene {
   private cursors!: NavKeys
   private keyE!: Phaser.Input.Keyboard.Key
   private keyR!: Phaser.Input.Keyboard.Key
-  private playerSelector!: Phaser.GameObjects.Zone
   luckyBoxes = new Map<string, LuckyBox>()
   private luckyBoxArcadeGroup!: Phaser.Physics.Arcade.Group
 
@@ -82,6 +89,23 @@ export default class Game extends Phaser.Scene {
     otherPlayer?.updateOtherPlayer(field, value)
   }
 
+  private handleItemSelectorOverlap(myPlayer: any, selectionItem: any) {
+    const currentItem = myPlayer.selectedItem as Item
+    // currentItem is undefined if nothing was perviously selected
+    if (currentItem) {
+      // if the selection has not changed, do nothing
+      if (currentItem === selectionItem || currentItem.depth >= selectionItem.depth) {
+        return
+      }
+      // if selection changes, clear pervious dialog
+      if (this.myPlayer.playerBehavior !== PlayerBehavior.SITTING) currentItem.clearDialogBox()
+    }
+
+    // set selected item and set up new dialog
+    myPlayer.selectedItem = selectionItem
+    selectionItem.onOverlapDialog()
+  }
+
   create() {
     this.registerKeys()
     createCharacterAnims(this.anims)
@@ -95,6 +119,8 @@ export default class Game extends Phaser.Scene {
     this.map.createLayer('Ground', FloorAndGround)
     const wallLayer = this.map.createLayer('Wall', FloorAndGround)
     this.map.createLayer('Float', FloorAndGround)?.setDepth(10000)
+    this.map.createLayer('Object', FloorAndGround)
+    this.map.createLayer('Doors', FloorAndGround)
 
     if (!wallLayer) {
       return
@@ -105,7 +131,17 @@ export default class Game extends Phaser.Scene {
     this.myPlayer = this.add.myPlayer(2368, 1792, 'adam', '')
     this.myPlayer.setPlayerTexture('adam')
 
-    this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16)
+    const games = this.physics.add.staticGroup({ classType: GameItem })
+    const gameLayer = this.map.getObjectLayer('Game')
+    if (gameLayer) {
+      gameLayer.objects.forEach((obj, i) => {
+        const item = this.addObjectFromTiled(games, obj, 'games', 'FloorAndGround') as GameItem
+        console.log('item', item)
+        item.setDepth(item.y + item.height * 0.27)
+        const id = `${i}`
+        item.id = id
+      })
+    }
 
     // import other objects from Tiled map to Phaser
     this.addGroupFromTiled('Wall', 'tiles_wall', 'FloorAndGround', false)
@@ -123,6 +159,13 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], wallLayer)
     wallLayer.setCollisionBetween(1, 1000)
+    this.physics.add.overlap(
+      this.myPlayer,
+      [games],
+      this.handleItemSelectorOverlap,
+      undefined,
+      this
+    )
 
     this.physics.add.overlap(
       this.myPlayer,
@@ -228,8 +271,7 @@ export default class Game extends Phaser.Scene {
 
   update(t: number, dt: number) {
     if (this.myPlayer) {
-      this.playerSelector.update(this.myPlayer, this.cursors)
-      this.myPlayer.update(this.playerSelector, this.cursors, this.keyE, this.keyR)
+      this.myPlayer.update(this.cursors, this.keyE, this.keyR)
     }
   }
 
