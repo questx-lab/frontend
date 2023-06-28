@@ -29,25 +29,12 @@ export const delCookies = () => {
   deleteCookie(KeysEnum.USER)
 }
 
-export const setAccessToken = (cookie: string) => {
-  const dToken: any = jwt(cookie)
-  setCookie(KeysEnum.ACCESS_TOKEN, cookie, {
-    maxAge: dToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
-  })
-}
-
 export const setCookieSocket = async () => {
   const domain = window.location.hostname.split('.').slice(-2).join('.')
   const accessToken = getAccessToken()
   const refreshToken = getAccessToken()
   if (accessToken) {
-    const jwtToken: any = jwt(accessToken)
-    const cookieExpDate: Date = new Date(
-      (Math.floor(Date.now() / 1000) + (jwtToken['exp'] - Math.floor(Date.now() / 1000))) * 1000
-    )
-    const cookieExpFormatted: string = cookieExpDate.toUTCString()
-
-    document.cookie = `access_token=${accessToken};domain=${domain};path=/;expires=${cookieExpFormatted}`
+    setAccessToken(accessToken, domain)
   }
 
   if (!accessToken && refreshToken) {
@@ -55,21 +42,23 @@ export const setCookieSocket = async () => {
     if (data.code === ErrorCodes.NOT_ERROR && data.data) {
       setAccessToken(data.data.access_token)
       setRefreshToken(data.data.refresh_token)
-      const jwtToken: any = jwt(data.data.access_token)
-      const cookieExpDate: Date = new Date(
-        (Math.floor(Date.now() / 1000) + (jwtToken['exp'] - Math.floor(Date.now() / 1000))) * 1000
-      )
-      const cookieExpFormatted: string = cookieExpDate.toUTCString()
-
-      document.cookie = `access_token=${data.data.access_token};domain=${domain};path=/;expires=${cookieExpFormatted}`
     }
   }
 }
 
-export const setRefreshToken = (cookie: string) => {
+export const setAccessToken = (cookie: string, domain?: string) => {
+  const jwtToken: any = jwt(cookie)
+  setCookie(KeysEnum.ACCESS_TOKEN, cookie, {
+    maxAge: jwtToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
+    domain,
+  })
+}
+
+export const setRefreshToken = (cookie: string, domain?: string) => {
   const dToken: any = jwt(cookie)
   setCookie(KeysEnum.REFRESH_TOKEN, cookie, {
     maxAge: dToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
+    domain,
   })
 }
 
