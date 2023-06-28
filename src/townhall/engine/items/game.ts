@@ -11,6 +11,6 @@ export default class GameItem extends Item {
   }
 
   onOverlapDialog() {
-    this.setDialogBox('Press R to play game')
+    this.setDialogBox('Press X to play game')
   }
 }

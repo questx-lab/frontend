@@ -50,12 +50,12 @@ export default class MyPlayer extends Player {
     }
   }
 
-  update(cursors: NavKeys, keyE: Phaser.Input.Keyboard.Key, keyR: Phaser.Input.Keyboard.Key) {
+  update(cursors: NavKeys, keyE: Phaser.Input.Keyboard.Key, keyX: Phaser.Input.Keyboard.Key) {
     if (!cursors) return
 
     const item = this.selectedItem
 
-    if (Phaser.Input.Keyboard.JustDown(keyR)) {
+    if (Phaser.Input.Keyboard.JustDown(keyX)) {
       switch (item?.itemType) {
         // TODO: handle action
         case ItemType.GAME:

@@ -28,7 +28,7 @@ export default class Game extends Phaser.Scene {
   private otherPlayerMap = new Map<string, OtherPlayer>()
   private cursors!: NavKeys
   private keyE!: Phaser.Input.Keyboard.Key
-  private keyR!: Phaser.Input.Keyboard.Key
+  private keyX!: Phaser.Input.Keyboard.Key
   luckyBoxes = new Map<string, LuckyBox>()
   private luckyBoxArcadeGroup!: Phaser.Physics.Arcade.Group
 
@@ -47,7 +47,7 @@ export default class Game extends Phaser.Scene {
 
     // maybe we can have a dedicated method for adding keys if more keys are needed in the future
     this.keyE = this.input.keyboard.addKey('E')
-    this.keyR = this.input.keyboard.addKey('R')
+    this.keyX = this.input.keyboard.addKey('X')
     this.input.keyboard.disableGlobalCapture()
   }
 
@@ -270,7 +270,7 @@ export default class Game extends Phaser.Scene {
 
   update(t: number, dt: number) {
     if (this.myPlayer) {
-      this.myPlayer.update(this.cursors, this.keyE, this.keyR)
+      this.myPlayer.update(this.cursors, this.keyE, this.keyX)
     }
   }
 
