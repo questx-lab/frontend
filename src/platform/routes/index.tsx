@@ -27,6 +27,7 @@ const ActiveQuestModal: FC = () => {
       title={`${activeQuest.title}`}
       isOpen={activeQuest.id !== ''}
       onClose={onCloseModal}
+      styled='!w-[780px]'
     >
       <ViewQuest quest={activeQuest} />
     </BasicModal>
