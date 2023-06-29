@@ -9,6 +9,7 @@ import { UserType } from '@/types'
 import {
   CollectLuckyBoxValue,
   IPlayer,
+  ItemType,
   LuckyBoxValue,
   MessageEmoji,
   MessageHistoryItem,
@@ -23,6 +24,10 @@ const GAME_SCENE = 'game'
 
 export interface GameStateListener {
   onStateChanged: (state: GameState, data?: any) => void
+}
+
+export interface PlayerSelectorListener {
+  onStateChanged: (state: ItemType, data?: any) => void
 }
 
 const config: Phaser.Types.Core.GameConfig = {
@@ -51,6 +56,7 @@ class GameController extends Phaser.Game {
   private gameScene?: Game
   private currentRoomId = ''
   private gamteStateListeners = new Set<GameStateListener>()
+  private playerSelectorListeners = new Set<PlayerSelectorListener>()
   private myUser?: UserType
 
   constructor() {
@@ -214,6 +220,18 @@ class GameController extends Phaser.Game {
         message.user_id
       )
     }, 100)
+  }
+  /////////// Add, Remove receive update selector from this game controller.
+  addPlayerSelectorListeners(listener: PlayerSelectorListener) {
+    this.playerSelectorListeners.add(listener)
+  }
+
+  removePlayerSelectorListeners(listener: PlayerSelectorListener) {
+    this.playerSelectorListeners.delete(listener)
+  }
+
+  changePlayerSelectorListeners(state: ItemType) {
+    this.playerSelectorListeners.forEach((listener) => listener.onStateChanged(state))
   }
 
   /////////// Add, Remove, broadcast message to receive update from this game controller.
