@@ -73,6 +73,20 @@ export const QuestInvites: FC<{ quest: QuestType }> = ({ quest }) => {
     }
   }
 
+  // If user is a collaborator
+  if (
+    role &&
+    (role === CommunityRoleEnum.OWNER ||
+      role === CommunityRoleEnum.EDITOR ||
+      role === CommunityRoleEnum.REVIEWER)
+  ) {
+    return (
+      <ColorBox boxColor={ColorEnum.PRIMARY}>
+        {'You are a collaborator, only guest could get invite code'}
+      </ColorBox>
+    )
+  }
+
   if (loading) {
     return (
       <HorizontalFullWidthCenter>

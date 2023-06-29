@@ -11,7 +11,6 @@ import { Vertical } from '@/widgets/orientation'
 import { Label, RewardText } from '@/widgets/text'
 
 const FrameShape = tw(Vertical)`
-  px-4
   w-1/3
   h-full
   justify-start

@@ -131,10 +131,10 @@ const QuestContent: FC<{ query: string }> = ({ query }) => {
       <CategoryBox title='🔥 Trending Quests' onClick={onShowAllClicked}>
         <CarouselList
           data={intQuests}
-          renderItemFunc={(quyest: QuestType) => {
+          renderItemFunc={(quest: QuestType) => {
             return (
-              <MarginTop>
-                <QuestCardToView showCommunity quest={quyest} />
+              <MarginTop key={quest.id}>
+                <QuestCardToView showCommunity quest={quest} />
               </MarginTop>
             )
           }}

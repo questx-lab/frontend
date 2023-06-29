@@ -33,7 +33,9 @@ const Templates: FC<{ communityHandle: string }> = ({ communityHandle }) => {
         <CarouselList
           data={templates}
           renderItemFunc={(quest: QuestType) => {
-            return <QuestCardToTemplate quest={quest} communityHandle={communityHandle} />
+            return (
+              <QuestCardToTemplate key={quest.id} quest={quest} communityHandle={communityHandle} />
+            )
           }}
         />
       </CategoryBox>

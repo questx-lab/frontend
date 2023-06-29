@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { QuestColor } from '@/constants/common.const'
 import QuestCardDetails from '@/modules/quest/quest-card-details'
 import ActiveQuestStore from '@/store/local/active-quest'
 import { QuestType } from '@/types/quest'
@@ -11,7 +12,8 @@ const QuestCardToView: FC<{
   quest: QuestType
   isTemplate?: boolean
   showCommunity?: boolean
-}> = ({ quest, isTemplate = false, showCommunity = false }) => {
+  bgColor?: string
+}> = ({ quest, isTemplate = false, showCommunity = false, bgColor = QuestColor.EMERALD }) => {
   // action
   const setActiveQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
 
@@ -22,6 +24,7 @@ const QuestCardToView: FC<{
 
   return (
     <QuestCardDetails
+      bgColor={bgColor}
       showCommunity={showCommunity}
       quest={quest}
       isTemplate={isTemplate}
