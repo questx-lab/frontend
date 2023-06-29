@@ -66,6 +66,10 @@ const RenderQuestsNoCategory: FC = () => {
 
   const questsFilter = quests.filter((quest) => quest.category.id === '')
 
+  if (questsFilter.length === 0) {
+    return <></>
+  }
+
   return <Quests quests={questsFilter} show={true} categoryTitle={'Other Quests'} />
 }
 
