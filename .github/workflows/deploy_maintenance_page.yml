@@ -64,7 +64,7 @@ jobs:
       - name: Deploy
         run: |-
           configs_cmd="$(cat ./maintenance_page.html)"
-          kubectl create configmap maintenance-page-html-configmap -n frontend --from-literal="$configs_cmd"
+          kubectl create configmap maintenance-page-html-configmap -n frontend --from-literal=index.html="$configs_cmd"
 
           helm upgrade --install maintenance-page ./deploy/maintenance-page \
           --namespace frontend \
