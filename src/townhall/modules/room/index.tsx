@@ -6,9 +6,11 @@ import tw from 'twin.macro'
 import { GlobalStoreModel } from '@/store/store'
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import phaserGame from '@/townhall/engine/services/game-controller'
+import usePlayerSelector from '@/townhall/hooks/user-player-selector'
 import GameSidebar from '@/townhall/modules/game-sidebar'
 import Chat from '@/townhall/modules/room/chat'
 import { Connectting } from '@/townhall/modules/room/connect'
+import GameSelector from '@/townhall/modules/selector/game'
 import { UserType } from '@/types'
 import { Horizontal, Vertical, VerticalCenter } from '@/widgets/orientation'
 import { VerticalDivider } from '@/widgets/separator'
@@ -42,6 +44,7 @@ const Townhall: FC = () => {
   const activeTab = RoomStore.useStoreState((state) => state.activeTab)
   const gameRooms = RoomStore.useStoreState((state) => state.gameRooms)
   const roomId = gameRooms.length > 0 ? gameRooms[0].id : ''
+  const playerSelector = usePlayerSelector()
 
   // TODO: support multiple room id. For now, only use the first room id.
   useEffect(() => {
@@ -55,7 +58,7 @@ const Townhall: FC = () => {
   return (
     <Backdrop id='phaser-container'>
       <Connectting />
-
+      <GameSelector playerSelector={playerSelector} />
       <LeftContent>
         {activeTab === ActiveSidebarTab.CHAT && (
           <>

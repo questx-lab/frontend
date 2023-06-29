@@ -70,6 +70,10 @@ const Quests: FC<{
     return <></>
   }
 
+  if (quests.length === 0) {
+    return <></>
+  }
+
   return (
     <>
       <PaddingVertical>

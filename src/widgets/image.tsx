@@ -29,5 +29,6 @@ export const CloseIcon = styled(XMarkIcon)(
   () => tw`
   w-6
   h-6
+  cursor-pointer
 `
 )

@@ -34,34 +34,12 @@ export default class Bootstrap extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     })
-    this.load.spritesheet('chairs', '/items/chair.png', {
-      frameWidth: 32,
-      frameHeight: 64,
-    })
-    this.load.spritesheet('computers', '/items/computer.png', {
-      frameWidth: 96,
-      frameHeight: 64,
-    })
-    this.load.spritesheet('whiteboards', '/items/whiteboard.png', {
+
+    this.load.spritesheet('games', '/map/jp_tileset.png', {
       frameWidth: 64,
       frameHeight: 64,
     })
-    this.load.spritesheet('vendingmachines', '/items/vendingmachine.png', {
-      frameWidth: 48,
-      frameHeight: 72,
-    })
-    this.load.spritesheet('office', '/tileset/Modern_Office_Black_Shadow.png', {
-      frameWidth: 32,
-      frameHeight: 32,
-    })
-    this.load.spritesheet('basement', '/tileset/Basement.png', {
-      frameWidth: 32,
-      frameHeight: 32,
-    })
-    this.load.spritesheet('generic', '/tileset/Generic.png', {
-      frameWidth: 32,
-      frameHeight: 32,
-    })
+
     this.load.spritesheet('adam', '/character/adam.png', {
       frameWidth: 32,
       frameHeight: 48,
