@@ -33,7 +33,6 @@ class Broadcast {
 
   publish(event: BroadcastEventType, data: any) {
     const pool = this.getPool(event)
-    console.log('Pool size = ', pool.size)
     pool.forEach((listener) => listener.onEvent(event, data))
   }
 }
