@@ -21,6 +21,8 @@ const ActiveQuestModal: FC = () => {
   }
 
   const onCloseModal = () => {
+    console.log('test')
+
     setActiveQuest(emptyQuest())
   }
 
