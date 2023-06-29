@@ -27,6 +27,7 @@ const RenderQuestsByCategory: FC = () => {
       const questsFilter = quests.filter((quest) => quest.category.id === category.id)
 
       let bgColor = QuestColor.EMERALD
+
       if (index % 5 === 1) {
         bgColor = QuestColor.CYAN
       }
@@ -34,9 +35,11 @@ const RenderQuestsByCategory: FC = () => {
       if (index % 5 === 2) {
         bgColor = QuestColor.INDIGO
       }
+
       if (index % 5 === 3) {
         bgColor = QuestColor.ORANGE
       }
+
       if (index % 5 === 4) {
         bgColor = QuestColor.PINK
       }
