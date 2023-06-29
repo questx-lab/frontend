@@ -13,6 +13,7 @@ import { QuestQuizType, QuestType, ValidationQuest } from '@/types/quest'
 import { isTwitterType } from '@/types/twitter'
 
 export interface NewQuestModel {
+  id: string
   title: string
   description: string
   type: QuestTypeEnum
@@ -74,6 +75,7 @@ export interface NewQuestModel {
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
+  id: '',
   title: 'Untitled Quest',
   description: '',
   type: QuestTypeEnum.URL,
@@ -110,6 +112,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
 
   // Set all the fields for the state
   setQuest: action((state, quest) => {
+    state.id = quest.id
     state.title = quest.title || ''
     state.description = quest.description || ''
     state.type = QuestTypeMap.get(quest.type || '') || QuestTypeEnum.URL
