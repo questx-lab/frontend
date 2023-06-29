@@ -108,6 +108,7 @@ export const CreateOrEditQuest: FC<{
   const store = NewQuestStore.useStore()
   const title = NewQuestStore.useStoreState((state) => state.title)
   const description = NewQuestStore.useStoreState((state) => state.description)
+  const id = NewQuestStore.useStoreState((state) => state.id)
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -119,7 +120,7 @@ export const CreateOrEditQuest: FC<{
   const submitAction = async (submitType: string) => {
     setIsOpen(true)
     try {
-      const result = await handleSubmit(store, community.handle, submitType, '')
+      const result = await handleSubmit(store, community.handle, submitType, id)
       if (result) {
         // reload the quests list so that it could displayed in the community quest list.
         const result = await listQuestApi(community.handle, '')
