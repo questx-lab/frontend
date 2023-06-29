@@ -4,6 +4,7 @@ import parseHtml from 'html-react-parser'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { QuestColor } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import { CommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
@@ -21,7 +22,8 @@ import { LockClosedIcon } from '@heroicons/react/24/outline'
 
 const BorderBox = styled.div<{
   isTemplate: boolean
-}>(({ isTemplate }) => {
+  bgColor: string
+}>(({ isTemplate, bgColor }) => {
   const style = [
     tw`
     cursor-pointer
@@ -42,6 +44,27 @@ const BorderBox = styled.div<{
 
   if (isTemplate) {
     style.push(tw`bg-white border-gray-200`)
+  }
+
+  switch (bgColor) {
+    case QuestColor.EMERALD:
+      style.push(tw`bg-emerald-50 border-emerald-200`)
+      break
+    case QuestColor.ORANGE:
+      style.push(tw`bg-orange-50 border-orange-200`)
+      break
+    case QuestColor.INDIGO:
+      style.push(tw`bg-indigo-50 border-indigo-200`)
+      break
+    case QuestColor.PINK:
+      style.push(tw`bg-pink-50 border-pink-200`)
+      break
+    case QuestColor.CYAN:
+      style.push(tw`bg-cyan-50 border-cyan-200`)
+      break
+    default:
+      style.push(tw`bg-white border-gray-200`)
+      break
   }
 
   return style
@@ -133,9 +156,16 @@ const QuestCardDetails: FC<{
   isTemplate?: boolean
   onClick: (e: QuestType) => void
   showCommunity?: boolean
-}> = ({ quest, isTemplate = false, onClick = () => {}, showCommunity = false }) => {
+  bgColor?: string
+}> = ({
+  quest,
+  isTemplate = false,
+  onClick = () => {},
+  showCommunity = false,
+  bgColor = QuestColor.EMERALD,
+}) => {
   return (
-    <BorderBox isTemplate={isTemplate} onClick={() => onClick(quest)}>
+    <BorderBox bgColor={bgColor} isTemplate={isTemplate} onClick={() => onClick(quest)}>
       <CommunityFrame showCommunity={showCommunity} community={quest.community} />
       <BasicInfoFrame>
         <HorizontalBetweenCenterFullWidth>

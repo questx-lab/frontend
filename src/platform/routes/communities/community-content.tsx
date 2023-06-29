@@ -72,7 +72,7 @@ const CommunityContent: FC<{ query: string }> = ({ query }) => {
         <CarouselList
           data={initCommunities}
           renderItemFunc={(community: CommunityType) => {
-            return <CommunityBox community={community} />
+            return <CommunityBox key={community.handle} community={community} />
           }}
         />
       </CategoryBox>

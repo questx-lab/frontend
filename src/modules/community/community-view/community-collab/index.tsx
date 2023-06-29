@@ -3,7 +3,6 @@ import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { newQuestRoute } from '@/constants/router.const'
-import Category from '@/modules/community/community-view/community-collab/category'
 import QuestsByCategory from '@/modules/community/community-view/quests-by-category'
 import { ButtonAlignment, FullWidthCenter } from '@/modules/community/mini-widget'
 import Templates from '@/modules/community/templates'
@@ -14,7 +13,7 @@ import { emptyQuest } from '@/types/quest'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
 import { VerticalFullWidth } from '@/widgets/orientation'
-import { Gap } from '@/widgets/separator'
+import { Divider, Gap } from '@/widgets/separator'
 import { Text2xl } from '@/widgets/text'
 
 const CommunityCollab: FC = () => {
@@ -57,13 +56,15 @@ const CommunityCollab: FC = () => {
           )}
         </FullWidthCenter>
         {canEdit && <Templates communityHandle={community.handle} />}
-        <Category />
+        <Gap />
+        <Divider />
         <QuestsByCategory />
       </VerticalFullWidth>
       <BasicModal
         isOpen={showTemplateModal}
         onClose={() => setShowTemplateModal(false)}
-        styled={'flex flex-col !justify-start !items-start !w-[1180px]'}
+        styled={'flex flex-col !justify-start !items-start !w-[1180px] max-h-full '}
+        hasHeader={false}
       >
         <CreateOrEditQuest
           isTemplate
