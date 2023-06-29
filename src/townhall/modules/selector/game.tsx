@@ -38,11 +38,7 @@ const GameSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
       <FullVertical>
         <CloseIcon onClick={onClose} />
       </FullVertical>
-      <Iframe
-        title='game'
-        src='https://previews.customer.envatousercontent.com/files/284246327/index.html'
-        allowFullScreen
-      />
+      <Iframe title='game' src='https://topfour.io/' allowFullScreen />
     </Frame>
   )
 }
