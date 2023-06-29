@@ -14,6 +14,7 @@ import CommunityStore from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
+import broadcast, { BroadcastEventType } from '@/types/broadcast'
 import { emptyQuest, QuestType } from '@/types/quest'
 import { hasDiscord } from '@/types/user'
 import { uploadFile } from '@/utils/file'
@@ -136,7 +137,6 @@ const SubmitClaim: FC<{
 
   // action
   const setEditQuest = NewQuestStore.useStoreActions((action) => action.setQuest)
-  const setDeletedQuestId = ActiveQuestStore.useStoreActions((action) => action.setDeletedQuestId)
   const setActiveQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
 
   // handler
@@ -178,7 +178,8 @@ const SubmitClaim: FC<{
       // Make a request to delete the quest
       const result = await deleteQuest(quest.id)
       if (result.code === 0) {
-        setDeletedQuestId(quest.id)
+        setActiveQuest(emptyQuest())
+        broadcast.publish(BroadcastEventType.DELETE_QUEST, quest)
       }
     } finally {
       setShowDeleteConfirmation(false)
