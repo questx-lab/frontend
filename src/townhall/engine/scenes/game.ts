@@ -158,13 +158,15 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], wallLayer)
     wallLayer.setCollisionBetween(1, 1000)
-    this.physics.add.overlap(
-      this.myPlayer,
-      [games],
-      this.handleItemSelectorOverlap,
-      undefined,
-      this
-    )
+
+    // TODO: disable interactive game
+    // this.physics.add.overlap(
+    //   this.myPlayer,
+    //   [games],
+    //   this.handleItemSelectorOverlap,
+    //   undefined,
+    //   this
+    // )
 
     this.physics.add.overlap(
       this.myPlayer,
