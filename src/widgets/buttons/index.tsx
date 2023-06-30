@@ -30,8 +30,8 @@ const BaseStyle = styled.button<{
       text-sm
       text-white
       font-medium
-      py-2
-      px-6
+      py-[10px]
+      px-5
       rounded-lg
       flex
       justify-center
@@ -47,31 +47,7 @@ const BaseStyle = styled.button<{
 
   if (block) {
     // disabled
-    switch (buttonType) {
-      case ButtonTypeEnum.NEGATIVE:
-        style.push(
-          tw`hover:cursor-not-allowed  hover:bg-gray-50 bg-gray-50 border-gray-200 text-gray-300`
-        )
-        break
-      case ButtonTypeEnum.POSITVE:
-        style.push(tw`
-          bg-primary-300
-          hover:cursor-not-allowed
-        `)
-        break
-      case ButtonTypeEnum.DANGEROUS:
-        style.push(tw`
-          bg-danger-300
-          hover:cursor-not-allowed
-        `)
-        break
-      case ButtonTypeEnum.WARNING:
-        style.push(tw`
-            bg-warning-50
-            hover:cursor-not-allowed
-          `)
-        break
-    }
+    style.push(tw`hover:cursor-not-allowed bg-gray-100 text-gray-400`)
   } else {
     // enabled
     switch (buttonType) {
@@ -79,7 +55,7 @@ const BaseStyle = styled.button<{
         style.push(tw`
         text-gray-900
         border
-        border-gray-300
+        border-gray-200
         hover:bg-gray-50
       `)
         break
