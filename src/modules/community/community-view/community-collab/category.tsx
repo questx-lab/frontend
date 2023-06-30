@@ -6,7 +6,6 @@ import AddCategory from '@/modules/create-quest/select-category/add-category'
 import CommunityStore from '@/store/local/community'
 
 const Content = tw.div`
-  py-3
   w-full
   flex
   flex-wrap

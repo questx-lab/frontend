@@ -108,7 +108,7 @@ const AddCategory: FC = () => {
   }
 
   return (
-    <Menu as='div' className='relative inline-block bg-gray-100 rounded-lg'>
+    <Menu as='div' className='relative inline-block bg-gray-100 rounded-lg z-10'>
       <MenuButton
         onClick={() => {
           setShowMenu(true)

@@ -16,7 +16,7 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 const FullWidth = tw.div`
-  w-full z-20
+  w-full
 `
 
 const Relative = tw.div`

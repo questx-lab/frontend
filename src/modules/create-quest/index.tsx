@@ -56,9 +56,13 @@ const EditInfoFrame = tw(Vertical)`
   max-md:w-full
 `
 
+const GapHorizontal = tw(Horizontal)`
+  gap-3
+`
+
 const EditFrame = styled(Vertical)<{ isTemplate: boolean }>(({ isTemplate }) => {
   if (isTemplate) {
-    return [tw`pl-80`]
+    return [tw`pl-80 ml-4`]
   }
 
   return [tw`flex-1`]
@@ -108,6 +112,7 @@ export const CreateOrEditQuest: FC<{
   const store = NewQuestStore.useStore()
   const title = NewQuestStore.useStoreState((state) => state.title)
   const description = NewQuestStore.useStoreState((state) => state.description)
+  const id = NewQuestStore.useStoreState((state) => state.id)
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -119,7 +124,7 @@ export const CreateOrEditQuest: FC<{
   const submitAction = async (submitType: string) => {
     setIsOpen(true)
     try {
-      const result = await handleSubmit(store, community.handle, submitType, '')
+      const result = await handleSubmit(store, community.handle, submitType, id)
       if (result) {
         // reload the quests list so that it could displayed in the community quest list.
         const result = await listQuestApi(community.handle, '')
@@ -135,7 +140,7 @@ export const CreateOrEditQuest: FC<{
   }
 
   return (
-    <Horizontal>
+    <GapHorizontal>
       <TemplateGroups show={isTemplate} />
       <EditFrame isTemplate={isTemplate}>
         <TopLabel isEdit={isEdit} communityHandle={community.handle} />
@@ -192,6 +197,6 @@ export const CreateOrEditQuest: FC<{
           lines={[`We're creating new quest.`, 'This might take a few seconds...']}
         />
       </EditFrame>
-    </Horizontal>
+    </GapHorizontal>
   )
 }

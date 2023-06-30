@@ -26,7 +26,6 @@ import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const FrameShape = tw(Vertical)`
   py-8
-  px-8
   w-1/3
   h-full
   justify-start
