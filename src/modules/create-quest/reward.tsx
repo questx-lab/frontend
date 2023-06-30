@@ -1,35 +1,37 @@
-import { FC, useEffect, useState, Fragment } from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
+
+import { toast } from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { DiscordRoleType } from '@/types'
+
+import { getDiscordRolesApi } from '@/api/communitiy'
+import { ColorEnum } from '@/constants/common.const'
+import StorageConst from '@/constants/storage.const'
+import { handleLoginDiscord } from '@/handler/auth/discord'
 import { SocialBox } from '@/modules/header/login'
 import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
-import StorageConst from '@/constants/storage.const'
+import CommunityStore from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest'
+import { DiscordRoleType } from '@/types'
+import { CommunityType } from '@/types/community'
 import { RoundedGrayBorderBox } from '@/widgets/box'
 import { Image } from '@/widgets/image'
 import { NumberInput } from '@/widgets/input'
-import { Vertical } from '@/widgets/orientation'
+import { HorizontalFullWidth, Vertical } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
-import CommunityStore from '@/store/local/community'
-import { getDiscordRolesApi } from '@/api/communitiy'
-import { toast } from 'react-hot-toast'
-import { HorizontalFullWidth } from '@/widgets/orientation'
-import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { CommunityType } from '@/types/community'
-import { ColorEnum } from '@/constants/common.const'
-import { handleLoginDiscord } from '@/handler/auth/discord'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
+import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const FrameShape = tw(Vertical)`
   py-8
-  px-8
   w-1/3
   h-full
   justify-start
   items-end
+  max-md:w-full
+  max-md:p-0
 `
 
 const FullWidthInput = tw(NumberInput)`

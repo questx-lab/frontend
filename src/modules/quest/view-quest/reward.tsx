@@ -11,11 +11,13 @@ import { Vertical } from '@/widgets/orientation'
 import { Label, RewardText } from '@/widgets/text'
 
 const FrameShape = tw(Vertical)`
-  px-4
-  w-1/3
+  w-[240px]
   h-full
   justify-start
   items-end
+  max-md:w-full
+  max-md:px-0
+  gap-3
 `
 export const RewardDiscordRole = tw.span`
   text-[#565ADD]
@@ -53,8 +55,8 @@ const QuestReward: FC<{
             <RewardDiscordRole>{` ${discordRole.data.role} Role`}</RewardDiscordRole>
           </RewardRow>
         )}
-        <SubmitClaim quest={quest} />
       </BorderBox>
+      <SubmitClaim quest={quest} />
     </FrameShape>
   )
 }

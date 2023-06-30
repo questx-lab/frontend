@@ -24,7 +24,7 @@ const MenuItem = styled(Menu.Items)<{ isshow: boolean }>(({ isshow }) => {
   if (isshow) {
     styles.push(tw`
     absolute
-    right-0
+    left-0
     mt-2
     w-72
     origin-top-left
@@ -108,7 +108,7 @@ const AddCategory: FC = () => {
   }
 
   return (
-    <Menu as='div' className='relative inline-block bg-gray-100 rounded-lg z-50'>
+    <Menu as='div' className='relative inline-block bg-gray-100 rounded-lg z-10'>
       <MenuButton
         onClick={() => {
           setShowMenu(true)

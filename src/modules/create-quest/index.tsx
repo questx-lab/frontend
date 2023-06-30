@@ -7,8 +7,8 @@ import tw from 'twin.macro'
 
 import { listQuestApi, newQuestApi, updateQuestApi } from '@/api/quest'
 import ActionButtons from '@/modules/create-quest/action-buttons'
-import Highlighted from '@/modules/create-quest/highlighted'
 import Conditions from '@/modules/create-quest/conditions'
+import Highlighted from '@/modules/create-quest/highlighted'
 import { QuestFieldsBox } from '@/modules/create-quest/mini-widget'
 import QuestTypeSelection from '@/modules/create-quest/quest-type/selection'
 import Recurrence from '@/modules/create-quest/recurrence'
@@ -26,19 +26,25 @@ import { Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
 
 const BodyFrame = styled(Horizontal)<{ isTemplate?: boolean }>(({ isTemplate = false }) => {
+  const styles = [
+    tw`
+    max-md:flex-col-reverse
+    max-md:px-4
+    gap-4
+  `,
+  ]
+
   if (isTemplate) {
-    return tw`
+    styles.push(tw`
       w-full
       h-full
       justify-center
       pr-4
       mb-4
-    `
+    `)
   }
 
-  return tw`
-    w-full
-  `
+  return styles
 })
 
 const EditInfoFrame = tw(Vertical)`
@@ -46,13 +52,17 @@ const EditInfoFrame = tw(Vertical)`
   h-full
   bg-white
   py-8
-  pl-8
+  gap-3
+  max-md:w-full
+`
+
+const GapHorizontal = tw(Horizontal)`
   gap-3
 `
 
 const EditFrame = styled(Vertical)<{ isTemplate: boolean }>(({ isTemplate }) => {
   if (isTemplate) {
-    return [tw`pl-80`]
+    return [tw`pl-80 ml-4`]
   }
 
   return [tw`flex-1`]
@@ -102,6 +112,7 @@ export const CreateOrEditQuest: FC<{
   const store = NewQuestStore.useStore()
   const title = NewQuestStore.useStoreState((state) => state.title)
   const description = NewQuestStore.useStoreState((state) => state.description)
+  const id = NewQuestStore.useStoreState((state) => state.id)
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -113,7 +124,7 @@ export const CreateOrEditQuest: FC<{
   const submitAction = async (submitType: string) => {
     setIsOpen(true)
     try {
-      const result = await handleSubmit(store, community.handle, submitType, '')
+      const result = await handleSubmit(store, community.handle, submitType, id)
       if (result) {
         // reload the quests list so that it could displayed in the community quest list.
         const result = await listQuestApi(community.handle, '')
@@ -129,7 +140,7 @@ export const CreateOrEditQuest: FC<{
   }
 
   return (
-    <Horizontal>
+    <GapHorizontal>
       <TemplateGroups show={isTemplate} />
       <EditFrame isTemplate={isTemplate}>
         <TopLabel isEdit={isEdit} communityHandle={community.handle} />
@@ -186,6 +197,6 @@ export const CreateOrEditQuest: FC<{
           lines={[`We're creating new quest.`, 'This might take a few seconds...']}
         />
       </EditFrame>
-    </Horizontal>
+    </GapHorizontal>
   )
 }

@@ -3,10 +3,8 @@ import Phaser from 'phaser'
 import { UserType } from '@/types'
 
 export enum ItemType {
-  CHAIR,
-  COMPUTER,
-  WHITEBOARD,
-  VENDINGMACHINE,
+  NONE,
+  GAME,
   LUCKY_BOX,
 }
 

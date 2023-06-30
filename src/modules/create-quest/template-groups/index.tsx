@@ -24,11 +24,11 @@ const BorderRightBox = tw.div`
 
 const BorderBoxFrame = tw(BorderRightBox)`
   w-80
-  h-[calc(100%_-_110px)]
+  h-[calc(100%_-_160px)]
   border-r-[1px]
   fixed
   overflow-y-scroll
-  px-6
+  px-4
   pt-2
   rounded-l-lg
   z-50

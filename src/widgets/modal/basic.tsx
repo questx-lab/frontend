@@ -15,16 +15,16 @@ export enum BasicModalWidthSize {
 
 const ModalBox = tw(HorizontalCenter)`
   flex
+  py-[80px]
   h-full
-  py-6
 `
 
 const ModalContent = styled(Dialog.Panel)<{ widthsize: BasicModalWidthSize }>(({ widthsize }) => {
   const styles = [
     tw`
       w-1/2
-      max-xl:w-2/3
-      h-full
+      max-xl:w-full
+      max-xl:mx-6
       bg-white
       align-middle
       overflow-y-scroll
@@ -32,7 +32,7 @@ const ModalContent = styled(Dialog.Panel)<{ widthsize: BasicModalWidthSize }>(({
       transition-all
       flex
       flex-col
-      justify-start
+      justify-center
       items-center
       rounded-lg
     `,
@@ -56,14 +56,17 @@ const PaddingHorizontal = tw(Horizontal)`
   w-full
   justify-between
   items-center
-  px-8
-  py-4
+  p-5
+  border
+  border-solid
+  border-b-gray-200
 `
 
 const Title = tw.div`
   text-2xl
   font-normal
   text-black
+  max-sm:text-lg
 `
 
 export const TopModal: FC<{ hasHeader: boolean; title?: string; onClose: () => void }> = ({

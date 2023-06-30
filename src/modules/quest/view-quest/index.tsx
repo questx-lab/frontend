@@ -25,7 +25,8 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 const OuterPadding = tw(Horizontal)`
   w-full
   gap-5
-  p-6
+  p-5
+  max-md:flex-col
 `
 
 const RelativeFrame = tw.div`
@@ -40,7 +41,7 @@ const ContextFrame = tw(Vertical)`
   text-black
   border
   border-solid
-  border-gray-300
+  border-gray-200
   rounded-lg
   w-full
   p-6

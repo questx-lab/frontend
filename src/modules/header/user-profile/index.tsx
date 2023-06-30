@@ -11,6 +11,8 @@ import { Divider } from '@/widgets/separator'
 const ContentFrame = tw(HorizontalFullWidth)`
   py-4
   px-8
+  max-sm:flex-col
+  gap-4
 `
 
 const UserProfile: FC<{ user: UserType }> = ({ user }) => {

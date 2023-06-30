@@ -54,8 +54,8 @@ class Network {
     }
 
     this.socket.onmessage = (event: IMessageEvent) => {
-      const message = JSON.parse(event.data.toString()) as MessageReceiver
-      this.listeners.forEach((listener) => listener.onMessage(message))
+      const messages = JSON.parse(event.data.toString()) as MessageReceiver[]
+      this.listeners.forEach((listener) => messages.forEach((msg) => listener.onMessage(msg)))
     }
   }
 

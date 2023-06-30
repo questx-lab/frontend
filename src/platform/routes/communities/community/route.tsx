@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import { BrowserView } from 'react-device-detect'
 import { json, Outlet, Params, useLoaderData } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -9,7 +10,7 @@ import { getCategoriesApi, getCommunityApi } from '@/api/communitiy'
 import { getTemplatesApi, listQuestApi } from '@/api/quest'
 import { CommunityRoleEnum } from '@/constants/common.const'
 import ControlPanel from '@/modules/community/control-panel'
-import ActiveQuestStore from '@/store/local/active-quest'
+import useDeleteQuest from '@/platform/hooks/use-delete-quest'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { CategoryType, CollaboratorType } from '@/types'
@@ -46,6 +47,7 @@ const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true
   if (hasPanel) {
     return tw`
       pl-80
+      max-md:pl-0
     `
   }
 
@@ -64,10 +66,10 @@ const Community = () => {
   // data
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
-  const deletedQuestId = ActiveQuestStore.useStoreState((state) => state.deletedQuestId)
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
   const showPanel: boolean = canEdit && user
+  const deletedQuest = useDeleteQuest()
 
   // Check if user is the editor of this community
   let collab: CollaboratorType | undefined = undefined
@@ -125,7 +127,7 @@ const Community = () => {
   useEffect(() => {
     // Reload all the quests whenever data community changes or a new quest is deleted.
     loadQuests()
-  }, [deletedQuestId, data.community])
+  }, [deletedQuest.id, data.community, loadQuests])
 
   if (!community) {
     return <HorizontalCenter>{'Failed to load community data'}</HorizontalCenter>
@@ -133,7 +135,9 @@ const Community = () => {
 
   return (
     <>
-      <ControlPanel community={community} show={showPanel} />
+      <BrowserView>
+        <ControlPanel community={community} show={showPanel} />
+      </BrowserView>
       <PaddingLeft hasPanel={showPanel}>
         <Outlet />
       </PaddingLeft>

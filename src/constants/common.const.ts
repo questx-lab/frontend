@@ -279,3 +279,11 @@ export enum TownhallStatus {
   ENABLE = 'enable',
   DISABLE = 'disable',
 }
+
+export enum QuestColor {
+  EMERALD = 'emerald',
+  ORANGE = 'orange',
+  INDIGO = 'indigo',
+  PINK = 'pink',
+  CYAN = 'cyan',
+}

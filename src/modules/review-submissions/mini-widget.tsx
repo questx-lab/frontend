@@ -52,7 +52,7 @@ export const FilterColumn = tw(RoundedGrayBorderBox)`
   flex
   flex-col
   w-1/3
-  ml-8
+  max-md:w-full
 `
 
 export const FilterTitleFrame = tw(Horizontal)`
@@ -67,6 +67,9 @@ export const FilterTitleFrame = tw(Horizontal)`
 export const TabContentFrame = tw(Horizontal)`
   w-full
   h-full
+  max-md:flex-col-reverse
+  gap-4
+  pb-6
 `
 
 export const InputFrame = tw.div`
@@ -77,6 +80,8 @@ export const SubmissionColumn = tw(RoundedGrayBorderBox)`
   w-2/3
   h-full
   mb-6
+  max-md:w-full
+  py-0
 `
 
 export const ButtonFrame = tw.div`

@@ -1,15 +1,14 @@
 import Phaser from 'phaser'
 
-import Player, { sittingShiftData } from '@/townhall/engine/characters/Player'
-import PlayerSelector from '@/townhall/engine/characters/player-selecter'
+import Player from '@/townhall/engine/characters/Player'
 import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
-import Chair from '@/townhall/engine/items/Chair'
+import Item from '@/townhall/engine/items/Item'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import { ItemType, NavKeys, PlayerBehavior } from '@/types/townhall'
 
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body
-  private chairOnSit?: Chair
+  selectedItem?: Item
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -51,21 +50,18 @@ export default class MyPlayer extends Player {
     }
   }
 
-  update(
-    playerSelector: PlayerSelector,
-    cursors: NavKeys,
-    keyE: Phaser.Input.Keyboard.Key,
-    keyR: Phaser.Input.Keyboard.Key
-  ) {
+  update(cursors: NavKeys, keyE: Phaser.Input.Keyboard.Key, keyX: Phaser.Input.Keyboard.Key) {
     if (!cursors) return
 
-    const item = playerSelector.selectedItem
+    const item = this.selectedItem
 
-    if (Phaser.Input.Keyboard.JustDown(keyR)) {
-      switch (
-        item?.itemType
+    if (Phaser.Input.Keyboard.JustDown(keyX)) {
+      switch (item?.itemType) {
         // TODO: handle action
-      ) {
+        case ItemType.GAME:
+          phaserGame.pause()
+          phaserGame.changePlayerSelectorListeners(ItemType.GAME)
+          break
       }
     }
     if (!this.body) {
@@ -78,56 +74,6 @@ export default class MyPlayer extends Player {
     switch (this.playerBehavior) {
       case PlayerBehavior.IDLE:
         // if press E in front of selected chair
-        if (Phaser.Input.Keyboard.JustDown(keyE) && item?.itemType === ItemType.CHAIR) {
-          const chairItem = item as Chair
-          /**
-           * move player to the chair and play sit animation
-           * a delay is called to wait for player movement (from previous velocity) to end
-           * as the player tends to move one more frame before sitting down causing player
-           * not sitting at the center of the chair
-           */
-          this.scene.time.addEvent({
-            delay: 10,
-            callback: () => {
-              // update character velocity and position
-              this.setVelocity(0, 0)
-              if (chairItem.itemDirection) {
-                const itemDirection = chairItem.itemDirection as 'up' | 'down' | 'left' | 'right'
-                const shift = sittingShiftData[itemDirection]
-                this.setPosition(chairItem.x + shift[0], chairItem.y + shift[1]).setDepth(
-                  chairItem.depth + shift[2]
-                )
-                // also update playerNameContainer velocity and position
-                this.playContainerBody.setVelocity(0, 0)
-                this.playerContainer.setPosition(
-                  chairItem.x + shift[0],
-                  chairItem.y + shift[1] - 30
-                )
-              }
-
-              this.play(`${this.playerTexture}_sit_${chairItem.itemDirection}`, true)
-              playerSelector.selectedItem = undefined
-              if (chairItem.itemDirection === 'up') {
-                playerSelector.setPosition(this.x, this.y - this.height)
-              } else {
-                playerSelector.setPosition(0, 0)
-              }
-              // DONE: send new location and anim to server
-              if (!this.anims.currentAnim) {
-                return
-              }
-              phaserGame.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
-            },
-            loop: false,
-          })
-          // set up new dialog as player sits down
-          chairItem.clearDialogBox()
-          chairItem.setDialogBox('Press E to leave')
-          this.chairOnSit = chairItem
-          this.playerBehavior = PlayerBehavior.SITTING
-          return
-        }
-
         const speed = 200
         let vx = 0
         let vy = 0
@@ -186,12 +132,16 @@ export default class MyPlayer extends Player {
           parts[1] = 'idle'
           this.play(parts.join('_'), true)
           this.playerBehavior = PlayerBehavior.IDLE
-          this.chairOnSit?.clearDialogBox()
-          playerSelector.setPosition(this.x, this.y)
-          playerSelector.update(this, cursors)
           // TODO: send new action to server
         }
         break
+    }
+
+    if (this.selectedItem) {
+      if (!this.scene.physics.overlap(this, this.selectedItem)) {
+        this.selectedItem.clearDialogBox()
+        this.selectedItem = undefined
+      }
     }
   }
 }

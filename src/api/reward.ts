@@ -7,7 +7,7 @@ export const getMyReferralInfoApi = async (): Promise<Rsp<RefferalType>> => {
   return data
 }
 
-export const claimReferralApi = async (address: string): Promise<Rsp<{}>> => {
-  const { data } = await api.post(EnvVariables.API_SERVER + '/claimReferral', { address })
+export const claimReferralApi = async (wallet_address: string): Promise<Rsp<{}>> => {
+  const { data } = await api.post(EnvVariables.API_SERVER + '/claimReferral', { wallet_address })
   return data
 }
