@@ -20,7 +20,7 @@ export const PopPanel = styled(Popover.Panel)<{ size?: PopoverSize }>(({ size })
         divide-y
         right-0
         rounded-lg
-        mt-5
+        mt-1
         absolute z-10
         bg-white
         shadow-lg
@@ -37,14 +37,14 @@ export const PopPanel = styled(Popover.Panel)<{ size?: PopoverSize }>(({ size })
     divide-y
     right-0
     rounded-lg
-    mt-5
+    mt-1
     absolute z-10
     bg-white
     shadow-lg
     border
     border-solid
     border-gray-300
-    w-[350px]
+    w-[240px]
     flex
     flex-col
   `
@@ -53,12 +53,12 @@ export const PopPanel = styled(Popover.Panel)<{ size?: PopoverSize }>(({ size })
 export const PopItem = tw(Vertical)`
   w-full
   py-2
-  px-4
+  px-2
 `
 
 export const OptionxBox = tw.div`
   w-full
-  text-lg
+  text-sm
   font-normal
   text-gray-700
   p-2

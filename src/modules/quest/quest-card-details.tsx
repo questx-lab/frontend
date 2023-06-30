@@ -114,7 +114,7 @@ const RecurrenceBox = styled.div<{ bgColor: string }>(({ bgColor }) => {
     px-2
     py-[6px]
     rounded-lg
-    text-xs
+    text-2xs
     font-normal
     text-gray-500
   `,

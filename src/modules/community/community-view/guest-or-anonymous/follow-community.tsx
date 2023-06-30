@@ -16,7 +16,8 @@ import { GlobalStoreModel } from '@/store/store'
 import { CommunityType, FollowCommunityType } from '@/types/community'
 import { onCopy } from '@/utils/helper'
 import { ButtonTypeEnum, NegativeButton, PositiveButton } from '@/widgets/buttons'
-import { CheckIcon, ShareIcon } from '@heroicons/react/24/outline'
+import { CheckIcon } from '@heroicons/react/20/solid'
+import { ShareIcon } from '@heroicons/react/24/outline'
 
 const BorderShare = tw.div`
   p-2
@@ -90,11 +91,11 @@ const FollowCommunity: FC<{
     return (
       <>
         <PositiveButton type={ButtonTypeEnum.SUCCESS_BORDER}>
-          <CheckIcon className='w-6 h-6 text-success' />
+          <CheckIcon className='w-5 h-5 text-success' />
           {'Following'}
         </PositiveButton>
         <BorderShare onClick={fetchMyFollowerInfo}>
-          <ShareIcon className='w-6 h-6 text-gray-900' />
+          <ShareIcon className='w-5 h-5 text-gray-900' />
         </BorderShare>
       </>
     )

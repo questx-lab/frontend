@@ -5,6 +5,7 @@ import tw from 'twin.macro'
 import { CommunityRoleEnum } from '@/constants/common.const'
 import AddCategory from '@/modules/create-quest/select-category/add-category'
 import CommunityStore from '@/store/local/community'
+import { HorizontalCenter } from '@/widgets/orientation'
 
 const Content = tw.div`
   w-full
@@ -13,8 +14,9 @@ const Content = tw.div`
   gap-2
 `
 
-const CategoryBox = tw.div`
-  p-3
+const CategoryBox = tw(HorizontalCenter)`
+  h-[40px]
+  px-3
   text-sm
   font-medium
   text-black

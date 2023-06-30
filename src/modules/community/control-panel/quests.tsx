@@ -39,7 +39,7 @@ const QuestsTab: FC = () => {
       }}
       active={activeControlPanelTab === ControlPanelTab.QUESTS}
     >
-      <BoltIcon className='w-6 h-6 mr-2' />
+      <BoltIcon className='w-5 h-5 mr-2' />
       {'QUESTS'}
     </Tab>
   )

@@ -64,6 +64,10 @@ const Padding = tw(VerticalCenter)`
   w-full
 `
 
+const HeighHorizontal = tw(HorizontalBetweenCenterFullWidth)`
+  h-10
+`
+
 const NewCommunity: FC<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
@@ -89,10 +93,10 @@ const Index: FC = () => {
     <VerticalFullWidthCenter>
       <BorderBottom>
         <MainContent>
-          <HorizontalBetweenCenterFullWidth>
+          <HeighHorizontal>
             <Text2xl>{'👋 Communities'}</Text2xl>
             <NewCommunity setOpen={setOpen} />
-          </HorizontalBetweenCenterFullWidth>
+          </HeighHorizontal>
         </MainContent>
       </BorderBottom>
 

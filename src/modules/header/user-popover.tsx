@@ -36,7 +36,7 @@ const RowBox = tw(HorizontalCenter)`
 `
 
 const NameText = tw.p`
-  text-xl
+  text-lg
   font-medium
   text-black
   text-center
@@ -85,8 +85,8 @@ const UserPopover: FC = () => {
         <PopItem>
           <UserBox>
             <Avatar
-              width={80}
-              height={80}
+              width={64}
+              height={64}
               src={user.avatar_url || StorageConst.USER_DEFAULT.src}
               alt={'Avatar'}
             />

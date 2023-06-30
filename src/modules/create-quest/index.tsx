@@ -153,6 +153,7 @@ export const CreateOrEditQuest: FC<{
           <BodyFrame isTemplate={isTemplate}>
             <EditInfoFrame>
               <QuestFieldsBox title={'Quest Title'} required={true}>
+                <Gap height={2} />
                 <TextField
                   required
                   value={title}
@@ -162,6 +163,7 @@ export const CreateOrEditQuest: FC<{
                 />
                 <Gap />
                 <Label>{'QUEST DESCRIPTION'}</Label>
+                <Gap height={2} />
                 <Editor
                   onChange={(value) => {
                     setDescription(value)
@@ -187,6 +189,7 @@ export const CreateOrEditQuest: FC<{
               </QuestFieldsBox>
 
               <QuestFieldsBox title={'Highlighted'}>
+                <Gap height={2} />
                 <Highlighted />
               </QuestFieldsBox>
 

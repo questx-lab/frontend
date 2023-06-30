@@ -13,11 +13,12 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@material-tailwind/react'
 
 const MenuButton = styled(Menu.Button)(tw`
-  p-3
+  h-[40px]
   text-sm
   font-medium
   text-black
   cursor-pointer
+  px-3
 `)
 
 const MenuItem = styled(Menu.Items)<{ isshow: boolean }>(({ isshow }) => {

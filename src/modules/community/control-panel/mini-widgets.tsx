@@ -15,7 +15,7 @@ export const Tab = styled.div<{ active?: boolean }>(({ active = false }) => {
       hover:bg-primary-50
       cursor-pointer
       my-2
-      text-sm
+      text-xs
       font-medium
       text-primary-500
     `
@@ -33,7 +33,7 @@ export const Tab = styled.div<{ active?: boolean }>(({ active = false }) => {
         hover:bg-primary-50
         cursor-pointer
         my-2
-        text-sm
+        text-xs
         font-medium
         text-gray-700
       `

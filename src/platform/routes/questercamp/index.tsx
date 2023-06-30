@@ -54,9 +54,9 @@ const QuestsGrid = tw.div`
 
 const BorderBottom = tw(HorizontalCenter)`
   w-full
-  border
+  border-b
   border-solid
-  border-b-gray-200
+  border-gray-200
 `
 
 const Padding = tw(VerticalCenter)`
@@ -64,7 +64,9 @@ const Padding = tw(VerticalCenter)`
   w-full
 `
 
-const Margin = tw.div`my-5`
+const HeighHorizontal = tw(HorizontalBetweenCenterFullWidth)`
+  h-10
+`
 
 export const OtherQuests: FC<{ quests: QuestType[]; showCommunity?: boolean }> = ({
   quests,
@@ -169,9 +171,9 @@ const Index: FC = () => {
     <VerticalFullWidthCenter>
       <BorderBottom>
         <MainContent>
-          <HorizontalBetweenCenterFullWidth>
+          <HeighHorizontal>
             <Text2xl>{'⚡ QuesterCamp'}</Text2xl>
-          </HorizontalBetweenCenterFullWidth>
+          </HeighHorizontal>
         </MainContent>
       </BorderBottom>
 

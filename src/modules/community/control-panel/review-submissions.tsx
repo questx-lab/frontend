@@ -38,7 +38,7 @@ const ReviewSubmissionsTab: FC = () => {
       }}
       active={activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION}
     >
-      <ArrowUpOnSquareIcon className='w-6 h-6 mr-2' />
+      <ArrowUpOnSquareIcon className='w-5 h-5 mr-2' />
       {'REVIEW SUBMISSION'}
     </Tab>
   )

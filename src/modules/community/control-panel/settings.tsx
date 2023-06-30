@@ -39,7 +39,7 @@ const SettingsTab: FC = () => {
       }}
       active={activeControlPanelTab === ControlPanelTab.SETTINGS}
     >
-      <Cog6ToothIcon className='w-6 h-6 mr-2' />
+      <Cog6ToothIcon className='w-5 h-5 mr-2' />
       {'SETTINGS'}
     </Tab>
   )

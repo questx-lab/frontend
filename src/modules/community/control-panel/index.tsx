@@ -12,9 +12,9 @@ import { CommunityType } from '@/types/community'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 
 export const FixedFrame = tw.div`
-  w-80
+  w-60
   fixed
-  border-r-2
+  border-r
   border-gray-200
   h-full
   max-md:w-60

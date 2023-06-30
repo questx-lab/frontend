@@ -123,6 +123,7 @@ const CommunityGuestOrAnonymous: FC = () => {
                   <TwitterLink twitterUrl={community.twitter} />
                   <DiscordLink discordUrl={community.discord} />
                 </HorizontalStartCenter>
+                <div />
                 <ReponsiveHorizontal>
                   <BrowserView>
                     <PositiveButton
@@ -142,7 +143,7 @@ const CommunityGuestOrAnonymous: FC = () => {
       </BorderBottom>
 
       <CommunityQuests />
-
+      <Leaderboard />
       <FixedWidth>
         <Leaderboard />
       </FixedWidth>
