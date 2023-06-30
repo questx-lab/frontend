@@ -1,8 +1,9 @@
 import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
+import StorageConst from '@/constants/storage.const'
 import { Rsp } from '@/types'
 import { CommunityType } from '@/types/community'
-import { LuckyBoxReq, RoomDataType } from '@/types/townhall'
+import { LuckyBoxReq, RoomDataType, SetType } from '@/types/townhall'
 
 export const getRoomsByCommunityApi = async (
   handle: string
@@ -28,4 +29,41 @@ export const getRoomsByCommunityApi = async (
 export const createLuckyBoxApi = async (body: LuckyBoxReq): Promise<Rsp<{}>> => {
   const { data } = await api.post(EnvVariables.API_SERVER + '/createLuckyboxEvent', body)
   return data
+}
+
+export const getSetsApi = async (): Promise<Rsp<{ sets: SetType[] }>> => {
+  const sets: SetType[] = [
+    {
+      id: '1',
+      img_url: StorageConst.USER_DEFAULT.src,
+      name: 'adam',
+    },
+    {
+      id: '2',
+      img_url: StorageConst.USER_DEFAULT.src,
+      name: 'nancy',
+    },
+    {
+      id: '3',
+      img_url: StorageConst.USER_DEFAULT.src,
+      name: 'ash',
+    },
+    {
+      id: '4',
+      img_url: StorageConst.USER_DEFAULT.src,
+      name: 'lucy',
+    },
+    {
+      id: '5',
+      img_url: StorageConst.USER_DEFAULT.src,
+      name: 'adam',
+    },
+  ]
+
+  return {
+    code: 0,
+    data: {
+      sets,
+    },
+  }
 }

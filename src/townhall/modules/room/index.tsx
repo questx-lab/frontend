@@ -11,6 +11,7 @@ import GameSidebar from '@/townhall/modules/game-sidebar'
 import Chat from '@/townhall/modules/room/chat'
 import { Connectting } from '@/townhall/modules/room/connect'
 import GameSelector from '@/townhall/modules/selector/game'
+import MyInfoSelector from '@/townhall/modules/selector/MyInfo'
 import { UserType } from '@/types'
 import { Horizontal, Vertical, VerticalCenter } from '@/widgets/orientation'
 import { VerticalDivider } from '@/widgets/separator'
@@ -59,6 +60,7 @@ const Townhall: FC = () => {
     <Backdrop id='phaser-container'>
       <Connectting />
       <GameSelector playerSelector={playerSelector} />
+      <MyInfoSelector playerSelector={playerSelector} />
       <LeftContent>
         {activeTab === ActiveSidebarTab.CHAT && (
           <>

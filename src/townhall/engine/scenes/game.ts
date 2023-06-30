@@ -20,6 +20,7 @@ import {
   NavKeys,
   PlayerBehavior,
 } from '@/types/townhall'
+import VendorItem from '@/townhall/engine/items/vendor'
 
 export default class Game extends Phaser.Scene {
   private map!: Phaser.Tilemaps.Tilemap
@@ -29,6 +30,7 @@ export default class Game extends Phaser.Scene {
   private cursors!: NavKeys
   private keyE!: Phaser.Input.Keyboard.Key
   private keyX!: Phaser.Input.Keyboard.Key
+  private keyB!: Phaser.Input.Keyboard.Key
   luckyBoxes = new Map<string, LuckyBox>()
   private luckyBoxArcadeGroup!: Phaser.Physics.Arcade.Group
 
@@ -48,6 +50,7 @@ export default class Game extends Phaser.Scene {
     // maybe we can have a dedicated method for adding keys if more keys are needed in the future
     this.keyE = this.input.keyboard.addKey('E')
     this.keyX = this.input.keyboard.addKey('X')
+    this.keyB = this.input.keyboard.addKey('B')
     this.input.keyboard.disableGlobalCapture()
   }
 
@@ -121,6 +124,7 @@ export default class Game extends Phaser.Scene {
     this.map.createLayer('Float', FloorAndGround)?.setDepth(10000)
     this.map.createLayer('Object', FloorAndGround)
     this.map.createLayer('Doors', FloorAndGround)
+    this.map.createLayer('Vendor', FloorAndGround)
 
     if (!wallLayer) {
       return
@@ -136,6 +140,17 @@ export default class Game extends Phaser.Scene {
     if (gameLayer) {
       gameLayer.objects.forEach((obj, i) => {
         const item = this.addObjectFromTiled(games, obj, 'games', 'FloorAndGround') as GameItem
+        item.setDepth(item.y + item.height * 0.27)
+        const id = `${i}`
+        item.id = id
+      })
+    }
+
+    const vendor = this.physics.add.staticGroup({ classType: VendorItem })
+    const vendorLayer = this.map.getObjectLayer('Vendor')
+    if (vendorLayer) {
+      vendorLayer.objects.forEach((obj, i) => {
+        const item = this.addObjectFromTiled(vendor, obj, 'vendor', 'FloorAndGround') as VendorItem
         item.setDepth(item.y + item.height * 0.27)
         const id = `${i}`
         item.id = id
@@ -223,6 +238,7 @@ export default class Game extends Phaser.Scene {
     phaserGame.onCollectLuckyBox(this.handleCollectLuckyBox, this)
     phaserGame.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
     phaserGame.onMyPlayerEmoji(this.handleMyPlayerEmoji, this)
+    phaserGame.onPlayerSetChange(this.handlePlayerSetChange, this)
   }
 
   private addObjectFromTiled(
@@ -272,7 +288,7 @@ export default class Game extends Phaser.Scene {
 
   update(t: number, dt: number) {
     if (this.myPlayer) {
-      this.myPlayer.update(this.cursors, this.keyE, this.keyX)
+      this.myPlayer.update(this.cursors, this.keyE, this.keyX, this.keyB)
     }
   }
 
@@ -333,5 +349,12 @@ export default class Game extends Phaser.Scene {
 
   handleMyPlayerEmoji(emoji: string) {
     this.myPlayer.setPlayerEmoji(emoji)
+  }
+
+  handlePlayerSetChange(set: string) {
+    console.log('handlePlayerSetChange', set)
+
+    this.myPlayer.setTexture(set)
+    this.myPlayer.setPlayerTexture(set)
   }
 }

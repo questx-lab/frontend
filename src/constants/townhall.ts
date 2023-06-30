@@ -8,4 +8,5 @@ export enum MessageReceiverEnum {
   START_LUCKY_BOX = 'start_luckybox_event',
   COLLECT_LUCKY_BOX = 'collect_luckybox',
   STOP_LUCKY_BOX = 'stop_luckybox_event',
+  CHANGE_CHARACTER = 'change_character',
 }

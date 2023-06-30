@@ -6,6 +6,8 @@ export enum ItemType {
   NONE,
   GAME,
   LUCKY_BOX,
+  VENDOR,
+  MY_INFO,
 }
 
 export enum PlayerBehavior {
@@ -139,4 +141,10 @@ export interface LuckyBoxReq {
   point_per_box: number
   start_time: string
   duration: number
+}
+
+export type SetType = {
+  id: string
+  img_url: string
+  name: string
 }

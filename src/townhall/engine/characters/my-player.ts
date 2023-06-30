@@ -50,17 +50,30 @@ export default class MyPlayer extends Player {
     }
   }
 
-  update(cursors: NavKeys, keyE: Phaser.Input.Keyboard.Key, keyX: Phaser.Input.Keyboard.Key) {
+  update(
+    cursors: NavKeys,
+    keyE: Phaser.Input.Keyboard.Key,
+    keyX: Phaser.Input.Keyboard.Key,
+    keyB: Phaser.Input.Keyboard.Key
+  ) {
     if (!cursors) return
 
     const item = this.selectedItem
 
+    if (Phaser.Input.Keyboard.JustDown(keyB)) {
+      phaserGame.pause()
+      phaserGame.changePlayerSelectorListeners(ItemType.MY_INFO)
+    }
     if (Phaser.Input.Keyboard.JustDown(keyX)) {
       switch (item?.itemType) {
         // TODO: handle action
         case ItemType.GAME:
           phaserGame.pause()
           phaserGame.changePlayerSelectorListeners(ItemType.GAME)
+          break
+        case ItemType.VENDOR:
+          phaserGame.pause()
+          phaserGame.changePlayerSelectorListeners(ItemType.VENDOR)
           break
       }
     }

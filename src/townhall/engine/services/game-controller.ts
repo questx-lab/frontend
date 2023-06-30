@@ -311,6 +311,10 @@ class GameController extends Phaser.Game {
     phaserEvents.on(Event.MY_PLAYER_EMOJI_CHANGE, callback, context)
   }
 
+  onPlayerSetChange(callback: (set: string) => void, context?: any) {
+    phaserEvents.on(Event.PLAYER_SET_CHANGE, callback, context)
+  }
+
   // method to send player updates to Colyseus server
   updatePlayer(currentX: number, currentY: number, currentAnim: string) {
     const direction = currentAnim.split('_').at(-1)

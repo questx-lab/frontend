@@ -45,6 +45,21 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 48,
     })
 
+    this.load.spritesheet('lucy', '/character/lucy.png', {
+      frameWidth: 32,
+      frameHeight: 48,
+    })
+
+    this.load.spritesheet('ash', '/character/ash.png', {
+      frameWidth: 32,
+      frameHeight: 48,
+    })
+
+    this.load.spritesheet('nancy', '/character/nancy.png', {
+      frameWidth: 32,
+      frameHeight: 48,
+    })
+
     // should change if we have lucky box image
     this.load.spritesheet('lucky_box', '/items/box.png', {
       frameWidth: 64,
@@ -54,6 +69,11 @@ export default class Bootstrap extends Phaser.Scene {
     this.load.spritesheet('coin', '/items/coin.png', {
       frameWidth: 32,
       frameHeight: 32,
+    })
+
+    this.load.spritesheet('vendor', '/map/jp_tileset.png', {
+      frameWidth: 64,
+      frameHeight: 64,
     })
 
     this.load.on('complete', () => {
