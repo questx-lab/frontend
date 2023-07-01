@@ -27,7 +27,7 @@ const BorderBox = styled(Dialog.Panel)(
   text-center
   align-middle
   overflow-hidden
-  shadow-xl
+  shadow-lg
   transition-all
   flex
   flex-col

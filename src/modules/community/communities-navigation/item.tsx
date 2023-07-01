@@ -85,8 +85,8 @@ const FollowItem: FC<{
               }
               navigate(communityRoute(community.handle))
             }}
-            width={45}
-            height={45}
+            width={40}
+            height={40}
             src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
             alt='community'
           />

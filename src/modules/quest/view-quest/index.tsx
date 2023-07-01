@@ -31,7 +31,8 @@ const OuterPadding = tw(Horizontal)`
 
 const RelativeFrame = tw.div`
   relative
-  w-full
+  w-[480px]
+  max-sm:w-full
 `
 
 const ContextFrame = tw(Vertical)`

@@ -151,35 +151,33 @@ export default function SelectCategory() {
     }
   }, [categories])
 
-  if (!selected) {
-    return <></>
-  }
-
   return (
     <VerticalFullWidth>
       <HorizontalBetweenCenterFullWidth>
         <Label>{'Category'}</Label>
         <AddCategory />
       </HorizontalBetweenCenterFullWidth>
-      <FullWidth>
-        <Listbox
-          value={selected}
-          onChange={(e) => {
-            setSelected(e)
-            setCategoryId(e.id)
-          }}
-        >
-          <Relative>
-            <ListButton>
-              <Title>{selected.name}</Title>
-              <UpDown>
-                <ChevronUpDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
-              </UpDown>
-            </ListButton>
-            <ListOptionRender categories={categories} />
-          </Relative>
-        </Listbox>
-      </FullWidth>
+      {selected && (
+        <FullWidth>
+          <Listbox
+            value={selected}
+            onChange={(e) => {
+              setSelected(e)
+              setCategoryId(e.id)
+            }}
+          >
+            <Relative>
+              <ListButton>
+                <Title>{selected.name}</Title>
+                <UpDown>
+                  <ChevronUpDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
+                </UpDown>
+              </ListButton>
+              <ListOptionRender categories={categories} />
+            </Relative>
+          </Listbox>
+        </FullWidth>
+      )}
     </VerticalFullWidth>
   )
 }

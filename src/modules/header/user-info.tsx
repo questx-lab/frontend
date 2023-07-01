@@ -88,13 +88,14 @@ const UserInfoBox: FC = () => {
   if (user) {
     return (
       <UserSession>
-        <GiftIcon onClick={() => setInvite(true)} className='h-7 w-7' />
+        <GiftIcon onClick={() => setInvite(true)} className='h-5 w-5' />
         <UserPopover />
 
         <BasicModal
           title={`Invite Friend to create project 👋`}
           isOpen={isInvite}
           onClose={() => setInvite(false)}
+          styled='!w-[780px]'
         >
           <InviteCommunity />
         </BasicModal>

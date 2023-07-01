@@ -5,9 +5,8 @@ import { Horizontal } from '@/widgets/orientation'
 
 export const BorderBox = tw(RoundedGrayBorderBox)`
   w-full
-  px-6
-  py-6
-  gap-4
+  p-5
+  gap-3
   flex
   flex-col
   justify-start
