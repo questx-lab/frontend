@@ -7,13 +7,14 @@ import tw from 'twin.macro'
 import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
 import { Horizontal } from '@/widgets/orientation'
-import { TextBase } from '@/widgets/text'
+import { TextSm } from '@/widgets/text'
 
 export const BoxLink = tw(Horizontal)`
   h-full
   w-full
   items-center
   max-md:hidden
+  gap-6
 `
 
 export const Route = styled(Link)(
@@ -28,7 +29,6 @@ export const Route = styled(Link)(
     justify-center
     items-center
     h-full
-    px-4
   `
 )
 
@@ -36,9 +36,13 @@ export const Underline = tw.div`
   h-[5px]
   bg-primary-600
   w-full
-  rounded-t-full
+  rounded-t-lg
   absolute
   bottom-0
+`
+
+const MediumTextSm = tw(TextSm)`
+  font-medium
 `
 
 const BrowserNavigation: FC = () => {
@@ -58,11 +62,11 @@ const BrowserNavigation: FC = () => {
   return (
     <BoxLink>
       <Route to={RouterConst.COMMUNITIES}>
-        <TextBase>{'Communities'}</TextBase>
+        <MediumTextSm>{'Communities'}</MediumTextSm>
         {navActive === NavigationEnum.COMMUNITY && <Underline />}
       </Route>
       <Route to={RouterConst.QUESTBOARD}>
-        <TextBase>{'QuesterCamp'}</TextBase>
+        <MediumTextSm>{'QuesterCamp'}</MediumTextSm>
         {navActive === NavigationEnum.QUESTCARD && <Underline />}
       </Route>
     </BoxLink>

@@ -40,9 +40,8 @@ const FullWidthInput = tw(NumberInput)`
 
 const BorderBox = tw(RoundedGrayBorderBox)`
   w-full
-  px-6
-  py-6
-  gap-4
+  p-5
+  gap-3
 `
 
 const AddDiscordBtn = tw.div`

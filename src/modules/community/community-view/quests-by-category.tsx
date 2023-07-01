@@ -5,12 +5,27 @@ import tw from 'twin.macro'
 import { QuestColor } from '@/constants/common.const'
 import Category from '@/modules/community/community-view/community-collab/category'
 import HighlightedQuests from '@/modules/community/community-view/highlight-quests'
+import { FixedWidth } from '@/modules/community/mini-widget'
 import Quests from '@/modules/community/quests'
 import CommunityStore from '@/store/local/community'
-import { VerticalFullWidth } from '@/widgets/orientation'
+import { VerticalFullWidth, VerticalFullWidthCenter } from '@/widgets/orientation'
 
-const PaddingVertical = tw(VerticalFullWidth)`
-  py-8
+const BorderBottom = tw(VerticalFullWidthCenter)`
+  w-full
+  border-b
+  border-solid
+  border-gray-200
+  pb-10
+  gap-0
+`
+
+const PaddingTop = tw.div`
+  w-full
+  pt-10
+`
+
+const PaddingY10 = tw(VerticalFullWidth)`
+  py-10
 `
 
 const RenderQuestsByCategory: FC = () => {
@@ -79,12 +94,24 @@ const QuestsByCategory: FC = () => {
   const highlightedQuests = quests && quests.filter((quest) => quest.is_highlight === true)
 
   return (
-    <PaddingVertical>
-      <HighlightedQuests highlightedQuest={highlightedQuests} loading={false} />
-      <Category />
-      <RenderQuestsByCategory />
-      <RenderQuestsNoCategory />
-    </PaddingVertical>
+    <>
+      <BorderBottom>
+        <FixedWidth>
+          <PaddingTop>
+            <HighlightedQuests highlightedQuest={highlightedQuests} loading={false} />
+          </PaddingTop>
+        </FixedWidth>
+      </BorderBottom>
+      <PaddingY10>
+        <VerticalFullWidthCenter>
+          <FixedWidth>
+            <Category />
+            <RenderQuestsByCategory />
+            <RenderQuestsNoCategory />
+          </FixedWidth>
+        </VerticalFullWidthCenter>
+      </PaddingY10>
+    </>
   )
 }
 

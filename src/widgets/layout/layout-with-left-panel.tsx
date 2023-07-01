@@ -19,6 +19,7 @@ export const MainContent = tw.div`
   xl:w-[980px]
   md:w-[780px]
   w-full
+  py-5
 `
 
 const LeftMargin = styled.div<{ hasUser: boolean }>(({ hasUser }) => {

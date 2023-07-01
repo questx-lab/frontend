@@ -41,7 +41,7 @@ export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
 ])
 
 const LeftSection = tw(HorizontalStartCenter)`
-  gap-4
+  gap-5
   h-full
   w-full
 `
@@ -49,8 +49,6 @@ const LeftSection = tw(HorizontalStartCenter)`
 const ImageLogoBox = styled(Image)(tw`
   cursor-pointer
   h-full
-  max-sm:w-[100px]
-  max-2xl:w-[120px]
 `)
 
 const RightSection = tw(Horizontal)`
@@ -113,8 +111,8 @@ export const Header: FC<{}> = () => {
           </MobileView>
 
           <ImageLogoBox
-            width={150}
-            height={100}
+            width={90}
+            height={40}
             onClick={() => {
               navigate(RouterConst.HOME)
             }}

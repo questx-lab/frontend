@@ -13,8 +13,14 @@ import { RefferalType, UserType } from '@/types'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import { InputBox } from '@/widgets/form'
 import { Image } from '@/widgets/image'
-import { Horizontal, HorizontalStartCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
-import { Label, NormalText, PrimaryText } from '@/widgets/text'
+import {
+  Horizontal,
+  HorizontalStartCenter,
+  Vertical,
+  VerticalCenter,
+  VerticalFullWidth,
+} from '@/widgets/orientation'
+import { PrimaryText, TextSm, TextXs } from '@/widgets/text'
 import { CheckIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'
 
 const Wrap = tw(VerticalCenter)`
@@ -38,11 +44,11 @@ const WalletMain = tw(VerticalCenter)`
 
 const LeftSide = tw(Vertical)`
   p-5
-  gap-3
+  gap-5
   w-2/3
   border
   border-solid
-  border-gray-300
+  border-gray-200
   rounded-lg
   max-sm:w-full
 `
@@ -54,10 +60,10 @@ const RightSide = tw(Vertical)`
 `
 
 const RewardBox = tw(Vertical)`
-  p-3
+  p-5
   border
   border-solid
-  border-gray-300
+  border-gray-200
   rounded-lg
   w-full
   gap-3
@@ -71,21 +77,29 @@ const CoinBox = tw(HorizontalStartCenter)`
 `
 
 const WarningBox = tw(Horizontal)`
-  px-6
-  py-3
+  px-5
+  py-[10px]
   bg-warning-50
   border
   border-solid
-  border-warning-300
+  border-warning-200
   rounded-lg
   w-full
-  text-lg
+  text-sm
   font-normal
   text-gray-600
   gap-2
   items-center
   max-sm:flex-col
   max-sm:items-start
+`
+
+const MediumTextXs = tw(TextXs)`
+  font-bold
+`
+
+const Gray700TextSm = tw(TextSm)`
+  text-gray-700
 `
 
 enum Screen {
@@ -138,9 +152,9 @@ const AddressWallet: FC = () => {
 
   return (
     <WalletMain>
-      <Label>{'DEFAULT WALLET ADDRESS'}</Label>
+      <MediumTextXs>{'DEFAULT WALLET ADDRESS'}</MediumTextXs>
       <InputBox disabled block defaultValue={user.wallet_address} />
-      <Label>{'ENTER THE OTHER WALLET ADDRESS THAT YOU WANT TO CLAIM'}</Label>
+      <MediumTextXs>{'ENTER THE OTHER WALLET ADDRESS THAT YOU WANT TO CLAIM'}</MediumTextXs>
       <InputBox onChange={(e) => setAddress(e.target.value)} />
       <PositiveButton isFull onClick={onClaim}>
         {'Claim Reward'}
@@ -185,26 +199,34 @@ const InfoReward: FC<{ setScreen: (e: number) => void }> = ({ setScreen }) => {
   return (
     <Main>
       <LeftSide>
-        <Label>{'MISSION 🎯'}</Label>
-        <NormalText>
-          {'Here is the invitation code required to create a new project on XQuest. Please kindly' +
-            ' share this code with the project owner in order to proceed with the project setup.' +
-            ' By doing so, you will be eligible to claim the corresponding reward.'}
-        </NormalText>
-        <Label>{'GUIDE 📚'}</Label>
-        <NormalText>{'Copy code and share with your friend when they create project. '}</NormalText>
-        <NegativeButton onClick={onCopy}>
-          {user.referral_code}
-          <CheckIcon className='w-5 h-5 text-success' />
-        </NegativeButton>
-        <Label>{'SUBMISSION 📝'}</Label>
-        <NormalText>{'Auto validate'}</NormalText>
+        <VerticalFullWidth>
+          <MediumTextXs>{'MISSION 🎯'}</MediumTextXs>
+          <Gray700TextSm>
+            {'Here is the invitation code required to create a new project on XQuest. Please kindly' +
+              ' share this code with the project owner in order to proceed with the project setup.' +
+              ' By doing so, you will be eligible to claim the corresponding reward.'}
+          </Gray700TextSm>
+        </VerticalFullWidth>
+        <VerticalFullWidth>
+          <MediumTextXs>{'GUIDE 📚'}</MediumTextXs>
+          <Gray700TextSm>
+            {'Copy code and share with your friend when they create project. '}
+          </Gray700TextSm>
+          <NegativeButton onClick={onCopy}>
+            {user.referral_code}
+            <CheckIcon className='w-5 h-5 text-success' />
+          </NegativeButton>
+        </VerticalFullWidth>
+        <VerticalFullWidth>
+          <MediumTextXs>{'SUBMISSION 📝'}</MediumTextXs>
+          <Gray700TextSm>{'Auto validate'}</Gray700TextSm>
+        </VerticalFullWidth>
       </LeftSide>
       <RightSide>
         <RewardBox>
-          <Label>{'REWARD'}</Label>
+          <MediumTextXs>{'REWARD'}</MediumTextXs>
           <CoinBox>
-            <Image width={30} height={30} src={StorageConst.USDT.src} alt={StorageConst.USDT.alt} />
+            <Image width={24} height={24} src={StorageConst.USDT.src} alt={StorageConst.USDT.alt} />
             {(referral.total_claimable_communities ?? 0) * (referral.reward_amount ?? 0)}
           </CoinBox>
         </RewardBox>
@@ -249,9 +271,9 @@ const InviteCommunity: FC<{}> = () => {
 
     return (
       <WarningBox>
-        <ExclamationCircleIcon className='text-warning-700 h-7 w-7' />
+        <ExclamationCircleIcon className='text-warning-500 h-5 w-5' />
         {'You must have a wallet address in order to claim this reward.'}
-        <PrimaryText size='lg' isHover onClick={onLinkWallet}>
+        <PrimaryText size='sm' isHover onClick={onLinkWallet}>
           {'Update your wallet.'}
         </PrimaryText>
       </WarningBox>

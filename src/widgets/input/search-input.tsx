@@ -10,7 +10,7 @@ const InputStyle = tw.input`
   border-0
   ring-0
   outline-none
-  text-lg
+  text-sm
   w-full
 `
 
@@ -38,7 +38,7 @@ export const SearchInput: FC<{
 
   return (
     <Border>
-      <MagnifyingGlassIcon className='w-5 h-5 text-gray-500' />
+      <MagnifyingGlassIcon className='w-5 h-5 text-gray-400' />
       <InputStyle placeholder={hint} onChange={(e) => debounced(e.target.value)} />
     </Border>
   )
