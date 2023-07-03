@@ -35,27 +35,27 @@ export const getSetsApi = async (): Promise<Rsp<{ sets: SetType[] }>> => {
   const sets: SetType[] = [
     {
       id: '1',
-      img_url: StorageConst.USER_DEFAULT.src,
+      img_url: '/images/characters/adam.svg',
       name: 'adam',
     },
     {
       id: '2',
-      img_url: StorageConst.USER_DEFAULT.src,
+      img_url: '/images/characters/nancy.svg',
       name: 'nancy',
     },
     {
       id: '3',
-      img_url: StorageConst.USER_DEFAULT.src,
+      img_url: '/images/characters/ash.svg',
       name: 'ash',
     },
     {
       id: '4',
-      img_url: StorageConst.USER_DEFAULT.src,
+      img_url: '/images/characters/lucy.svg',
       name: 'lucy',
     },
     {
       id: '5',
-      img_url: StorageConst.USER_DEFAULT.src,
+      img_url: '/images/characters/adam.svg',
       name: 'adam',
     },
   ]

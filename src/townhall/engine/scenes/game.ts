@@ -352,8 +352,6 @@ export default class Game extends Phaser.Scene {
   }
 
   handlePlayerSetChange(set: string) {
-    console.log('handlePlayerSetChange', set)
-
     this.myPlayer.setTexture(set)
     this.myPlayer.setPlayerTexture(set)
   }

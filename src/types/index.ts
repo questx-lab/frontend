@@ -243,3 +243,16 @@ export type OpType = {
   id: string
   name: string
 }
+export type BadgeType = {
+  name: string
+  description: string
+  icon_url: string
+  level: number
+}
+
+export type BadgeDetailType = {
+  // community: CommunityType
+  // user: UserType
+  badge: BadgeType
+  // was_notified: boolean
+}

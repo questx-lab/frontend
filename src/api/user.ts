@@ -1,7 +1,8 @@
 import { EnvVariables } from '@/constants/env.const'
-import { Rsp, UserType } from '@/types'
+import { BadgeDetailType, Rsp, UserType } from '@/types'
 
 import { api } from './interceptor'
+import StorageConst from '@/constants/storage.const'
 
 export const getUserApi = async (): Promise<Rsp<UserType>> => {
   try {
@@ -52,5 +53,33 @@ export const getUserByIdApi = async (userId: string): Promise<Rsp<UserType>> => 
     return {
       code: -1,
     }
+  }
+}
+
+export const getMyBadgeDetailsApi = async (
+  community_handle: string
+): Promise<Rsp<{ badge_details: BadgeDetailType[] }>> => {
+  return {
+    code: 0,
+    data: {
+      badge_details: [
+        {
+          badge: {
+            name: 'quest_warrior',
+            level: 1,
+            description: 'description',
+            icon_url: StorageConst.CHICKEN.src,
+          },
+        },
+        {
+          badge: {
+            name: 'quest_warrior',
+            level: 2,
+            description: 'description',
+            icon_url: StorageConst.CHICKEN.src,
+          },
+        },
+      ],
+    },
   }
 }

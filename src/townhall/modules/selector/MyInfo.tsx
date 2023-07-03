@@ -9,15 +9,16 @@ import { Vertical, VerticalFullWidth, Horizontal } from '@/widgets/orientation'
 import { CircularImage } from '@/widgets/circular-image'
 import { GlobalStoreModel } from '@/store/store'
 import { useStoreState } from 'easy-peasy'
-import { UserType } from '@/types'
+import { BadgeDetailType, UserType } from '@/types'
 import StorageConst from '@/constants/storage.const'
 import { Gap } from '@/widgets/separator'
 import { Label, TextSm } from '@/widgets/text'
-import { SmallText } from '@/widgets/text'
 import { Image } from '@/widgets/image'
 import { getSetsApi } from '@/api/townhall'
 import toast from 'react-hot-toast'
 import { phaserEvents, Event } from '@/townhall/engine/events/event-center'
+import { getMyBadgeDetailsApi } from '@/api/user'
+import RoomStore from '@/store/townhall/room'
 
 const Frame = tw(Vertical)`
   w-[450px]
@@ -32,14 +33,12 @@ const FullVertical = tw(VerticalFullWidth)`
 
 const MainBox = tw.div`
   border-2
-  h-full
-  w-full
-  p-2
+  rounded
+  mx-6
 `
 
 const InfoBox = tw(Horizontal)`
   px-4
-  py-2
 `
 
 const PlayerBox = tw(Vertical)`
@@ -47,13 +46,13 @@ const PlayerBox = tw(Vertical)`
   justify-center
   border-b-2
   w-full
-  p-12
 `
 
 const Player = tw.div`
   flex
   justify-center
   w-full
+  bg-[#f3f4f6]
 `
 
 const SetsBox = tw(Vertical)`
@@ -72,19 +71,19 @@ const Tag = tw.div`
   py-1
   px-3
   bg-[#DEE0E3]
-  rounded-full
+  rounded-xl
 `
 
 const TagSelected = tw.div`
   py-1
   px-3
-  bg-black
+  bg-[#565ADD]
   text-white
-  rounded-full
+  rounded-xl
 `
 
 const PointBox = tw.div`
-  p-6
+  p-4
 `
 
 const GemBox = tw.div`
@@ -101,12 +100,59 @@ const SetListBox = tw.div`
 const SetBox = tw.div`
   flex
   justify-center
-  w-full
   border-2
   rounded
   h-full
-  p-5
+  bg-[#f3f4f6]
+  relative
 `
+
+const BadgeListBox = tw.div`
+  grid 
+  grid-cols-10
+  gap-4
+  p-4
+`
+
+const EquippedBox = tw.div`
+  absolute 
+  bottom-0
+  bg-[#22C55E]
+  text-white
+  rounded
+  text-xs
+  p-1
+`
+
+const BadgeList: FC = () => {
+  const community = RoomStore.useStoreState((state) => state.community)
+  const [badges, setBadges] = useState<BadgeDetailType[]>([])
+
+  const fetchBadges = async () => {
+    const data = await getMyBadgeDetailsApi(community.handle)
+    if (data.code === 0 && data.data) setBadges(data.data.badge_details)
+    if (data.error) {
+      toast.error(data.error)
+    }
+  }
+  useEffect(() => {
+    fetchBadges()
+  }, [])
+
+  return (
+    <BadgeListBox>
+      {badges &&
+        badges.map((badge) => (
+          <Image
+            width={40}
+            height={40}
+            src={badge.badge.icon_url || StorageConst.USER_DEFAULT.src}
+            alt={badge.badge.name}
+          />
+        ))}
+    </BadgeListBox>
+  )
+}
 
 const SetList: FC<{ equippedId: string }> = ({ equippedId }) => {
   const [sets, setSets] = useState<SetType[]>([])
@@ -124,16 +170,18 @@ const SetList: FC<{ equippedId: string }> = ({ equippedId }) => {
   const onChangeSet = (set: SetType) => {
     phaserEvents.emit(Event.PLAYER_SET_CHANGE, set.name)
   }
+
   return (
     <SetListBox>
       {sets.map((set) => (
         <SetBox onClick={() => onChangeSet(set)}>
           <Image
-            width={60}
-            height={60}
+            width={80}
+            height={80}
             src={set.img_url || StorageConst.USER_DEFAULT.src}
             alt={'Set'}
           />
+          {set.id === equippedId && <EquippedBox> EQUIPPED </EquippedBox>}
         </SetBox>
       ))}
     </SetListBox>
@@ -169,20 +217,19 @@ const MyInfoSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
         <Gap width={2} />
         <FullVertical>
           <Label> {user.name || ''}</Label>
-          <SmallText> {user.role} </SmallText>
         </FullVertical>
       </InfoBox>
-      <Gap height={2} />
+      <BadgeList />
       <MainBox>
         <PlayerBox>
           <Player>
-            <Image width={200} height={200} src={StorageConst.USER_DEFAULT.src} alt={'Avatar'} />
+            <Image width={264} height={264} src={'/images/characters/adam.svg'} alt={'Avatar'} />
           </Player>
         </PlayerBox>
         <TagBox>
-          <Tag> Sets </Tag>
-          <Gap width={1} />
-          <TagSelected> Vouchers </TagSelected>
+          <TagSelected> Cosmetics </TagSelected>
+          <Gap width={2} />
+          <Tag> Vouchers </Tag>
         </TagBox>
         <SetsBox>
           <SetList equippedId={'1'} />
