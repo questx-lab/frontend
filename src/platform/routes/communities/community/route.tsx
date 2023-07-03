@@ -94,7 +94,10 @@ const Community = () => {
   // load quests
   const loadQuests = async () => {
     if (data.community && data.community.handle) {
-      const result = await listQuestApi(data.community.handle, '', true)
+      console.log('user = ', user)
+      const includeUnclaimableReason: boolean = user !== undefined ? true : false
+      console.log('includeUnclaimableReason = ', includeUnclaimableReason)
+      const result = await listQuestApi(data.community.handle, '', includeUnclaimableReason)
       if (result.code === 0) {
         setQuests(result.data?.quests || [])
       } else {
