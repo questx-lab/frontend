@@ -20,7 +20,7 @@ import {
   NavKeys,
   PlayerBehavior,
 } from '@/types/townhall'
-import VendorItem from '@/townhall/engine/items/vendor'
+import MarketItem from '@/townhall/engine/items/market'
 
 export default class Game extends Phaser.Scene {
   private map!: Phaser.Tilemaps.Tilemap
@@ -146,11 +146,11 @@ export default class Game extends Phaser.Scene {
       })
     }
 
-    const vendor = this.physics.add.staticGroup({ classType: VendorItem })
+    const vendor = this.physics.add.staticGroup({ classType: MarketItem })
     const vendorLayer = this.map.getObjectLayer('Vendor')
     if (vendorLayer) {
       vendorLayer.objects.forEach((obj, i) => {
-        const item = this.addObjectFromTiled(vendor, obj, 'vendor', 'FloorAndGround') as VendorItem
+        const item = this.addObjectFromTiled(vendor, obj, 'vendor', 'FloorAndGround') as MarketItem
         item.setDepth(item.y + item.height * 0.27)
         const id = `${i}`
         item.id = id

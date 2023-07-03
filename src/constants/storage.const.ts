@@ -139,6 +139,10 @@ const StorageConst = {
     src: '/images/icons/chat-bubble-active.svg',
     alt: 'Chat Bubble Active',
   },
+  EXCHANGE: {
+    src: '/images/icons/exchange.svg',
+    alt: 'Exchange Center',
+  },
 }
 
 export default StorageConst

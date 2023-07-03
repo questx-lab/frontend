@@ -31,7 +31,44 @@ export const createLuckyBoxApi = async (body: LuckyBoxReq): Promise<Rsp<{}>> => 
   return data
 }
 
-export const getSetsApi = async (): Promise<Rsp<{ sets: SetType[] }>> => {
+export const getMySetsApi = async (): Promise<Rsp<{ sets: SetType[] }>> => {
+  const sets: SetType[] = [
+    {
+      id: '1',
+      img_url: '/images/characters/adam.svg',
+      name: 'adam',
+    },
+    {
+      id: '2',
+      img_url: '/images/characters/nancy.svg',
+      name: 'nancy',
+    },
+    {
+      id: '3',
+      img_url: '/images/characters/ash.svg',
+      name: 'ash',
+    },
+    {
+      id: '4',
+      img_url: '/images/characters/lucy.svg',
+      name: 'lucy',
+    },
+    {
+      id: '5',
+      img_url: '/images/characters/adam.svg',
+      name: 'adam',
+    },
+  ]
+
+  return {
+    code: 0,
+    data: {
+      sets,
+    },
+  }
+}
+
+export const getSetListApi = async (): Promise<Rsp<{ sets: SetType[] }>> => {
   const sets: SetType[] = [
     {
       id: '1',

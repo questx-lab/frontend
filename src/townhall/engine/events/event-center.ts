@@ -19,4 +19,5 @@ export enum Event {
   COLLECT_LUCKY_BOX = 'collect-lucky-box',
   REMOVE_LUCKY_BOXES = 'remove-lucky-box',
   PLAYER_SET_CHANGE = 'player-set-change',
+  PLAYER_BUY_SET = 'player-buy-set',
 }

@@ -1,7 +1,7 @@
 import Item from '@/townhall/engine/items/Item'
 import { ItemType } from '@/types/townhall'
 
-export default class VendorItem extends Item {
+export default class MarketItem extends Item {
   id?: string
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number) {

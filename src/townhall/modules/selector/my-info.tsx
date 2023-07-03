@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, ReactNode, useEffect, useState } from 'react'
 
 import tw from 'twin.macro'
 
@@ -14,11 +14,19 @@ import StorageConst from '@/constants/storage.const'
 import { Gap } from '@/widgets/separator'
 import { Label, TextSm } from '@/widgets/text'
 import { Image } from '@/widgets/image'
-import { getSetsApi } from '@/api/townhall'
+import { getMySetsApi } from '@/api/townhall'
 import toast from 'react-hot-toast'
 import { phaserEvents, Event } from '@/townhall/engine/events/event-center'
 import { getMyBadgeDetailsApi } from '@/api/user'
 import RoomStore from '@/store/townhall/room'
+import {
+  OptionxBox,
+  PopItem,
+  PopPanel,
+  PopoverButton,
+  PopoverPosition,
+  PopoverSize,
+} from '@/widgets/popover'
 
 const Frame = tw(Vertical)`
   w-[450px]
@@ -123,6 +131,27 @@ const EquippedBox = tw.div`
   text-xs
   p-1
 `
+const Absolute = tw.div`
+  absolute
+  z-50
+`
+
+const SetOption: FC<{ set: SetType; children: ReactNode }> = ({ set, children }) => {
+  const onActionClicked = (action: string) => {}
+  return (
+    <PopoverPosition>
+      <PopoverButton className={'outline-0'}>{children}</PopoverButton>
+      <Absolute>
+        <PopPanel size={PopoverSize.SMALL}>
+          <PopItem>
+            <OptionxBox onClick={() => onActionClicked('Remove')}>{'Remove'}</OptionxBox>
+            <OptionxBox onClick={() => onActionClicked('Drop')}>{'Drop'}</OptionxBox>
+          </PopItem>
+        </PopPanel>
+      </Absolute>
+    </PopoverPosition>
+  )
+}
 
 const BadgeList: FC = () => {
   const community = RoomStore.useStoreState((state) => state.community)
@@ -157,7 +186,7 @@ const BadgeList: FC = () => {
 const SetList: FC<{ equippedId: string }> = ({ equippedId }) => {
   const [sets, setSets] = useState<SetType[]>([])
   const fetchSets = async () => {
-    const data = await getSetsApi()
+    const data = await getMySetsApi()
     if (data.code === 0 && data.data) setSets(data.data?.sets)
     if (data.error) {
       toast.error(data.error)
@@ -174,15 +203,17 @@ const SetList: FC<{ equippedId: string }> = ({ equippedId }) => {
   return (
     <SetListBox>
       {sets.map((set) => (
-        <SetBox onClick={() => onChangeSet(set)}>
-          <Image
-            width={80}
-            height={80}
-            src={set.img_url || StorageConst.USER_DEFAULT.src}
-            alt={'Set'}
-          />
-          {set.id === equippedId && <EquippedBox> EQUIPPED </EquippedBox>}
-        </SetBox>
+        <SetOption set={set}>
+          <SetBox onClick={() => onChangeSet(set)}>
+            <Image
+              width={80}
+              height={80}
+              src={set.img_url || StorageConst.USER_DEFAULT.src}
+              alt={'Set'}
+            />
+            {set.id === equippedId && <EquippedBox> EQUIPPED </EquippedBox>}
+          </SetBox>
+        </SetOption>
       ))}
     </SetListBox>
   )
