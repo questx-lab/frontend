@@ -38,7 +38,7 @@ export const FixedWidth = tw(Vertical)`
   xl:w-[980px]
   md:w-[780px]
   w-full
-  gap-10
+  gap-3
   mr-[350px]
   2xl:mr-[280px]
   max-md:mr-0
