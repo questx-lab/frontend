@@ -45,10 +45,13 @@ const GridDrag = () => {
           id: 'empty',
           name: 'Other Quests',
         }
+
+        // Add empty category
         categoriesShadows.push(emptyCategory)
       }
 
       categoriesShadows.forEach((category, index) => {
+        // Add category to layout (this item can not dragged)
         layout.push({
           i: category.id,
           x: 0,
@@ -60,10 +63,9 @@ const GridDrag = () => {
           type: LayoutType.CATEGORY,
           data: category,
           minH: 0,
-          moved: true,
-          isBounded: true,
         })
 
+        // Add new quest box in position 0
         layout.push({
           i: index.toString(),
           x: 0,
@@ -76,6 +78,7 @@ const GridDrag = () => {
 
         let count = 1
         quests.forEach((quest, i) => {
+          // Add quest box follow by category
           if (quest.category.id === category.id) {
             layout.push({
               i: quest.id,
@@ -90,7 +93,9 @@ const GridDrag = () => {
             count = (count + 1) % 3
           }
         })
+
         if (category.id === 'empty') {
+          // Add quest box follow by empty category
           questsNoCategory.forEach((quest) => {
             layout.push({
               i: quest.id,
@@ -121,6 +126,7 @@ const GridDrag = () => {
 
   const handleDragStop = () => {
     setIsDragging(false)
+    // TODO: integrate api when drop done
   }
 
   const render = QuestList({ layouts, isDragging })
