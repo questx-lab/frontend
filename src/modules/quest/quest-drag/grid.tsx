@@ -106,7 +106,7 @@ const GridLayout: FC<{
     }
 
     return (
-      <CategoryFrame>
+      <CategoryFrame key={index}>
         <TextXl>{item.name}</TextXl>
         <GridDropZone
           key={item.id}
