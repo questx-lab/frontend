@@ -93,12 +93,10 @@
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-datepicker": "^4.11.2",
     "@types/react-dom": "^18.0.11",
-    "@types/react-grid-layout": "^1.3.2",
     "@types/react-window": "^1.8.5",
     "@types/styled-components": "^5.1.26",
     "@types/websocket": "^1.0.5",
     "@types/ws": "^8.5.4",
-    "babel-plugin-module-resolver": "^5.0.0",
-    "react-beautiful-dnd": "^13.1.1"
+    "babel-plugin-module-resolver": "^5.0.0"
   }
 }
