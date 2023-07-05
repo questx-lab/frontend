@@ -103,7 +103,6 @@ const RenderQuestsNoCategory: FC = () => {
 
 const RenderQuest: FC = () => {
   const role = CommunityStore.useStoreState((state) => state.role)
-
   if (
     (role && role === CommunityRoleEnum.EDITOR) ||
     role === CommunityRoleEnum.OWNER ||

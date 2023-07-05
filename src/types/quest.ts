@@ -26,6 +26,7 @@ export interface QuestType {
   category: CategoryType
   is_highlight?: boolean
   unclaimable_reason?: string
+  position: number
   validation_data: {
     tweet_url?: string
     like?: boolean
@@ -60,6 +61,7 @@ export const emptyQuest = (): QuestType => {
     recurrence: QuestRecurrence.ONCE,
     points: 100,
     rewards: [],
+    position: 0,
     category: {
       id: '',
       name: '',

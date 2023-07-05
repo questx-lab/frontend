@@ -33,7 +33,8 @@
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
-    "react-grid-layout": "^1.3.4",
+    "react-gesture-responder": "^2.1.0",
+    "react-grid-dnd": "^2.1.2",
     "react-hot-toast": "^2.4.1",
     "react-multi-carousel": "^2.8.4",
     "react-quill": "^2.0.0",
@@ -97,6 +98,7 @@
     "@types/styled-components": "^5.1.26",
     "@types/websocket": "^1.0.5",
     "@types/ws": "^8.5.4",
-    "babel-plugin-module-resolver": "^5.0.0"
+    "babel-plugin-module-resolver": "^5.0.0",
+    "react-beautiful-dnd": "^13.1.1"
   }
 }

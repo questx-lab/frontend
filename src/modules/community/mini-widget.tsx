@@ -34,11 +34,12 @@ export const ButtonAlignment = tw(Horizontal)`
 
 export const FixedWidth = tw(Vertical)`
   max-sm:px-2
-  md:px-8
   xl:w-[980px]
+  xl:px-0
+  md:px-8
   md:w-[780px]
   w-full
-  gap-3
+  gap-10
   mr-[350px]
   2xl:mr-[280px]
   max-md:mr-0

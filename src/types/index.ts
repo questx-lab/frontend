@@ -244,8 +244,8 @@ export type OpType = {
   name: string
 }
 
-export enum LayoutType {
-  CATEGORY = 'category',
-  QUEST = 'quest',
-  NEW_QUEST = 'new_quest',
+export type RenderCategoryType = {
+  id: string
+  name: string
+  quests: QuestType[]
 }
