@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import { BrowserView } from 'react-device-detect'
 import { useNavigate } from 'react-router-dom'
@@ -22,6 +22,9 @@ import {
   VerticalFullWidth,
 } from '@/widgets/orientation'
 import { Text2xl } from '@/widgets/text'
+import SelectCharacter from '@/modules/community/community-view/guest-or-anonymous/select-character'
+import BaseModal from '@/widgets/modal/base'
+import { getMyCharactersApi } from '@/api/user'
 
 const Content = tw(VerticalFullWidth)`
   justify-start
@@ -64,6 +67,15 @@ const PointerImage = tw(Image)`
   cursor-pointer
 `
 
+const ModalBox = tw(HorizontalCenter)`
+  flex
+  h-full
+  items-center
+  justify-center
+  text-center
+  py-6
+`
+
 const TwitterLink: FC<{ twitterUrl?: string }> = ({ twitterUrl }) => {
   if (!twitterUrl) {
     return <></>
@@ -100,8 +112,17 @@ const CommunityGuestOrAnonymous: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const navigate = useNavigate()
 
+  const [showCharacterSelectModal, setShowCharacterSelectModal] = useState<boolean>(false)
+
   if (!community) {
     return <></>
+  }
+  const joinTownhall = async () => {
+    const resp = await getMyCharactersApi(community.handle)
+    console.log(resp.data)
+
+    if (resp.data && resp.data.user_characters.length === 0) setShowCharacterSelectModal(true)
+    else navigate(RouterConst.TOWNHALL + `/${community.handle}`)
   }
 
   return (
@@ -125,11 +146,7 @@ const CommunityGuestOrAnonymous: FC = () => {
                 </HorizontalStartCenter>
                 <ReponsiveHorizontal>
                   <BrowserView>
-                    <PositiveButton
-                      onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
-                    >
-                      {'Join Town Hall'}
-                    </PositiveButton>
+                    <PositiveButton onClick={joinTownhall}>{'Join Town Hall'}</PositiveButton>
                   </BrowserView>
                   <CenterEndHorizontal>
                     <FollowCommunity community={community} />
@@ -146,6 +163,11 @@ const CommunityGuestOrAnonymous: FC = () => {
       <FixedWidth>
         <Leaderboard />
       </FixedWidth>
+      <BaseModal isOpen={showCharacterSelectModal}>
+        <ModalBox>
+          <SelectCharacter setOpen={setShowCharacterSelectModal} />
+        </ModalBox>
+      </BaseModal>
     </Content>
   )
 }

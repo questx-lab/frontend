@@ -1,5 +1,5 @@
 import { EnvVariables } from '@/constants/env.const'
-import { Rsp, UserType } from '@/types'
+import { CharacterType, Rsp, UserType } from '@/types'
 
 import { api } from './interceptor'
 
@@ -48,6 +48,22 @@ export const getUserByIdApi = async (userId: string): Promise<Rsp<UserType>> => 
       data: result.data?.data.user,
       error: result.data.error,
     }
+  } catch (err) {
+    return {
+      code: -1,
+    }
+  }
+}
+
+export const getMyCharactersApi = async (
+  communityHandle: string
+): Promise<Rsp<{ user_characters: CharacterType[] }>> => {
+  try {
+    const { data } = await api.get(
+      EnvVariables.API_SERVER + `/getMyCharacters?community_handle=${communityHandle}`
+    )
+
+    return data
   } catch (err) {
     return {
       code: -1,
