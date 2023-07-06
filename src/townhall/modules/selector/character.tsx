@@ -107,7 +107,7 @@ const SelectCharacter: FC<{ setOpen: (value: boolean) => void }> = ({ setOpen })
             onClick={() => onChangeCharacter(character)}
             className={character.id === selectedCharacter?.id ? 'border-primary-500' : ''}
           >
-            <Image width={210} height={210} src={character.image_url} alt={'Character'} />
+            <Image width={210} height={210} src={character.thumbnail_url} alt={'Character'} />
           </Character>
         ))}
       </CharacterBox>

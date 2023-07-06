@@ -270,6 +270,7 @@ export type CharacterType = {
   level: number
   config_url: string
   image_url: string
+  thumbnail_url: string
   sprite_width_ratio: number
   sprite_height_ratio: number
 }
