@@ -4,6 +4,7 @@ import { EnvVariables } from '@/constants/env.const'
 
 export interface BootstrapListener {
   onLoadComleted: () => void
+  connectRoom: () => void
 }
 
 export default class Bootstrap extends Phaser.Scene {
@@ -68,5 +69,9 @@ export default class Bootstrap extends Phaser.Scene {
     // this.scene.launch('game', {
     //   network: this.network,
     // })
+  }
+  connectRoom() {
+    if (!this.preloadComplete) return
+    this.listener.connectRoom()
   }
 }

@@ -6,8 +6,10 @@ import { Vertical } from '@/widgets/orientation'
 import StorageConst from '@/constants/storage.const'
 import { PositiveButton } from '@/widgets/buttons'
 import { CharacterType } from '@/types'
-import { getCharactersApi } from '@/api/communitiy'
+import { buyCharacterApi, getCharactersApi } from '@/api/communitiy'
 import toast from 'react-hot-toast'
+import phaserGame from '@/townhall/engine/services/game-controller'
+import RoomStore from '@/store/townhall/room'
 
 const Frame = tw(Vertical)`
   w-[480px]
@@ -58,6 +60,8 @@ const BackButton = tw.button`
   w-full
 `
 const SelectCharacter: FC<{ setOpen: (value: boolean) => void }> = ({ setOpen }) => {
+  const community = RoomStore.useStoreState((state) => state.community)
+
   const [selectedCharacter, setSelectedCharacter] = useState<Partial<CharacterType>>()
 
   const [characterList, setCharacterList] = useState<CharacterType[]>([])
@@ -77,6 +81,16 @@ const SelectCharacter: FC<{ setOpen: (value: boolean) => void }> = ({ setOpen })
   const onChangeCharacter = (character: CharacterType) => {
     setSelectedCharacter(character)
   }
+
+  const onSelectedCharacter = async () => {
+    const resp = await buyCharacterApi(community.handle, selectedCharacter?.id || '')
+    if (resp.code === 0 && resp.data) {
+      toast.success('Select character successfull')
+      setOpen(false)
+      phaserGame.connectRoom()
+    }
+  }
+
   useEffect(() => {
     fetchCharacters()
   }, [])
@@ -103,7 +117,12 @@ const SelectCharacter: FC<{ setOpen: (value: boolean) => void }> = ({ setOpen })
         ))}
       </CharacterBox>
       <ButtonBox>
-        <PositiveButton isFull block={!!!selectedCharacter} requireLogin>
+        <PositiveButton
+          isFull
+          block={!!!selectedCharacter}
+          onClick={onSelectedCharacter}
+          requireLogin
+        >
           {'Join Towhall'}
         </PositiveButton>
       </ButtonBox>

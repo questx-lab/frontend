@@ -72,6 +72,10 @@ class GameController extends Phaser.Game {
 
       this.broadcastState(GameState.CONNECTING)
     },
+    connectRoom: async () => {
+      network.connectRoom(this.currentRoomId)
+      this.broadcastState(GameState.CONNECTING)
+    },
   } as BootstrapListener
 
   private networkListener = {
@@ -267,6 +271,10 @@ class GameController extends Phaser.Game {
     this.scene.start(this.bootstrapScene)
 
     this.broadcastState(GameState.BOOTSTRAP)
+  }
+
+  connectRoom() {
+    this.bootstrapScene?.connectRoom()
   }
 
   // method to register event listener and call back function when a player joined
