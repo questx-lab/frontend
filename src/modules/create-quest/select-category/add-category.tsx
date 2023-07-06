@@ -109,7 +109,7 @@ const AddCategory: FC = () => {
   }
 
   return (
-    <Menu as='div' className='relative inline-block bg-gray-100 rounded-lg z-10'>
+    <Menu as='div' className='relative inline-block bg-gray-100 rounded-lg z-0'>
       <Tooltip content={'New category'} placement='top'>
         <MenuButton
           onClick={() => {

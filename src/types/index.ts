@@ -142,9 +142,16 @@ export type ListClaimQuestType = {
 export type CategoryType = {
   id: string
   name: string
-  created_by: string
-  created_at: string
-  updated_at: string
+  created_by?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export const emptyCategory = () => {
+  return {
+    id: '',
+    name: '',
+  }
 }
 
 export type LeaderboardType = {
@@ -265,4 +272,10 @@ export type CharacterType = {
   image_url: string
   sprite_width_ratio: number
   sprite_height_ratio: number
+}
+
+export type RenderCategoryType = {
+  id: string
+  name: string
+  quests: QuestType[]
 }
