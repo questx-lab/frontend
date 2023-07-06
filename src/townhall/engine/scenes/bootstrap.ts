@@ -69,7 +69,7 @@ export default class Bootstrap extends Phaser.Scene {
       resp.data.game_characters.forEach((character) => {
         const characterSet = getCharacterSet(character)
 
-        this.load.spritesheet(characterSet, `/character/${characterSet}.png`, {
+        this.load.spritesheet(characterSet, `/characters/${characterSet}.png`, {
           frameWidth: 32,
           frameHeight: 48,
         })
