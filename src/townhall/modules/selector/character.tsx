@@ -85,7 +85,7 @@ const SelectCharacter: FC<{ setOpen: (value: boolean) => void }> = ({ setOpen })
   const onSelectedCharacter = async () => {
     const resp = await buyCharacterApi(community.handle, selectedCharacter?.id || '')
     if (resp.code === 0 && resp.data) {
-      // toast.success('Select character successfull')
+      toast.success('Select character successful')
       phaserGame.connectRoom()
       setOpen(false)
     }
@@ -107,12 +107,7 @@ const SelectCharacter: FC<{ setOpen: (value: boolean) => void }> = ({ setOpen })
             onClick={() => onChangeCharacter(character)}
             className={character.id === selectedCharacter?.id ? 'border-primary-500' : ''}
           >
-            <Image
-              width={210}
-              height={210}
-              src={StorageConst.USER_DEFAULT.src}
-              alt={StorageConst.USER_DEFAULT.alt}
-            />
+            <Image width={210} height={210} src={character.image_url} alt={'Character'} />
           </Character>
         ))}
       </CharacterBox>

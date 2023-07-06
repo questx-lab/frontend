@@ -68,8 +68,15 @@ class GameController extends Phaser.Game {
   private bootstrapListener = {
     onLoadComleted: async () => {
       // We can now connect to the game
-      network.connectRoom(this.currentRoomId)
-      this.broadcastState(GameState.CONNECTING)
+      // network.connectRoom(this.currentRoomId)
+      // this.broadcastState(GameState.CONNECTING)
+      this.scene.remove(BOOTSTRAP_SCENE)
+      // this.bootstrapScene = undefined
+
+      this.gameScene = new Game()
+      this.scene.add(GAME_SCENE, this.gameScene)
+      this.scene.start(this.gameScene)
+      this.gameScene.registerKeys()
     },
     connectRoom: () => {
       network.connectRoom(this.currentRoomId)
@@ -81,14 +88,6 @@ class GameController extends Phaser.Game {
     onConnected: () => {
       // TODO: handle reconnection after a temporary disconnection. In that case, we should not
       // launch the game.
-      this.scene.remove(BOOTSTRAP_SCENE)
-      this.bootstrapScene = undefined
-
-      this.gameScene = new Game()
-      this.scene.add(GAME_SCENE, this.gameScene)
-      this.scene.start(this.gameScene)
-      this.gameScene.registerKeys()
-
       this.broadcastState(GameState.JOINED_ROOM)
     },
 
@@ -275,6 +274,8 @@ class GameController extends Phaser.Game {
   }
 
   connectRoom() {
+    console.log('this.bootstrapScene?.connectRoom()')
+
     this.bootstrapScene?.connectRoom()
   }
 

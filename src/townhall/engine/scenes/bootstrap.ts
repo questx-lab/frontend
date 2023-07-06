@@ -68,7 +68,6 @@ export default class Bootstrap extends Phaser.Scene {
     // })
   }
   connectRoom() {
-    if (!this.preloadComplete) return
     this.listener.connectRoom()
   }
 
