@@ -121,9 +121,6 @@ class GameController extends Phaser.Game {
           break
       }
     },
-    connectRoom: () => {
-      network.connectRoom(this.currentRoomId)
-    },
   }
 
   setMyPlayerEmoji(emoji: string) {
@@ -275,7 +272,7 @@ class GameController extends Phaser.Game {
   }
 
   connectRoom() {
-    this.networkListener.connectRoom()
+    network.connectRoom(this.currentRoomId)
   }
 
   // method to register event listener and call back function when a player joined
