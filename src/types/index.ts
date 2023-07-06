@@ -147,6 +147,13 @@ export type CategoryType = {
   updated_at?: string
 }
 
+export const emptyCategory = () => {
+  return {
+    id: '',
+    name: '',
+  }
+}
+
 export type LeaderboardType = {
   user_id?: string
   user?: UserType
