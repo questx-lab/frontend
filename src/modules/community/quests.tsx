@@ -22,7 +22,7 @@ const Grid = tw.div`
 `
 
 const PaddingVertical = tw(VerticalFullWidth)`
-  gap-5
+  gap-4
 `
 
 const EmptyBox = tw(VerticalCenter)`
@@ -49,7 +49,9 @@ const RenderQuest: FC<{ quests: QuestType[]; bgColor: string }> = ({ quests, bgC
   }
 
   const questListView = quests.map((quest, index) => (
-    <QuestCardToView bgColor={bgColor} quest={quest} key={index} />
+    <div key={index}>
+      <QuestCardToView bgColor={bgColor} quest={quest} />
+    </div>
   ))
 
   return (
