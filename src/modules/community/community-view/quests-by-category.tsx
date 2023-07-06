@@ -12,12 +12,12 @@ import CommunityStore from '@/store/local/community'
 import { VerticalFullWidth, VerticalFullWidthCenter } from '@/widgets/orientation'
 
 const BorderBox = tw(VerticalFullWidthCenter)`
-w-full
-border-b
-border-solid
-border-gray-200
-pb-10
-gap-0
+  w-full
+  border-b
+  border-solid
+  border-gray-200
+  pb-10
+  gap-0
 `
 
 const Gap12 = tw(VerticalFullWidth)`
