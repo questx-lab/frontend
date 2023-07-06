@@ -64,15 +64,6 @@ const PointerImage = tw(Image)`
   cursor-pointer
 `
 
-const ModalBox = tw(HorizontalCenter)`
-  flex
-  h-full
-  items-center
-  justify-center
-  text-center
-  py-6
-`
-
 const TwitterLink: FC<{ twitterUrl?: string }> = ({ twitterUrl }) => {
   if (!twitterUrl) {
     return <></>
@@ -137,9 +128,7 @@ const CommunityGuestOrAnonymous: FC = () => {
                 <ReponsiveHorizontal>
                   <BrowserView>
                     <PositiveButton
-                      onClick={() => {
-                        navigate(RouterConst.TOWNHALL + `/${community.handle}`)
-                      }}
+                      onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
                     >
                       {'Join Town Hall'}
                     </PositiveButton>
