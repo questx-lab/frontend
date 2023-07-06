@@ -69,7 +69,7 @@ const SelectCharacter: FC<{ setOpen: (value: boolean) => void }> = ({ setOpen })
   const fetchCharacters = async () => {
     const data = await getCharactersApi()
     if (data.code === 0 && data.data) {
-      const characters = data.data?.game_characters
+      const characters = data.data?.game_characters.filter((character) => character.level === 0)
 
       setCharacterList(characters.slice(0, 2))
     }
