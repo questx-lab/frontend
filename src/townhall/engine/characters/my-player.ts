@@ -62,6 +62,10 @@ export default class MyPlayer extends Player {
           phaserGame.pause()
           phaserGame.changePlayerSelectorListeners(ItemType.GAME)
           break
+        case ItemType.LEADERBOARD:
+          phaserGame.pause()
+          phaserGame.changePlayerSelectorListeners(ItemType.LEADERBOARD)
+          break
       }
     }
     if (!this.body) {
