@@ -14,7 +14,7 @@ const Content = tw.div`
 `
 
 const CategoryBox = tw.div`
-  p-3
+  p-2
   text-sm
   font-medium
   text-black

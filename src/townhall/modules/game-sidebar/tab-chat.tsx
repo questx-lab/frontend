@@ -33,10 +33,10 @@ const TabChat: FC = () => {
   const onChatClicked = () => {
     switch (activeTab) {
       case ActiveSidebarTab.NONE:
-        phaserGame.deRegisterKey()
+        phaserGame.pause()
         break
       case ActiveSidebarTab.CHAT:
-        phaserGame.registerKey()
+        phaserGame.resume()
         break
     }
 

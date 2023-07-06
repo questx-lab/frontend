@@ -139,11 +139,17 @@ class GameController extends Phaser.Game {
 
   quitGame() {
     if (this.gameScene) {
-      this.scene.remove(GAME_SCENE)
+      this.scene.remove(GAME_SCENE.toLowerCase())
+
       this.gameScene = undefined
     }
 
-    this.pause()
+    if (this.bootstrapScene) {
+      this.scene.remove(BOOTSTRAP_SCENE.toLowerCase())
+      this.bootstrapScene = undefined
+    }
+
+    this.destroy(true, true)
     network.socketDisconnect()
   }
 

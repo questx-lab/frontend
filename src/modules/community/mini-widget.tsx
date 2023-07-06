@@ -43,6 +43,7 @@ export const FixedWidth = tw(Vertical)`
   mr-[350px]
   2xl:mr-[280px]
   max-md:mr-0
+  max-md:w-full
 `
 
 export const PaddingHorizontal = tw(HorizontalBetweenCenterFullWidth)`
