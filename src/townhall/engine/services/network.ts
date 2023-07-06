@@ -36,8 +36,6 @@ class Network {
   }
 
   async connectRoom(roomId: string) {
-    console.log('connectRoom')
-
     if (this.socket) {
       // TODO: Disconnect and destsroy previous socket.
     }
@@ -46,7 +44,6 @@ class Network {
     const url = EnvVariables.SOCKET_SERVER + `/game?room_id=${roomId}`
 
     this.socket = new w3cwebsocket(url)
-    console.log(this.socket)
     this.socket.onopen = () => {
       console.log('Socket is opened')
       this.listeners.forEach((listener) => listener.onConnected())

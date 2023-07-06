@@ -28,6 +28,7 @@ export interface IPlayer {
   x: number
   y: number
   anim: string
+  character: string
 }
 
 export interface IOfficeState {
