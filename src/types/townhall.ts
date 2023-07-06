@@ -6,6 +6,7 @@ export enum ItemType {
   NONE,
   GAME,
   LUCKY_BOX,
+  SELECT_CHARACTER,
 }
 
 export enum PlayerBehavior {
