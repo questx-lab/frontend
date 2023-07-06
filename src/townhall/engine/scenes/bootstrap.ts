@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 
 import { EnvVariables } from '@/constants/env.const'
+import { getCharactersApi } from '@/api/communitiy'
 
 export interface BootstrapListener {
   onLoadComleted: () => void
@@ -16,7 +17,7 @@ export default class Bootstrap extends Phaser.Scene {
     this.listener = listener
   }
 
-  preload() {
+  async preload() {
     if (this.preloadComplete) {
       return
     }
@@ -41,11 +42,6 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 64,
     })
 
-    this.load.spritesheet('adam', '/character/adam.png', {
-      frameWidth: 32,
-      frameHeight: 48,
-    })
-
     // should change if we have lucky box image
     this.load.spritesheet('lucky_box', '/items/box.png', {
       frameWidth: 64,
@@ -57,6 +53,7 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 32,
     })
 
+    await this.loadCharacters()
     this.load.on('complete', () => {
       this.preloadComplete = true
       this.listener.onLoadComleted()
@@ -73,5 +70,17 @@ export default class Bootstrap extends Phaser.Scene {
   connectRoom() {
     if (!this.preloadComplete) return
     this.listener.connectRoom()
+  }
+
+  async loadCharacters() {
+    const resp = await getCharactersApi()
+
+    if (resp.code === 0 && resp.data)
+      resp.data.game_characters.forEach((character) => {
+        this.load.spritesheet(character.name, `/character/${character.name}.png`, {
+          frameWidth: 32,
+          frameHeight: 48,
+        })
+      })
   }
 }

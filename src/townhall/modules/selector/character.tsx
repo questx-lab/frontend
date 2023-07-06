@@ -85,9 +85,9 @@ const SelectCharacter: FC<{ setOpen: (value: boolean) => void }> = ({ setOpen })
   const onSelectedCharacter = async () => {
     const resp = await buyCharacterApi(community.handle, selectedCharacter?.id || '')
     if (resp.code === 0 && resp.data) {
-      toast.success('Select character successfull')
-      setOpen(false)
+      // toast.success('Select character successfull')
       phaserGame.connectRoom()
+      setOpen(false)
     }
   }
 

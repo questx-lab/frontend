@@ -69,12 +69,11 @@ class GameController extends Phaser.Game {
     onLoadComleted: async () => {
       // We can now connect to the game
       network.connectRoom(this.currentRoomId)
-
       this.broadcastState(GameState.CONNECTING)
     },
-    connectRoom: async () => {
+    connectRoom: () => {
       network.connectRoom(this.currentRoomId)
-      this.broadcastState(GameState.CONNECTING)
+      // this.broadcastState(GameState.CONNECTING)
     },
   } as BootstrapListener
 

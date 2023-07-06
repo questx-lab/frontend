@@ -106,9 +106,9 @@ export default class Game extends Phaser.Scene {
     selectionItem.onOverlapDialog()
   }
 
-  create() {
+  async create() {
     this.registerKeys()
-    createCharacterAnims(this.anims)
+    await createCharacterAnims(this.anims)
 
     this.map = this.make.tilemap({ key: 'tilemap' })
     const FloorAndGround = this.map.addTilesetImage('FloorAndGround', 'tiles_wall')
