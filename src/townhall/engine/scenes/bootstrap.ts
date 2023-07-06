@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
+import { getCharactersApi } from '@/api/townhall'
 import { EnvVariables } from '@/constants/env.const'
-import { getCharactersApi } from '@/api/communitiy'
 import { getCharacterSet } from '@/utils/character'
 
 export interface BootstrapListener {
