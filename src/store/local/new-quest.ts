@@ -130,7 +130,6 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.discordLink = quest.validation_data.link || ''
     state.quizzes = quest.validation_data.quizzes || []
     state.category = quest.category
-    console.log('quest.category = ', quest.category)
 
     // Twitter
     if (isTwitterType(state.type)) {
