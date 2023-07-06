@@ -44,6 +44,7 @@ export default class MyPlayer extends Player {
 
   setPlayerTexture(texture: string) {
     this.playerTexture = texture
+
     this.anims.play(`${this.playerTexture}_idle_down`, true)
     if (this.anims.currentAnim) {
       phaserEvents.emit(Event.MY_PLAYER_TEXTURE_CHANGE, this.x, this.y, this.anims.currentAnim.key)
@@ -113,8 +114,10 @@ export default class MyPlayer extends Player {
         } else if (vy < 0) {
           this.play(`${this.playerTexture}_run_up`, true)
         } else {
+          // console.log('this.anims.currentAnim.key', this.anims.currentAnim.key)
+
           const parts = this.anims.currentAnim.key.split('_')
-          parts[1] = 'idle'
+          parts[2] = 'idle'
           const newAnim = parts.join('_')
           // this prevents idle animation keeps getting called
           if (this.anims.currentAnim.key !== newAnim) {

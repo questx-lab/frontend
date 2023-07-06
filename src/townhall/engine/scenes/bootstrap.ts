@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 
 import { EnvVariables } from '@/constants/env.const'
 import { getCharactersApi } from '@/api/communitiy'
+import { getCharacterSet } from '@/utils/character'
 
 export interface BootstrapListener {
   onLoadComleted: () => void
@@ -76,7 +77,9 @@ export default class Bootstrap extends Phaser.Scene {
 
     if (resp.code === 0 && resp.data)
       resp.data.game_characters.forEach((character) => {
-        this.load.spritesheet(character.name, `/character/${character.name}.png`, {
+        const characterSet = getCharacterSet(character)
+
+        this.load.spritesheet(characterSet, `/character/${characterSet}.png`, {
           frameWidth: 32,
           frameHeight: 48,
         })

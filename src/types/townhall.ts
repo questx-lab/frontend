@@ -28,7 +28,6 @@ export interface IPlayer {
   x: number
   y: number
   anim: string
-  character: string
 }
 
 export interface IOfficeState {
@@ -47,15 +46,16 @@ export interface PixelPosition {
   y: number
 }
 
-export interface Player {
+export interface Character {
   id: string
   name: string
+  level: number
 }
 
 interface User {
   direction: string
   pixel_position: PixelPosition
-  player: Player
+  character: Character
   user: UserType
 }
 
@@ -103,8 +103,6 @@ export interface MessageReceiver {
 export interface MapData {
   id: string
   config_url: string
-  tilesets: any[]
-  players: Player[]
 }
 
 export interface RoomDataType {

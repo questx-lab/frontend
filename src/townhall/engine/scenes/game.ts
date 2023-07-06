@@ -128,8 +128,8 @@ export default class Game extends Phaser.Scene {
     wallLayer.setCollisionByProperty({ collides: true })
 
     // add my player
-    this.myPlayer = this.add.myPlayer(2368, 1792, 'adam', '')
-    this.myPlayer.setPlayerTexture('adam')
+    this.myPlayer = this.add.myPlayer(2368, 1792, 'adam_0', '')
+    this.myPlayer.setPlayerTexture('adam_0')
 
     const games = this.physics.add.staticGroup({ classType: GameItem })
     const gameLayer = this.map.getObjectLayer('Game')

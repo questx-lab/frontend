@@ -67,11 +67,7 @@ class GameController extends Phaser.Game {
 
   private bootstrapListener = {
     onLoadComleted: async () => {
-      // We can now connect to the game
-      // network.connectRoom(this.currentRoomId)
-      // this.broadcastState(GameState.CONNECTING)
       this.scene.remove(BOOTSTRAP_SCENE)
-      // this.bootstrapScene = undefined
 
       this.gameScene = new Game()
       this.scene.add(GAME_SCENE, this.gameScene)
@@ -80,7 +76,6 @@ class GameController extends Phaser.Game {
     },
     connectRoom: () => {
       network.connectRoom(this.currentRoomId)
-      // this.broadcastState(GameState.CONNECTING)
     },
   } as BootstrapListener
 
@@ -177,14 +172,14 @@ class GameController extends Phaser.Game {
       if (this.myUser?.id === user.user.id) {
         if (game.myPlayer) {
           game.myPlayer.updateMyPlayer(name, x, y, id)
+          game.myPlayer.setPlayerTexture(user.character.name + '_' + user.character.level)
         }
       } else {
         const player: IPlayer = {
           name,
           x,
           y,
-          anim: user.player.name,
-          character: 'adam',
+          anim: user.user.name,
         }
         phaserEvents.emit(Event.PLAYER_JOINED, player, user.user.id)
       }
@@ -202,7 +197,6 @@ class GameController extends Phaser.Game {
         x: value.position.x,
         y: value.position.y,
         anim: value.user.name,
-        character: 'adam',
       }
       phaserEvents.emit(Event.PLAYER_JOINED, player, value.user.id)
     }
@@ -210,9 +204,16 @@ class GameController extends Phaser.Game {
 
   private handleMoveMessage(message: MessageReceiver) {
     // Move
+    const game = this.scene.keys.game as Game
+
     const value = message.value as MessageMoveValue
     // TODO: hardcode character name
-    phaserEvents.emit(Event.PLAYER_UPDATED, 'anim', `adam_run_${value.direction}`, message.user_id)
+    phaserEvents.emit(
+      Event.PLAYER_UPDATED,
+      'anim',
+      `${game.myPlayer.texture.key}_run_${value.direction}`,
+      message.user_id
+    )
     phaserEvents.emit(Event.PLAYER_UPDATED, 'x', value.x, message.user_id)
     phaserEvents.emit(Event.PLAYER_UPDATED, 'y', value.y, message.user_id)
 
@@ -220,7 +221,7 @@ class GameController extends Phaser.Game {
       phaserEvents.emit(
         Event.PLAYER_UPDATED,
         'anim',
-        `adam_idle_${value.direction}`,
+        `${game.myPlayer.texture.key}_idle_${value.direction}`,
         message.user_id
       )
     }, 100)
@@ -274,8 +275,6 @@ class GameController extends Phaser.Game {
   }
 
   connectRoom() {
-    console.log('this.bootstrapScene?.connectRoom()')
-
     this.bootstrapScene?.connectRoom()
   }
 
