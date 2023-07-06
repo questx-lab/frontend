@@ -4,7 +4,6 @@ import tw from 'twin.macro'
 
 import { MessageReceiverEnum } from '@/constants/townhall'
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
-import phaserGame from '@/townhall/engine/services/game-controller'
 import messageManager from '@/townhall/engine/services/message-manager'
 import network from '@/townhall/engine/services/network'
 import useMessageListener from '@/townhall/hooks/use-message-listener'
@@ -88,10 +87,7 @@ const Chat: FC = () => {
         </Stretch>
         <XMarkIcon
           className='w-7 h-7 cursor-pointer'
-          onClick={() => {
-            setActiveTab(ActiveSidebarTab.NONE)
-            phaserGame.resume()
-          }}
+          onClick={() => setActiveTab(ActiveSidebarTab.NONE)}
         />
       </Header>
 
