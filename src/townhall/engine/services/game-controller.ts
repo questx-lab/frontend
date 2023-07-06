@@ -74,9 +74,6 @@ class GameController extends Phaser.Game {
       this.scene.start(this.gameScene)
       this.gameScene.registerKeys()
     },
-    connectRoom: () => {
-      network.connectRoom(this.currentRoomId)
-    },
   } as BootstrapListener
 
   private networkListener = {
@@ -123,6 +120,9 @@ class GameController extends Phaser.Game {
           phaserEvents.emit(Event.REMOVE_LUCKY_BOXES, message.value as LuckyBoxValue)
           break
       }
+    },
+    connectRoom: () => {
+      network.connectRoom(this.currentRoomId)
     },
   }
 
@@ -275,7 +275,7 @@ class GameController extends Phaser.Game {
   }
 
   connectRoom() {
-    this.bootstrapScene?.connectRoom()
+    this.networkListener.connectRoom()
   }
 
   // method to register event listener and call back function when a player joined

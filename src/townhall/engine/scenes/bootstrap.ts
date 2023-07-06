@@ -6,7 +6,6 @@ import { getCharacterSet } from '@/utils/character'
 
 export interface BootstrapListener {
   onLoadComleted: () => void
-  connectRoom: () => void
 }
 
 export default class Bootstrap extends Phaser.Scene {
@@ -67,9 +66,6 @@ export default class Bootstrap extends Phaser.Scene {
     // this.scene.launch('game', {
     //   network: this.network,
     // })
-  }
-  connectRoom() {
-    this.listener.connectRoom()
   }
 
   async loadCharacters() {

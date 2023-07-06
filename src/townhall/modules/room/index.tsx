@@ -15,8 +15,8 @@ import { UserType } from '@/types'
 import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
 import { VerticalDivider } from '@/widgets/separator'
 import BaseModal from '@/widgets/modal/base'
-import { getMyCharactersApi } from '@/api/user'
 import SelectCharacter from '@/townhall/modules/selector/character'
+import { getMyCharactersApi } from '@/api/townhall'
 
 const Backdrop = tw(VerticalCenter)`
   absolute
