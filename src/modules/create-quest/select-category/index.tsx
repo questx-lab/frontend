@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect, useState } from 'react'
+import { FC, Fragment, useEffect } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -139,17 +139,16 @@ const ListOptionRender: FC<{ categories: CategoryType[] }> = ({ categories }) =>
 }
 
 export default function SelectCategory() {
-  const [selected, setSelected] = useState<CategoryType>()
-
   const categories = CommunityStore.useStoreState((state) => state.categories)
-  const setCategoryId = NewQuestStore.useStoreActions((action) => action.setCategoryId)
+  const category = NewQuestStore.useStoreState((state) => state.category)
+
+  const setCategory = NewQuestStore.useStoreActions((action) => action.setCategory)
 
   useEffect(() => {
-    if (categories && categories.length > 0) {
-      setSelected(categories[0])
-      setCategoryId(categories[0].id)
+    if (categories && categories.length > 0 && category.id === '') {
+      setCategory(categories[0])
     }
-  }, [categories])
+  }, [categories, categories.length, category.id])
 
   return (
     <VerticalFullWidth>
@@ -157,18 +156,17 @@ export default function SelectCategory() {
         <Label>{'Category'}</Label>
         <AddCategory />
       </HorizontalBetweenCenterFullWidth>
-      {selected && (
+      {category.id !== '' && (
         <FullWidth>
           <Listbox
-            value={selected}
+            value={category}
             onChange={(e) => {
-              setSelected(e)
-              setCategoryId(e.id)
+              setCategory(e)
             }}
           >
             <Relative>
               <ListButton>
-                <Title>{selected.name}</Title>
+                <Title>{category.name}</Title>
                 <UpDown>
                   <ChevronUpDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
                 </UpDown>

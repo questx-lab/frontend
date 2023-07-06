@@ -46,7 +46,7 @@ export const Loader = async (args: { params: Params }) => {
 const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true }) => {
   if (hasPanel) {
     return tw`
-      pl-80
+      pl-60
       max-md:pl-0
     `
   }

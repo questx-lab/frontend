@@ -8,6 +8,7 @@ import { RequiredText } from '@/widgets/text'
 
 const Padding = tw(VerticalFullWidth)`
   px-6
+  gap-3
 `
 
 const Label = tw(Horizontal)`
