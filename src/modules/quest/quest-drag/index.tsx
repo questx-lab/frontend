@@ -111,9 +111,15 @@ const GridDrag: FC = () => {
     return
   }
 
+  const filteredItems = items.filter((item) => item.quests && item.quests.length > 0)
+
   return (
     <GridContextProvider onChange={onChange}>
-      <GridLayout renderCategories={items} isDragging={isDragging} onDragable={onDragable} />
+      <GridLayout
+        renderCategories={filteredItems}
+        isDragging={isDragging}
+        onDragable={onDragable}
+      />
     </GridContextProvider>
   )
 }

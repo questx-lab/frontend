@@ -101,7 +101,7 @@ const GridLayout: FC<{
       }
     }
 
-    if (!item.quests) {
+    if (!item.quests || item.quests.length === 0) {
       return <></>
     }
 
