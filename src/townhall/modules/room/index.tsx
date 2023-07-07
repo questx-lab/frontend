@@ -76,7 +76,7 @@ const Townhall: FC = () => {
     if (resp.data && resp.data.user_characters.length === 0) {
       setShowCharacterSelectModal(true)
     } else {
-      phaserGame.connectRoom()
+      if (resp.data && resp.data.user_characters.length > 0) phaserGame.connectRoom()
     }
   }
   useEffect(() => {
