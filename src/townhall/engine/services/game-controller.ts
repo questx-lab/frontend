@@ -5,7 +5,7 @@ import Game from '@/townhall/engine/scenes/game'
 import { GameState } from '@/townhall/engine/services/game-state'
 import messageManager from '@/townhall/engine/services/message-manager'
 import network from '@/townhall/engine/services/network'
-import { UserType } from '@/types'
+import { CharacterType, UserType } from '@/types'
 import {
   CollectLuckyBoxValue,
   IPlayer,
@@ -333,8 +333,8 @@ class GameController extends Phaser.Game {
     phaserEvents.on(Event.LOAD_MAP_COMPLETED, callback, context)
   }
 
-  onConnectRoom(callback: () => void, context?: any) {
-    phaserEvents.on(Event.CONNECT_ROOM, callback, context)
+  onMyPlayerCharacterChange(callback: (character: CharacterType) => void, context?: any) {
+    phaserEvents.on(Event.MY_PLAYER_CHARACTER_CHANGE, callback, context)
   }
 
   // method to send player updates to Colyseus server

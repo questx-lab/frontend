@@ -9,7 +9,7 @@ import { Vertical, VerticalFullWidth, Horizontal } from '@/widgets/orientation'
 import { CircularImage } from '@/widgets/circular-image'
 import { GlobalStoreModel } from '@/store/store'
 import { useStoreState } from 'easy-peasy'
-import { BadgeDetailType, UserType, CharacterType, UserCharacterType } from '@/types'
+import { BadgeDetailType, UserType, UserCharacterType } from '@/types'
 import StorageConst from '@/constants/storage.const'
 import { Gap } from '@/widgets/separator'
 import { Label, TextSm } from '@/widgets/text'
@@ -142,15 +142,24 @@ const CharacterOption: FC<{ character: UserCharacterType; children: ReactNode }>
   character,
   children,
 }) => {
-  const onActionClicked = (action: string) => {}
+  const currentCharacter = RoomStore.useStoreState((state) => state.currentCharacter)
+
+  let actionList = ['Equip', 'Drop']
+  if (currentCharacter?.id === character.game_character.id) actionList = ['Remove', 'Drop']
+
+  const onActionClicked = (action: string) => {
+    if (action === 'Equip')
+      phaserEvents.emit(Event.MY_PLAYER_CHARACTER_CHANGE, character.game_character)
+  }
   return (
     <PopoverPosition>
       <PopoverButton className={'outline-0'}>{children}</PopoverButton>
       <Absolute>
         <PopPanel size={PopoverSize.SMALL}>
           <PopItem>
-            <OptionxBox onClick={() => onActionClicked('Remove')}>{'Remove'}</OptionxBox>
-            <OptionxBox onClick={() => onActionClicked('Drop')}>{'Drop'}</OptionxBox>
+            {actionList.map((action) => (
+              <OptionxBox onClick={() => onActionClicked(action)}>{action}</OptionxBox>
+            ))}
           </PopItem>
         </PopPanel>
       </Absolute>
@@ -204,15 +213,11 @@ const CharacterList: FC<{ equippedId: string }> = ({ equippedId }) => {
     fetchCharacters()
   }, [])
 
-  const onChangeCharacter = (character: UserCharacterType) => {
-    // phaserEvents.emit(Event.PLAYER_SET_CHANGE, character.game_character.name)
-  }
-
   return (
     <CharacterListBox>
       {characters.map((character) => (
         <CharacterOption character={character}>
-          <CharacterBox onClick={() => onChangeCharacter(character)}>
+          <CharacterBox>
             <Image
               width={80}
               height={80}
@@ -233,7 +238,8 @@ const MyInfoSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
   const [point, setPoint] = useState<number>(0)
   const gameRooms = RoomStore.useStoreState((state) => state.gameRooms)
   const roomId = gameRooms.length > 0 ? gameRooms[0].id : ''
-  const [currentCharacter, setCurrentCharacter] = useState<CharacterType>()
+  const currentCharacter = RoomStore.useStoreState((state) => state.currentCharacter)
+  const setCurrentCharacter = RoomStore.useStoreActions((action) => action.setCurrentCharacter)
 
   const fetchCurrentCharacter = async () => {
     const resp = await getMyCharactersByRoomApi(roomId)

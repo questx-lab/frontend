@@ -21,6 +21,8 @@ import {
   PlayerBehavior,
 } from '@/types/townhall'
 import MarketItem from '@/townhall/engine/items/market'
+import { getCharacterSet } from '@/utils/character'
+import { CharacterType } from '@/types'
 
 export default class Game extends Phaser.Scene {
   private map!: Phaser.Tilemaps.Tilemap
@@ -244,7 +246,7 @@ export default class Game extends Phaser.Scene {
     phaserGame.onCollectLuckyBox(this.handleCollectLuckyBox, this)
     phaserGame.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
     phaserGame.onMyPlayerEmoji(this.handleMyPlayerEmoji, this)
-    // phaserGame.onPlayerSetChange(this.handlePlayerSetChange, this)
+    phaserGame.onMyPlayerCharacterChange(this.handleMyPlayerCharacterChange, this)
   }
 
   private addObjectFromTiled(
@@ -357,8 +359,9 @@ export default class Game extends Phaser.Scene {
     this.myPlayer.setPlayerEmoji(emoji)
   }
 
-  handlePlayerSetChange(set: string) {
-    this.myPlayer.setTexture(set)
-    this.myPlayer.setPlayerTexture(set)
+  handleMyPlayerCharacterChange(character: CharacterType) {
+    const characterSet = getCharacterSet(character)
+    this.myPlayer.setTexture(characterSet)
+    this.myPlayer.setPlayerTexture(characterSet)
   }
 }

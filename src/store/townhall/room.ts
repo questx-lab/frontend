@@ -17,12 +17,14 @@ interface RoomModel {
   activeTab: ActiveSidebarTab
   showCharacterSelectModal: boolean
   selectedCharacter: CharacterType | undefined
+  currentCharacter: CharacterType | undefined
 
   setCommunity: Action<RoomModel, CommunityType>
   setGameRooms: Action<RoomModel, RoomDataType[]>
   toggleTab: Action<RoomModel, ActiveSidebarTab>
   setShowCharacterSelectModal: Action<RoomModel, boolean>
   setSelectedCharacter: Action<RoomModel, CharacterType | undefined>
+  setCurrentCharacter: Action<RoomModel, CharacterType | undefined>
 }
 
 const RoomStore = createContextStore<RoomModel>({
@@ -31,6 +33,7 @@ const RoomStore = createContextStore<RoomModel>({
   activeTab: ActiveSidebarTab.NONE,
   showCharacterSelectModal: false,
   selectedCharacter: undefined,
+  currentCharacter: undefined,
 
   setCommunity: action((state, newProject) => {
     state.community = newProject
@@ -51,8 +54,13 @@ const RoomStore = createContextStore<RoomModel>({
   setShowCharacterSelectModal: action((state, showCharacterSelectModal) => {
     state.showCharacterSelectModal = showCharacterSelectModal
   }),
+
   setSelectedCharacter: action((state, selectedCharacter) => {
     state.selectedCharacter = selectedCharacter
+  }),
+
+  setCurrentCharacter: action((state, currentCharacter) => {
+    state.currentCharacter = currentCharacter
   }),
 })
 
