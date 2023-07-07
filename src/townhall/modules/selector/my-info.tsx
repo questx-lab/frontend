@@ -304,7 +304,12 @@ const MyInfoSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
       <MainBox>
         <PlayerBox>
           <Player>
-            <Image width={264} height={264} src={StorageConst.USER_DEFAULT.src} alt={'Avatar'} />
+            <Image
+              width={264}
+              height={264}
+              src={currentCharacter?.thumbnail_url || StorageConst.USER_DEFAULT.src}
+              alt={'Avatar'}
+            />
           </Player>
         </PlayerBox>
         <TagBox>
