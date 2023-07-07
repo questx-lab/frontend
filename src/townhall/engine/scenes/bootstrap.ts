@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
+import { getCharactersApi } from '@/api/townhall'
 import { EnvVariables } from '@/constants/env.const'
-import { getCharactersApi } from '@/api/communitiy'
 import { getCharacterSet } from '@/utils/character'
 
 export interface BootstrapListener {
@@ -24,12 +24,6 @@ export default class Bootstrap extends Phaser.Scene {
 
     // TODO: lazy loading
     this.load.baseURL = EnvVariables.TOWNHALL_ASSET_CDN
-
-    this.load.atlas('cloud_day', '/background/cloud_day.png', '/background/cloud_day.json')
-    this.load.image('backdrop_day', '/background/backdrop_day.png')
-    this.load.atlas('cloud_night', '/background/cloud_night.png', '/background/cloud_night.json')
-    this.load.image('backdrop_night', '/background/backdrop_night.png')
-    this.load.image('sun_moon', '/background/sun_moon.png')
 
     this.load.tilemapTiledJSON('tilemap', '/map/jp_map.json')
     this.load.spritesheet('tiles_wall', '/map/jp_tileset.png', {

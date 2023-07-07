@@ -1,6 +1,7 @@
-import { getCharactersApi } from '@/api/communitiy'
-import { getCharacterSet } from '@/utils/character'
 import Phaser from 'phaser'
+
+import { getCharactersApi } from '@/api/townhall'
+import { getCharacterSet } from '@/utils/character'
 
 const animsFrameRate = 15
 

@@ -8,14 +8,13 @@ import {
   CollaboratorType,
   LeaderboardType,
   ListCommunitiesType,
+  ListDiscordRoleType,
   OAuth2VerifyResp,
   ReqNewCommunity,
   Rsp,
   UpdateCommunityRequest,
   UpdateCommunityResponse,
   UserType,
-  ListDiscordRoleType,
-  CharacterType,
 } from '@/types'
 import { CommunityType, FollowCommunityType, ReferralType } from '@/types/community'
 import { ONE_MINUTE_MILLIS } from '@/utils/time'
@@ -232,67 +231,4 @@ export const getPendingCommunitiesApi = async (): Promise<Rsp<ListCommunitiesTyp
 export const getDiscordRolesApi = async (handle: string): Promise<Rsp<ListDiscordRoleType>> => {
   const rs = await api.get(EnvVariables.API_SERVER + `/getDiscordRoles?community_handle=${handle}`)
   return rs.data
-}
-
-export const getCharactersApi = async (): Promise<Rsp<{ game_characters: CharacterType[] }>> => {
-  try {
-    const { data } = await api.get(EnvVariables.API_SERVER + `/getCharacters`)
-
-    return data
-  } catch (err) {
-    return {
-      code: -1,
-    }
-  }
-}
-
-export const getCommunityCharactersApi = async (
-  community_handle: string
-): Promise<Rsp<{ community_characters: CharacterType[] }>> => {
-  try {
-    const { data } = await api.get(
-      EnvVariables.API_SERVER + `/getCommunityCharacters?community_handle=${community_handle}`
-    )
-
-    return data
-  } catch (err) {
-    return {
-      code: -1,
-    }
-  }
-}
-
-export const getUserCharactersApi = async (
-  userId: string,
-  communityId: string
-): Promise<Rsp<{ user_characters: CharacterType[] }>> => {
-  try {
-    const { data } = await api.get(
-      EnvVariables.API_SERVER + `/getUserCharacters?community_id=${communityId}&user_id=${userId}`
-    )
-
-    return data
-  } catch (err) {
-    return {
-      code: -1,
-    }
-  }
-}
-
-export const buyCharacterApi = async (
-  communityHandle: string,
-  characterId: string
-): Promise<Rsp<{}>> => {
-  try {
-    const { data } = await api.post(EnvVariables.API_SERVER + `/buyCharacter`, {
-      community_handle: communityHandle,
-      character_id: characterId,
-    })
-
-    return data
-  } catch (err) {
-    return {
-      code: -1,
-    }
-  }
 }
