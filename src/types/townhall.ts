@@ -90,7 +90,7 @@ export interface MessageEmoji {
 }
 
 export interface MessageReceiver {
-  user_id?: string
+  user_id: string
   type: string
   value:
     | MessageInitValue
