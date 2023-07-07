@@ -9,7 +9,7 @@ import { Vertical, VerticalFullWidth, Horizontal, HorizontalCenter } from '@/wid
 import { Label } from '@/widgets/text'
 import { Gap } from '@/widgets/separator'
 import MyInfoSelector from '@/townhall/modules/selector/my-info'
-import { getCharactersApi, getMyCharactersByRoomApi } from '@/api/townhall'
+import { getCharactersApi } from '@/api/townhall'
 import toast from 'react-hot-toast'
 import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
@@ -119,7 +119,6 @@ const CharacterList: FC = () => {
 
   const onSelectedCharacter = (character: CharacterType) => {
     setSelectedCharacter(character)
-    // phaserEvents.emit(Event.PLAYER_BUY_SET, character)
   }
 
   return (

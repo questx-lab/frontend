@@ -13,6 +13,8 @@ import { Gap } from '@/widgets/separator'
 import { TextSm } from '@/widgets/text'
 import RoomStore from '@/store/townhall/room'
 import { PositiveButton } from '@/widgets/buttons'
+import { buyCharacterApi } from '@/api/townhall'
+import toast from 'react-hot-toast'
 
 const Frame = tw(Vertical)`
   w-[250px]
@@ -47,8 +49,17 @@ const GemBox = tw.div`
 
 const SelectedCharacter: FC<{ onClose: () => void }> = ({ onClose }) => {
   const selectedCharacter = RoomStore.useStoreState((state) => state.selectedCharacter)
+  const community = RoomStore.useStoreState((state) => state.community)
 
-  const onBuy = () => {}
+  const onBuy = async () => {
+    const resp = await buyCharacterApi(community.handle, selectedCharacter?.id || '')
+    if (resp.code === 0 && resp.data) {
+      toast.success('Buy character successful')
+    }
+    if (resp.error) {
+      toast.error(resp.error)
+    }
+  }
   return (
     <Frame>
       <FullVertical>
