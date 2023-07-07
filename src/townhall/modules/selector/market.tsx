@@ -94,9 +94,12 @@ const CharacterList: FC = () => {
       })
       let characterList: CharacterGroup[] = []
       groups.forEach((val, key) => {
+        const sortedList = val.sort((a, b) => {
+          return a.level - b.level
+        })
         characterList.push({
           name: key,
-          characters: val,
+          characters: sortedList,
         })
       })
       characterList = characterList.sort((a, b) => {
