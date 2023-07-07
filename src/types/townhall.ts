@@ -28,6 +28,7 @@ export interface IPlayer {
   x: number
   y: number
   anim: string
+  texture: string
 }
 
 export interface IOfficeState {
@@ -75,6 +76,7 @@ export interface MessageJoinValue {
   direction: string
   position: PixelPosition
   user: UserType
+  character: Character
 }
 
 export interface MessageMoveValue {

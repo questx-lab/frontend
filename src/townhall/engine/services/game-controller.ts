@@ -177,6 +177,7 @@ class GameController extends Phaser.Game {
           x,
           y,
           anim: user.user.name,
+          texture: user.character.name + '_' + user.character.level,
         }
         phaserEvents.emit(Event.PLAYER_JOINED, player, user.user.id)
       }
@@ -194,6 +195,7 @@ class GameController extends Phaser.Game {
         x: value.position.x,
         y: value.position.y,
         anim: value.user.name,
+        texture: value.character.name + '_' + value.character.level,
       }
       phaserEvents.emit(Event.PLAYER_JOINED, player, value.user.id)
     }
