@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
@@ -12,8 +12,10 @@ import Chat from '@/townhall/modules/room/chat'
 import { Connectting } from '@/townhall/modules/room/connect'
 import GameSelector from '@/townhall/modules/selector/game'
 import { UserType } from '@/types'
-import { Horizontal, Vertical, VerticalCenter } from '@/widgets/orientation'
+import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
 import { VerticalDivider } from '@/widgets/separator'
+import Instruction from '@/townhall/modules/selector/instruction'
+import BaseModal from '@/widgets/modal/base'
 
 const Backdrop = tw(VerticalCenter)`
   absolute
@@ -38,6 +40,15 @@ const GameSidebarFrame = tw(Vertical)`
   h-full
 `
 
+const ModalBox = tw(HorizontalCenter)`
+  flex
+  h-full
+  items-center
+  justify-center
+  text-center
+  py-6
+`
+
 const Townhall: FC = () => {
   // data
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
@@ -46,9 +57,14 @@ const Townhall: FC = () => {
   const roomId = gameRooms.length > 0 ? gameRooms[0].id : ''
   const playerSelector = usePlayerSelector()
 
+  const hasShowedInstruction = localStorage.getItem('showed_instruction')
+
+  const [showInstructionModal, setShowInstructionModal] = useState<boolean>(false)
+
   // TODO: support multiple room id. For now, only use the first room id.
   useEffect(() => {
     phaserGame.bootstrap(roomId)
+    if (!hasShowedInstruction) setShowInstructionModal(true)
   }, [roomId])
 
   useEffect(() => {
@@ -59,6 +75,12 @@ const Townhall: FC = () => {
     <Backdrop id='phaser-container'>
       <Connectting />
       <GameSelector playerSelector={playerSelector} />
+      <BaseModal isOpen={showInstructionModal}>
+        <ModalBox>
+          <Instruction setOpen={setShowInstructionModal}></Instruction>
+        </ModalBox>
+      </BaseModal>
+
       <LeftContent>
         {activeTab === ActiveSidebarTab.CHAT && (
           <>

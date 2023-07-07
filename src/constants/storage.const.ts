@@ -139,6 +139,26 @@ const StorageConst = {
     src: '/images/icons/chat-bubble-active.svg',
     alt: 'Chat Bubble Active',
   },
+  KEYBOARD_UP: {
+    src: '/images/icons/keyboard_up.svg',
+    alt: 'Keyboard Up',
+  },
+  KEYBOARD_DOWN: {
+    src: '/images/icons/keyboard_down.svg',
+    alt: 'Keyboard Down',
+  },
+  KEYBOARD_LEFT: {
+    src: '/images/icons/keyboard_left.svg',
+    alt: 'Keyboard Left',
+  },
+  KEYBOARD_RIGHT: {
+    src: '/images/icons/keyboard_right.svg',
+    alt: 'Keyboard Right',
+  },
+  KEYBOARD_CLOSE: {
+    src: '/images/icons/keyboard_close.svg',
+    alt: 'Keyboard Close',
+  },
 }
 
 export default StorageConst
