@@ -13,6 +13,7 @@ import Chat from '@/townhall/modules/room/chat'
 import { Connectting } from '@/townhall/modules/room/connect'
 import SelectCharacter from '@/townhall/modules/selector/character'
 import GameSelector from '@/townhall/modules/selector/game'
+import LeaderboardSelector from '@/townhall/modules/selector/leaderboard'
 import { UserType } from '@/types'
 import BaseModal from '@/widgets/modal/base'
 import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
@@ -88,6 +89,7 @@ const Townhall: FC = () => {
     <Backdrop id='phaser-container'>
       <Connectting />
       <GameSelector playerSelector={playerSelector} />
+      <LeaderboardSelector playerSelector={playerSelector} />
       <BaseModal isOpen={showCharacterSelectModal}>
         <ModalBox>
           <SelectCharacter
