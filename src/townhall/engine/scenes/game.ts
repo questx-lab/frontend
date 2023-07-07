@@ -25,7 +25,7 @@ export default class Game extends Phaser.Scene {
   private map!: Phaser.Tilemaps.Tilemap
   myPlayer!: MyPlayer
   private otherPlayers!: Phaser.Physics.Arcade.Group
-  private otherPlayerMap = new Map<string, OtherPlayer>()
+  otherPlayerMap = new Map<string, OtherPlayer>()
   private cursors!: NavKeys
   private keyE!: Phaser.Input.Keyboard.Key
   private keyX!: Phaser.Input.Keyboard.Key

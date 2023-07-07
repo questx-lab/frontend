@@ -219,11 +219,12 @@ class GameController extends Phaser.Game {
     const game = this.scene.keys.game as Game
 
     const value = message.value as MessageMoveValue
+    const player = game.otherPlayerMap.get(message.user_id || '')
     // TODO: hardcode character name
     phaserEvents.emit(
       Event.PLAYER_UPDATED,
       'anim',
-      `${game.myPlayer.texture.key}_run_${value.direction}`,
+      `${player?.texture}_run_${value.direction}`,
       message.user_id
     )
     phaserEvents.emit(Event.PLAYER_UPDATED, 'x', value.x, message.user_id)
@@ -233,7 +234,7 @@ class GameController extends Phaser.Game {
       phaserEvents.emit(
         Event.PLAYER_UPDATED,
         'anim',
-        `${game.myPlayer.texture.key}_idle_${value.direction}`,
+        `${player?.texture}_idle_${value.direction}`,
         message.user_id
       )
     }, 100)
