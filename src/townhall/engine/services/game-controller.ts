@@ -147,7 +147,6 @@ class GameController extends Phaser.Game {
   quitGame() {
     if (this.gameScene) {
       this.scene.remove(GAME_SCENE.toLowerCase())
-
       this.gameScene = undefined
     }
 
@@ -156,8 +155,8 @@ class GameController extends Phaser.Game {
       this.bootstrapScene = undefined
     }
 
-    this.destroy(true, true)
     network.socketDisconnect()
+    this.destroy(true, true)
   }
 
   registerKey() {
