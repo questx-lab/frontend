@@ -3,6 +3,8 @@ import Phaser from 'phaser'
 export const phaserEvents = new Phaser.Events.EventEmitter()
 
 export enum Event {
+  LOAD_MAP_COMPLETED = 'load-map-completed',
+  CONNECT_ROOM = 'connect-room',
   MY_PLAYER_NAME_CHANGE = 'my-player-name-change',
   MY_PLAYER_EMOJI_CHANGE = 'my-player-emoji-change',
   BACKGROUND_EMOJI_CHANGE = 'background-emoji-change',

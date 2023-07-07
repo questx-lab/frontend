@@ -6,8 +6,8 @@ import tw from 'twin.macro'
 import { getLeaderboardApi } from '@/api/communitiy'
 import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
-import CommunityStore from '@/store/local/community'
 import { LeaderboardType } from '@/types'
+import { CommunityType } from '@/types/community'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import { HorizontalBetweenCenter, HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
@@ -75,8 +75,8 @@ const RenderList: FC<{ data: LeaderboardType[] }> = ({ data }) => {
 
 const RenderLeaderboard: FC<{
   range: LeaderboardRangeEnum
-}> = ({ range }) => {
-  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  community: CommunityType
+}> = ({ range, community }) => {
   const [leaderboard, setLeaderboard] = useState<LeaderboardType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   useEffect(() => {

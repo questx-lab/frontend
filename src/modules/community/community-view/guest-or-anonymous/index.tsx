@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import { BrowserView } from 'react-device-detect'
 import { useNavigate } from 'react-router-dom'
@@ -100,6 +100,8 @@ const CommunityGuestOrAnonymous: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const navigate = useNavigate()
 
+  const [showCharacterSelectModal, setShowCharacterSelectModal] = useState<boolean>(false)
+
   if (!community) {
     return <></>
   }
@@ -143,9 +145,7 @@ const CommunityGuestOrAnonymous: FC = () => {
 
       <CommunityQuests />
 
-      <FixedWidth>
-        <Leaderboard />
-      </FixedWidth>
+      <Leaderboard community={community} />
     </Content>
   )
 }
