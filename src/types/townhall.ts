@@ -76,7 +76,7 @@ export interface MessageJoinValue {
   direction: string
   position: PixelPosition
   user: UserType
-  character: Character
+  player: Character
 }
 
 export interface MessageMoveValue {
