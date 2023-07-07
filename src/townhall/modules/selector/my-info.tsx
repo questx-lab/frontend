@@ -33,6 +33,7 @@ const Frame = tw(Vertical)`
   w-[450px]
   h-[800px]
   bg-white
+  rounded
 `
 
 const FullVertical = tw(VerticalFullWidth)`
@@ -297,7 +298,7 @@ const MyInfoSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
         />
         <Gap width={2} />
         <FullVertical>
-          <Label> {user.name || ''}</Label>
+          <Label className='text-base'> {user.name || ''}</Label>
         </FullVertical>
       </InfoBox>
       <BadgeList />

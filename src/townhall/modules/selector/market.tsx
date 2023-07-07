@@ -23,6 +23,7 @@ const Frame = tw(Vertical)`
   h-[800px]
   bg-white
   pb-6
+  rounded
 `
 
 const FullVertical = tw(VerticalFullWidth)`
@@ -171,7 +172,7 @@ const MarketSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
           <Image width={30} height={30} src={StorageConst.EXCHANGE.src} alt={'Exchange'} />
           <Gap width={2} />
           <FullVertical>
-            <Label> Exchange Center</Label>
+            <Label className='text-base'> Exchange Center</Label>
           </FullVertical>
         </InfoBox>
         <Gap height={2} />

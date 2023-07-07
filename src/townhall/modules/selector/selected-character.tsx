@@ -20,6 +20,7 @@ const Frame = tw(Vertical)`
   w-[250px]
   h-[420px]
   bg-white
+  rounded
 `
 
 const FullVertical = tw(VerticalFullWidth)`
