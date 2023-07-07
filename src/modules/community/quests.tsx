@@ -8,7 +8,7 @@ import QuestCardToView from '@/modules/quest/quest-card-to-view'
 import { QuestType } from '@/types/quest'
 import { Image } from '@/widgets/image'
 import { VerticalCenter, VerticalFullWidth } from '@/widgets/orientation'
-import { HeaderText, NormalText } from '@/widgets/text'
+import { NormalText, TextXl } from '@/widgets/text'
 
 const Grid = tw.div`
   w-full
@@ -22,8 +22,7 @@ const Grid = tw.div`
 `
 
 const PaddingVertical = tw(VerticalFullWidth)`
-  py-3
-  gap-6
+  gap-4
 `
 
 const EmptyBox = tw(VerticalCenter)`
@@ -50,7 +49,9 @@ const RenderQuest: FC<{ quests: QuestType[]; bgColor: string }> = ({ quests, bgC
   }
 
   const questListView = quests.map((quest, index) => (
-    <QuestCardToView bgColor={bgColor} quest={quest} key={index} />
+    <div key={index}>
+      <QuestCardToView bgColor={bgColor} quest={quest} />
+    </div>
   ))
 
   return (
@@ -73,7 +74,7 @@ const Quests: FC<{
   return (
     <>
       <PaddingVertical>
-        {categoryTitle && <HeaderText>{categoryTitle}</HeaderText>}
+        {categoryTitle && <TextXl>{categoryTitle}</TextXl>}
         <RenderQuest bgColor={bgColor} quests={quests} />
       </PaddingVertical>
     </>

@@ -1,7 +1,7 @@
 import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
 import StorageConst from '@/constants/storage.const'
-import { Rsp } from '@/types'
+import { CharacterType, Rsp, UserCharacterType } from '@/types'
 import { CommunityType } from '@/types/community'
 import { LuckyBoxReq, RoomDataType, SetType } from '@/types/townhall'
 
@@ -31,76 +31,81 @@ export const createLuckyBoxApi = async (body: LuckyBoxReq): Promise<Rsp<{}>> => 
   return data
 }
 
-export const getMySetsApi = async (): Promise<Rsp<{ sets: SetType[] }>> => {
-  const sets: SetType[] = [
-    {
-      id: '1',
-      img_url: '/images/characters/adam.svg',
-      name: 'adam',
-    },
-    {
-      id: '2',
-      img_url: '/images/characters/nancy.svg',
-      name: 'nancy',
-    },
-    {
-      id: '3',
-      img_url: '/images/characters/ash.svg',
-      name: 'ash',
-    },
-    {
-      id: '4',
-      img_url: '/images/characters/lucy.svg',
-      name: 'lucy',
-    },
-    {
-      id: '5',
-      img_url: '/images/characters/adam.svg',
-      name: 'adam',
-    },
-  ]
+export const getMyCharactersApi = async (
+  communityHandle: string
+): Promise<Rsp<{ user_characters: UserCharacterType[] }>> => {
+  try {
+    const { data } = await api.get(
+      EnvVariables.API_SERVER + `/getMyCharacters?community_handle=${communityHandle}`
+    )
 
-  return {
-    code: 0,
-    data: {
-      sets,
-    },
+    return data
+  } catch (err) {
+    return {
+      code: -1,
+    }
   }
 }
 
-export const getSetListApi = async (): Promise<Rsp<{ sets: SetType[] }>> => {
-  const sets: SetType[] = [
-    {
-      id: '1',
-      img_url: '/images/characters/adam.svg',
-      name: 'adam',
-    },
-    {
-      id: '2',
-      img_url: '/images/characters/nancy.svg',
-      name: 'nancy',
-    },
-    {
-      id: '3',
-      img_url: '/images/characters/ash.svg',
-      name: 'ash',
-    },
-    {
-      id: '4',
-      img_url: '/images/characters/lucy.svg',
-      name: 'lucy',
-    },
-    {
-      id: '5',
-      img_url: '/images/characters/adam.svg',
-      name: 'adam',
-    },
-  ]
+export const getCharactersApi = async (): Promise<Rsp<{ game_characters: CharacterType[] }>> => {
+  try {
+    const { data } = await api.get(EnvVariables.API_SERVER + `/getCharacters`)
 
-  return {
-    code: 0,
-    data: {
-      sets,
-    },
+    return data
+  } catch (err) {
+    return {
+      code: -1,
+    }
+  }
+}
+
+export const getCommunityCharactersApi = async (
+  community_handle: string
+): Promise<Rsp<{ community_characters: CharacterType[] }>> => {
+  try {
+    const { data } = await api.get(
+      EnvVariables.API_SERVER + `/getCommunityCharacters?community_handle=${community_handle}`
+    )
+
+    return data
+  } catch (err) {
+    return {
+      code: -1,
+    }
+  }
+}
+
+export const getUserCharactersApi = async (
+  userId: string,
+  communityId: string
+): Promise<Rsp<{ user_characters: CharacterType[] }>> => {
+  try {
+    const { data } = await api.get(
+      EnvVariables.API_SERVER + `/getUserCharacters?community_id=${communityId}&user_id=${userId}`
+    )
+
+    return data
+  } catch (err) {
+    return {
+      code: -1,
+    }
+  }
+}
+
+export const buyCharacterApi = async (
+  communityHandle: string,
+  characterId: string
+): Promise<Rsp<{}>> => {
+  try {
+    const { data } = await api.post(EnvVariables.API_SERVER + `/buyCharacter`, {
+      community_handle: communityHandle,
+      character_id: characterId,
+    })
+
+    return data
+  } catch (err) {
+    return {
+      code: -1,
+    }
   }
 }

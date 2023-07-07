@@ -1,15 +1,15 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import { BrowserView } from 'react-device-detect'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import { SizeEnum } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import CommunityQuests from '@/modules/community/community-view/guest-or-anonymous/community-quests'
 import FollowCommunity from '@/modules/community/community-view/guest-or-anonymous/follow-community'
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
+import { BorderBottom, FixedWidth, PaddingHorizontal } from '@/modules/community/mini-widget'
 import CommunityStore from '@/store/local/community'
 import { onCopy } from '@/utils/helper'
 import { PositiveButton } from '@/widgets/buttons'
@@ -19,22 +19,14 @@ import {
   HorizontalBetweenCenterFullWidth,
   HorizontalCenter,
   HorizontalStartCenter,
-  Vertical,
   VerticalFullWidth,
 } from '@/widgets/orientation'
 import { Text2xl } from '@/widgets/text'
 
-const Content = tw(Vertical)`
-  max-sm:px-2
-  md:px-8
-  xl:w-[980px]
-  md:w-[780px]
-  pb-[30px]
-  w-full
-  gap-6
-  mr-[350px]
-  2xl:mr-[280px]
-  max-md:mr-0
+const Content = tw(VerticalFullWidth)`
+  justify-start
+  items-center
+  gap-0
 `
 
 const VerticalCenter = tw(VerticalFullWidth)`
@@ -44,20 +36,13 @@ const VerticalCenter = tw(VerticalFullWidth)`
   gap-3
 `
 
-const PaddingHorizontal = tw(HorizontalBetweenCenterFullWidth)`
-  max-sm:flex-col
-  p-3
-  rounded-lg
-  gap-6
-`
-
 const Introduce = tw.div`
-  text-lg
+  text-sm
   text-gray-700
   font-normal
   overflow-hidden
   text-ellipsis
-  line-clamp-2
+  line-clamp-3
 `
 
 const FullWidthHorizontal = tw(HorizontalCenter)`
@@ -115,45 +100,54 @@ const CommunityGuestOrAnonymous: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const navigate = useNavigate()
 
+  const [showCharacterSelectModal, setShowCharacterSelectModal] = useState<boolean>(false)
+
   if (!community) {
     return <></>
   }
 
   return (
     <Content>
-      <PaddingHorizontal>
-        <CircularImage
-          width={200}
-          height={200}
-          src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
-          alt={StorageConst.COMMUNITY_DEFAULT.alt}
-        />
-        <FullWidthHorizontal>
-          <VerticalCenter>
-            <Text2xl>{community.display_name}</Text2xl>
-            <Introduce>{community.introduction}</Introduce>
-            <HorizontalStartCenter>
-              <TwitterLink twitterUrl={community.twitter} />
-              <DiscordLink discordUrl={community.discord} />
-            </HorizontalStartCenter>
-            <ReponsiveHorizontal>
-              <BrowserView>
-                <PositiveButton
-                  onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
-                  width={SizeEnum.x48}
-                >
-                  {'Join Town Hall'}
-                </PositiveButton>
-              </BrowserView>
-              <CenterEndHorizontal>
-                <FollowCommunity community={community} />
-              </CenterEndHorizontal>
-            </ReponsiveHorizontal>
-          </VerticalCenter>
-        </FullWidthHorizontal>
-      </PaddingHorizontal>
+      <BorderBottom>
+        <FixedWidth>
+          <PaddingHorizontal>
+            <CircularImage
+              width={200}
+              height={200}
+              src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
+              alt={StorageConst.COMMUNITY_DEFAULT.alt}
+            />
+            <FullWidthHorizontal>
+              <VerticalCenter>
+                <Text2xl>{community.display_name}</Text2xl>
+                <Introduce>{community.introduction}</Introduce>
+                <HorizontalStartCenter>
+                  <TwitterLink twitterUrl={community.twitter} />
+                  <DiscordLink discordUrl={community.discord} />
+                </HorizontalStartCenter>
+                <ReponsiveHorizontal>
+                  <BrowserView>
+                    <PositiveButton
+                      onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
+                    >
+                      {'Join Town Hall'}
+                    </PositiveButton>
+                  </BrowserView>
+                  <CenterEndHorizontal>
+                    <FollowCommunity community={community} />
+                  </CenterEndHorizontal>
+                </ReponsiveHorizontal>
+              </VerticalCenter>
+            </FullWidthHorizontal>
+          </PaddingHorizontal>
+        </FixedWidth>
+      </BorderBottom>
+
       <CommunityQuests />
-      <Leaderboard />
+
+      <FixedWidth>
+        <Leaderboard />
+      </FixedWidth>
     </Content>
   )
 }

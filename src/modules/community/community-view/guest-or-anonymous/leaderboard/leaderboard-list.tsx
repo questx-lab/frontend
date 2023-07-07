@@ -12,7 +12,7 @@ import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import { HorizontalBetweenCenter, HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
 import { SmallSpinner } from '@/widgets/spinner'
-import { NormalText, RewardText } from '@/widgets/text'
+import { RewardText, TextSm } from '@/widgets/text'
 
 const PointerHorizontal = tw(HorizontalBetweenCenter)`
   relative
@@ -38,7 +38,7 @@ const EmptyBox = tw(VerticalCenter)`
   p-3
 `
 
-const CenterNormalText = tw(NormalText)`
+const CenterNormalText = tw(TextSm)`
   text-center
 `
 

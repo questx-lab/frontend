@@ -3,17 +3,20 @@ import { FC, useEffect, useState } from 'react'
 import tw from 'twin.macro'
 
 import phaserGame from '@/townhall/engine/services/game-controller'
-import { ItemType, SetType } from '@/types/townhall'
+import { ItemType } from '@/types/townhall'
 import { CloseIcon } from '@/widgets/image'
-import { Vertical, VerticalFullWidth, Horizontal } from '@/widgets/orientation'
+import { Vertical, VerticalFullWidth, Horizontal, HorizontalCenter } from '@/widgets/orientation'
 import { Label } from '@/widgets/text'
 import { Gap } from '@/widgets/separator'
 import MyInfoSelector from '@/townhall/modules/selector/my-info'
-import { getSetListApi } from '@/api/townhall'
-import { phaserEvents, Event } from '@/townhall/engine/events/event-center'
+import { getCharactersApi } from '@/api/townhall'
 import toast from 'react-hot-toast'
 import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
+import { CharacterType } from '@/types'
+import BaseModal from '@/widgets/modal/base'
+import RoomStore from '@/store/townhall/room'
+import SelectedCharacter from '@/townhall/modules/selector/selected-character'
 
 const Frame = tw(Vertical)`
   w-[450px]
@@ -38,18 +41,18 @@ const MainBox = tw.div`
   h-full
 `
 
-const SetsBox = tw(Vertical)`
+const CharactersBox = tw(Vertical)`
   p-4
   w-full
 `
 
-const SetListBox = tw.div`
+const CharacterListBox = tw.div`
   grid 
   grid-cols-4
   gap-4
 `
 
-const SetBox = tw.div`
+const CharacterBox = tw.div`
   flex
   justify-center
   border-2
@@ -57,40 +60,98 @@ const SetBox = tw.div`
   bg-[#f3f4f6]
 `
 
-const SetList: FC = () => {
-  const [sets, setSets] = useState<SetType[]>([])
-  const fetchSets = async () => {
-    const data = await getSetListApi()
-    if (data.code === 0 && data.data) setSets(data.data?.sets)
+const ModalBox = tw(HorizontalCenter)`
+  flex
+  h-full
+  items-center
+  justify-center
+  text-center
+  py-6
+`
+
+const CharacterLabel = tw(Label)`
+  text-xl
+  uppercase
+`
+
+type CharacterGroup = {
+  name: string
+  characters: CharacterType[]
+}
+const CharacterList: FC = () => {
+  const [characterGroups, setCharacterGroups] = useState<CharacterGroup[]>([])
+
+  const setSelectedCharacter = RoomStore.useStoreActions((action) => action.setSelectedCharacter)
+
+  const fetchCharacters = async () => {
+    const data = await getCharactersApi()
+    if (data.code === 0 && data.data) {
+      let groups = new Map<string, CharacterType[]>()
+      data.data.game_characters.forEach((character) => {
+        const cur = groups.get(character.name)
+        if (cur) groups.set(character.name, [...cur, character])
+        else groups.set(character.name, [character])
+      })
+      let characterList: CharacterGroup[] = []
+      const a = groups.forEach((val, key) => {
+        characterList.push({
+          name: key,
+          characters: val,
+        })
+      })
+      characterList = characterList.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1
+        }
+        if (a.name > b.name) {
+          return 1
+        }
+        return 0
+      })
+      setCharacterGroups(characterList)
+    }
     if (data.error) {
       toast.error(data.error)
     }
   }
   useEffect(() => {
-    fetchSets()
+    fetchCharacters()
   }, [])
 
-  const onChangeSet = (set: SetType) => {
-    phaserEvents.emit(Event.PLAYER_BUY_SET, set)
+  const onSelectedCharacter = (character: CharacterType) => {
+    setSelectedCharacter(character)
+    // phaserEvents.emit(Event.PLAYER_BUY_SET, character)
   }
 
   return (
-    <SetListBox>
-      {sets.map((set) => (
-        <SetBox onClick={() => onChangeSet(set)}>
-          <Image
-            width={80}
-            height={80}
-            src={set.img_url || StorageConst.USER_DEFAULT.src}
-            alt={'Set'}
-          />
-        </SetBox>
+    <div>
+      {characterGroups.map((group) => (
+        <div>
+          <Gap height={4} />
+          <CharacterLabel> {group.name}</CharacterLabel>
+          <Gap height={4} />
+          <CharacterListBox>
+            {group.characters.map((character) => (
+              <CharacterBox onClick={() => onSelectedCharacter(character)}>
+                <Image
+                  width={80}
+                  height={80}
+                  src={character.thumbnail_url || StorageConst.USER_DEFAULT.src}
+                  alt={'Character'}
+                />
+              </CharacterBox>
+            ))}
+          </CharacterListBox>
+        </div>
       ))}
-    </SetListBox>
+    </div>
   )
 }
 
 const MarketSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
+  const selectedCharacter = RoomStore.useStoreState((state) => state.selectedCharacter)
+  const setSelectedCharacter = RoomStore.useStoreActions((action) => action.setSelectedCharacter)
+
   if (playerSelector !== ItemType.MY_INFO) {
     return <></>
   }
@@ -117,13 +178,18 @@ const MarketSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
         </InfoBox>
         <Gap height={2} />
         <MainBox>
-          <SetsBox>
-            <SetList />
-          </SetsBox>
+          <CharactersBox>
+            <CharacterList />
+          </CharactersBox>
         </MainBox>
       </Frame>
       <Gap width={5} />
       <MyInfoSelector playerSelector={playerSelector} />
+      <BaseModal isOpen={selectedCharacter !== undefined}>
+        <ModalBox>
+          <SelectedCharacter onClose={() => setSelectedCharacter(undefined)} />
+        </ModalBox>
+      </BaseModal>
     </Horizontal>
   )
 }

@@ -3,18 +3,18 @@ import { FC, ReactNode, useEffect, useState } from 'react'
 import tw from 'twin.macro'
 
 import phaserGame from '@/townhall/engine/services/game-controller'
-import { ItemType, SetType } from '@/types/townhall'
+import { ItemType } from '@/types/townhall'
 import { CloseIcon } from '@/widgets/image'
 import { Vertical, VerticalFullWidth, Horizontal } from '@/widgets/orientation'
 import { CircularImage } from '@/widgets/circular-image'
 import { GlobalStoreModel } from '@/store/store'
 import { useStoreState } from 'easy-peasy'
-import { BadgeDetailType, UserType } from '@/types'
+import { BadgeDetailType, UserType, CharacterType, UserCharacterType } from '@/types'
 import StorageConst from '@/constants/storage.const'
 import { Gap } from '@/widgets/separator'
 import { Label, TextSm } from '@/widgets/text'
 import { Image } from '@/widgets/image'
-import { getMySetsApi } from '@/api/townhall'
+import { getMyCharactersApi } from '@/api/townhall'
 import toast from 'react-hot-toast'
 import { phaserEvents, Event } from '@/townhall/engine/events/event-center'
 import { getMyBadgeDetailsApi } from '@/api/user'
@@ -27,6 +27,7 @@ import {
   PopoverPosition,
   PopoverSize,
 } from '@/widgets/popover'
+import { getMyFollowerInfoApi } from '@/api/communitiy'
 
 const Frame = tw(Vertical)`
   w-[450px]
@@ -63,10 +64,11 @@ const Player = tw.div`
   bg-[#f3f4f6]
 `
 
-const SetsBox = tw(Vertical)`
+const CharactersBox = tw(Vertical)`
   p-4
   border-b-2
   w-full
+  h-[180px]
 `
 
 const TagBox = tw(Horizontal)`
@@ -99,13 +101,13 @@ const GemBox = tw.div`
   bg-orange-100
 `
 
-const SetListBox = tw.div`
+const CharacterListBox = tw.div`
   grid 
   grid-cols-4
   gap-4
 `
 
-const SetBox = tw.div`
+const CharacterBox = tw.div`
   flex
   justify-center
   border-2
@@ -136,7 +138,10 @@ const Absolute = tw.div`
   z-50
 `
 
-const SetOption: FC<{ set: SetType; children: ReactNode }> = ({ set, children }) => {
+const CharacterOption: FC<{ character: UserCharacterType; children: ReactNode }> = ({
+  character,
+  children,
+}) => {
   const onActionClicked = (action: string) => {}
   return (
     <PopoverPosition>
@@ -155,11 +160,11 @@ const SetOption: FC<{ set: SetType; children: ReactNode }> = ({ set, children })
 
 const BadgeList: FC = () => {
   const community = RoomStore.useStoreState((state) => state.community)
-  const [badges, setBadges] = useState<BadgeDetailType[]>([])
+  const [badges, characterBadges] = useState<BadgeDetailType[]>([])
 
   const fetchBadges = async () => {
     const data = await getMyBadgeDetailsApi(community.handle)
-    if (data.code === 0 && data.data) setBadges(data.data.badge_details)
+    if (data.code === 0 && data.data) characterBadges(data.data.badge_details)
     if (data.error) {
       toast.error(data.error)
     }
@@ -183,44 +188,63 @@ const BadgeList: FC = () => {
   )
 }
 
-const SetList: FC<{ equippedId: string }> = ({ equippedId }) => {
-  const [sets, setSets] = useState<SetType[]>([])
-  const fetchSets = async () => {
-    const data = await getMySetsApi()
-    if (data.code === 0 && data.data) setSets(data.data?.sets)
+const CharacterList: FC<{ equippedId: string }> = ({ equippedId }) => {
+  const community = RoomStore.useStoreState((state) => state.community)
+  const [characters, setCharacters] = useState<UserCharacterType[]>([])
+
+  const fetchCharacters = async () => {
+    const data = await getMyCharactersApi(community.handle)
+    if (data.code === 0 && data.data) setCharacters(data.data.user_characters)
     if (data.error) {
       toast.error(data.error)
     }
   }
+
   useEffect(() => {
-    fetchSets()
+    fetchCharacters()
   }, [])
 
-  const onChangeSet = (set: SetType) => {
-    phaserEvents.emit(Event.PLAYER_SET_CHANGE, set.name)
+  const onChangeCharacter = (character: UserCharacterType) => {
+    // phaserEvents.emit(Event.PLAYER_SET_CHANGE, character.game_character.name)
   }
 
   return (
-    <SetListBox>
-      {sets.map((set) => (
-        <SetOption set={set}>
-          <SetBox onClick={() => onChangeSet(set)}>
+    <CharacterListBox>
+      {characters.map((character) => (
+        <CharacterOption character={character}>
+          <CharacterBox onClick={() => onChangeCharacter(character)}>
             <Image
               width={80}
               height={80}
-              src={set.img_url || StorageConst.USER_DEFAULT.src}
-              alt={'Set'}
+              src={character.game_character.thumbnail_url || StorageConst.USER_DEFAULT.src}
+              alt={'Character'}
             />
-            {set.id === equippedId && <EquippedBox> EQUIPPED </EquippedBox>}
-          </SetBox>
-        </SetOption>
+            {character.game_character.id === equippedId && <EquippedBox> EQUIPPED </EquippedBox>}
+          </CharacterBox>
+        </CharacterOption>
       ))}
-    </SetListBox>
+    </CharacterListBox>
   )
 }
 
 const MyInfoSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+  const community = RoomStore.useStoreState((state) => state.community)
+  const [point, setPoint] = useState<number>(0)
+
+  const fetchMyFollowerInfo = async () => {
+    const data = await getMyFollowerInfoApi(community.handle)
+    if (data.code === 0 && data.data) {
+      setPoint(data.data.points)
+    }
+    if (data.error) {
+      toast.error(data.error)
+    }
+  }
+
+  useEffect(() => {
+    fetchMyFollowerInfo()
+  }, [])
 
   if (playerSelector !== ItemType.MY_INFO) {
     return <></>
@@ -254,7 +278,7 @@ const MyInfoSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
       <MainBox>
         <PlayerBox>
           <Player>
-            <Image width={264} height={264} src={'/images/characters/adam.svg'} alt={'Avatar'} />
+            <Image width={264} height={264} src={StorageConst.USER_DEFAULT.src} alt={'Avatar'} />
           </Player>
         </PlayerBox>
         <TagBox>
@@ -262,16 +286,16 @@ const MyInfoSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
           <Gap width={2} />
           <Tag> Vouchers </Tag>
         </TagBox>
-        <SetsBox>
-          <SetList equippedId={'1'} />
-        </SetsBox>
+        <CharactersBox>
+          <CharacterList equippedId={'1'} />
+        </CharactersBox>
         <PointBox>
           <Horizontal>
             <GemBox>
               <Image width={18} height={18} src={StorageConst.GEM.src} />
             </GemBox>
             <Gap width={1} />
-            <TextSm>{3200}</TextSm>
+            <TextSm>{point}</TextSm>
           </Horizontal>
         </PointBox>
       </MainBox>

@@ -42,6 +42,7 @@ class Network {
 
     setCookieSocket()
     const url = EnvVariables.SOCKET_SERVER + `/game?room_id=${roomId}`
+
     this.socket = new w3cwebsocket(url)
     this.socket.onopen = () => {
       console.log('Socket is opened')

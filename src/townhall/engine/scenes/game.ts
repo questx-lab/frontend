@@ -71,7 +71,13 @@ export default class Game extends Phaser.Scene {
 
   // function to add new player to the otherPlayer group
   private handlePlayerJoined(newPlayer: IPlayer, id: string) {
-    const otherPlayer = this.add.otherPlayer(newPlayer.x, newPlayer.y, 'adam', id, newPlayer.name)
+    const otherPlayer = this.add.otherPlayer(
+      newPlayer.x,
+      newPlayer.y,
+      newPlayer.texture,
+      id,
+      newPlayer.name
+    )
     this.otherPlayers.add(otherPlayer)
     this.otherPlayerMap.set(id, otherPlayer)
   }
@@ -109,9 +115,9 @@ export default class Game extends Phaser.Scene {
     selectionItem.onOverlapDialog()
   }
 
-  create() {
+  async create() {
     this.registerKeys()
-    createCharacterAnims(this.anims)
+    await createCharacterAnims(this.anims)
 
     this.map = this.make.tilemap({ key: 'tilemap' })
     const FloorAndGround = this.map.addTilesetImage('FloorAndGround', 'tiles_wall')
@@ -132,8 +138,8 @@ export default class Game extends Phaser.Scene {
     wallLayer.setCollisionByProperty({ collides: true })
 
     // add my player
-    this.myPlayer = this.add.myPlayer(2368, 1792, 'adam', '')
-    this.myPlayer.setPlayerTexture('adam')
+    this.myPlayer = this.add.myPlayer(2368, 1792, 'adam_0', '')
+    this.myPlayer.setPlayerTexture('adam_0')
 
     const games = this.physics.add.staticGroup({ classType: GameItem })
     const gameLayer = this.map.getObjectLayer('Game')
@@ -238,7 +244,7 @@ export default class Game extends Phaser.Scene {
     phaserGame.onCollectLuckyBox(this.handleCollectLuckyBox, this)
     phaserGame.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
     phaserGame.onMyPlayerEmoji(this.handleMyPlayerEmoji, this)
-    phaserGame.onPlayerSetChange(this.handlePlayerSetChange, this)
+    // phaserGame.onPlayerSetChange(this.handlePlayerSetChange, this)
   }
 
   private addObjectFromTiled(

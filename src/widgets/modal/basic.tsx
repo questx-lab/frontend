@@ -5,6 +5,7 @@ import tw from 'twin.macro'
 
 import BaseModal from '@/widgets/modal/base'
 import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
+import { TextXl } from '@/widgets/text'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
@@ -28,7 +29,7 @@ const ModalContent = styled(Dialog.Panel)<{ widthsize: BasicModalWidthSize }>(({
       bg-white
       align-middle
       overflow-y-scroll
-      shadow-xl
+      shadow-lg
       transition-all
       flex
       flex-col
@@ -62,10 +63,9 @@ const PaddingHorizontal = tw(Horizontal)`
   border-b-gray-200
 `
 
-const Title = tw.div`
-  text-2xl
-  font-normal
-  text-black
+const Title = tw(TextXl)`
+  font-medium
+  text-gray-900
   max-sm:text-lg
 `
 
@@ -81,7 +81,7 @@ export const TopModal: FC<{ hasHeader: boolean; title?: string; onClose: () => v
   return (
     <PaddingHorizontal>
       <Title>{title}</Title>
-      <XMarkIcon className='w-7 h-7 cursor-pointer' onClick={onClose} />
+      <XMarkIcon className='w-6 h-6 cursor-pointer text-gray-500' onClick={onClose} />
     </PaddingHorizontal>
   )
 }

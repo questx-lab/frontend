@@ -12,14 +12,15 @@ import BaseModal from '@/widgets/modal/base'
 import {
   Horizontal,
   HorizontalBetweenCenterFullWidth,
+  HorizontalCenter,
+  VerticalCenter,
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
-import { Divider } from '@/widgets/separator'
 import { Text2xl } from '@/widgets/text'
-import { PlusIcon } from '@heroicons/react/24/outline'
+import { PlusIcon } from '@heroicons/react/20/solid'
 
 const SearchPadding = tw(Horizontal)`
-  w-full gap-3 py-3
+  w-full gap-3
 `
 
 const CreateProjectBtn = tw(Horizontal)`
@@ -32,8 +33,8 @@ const CreateProjectBtn = tw(Horizontal)`
   items-center
   py-2
   px-4
-  text-lg
-  text-black
+  text-sm
+  text-gray-900
   font-medium
   cursor-pointer
 `
@@ -47,13 +48,20 @@ const ModalBox = tw.div`
   py-6
 `
 
-const PaddingVertical = tw(VerticalFullWidthCenter)`
-  py-6
-  gap-6
+const GapVertical = tw(VerticalFullWidthCenter)`
+  gap-5
 `
 
-const GapVertical = tw(VerticalFullWidthCenter)`
-  gap-8
+const BorderBottom = tw(HorizontalCenter)`
+  w-full
+  border-b
+  border-solid
+  border-gray-200
+`
+
+const Padding = tw(VerticalCenter)`
+  py-5
+  w-full
 `
 
 const NewCommunity: FC<{
@@ -61,7 +69,7 @@ const NewCommunity: FC<{
 }> = ({ setOpen }) => {
   return (
     <CreateProjectBtn onClick={() => setOpen(true)}>
-      <PlusIcon className={'w-5 h-5 text-black'} />
+      <PlusIcon className={'w-5 h-5 text-gray-900'} />
       {'Create Community'}
     </CreateProjectBtn>
   )
@@ -78,22 +86,26 @@ const Index: FC = () => {
   }, 300)
 
   return (
-    <PaddingVertical>
-      <MainContent>
-        <HorizontalBetweenCenterFullWidth>
-          <Text2xl>{'👋 Communities'}</Text2xl>
-          <NewCommunity setOpen={setOpen} />
-        </HorizontalBetweenCenterFullWidth>
-      </MainContent>
-      <Divider />
-      <MainContent>
-        <GapVertical>
-          <SearchPadding>
-            <SearchInput hint={'Search Community'} onChanged={(value) => debounced(value)} />
-          </SearchPadding>
-          <CommunityContent query={query} />
-        </GapVertical>
-      </MainContent>
+    <VerticalFullWidthCenter>
+      <BorderBottom>
+        <MainContent>
+          <HorizontalBetweenCenterFullWidth>
+            <Text2xl>{'👋 Communities'}</Text2xl>
+            <NewCommunity setOpen={setOpen} />
+          </HorizontalBetweenCenterFullWidth>
+        </MainContent>
+      </BorderBottom>
+
+      <Padding>
+        <MainContent>
+          <GapVertical>
+            <SearchPadding>
+              <SearchInput hint={'Search Community'} onChanged={(value) => debounced(value)} />
+            </SearchPadding>
+            <CommunityContent query={query} />
+          </GapVertical>
+        </MainContent>
+      </Padding>
 
       <BaseModal isOpen={isOpen}>
         <ModalBox>
@@ -102,7 +114,7 @@ const Index: FC = () => {
           </NewCommunityStore.Provider>
         </ModalBox>
       </BaseModal>
-    </PaddingVertical>
+    </VerticalFullWidthCenter>
   )
 }
 

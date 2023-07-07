@@ -3,7 +3,7 @@ import tw from 'twin.macro'
 export const GrayBorderBox = tw.div`
   border
   border-solid
-  border-[1px]
+  border
   border-gray-200
 `
 

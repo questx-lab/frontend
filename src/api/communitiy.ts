@@ -8,13 +8,13 @@ import {
   CollaboratorType,
   LeaderboardType,
   ListCommunitiesType,
+  ListDiscordRoleType,
   OAuth2VerifyResp,
   ReqNewCommunity,
   Rsp,
   UpdateCommunityRequest,
   UpdateCommunityResponse,
   UserType,
-  ListDiscordRoleType,
 } from '@/types'
 import { CommunityType, FollowCommunityType, ReferralType } from '@/types/community'
 import { ONE_MINUTE_MILLIS } from '@/utils/time'
@@ -93,7 +93,7 @@ export const newCommunityApi = async (body: ReqNewCommunity): Promise<Rsp<{ hand
 
 export const getMyFollowerInfoApi = async (
   communityHandle: string
-): Promise<Rsp<{ invite_code: string }>> => {
+): Promise<Rsp<{ invite_code: string; points: number }>> => {
   const rs = await api.get(
     EnvVariables.API_SERVER + `/getMyFollowerInfo?community_handle=${communityHandle}`
   )
