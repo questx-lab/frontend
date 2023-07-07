@@ -104,8 +104,9 @@ const SelectCharacter: FC<{
         Welcome to Townhall, please select a character to begin your journey of exploring the world.
       </Description>
       <CharacterBox>
-        {characterList.map((character) => (
+        {characterList.map((character, index) => (
           <Character
+            key={index}
             onClick={() => onChangeCharacter(character)}
             className={character.id === selectedCharacter?.id ? 'border-primary-500' : ''}
           >
