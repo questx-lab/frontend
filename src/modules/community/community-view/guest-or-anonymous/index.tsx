@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import { BrowserView } from 'react-device-detect'
 import { useNavigate } from 'react-router-dom'
@@ -99,6 +99,8 @@ const DiscordLink: FC<{ discordUrl?: string }> = ({ discordUrl }) => {
 const CommunityGuestOrAnonymous: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const navigate = useNavigate()
+
+  const [showCharacterSelectModal, setShowCharacterSelectModal] = useState<boolean>(false)
 
   if (!community) {
     return <></>

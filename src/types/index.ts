@@ -250,6 +250,30 @@ export type OpType = {
   id: string
   name: string
 }
+export type BadgeType = {
+  name: string
+  description: string
+  icon_url: string
+  level: number
+}
+
+export type BadgeDetailType = {
+  // community: CommunityType
+  // user: UserType
+  badge: BadgeType
+  // was_notified: boolean
+}
+
+export type CharacterType = {
+  id: string
+  name: string
+  level: number
+  config_url: string
+  image_url: string
+  thumbnail_url: string
+  sprite_width_ratio: number
+  sprite_height_ratio: number
+}
 
 export type RenderCategoryType = {
   id: string
