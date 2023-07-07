@@ -3,6 +3,7 @@ import { FC } from 'react'
 import { useLocation } from 'react-router-dom'
 import tw from 'twin.macro'
 
+import { communityRoute } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import RoomStore from '@/store/townhall/room'
 import phaserGame from '@/townhall/engine/services/game-controller'
@@ -33,7 +34,9 @@ const GameSidebar: FC = () => {
 
   const onDisconnect = () => {
     phaserGame.quitGame()
-    window.location.href = location.pathname.split('townhall').join('communities')
+    const paths = location.pathname.split('/')
+    const communityHandle = paths[2]
+    window.location.href = communityRoute(communityHandle)
   }
 
   return (
