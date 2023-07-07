@@ -72,10 +72,17 @@ class GameController extends Phaser.Game {
     onLoadComleted: async () => {
       this.scene.remove(BOOTSTRAP_SCENE)
 
+      // Add the main game scene
       this.gameScene = new Game()
       this.scene.add(GAME_SCENE, this.gameScene)
       this.scene.start(this.gameScene)
       this.gameScene.registerKeys()
+
+      // Connect to server
+      this.broadcastState(GameState.CONNECTING)
+      network.connectRoom(this.currentRoomId)
+
+      console.log('Game is added')
     },
   } as BootstrapListener
 
@@ -157,11 +164,6 @@ class GameController extends Phaser.Game {
     if (this.gameScene) {
       this.gameScene.deRegisterKeys()
     }
-  }
-
-  connectRoom() {
-    this.broadcastState(GameState.CONNECTING)
-    network.connectRoom(this.currentRoomId)
   }
 
   /////////// Handle different kind of messages from server.

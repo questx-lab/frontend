@@ -5,7 +5,6 @@ import tw from 'twin.macro'
 
 import { buyCharacterApi, getCharactersApi } from '@/api/townhall'
 import RoomStore from '@/store/townhall/room'
-import phaserGame from '@/townhall/engine/services/game-controller'
 import { CharacterType } from '@/types'
 import { PositiveButton } from '@/widgets/buttons'
 import { Image } from '@/widgets/image'
@@ -59,7 +58,10 @@ const BackButton = tw.button`
   text-sm
   w-full
 `
-const SelectCharacter: FC<{ setOpen: (value: boolean) => void }> = ({ setOpen }) => {
+const SelectCharacter: FC<{
+  setOpen: (value: boolean) => void
+  onCharacterSelected: () => void
+}> = ({ setOpen, onCharacterSelected }) => {
   const community = RoomStore.useStoreState((state) => state.community)
 
   const [selectedCharacter, setSelectedCharacter] = useState<Partial<CharacterType>>()
@@ -85,8 +87,9 @@ const SelectCharacter: FC<{ setOpen: (value: boolean) => void }> = ({ setOpen })
     const resp = await buyCharacterApi(community.handle, selectedCharacter?.id || '')
     if (resp.code === 0 && resp.data) {
       toast.success('Select character successful')
-      phaserGame.connectRoom()
       setOpen(false)
+
+      onCharacterSelected()
     }
   }
 

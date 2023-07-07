@@ -3,6 +3,7 @@ import { FC, useEffect } from 'react'
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
+import { getMyCharactersApi } from '@/api/townhall'
 import { GlobalStoreModel } from '@/store/store'
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import phaserGame from '@/townhall/engine/services/game-controller'
@@ -10,13 +11,12 @@ import usePlayerSelector from '@/townhall/hooks/user-player-selector'
 import GameSidebar from '@/townhall/modules/game-sidebar'
 import Chat from '@/townhall/modules/room/chat'
 import { Connectting } from '@/townhall/modules/room/connect'
+import SelectCharacter from '@/townhall/modules/selector/character'
 import GameSelector from '@/townhall/modules/selector/game'
 import { UserType } from '@/types'
+import BaseModal from '@/widgets/modal/base'
 import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
 import { VerticalDivider } from '@/widgets/separator'
-import BaseModal from '@/widgets/modal/base'
-import SelectCharacter from '@/townhall/modules/selector/character'
-import { getMyCharactersApi } from '@/api/townhall'
 
 const Backdrop = tw(VerticalCenter)`
   absolute
@@ -65,20 +65,20 @@ const Townhall: FC = () => {
     (action) => action.setShowCharacterSelectModal
   )
 
-  // TODO: support multiple room id. For now, only use the first room id.
-  useEffect(() => {
-    phaserGame.bootstrap(roomId)
-  }, [roomId])
-
   const fetchMyUsers = async () => {
     const resp = await getMyCharactersApi(community.handle)
 
     if (resp.data && resp.data.user_characters.length === 0) {
       setShowCharacterSelectModal(true)
     } else {
-      phaserGame.connectRoom()
+      phaserGame.bootstrap(roomId)
     }
   }
+
+  const onCharacterSelected = () => {
+    phaserGame.bootstrap(roomId)
+  }
+
   useEffect(() => {
     phaserGame.setUser(user)
     fetchMyUsers()
@@ -90,7 +90,10 @@ const Townhall: FC = () => {
       <GameSelector playerSelector={playerSelector} />
       <BaseModal isOpen={showCharacterSelectModal}>
         <ModalBox>
-          <SelectCharacter setOpen={setShowCharacterSelectModal} />
+          <SelectCharacter
+            setOpen={setShowCharacterSelectModal}
+            onCharacterSelected={onCharacterSelected}
+          />
         </ModalBox>
       </BaseModal>
       <LeftContent>
