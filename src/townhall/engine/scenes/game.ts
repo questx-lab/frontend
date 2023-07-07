@@ -117,9 +117,11 @@ export default class Game extends Phaser.Scene {
     if (!FloorAndGround) {
       return
     }
+
     this.map.createLayer('Ground', FloorAndGround)
     const wallLayer = this.map.createLayer('Wall', FloorAndGround)
     this.map.createLayer('Float', FloorAndGround)?.setDepth(10000)
+    this.map.createLayer('UnderFloat', FloorAndGround)?.setDepth(9999)
     this.map.createLayer('Object', FloorAndGround)
     this.map.createLayer('Doors', FloorAndGround)
 
@@ -144,6 +146,11 @@ export default class Game extends Phaser.Scene {
       })
     }
 
+    // add effective sprite
+    const sprite = this.add.sprite(2465, 1240, 'tiles_effect_leaderboard').setDepth(10000)
+    sprite.setName('effect_leaderboard')
+    sprite.setActive(false)
+    sprite.setVisible(false)
     // add leaderboard interaction
     const leaderboards = this.physics.add.staticGroup({ classType: LeaderboardItem })
     const leaderboardLayer = this.map.getObjectLayer('Leaderboard')
@@ -154,7 +161,7 @@ export default class Game extends Phaser.Scene {
           obj,
           'leaderboards',
           'FloorAndGround'
-        ) as GameItem
+        ) as LeaderboardItem
         item.setDepth(item.y + item.height * 0.27)
       })
     }

@@ -31,8 +31,13 @@ export default class Bootstrap extends Phaser.Scene {
 
     this.load.tilemapTiledJSON('tilemap', '/map/jp_map.json')
     this.load.spritesheet('tiles_wall', '/map/jp_tileset.png', {
-      frameWidth: 32,
-      frameHeight: 32,
+      frameWidth: 64,
+      frameHeight: 64,
+    })
+
+    this.load.spritesheet('tiles_effect_leaderboard', '/map/effect_leaderboard.png', {
+      frameWidth: 64 * 3,
+      frameHeight: 64,
     })
 
     this.load.spritesheet('games', '/map/jp_tileset.png', {

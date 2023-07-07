@@ -143,6 +143,14 @@ export default class MyPlayer extends Player {
 
     if (this.selectedItem) {
       if (!this.scene.physics.overlap(this, this.selectedItem)) {
+        if (this.selectedItem.itemType === ItemType.LEADERBOARD) {
+          const sprite = this.selectedItem.scene.children.getByName(
+            'effect_leaderboard'
+          ) as Phaser.GameObjects.Sprite
+          if (sprite) {
+            sprite.setVisible(false)
+          }
+        }
         this.selectedItem.clearDialogBox()
         this.selectedItem = undefined
       }

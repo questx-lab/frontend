@@ -9,6 +9,11 @@ export default class LeaderboardItem extends Item {
   }
 
   onOverlapDialog() {
+    const sprite = this.scene.children.getByName('effect_leaderboard') as Phaser.GameObjects.Sprite
+    if (sprite) {
+      sprite.setVisible(true)
+    }
+
     this.setDialogBox('Press X to show Leaderboard')
   }
 }
