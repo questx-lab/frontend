@@ -65,6 +65,9 @@ class GameController extends Phaser.Game {
     network.addListener(this.networkListener)
   }
 
+  /**
+   * This is a callback from the BOOTSTRAP scene.
+   */
   private bootstrapListener = {
     onLoadComleted: async () => {
       this.scene.remove(BOOTSTRAP_SCENE)
@@ -76,6 +79,9 @@ class GameController extends Phaser.Game {
     },
   } as BootstrapListener
 
+  /**
+   * This listener interface handles callback from network.
+   */
   private networkListener = {
     onConnected: () => {
       // TODO: handle reconnection after a temporary disconnection. In that case, we should not
@@ -153,6 +159,11 @@ class GameController extends Phaser.Game {
     }
   }
 
+  connectRoom() {
+    this.broadcastState(GameState.CONNECTING)
+    network.connectRoom(this.currentRoomId)
+  }
+
   /////////// Handle different kind of messages from server.
 
   private handleInitMessage(message: MessageReceiver) {
@@ -223,6 +234,7 @@ class GameController extends Phaser.Game {
       )
     }, 100)
   }
+
   /////////// Add, Remove receive update selector from this game controller.
   addPlayerSelectorListeners(listener: PlayerSelectorListener) {
     this.playerSelectorListeners.add(listener)
@@ -269,10 +281,6 @@ class GameController extends Phaser.Game {
     this.scene.start(this.bootstrapScene)
 
     this.broadcastState(GameState.BOOTSTRAP)
-  }
-
-  connectRoom() {
-    network.connectRoom(this.currentRoomId)
   }
 
   // method to register event listener and call back function when a player joined
