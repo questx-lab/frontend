@@ -7,6 +7,7 @@ export enum ItemType {
   GAME,
   LUCKY_BOX,
   LEADERBOARD,
+  SELECT_CHARACTER,
 }
 
 export enum PlayerBehavior {
@@ -28,6 +29,7 @@ export interface IPlayer {
   x: number
   y: number
   anim: string
+  texture: string
 }
 
 export interface IOfficeState {
@@ -46,15 +48,16 @@ export interface PixelPosition {
   y: number
 }
 
-export interface Player {
+export interface Character {
   id: string
   name: string
+  level: number
 }
 
 interface User {
   direction: string
   pixel_position: PixelPosition
-  player: Player
+  character: Character
   user: UserType
 }
 
@@ -74,6 +77,7 @@ export interface MessageJoinValue {
   direction: string
   position: PixelPosition
   user: UserType
+  player: Character
 }
 
 export interface MessageMoveValue {
@@ -87,7 +91,7 @@ export interface MessageEmoji {
 }
 
 export interface MessageReceiver {
-  user_id?: string
+  user_id: string
   type: string
   value:
     | MessageInitValue
@@ -102,8 +106,6 @@ export interface MessageReceiver {
 export interface MapData {
   id: string
   config_url: string
-  tilesets: any[]
-  players: Player[]
 }
 
 export interface RoomDataType {
