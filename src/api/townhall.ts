@@ -47,6 +47,20 @@ export const getMyCharactersApi = async (
   }
 }
 
+export const getMyCharactersByRoomApi = async (
+  roomId: string
+): Promise<Rsp<{ user_characters: UserCharacterType[] }>> => {
+  try {
+    const { data } = await api.get(EnvVariables.API_SERVER + `/getMyCharacters?room_id=${roomId}`)
+
+    return data
+  } catch (err) {
+    return {
+      code: -1,
+    }
+  }
+}
+
 export const getCharactersApi = async (): Promise<Rsp<{ game_characters: CharacterType[] }>> => {
   try {
     const { data } = await api.get(EnvVariables.API_SERVER + `/getCharacters`)

@@ -14,7 +14,7 @@ import StorageConst from '@/constants/storage.const'
 import { Gap } from '@/widgets/separator'
 import { Label, TextSm } from '@/widgets/text'
 import { Image } from '@/widgets/image'
-import { getMyCharactersApi } from '@/api/townhall'
+import { getMyCharactersApi, getMyCharactersByRoomApi } from '@/api/townhall'
 import toast from 'react-hot-toast'
 import { phaserEvents, Event } from '@/townhall/engine/events/event-center'
 import { getMyBadgeDetailsApi } from '@/api/user'
@@ -231,6 +231,21 @@ const MyInfoSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   const community = RoomStore.useStoreState((state) => state.community)
   const [point, setPoint] = useState<number>(0)
+  const gameRooms = RoomStore.useStoreState((state) => state.gameRooms)
+  const roomId = gameRooms.length > 0 ? gameRooms[0].id : ''
+  const [currentCharacter, setCurrentCharacter] = useState<CharacterType>()
+
+  const fetchCurrentCharacter = async () => {
+    const resp = await getMyCharactersByRoomApi(roomId)
+
+    if (resp.code === 0 && resp.data) {
+      const cur = resp.data.user_characters.find((character) => character.is_equipped)
+      if (cur) setCurrentCharacter(cur.game_character)
+    }
+    if (resp.error) {
+      toast.error(resp.error)
+    }
+  }
 
   const fetchMyFollowerInfo = async () => {
     const data = await getMyFollowerInfoApi(community.handle)
@@ -244,6 +259,7 @@ const MyInfoSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
 
   useEffect(() => {
     fetchMyFollowerInfo()
+    fetchCurrentCharacter()
   }, [])
 
   if (playerSelector !== ItemType.MY_INFO) {
@@ -287,7 +303,7 @@ const MyInfoSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
           <Tag> Vouchers </Tag>
         </TagBox>
         <CharactersBox>
-          <CharacterList equippedId={'1'} />
+          <CharacterList equippedId={currentCharacter?.id || ''} />
         </CharactersBox>
         <PointBox>
           <Horizontal>

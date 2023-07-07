@@ -278,6 +278,7 @@ export type CharacterType = {
 
 export type UserCharacterType = {
   game_character: CharacterType
+  is_equipped: boolean
 }
 
 export type RenderCategoryType = {

@@ -9,7 +9,7 @@ import { Vertical, VerticalFullWidth, Horizontal, HorizontalCenter } from '@/wid
 import { Label } from '@/widgets/text'
 import { Gap } from '@/widgets/separator'
 import MyInfoSelector from '@/townhall/modules/selector/my-info'
-import { getCharactersApi } from '@/api/townhall'
+import { getCharactersApi, getMyCharactersByRoomApi } from '@/api/townhall'
 import toast from 'react-hot-toast'
 import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
@@ -79,9 +79,8 @@ type CharacterGroup = {
   characters: CharacterType[]
 }
 const CharacterList: FC = () => {
-  const [characterGroups, setCharacterGroups] = useState<CharacterGroup[]>([])
-
   const setSelectedCharacter = RoomStore.useStoreActions((action) => action.setSelectedCharacter)
+  const [characterGroups, setCharacterGroups] = useState<CharacterGroup[]>([])
 
   const fetchCharacters = async () => {
     const data = await getCharactersApi()
@@ -93,7 +92,7 @@ const CharacterList: FC = () => {
         else groups.set(character.name, [character])
       })
       let characterList: CharacterGroup[] = []
-      const a = groups.forEach((val, key) => {
+      groups.forEach((val, key) => {
         characterList.push({
           name: key,
           characters: val,
