@@ -55,6 +55,7 @@ const SelectedCharacter: FC<{ onClose: () => void }> = ({ onClose }) => {
     const resp = await buyCharacterApi(community.handle, selectedCharacter?.id || '')
     if (resp.code === 0 && resp.data) {
       toast.success('Buy character successful')
+      onClose()
     }
     if (resp.error) {
       toast.error(resp.error)

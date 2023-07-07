@@ -200,6 +200,7 @@ const BadgeList: FC = () => {
 const CharacterList: FC<{ equippedId: string }> = ({ equippedId }) => {
   const community = RoomStore.useStoreState((state) => state.community)
   const [characters, setCharacters] = useState<UserCharacterType[]>([])
+  const selectedCharacter = RoomStore.useStoreState((state) => state.selectedCharacter)
 
   const fetchCharacters = async () => {
     const data = await getMyCharactersApi(community.handle)
@@ -213,6 +214,9 @@ const CharacterList: FC<{ equippedId: string }> = ({ equippedId }) => {
     fetchCharacters()
   }, [])
 
+  useEffect(() => {
+    if (selectedCharacter === undefined) fetchCharacters()
+  }, [selectedCharacter])
   return (
     <CharacterListBox>
       {characters.map((character) => (
