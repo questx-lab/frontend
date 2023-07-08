@@ -65,27 +65,34 @@ class GameController extends Phaser.Game {
     network.addListener(this.networkListener)
   }
 
+  /**
+   * This is a callback from the BOOTSTRAP scene.
+   */
   private bootstrapListener = {
     onLoadComleted: async () => {
-      // We can now connect to the game
-      network.connectRoom(this.currentRoomId)
-
-      this.broadcastState(GameState.CONNECTING)
-    },
-  } as BootstrapListener
-
-  private networkListener = {
-    onConnected: () => {
-      // TODO: handle reconnection after a temporary disconnection. In that case, we should not
-      // launch the game.
       this.scene.remove(BOOTSTRAP_SCENE)
-      this.bootstrapScene = undefined
 
+      // Add the main game scene
       this.gameScene = new Game()
       this.scene.add(GAME_SCENE, this.gameScene)
       this.scene.start(this.gameScene)
       this.gameScene.registerKeys()
 
+      // Connect to server
+      this.broadcastState(GameState.CONNECTING)
+      network.connectRoom(this.currentRoomId)
+
+      console.log('Game is added')
+    },
+  } as BootstrapListener
+
+  /**
+   * This listener interface handles callback from network.
+   */
+  private networkListener = {
+    onConnected: () => {
+      // TODO: handle reconnection after a temporary disconnection. In that case, we should not
+      // launch the game.
       this.broadcastState(GameState.JOINED_ROOM)
     },
 
@@ -139,12 +146,17 @@ class GameController extends Phaser.Game {
 
   quitGame() {
     if (this.gameScene) {
-      this.scene.remove(GAME_SCENE)
+      this.scene.remove(GAME_SCENE.toLowerCase())
       this.gameScene = undefined
     }
 
-    this.pause()
+    if (this.bootstrapScene) {
+      this.scene.remove(BOOTSTRAP_SCENE.toLowerCase())
+      this.bootstrapScene = undefined
+    }
+
     network.socketDisconnect()
+    this.destroy(true, true)
   }
 
   registerKey() {
@@ -175,13 +187,15 @@ class GameController extends Phaser.Game {
       if (this.myUser?.id === user.user.id) {
         if (game.myPlayer) {
           game.myPlayer.updateMyPlayer(name, x, y, id)
+          game.myPlayer.setPlayerTexture(user.character.name + '_' + user.character.level)
         }
       } else {
         const player: IPlayer = {
           name,
           x,
           y,
-          anim: user.player.name,
+          anim: user.user.name,
+          texture: user.character.name + '_' + user.character.level,
         }
         phaserEvents.emit(Event.PLAYER_JOINED, player, user.user.id)
       }
@@ -199,6 +213,7 @@ class GameController extends Phaser.Game {
         x: value.position.x,
         y: value.position.y,
         anim: value.user.name,
+        texture: value.player.name + '_' + value.player.level,
       }
       phaserEvents.emit(Event.PLAYER_JOINED, player, value.user.id)
     }
@@ -206,9 +221,17 @@ class GameController extends Phaser.Game {
 
   private handleMoveMessage(message: MessageReceiver) {
     // Move
+    const game = this.scene.keys.game as Game
+
     const value = message.value as MessageMoveValue
+    const player = game.otherPlayerMap.get(message.user_id)
     // TODO: hardcode character name
-    phaserEvents.emit(Event.PLAYER_UPDATED, 'anim', `adam_run_${value.direction}`, message.user_id)
+    phaserEvents.emit(
+      Event.PLAYER_UPDATED,
+      'anim',
+      `${player?.texture}_run_${value.direction}`,
+      message.user_id
+    )
     phaserEvents.emit(Event.PLAYER_UPDATED, 'x', value.x, message.user_id)
     phaserEvents.emit(Event.PLAYER_UPDATED, 'y', value.y, message.user_id)
 
@@ -216,11 +239,12 @@ class GameController extends Phaser.Game {
       phaserEvents.emit(
         Event.PLAYER_UPDATED,
         'anim',
-        `adam_idle_${value.direction}`,
+        `${player?.texture}_idle_${value.direction}`,
         message.user_id
       )
     }, 100)
   }
+
   /////////// Add, Remove receive update selector from this game controller.
   addPlayerSelectorListeners(listener: PlayerSelectorListener) {
     this.playerSelectorListeners.add(listener)
@@ -309,6 +333,14 @@ class GameController extends Phaser.Game {
 
   onMyPlayerEmoji(callback: (emoji: string) => void, context?: any) {
     phaserEvents.on(Event.MY_PLAYER_EMOJI_CHANGE, callback, context)
+  }
+
+  onLoadMapCompleted(callback: () => void, context?: any) {
+    phaserEvents.on(Event.LOAD_MAP_COMPLETED, callback, context)
+  }
+
+  onConnectRoom(callback: () => void, context?: any) {
+    phaserEvents.on(Event.CONNECT_ROOM, callback, context)
   }
 
   // method to send player updates to Colyseus server

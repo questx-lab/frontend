@@ -8,13 +8,13 @@ import {
   CollaboratorType,
   LeaderboardType,
   ListCommunitiesType,
+  ListDiscordRoleType,
   OAuth2VerifyResp,
   ReqNewCommunity,
   Rsp,
   UpdateCommunityRequest,
   UpdateCommunityResponse,
   UserType,
-  ListDiscordRoleType,
 } from '@/types'
 import { CommunityType, FollowCommunityType, ReferralType } from '@/types/community'
 import { ONE_MINUTE_MILLIS } from '@/utils/time'

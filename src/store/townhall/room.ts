@@ -14,16 +14,19 @@ interface RoomModel {
   community: CommunityType
   gameRooms: RoomDataType[]
   activeTab: ActiveSidebarTab
+  showCharacterSelectModal: boolean
 
   setCommunity: Action<RoomModel, CommunityType>
   setGameRooms: Action<RoomModel, RoomDataType[]>
   toggleTab: Action<RoomModel, ActiveSidebarTab>
+  setShowCharacterSelectModal: Action<RoomModel, boolean>
 }
 
 const RoomStore = createContextStore<RoomModel>({
   community: emptyCommunity(),
   gameRooms: [],
   activeTab: ActiveSidebarTab.NONE,
+  showCharacterSelectModal: false,
 
   setCommunity: action((state, newProject) => {
     state.community = newProject
@@ -39,6 +42,10 @@ const RoomStore = createContextStore<RoomModel>({
     } else {
       state.activeTab = newTab
     }
+  }),
+
+  setShowCharacterSelectModal: action((state, showCharacterSelectModal) => {
+    state.showCharacterSelectModal = showCharacterSelectModal
   }),
 })
 
