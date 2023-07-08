@@ -13,7 +13,7 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@material-tailwind/react'
 
 const MenuButton = styled(Menu.Button)(tw`
-  p-3
+  p-2
   text-sm
   font-medium
   text-black
@@ -109,7 +109,7 @@ const AddCategory: FC = () => {
   }
 
   return (
-    <Menu as='div' className='relative inline-block bg-gray-100 rounded-lg z-0'>
+    <Menu as='div' className='relative inline-block bg-gray-100 rounded-lg z-10'>
       <Tooltip content={'New category'} placement='top'>
         <MenuButton
           onClick={() => {

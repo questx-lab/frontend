@@ -8,6 +8,7 @@ export enum ItemType {
   LUCKY_BOX,
   VENDOR,
   MY_INFO,
+  LEADERBOARD,
   SELECT_CHARACTER,
 }
 
@@ -92,7 +93,7 @@ export interface MessageEmoji {
 }
 
 export interface MessageReceiver {
-  user_id?: string
+  user_id: string
   type: string
   value:
     | MessageInitValue

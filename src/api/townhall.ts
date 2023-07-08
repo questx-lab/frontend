@@ -1,9 +1,8 @@
 import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
-import StorageConst from '@/constants/storage.const'
 import { CharacterType, Rsp, UserCharacterType } from '@/types'
 import { CommunityType } from '@/types/community'
-import { LuckyBoxReq, RoomDataType, SetType } from '@/types/townhall'
+import { LuckyBoxReq, RoomDataType } from '@/types/townhall'
 
 export const getRoomsByCommunityApi = async (
   handle: string
@@ -33,7 +32,7 @@ export const createLuckyBoxApi = async (body: LuckyBoxReq): Promise<Rsp<{}>> => 
 
 export const getMyCharactersApi = async (
   communityHandle: string
-): Promise<Rsp<{ user_characters: UserCharacterType[] }>> => {
+): Promise<Rsp<{ user_characters: CharacterType[] }>> => {
   try {
     const { data } = await api.get(
       EnvVariables.API_SERVER + `/getMyCharacters?community_handle=${communityHandle}`

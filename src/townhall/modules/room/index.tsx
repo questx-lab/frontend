@@ -14,6 +14,7 @@ import { Connectting } from '@/townhall/modules/room/connect'
 import SelectCharacter from '@/townhall/modules/selector/character'
 import GameSelector from '@/townhall/modules/selector/game'
 import MyInfoSelector from '@/townhall/modules/selector/my-info'
+import LeaderboardSelector from '@/townhall/modules/selector/leaderboard'
 import { UserType } from '@/types'
 import BaseModal from '@/widgets/modal/base'
 import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
@@ -91,6 +92,7 @@ const Townhall: FC = () => {
       <Connectting />
       <GameSelector playerSelector={playerSelector} />
       <MarketSelector playerSelector={playerSelector} />
+      <LeaderboardSelector playerSelector={playerSelector} />
       <BaseModal isOpen={showCharacterSelectModal}>
         <ModalBox>
           <SelectCharacter

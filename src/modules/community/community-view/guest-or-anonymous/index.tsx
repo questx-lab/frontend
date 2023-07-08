@@ -145,9 +145,7 @@ const CommunityGuestOrAnonymous: FC = () => {
 
       <CommunityQuests />
 
-      <FixedWidth>
-        <Leaderboard />
-      </FixedWidth>
+      <Leaderboard community={community} />
     </Content>
   )
 }
