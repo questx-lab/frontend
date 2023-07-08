@@ -15,6 +15,7 @@ import RoomStore from '@/store/townhall/room'
 import { PositiveButton } from '@/widgets/buttons'
 import { buyCharacterApi } from '@/api/townhall'
 import toast from 'react-hot-toast'
+import { select } from '@material-tailwind/react'
 
 const Frame = tw(Vertical)`
   w-[250px]
@@ -68,7 +69,12 @@ const SelectedCharacter: FC<{ onClose: () => void }> = ({ onClose }) => {
         <CloseIcon onClick={onClose} />
         <Vertical className='w-full border-b-2'>
           <Avatar>
-            <Image width={144} height={144} src={StorageConst.USER_DEFAULT.src} alt={'Avatar'} />
+            <Image
+              width={144}
+              height={144}
+              src={selectedCharacter?.thumbnail_url || StorageConst.USER_DEFAULT.src}
+              alt={'Avatar'}
+            />
           </Avatar>
           <HorizontalFullWidth className='justify-center'>
             <Image

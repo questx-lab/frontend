@@ -75,6 +75,7 @@ export default class MyPlayer extends Player {
         case ItemType.VENDOR:
           phaserGame.pause()
           phaserGame.changePlayerSelectorListeners(ItemType.VENDOR)
+          break
         case ItemType.LEADERBOARD:
           phaserGame.pause()
           phaserGame.changePlayerSelectorListeners(ItemType.LEADERBOARD)

@@ -32,7 +32,7 @@ export const createLuckyBoxApi = async (body: LuckyBoxReq): Promise<Rsp<{}>> => 
 
 export const getMyCharactersApi = async (
   communityHandle: string
-): Promise<Rsp<{ user_characters: CharacterType[] }>> => {
+): Promise<Rsp<{ user_characters: UserCharacterType[] }>> => {
   try {
     const { data } = await api.get(
       EnvVariables.API_SERVER + `/getMyCharacters?community_handle=${communityHandle}`

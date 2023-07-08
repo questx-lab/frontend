@@ -69,7 +69,7 @@ const CharactersBox = tw(Vertical)`
   p-4
   border-b-2
   w-full
-  h-[180px]
+  h-[240px]
 `
 
 const TagBox = tw(Horizontal)`
