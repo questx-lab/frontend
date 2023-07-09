@@ -6,6 +6,7 @@ import { refreshTokenApi } from '@/api/user'
 import { ErrorCodes } from '@/constants/code.const'
 import { KeysEnum } from '@/constants/key.const'
 import { UserType } from '@/types'
+import { ShowedInstructionKey } from '@/constants/common.const'
 
 export const getAccessToken = (): string | undefined => {
   const cookie = getCookie(KeysEnum.ACCESS_TOKEN)
@@ -120,9 +121,9 @@ export const onCopy = (url: string) => {
 }
 
 export const getShowedInstruction = () => {
-  return localStorage.getItem('showed_instruction')
+  return localStorage.getItem(ShowedInstructionKey)
 }
 
 export const markShowedInstruction = () => {
-  localStorage.setItem('showed_instruction', 'true')
+  localStorage.setItem(ShowedInstructionKey, 'true')
 }
