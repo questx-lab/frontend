@@ -7,6 +7,7 @@ import { Horizontal, Vertical } from '@/widgets/orientation'
 import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
 import { Gap } from '@/widgets/separator'
+import { markShowedInstruction } from '@/utils/helper'
 
 const Frame = tw(Vertical)`
   w-[350px]
@@ -42,11 +43,8 @@ const KeyboardBox = tw(Horizontal)`
 const Instruction: FC<{ setOpen: (value: boolean) => void }> = ({ setOpen }) => {
   const onClose = () => {
     setOpen(false)
+    markShowedInstruction()
   }
-
-  useEffect(() => {
-    localStorage.setItem('showed_instruction', 'true')
-  }, [])
 
   return (
     <Frame>

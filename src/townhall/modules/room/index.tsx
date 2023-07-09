@@ -19,6 +19,7 @@ import BaseModal from '@/widgets/modal/base'
 import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
 import { VerticalDivider } from '@/widgets/separator'
 import Instruction from '@/townhall/modules/selector/instruction'
+import { getShowedInstruction } from '@/utils/helper'
 
 const Backdrop = tw(VerticalCenter)`
   absolute
@@ -51,6 +52,12 @@ const ModalBox = tw(HorizontalCenter)`
   py-6
 `
 
+const FixedModalBox = tw.div`
+  fixed
+  left-10
+  bottom-10
+`
+
 const Townhall: FC = () => {
   // data
   const community = RoomStore.useStoreState((state) => state.community)
@@ -65,7 +72,7 @@ const Townhall: FC = () => {
 
   const [showInstructionModal, setShowInstructionModal] = useState<boolean>(false)
 
-  const hasShowedInstruction = localStorage.getItem('showed_instruction')
+  const hasShowedInstruction = getShowedInstruction()
 
   // TODO: support multiple room id. For now, only use the first room id.
   useEffect(() => {
@@ -100,11 +107,13 @@ const Townhall: FC = () => {
     <Backdrop id='phaser-container'>
       <Connectting />
       <GameSelector playerSelector={playerSelector} />
-      <BaseModal isOpen={showInstructionModal}>
-        <ModalBox>
-          <Instruction setOpen={setShowInstructionModal}></Instruction>
-        </ModalBox>
-      </BaseModal>
+      {showInstructionModal && (
+        <FixedModalBox>
+          <ModalBox>
+            <Instruction setOpen={setShowInstructionModal}></Instruction>
+          </ModalBox>
+        </FixedModalBox>
+      )}
 
       <LeaderboardSelector playerSelector={playerSelector} />
       <BaseModal isOpen={showCharacterSelectModal}>

@@ -118,3 +118,11 @@ export const onCopy = (url: string) => {
     })
   }
 }
+
+export const getShowedInstruction = () => {
+  return localStorage.getItem('showed_instruction')
+}
+
+export const markShowedInstruction = () => {
+  localStorage.setItem('showed_instruction', 'true')
+}
