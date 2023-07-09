@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
@@ -18,6 +18,8 @@ import { UserType } from '@/types'
 import BaseModal from '@/widgets/modal/base'
 import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
 import { VerticalDivider } from '@/widgets/separator'
+import Instruction from '@/townhall/modules/selector/instruction'
+import { getShowedInstruction } from '@/utils/helper'
 
 const Backdrop = tw(VerticalCenter)`
   absolute
@@ -50,6 +52,12 @@ const ModalBox = tw(HorizontalCenter)`
   py-6
 `
 
+const FixedModalBox = tw.div`
+  fixed
+  left-10
+  bottom-10
+`
+
 const Townhall: FC = () => {
   // data
   const community = RoomStore.useStoreState((state) => state.community)
@@ -62,6 +70,14 @@ const Townhall: FC = () => {
     (state) => state.showCharacterSelectModal
   )
 
+  const [showInstructionModal, setShowInstructionModal] = useState<boolean>(false)
+
+  const hasShowedInstruction = getShowedInstruction()
+
+  // TODO: support multiple room id. For now, only use the first room id.
+  useEffect(() => {
+    phaserGame.bootstrap(roomId)
+  }, [roomId])
   const setShowCharacterSelectModal = RoomStore.useStoreActions(
     (action) => action.setShowCharacterSelectModal
   )
@@ -73,11 +89,13 @@ const Townhall: FC = () => {
       setShowCharacterSelectModal(true)
     } else {
       phaserGame.bootstrap(roomId)
+      if (!hasShowedInstruction) setShowInstructionModal(true)
     }
   }
 
   const onCharacterSelected = () => {
     phaserGame.bootstrap(roomId)
+    if (!hasShowedInstruction) setShowInstructionModal(true)
   }
 
   useEffect(() => {
@@ -89,6 +107,14 @@ const Townhall: FC = () => {
     <Backdrop id='phaser-container'>
       <Connectting />
       <GameSelector playerSelector={playerSelector} />
+      {showInstructionModal && (
+        <FixedModalBox>
+          <ModalBox>
+            <Instruction setOpen={setShowInstructionModal}></Instruction>
+          </ModalBox>
+        </FixedModalBox>
+      )}
+
       <LeaderboardSelector playerSelector={playerSelector} />
       <BaseModal isOpen={showCharacterSelectModal}>
         <ModalBox>
