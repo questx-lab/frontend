@@ -229,7 +229,7 @@ class GameController extends Phaser.Game {
     phaserEvents.emit(
       Event.PLAYER_UPDATED,
       'anim',
-      `${player?.texture}_run_${value.direction}`,
+      `${player?.playerTexture}_run_${value.direction}`,
       message.user_id
     )
     phaserEvents.emit(Event.PLAYER_UPDATED, 'x', value.x, message.user_id)
@@ -239,7 +239,7 @@ class GameController extends Phaser.Game {
       phaserEvents.emit(
         Event.PLAYER_UPDATED,
         'anim',
-        `${player?.texture}_idle_${value.direction}`,
+        `${player?.playerTexture}_idle_${value.direction}`,
         message.user_id
       )
     }, 100)
