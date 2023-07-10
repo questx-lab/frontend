@@ -17,8 +17,6 @@ import { TextXl } from '@/widgets/text'
 const Frame = styled.div<{ isMobile: boolean }>(({ isMobile }) => {
   const styles = [
     tw`
-      my-[158px]
-      h-full
       bg-white
       rounded-lg
       overflow-y-scroll
@@ -31,10 +29,16 @@ const Frame = styled.div<{ isMobile: boolean }>(({ isMobile }) => {
   if (isMobile) {
     styles.push(tw`
       w-5/6
+      bottom-[160px]
+      h-[500px]
+      fixed
     `)
   } else {
     styles.push(tw`
-    w-[480px]
+      w-[480px]
+      my-[158px]
+      h-[calc(100%_-_160px)]
+      overflow-y-hidden
     `)
   }
 
@@ -48,6 +52,7 @@ const PaddingHorizontal = tw(HorizontalBetweenCenter)`
 
 const LeaderboardFrame = tw(VerticalFullWidth)`
   h-full
+  overflow-y-scroll
 `
 
 const LeaderboardSelector: FC<{ playerSelector: number }> = ({ playerSelector }) => {
