@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
-import { getCharactersApi } from '@/api/townhall'
 import { EnvVariables } from '@/constants/env.const'
+import { CharacterType } from '@/types'
 import { getCharacterSet } from '@/utils/character'
 
 export interface BootstrapListener {
@@ -11,13 +11,15 @@ export interface BootstrapListener {
 export default class Bootstrap extends Phaser.Scene {
   private preloadComplete = false
   private listener: BootstrapListener
+  private characterList: CharacterType[]
 
-  constructor(listener: BootstrapListener) {
+  constructor(listener: BootstrapListener, characterList: CharacterType[]) {
     super('bootstrap')
     this.listener = listener
+    this.characterList = characterList
   }
 
-  async preload() {
+  preload() {
     if (this.preloadComplete) {
       return
     }
@@ -57,24 +59,19 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 32,
     })
 
-    await this.loadCharacters()
+    this.characterList.forEach((character) => {
+      const characterSet = getCharacterSet(character)
+
+      this.load.spritesheet(characterSet, `/characters/${characterSet}.png`, {
+        frameWidth: 32,
+        frameHeight: 48,
+      })
+    })
+
     this.load.on('complete', () => {
+      console.log('Bootstrap COMPLETED')
       this.preloadComplete = true
       this.listener.onLoadComleted()
     })
-  }
-
-  async loadCharacters() {
-    const resp = await getCharactersApi()
-
-    if (resp.code === 0 && resp.data)
-      resp.data.game_characters.forEach((character) => {
-        const characterSet = getCharacterSet(character)
-
-        this.load.spritesheet(characterSet, `/characters/${characterSet}.png`, {
-          frameWidth: 32,
-          frameHeight: 48,
-        })
-      })
   }
 }

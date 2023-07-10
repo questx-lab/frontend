@@ -13,13 +13,13 @@ import Chat from '@/townhall/modules/room/chat'
 import { Connectting } from '@/townhall/modules/room/connect'
 import SelectCharacter from '@/townhall/modules/selector/character'
 import GameSelector from '@/townhall/modules/selector/game'
+import Instruction from '@/townhall/modules/selector/instruction'
 import LeaderboardSelector from '@/townhall/modules/selector/leaderboard'
 import { UserType } from '@/types'
+import { getShowedInstruction } from '@/utils/helper'
 import BaseModal from '@/widgets/modal/base'
 import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
 import { VerticalDivider } from '@/widgets/separator'
-import Instruction from '@/townhall/modules/selector/instruction'
-import { getShowedInstruction } from '@/utils/helper'
 
 const Backdrop = tw(VerticalCenter)`
   absolute
