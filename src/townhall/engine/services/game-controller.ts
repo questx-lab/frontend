@@ -1,3 +1,4 @@
+import { getCharactersApi } from '@/api/townhall'
 import { MessageReceiverEnum } from '@/constants/townhall'
 import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
 import Bootstrap, { BootstrapListener } from '@/townhall/engine/scenes/bootstrap'
@@ -275,9 +276,7 @@ class GameController extends Phaser.Game {
 
   /////////// Game Related functions
 
-  bootstrap(roomId: string) {
-    console.log('roomId', roomId)
-
+  async bootstrap(roomId: string) {
     if (this.currentRoomId === roomId) {
       // We are doing something with this room. No need to have duplicated action
       return
@@ -288,9 +287,18 @@ class GameController extends Phaser.Game {
       console.log('passed:::2', roomId)
     }
 
+    const resp = await getCharactersApi()
+    if (resp.code === 0 && resp.data) {
+      // Do nothing
+    } else {
+      // TODO: Show error here
+      console.log('Failed to load character list')
+      return
+    }
+
     this.currentRoomId = roomId
 
-    this.bootstrapScene = new Bootstrap(this.bootstrapListener)
+    this.bootstrapScene = new Bootstrap(this.bootstrapListener, resp.data.game_characters)
     this.scene.add(BOOTSTRAP_SCENE, this.bootstrapScene)
     this.scene.start(this.bootstrapScene)
     console.log('passed:::3', roomId)
