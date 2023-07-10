@@ -45,6 +45,7 @@ const MainBox = tw.div`
 const CharactersBox = tw(Vertical)`
   p-4
   w-full
+  overflow-scroll
 `
 
 const CharacterListBox = tw.div`
