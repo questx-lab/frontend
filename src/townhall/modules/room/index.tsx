@@ -13,13 +13,12 @@ import Browser from '@/townhall/modules/room/interactive/browser'
 import Mobile from '@/townhall/modules/room/interactive/mobile'
 import SelectCharacter from '@/townhall/modules/selector/character'
 import GameSelector from '@/townhall/modules/selector/game'
+import Instruction from '@/townhall/modules/selector/instruction'
 import LeaderboardSelector from '@/townhall/modules/selector/leaderboard'
 import { UserType } from '@/types'
-import BaseModal from '@/widgets/modal/base'
-import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
-import { VerticalDivider } from '@/widgets/separator'
-import Instruction from '@/townhall/modules/selector/instruction'
 import { getShowedInstruction } from '@/utils/helper'
+import BaseModal from '@/widgets/modal/base'
+import { HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
 
 const Backdrop = tw(VerticalCenter)`
   absolute
@@ -109,7 +108,7 @@ const Townhall: FC = () => {
         </ModalBox>
       </BaseModal>
       <Mobile />
-      <Browser activeTab={activeTab} />
+      <Browser />
     </Backdrop>
   )
 }
