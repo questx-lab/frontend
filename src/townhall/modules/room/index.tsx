@@ -5,19 +5,18 @@ import tw from 'twin.macro'
 
 import { getMyCharactersApi } from '@/api/townhall'
 import { GlobalStoreModel } from '@/store/store'
-import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
+import RoomStore from '@/store/townhall/room'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import usePlayerSelector from '@/townhall/hooks/user-player-selector'
-import GameSidebar from '@/townhall/modules/game-sidebar'
-import Chat from '@/townhall/modules/room/chat'
 import { Connectting } from '@/townhall/modules/room/connect'
+import Browser from '@/townhall/modules/room/interactive/browser'
+import Mobile from '@/townhall/modules/room/interactive/mobile'
 import SelectCharacter from '@/townhall/modules/selector/character'
 import GameSelector from '@/townhall/modules/selector/game'
 import LeaderboardSelector from '@/townhall/modules/selector/leaderboard'
 import { UserType } from '@/types'
 import BaseModal from '@/widgets/modal/base'
-import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
-import { VerticalDivider } from '@/widgets/separator'
+import { HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
 
 const Backdrop = tw(VerticalCenter)`
   absolute
@@ -25,22 +24,6 @@ const Backdrop = tw(VerticalCenter)`
   h-full
 `
 
-const LeftContent = tw(Horizontal)`
-  h-full
-  bg-white
-  right-0
-  fixed
-`
-
-const ChatFrame = tw(Vertical)`
-  w-[256px]
-  h-full
-`
-
-const GameSidebarFrame = tw(Vertical)`
-  w-[64px]
-  h-full
-`
 const ModalBox = tw(HorizontalCenter)`
   flex
   h-full
@@ -98,19 +81,8 @@ const Townhall: FC = () => {
           />
         </ModalBox>
       </BaseModal>
-      <LeftContent>
-        {activeTab === ActiveSidebarTab.CHAT && (
-          <>
-            <ChatFrame>
-              <Chat />
-            </ChatFrame>
-            <VerticalDivider thickness={2} />
-          </>
-        )}
-        <GameSidebarFrame>
-          <GameSidebar />
-        </GameSidebarFrame>
-      </LeftContent>
+      <Mobile />
+      <Browser activeTab={activeTab} />
     </Backdrop>
   )
 }

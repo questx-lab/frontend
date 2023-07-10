@@ -36,6 +36,7 @@
     "react-gesture-responder": "^2.1.0",
     "react-grid-dnd": "^2.1.2",
     "react-hot-toast": "^2.4.1",
+    "react-joystick-component": "^6.2.1",
     "react-multi-carousel": "^2.8.4",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.11.2",
