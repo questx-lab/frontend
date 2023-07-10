@@ -26,8 +26,6 @@ export default class Bootstrap extends Phaser.Scene {
     // TODO: lazy loading
     this.load.baseURL = EnvVariables.TOWNHALL_ASSET_CDN
 
-    await this.loadCharacters()
-
     this.load.tilemapTiledJSON('tilemap', '/map/jp_map.json')
     this.load.spritesheet('tiles_wall', '/map/jp_tileset.png', {
       frameWidth: 64,
