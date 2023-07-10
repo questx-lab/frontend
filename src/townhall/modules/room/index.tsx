@@ -9,8 +9,8 @@ import RoomStore from '@/store/townhall/room'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import usePlayerSelector from '@/townhall/hooks/user-player-selector'
 import { Connectting } from '@/townhall/modules/room/connect'
-import Browser from '@/townhall/modules/room/interactive/browser'
-import Mobile from '@/townhall/modules/room/interactive/mobile'
+import BrowserMenu from '@/townhall/modules/room/interactive/browser'
+import MobileMenu from '@/townhall/modules/room/interactive/mobile'
 import SelectCharacter from '@/townhall/modules/selector/character'
 import GameSelector from '@/townhall/modules/selector/game'
 import Instruction from '@/townhall/modules/selector/instruction'
@@ -106,8 +106,8 @@ const Townhall: FC = () => {
           />
         </ModalBox>
       </BaseModal>
-      <Mobile />
-      <Browser />
+      <MobileMenu />
+      <BrowserMenu />
     </Backdrop>
   )
 }
