@@ -76,7 +76,7 @@ const Townhall: FC = () => {
 
   // TODO: support multiple room id. For now, only use the first room id.
   useEffect(() => {
-    // phaserGame.bootstrap(roomId)
+    phaserGame.bootstrap(roomId)
   }, [roomId])
   const setShowCharacterSelectModal = RoomStore.useStoreActions(
     (action) => action.setShowCharacterSelectModal
@@ -91,6 +91,7 @@ const Townhall: FC = () => {
       phaserGame.bootstrap(roomId)
       if (!hasShowedInstruction) setShowInstructionModal(true)
     }
+    if (resp.error) console.log(resp.error)
   }
 
   const onCharacterSelected = () => {
