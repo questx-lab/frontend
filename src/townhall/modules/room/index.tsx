@@ -18,7 +18,8 @@ import LeaderboardSelector from '@/townhall/modules/selector/leaderboard'
 import { UserType } from '@/types'
 import { getShowedInstruction } from '@/utils/helper'
 import BaseModal from '@/widgets/modal/base'
-import { HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
+import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
+import { VerticalDivider } from '@/widgets/separator'
 
 const Backdrop = tw(VerticalCenter)`
   absolute
