@@ -281,10 +281,8 @@ class GameController extends Phaser.Game {
       // We are doing something with this room. No need to have duplicated action
       return
     }
-    console.log('passed:::1', roomId)
     if (this.bootstrapScene) {
       this.scene.remove(BOOTSTRAP_SCENE)
-      console.log('passed:::2', roomId)
     }
 
     const resp = await getCharactersApi()
@@ -301,7 +299,7 @@ class GameController extends Phaser.Game {
     this.bootstrapScene = new Bootstrap(this.bootstrapListener, resp.data.game_characters)
     this.scene.add(BOOTSTRAP_SCENE, this.bootstrapScene)
     this.scene.start(this.bootstrapScene)
-    console.log('passed:::3', roomId)
+
     this.broadcastState(GameState.BOOTSTRAP)
   }
 
