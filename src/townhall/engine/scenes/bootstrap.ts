@@ -11,6 +11,7 @@ export interface BootstrapListener {
 export default class Bootstrap extends Phaser.Scene {
   private preloadComplete = false
   private listener: BootstrapListener
+  startTime!: Date
 
   constructor(listener: BootstrapListener) {
     super('bootstrap')
@@ -18,12 +19,14 @@ export default class Bootstrap extends Phaser.Scene {
   }
 
   async preload() {
+    this.startTime = new Date()
     if (this.preloadComplete) {
       return
     }
-
     // TODO: lazy loading
     this.load.baseURL = EnvVariables.TOWNHALL_ASSET_CDN
+
+    await this.loadCharacters()
 
     this.load.tilemapTiledJSON('tilemap', '/map/jp_map.json')
     this.load.spritesheet('tiles_wall', '/map/jp_tileset.png', {
@@ -57,11 +60,9 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 32,
     })
 
-    await this.loadCharacters()
-    this.load.on('complete', () => {
-      this.preloadComplete = true
-      this.listener.onLoadComleted()
-    })
+    this.preloadComplete = true
+
+    this.listener.onLoadComleted()
   }
 
   async loadCharacters() {
@@ -76,5 +77,7 @@ export default class Bootstrap extends Phaser.Scene {
           frameHeight: 48,
         })
       })
+    const now = new Date()
+    console.log('load characters', Math.abs(now.getTime() - this.startTime.getTime()))
   }
 }
