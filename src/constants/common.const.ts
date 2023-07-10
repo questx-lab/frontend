@@ -292,3 +292,5 @@ export enum LeaderboardType {
   TOWNHALL,
   PLATFORM,
 }
+
+export const ShowedInstructionKey = 'showed_instruction'
