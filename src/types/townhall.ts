@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-import { UserType } from '@/types'
+import { CharacterType, UserType } from '@/types'
 
 export enum ItemType {
   NONE,
@@ -103,6 +103,7 @@ export interface MessageReceiver {
     | MessageHistoryItem
     | LuckyBoxValue
     | CollectLuckyBox
+    | CharacterType
 }
 
 export interface MapData {

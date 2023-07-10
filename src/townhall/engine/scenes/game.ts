@@ -269,7 +269,7 @@ export default class Game extends Phaser.Scene {
     phaserGame.onCollectLuckyBox(this.handleCollectLuckyBox, this)
     phaserGame.onRemoveLuckyBoxes(this.handleRemoveLuckyBoxes, this)
     phaserGame.onMyPlayerEmoji(this.handleMyPlayerEmoji, this)
-    phaserGame.onMyPlayerCharacterChange(this.handleMyPlayerCharacterChange, this)
+    // phaserGame.onPlayerCharacterChange(this.handlePlayerCharacterChange, this)
   }
 
   private addObjectFromTiled(
@@ -380,11 +380,5 @@ export default class Game extends Phaser.Scene {
 
   handleMyPlayerEmoji(emoji: string) {
     this.myPlayer.setPlayerEmoji(emoji)
-  }
-
-  handleMyPlayerCharacterChange(character: CharacterType) {
-    const characterSet = getCharacterSet(character)
-    this.myPlayer.setTexture(characterSet)
-    this.myPlayer.setPlayerTexture(characterSet)
   }
 }

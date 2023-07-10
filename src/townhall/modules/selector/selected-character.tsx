@@ -15,7 +15,6 @@ import RoomStore from '@/store/townhall/room'
 import { PositiveButton } from '@/widgets/buttons'
 import { buyCharacterApi } from '@/api/townhall'
 import toast from 'react-hot-toast'
-import { select } from '@material-tailwind/react'
 
 const Frame = tw(Vertical)`
   w-[250px]

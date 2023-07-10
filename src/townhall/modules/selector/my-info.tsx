@@ -70,6 +70,7 @@ const CharactersBox = tw(Vertical)`
   border-b-2
   w-full
   h-[240px]
+  overflow-scroll
 `
 
 const TagBox = tw(Horizontal)`
@@ -149,8 +150,7 @@ const CharacterOption: FC<{ character: UserCharacterType; children: ReactNode }>
   if (currentCharacter?.id === character.game_character.id) actionList = ['Remove', 'Drop']
 
   const onActionClicked = (action: string) => {
-    if (action === 'Equip')
-      phaserEvents.emit(Event.MY_PLAYER_CHARACTER_CHANGE, character.game_character)
+    if (action === 'Equip') phaserGame.changeCharacter(character.game_character.id)
   }
   return (
     <PopoverPosition>

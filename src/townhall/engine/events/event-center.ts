@@ -20,5 +20,4 @@ export enum Event {
   CREATE_LUCKY_BOXES = 'create-lucky-boxes',
   COLLECT_LUCKY_BOX = 'collect-lucky-box',
   REMOVE_LUCKY_BOXES = 'remove-lucky-box',
-  MY_PLAYER_CHARACTER_CHANGE = 'my-player-character-change',
 }

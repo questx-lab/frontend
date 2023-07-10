@@ -9,14 +9,15 @@ import { Vertical, VerticalFullWidth, Horizontal, HorizontalCenter } from '@/wid
 import { Label } from '@/widgets/text'
 import { Gap } from '@/widgets/separator'
 import MyInfoSelector from '@/townhall/modules/selector/my-info'
-import { getCharactersApi } from '@/api/townhall'
+import { getCharactersApi, getMyCharactersApi } from '@/api/townhall'
 import toast from 'react-hot-toast'
 import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
-import { CharacterType } from '@/types'
+import { CharacterType, UserCharacterType } from '@/types'
 import BaseModal from '@/widgets/modal/base'
 import RoomStore from '@/store/townhall/room'
 import SelectedCharacter from '@/townhall/modules/selector/selected-character'
+import styled from 'styled-components'
 
 const Frame = tw(Vertical)`
   w-[450px]
@@ -39,13 +40,12 @@ const MainBox = tw.div`
   border-2
   rounded
   mx-6
-  h-full
+  overflow-scroll
 `
 
 const CharactersBox = tw(Vertical)`
   p-4
   w-full
-  overflow-scroll
 `
 
 const CharacterListBox = tw.div`
@@ -54,13 +54,14 @@ const CharacterListBox = tw.div`
   gap-4
 `
 
-const CharacterBox = tw.div`
-  flex
-  justify-center
-  border-2
-  rounded
-  bg-[#f3f4f6]
-`
+// const CharacterBox = tw.div`
+//   flex
+//   justify-center
+//   border-2
+//   rounded
+//   bg-[#f3f4f6]
+//   relative
+// `
 
 const ModalBox = tw(HorizontalCenter)`
   flex
@@ -76,13 +77,79 @@ const CharacterLabel = tw(Label)`
   uppercase
 `
 
+const CharacterBox = styled.div<{
+  level: number
+}>(({ level }) => {
+  switch (level) {
+    case 0:
+      return tw`
+      flex
+      justify-center
+      border-2
+      rounded
+      bg-[#f3f4f6]
+      relative
+      `
+    case 1:
+      return tw`
+      flex
+      justify-center
+      border-2
+      rounded
+      border-[#BFDBFE]
+      bg-[#EFF6FF]
+      relative
+      `
+    case 2:
+      return tw`
+      flex
+      justify-center
+      border-2
+      rounded
+      bg-[#f3f4f6]
+      border-[#FDE68A]
+      relative
+      `
+    case 3:
+      return tw`
+      flex
+      justify-center
+      border-2
+      rounded
+      border-[#BBF7D0]
+      bg-[#F0FDF4]
+      relative
+      `
+    case 4:
+      return tw`
+      flex
+      justify-center
+      border-2
+      rounded
+      border-[#FECACA]
+      bg-[#FEF2F2]
+      relative
+      `
+    default:
+      return tw`
+      flex
+      justify-center
+      border-2
+      rounded
+      bg-[#FECACA]
+      relative
+      `
+  }
+})
 type CharacterGroup = {
   name: string
   characters: CharacterType[]
 }
 const CharacterList: FC = () => {
   const setSelectedCharacter = RoomStore.useStoreActions((action) => action.setSelectedCharacter)
+  const community = RoomStore.useStoreState((state) => state.community)
   const [characterGroups, setCharacterGroups] = useState<CharacterGroup[]>([])
+  const [myCharacters, setMyCharacters] = useState<UserCharacterType[]>([])
 
   const fetchCharacters = async () => {
     const data = await getCharactersApi()
@@ -118,8 +185,23 @@ const CharacterList: FC = () => {
       toast.error(data.error)
     }
   }
+
+  const fetchMyCharacters = async () => {
+    const data = await getMyCharactersApi(community.handle)
+    if (data.code === 0 && data.data) {
+      setMyCharacters(data.data.user_characters)
+    }
+  }
+
+  const isOwnedCharacter = (characterId: string): boolean => {
+    const c = myCharacters.find((userCharacter) => userCharacter.game_character.id === characterId)
+    if (c) return true
+    return false
+  }
+
   useEffect(() => {
     fetchCharacters()
+    fetchMyCharacters()
   }, [])
 
   const onSelectedCharacter = (character: CharacterType) => {
@@ -135,13 +217,25 @@ const CharacterList: FC = () => {
           <Gap height={4} />
           <CharacterListBox>
             {group.characters.map((character) => (
-              <CharacterBox onClick={() => onSelectedCharacter(character)}>
+              <CharacterBox onClick={() => onSelectedCharacter(character)} level={character.level}>
                 <Image
                   width={80}
                   height={80}
                   src={character.thumbnail_url || StorageConst.USER_DEFAULT.src}
                   alt={'Character'}
                 />
+                <div className='absolute bottom-0'>
+                  <Image
+                    width={20}
+                    height={20}
+                    src={
+                      isOwnedCharacter(character.id)
+                        ? '/images/icons/character_owned.svg'
+                        : '/images/icons/character_level_3.svg'
+                    }
+                    alt={'Avatar'}
+                  />
+                </div>
               </CharacterBox>
             ))}
           </CharacterListBox>

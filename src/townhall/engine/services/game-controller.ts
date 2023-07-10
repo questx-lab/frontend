@@ -18,6 +18,7 @@ import {
   MessageMoveValue,
   MessageReceiver,
 } from '@/types/townhall'
+import { getCharacterSet } from '@/utils/character'
 
 const BOOTSTRAP_SCENE = 'Bootstrap'
 const GAME_SCENE = 'game'
@@ -132,6 +133,9 @@ class GameController extends Phaser.Game {
         case MessageReceiverEnum.STOP_LUCKY_BOX:
           phaserEvents.emit(Event.REMOVE_LUCKY_BOXES, message.value as LuckyBoxValue)
           break
+        case MessageReceiverEnum.CHANGE_CHARACTER:
+          this.handlePlayerCharacterChange(message)
+          break
       }
     },
   }
@@ -245,6 +249,11 @@ class GameController extends Phaser.Game {
     }, 100)
   }
 
+  private handlePlayerCharacterChange(message: MessageReceiver) {
+    const character = message.value as CharacterType
+    const characterSet = getCharacterSet(character)
+    phaserEvents.emit(Event.PLAYER_UPDATED, 'anim', `${characterSet}_run_down`, message.user_id)
+  }
   /////////// Add, Remove receive update selector from this game controller.
   addPlayerSelectorListeners(listener: PlayerSelectorListener) {
     this.playerSelectorListeners.add(listener)
@@ -339,9 +348,9 @@ class GameController extends Phaser.Game {
     phaserEvents.on(Event.LOAD_MAP_COMPLETED, callback, context)
   }
 
-  onMyPlayerCharacterChange(callback: (character: CharacterType) => void, context?: any) {
-    phaserEvents.on(Event.MY_PLAYER_CHARACTER_CHANGE, callback, context)
-  }
+  // onPlayerCharacterChange(callback: (character: CharacterType) => void, context?: any) {
+  //   phaserEvents.on(Event.PLAYER_CHARACTER_CHANGE, callback, context)
+  // }
 
   // method to send player updates to Colyseus server
   updatePlayer(currentX: number, currentY: number, currentAnim: string) {
@@ -353,6 +362,15 @@ class GameController extends Phaser.Game {
         direction: direction,
         x: parseInt(currentX.toFixed(0), 10),
         y: parseInt(currentY.toFixed(0), 10),
+      },
+    })
+  }
+
+  changeCharacter(character_id: string) {
+    network.send({
+      type: MessageReceiverEnum.CHANGE_CHARACTER,
+      value: {
+        character_id: character_id,
       },
     })
   }
