@@ -45,7 +45,6 @@ const Townhall: FC = () => {
   // data
   const community = RoomStore.useStoreState((state) => state.community)
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-  const activeTab = RoomStore.useStoreState((state) => state.activeTab)
   const gameRooms = RoomStore.useStoreState((state) => state.gameRooms)
   const roomId = gameRooms.length > 0 ? gameRooms[0].id : ''
   const playerSelector = usePlayerSelector()

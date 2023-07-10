@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import { isMobile } from 'react-device-detect'
+import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { LeaderboardType } from '@/constants/common.const'
@@ -8,21 +10,36 @@ import RoomStore from '@/store/townhall/room'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import { ItemType } from '@/types/townhall'
 import { CloseIcon } from '@/widgets/image'
-import { HorizontalBetweenCenter, Vertical, VerticalFullWidth } from '@/widgets/orientation'
+import { HorizontalBetweenCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { Divider } from '@/widgets/separator'
 import { TextXl } from '@/widgets/text'
 
-const Frame = tw(Vertical)`
-  w-[480px]
-  my-[158px]
-  h-full
-  bg-white
-  rounded-lg
-  overflow-y-scroll
-  border-2
-  border-solid
-  border-gray-900
-`
+const Frame = styled.div<{ isMobile: boolean }>(({ isMobile }) => {
+  const styles = [
+    tw`
+      my-[158px]
+      h-full
+      bg-white
+      rounded-lg
+      overflow-y-scroll
+      border-2
+      border-solid
+      border-gray-900
+    `,
+  ]
+
+  if (isMobile) {
+    styles.push(tw`
+      w-5/6
+    `)
+  } else {
+    styles.push(tw`
+    w-[480px]
+    `)
+  }
+
+  return styles
+})
 
 const PaddingHorizontal = tw(HorizontalBetweenCenter)`
   w-full
@@ -48,7 +65,7 @@ const LeaderboardSelector: FC<{ playerSelector: number }> = ({ playerSelector })
   }
 
   return (
-    <Frame>
+    <Frame isMobile={isMobile}>
       <PaddingHorizontal>
         <TextXl>{'Leaderboard'}</TextXl>
         <CloseIcon onClick={onClose} />

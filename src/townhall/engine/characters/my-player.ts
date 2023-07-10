@@ -63,7 +63,6 @@ export default class MyPlayer extends Player {
     const item = this.selectedItem
 
     if (Phaser.Input.Keyboard.JustDown(keyX)) {
-      console.log('alooo')
       switch (item?.itemType) {
         // TODO: handle action
         case ItemType.GAME:
@@ -169,6 +168,7 @@ export default class MyPlayer extends Player {
         }
         this.selectedItem.clearDialogBox()
         this.selectedItem = undefined
+        phaserGame.changePlayerSelectorListeners(ItemType.NONE)
       }
     }
   }
