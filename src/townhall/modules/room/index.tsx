@@ -101,7 +101,7 @@ const Townhall: FC = () => {
   useEffect(() => {
     phaserGame.setUser(user)
     fetchMyUsers()
-  }, [user])
+  }, [user, roomId])
 
   return (
     <Backdrop id='phaser-container'>
