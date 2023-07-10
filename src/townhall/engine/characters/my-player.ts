@@ -44,6 +44,7 @@ export default class MyPlayer extends Player {
 
   setPlayerTexture(texture: string) {
     this.playerTexture = texture
+
     this.anims.play(`${this.playerTexture}_idle_down`, true)
     if (this.anims.currentAnim) {
       phaserEvents.emit(Event.MY_PLAYER_TEXTURE_CHANGE, this.x, this.y, this.anims.currentAnim.key)
@@ -61,6 +62,10 @@ export default class MyPlayer extends Player {
         case ItemType.GAME:
           phaserGame.pause()
           phaserGame.changePlayerSelectorListeners(ItemType.GAME)
+          break
+        case ItemType.LEADERBOARD:
+          phaserGame.pause()
+          phaserGame.changePlayerSelectorListeners(ItemType.LEADERBOARD)
           break
       }
     }
@@ -113,12 +118,11 @@ export default class MyPlayer extends Player {
         } else if (vy < 0) {
           this.play(`${this.playerTexture}_run_up`, true)
         } else {
-          const parts = this.anims.currentAnim.key.split('_')
-          parts[1] = 'idle'
-          const newAnim = parts.join('_')
+          const parts = this.anims.currentAnim.key
+          const newAnim = parts.replaceAll('_run_', '_idle_')
           // this prevents idle animation keeps getting called
           if (this.anims.currentAnim.key !== newAnim) {
-            this.play(parts.join('_'), true)
+            this.play(newAnim, true)
             // send new location and anim to server
             phaserGame.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
           }
@@ -139,6 +143,14 @@ export default class MyPlayer extends Player {
 
     if (this.selectedItem) {
       if (!this.scene.physics.overlap(this, this.selectedItem)) {
+        if (this.selectedItem.itemType === ItemType.LEADERBOARD) {
+          const sprite = this.selectedItem.scene.children.getByName(
+            'effect_leaderboard'
+          ) as Phaser.GameObjects.Sprite
+          if (sprite) {
+            sprite.setVisible(false)
+          }
+        }
         this.selectedItem.clearDialogBox()
         this.selectedItem = undefined
       }

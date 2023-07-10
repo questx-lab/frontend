@@ -287,3 +287,10 @@ export enum QuestColor {
   PINK = 'pink',
   CYAN = 'cyan',
 }
+
+export enum LeaderboardType {
+  TOWNHALL,
+  PLATFORM,
+}
+
+export const ShowedInstructionKey = 'showed_instruction'

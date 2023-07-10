@@ -21,7 +21,7 @@ import NewQuestStore, { NewQuestModel, stateToNewQuestRequest } from '@/store/lo
 import Editor from '@/widgets/editor'
 import { TextField } from '@/widgets/form'
 import ProgressModal from '@/widgets/modal/progress'
-import { Horizontal, Vertical } from '@/widgets/orientation'
+import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { Label } from '@/widgets/text'
 
@@ -58,6 +58,10 @@ const EditInfoFrame = tw(Vertical)`
 
 const GapHorizontal = tw(Horizontal)`
   gap-3
+`
+
+const Padding = tw(VerticalFullWidth)`
+  px-12
 `
 
 const EditFrame = styled(Vertical)<{ isTemplate: boolean }>(({ isTemplate }) => {
@@ -145,51 +149,53 @@ export const CreateOrEditQuest: FC<{
       <EditFrame isTemplate={isTemplate}>
         <TopLabel isEdit={isEdit} communityHandle={community.handle} />
 
-        <BodyFrame isTemplate={isTemplate}>
-          <EditInfoFrame>
-            <QuestFieldsBox title={'Quest Title'} required={true}>
-              <TextField
-                required
-                value={title}
-                placeholder='The name of the quest is written here.'
-                onChange={(e) => setTitle(e.target.value)}
-                msg='You must have a quest title to create this quest.'
-              />
-              <Gap />
-              <Label>{'QUEST DESCRIPTION'}</Label>
-              <Editor
-                onChange={(value) => {
-                  setDescription(value)
-                }}
-                value={description}
-              />
-            </QuestFieldsBox>
+        <Padding>
+          <BodyFrame isTemplate={isTemplate}>
+            <EditInfoFrame>
+              <QuestFieldsBox title={'Quest Title'} required={true}>
+                <TextField
+                  required
+                  value={title}
+                  placeholder='The name of the quest is written here.'
+                  onChange={(e) => setTitle(e.target.value)}
+                  msg='You must have a quest title to create this quest.'
+                />
+                <Gap />
+                <Label>{'QUEST DESCRIPTION'}</Label>
+                <Editor
+                  onChange={(value) => {
+                    setDescription(value)
+                  }}
+                  value={description}
+                />
+              </QuestFieldsBox>
 
-            <QuestFieldsBox title={'Submission Type'} required={true}>
-              <QuestTypeSelection />
-            </QuestFieldsBox>
+              <QuestFieldsBox title={'Submission Type'} required={true}>
+                <QuestTypeSelection />
+              </QuestFieldsBox>
 
-            <QuestFieldsBox title={'Repeat'} required={true}>
-              <Recurrence />
-            </QuestFieldsBox>
+              <QuestFieldsBox title={'Repeat'} required={true}>
+                <Recurrence />
+              </QuestFieldsBox>
 
-            <QuestFieldsBox>
-              <SelectCategory />
-            </QuestFieldsBox>
+              <QuestFieldsBox>
+                <SelectCategory />
+              </QuestFieldsBox>
 
-            <QuestFieldsBox>
-              <Conditions />
-            </QuestFieldsBox>
+              <QuestFieldsBox>
+                <Conditions />
+              </QuestFieldsBox>
 
-            <QuestFieldsBox title={'Highlighted'}>
-              <Highlighted />
-            </QuestFieldsBox>
+              <QuestFieldsBox title={'Highlighted'}>
+                <Highlighted />
+              </QuestFieldsBox>
 
-            <ActionButtons onSubmit={submitAction} />
-          </EditInfoFrame>
+              <ActionButtons onSubmit={submitAction} />
+            </EditInfoFrame>
 
-          <QuestReward />
-        </BodyFrame>
+            <QuestReward />
+          </BodyFrame>
+        </Padding>
 
         <ProgressModal
           isOpen={isOpen}

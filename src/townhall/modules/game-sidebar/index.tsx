@@ -1,9 +1,9 @@
 import { FC } from 'react'
 
-import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import { RouterConst } from '@/constants/router.const'
+import { communityRoute } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import RoomStore from '@/store/townhall/room'
 import phaserGame from '@/townhall/engine/services/game-controller'
@@ -30,13 +30,13 @@ const GameSidebar: FC = () => {
   // data
   const community = RoomStore.useStoreState((state) => state.community)
 
-  const navigate = useNavigate()
+  const location = useLocation()
 
   const onDisconnect = () => {
     phaserGame.quitGame()
-    navigate(RouterConst.COMMUNITIES + `/${community.handle}`, {
-      replace: true,
-    })
+    const paths = location.pathname.split('/')
+    const communityHandle = paths[2]
+    window.location.href = communityRoute(communityHandle)
   }
 
   return (

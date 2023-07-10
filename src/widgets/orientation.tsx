@@ -76,7 +76,6 @@ export const VerticalFullWidth = tw(Vertical)`
   w-full
   flex
   flex-col
-  gap-2
 `
 
 export const VerticalFullWidthHeight = tw(VerticalFullWidth)`
