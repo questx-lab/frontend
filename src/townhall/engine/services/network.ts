@@ -60,9 +60,12 @@ class Network {
       if (!unzip) {
         return
       }
-
-      const messages = JSON.parse(unzip) as MessageReceiver[]
-      this.listeners.forEach((listener) => messages.forEach((msg) => listener.onMessage(msg)))
+      try {
+        const messages = JSON.parse(unzip) as MessageReceiver[]
+        this.listeners.forEach((listener) => messages.forEach((msg) => listener.onMessage(msg)))
+      } catch (error) {
+        console.log('json parse error = ', error)
+      }
     }
   }
 

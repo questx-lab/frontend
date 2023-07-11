@@ -141,6 +141,10 @@ class GameController extends Phaser.Game {
         case MessageReceiverEnum.STOP_LUCKY_BOX:
           phaserEvents.emit(Event.REMOVE_LUCKY_BOXES, message.value as LuckyBoxValue)
           break
+        default:
+          console.log('other message type = ', message.type)
+
+          break
       }
     },
   }
