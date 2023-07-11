@@ -108,8 +108,6 @@ class GameController extends Phaser.Game {
     onMessage: (message: MessageReceiver) => {
       switch (message.type) {
         case MessageReceiverEnum.INIT:
-          console.log('MessageReceiverEnum.INIT', MessageReceiverEnum.INIT)
-
           this.handleInitMessage(message)
           break
         case MessageReceiverEnum.JOIN:
