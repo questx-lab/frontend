@@ -106,8 +106,6 @@ class GameController extends Phaser.Game {
     onDisconnected: () => {},
 
     onMessage: (message: MessageReceiver) => {
-      console.log('onMessage:message', message)
-
       switch (message.type) {
         case MessageReceiverEnum.INIT:
           console.log('MessageReceiverEnum.INIT', MessageReceiverEnum.INIT)
@@ -186,7 +184,6 @@ class GameController extends Phaser.Game {
 
   private handleInitMessage(message: MessageReceiver) {
     const game = this.scene.keys.game as Game
-    console.log('handleInitMessage:message', message)
 
     // Init the message history
     messageManager.initMessageList((message.value as MessageInitValue).message_history)
