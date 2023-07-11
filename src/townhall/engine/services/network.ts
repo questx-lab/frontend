@@ -2,6 +2,7 @@ import { ICloseEvent, IMessageEvent, w3cwebsocket } from 'websocket'
 
 import { EnvVariables } from '@/constants/env.const'
 import { MessageReceiver } from '@/types/townhall'
+import { decode, encode } from '@/utils/convert'
 import { setCookieSocket } from '@/utils/helper'
 
 export interface NetworkListener {
@@ -55,7 +56,12 @@ class Network {
     }
 
     this.socket.onmessage = (event: IMessageEvent) => {
-      const messages = JSON.parse(event.data.toString()) as MessageReceiver[]
+      const unzip = decode(event.data.toString())
+      if (!unzip) {
+        return
+      }
+
+      const messages = JSON.parse(unzip) as MessageReceiver[]
       this.listeners.forEach((listener) => messages.forEach((msg) => listener.onMessage(msg)))
     }
   }
@@ -66,7 +72,9 @@ class Network {
     }
 
     if (this.socket && this.socket.readyState === this.socket.OPEN) {
-      this.socket.send(JSON.stringify(message))
+      const s = JSON.stringify(message)
+      const encodedMessage = encode(s)
+      this.socket.send(encodedMessage)
     }
   }
 }

@@ -1,3 +1,4 @@
+import gzip from 'gzip-js'
 import { ICloseEvent, w3cwebsocket } from 'websocket'
 
 import { EnvVariables } from '@/constants/env.const'
@@ -26,7 +27,8 @@ export default class WebSocket {
 
   send(data: any) {
     if (this.socket && this.socket.readyState === this.socket.OPEN) {
-      this.socket.send(JSON.stringify(data))
+      const out = gzip.zip(JSON.stringify(data))
+      this.socket.send(out)
     }
   }
 
