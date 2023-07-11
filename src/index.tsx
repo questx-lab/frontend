@@ -6,14 +6,16 @@ import React, { FC, ReactNode, useEffect } from 'react'
 
 import { StoreProvider, useStoreActions } from 'easy-peasy'
 import ReactDOM from 'react-dom/client'
+import ReactGa from 'react-ga4'
+import TagManager from 'react-gtm-module'
 import { Toaster } from 'react-hot-toast'
 
+import { EnvVariables } from '@/constants/env.const'
+import reportWebVitals from '@/reportWebVitals'
 import { RouterComponent } from '@/router'
 import store, { GlobalStoreModel } from '@/store/store'
 import { getUserLocal } from '@/utils/helper'
 import { MetaMaskInpageProvider } from '@metamask/providers'
-
-import reportWebVitals from './reportWebVitals'
 
 declare global {
   interface Window {
@@ -29,6 +31,10 @@ const Content: FC<{ children: ReactNode }> = ({ children }) => {
 
   // hook
   useEffect(() => {
+    // Initialized Google Analytics
+    ReactGa.initialize(EnvVariables.GA_MEASUREMENT_ID)
+    TagManager.initialize({ gtmId: EnvVariables.GMT_ID })
+
     setUser(localUser)
   }, [])
 

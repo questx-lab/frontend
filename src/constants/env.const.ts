@@ -10,4 +10,6 @@ export const EnvVariables = {
   TELEGRAM_BOT_NAME: process.env.REACT_APP_TELEGRAM_BOT_NAME || '',
   TOWNHALL_ASSET_CDN: process.env.REACT_APP_TOWNHALL_ASSET_CDN || '',
   TOWNHALL_STATUS: process.env.REACT_APP_TOWNHALL_STATUS || '',
+  GA_MEASUREMENT_ID: process.env.REACT_APP_GA_MEASUREMENT_ID || '',
+  GMT_ID: process.env.REACT_APP_GMT_ID || '',
 }

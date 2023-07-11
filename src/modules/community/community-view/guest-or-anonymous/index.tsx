@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
 import { BrowserView } from 'react-device-detect'
 import { useNavigate } from 'react-router-dom'
@@ -11,6 +11,7 @@ import FollowCommunity from '@/modules/community/community-view/guest-or-anonymo
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
 import { BorderBottom, FixedWidth, PaddingHorizontal } from '@/modules/community/mini-widget'
 import CommunityStore from '@/store/local/community'
+import { ActionEvent, AnalyticEvent, CategoryEvent } from '@/utils/analytic'
 import { onCopy } from '@/utils/helper'
 import { PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
@@ -100,10 +101,17 @@ const CommunityGuestOrAnonymous: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const navigate = useNavigate()
 
-  const [showCharacterSelectModal, setShowCharacterSelectModal] = useState<boolean>(false)
-
   if (!community) {
     return <></>
+  }
+
+  const onClick = () => {
+    AnalyticEvent({
+      category: CategoryEvent.TOWNHALL,
+      action: ActionEvent.USER_JOIN_TOWNHALL,
+    })
+
+    navigate(RouterConst.TOWNHALL + `/${community.handle}`)
   }
 
   return (
@@ -127,11 +135,7 @@ const CommunityGuestOrAnonymous: FC = () => {
                 </HorizontalStartCenter>
                 <ReponsiveHorizontal>
                   <BrowserView>
-                    <PositiveButton
-                      onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
-                    >
-                      {'Join Town Hall'}
-                    </PositiveButton>
+                    <PositiveButton onClick={onClick}>{'Join Town Hall'}</PositiveButton>
                   </BrowserView>
                   <CenterEndHorizontal>
                     <FollowCommunity community={community} />

@@ -6,6 +6,7 @@ import { getRoomsByCommunityApi } from '@/api/townhall'
 import RoomStore from '@/store/townhall/room'
 import { CommunityType } from '@/types/community'
 import { RoomDataType } from '@/types/townhall'
+import { AnalyticPage } from '@/utils/analytic'
 
 export const Loader = async (args: { params: Params }) => {
   const result = await getRoomsByCommunityApi(args.params['communityHandle'] || '')
@@ -46,6 +47,13 @@ const TownhallCommunity: FC = () => {
       setGameRooms(data.gameRooms)
     }
   }, [data])
+
+  useEffect(() => {
+    AnalyticPage({
+      path: window.location.pathname,
+      title: 'Townhall',
+    })
+  }, [])
 
   return <Outlet />
 }

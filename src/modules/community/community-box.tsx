@@ -7,6 +7,7 @@ import tw from 'twin.macro'
 import { communityRoute } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import { CommunityType } from '@/types/community'
+import { ActionEvent, AnalyticEvent, CategoryEvent } from '@/utils/analytic'
 import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalCenter, Vertical, VerticalBetween } from '@/widgets/orientation'
 
@@ -75,8 +76,18 @@ const Title = tw.p`
 const CommunityBox: FC<{ community: CommunityType }> = ({ community }) => {
   const navigate = useNavigate()
 
+  const onClick = () => {
+    AnalyticEvent({
+      category: CategoryEvent.COMMUNITY,
+      action: ActionEvent.CLICK_COMMUNITY,
+      label: community.handle,
+    })
+
+    navigate(communityRoute(community.handle))
+  }
+
   return (
-    <CommunityBoxWrap onClick={() => navigate(communityRoute(community.handle))}>
+    <CommunityBoxWrap onClick={onClick}>
       <Top>
         <ImageProjectBox
           width={64}

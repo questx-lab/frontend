@@ -15,6 +15,7 @@ import NewQuestStore from '@/store/local/new-quest'
 import { GlobalStoreModel } from '@/store/store'
 import { CollaboratorType, RefferalType, UserType } from '@/types'
 import { CommunityType } from '@/types/community'
+import { AnalyticPage } from '@/utils/analytic'
 import { getUserLocal } from '@/utils/helper'
 
 export const RootLoader = async () => {
@@ -79,6 +80,13 @@ const Root: FC = () => {
       setUser(data.user)
     }
   }, [data, data.user])
+
+  useEffect(() => {
+    AnalyticPage({
+      path: window.location.pathname,
+      title: 'Homepage',
+    })
+  }, [])
 
   return (
     <Main>

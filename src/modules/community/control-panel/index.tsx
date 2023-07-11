@@ -9,6 +9,7 @@ import QuestsTab from '@/modules/community/control-panel/quests'
 import ReviewSubmissionsTab from '@/modules/community/control-panel/review-submissions'
 import SettingsTab from '@/modules/community/control-panel/settings'
 import { CommunityType } from '@/types/community'
+import { ActionEvent, AnalyticEvent, CategoryEvent } from '@/utils/analytic'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 
 export const FixedFrame = tw.div`
@@ -37,6 +38,11 @@ const ControlPanel: FC<{
   }
 
   const onNavigation = () => {
+    AnalyticEvent({
+      category: CategoryEvent.TOWNHALL,
+      action: ActionEvent.OWNER_JOIN_TOWNHALL,
+    })
+
     navigate(RouterConst.TOWNHALL + `/${community.handle}`)
   }
 
