@@ -48,7 +48,7 @@ export default class Game extends Phaser.Scene {
     // maybe we can have a dedicated method for adding keys if more keys are needed in the future
     this.keyE = this.input.keyboard.addKey('E')
     this.keyX = this.input.keyboard.addKey('X')
-    // this.input.keyboard.disableGlobalCapture()
+    this.input.keyboard.disableGlobalCapture()
   }
 
   deRegisterKeys() {
