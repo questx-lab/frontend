@@ -59,6 +59,11 @@ class GameController extends Phaser.Game {
   private gamteStateListeners = new Set<GameStateListener>()
   private playerSelectorListeners = new Set<PlayerSelectorListener>()
   private myUser?: UserType
+  /**
+   * The last time we send position to server. This is to prevent the app from sending too many
+   * messages
+   */
+  private lastSendPosition: number = 0
 
   constructor() {
     super(config)
@@ -72,6 +77,7 @@ class GameController extends Phaser.Game {
   private bootstrapListener = {
     onLoadComleted: async () => {
       this.scene.remove(BOOTSTRAP_SCENE)
+      // this.bootstrapScene = undefined
 
       // Add the main game scene
       this.gameScene = new Game()
@@ -132,6 +138,10 @@ class GameController extends Phaser.Game {
           break
         case MessageReceiverEnum.STOP_LUCKY_BOX:
           phaserEvents.emit(Event.REMOVE_LUCKY_BOXES, message.value as LuckyBoxValue)
+          break
+        default:
+          console.log('other message type = ', message.type)
+
           break
       }
     },
@@ -280,7 +290,6 @@ class GameController extends Phaser.Game {
       // We are doing something with this room. No need to have duplicated action
       return
     }
-
     if (this.bootstrapScene) {
       this.scene.remove(BOOTSTRAP_SCENE)
     }
@@ -357,14 +366,19 @@ class GameController extends Phaser.Game {
   updatePlayer(currentX: number, currentY: number, currentAnim: string) {
     const direction = currentAnim.split('_').at(-1)
 
-    network.send({
-      type: MessageReceiverEnum.MOVE,
-      value: {
-        direction: direction,
-        x: parseInt(currentX.toFixed(0), 10),
-        y: parseInt(currentY.toFixed(0), 10),
-      },
-    })
+    const now = Date.now()
+
+    if (now - this.lastSendPosition > 250) {
+      network.send({
+        type: MessageReceiverEnum.MOVE,
+        value: {
+          direction: direction,
+          x: parseInt(currentX.toFixed(0), 10),
+          y: parseInt(currentY.toFixed(0), 10),
+        },
+      })
+      this.lastSendPosition = now
+    }
   }
 }
 
