@@ -19,9 +19,12 @@ import {
   MessageMoveValue,
   MessageReceiver,
 } from '@/types/townhall'
+import { sleep } from '@/utils/sleep'
 
 const BOOTSTRAP_SCENE = 'Bootstrap'
 const GAME_SCENE = 'game'
+
+const RECONNECTING_INTERVAL = 5000
 
 export interface GameStateListener {
   onStateChanged: (state: GameState, data?: any) => void
@@ -59,6 +62,13 @@ class GameController extends Phaser.Game {
   private gamteStateListeners = new Set<GameStateListener>()
   private playerSelectorListeners = new Set<PlayerSelectorListener>()
   private myUser?: UserType
+  private currentState: GameState = GameState.NONE
+
+  /**
+   * Last time we try to reconnect. This is to avoid connecting too many times
+   */
+  private lastReconnectTime: number = 0
+
   /**
    * The last time we send position to server. This is to prevent the app from sending too many
    * messages
@@ -86,10 +96,8 @@ class GameController extends Phaser.Game {
       this.gameScene.registerKeys()
 
       // Connect to server
-      this.broadcastState(GameState.CONNECTING)
+      this.updateState(GameState.CONNECTING)
       network.connectRoom(this.currentRoomId)
-
-      console.log('Game is added')
     },
   } as BootstrapListener
 
@@ -100,10 +108,30 @@ class GameController extends Phaser.Game {
     onConnected: () => {
       // TODO: handle reconnection after a temporary disconnection. In that case, we should not
       // launch the game.
-      this.broadcastState(GameState.JOINED_ROOM)
+      this.updateState(GameState.JOINED_ROOM)
     },
 
-    onDisconnected: () => {},
+    onDisconnected: async () => {
+      // If state is CONNECTING, CONNECTED or JOINED_ROOM, we should try to reconnect since user is
+      // joining/ playing the game. Otherwise, do nothing.
+      if (
+        this.currentState === GameState.CONNECTING ||
+        this.currentState === GameState.CONNECTED ||
+        this.currentState === GameState.JOINED_ROOM ||
+        this.currentState === GameState.RECONNECTING
+      ) {
+        const now = Date.now()
+        const diff = now - this.lastReconnectTime
+        if (diff < RECONNECTING_INTERVAL) {
+          await sleep(RECONNECTING_INTERVAL - diff)
+        }
+
+        console.log('Reconnecting....')
+        this.lastReconnectTime = now
+        this.updateState(GameState.RECONNECTING)
+        network.connectRoom(this.currentRoomId)
+      }
+    },
 
     onMessage: (message: MessageReceiver) => {
       switch (message.type) {
@@ -147,6 +175,11 @@ class GameController extends Phaser.Game {
     },
   }
 
+  updateState(newState: GameState, dataa?: any) {
+    this.currentState = newState
+    this.broadcastState(newState)
+  }
+
   setMyPlayerEmoji(emoji: string) {
     phaserEvents.emit(Event.MY_PLAYER_EMOJI_CHANGE, emoji)
   }
@@ -166,7 +199,10 @@ class GameController extends Phaser.Game {
       this.bootstrapScene = undefined
     }
 
+    this.updateState(GameState.QUITTING)
     network.socketDisconnect()
+    this.updateState(GameState.QUITTED)
+
     this.destroy(true, true)
   }
 
@@ -279,8 +315,8 @@ class GameController extends Phaser.Game {
     this.gamteStateListeners.delete(listener)
   }
 
-  broadcastState(state: GameState) {
-    this.gamteStateListeners.forEach((listener) => listener.onStateChanged(state))
+  broadcastState(state: GameState, data?: any) {
+    this.gamteStateListeners.forEach((listener) => listener.onStateChanged(state, data))
   }
 
   /////////// Game Related functions
@@ -309,7 +345,7 @@ class GameController extends Phaser.Game {
     this.scene.add(BOOTSTRAP_SCENE, this.bootstrapScene)
     this.scene.start(this.bootstrapScene)
 
-    this.broadcastState(GameState.BOOTSTRAP)
+    this.updateState(GameState.BOOTSTRAP)
   }
 
   // method to register event listener and call back function when a player joined
