@@ -7,6 +7,7 @@ export enum ItemType {
   GAME,
   LUCKY_BOX,
   LEADERBOARD,
+  REQUIRE_SHOW_LEADERBOARD,
   SELECT_CHARACTER,
 }
 

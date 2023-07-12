@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import { isMobile } from 'react-device-detect'
+import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { MessageReceiverEnum } from '@/constants/townhall'
@@ -41,15 +43,30 @@ const emojies = [
   '😶',
 ]
 
-const Frame = tw.div`
-  absolute
-  right-[80px]
-  w-48
-  max-h-[200px]
-  bg-white
-  rounded-lg
-  overflow-y-scroll
-`
+const Frame = styled.div<{ isMobile: boolean }>(({ isMobile }) => {
+  const styles = [
+    tw`
+    absolute
+    max-h-[200px]
+    bg-white
+    rounded-lg
+    overflow-y-scroll
+    w-48
+`,
+  ]
+
+  if (!isMobile) {
+    styles.push(tw`
+      right-[80px]
+      `)
+  } else {
+    styles.push(tw`
+      bottom-[160px]
+      `)
+  }
+
+  return styles
+})
 
 const Grid = tw.div`
   grid
@@ -98,7 +115,7 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   ))
 
   return (
-    <Frame>
+    <Frame isMobile={isMobile}>
       <Grid>{listEmojies}</Grid>
     </Frame>
   )
@@ -128,9 +145,7 @@ const Emoji: FC = () => {
 const TabEmoji: FC = () => {
   return (
     <Tooltip content={'Emoji'} placement='right'>
-      <Vertical>
-        <Emoji />
-      </Vertical>
+      <Emoji />
     </Tooltip>
   )
 }
