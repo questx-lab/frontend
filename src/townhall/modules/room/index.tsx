@@ -5,12 +5,12 @@ import tw from 'twin.macro'
 
 import { getMyCharactersApi } from '@/api/townhall'
 import { GlobalStoreModel } from '@/store/store'
-import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
+import RoomStore from '@/store/townhall/room'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import usePlayerSelector from '@/townhall/hooks/user-player-selector'
-import GameSidebar from '@/townhall/modules/game-sidebar'
-import Chat from '@/townhall/modules/room/chat'
 import { Connectting } from '@/townhall/modules/room/connect'
+import BrowserMenu from '@/townhall/modules/room/interactive/browser'
+import MobileMenu from '@/townhall/modules/room/interactive/mobile'
 import SelectCharacter from '@/townhall/modules/selector/character'
 import GameSelector from '@/townhall/modules/selector/game'
 import Instruction from '@/townhall/modules/selector/instruction'
@@ -18,31 +18,14 @@ import LeaderboardSelector from '@/townhall/modules/selector/leaderboard'
 import { UserType } from '@/types'
 import { getShowedInstruction } from '@/utils/helper'
 import BaseModal from '@/widgets/modal/base'
-import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
-import { VerticalDivider } from '@/widgets/separator'
+import { HorizontalCenter } from '@/widgets/orientation'
 
-const Backdrop = tw(VerticalCenter)`
+const Backdrop = tw(HorizontalCenter)`
   absolute
   w-full
   h-full
 `
 
-const LeftContent = tw(Horizontal)`
-  h-full
-  bg-white
-  right-0
-  fixed
-`
-
-const ChatFrame = tw(Vertical)`
-  w-[256px]
-  h-full
-`
-
-const GameSidebarFrame = tw(Vertical)`
-  w-[64px]
-  h-full
-`
 const ModalBox = tw(HorizontalCenter)`
   flex
   h-full
@@ -62,7 +45,6 @@ const Townhall: FC = () => {
   // data
   const community = RoomStore.useStoreState((state) => state.community)
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-  const activeTab = RoomStore.useStoreState((state) => state.activeTab)
   const gameRooms = RoomStore.useStoreState((state) => state.gameRooms)
   const roomId = gameRooms.length > 0 ? gameRooms[0].id : ''
   const playerSelector = usePlayerSelector()
@@ -74,10 +56,6 @@ const Townhall: FC = () => {
 
   const hasShowedInstruction = getShowedInstruction()
 
-  // TODO: support multiple room id. For now, only use the first room id.
-  useEffect(() => {
-    phaserGame.bootstrap(roomId)
-  }, [roomId])
   const setShowCharacterSelectModal = RoomStore.useStoreActions(
     (action) => action.setShowCharacterSelectModal
   )
@@ -91,6 +69,7 @@ const Townhall: FC = () => {
       phaserGame.bootstrap(roomId)
       if (!hasShowedInstruction) setShowInstructionModal(true)
     }
+    if (resp.error) console.log(resp.error)
   }
 
   const onCharacterSelected = () => {
@@ -101,7 +80,7 @@ const Townhall: FC = () => {
   useEffect(() => {
     phaserGame.setUser(user)
     fetchMyUsers()
-  }, [user])
+  }, [user, roomId])
 
   return (
     <Backdrop id='phaser-container'>
@@ -124,19 +103,8 @@ const Townhall: FC = () => {
           />
         </ModalBox>
       </BaseModal>
-      <LeftContent>
-        {activeTab === ActiveSidebarTab.CHAT && (
-          <>
-            <ChatFrame>
-              <Chat />
-            </ChatFrame>
-            <VerticalDivider thickness={2} />
-          </>
-        )}
-        <GameSidebarFrame>
-          <GameSidebar />
-        </GameSidebarFrame>
-      </LeftContent>
+      <MobileMenu />
+      <BrowserMenu />
     </Backdrop>
   )
 }

@@ -4,7 +4,9 @@ import en from 'date-fns/locale/en-US'
 import { useStoreState } from 'easy-peasy'
 import moment from 'moment'
 import DatePicker, { registerLocale } from 'react-datepicker'
+import { isMobile } from 'react-device-detect'
 import { toast } from 'react-hot-toast'
+import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { createLuckyBoxApi } from '@/api/townhall'
@@ -24,14 +26,30 @@ import { TextBase, TextXl } from '@/widgets/text'
 import { GiftIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Slider, Tooltip } from '@material-tailwind/react'
 
-const Frame = tw.div`
-  absolute
-  right-[80px]
-  w-96
-  bg-white
-  rounded-lg
-  overflow-y-scroll
-`
+const Frame = styled.div<{ isMobile: boolean }>(({ isMobile }) => {
+  const styles = [
+    tw`
+      absolute
+      bg-white
+      rounded-lg
+      overflow-y-scroll
+    `,
+  ]
+
+  if (!isMobile) {
+    styles.push(tw`
+      right-[80px]
+      w-96
+    `)
+  } else {
+    styles.push(tw`
+      bottom-[160px]
+      w-5/6
+    `)
+  }
+
+  return styles
+})
 
 const TextInput = tw.input`
   w-full
@@ -127,7 +145,7 @@ const LuckyBoxFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   }
 
   return (
-    <Frame>
+    <Frame isMobile={isMobile}>
       <GapFullVertical>
         <HorizontalBetweenCenterFullWidth>
           <TextXl>{'Lucky Box'}</TextXl>

@@ -23,7 +23,6 @@ export default class Bootstrap extends Phaser.Scene {
     if (this.preloadComplete) {
       return
     }
-
     // TODO: lazy loading
     this.load.baseURL = EnvVariables.TOWNHALL_ASSET_CDN
 
