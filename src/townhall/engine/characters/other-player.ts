@@ -22,7 +22,7 @@ export default class OtherPlayer extends Player {
     super(scene, x, y, texture, id, frame)
     this.targetPosition = [x, y]
 
-    this.playerName.setText(name)
+    this.playerName.setText(name).setBackgroundColor('#f97316')
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body
   }
 
@@ -30,7 +30,7 @@ export default class OtherPlayer extends Player {
     switch (field) {
       case 'name':
         if (typeof value === 'string') {
-          this.playerName.setText(value)
+          this.playerName.setText(value).setBackgroundColor('#f97316')
         }
         break
 
@@ -159,7 +159,8 @@ export default class OtherPlayer extends Player {
     }
   }
 
-  setCollectLuckyBox(active: boolean) {
+  setCollectLuckyBox(active: boolean, value: string) {
+    this.luckyBoxCollected.setText(value)
     this.luckyBoxCollected.setVisible(active)
   }
 }

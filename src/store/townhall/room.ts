@@ -8,7 +8,16 @@ export enum ActiveSidebarTab {
   EMOJI,
   CHAT,
   LUCKY_BOX_SETTING,
+  EXIT,
 }
+
+export const ActiveSidebarTabStringMap = new Map<ActiveSidebarTab, String>([
+  [ActiveSidebarTab.NONE, ''],
+  [ActiveSidebarTab.EMOJI, 'Emoji'],
+  [ActiveSidebarTab.CHAT, 'Chat'],
+  [ActiveSidebarTab.LUCKY_BOX_SETTING, 'Lucky Box Setting'],
+  [ActiveSidebarTab.EXIT, 'Exit'],
+])
 
 interface RoomModel {
   community: CommunityType

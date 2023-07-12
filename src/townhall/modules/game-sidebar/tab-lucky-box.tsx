@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import en from 'date-fns/locale/en-US'
 import { useStoreState } from 'easy-peasy'
@@ -14,22 +14,26 @@ import { ErrorCodes } from '@/constants/code.const'
 import { GlobalStoreModel } from '@/store/store'
 import LuckyBoxStore from '@/store/townhall/lucky-box'
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
+import phaserGame from '@/townhall/engine/services/game-controller'
 import { UserType } from '@/types'
+import { RewardTypeEnum, TokenCoinTypeEnum } from '@/types/quest'
 import { LuckyBoxReq } from '@/types/townhall'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
+import { CheckBox, CheckBoxSize } from '@/widgets/input'
 import {
   HorizontalBetweenCenterFullWidth,
+  HorizontalCenter,
   HorizontalFullWidth,
   Vertical,
+  VerticalFullWidth,
 } from '@/widgets/orientation'
-import { TextBase, TextXl } from '@/widgets/text'
-import { GiftIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Slider, Tooltip } from '@material-tailwind/react'
+import { TextBase, TextSm, TextXl } from '@/widgets/text'
+import { XMarkIcon } from '@heroicons/react/24/outline'
+import { Slider } from '@material-tailwind/react'
 
 const Frame = styled.div<{ isMobile: boolean }>(({ isMobile }) => {
   const styles = [
     tw`
-      absolute
       bg-white
       rounded-lg
       overflow-y-scroll
@@ -39,7 +43,7 @@ const Frame = styled.div<{ isMobile: boolean }>(({ isMobile }) => {
   if (!isMobile) {
     styles.push(tw`
       right-[80px]
-      w-96
+      w-[480px]
     `)
   } else {
     styles.push(tw`
@@ -73,10 +77,14 @@ const GapVertical = tw(Vertical)`
   w-full
 `
 
-const TextBold = tw(TextBase)`
-  font-medium
+const BorderBox = tw(VerticalFullWidth)`
+  gap-3
+  p-5
+  border
+  border-solid
+  border-gray-200
+  rounded-lg
 `
-
 const ButtonFrame = tw(HorizontalFullWidth)`
   justify-end
   items-center
@@ -94,10 +102,19 @@ const Picker = tw(DatePicker)`
   cursor-pointer
 `
 
+const LightTextSm = tw(TextSm)`
+  text-gray-700
+`
+
+const MediumTextSm = tw(TextSm)`
+  font-medium
+`
+
 const LuckyBoxFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   // data
   const numberOfBox = LuckyBoxStore.useStoreState((state) => state.numberOfBox)
   const point = LuckyBoxStore.useStoreState((state) => state.point)
+  const usdt = LuckyBoxStore.useStoreState((state) => state.usdt)
   const gameRooms = RoomStore.useStoreState((state) => state.gameRooms)
   const startDate = LuckyBoxStore.useStoreState((state) => state.startDate)
   const duration = LuckyBoxStore.useStoreState((state) => state.duration)
@@ -105,9 +122,25 @@ const LuckyBoxFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   // action
   const setNumberOfBox = LuckyBoxStore.useStoreActions((action) => action.setNumberOfBox)
   const setPoint = LuckyBoxStore.useStoreActions((action) => action.setPoint)
+  const setUsdt = LuckyBoxStore.useStoreActions((action) => action.setUsdt)
   const toggleTab = RoomStore.useStoreActions((action) => action.toggleTab)
   const setStartDate = LuckyBoxStore.useStoreActions((action) => action.setStartDate)
   const setDuration = LuckyBoxStore.useStoreActions((action) => action.setDuration)
+
+  const [isNow, setIsNow] = useState<boolean>(true)
+  // If user not selected, time are going to update every second
+  const [intervalId, setIntervalId] = useState<any>(null)
+  useEffect(() => {
+    onUpdateTime()
+  }, [])
+
+  const onUpdateTime = () => {
+    const id = setInterval(() => {
+      setStartDate(new Date())
+    }, 1000) // update every second
+    setIntervalId(id)
+    return () => clearInterval(id)
+  }
 
   registerLocale('en', en)
 
@@ -116,6 +149,7 @@ const LuckyBoxFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   }
 
   const onClose = () => {
+    phaserGame.deRegisterKey()
     toggleTab(ActiveSidebarTab.NONE)
   }
 
@@ -127,9 +161,18 @@ const LuckyBoxFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
           room_id: gameRooms[0].id,
           number_of_boxes: numberOfBox,
           point_per_box: point,
-          start_time: moment(startDate).format('YYYY-MM-DDTHH:mm:ssZ'),
+          start_time: moment(startDate).add(1, 'minutes').format('YYYY-MM-DDTHH:mm:ssZ'),
           // Duration = s * 1000000000
           duration: duration * 60 * 1000000000,
+          rewards: [
+            {
+              type: RewardTypeEnum.COIN,
+              data: {
+                token: TokenCoinTypeEnum.USDT,
+                amount: usdt,
+              },
+            },
+          ],
         }
         const result = await createLuckyBoxApi(payload)
         if (result.error) {
@@ -144,21 +187,53 @@ const LuckyBoxFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
     } catch (error) {}
   }
 
+  // TODO:
+  // Currently, create box including both of point and usdt rewards
   return (
     <Frame isMobile={isMobile}>
       <GapFullVertical>
         <HorizontalBetweenCenterFullWidth>
-          <TextXl>{'Lucky Box'}</TextXl>
-          <XMarkIcon onClick={onClose} className='w-5 h-5 text-gray-900 cursor-pointer' />
+          <TextXl>{'Lucky Box Setting'}</TextXl>
+          <XMarkIcon onClick={onClose} className='w-6 h-6 text-gray-900 cursor-pointer' />
         </HorizontalBetweenCenterFullWidth>
+        <LightTextSm>
+          {
+            'The setting for lucky boxes to appear randomly on the map, where users receive random rewards when opening the box.'
+          }
+        </LightTextSm>
         <GapVertical>
-          <TextBold>{'Start Time'}</TextBold>
+          <HorizontalBetweenCenterFullWidth>
+            <MediumTextSm>{'Lucky Time'}</MediumTextSm>
+            <HorizontalCenter>
+              <CheckBox
+                size={CheckBoxSize.MEDIUM}
+                id='inline-checked-checkbox'
+                type='checkbox'
+                checked={isNow}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setStartDate(new Date())
+                    setIsNow(true)
+                    onUpdateTime()
+                  } else {
+                    setIsNow(false)
+                    if (intervalId) {
+                      clearInterval(intervalId)
+                    }
+                  }
+                }}
+              />
+              <TextSm>{'Now'}</TextSm>
+            </HorizontalCenter>
+          </HorizontalBetweenCenterFullWidth>
           <Picker
             locale='en'
-            selected={startDate}
+            selected={startDate ? startDate : new Date()}
             onChange={(date) => {
               if (date) {
+                clearInterval(intervalId)
                 setStartDate(date)
+                setIsNow(false)
               }
             }}
             minDate={new Date()}
@@ -169,36 +244,51 @@ const LuckyBoxFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
             dateFormat='MMMM d, yyyy h:mm aa'
           />
         </GapVertical>
-        <GapVertical>
-          <HorizontalBetweenCenterFullWidth>
-            <TextBold>{'Duration'}</TextBold>
-            <TextBase>{duration}m</TextBase>
-          </HorizontalBetweenCenterFullWidth>
-          <Slider
-            max={360}
-            defaultValue={10}
-            onChange={(value) => setDuration(parseInt(value.target.value))}
-          />
-        </GapVertical>
-        <GapVertical>
-          <TextBold>{'Number of box'}</TextBold>
-          <TextInput
-            value={numberOfBox}
-            type='number'
-            min={1}
-            max={200}
-            onChange={(e) => setNumberOfBox(parseInt(e.target.value ?? '0'))}
-          />
-        </GapVertical>
-        <GapVertical>
-          <TextBold>{'Point'}</TextBold>
-          <TextInput
-            value={point}
-            type='number'
-            onChange={(e) => setPoint(parseInt(e.target.value ?? '0'))}
-          />
-        </GapVertical>
-
+        <BorderBox>
+          <GapVertical>
+            <HorizontalBetweenCenterFullWidth>
+              <MediumTextSm>{'Duration'}</MediumTextSm>
+              <TextBase>{duration}m</TextBase>
+            </HorizontalBetweenCenterFullWidth>
+            <Slider
+              max={360}
+              defaultValue={10}
+              onChange={(value) => setDuration(parseInt(value.target.value))}
+            />
+          </GapVertical>
+        </BorderBox>
+        <BorderBox>
+          <GapVertical>
+            <MediumTextSm>{'Number of box'}</MediumTextSm>
+            <TextInput
+              value={numberOfBox}
+              type='number'
+              min={1}
+              max={200}
+              onChange={(e) => setNumberOfBox(parseInt(e.target.value ?? '0'))}
+            />
+          </GapVertical>
+        </BorderBox>
+        <BorderBox>
+          <GapVertical>
+            <MediumTextSm>{'POINT REWARD'}</MediumTextSm>
+            <TextInput
+              value={point}
+              type='number'
+              onChange={(e) => setPoint(parseInt(e.target.value ?? '0'))}
+            />
+          </GapVertical>
+        </BorderBox>
+        <BorderBox>
+          <GapVertical>
+            <MediumTextSm>{'USDT REWARD'}</MediumTextSm>
+            <TextInput
+              value={usdt}
+              type='number'
+              onChange={(e) => setUsdt(parseFloat(e.target.value ?? '0'))}
+            />
+          </GapVertical>
+        </BorderBox>
         <ButtonFrame>
           <PositiveButton onClick={onClose} type={ButtonTypeEnum.NEGATIVE}>
             {'Cancel'}
@@ -214,32 +304,13 @@ const TabLuckyBox: FC = () => {
   const activeTab = RoomStore.useStoreState((state) => state.activeTab)
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   const community = RoomStore.useStoreState((state) => state.community)
-  const toggleTab = RoomStore.useStoreActions((action) => action.toggleTab)
-  // const game = phaserGame.scene.keys.game as Game
 
   if (user && community && user.id !== community.created_by) {
     return <></>
   }
 
-  const onClick = () => {
-    toggleTab(ActiveSidebarTab.LUCKY_BOX_SETTING)
-    // switch (activeTab) {
-    //   case ActiveSidebarTab.NONE:
-    //     game.deregisterKeys()
-    //     break
-    //   case ActiveSidebarTab.LUCKY_BOX_SETTING:
-    //     game.registerKeys()
-    //     break
-    // }
-  }
-
   return (
     <>
-      <Tooltip content={'Lucky Box Setting'} placement='right'>
-        <Vertical>
-          <GiftIcon onClick={onClick} className='cursor-pointer w-7 h-7 text-gray-900' />
-        </Vertical>
-      </Tooltip>
       <LuckyBoxStore.Provider>
         <LuckyBoxFrame isShow={activeTab === ActiveSidebarTab.LUCKY_BOX_SETTING} />
       </LuckyBoxStore.Provider>

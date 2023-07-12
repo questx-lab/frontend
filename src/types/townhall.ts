@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-import { UserType } from '@/types'
+import { RewardType, UserType } from '@/types'
 
 export enum ItemType {
   NONE,
@@ -124,6 +124,7 @@ export type LuckyBoxType = {
   id: string
   event_id: string
   position: PositionType
+  point: number
 }
 export type LuckyBoxValue = {
   luckyboxes?: LuckyBoxType[]
@@ -143,4 +144,5 @@ export interface LuckyBoxReq {
   point_per_box: number
   start_time: string
   duration: number
+  rewards?: RewardType[]
 }

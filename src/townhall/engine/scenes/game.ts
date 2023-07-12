@@ -333,16 +333,16 @@ export default class Game extends Phaser.Scene {
   handleCollectLuckyBox(value: CollectLuckyBoxValue, userId: string) {
     this.removeLuckyBoxById(value.luckybox.id)
     if (userId === this.myPlayer.playerId) {
-      this.myPlayer.setCollectLuckyBox(true)
+      this.myPlayer.setCollectLuckyBox(true, `+${value.luckybox.point} xp`)
       setTimeout(() => {
-        this.myPlayer.setCollectLuckyBox(false)
+        this.myPlayer.setCollectLuckyBox(false, `+${value.luckybox.point} xp`)
       }, 2000)
     } else {
       const otherPlayer = this.otherPlayerMap.get(userId)
       if (otherPlayer) {
-        otherPlayer.setCollectLuckyBox(true)
+        otherPlayer.setCollectLuckyBox(true, `+${value.luckybox.point} xp`)
         setTimeout(() => {
-          otherPlayer.setCollectLuckyBox(false)
+          otherPlayer.setCollectLuckyBox(false, `+${value.luckybox.point} xp`)
         }, 2000)
       }
     }

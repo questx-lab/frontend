@@ -28,7 +28,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   videoConnected = false
   playerName: Phaser.GameObjects.Text
   playerEmoji: Phaser.GameObjects.Text
-  luckyBoxCollected: Phaser.GameObjects.Image
+  luckyBoxCollected: Phaser.GameObjects.Text
   backgroundEmoji: Phaser.GameObjects.Text
   playerContainer: Phaser.GameObjects.Container
   private playerDialogBubble: Phaser.GameObjects.Container
@@ -60,12 +60,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       .text(0, 0, '')
       .setFontFamily('Arial')
       .setFontSize(12)
-      .setColor('#000000')
+      .setColor('#FFFFFF')
       .setOrigin(0.5)
+      .setBackgroundColor('#565add')
+      .setPadding({
+        x: 4,
+        y: 2,
+      })
 
     this.playerEmoji = this.scene.add
       .text(0, -8, '')
       .setFontFamily('Arial')
+      .setColor('#ffffff')
       .setFontSize(18)
       .setOrigin(0.5, 1.3)
 
@@ -76,7 +82,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       .setOrigin(0.5, 0.8)
 
     // change image if we have coin image
-    this.luckyBoxCollected = this.scene.add.image(0, -8, 'coin').setOrigin(0.5, 0.8).setSize(32, 32)
+    // this.luckyBoxCollected = this.scene.add.image(0, -8, 'coin').setOrigin(0.5, 0.8).setSize(32, 32)
+    this.luckyBoxCollected = this.scene.add
+      .text(0, -8, '')
+      .setFontFamily('Arial')
+      .setColor('#ffffff')
+      .setFontSize(18)
+      .setOrigin(0.5, 1.3)
+      .setBackgroundColor('#10b981')
+      .setPadding({
+        x: 4,
+        y: 2,
+      })
 
     this.luckyBoxCollected.setVisible(false)
 

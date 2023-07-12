@@ -12,48 +12,48 @@ export enum CheckBoxSize {
 }
 
 export const CheckBox = styled.input<{ size?: CheckBoxSize }>(({ size = CheckBoxSize.SMALL }) => {
+  const styles = [
+    tw`
+    cursor-pointer
+    focus:outline-none
+    focus-visible:outline-none
+    mr-2
+    text-white
+    bg-gray-800
+    border-gray-300
+    accent-primary
+    rounded
+  `,
+  ]
+
   switch (size) {
     case CheckBoxSize.MEDIUM:
-      return tw`
-        cursor-pointer
-        focus:outline-none
-        focus-visible:outline-none
-        w-5
-        h-5
-        text-white
-        bg-gray-800
-        border-gray-300
-        rounded
-        mr-4
-      `
+      styles.push(
+        tw`
+          w-5
+          h-5
+        `
+      )
+      break
     case CheckBoxSize.LARGE:
-      return tw`
-          cursor-pointer
-          focus:outline-none
-          focus-visible:outline-none
+      styles.push(
+        tw`
           w-6
           h-6
-          text-white
-          bg-gray-800
-          border-gray-300
-          rounded
-          mr-4
         `
+      )
+      break
     default:
       // default is small size
-      return tw`
-        cursor-pointer
-        focus:outline-none
-        focus-visible:outline-none
-        w-4
-        h-4
-        text-white
-        bg-gray-800
-        border-gray-300
-        rounded
-        mr-4
-      `
+      styles.push(
+        tw`
+          w-4
+          h-4
+        `
+      )
   }
+
+  return styles
 })
 
 const InputBorder = tw(Horizontal)`

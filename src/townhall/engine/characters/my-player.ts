@@ -32,7 +32,8 @@ export default class MyPlayer extends Player {
     }, 2000)
   }
 
-  setCollectLuckyBox(active: boolean) {
+  setCollectLuckyBox(active: boolean, value: string) {
+    this.luckyBoxCollected.setText(value)
     this.luckyBoxCollected.setVisible(active)
   }
 

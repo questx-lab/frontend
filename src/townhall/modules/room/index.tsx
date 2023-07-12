@@ -95,6 +95,10 @@ const Townhall: FC = () => {
       )}
 
       <LeaderboardSelector playerSelector={playerSelector} />
+      {/*
+      TODO: Show reward information
+      <Reward />
+       */}
       <BaseModal isOpen={showCharacterSelectModal}>
         <ModalBox>
           <SelectCharacter

@@ -14,10 +14,11 @@ import {
   Horizontal,
   Stretch,
   Vertical,
+  VerticalBetween,
   VerticalFullWidth,
   VerticalStretch,
 } from '@/widgets/orientation'
-import { Divider, Gap } from '@/widgets/separator'
+import { Gap } from '@/widgets/separator'
 import { TextXl } from '@/widgets/text'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
@@ -31,13 +32,23 @@ const ContentFrame = tw(VerticalStretch)`
 
 const InputFrame = tw(Vertical)`
   w-full
-  p-6
+  p-5
+  border-t
+  border-gray-200
+  border-solid
 `
 
 const Header = tw(Horizontal)`
   w-full
-  px-4
-  py-6
+  p-5
+  border-b
+  border-gray-200
+  border-solid
+`
+
+const Frame = tw(VerticalBetween)`
+  w-full
+  h-full
 `
 
 const Chat: FC = () => {
@@ -80,7 +91,7 @@ const Chat: FC = () => {
   }
 
   return (
-    <>
+    <Frame>
       <Header>
         <Stretch>
           <TextXl>Chatbox</TextXl>
@@ -90,9 +101,6 @@ const Chat: FC = () => {
           onClick={() => setActiveTab(ActiveSidebarTab.NONE)}
         />
       </Header>
-
-      <Divider />
-
       <ContentFrame>
         {messages.map((item, index) => {
           return (
@@ -104,11 +112,10 @@ const Chat: FC = () => {
         })}
         <div ref={messagesEndRef} />
       </ContentFrame>
-      <Divider thickness={2} />
       <InputFrame>
         <InputBox onNewMessagedEntered={onNewMessagedEntered} />
       </InputFrame>
-    </>
+    </Frame>
   )
 }
 

@@ -10,6 +10,8 @@ const InputBoxBorder = tw.input`
   border-gray-300
   p-3
   rounded-lg
+  ring-0
+  outline-0
 `
 
 const InputBox: FC<{ onNewMessagedEntered: (s: string) => void }> = ({ onNewMessagedEntered }) => {

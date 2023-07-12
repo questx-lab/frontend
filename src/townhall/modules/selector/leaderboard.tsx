@@ -17,12 +17,10 @@ import { TextXl } from '@/widgets/text'
 const Frame = styled.div<{ isMobile: boolean }>(({ isMobile }) => {
   const styles = [
     tw`
+      absolute
       bg-white
       rounded-lg
       overflow-y-scroll
-      border-2
-      border-solid
-      border-gray-900
     `,
   ]
 

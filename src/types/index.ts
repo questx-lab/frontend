@@ -114,6 +114,8 @@ export type RewardType = {
   data: {
     points?: number
     role?: string
+    amount?: number
+    token?: string
   }
 }
 

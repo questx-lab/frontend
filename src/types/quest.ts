@@ -118,3 +118,12 @@ export const canClaimQuest = (
   // This is a guest
   return true
 }
+
+export enum RewardTypeEnum {
+  COIN = 'coin',
+  DISCORD = 'discord',
+}
+
+export enum TokenCoinTypeEnum {
+  USDT = 'usdt',
+}

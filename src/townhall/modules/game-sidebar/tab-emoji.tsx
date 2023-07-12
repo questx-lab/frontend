@@ -8,9 +8,7 @@ import { MessageReceiverEnum } from '@/constants/townhall'
 import RoomStore, { ActiveSidebarTab } from '@/store/townhall/room'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import network from '@/townhall/engine/services/network'
-import { Vertical, VerticalCenter } from '@/widgets/orientation'
-import { FaceSmileIcon } from '@heroicons/react/24/outline'
-import { Tooltip } from '@material-tailwind/react'
+import { VerticalCenter } from '@/widgets/orientation'
 
 const emojies = [
   '🙂',
@@ -121,33 +119,9 @@ const EmojiFrame: FC<{ isShow: boolean }> = ({ isShow }) => {
   )
 }
 
-const Emoji: FC = () => {
-  const activeTab = RoomStore.useStoreState((state) => state.activeTab)
-
-  // action
-  const toggleTab = RoomStore.useStoreActions((action) => action.toggleTab)
-
-  return (
-    <>
-      <Tooltip content={'Emoji'} placement='right'>
-        <Vertical>
-          <FaceSmileIcon
-            onClick={() => toggleTab(ActiveSidebarTab.EMOJI)}
-            className='cursor-pointer w-7 h-7 text-gray-900'
-          />
-        </Vertical>
-      </Tooltip>
-      <EmojiFrame isShow={activeTab === ActiveSidebarTab.EMOJI} />
-    </>
-  )
-}
-
 const TabEmoji: FC = () => {
-  return (
-    <Tooltip content={'Emoji'} placement='right'>
-      <Emoji />
-    </Tooltip>
-  )
+  const activeTab = RoomStore.useStoreState((state) => state.activeTab)
+  return <EmojiFrame isShow={activeTab === ActiveSidebarTab.EMOJI} />
 }
 
 export default TabEmoji

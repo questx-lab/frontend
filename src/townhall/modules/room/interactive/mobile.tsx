@@ -59,11 +59,8 @@ const Mobile: FC = () => {
 
   return (
     <MobileView className='w-full'>
-      <Menu>
-        <GameSidebarFrame>
-          <GameSidebar />
-        </GameSidebarFrame>
-      </Menu>
+      <GameSidebar />
+
       {playerSelector === ItemType.REQUIRE_SHOW_LEADERBOARD && (
         <Action>
           <BorderCircle onClick={handleClick}>{'X'}</BorderCircle>
