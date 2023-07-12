@@ -16,6 +16,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { CategoryType, CollaboratorType } from '@/types'
 import { CommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
+import { AnalyticPage } from '@/utils/analytic'
 import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
 
 export const Loader = async (args: { params: Params }) => {
@@ -123,6 +124,13 @@ const Community = () => {
       }
     }
   }, [data.community, collab, data])
+
+  useEffect(() => {
+    AnalyticPage({
+      path: window.location.pathname,
+      title: 'Community',
+    })
+  }, [])
 
   useEffect(() => {
     // Reload all the quests whenever data community changes or a new quest is deleted.

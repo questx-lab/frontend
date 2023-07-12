@@ -64,8 +64,6 @@ const Padding = tw(VerticalCenter)`
   w-full
 `
 
-const Margin = tw.div`my-5`
-
 export const OtherQuests: FC<{ quests: QuestType[]; showCommunity?: boolean }> = ({
   quests,
   showCommunity = false,
