@@ -108,6 +108,7 @@ const UserInfoBox: FC = () => {
           isOpen={showUserProfileModal}
           title={'My Profile'}
           onClose={() => setShowUserProfileModal(false)}
+          styled='!w-[780px]'
         >
           <UserProfile user={user} />
         </BasicModal>

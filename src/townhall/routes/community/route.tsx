@@ -1,9 +1,11 @@
 import { FC, useEffect } from 'react'
 
-import { json, Outlet, Params, useLoaderData } from 'react-router-dom'
+import { json, Outlet, Params, useLoaderData, useLocation } from 'react-router-dom'
 
 import { getRoomsByCommunityApi } from '@/api/townhall'
+import { communityRoute } from '@/constants/router.const'
 import RoomStore from '@/store/townhall/room'
+import network from '@/townhall/engine/services/network'
 import { CommunityType } from '@/types/community'
 import { RoomDataType } from '@/types/townhall'
 
@@ -36,6 +38,7 @@ const TownhallCommunity: FC = () => {
   // action
   const setCommunity = RoomStore.useStoreActions((action) => action.setCommunity)
   const setGameRooms = RoomStore.useStoreActions((action) => action.setGameRooms)
+  const location = useLocation()
 
   useEffect(() => {
     if (data.community) {
@@ -46,6 +49,25 @@ const TownhallCommunity: FC = () => {
       setGameRooms(data.gameRooms)
     }
   }, [data])
+
+  useEffect(() => {
+    const handleBackButton = (event: PopStateEvent) => {
+      event.preventDefault()
+      // Disconnect socket
+      network.socketDisconnect()
+      const paths = location.pathname.split('/')
+      const communityHandle = paths[2]
+      window.location.href = communityRoute(communityHandle)
+    }
+
+    // Add a listener for the popstate event
+    window.addEventListener('popstate', handleBackButton)
+
+    return () => {
+      // Remove the listener when the component is unmounted
+      window.removeEventListener('popstate', handleBackButton)
+    }
+  }, [])
 
   return <Outlet />
 }

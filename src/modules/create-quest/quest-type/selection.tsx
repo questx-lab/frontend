@@ -12,7 +12,7 @@ const QuestTypeSelection = () => {
     QuestTypeEnum.VISIT_LINK,
     // Empty only applies for quests with conditions. We won't enable this quiz type until we
     // allow condition on quests.
-    // QuestTypeEnum.EMPTY,
+    QuestTypeEnum.EMPTY,
     QuestTypeEnum.TWITTER,
     QuestTypeEnum.DISCORD,
     QuestTypeEnum.JOIN_TELEGRAM,
