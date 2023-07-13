@@ -8,14 +8,22 @@ import tw from 'twin.macro'
 
 import { getUserApi, updateUserApi } from '@/api/user'
 import StorageConst from '@/constants/storage.const'
+import AvatarUpload from '@/modules/account-setting/general/upload-avatar'
 import { FieldTitle } from '@/modules/create-quest/mini-widget'
 import { PaddingVertical, Title } from '@/modules/header/login'
+import AccountSettingsStore from '@/store/local/account-settings'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
+import { uploadFileForUser } from '@/utils/file'
 import { setUserLocal } from '@/utils/helper'
 import { TextField } from '@/widgets/form'
 import { Image } from '@/widgets/image'
-import { Horizontal, HorizontalCenter, Vertical, VerticalCenter } from '@/widgets/orientation'
+import {
+  HorizontalBetweenCenter,
+  HorizontalCenter,
+  Vertical,
+  VerticalFullWidthCenter,
+} from '@/widgets/orientation'
 import { Label } from '@/widgets/text'
 
 const FormBox = tw(Vertical)`
@@ -24,8 +32,7 @@ const FormBox = tw(Vertical)`
   gap-4
 `
 
-const InfoBox = tw(Horizontal)`
-  w-full
+const InfoBox = tw(VerticalFullWidthCenter)`
   p-3
   justify-between
   items-center
@@ -38,13 +45,13 @@ const InfoBox = tw(Horizontal)`
   cursor-pointer
 `
 
-const PaddingHorizontal = tw(Horizontal)`
+const PaddingHorizontal = tw(HorizontalBetweenCenter)`
   items-center
   w-full
   gap-3
 `
 
-const GapVertical = tw(VerticalCenter)`
+const GapVertical = tw(Vertical)`
   gap-1
 `
 
@@ -182,14 +189,14 @@ const UserBox: FC = () => {
 
   return (
     <InfoBox>
+      <AvatarUpload imageSize={120} isCircle />
       <PaddingHorizontal>
-        <Image width={50} height={50} src={StorageConst.USER_DEFAULT.src} alt={'avatar'} />
         <GapVertical>
           <NameText>{`Sign in as`}</NameText>
           <EmailText>{user && user.name}</EmailText>
         </GapVertical>
+        <RenderLogoSocial />
       </PaddingHorizontal>
-      <RenderLogoSocial />
     </InfoBox>
   )
 }
@@ -201,16 +208,25 @@ const ChooseUserName: FC<{
   const [loading, setLoading] = useState<boolean>(false)
 
   // data
-  const username = useStoreState<GlobalStoreModel>((state) => state.username)
+  const username = AccountSettingsStore.useStoreState((state) => state.username)
+  const avatar = AccountSettingsStore.useStoreState((state) => state.avatar)
 
   // action
-  const setUsername = useStoreActions<GlobalStoreModel>((action) => action.setUserName)
+  const setUsername = AccountSettingsStore.useStoreActions((action) => action.setUsername)
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
   // handler
   const handleSubmit = async () => {
     setLoading(true)
     try {
+      // Upload user avatar
+      if (avatar) {
+        const resultUpload = await uploadFileForUser(avatar)
+        if (resultUpload.error) {
+          toast.error(resultUpload.error)
+          return
+        }
+      }
       const update = await updateUserApi(username)
       if (update.error) {
         return toast.error(update.error)

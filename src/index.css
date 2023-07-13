@@ -13,8 +13,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-@import 'react-quill/dist/quill.snow.css';
-
 .CircularProgressbar-text {
   text-anchor: middle;
   alignment-baseline: middle;
@@ -44,9 +42,9 @@ code {
   border: 1px solid #d1d5db;
 }
 
-.ql-toolbar.ql-snow {
+.ql-editor{
+  min-height: 150px;
 }
-
 .ql-toolbar.ql-snow {
   border: 1px solid #d1d5db;
   box-sizing: border-box;

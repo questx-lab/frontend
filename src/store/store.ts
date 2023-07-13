@@ -12,7 +12,6 @@ export interface GlobalStoreModel {
   communitiesCollab: CollaboratorType[]
   referral: RefferalType
   authBox: number
-  username: string
   showLoginModal: boolean
   showUserProfileModal: boolean
   templates: QuestType[]
@@ -23,7 +22,6 @@ export interface GlobalStoreModel {
   setCommunitiesCollab: Action<GlobalStoreModel, CollaboratorType[]>
   setReferral: Action<GlobalStoreModel, RefferalType>
   setAuthBox: Action<GlobalStoreModel, number>
-  setUserName: Action<GlobalStoreModel, string>
   setShowLoginModal: Action<GlobalStoreModel, boolean>
   setTemplates: Action<GlobalStoreModel, QuestType[]>
   updateCommunityCollab: Action<GlobalStoreModel, CommunityType>
@@ -37,7 +35,6 @@ const store = createStore<GlobalStoreModel>({
   communitiesCollab: [],
   referral: {},
   authBox: AuthEnum.LOGIN,
-  username: '',
   showLoginModal: false,
   showUserProfileModal: false,
   templates: [],
@@ -64,10 +61,6 @@ const store = createStore<GlobalStoreModel>({
 
   setAuthBox: action((state, auth) => {
     state.authBox = auth
-  }),
-
-  setUserName: action((state, username) => {
-    state.username = username
   }),
 
   setShowLoginModal: action((state, require) => {

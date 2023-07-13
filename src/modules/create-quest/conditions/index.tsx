@@ -1,20 +1,26 @@
 import { FC, ReactNode, useEffect, useState } from 'react'
 
-import tw from 'twin.macro'
-import NewQuestStore from '@/store/local/new-quest'
-import { VerticalFullWidth, HorizontalBetween, VerticalCenter } from '@/widgets/orientation'
-import { Label, SmallText } from '@/widgets/text'
-import { ConditionType, OpType } from '@/types'
-import { RoundedGrayBorderBox } from '@/widgets/box'
-import { QuestType } from '@/types/quest'
-import { Gap } from '@/widgets/separator'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import CommunityStore from '@/store/local/community'
-import { listQuestApi } from '@/api/quest'
 import toast from 'react-hot-toast'
-import { Padding } from '@/widgets/simple-popup'
+import tw from 'twin.macro'
+
+import { listQuestApi } from '@/api/quest'
 import OpBox from '@/modules/create-quest/conditions/select-op'
 import QuestBox from '@/modules/create-quest/conditions/select-quest'
+import CommunityStore from '@/store/local/community'
+import NewQuestStore from '@/store/local/new-quest'
+import { ConditionType, OpType } from '@/types'
+import { QuestType } from '@/types/quest'
+import { RoundedGrayBorderBox } from '@/widgets/box'
+import {
+  HorizontalBetween,
+  VerticalCenter,
+  VerticalFullWidth,
+  VerticalFullWidthCenter,
+} from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
+import { Padding } from '@/widgets/simple-popup'
+import { Label, LightTextSm } from '@/widgets/text'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
 const ops: OpType[] = [
   {
@@ -26,7 +32,8 @@ const ops: OpType[] = [
 
 const AddConditionBtn = tw.div`
   text-primary-500
-  font-bold
+  font-medium
+  text-sm
   cursor-pointer	
 `
 
@@ -49,6 +56,8 @@ const AndBtn = tw.div`
   font-bold 
   text-xs
 `
+
+const GapVertical = tw(VerticalFullWidth)`gap-3`
 
 const Conditions: FC = () => {
   const conditions = NewQuestStore.useStoreState((state) => state.conditions)
@@ -90,17 +99,17 @@ const Conditions: FC = () => {
     setConditions([...arr])
   }
   return (
-    <VerticalFullWidth>
-      <SmallText>Quest will only be claimable for members fulfilling the condition.</SmallText>
+    <GapVertical>
+      <LightTextSm>Quest will only be claimable for members fulfilling the condition.</LightTextSm>
 
       {conditions.map((condition, index) => (
         <>
           {index > 0 && (
-            <div className='flex justify-center w-full'>
+            <VerticalFullWidthCenter>
               <Gap height={2} />
               <AndBtn>AND</AndBtn>
               <Gap height={2} />
-            </div>
+            </VerticalFullWidthCenter>
           )}
           <ConditionBox>
             <HorizontalBetween>
@@ -120,7 +129,7 @@ const Conditions: FC = () => {
         </>
       ))}
       <AddConditionBtn onClick={onAddCondition}> Add Condition + </AddConditionBtn>
-    </VerticalFullWidth>
+    </GapVertical>
   )
 }
 

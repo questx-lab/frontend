@@ -24,7 +24,7 @@ const TypeButton = styled.div<{ active?: boolean }>(({ active = false }) => {
       cursor-pointer
       mr-2
       mt-2
-      text-sm
+      text-xs
       text-primary-500
       font-medium
     `
@@ -41,7 +41,7 @@ const TypeButton = styled.div<{ active?: boolean }>(({ active = false }) => {
     cursor-pointer
     mr-2
     mt-2
-    text-sm
+    text-xs
     text-black
     font-medium
   `
