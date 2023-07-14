@@ -6,11 +6,10 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
-import StorageConst from '@/constants/storage.const'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
-import { CircularImage } from '@/widgets/circular-image'
+import { UserAvatar } from '@/widgets/avatar'
 import { Image } from '@/widgets/image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { OptionxBox, PopItem, PopoverButton, PopoverPosition, PopPanel } from '@/widgets/popover'
@@ -24,12 +23,6 @@ const UserBox = tw(Vertical)`
   py-2
   gap-3
 `
-
-const Avatar = styled(Image)(
-  () => tw`
-  rounded-full
-`
-)
 
 const RowBox = tw(HorizontalCenter)`
   gap-1
@@ -74,22 +67,12 @@ const UserPopover: FC = () => {
   return (
     <PopoverPosition>
       <PopoverButton>
-        <CircularImage
-          width={32}
-          height={32}
-          src={user.avatar_url || StorageConst.USER_DEFAULT.src}
-          alt={StorageConst.USER_DEFAULT.alt}
-        />
+        <UserAvatar user={user} size={32} />
       </PopoverButton>
       <PopPanel>
         <PopItem>
           <UserBox>
-            <Avatar
-              width={80}
-              height={80}
-              src={user.avatar_url || StorageConst.USER_DEFAULT.src}
-              alt={'Avatar'}
-            />
+            <UserAvatar user={user} size={80} />
             <RowBox>
               <NameText>{user.name}</NameText>
             </RowBox>
