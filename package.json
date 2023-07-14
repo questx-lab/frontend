@@ -26,6 +26,7 @@
     "env-cmd": "^10.1.0",
     "heroicons": "^2.0.18",
     "html-react-parser": "^3.0.16",
+    "jdenticon": "^3.2.0",
     "js-base64": "^3.7.5",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",

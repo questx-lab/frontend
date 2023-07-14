@@ -5,11 +5,10 @@ import { MobileView } from 'react-device-detect'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import StorageConst from '@/constants/storage.const'
 import AccountSettingsStore from '@/store/local/account-settings'
 import { GlobalStoreModel } from '@/store/store'
 import { AccoutSettingTabEnum, UserType } from '@/types'
-import { CircularImage } from '@/widgets/circular-image'
+import { UserAvatar } from '@/widgets/avatar'
 import { CloseIcon } from '@/widgets/image'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { Divider } from '@/widgets/separator'
@@ -94,12 +93,7 @@ const ControlPanel: FC = () => {
         </CloseFrame>
       </MobileView>
       <PersonVertical>
-        <CircularImage
-          width={80}
-          height={80}
-          src={user.avatar_url || StorageConst.USER_DEFAULT.src}
-          alt={'Avatar'}
-        />
+        <UserAvatar size={80} user={user} />
         <TextXl>{user.name}</TextXl>
       </PersonVertical>
       <Divider />
