@@ -106,6 +106,7 @@ const ContentTab: FC<{ tab: TabChatType }> = ({ tab }) => {
     return <Channel />
   }
 
+  // TODO: Chat view
   return <></>
 }
 
