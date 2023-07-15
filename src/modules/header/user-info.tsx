@@ -4,6 +4,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
 import { AuthEnum } from '@/constants/common.const'
+import ChatPopover from '@/modules/chat/popover'
 import InviteCommunity from '@/modules/header/invite-community'
 import Login from '@/modules/header/login'
 import UserPopover from '@/modules/header/user-popover'
@@ -88,9 +89,9 @@ const UserInfoBox: FC = () => {
   if (user) {
     return (
       <UserSession>
+        <ChatPopover />
         <GiftIcon onClick={() => setInvite(true)} className='h-5 w-5' />
         <UserPopover />
-
         <BasicModal
           title={`Invite Friend to create project 👋`}
           isOpen={isInvite}
