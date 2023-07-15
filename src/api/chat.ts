@@ -3,6 +3,7 @@ import { Rsp } from '@/types'
 import { ChannelType } from '@/types/chat'
 
 export const getChanelsApi = async (): Promise<Rsp<ChannelType[]>> => {
+  // TODO: data mock
   const data: ChannelType[] = [
     {
       avatar: StorageConst.COMMUNITY_DEFAULT.src,
