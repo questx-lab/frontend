@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
+import ChatBox from '@/modules/chat/chat-box'
 import Channel from '@/modules/chat/popover/channel'
 import {
   HorizontalBetweenCenterFullWidth,
@@ -38,13 +39,16 @@ const PopPanel = tw(Popover.Panel)`
 
 const Frame = tw(VerticalFullWidth)`
   h-[800px]
-  gap-6
   py-6
 `
 
-const Padding = tw(VerticalFullWidth)`
+const GapPaddingx = tw(VerticalFullWidth)`
   px-6
   gap-6
+`
+
+const Padding6 = tw.div`
+  p-6
 `
 
 const TabFrame = tw(HorizontalFullWidth)`gap-2`
@@ -53,7 +57,6 @@ const Content = tw.div`
   h-full
   w-full
   overflow-y-scroll
-  px-6
 `
 
 const FootFrame = tw(HorizontalFullWidthCenter)`
@@ -103,11 +106,15 @@ const ChatTab: FC<{ tab: TabChatType; onTabChange: (value: TabChatType) => void 
 
 const ContentTab: FC<{ tab: TabChatType }> = ({ tab }) => {
   if (tab === TabChatType.CHANNELS) {
-    return <Channel />
+    return (
+      <Padding6>
+        <Channel />
+      </Padding6>
+    )
   }
 
   // TODO: Chat view
-  return <></>
+  return <ChatBox />
 }
 
 const ChatPopover: FC = () => {
@@ -134,14 +141,13 @@ const ChatPopover: FC = () => {
       >
         <PopPanel>
           <Frame>
-            <Padding>
+            <GapPaddingx>
               <HorizontalBetweenCenterFullWidth>
                 <TextXl>{'Chat'}</TextXl>
                 <XMarkIcon className='w-6 h-6 text-gray-900' onClick={() => setVisible(false)} />
               </HorizontalBetweenCenterFullWidth>
               <ChatTab tab={tab} onTabChange={onTabChange} />
-            </Padding>
-
+            </GapPaddingx>
             <Content>
               <ContentTab tab={tab} />
             </Content>

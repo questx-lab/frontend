@@ -8,7 +8,7 @@ import { ChannelType } from '@/types/chat'
 import { Image } from '@/widgets/image'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { SmallSpinner } from '@/widgets/spinner'
-import { MediumTextSm, TextSm } from '@/widgets/text'
+import { LightTextXs, MediumTextSm, TextSm } from '@/widgets/text'
 
 const Frame = tw.div`w-full h-full`
 
@@ -23,7 +23,20 @@ const GapHorizontal = tw(Horizontal)`
   gap-3
   w-full
   items-center
+  cursor-pointer
 `
+
+export const ChannelItem: FC<{ channel: ChannelType }> = ({ channel }) => {
+  return (
+    <GapHorizontal>
+      <Image src={channel.avatar} width={64} height={64} />
+      <GapVertical>
+        <MediumTextSm>{channel.name}</MediumTextSm>
+        <LightTextXs>{channel.description}</LightTextXs>
+      </GapVertical>
+    </GapHorizontal>
+  )
+}
 
 const Channel: FC = () => {
   const [channels, setChannels] = useState<ChannelType[]>([])
@@ -65,14 +78,8 @@ const Channel: FC = () => {
     )
   }
 
-  const renderChannels = channels.map((channel) => (
-    <GapHorizontal>
-      <Image src={channel.avatar} width={64} height={64} />
-      <GapVertical>
-        <MediumTextSm>{channel.name}</MediumTextSm>
-        <TextSm>{channel.description}</TextSm>
-      </GapVertical>
-    </GapHorizontal>
+  const renderChannels = channels.map((channel, index) => (
+    <ChannelItem channel={channel} key={index} />
   ))
 
   return <Frame>{renderChannels}</Frame>

@@ -157,3 +157,4 @@ export const MediumTextSm = tw(TextSm)`font-medium`
 export const MediumTextXs = tw(TextXs)`font-medium`
 export const LightTextXs = tw(TextXs)`text-gray-700`
 export const LightTextSm = tw(TextSm)`text-gray-700`
+export const LightTextBase = tw(TextBase)`text-gray-600`
