@@ -13,6 +13,16 @@ const Frame = tw(HorizontalFullWidthCenter)`
   gap-2
 `
 
+const Warning = tw(HorizontalFullWidthCenter)`
+  rounded-full
+  bg-danger
+  text-xs
+  font-medium
+  text-white
+  px-6
+  py-2
+`
+
 const Border = tw(HorizontalBetweenCenterFullWidth)`
   rounded-full
   w-full
@@ -27,14 +37,21 @@ const CircleBorder = tw.div`
   bg-primary-200
 `
 
+enum MicroPermission {
+  GRANTED = 'granted',
+  DENIED = 'denied',
+  PROMP = 'prompt',
+}
+
 const AudioRecord: FC<{ onChangeRecord: (isRecord: boolean) => void }> = ({ onChangeRecord }) => {
   const [isActive, setIsActive] = useState<boolean>(true)
   const [second, setSecond] = useState<string>('00')
   const [minute, setMinute] = useState<string>('00')
   const [counter, setCounter] = useState(0)
   const [playAudio, setPlayAudio] = useState<boolean>(false)
-  const [microphonePermission, setMicrophonePermission] = useState<'granted' | 'denied' | 'prompt'>(
-    'prompt'
+  const [showWarning, setShowWarning] = useState<boolean>(false)
+  const [microphonePermission, setMicrophonePermission] = useState<MicroPermission>(
+    MicroPermission.PROMP
   )
 
   const { startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } = useReactMediaRecorder({
@@ -46,21 +63,27 @@ const AudioRecord: FC<{ onChangeRecord: (isRecord: boolean) => void }> = ({ onCh
   useEffect(() => {
     let intervalId: any
 
-    if (isActive && microphonePermission === 'granted') {
-      intervalId = setInterval(() => {
-        const secondCounter = counter % 60
-        const minuteCounter = Math.floor(counter / 60)
+    // Counting time to record audio
+    if (isActive) {
+      if (microphonePermission === MicroPermission.GRANTED) {
+        intervalId = setInterval(() => {
+          const secondCounter = counter % 60
+          const minuteCounter = Math.floor(counter / 60)
 
-        let computedSecond =
-          String(secondCounter).length === 1 ? `0${secondCounter}` : secondCounter
-        let computedMinute =
-          String(minuteCounter).length === 1 ? `0${minuteCounter}` : minuteCounter
+          let computedSecond =
+            String(secondCounter).length === 1 ? `0${secondCounter}` : secondCounter
+          let computedMinute =
+            String(minuteCounter).length === 1 ? `0${minuteCounter}` : minuteCounter
 
-        setSecond(`${computedSecond}`)
-        setMinute(`${computedMinute}`)
+          setSecond(`${computedSecond}`)
+          setMinute(`${computedMinute}`)
 
-        setCounter((counter) => counter + 1)
-      }, 1000)
+          setCounter((counter) => counter + 1)
+        }, 1000)
+      }
+      if (microphonePermission === MicroPermission.DENIED) {
+        setShowWarning(true)
+      }
     }
 
     return () => clearInterval(intervalId)
@@ -71,7 +94,10 @@ const AudioRecord: FC<{ onChangeRecord: (isRecord: boolean) => void }> = ({ onCh
       const { state } = await navigator.permissions.query({
         name: 'microphone' as PermissionName,
       })
-      setMicrophonePermission(state)
+      setMicrophonePermission(state as MicroPermission)
+      if (state === MicroPermission.DENIED) {
+        setShowWarning(true)
+      }
     }
     checkMicrophonePermission()
     startRecording()
@@ -110,6 +136,18 @@ const AudioRecord: FC<{ onChangeRecord: (isRecord: boolean) => void }> = ({ onCh
           src={mediaBlobUrl}
         />
       </>
+    )
+  }
+
+  if (showWarning) {
+    return (
+      <Warning>
+        {"You haven't allowed Xquest access to your microphone. Please go to settings and allow"}
+        <XMarkIcon
+          onClick={() => onChangeRecord(false)}
+          className='cursor-pointer text-white 2-6 h-6'
+        />
+      </Warning>
     )
   }
 

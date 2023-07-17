@@ -1,9 +1,11 @@
 import { FC, useState } from 'react'
 
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
+import { RouterConst } from '@/constants/router.const'
 import ChatBox from '@/modules/chat/chat-box'
 import Channel from '@/modules/chat/popover/channel'
 import {
@@ -11,31 +13,14 @@ import {
   HorizontalFullWidth,
   VerticalFullWidth,
 } from '@/widgets/orientation'
-import { PopoverButton, PopoverPosition } from '@/widgets/popover'
+import { PopPover } from '@/widgets/popover'
 import { TextSm, TextXl } from '@/widgets/text'
-import { Popover, Transition } from '@headlessui/react'
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 enum TabChatType {
   GENERAL = '#General',
   CHANNELS = '#Channels',
 }
-
-const PopPanel = tw(Popover.Panel)`
-  divide-y
-  right-0
-  rounded-lg
-  mt-3
-  absolute z-10
-  bg-white
-  shadow-lg
-  border
-  border-solid
-  border-gray-300
-  w-[480px]
-  flex
-  flex-col
-`
 
 const Frame = tw(VerticalFullWidth)`
   h-[800px]
@@ -118,46 +103,45 @@ const ContentTab: FC<{ tab: TabChatType }> = ({ tab }) => {
 }
 
 const ChatPopover: FC = () => {
-  const [visible, setVisible] = useState<boolean>(false)
+  const [visible, setVisible] = useState<boolean>()
   const [tab, setTab] = useState<TabChatType>(TabChatType.GENERAL)
+  const navigate = useNavigate()
 
   const onTabChange = (tab: TabChatType) => {
     setTab(tab)
   }
 
+  const onNavigate = () => {
+    onChangePoppover()
+    navigate(RouterConst.MESSAGES)
+  }
+
+  const onChangePoppover = () => {
+    setVisible(!visible)
+  }
+
   return (
-    <PopoverPosition>
-      <PopoverButton onClick={() => setVisible(!visible)}>
-        <ChatBubbleLeftIcon className='w-5 h-5 text-gray-900' />
-      </PopoverButton>
-      <Transition
-        show={visible}
-        enter='transition ease-out duration-200'
-        enterFrom='opacity-0 translate-y-1'
-        enterTo='opacity-100 translate-y-0'
-        leave='transition ease-in duration-150'
-        leaveFrom='opacity-100 translate-y-0'
-        leaveTo='opacity-0 translate-y-1'
-      >
-        <PopPanel>
-          <Frame>
-            <GapPaddingx>
-              <HorizontalBetweenCenterFullWidth>
-                <TextXl>{'Chat'}</TextXl>
-                <XMarkIcon className='w-6 h-6 text-gray-900' onClick={() => setVisible(false)} />
-              </HorizontalBetweenCenterFullWidth>
-              <ChatTab tab={tab} onTabChange={onTabChange} />
-            </GapPaddingx>
-            <Content>
-              <ContentTab tab={tab} />
-            </Content>
-            <FootFrame>
-              <PrimaryText>{'See all in chat room'}</PrimaryText>
-            </FootFrame>
-          </Frame>
-        </PopPanel>
-      </Transition>
-    </PopoverPosition>
+    <PopPover
+      button={<ChatBubbleLeftIcon onClick={onChangePoppover} className='w-5 h-5 text-gray-900' />}
+      styled='w-[480px] mt-3 right-0'
+      visible={visible}
+    >
+      <Frame>
+        <GapPaddingx>
+          <HorizontalBetweenCenterFullWidth>
+            <TextXl>{'Chat'}</TextXl>
+            <XMarkIcon className='w-6 h-6 text-gray-900' onClick={onChangePoppover} />
+          </HorizontalBetweenCenterFullWidth>
+          <ChatTab tab={tab} onTabChange={onTabChange} />
+        </GapPaddingx>
+        <Content>
+          <ContentTab tab={tab} />
+        </Content>
+        <FootFrame>
+          <PrimaryText onClick={onNavigate}>{'See all in chat room'}</PrimaryText>
+        </FootFrame>
+      </Frame>
+    </PopPover>
   )
 }
 

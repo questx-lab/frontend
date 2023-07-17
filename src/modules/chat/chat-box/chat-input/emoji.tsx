@@ -2,8 +2,7 @@ import { FC } from 'react'
 
 import EmojiPicker from 'emoji-picker-react'
 
-import { PopPanel } from '@/modules/chat/chat-box/chat-input'
-import { PopoverButton, PopoverPosition } from '@/widgets/popover'
+import { PopPover } from '@/widgets/popover'
 import { FaceSmileIcon } from '@heroicons/react/24/outline'
 
 const Emoji: FC<{ onEmoji: (messgeEmoji: string) => void }> = ({ onEmoji }) => {
@@ -12,14 +11,12 @@ const Emoji: FC<{ onEmoji: (messgeEmoji: string) => void }> = ({ onEmoji }) => {
   }
 
   return (
-    <PopoverPosition>
-      <PopoverButton>
-        <FaceSmileIcon className='w-8 h-8 text-gray-900 cursor-pointer' />
-      </PopoverButton>
-      <PopPanel isRight>
-        <EmojiPicker onEmojiClick={handleEmojiClick} />
-      </PopPanel>
-    </PopoverPosition>
+    <PopPover
+      styled='right-0 mb-10 bottom-0'
+      button={<FaceSmileIcon className='w-8 h-8 text-gray-900 cursor-pointer' />}
+    >
+      <EmojiPicker onEmojiClick={handleEmojiClick} />
+    </PopPover>
   )
 }
 

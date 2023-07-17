@@ -322,7 +322,7 @@ export const getMessagesApi = async (): Promise<Rsp<ChatMessageType[]>> => {
     {
       id: '4',
       author: {
-        id: '4',
+        id: '14cbf1f5-2620-4a19-89ce-619b6d913c0a',
         name: 'CoolCat93',
       },
       content: '😍😍😍 Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -346,7 +346,7 @@ export const getMessagesApi = async (): Promise<Rsp<ChatMessageType[]>> => {
     {
       id: '7',
       author: {
-        id: '4',
+        id: '14cbf1f5-2620-4a19-89ce-619b6d913c0a',
         name: 'CoolCat93',
       },
       content: '😍😍😍 Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -377,6 +377,14 @@ export const getMessagesApi = async (): Promise<Rsp<ChatMessageType[]>> => {
       },
       content:
         'Proin pulvinar a sapien ut congue. Donec vel eleifend velit, a ultrices lectus. Fusce sit amet lacus in erat blandit aliquam.',
+    },
+    {
+      id: '11',
+      author: {
+        id: '14cbf1f5-2620-4a19-89ce-619b6d913c0a',
+        name: 'CoolCat93',
+      },
+      content: 'Hi',
     },
   ]
   const result: Rsp<ChatMessageType[]> = {
