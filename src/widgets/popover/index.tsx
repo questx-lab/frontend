@@ -1,8 +1,10 @@
+import { FC, ReactNode } from 'react'
+
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Vertical } from '@/widgets/orientation'
-import { Popover } from '@headlessui/react'
+import { Popover, Transition } from '@headlessui/react'
 
 export enum PopoverSize {
   MEDIUM,
@@ -13,40 +15,19 @@ export const PopoverPosition = styled(Popover)(tw`
   relative
 `)
 
-export const PopPanel = styled(Popover.Panel)<{ size?: PopoverSize }>(({ size }) => {
-  switch (size) {
-    case PopoverSize.SMALL:
-      return tw`
-        divide-y
-        right-0
-        rounded-lg
-        mt-5
-        absolute z-10
-        bg-white
-        shadow-lg
-        border
-        border-solid
-        border-gray-300
-        w-[200px]
-        flex
-        flex-col
-      `
-  }
-
+export const PopPanel = styled(Popover.Panel)(() => {
   return tw`
-    divide-y
-    right-0
-    rounded-lg
-    mt-5
-    absolute z-10
-    bg-white
-    shadow-lg
-    border
-    border-solid
-    border-gray-300
-    w-[350px]
-    flex
-    flex-col
+  divide-y
+  rounded-lg
+  absolute
+  z-10
+  bg-white
+  shadow-lg
+  border
+  border-solid
+  border-gray-300
+  flex
+  flex-col
   `
 })
 
@@ -73,3 +54,27 @@ export const PopoverButton = tw(Popover.Button)`
   items-center
   outline-0
 `
+
+export const PopPover: FC<{
+  button: ReactNode
+  children: ReactNode
+  styled?: string
+  visible?: boolean
+}> = ({ button, children, styled, visible }) => {
+  return (
+    <PopoverPosition>
+      <PopoverButton>{button}</PopoverButton>
+      <Transition
+        show={visible}
+        enter='transition ease-out duration-200'
+        enterFrom='opacity-0 translate-y-1'
+        enterTo='opacity-100 translate-y-0'
+        leave='transition ease-in duration-150'
+        leaveFrom='opacity-100 translate-y-0'
+        leaveTo='opacity-0 translate-y-1'
+      >
+        <PopPanel className={styled}>{children}</PopPanel>
+      </Transition>
+    </PopoverPosition>
+  )
+}

@@ -12,7 +12,7 @@ import { clearLocalStorage, delCookies } from '@/utils/helper'
 import { UserAvatar } from '@/widgets/avatar'
 import { Image } from '@/widgets/image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
-import { OptionxBox, PopItem, PopoverButton, PopoverPosition, PopPanel } from '@/widgets/popover'
+import { OptionxBox, PopItem, PopPover } from '@/widgets/popover'
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
 
@@ -65,40 +65,35 @@ const UserPopover: FC = () => {
   }
 
   return (
-    <PopoverPosition>
-      <PopoverButton>
-        <UserAvatar user={user} size={32} />
-      </PopoverButton>
-      <PopPanel>
-        <PopItem>
-          <UserBox>
-            <UserAvatar user={user} size={80} />
-            <RowBox>
-              <NameText>{user.name}</NameText>
-            </RowBox>
-          </UserBox>
-        </PopItem>
-        <PopItem>
-          <OptionxBox
-            onClick={() => {
-              setShowUserProfileModal(true)
-            }}
-          >
-            {'My Profile'}
-          </OptionxBox>
-          <OptionxBox
-            onClick={() => {
-              navigate(RouterConst.ACCOUNT_SETTINGS)
-            }}
-          >
-            {'Account Settings'}
-          </OptionxBox>
-        </PopItem>
-        <PopItem>
-          <OptionxBox onClick={handleLogout}>{'Sign out'}</OptionxBox>
-        </PopItem>
-      </PopPanel>
-    </PopoverPosition>
+    <PopPover styled='w-[350px] mt-5 !right-0' button={<UserAvatar user={user} size={32} />}>
+      <PopItem>
+        <UserBox>
+          <UserAvatar user={user} size={80} />
+          <RowBox>
+            <NameText>{user.name}</NameText>
+          </RowBox>
+        </UserBox>
+      </PopItem>
+      <PopItem>
+        <OptionxBox
+          onClick={() => {
+            setShowUserProfileModal(true)
+          }}
+        >
+          {'My Profile'}
+        </OptionxBox>
+        <OptionxBox
+          onClick={() => {
+            navigate(RouterConst.ACCOUNT_SETTINGS)
+          }}
+        >
+          {'Account Settings'}
+        </OptionxBox>
+      </PopItem>
+      <PopItem>
+        <OptionxBox onClick={handleLogout}>{'Sign out'}</OptionxBox>
+      </PopItem>
+    </PopPover>
   )
 }
 
