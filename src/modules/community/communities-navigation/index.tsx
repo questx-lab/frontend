@@ -19,7 +19,7 @@ const Wrap = styled.div<{ isDrawer: boolean }>(({ isDrawer }) => {
     flex-col
     justify-start
     items-center
-    bg-gray-100
+    bg-white
     divide-y
     divide-gray-300
     h-full
@@ -34,7 +34,6 @@ const Wrap = styled.div<{ isDrawer: boolean }>(({ isDrawer }) => {
 })
 
 const BoxContent = tw(Vertical)`
-  rounded-lg
   items-center
   py-3
   gap-3

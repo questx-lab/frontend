@@ -4,6 +4,7 @@ export enum KeysEnum {
   REFRESH_TOKEN = 'refresh_token',
   USER = 'user',
   CODE_VERIFIER = 'codeVerifier',
+  COLOR_THEME = 'color-theme',
 }
 
 export enum NavigationEnum {

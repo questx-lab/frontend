@@ -9,6 +9,37 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.light {
+  /* TODO: change name bg-color */
+  --bg-white: #ffffff;
+  --bg-black: #000000;
+  --text-gray-50: #f9fafb;
+  --text-gray-100: #F1F5F9;
+  --text-gray-200: #e5e7eb;
+  --text-gray-300: #d1d5db;
+  --text-gray-400: #9ca3af;
+  --text-gray-500: #6b7280;
+  --text-gray-600: #4b5563;
+  --text-gray-700: #374151;
+  --text-gray-800: #1f2937;
+  --text-gray-900: #111827;
+}
+
+.dark {
+  --bg-white: #111827;
+  --text-gray-50: #111827;
+  --text-gray-100: #1f2937;
+  --text-gray-200: #374151;
+  --text-gray-300: #4b5563;
+  --text-gray-400: #6b7280;
+  --text-gray-500: #9ca3af;
+  --text-gray-600: #d1d5db;
+  --text-gray-700: #e5e7eb;
+  --text-gray-800: #F1F5F9;
+  --text-gray-900: #f9fafb;
+  --bg-black: #ffffff;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

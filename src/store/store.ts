@@ -1,9 +1,10 @@
 import { action, Action, createStore } from 'easy-peasy'
 
-import { AuthEnum } from '@/constants/common.const'
+import { AuthEnum, ThemeType } from '@/constants/common.const'
 import { CollaboratorType, RefferalType, UserType } from '@/types'
 import { CommunityType, FollowCommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
+import { getInitialTheme } from '@/widgets/theme/provider'
 
 export interface GlobalStoreModel {
   showNavigationDrawer: boolean
@@ -15,6 +16,7 @@ export interface GlobalStoreModel {
   showLoginModal: boolean
   showUserProfileModal: boolean
   templates: QuestType[]
+  theme: ThemeType
 
   setShowNavigationDrawer: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
@@ -26,6 +28,7 @@ export interface GlobalStoreModel {
   setTemplates: Action<GlobalStoreModel, QuestType[]>
   updateCommunityCollab: Action<GlobalStoreModel, CommunityType>
   setShowUserProfileModal: Action<GlobalStoreModel, boolean>
+  setTheme: Action<GlobalStoreModel, ThemeType>
 }
 
 const store = createStore<GlobalStoreModel>({
@@ -38,6 +41,7 @@ const store = createStore<GlobalStoreModel>({
   showLoginModal: false,
   showUserProfileModal: false,
   templates: [],
+  theme: getInitialTheme(),
 
   setShowNavigationDrawer: action((state, drawer) => {
     state.showNavigationDrawer = drawer
@@ -88,6 +92,10 @@ const store = createStore<GlobalStoreModel>({
 
   setShowUserProfileModal: action((state, showUserProfileModal) => {
     state.showUserProfileModal = showUserProfileModal
+  }),
+
+  setTheme: action((state, theme) => {
+    state.theme = theme
   }),
 })
 

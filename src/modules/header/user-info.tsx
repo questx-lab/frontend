@@ -88,7 +88,7 @@ const UserInfoBox: FC = () => {
   if (user) {
     return (
       <UserSession>
-        <GiftIcon onClick={() => setInvite(true)} className='h-5 w-5' />
+        <GiftIcon onClick={() => setInvite(true)} className='h-5 w-5 text-gray-900' />
         <UserPopover />
 
         <BasicModal

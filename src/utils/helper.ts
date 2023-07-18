@@ -4,9 +4,9 @@ import toast from 'react-hot-toast'
 
 import { refreshTokenApi } from '@/api/user'
 import { ErrorCodes } from '@/constants/code.const'
+import { ShowedInstructionKey, ThemeType } from '@/constants/common.const'
 import { KeysEnum } from '@/constants/key.const'
 import { UserType } from '@/types'
-import { ShowedInstructionKey } from '@/constants/common.const'
 
 export const getAccessToken = (): string | undefined => {
   const cookie = getCookie(KeysEnum.ACCESS_TOKEN)
@@ -126,4 +126,12 @@ export const getShowedInstruction = () => {
 
 export const markShowedInstruction = () => {
   localStorage.setItem(ShowedInstructionKey, 'true')
+}
+
+export const setThemeLocal = (theme: ThemeType) => {
+  localStorage.setItem(KeysEnum.COLOR_THEME, theme)
+}
+
+export const getThemeLocal = () => {
+  localStorage.getItem(KeysEnum.COLOR_THEME)
 }

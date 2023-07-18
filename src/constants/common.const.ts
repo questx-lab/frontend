@@ -1,3 +1,8 @@
+export enum ThemeType {
+  DARK = 'dark',
+  LIGHT = 'light',
+}
+
 export enum QuestTypeEnum {
   URL = 'url',
   IMAGE = 'image',

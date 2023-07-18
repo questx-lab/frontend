@@ -14,6 +14,7 @@ import UserInfoBox from '@/modules/header/user-info'
 import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
+import ThemeToggle from '@/widgets/theme/toggle'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 
 export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
@@ -55,6 +56,7 @@ const RightSection = tw(Horizontal)`
   w-full
   items-center
   justify-end
+  gap-3
 `
 
 const Body = styled(HorizontalBetweenCenter)<{ isApp?: boolean }>(({ isApp = true }) => [
@@ -127,6 +129,7 @@ export const Header: FC<{}> = () => {
           {/* ========== */}
         </LeftSection>
         <RightSection>
+          <ThemeToggle />
           <UserInfoBox />
         </RightSection>
       </Body>
