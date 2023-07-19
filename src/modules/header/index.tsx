@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { BrowserView, MobileView } from 'react-device-detect'
@@ -8,6 +8,7 @@ import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
+import network from '@/modules/chat/services/network'
 import BrowserNavigation from '@/modules/header/browser-navigate'
 import Drawer from '@/modules/header/drawer'
 import UserInfoBox from '@/modules/header/user-info'
@@ -100,6 +101,12 @@ export const Header: FC<{}> = () => {
   )
 
   const isApp: boolean = user !== undefined
+
+  useEffect(() => {
+    if (isApp) {
+      network.connect()
+    }
+  }, [isApp])
 
   return (
     <HeaderBox isApp={isApp}>
