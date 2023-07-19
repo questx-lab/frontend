@@ -1,13 +1,11 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 
-import { toast } from 'react-hot-toast'
 import tw from 'twin.macro'
 
-import { getChanelsApi } from '@/api/chat'
+import ChatStore from '@/store/chat/chat'
 import { ChannelType } from '@/types/chat'
 import { Image } from '@/widgets/image'
 import { Horizontal, Vertical } from '@/widgets/orientation'
-import { SmallSpinner } from '@/widgets/spinner'
 import { LightTextXs, MediumTextSm, TextSm } from '@/widgets/text'
 
 const Frame = tw.div`w-full h-full`
@@ -39,36 +37,12 @@ export const ChannelItem: FC<{ channel: ChannelType }> = ({ channel }) => {
 }
 
 const Channel: FC = () => {
-  const [channels, setChannels] = useState<ChannelType[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
+  // const [channels, setChannels] = useState<ChannelType[]>([])
+  // const [loading, setLoading] = useState<boolean>(true)
 
-  useEffect(() => {
-    getChannel()
-  }, [])
+  const channels = ChatStore.useStoreState((state) => state.channels)
 
-  const getChannel = async () => {
-    try {
-      const { error, data } = await getChanelsApi()
-      if (error) {
-        toast.error(error)
-      }
-
-      if (data) {
-        setChannels(data)
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  if (loading) {
-    return (
-      <Frame>
-        <SmallSpinner />
-      </Frame>
-    )
-  }
+  console.log('channels = ', channels)
 
   if (channels.length === 0) {
     return (

@@ -2,9 +2,7 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import StorageConst from '@/constants/storage.const'
-import Channel, { ChannelItem } from '@/modules/chat/popover/channel'
-import { ChannelType } from '@/types/chat'
+import Channel from '@/modules/chat/popover/channel'
 import { Vertical } from '@/widgets/orientation'
 import { TextSm } from '@/widgets/text'
 
@@ -28,15 +26,9 @@ const ChannelFrame = tw(Vertical)`
 `
 
 const ChannelSide: FC = () => {
-  const generalChannel: ChannelType = {
-    name: '#general',
-    description: 'Channel’s short description. 👋👋👋',
-    avatar: StorageConst.COMMUNITY_DEFAULT.src,
-  }
-
   return (
     <Frame>
-      <ChannelItem channel={generalChannel} />
+      {/* <ChannelItem channel={generalChannel} /> */}
       <ChannelFrame>
         <TextSm>{'CHANNELS'}</TextSm>
         <Channel />

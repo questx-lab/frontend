@@ -2,8 +2,10 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
+import { sendMessageApi } from '@/api/chat'
 import ChatContent from '@/modules/chat/chat-box/chat-content'
 import ChatInput from '@/modules/chat/chat-box/chat-input'
+import ChatStore from '@/store/chat/chat'
 import { VerticalFullWidth } from '@/widgets/orientation'
 
 const Frame = tw(VerticalFullWidth)`
@@ -13,8 +15,10 @@ const Frame = tw(VerticalFullWidth)`
 `
 
 const ChatBox: FC = () => {
+  const currentChannel = ChatStore.useStoreState((state) => state.currentChannel)
+
   const onNewMessagedEntered = (message: string) => {
-    console.log(message)
+    sendMessageApi(currentChannel.id, message)
   }
 
   return (

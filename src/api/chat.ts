@@ -1,113 +1,19 @@
-import StorageConst from '@/constants/storage.const'
+import { api } from '@/api/interceptor'
+import { EnvVariables } from '@/constants/env.const'
 import { Rsp } from '@/types'
-import { ChannelType, ChatMessageType, UserChatStatusType, UserChatType } from '@/types/chat'
+import { ChannelsType, ChatMessageType, UserChatStatusType, UserChatType } from '@/types/chat'
 
-export const getChanelsApi = async (): Promise<Rsp<ChannelType[]>> => {
-  // TODO: data mock
-  const data: ChannelType[] = [
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-    {
-      avatar: StorageConst.COMMUNITY_DEFAULT.src,
-      name: '# 🎯 information',
-      description: 'Channel’s short description. 👋👋👋',
-    },
-  ]
+export const getChannelsApi = async (handle: string): Promise<Rsp<ChannelsType>> => {
+  const res = await api.get(EnvVariables.API_SERVER + `/getChannels?community_handle=${handle}`)
+  return res.data
+}
 
-  const result: Rsp<ChannelType[]> = {
-    code: 0,
-    data,
-  }
-
-  return Promise.resolve(result)
+export const sendMessageApi = async (channelId: BigInt, msg: string) => {
+  await api.post(EnvVariables.API_SERVER + `/createMessage`, {
+    channel_id: channelId,
+    content: msg,
+    attachments: [],
+  })
 }
 
 export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {

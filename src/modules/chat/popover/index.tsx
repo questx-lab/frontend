@@ -1,13 +1,18 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
+import { useStoreState } from 'easy-peasy'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
+import { getChannelsApi } from '@/api/chat'
 import { RouterConst } from '@/constants/router.const'
 import ChatBox from '@/modules/chat/chat-box'
 import Channel from '@/modules/chat/popover/channel'
+import ChatStore from '@/store/chat/chat'
+import CommunityStore from '@/store/local/community'
+import { GlobalStoreModel } from '@/store/store'
 import {
   HorizontalBetweenCenterFullWidth,
   HorizontalFullWidth,
@@ -103,6 +108,14 @@ const ContentTab: FC<{ tab: TabChatType }> = ({ tab }) => {
 }
 
 const ChatPopover: FC = () => {
+  // data
+  const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+
+  // actions
+  const setCommunity = ChatStore.useStoreActions((action) => action.setCommunity)
+  const setChannels = ChatStore.useStoreActions((action) => action.setChannels)
+
   const [visible, setVisible] = useState<boolean>()
   const [tab, setTab] = useState<TabChatType>(TabChatType.GENERAL)
   const navigate = useNavigate()
@@ -118,6 +131,25 @@ const ChatPopover: FC = () => {
 
   const onChangePoppover = () => {
     setVisible(!visible)
+  }
+
+  useEffect(() => {
+    // get Channels
+    if (user && community.handle) {
+      setCommunity(community)
+      fetchCommunity()
+    }
+  }, [user, community.handle])
+
+  const fetchCommunity = async () => {
+    const response = await getChannelsApi(community.handle)
+    if (response.data) {
+      setChannels(response.data.channels)
+    }
+  }
+
+  if (!community) {
+    return <></>
   }
 
   return (

@@ -8,7 +8,7 @@ import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
-import network from '@/modules/chat/services/network'
+import chatController from '@/modules/chat/services/chat-controller'
 import BrowserNavigation from '@/modules/header/browser-navigate'
 import Drawer from '@/modules/header/drawer'
 import UserInfoBox from '@/modules/header/user-info'
@@ -104,7 +104,7 @@ export const Header: FC<{}> = () => {
 
   useEffect(() => {
     if (isApp) {
-      network.connect()
+      chatController.connect()
     }
   }, [isApp])
 

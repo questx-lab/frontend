@@ -1,13 +1,13 @@
 import { ICloseEvent, IMessageEvent, w3cwebsocket } from 'websocket'
 
 import { EnvVariables } from '@/constants/env.const'
-import { MessageReceiver } from '@/types/townhall'
+import { ChatMessageReceiver } from '@/types/chat'
 import { setCookieSocket } from '@/utils/helper'
 
 export interface NetworkListener {
   onConnected: () => void
   onDisconnected: () => void
-  onMessage: (event: MessageReceiver) => void
+  onMessage: (event: ChatMessageReceiver) => void
 }
 
 export type NetworkMessageType = {}
@@ -65,8 +65,8 @@ class Network {
           const s = new TextDecoder().decode(arr)
           console.log('s = ', s)
 
-          const messages = JSON.parse(s) as MessageReceiver[]
-          this.listeners.forEach((listener) => messages.forEach((msg) => listener.onMessage(msg)))
+          const msg = JSON.parse(s) as ChatMessageReceiver
+          this.listeners.forEach((listener) => listener.onMessage(msg))
         } catch (error) {
           console.log('json parse error = ', error)
         }
