@@ -8,7 +8,6 @@ import { Vertical } from '@/widgets/orientation'
 export enum ChatSidebarTab {
   MEMBERS = 'Members',
   ROLES = 'Roles',
-  MILESTONES = 'Milestones',
 }
 
 const Frame = tw(Vertical)`

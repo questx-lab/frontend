@@ -41,3 +41,9 @@ export type UserChatType = {
   shordStatus?: string
   role?: MemberRole
 }
+
+export type RoleChatType = {
+  id: string
+  name: MemberRole
+  createdAt: string
+}

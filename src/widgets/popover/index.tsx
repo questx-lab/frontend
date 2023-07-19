@@ -38,6 +38,7 @@ export const PopPanel = styled(Popover.Panel)(() => {
   border-gray-300
   flex
   flex-col
+  bg-white
   `
 })
 

@@ -3,6 +3,7 @@ import { FC, useState } from 'react'
 import tw from 'twin.macro'
 
 import Member from '@/modules/community/settings/chat/content/member'
+import Role from '@/modules/community/settings/chat/content/role'
 import ChatSidebar, { ChatSidebarTab } from '@/modules/community/settings/chat/sidebar'
 import { HorizontalFullWidth } from '@/widgets/orientation'
 
@@ -16,11 +17,15 @@ const Frame = tw(HorizontalFullWidth)`
 
 const ContentFrame = tw.div`
   w-full
-  pl-[168px]
+  pl-[180px]
   h-full
 `
 
 const Content: FC<{ tabSide: ChatSidebarTab }> = ({ tabSide }) => {
+  if (tabSide === ChatSidebarTab.ROLES) {
+    return <Role />
+  }
+
   return <Member />
 }
 

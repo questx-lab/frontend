@@ -2,20 +2,13 @@ import { FC, ReactNode, useState } from 'react'
 
 import tw from 'twin.macro'
 
+import { ButtonAdd } from '@/modules/community/settings/chat/content/mini-widget'
 import { MemberRole } from '@/types/chat'
-import { PositiveButton } from '@/widgets/buttons'
 import { InputBox } from '@/widgets/form'
-import BasicModal from '@/widgets/modal/basic'
-import {
-  HorizontalBetweenCenterFullWidth,
-  HorizontalFullWidth,
-  VerticalFullWidth,
-} from '@/widgets/orientation'
+import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { PopPover } from '@/widgets/popover'
 import { MediumTextSm } from '@/widgets/text'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
-
-const EndHorizontal = tw(HorizontalFullWidth)`justify-end`
 
 const Frame = tw(VerticalFullWidth)`
   gap-6
@@ -78,8 +71,8 @@ const AddMember: FC = () => {
   const [role, setRole] = useState<MemberRole>()
   const [visible, setVisible] = useState<boolean>(false)
 
-  const onCloseModal = () => {
-    setIsOpen(false)
+  const onModal = (value: boolean) => {
+    setIsOpen(value)
   }
 
   const onRole = (newRole: MemberRole) => {
@@ -91,34 +84,33 @@ const AddMember: FC = () => {
   }
 
   return (
-    <>
-      <EndHorizontal onClick={() => setIsOpen(true)}>
-        <PositiveButton>{'Add Member'}</PositiveButton>
-      </EndHorizontal>
-
-      <BasicModal title='Add new member' styled='!w-[480px]' isOpen={isOpen} onClose={onCloseModal}>
-        <Frame>
-          <Element label='Profile'>
-            <InputBox value={userName} onChange={(e) => setUserName(e.target.value)} />
-          </Element>
-          <Element label='Profile'>
-            <PopPover
-              visible={visible}
-              button={
-                <RoleBox onClick={() => setVisible(true)}>
-                  {role ?? 'select roles'}
-                  <ChevronDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
-                </RoleBox>
-              }
-              isFull
-              styled='!w-full mt-2'
-            >
-              <RenderRole onRole={onRole} onVisible={onVisible} />
-            </PopPover>
-          </Element>
-        </Frame>
-      </BasicModal>
-    </>
+    <ButtonAdd
+      buttonName='Add Member'
+      titleModal='Add new member'
+      onModal={onModal}
+      isOpenModal={isOpen}
+    >
+      <Frame>
+        <Element label='Profile'>
+          <InputBox value={userName} onChange={(e) => setUserName(e.target.value)} />
+        </Element>
+        <Element label='Profile'>
+          <PopPover
+            visible={visible}
+            button={
+              <RoleBox onClick={() => setVisible(true)}>
+                {role ?? 'select roles'}
+                <ChevronDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
+              </RoleBox>
+            }
+            isFull
+            styled='!w-full mt-2'
+          >
+            <RenderRole onRole={onRole} onVisible={onVisible} />
+          </PopPover>
+        </Element>
+      </Frame>
+    </ButtonAdd>
   )
 }
 

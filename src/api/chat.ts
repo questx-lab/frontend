@@ -4,6 +4,7 @@ import {
   ChannelType,
   ChatMessageType,
   MemberRole,
+  RoleChatType,
   UserChatStatusType,
   UserChatType,
 } from '@/types/chat'
@@ -414,6 +415,38 @@ export const getMessagesApi = async (): Promise<Rsp<ChatMessageType[]>> => {
     },
   ]
   const result: Rsp<ChatMessageType[]> = {
+    code: 0,
+    data,
+  }
+
+  return Promise.resolve(result)
+}
+
+export const getRolesApi = async (): Promise<Rsp<RoleChatType[]>> => {
+  const data: RoleChatType[] = [
+    {
+      id: '1',
+      name: 'Admin' as MemberRole,
+      createdAt: '18 Jul 2023',
+    },
+    {
+      id: '2',
+      name: 'Super Mod' as MemberRole,
+      createdAt: '18 Jul 2023',
+    },
+    {
+      id: '3',
+      name: 'Mod' as MemberRole,
+      createdAt: '18 Jul 2023',
+    },
+    {
+      id: '4',
+      name: 'Mod' as MemberRole,
+      createdAt: '18 Jul 2023',
+    },
+  ]
+
+  const result: Rsp<RoleChatType[]> = {
     code: 0,
     data,
   }

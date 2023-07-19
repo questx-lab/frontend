@@ -8,8 +8,15 @@ import { getUsersApi } from '@/api/chat'
 import AddMember from '@/modules/community/settings/chat/content/member/add-member'
 import { UserChatType } from '@/types/chat'
 import { UserAvatar } from '@/widgets/avatar'
-import { HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
+import {
+  HorizontalBetweenCenterFullWidth,
+  HorizontalCenter,
+  HorizontalFullWidth,
+  VerticalFullWidth,
+} from '@/widgets/orientation'
+import { PopPover } from '@/widgets/popover'
 import { Spinner } from '@/widgets/spinner'
+import { TextSm } from '@/widgets/text'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
 
 const Frame = tw(VerticalFullWidth)`
@@ -18,10 +25,12 @@ const Frame = tw(VerticalFullWidth)`
   gap-3
 `
 
-const Padding = tw(HorizontalFullWidth)`
+const Padding = tw(HorizontalBetweenCenterFullWidth)`
   py-3
   px-6
   gap-3
+  rounded-lg
+  bg-primary-50
 `
 
 const Width480 = tw(HorizontalFullWidth)`
@@ -34,6 +43,7 @@ const Width100 = tw(HorizontalFullWidth)`
   w-[100px]
   items-center
   h-full
+  text-sm
 `
 
 const PaddingIcon = tw.div`p-3 cursor-pointer`
@@ -41,19 +51,33 @@ const PaddingIcon = tw.div`p-3 cursor-pointer`
 const MemberItem: FC<{ member: UserChatType }> = ({ member }) => {
   return (
     <Padding>
-      <UserAvatar size={32} user={member.user} />
-      <Width480>{member.user.name}</Width480>
+      <HorizontalCenter>
+        <UserAvatar size={32} user={member.user} />
+        <Width480>{member.user.name}</Width480>
+      </HorizontalCenter>
       <Width100>{member.role}</Width100>
-      <PaddingIcon>
-        <EllipsisHorizontalIcon className='w-5 h-5 text-gray-900' />
-      </PaddingIcon>
+      <PopPover
+        styled='right-10 top-0 w-[150px]'
+        button={
+          <PaddingIcon>
+            <EllipsisHorizontalIcon className='w-5 h-5 text-gray-900' />
+          </PaddingIcon>
+        }
+      >
+        <PaddingIcon>
+          <TextSm>{'Change Role'}</TextSm>
+        </PaddingIcon>
+        <PaddingIcon>
+          <TextSm>{'Remove Member'}</TextSm>
+        </PaddingIcon>
+      </PopPover>
     </Padding>
   )
 }
 
 const RenderMembers: FC<{ members: UserChatType[]; loading: boolean }> = ({ members, loading }) => {
   if (loading) {
-    ;<Spinner />
+    return <Spinner />
   }
 
   if (members.length === 0) {
