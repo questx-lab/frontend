@@ -137,11 +137,11 @@ const ChatPopover: FC = () => {
     // get Channels
     if (user && community.handle) {
       setCommunity(community)
-      fetchCommunity()
+      fetchChannels()
     }
   }, [user, community.handle])
 
-  const fetchCommunity = async () => {
+  const fetchChannels = async () => {
     const response = await getChannelsApi(community.handle)
     if (response.data) {
       setChannels(response.data.channels)

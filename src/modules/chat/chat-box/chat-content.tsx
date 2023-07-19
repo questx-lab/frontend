@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { getMessagesApi } from '@/api/chat'
+import ChatStore from '@/store/chat/chat'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { ChatMessageType } from '@/types/chat'
@@ -53,7 +54,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   }
 
   // Sender
-  if (message.author.id === user.id) {
+  if (message.author_id === user.id) {
     return (
       <GapHorizontal isOwnser>
         <GapVertical isOwnser>
@@ -66,9 +67,9 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   // Messages from other people
   return (
     <GapHorizontal>
-      <UserAvatar user={message.author} size={32} />
+      <UserAvatar user={{ id: message.author_id, name: '' }} size={32} />
       <GapVertical>
-        <MediumTextSm>{message.author.name}</MediumTextSm>
+        <MediumTextSm>{message.author_id}</MediumTextSm>
         <LightTextBase>{message.content}</LightTextBase>
       </GapVertical>
     </GapHorizontal>
@@ -76,6 +77,8 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
 }
 
 const ChatContent: FC = () => {
+  const currentChannel = ChatStore.useStoreState((state) => state.currentChannel)
+
   const [loading, setLoading] = useState<boolean>(true)
   const [messages, setMessages] = useState<ChatMessageType[]>([])
 
@@ -85,13 +88,13 @@ const ChatContent: FC = () => {
 
   const getMessages = async () => {
     try {
-      const { error, data } = await getMessagesApi()
+      const { error, data } = await getMessagesApi(currentChannel.id, BigInt(0))
       if (error) {
         toast.error(error)
         return
       }
       if (data) {
-        setMessages(data)
+        setMessages(data.messages)
       }
     } catch (error) {
     } finally {
@@ -110,6 +113,8 @@ const ChatContent: FC = () => {
   if (messages.length === 0) {
     return <></>
   }
+
+  console.log('messages = ', messages)
 
   const renderMessages = messages.map((message) => (
     <MessageItem key={message.id} message={message} />

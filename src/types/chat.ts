@@ -8,13 +8,18 @@ export type MessageAttachmentType = {
 
 export type ChatMessageType = {
   id: string
-  author: UserType
+  channel_id: string
+  author_id: string
   content: string
   timestamp?: string
 
   // Optional fields
   attachments?: MessageAttachmentType[]
   mentions?: UserType[]
+}
+
+export type ChatMessagesType = {
+  messages: ChatMessageType[]
 }
 
 export type ChannelType = {
