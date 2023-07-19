@@ -11,9 +11,19 @@ export enum PopoverSize {
   SMALL,
 }
 
-export const PopoverPosition = styled(Popover)(tw`
+export const PopoverPosition = styled(Popover)<{ isFull: boolean }>(({ isFull }) => {
+  const styles = [
+    tw`
   relative
-`)
+`,
+  ]
+
+  if (isFull) {
+    styles.push(tw`w-full`)
+  }
+
+  return styles
+})
 
 export const PopPanel = styled(Popover.Panel)(() => {
   return tw`
@@ -48,22 +58,33 @@ export const OptionxBox = tw.div`
   hover:bg-primary-100
 `
 
-export const PopoverButton = tw(Popover.Button)`
+export const PopoverButton = styled(Popover.Button)<{ isFull: boolean }>(({ isFull }) => {
+  const styles = [
+    tw`
   flex
   justify-center
   items-center
   outline-0
-`
+`,
+  ]
+
+  if (isFull) {
+    styles.push(tw`w-full`)
+  }
+
+  return styles
+})
 
 export const PopPover: FC<{
   button: ReactNode
   children: ReactNode
   styled?: string
   visible?: boolean
-}> = ({ button, children, styled, visible }) => {
+  isFull?: boolean
+}> = ({ button, children, styled, visible, isFull = false }) => {
   return (
-    <PopoverPosition>
-      <PopoverButton>{button}</PopoverButton>
+    <PopoverPosition isFull={isFull}>
+      <PopoverButton isFull={isFull}>{button}</PopoverButton>
       <Transition
         show={visible}
         enter='transition ease-out duration-200'

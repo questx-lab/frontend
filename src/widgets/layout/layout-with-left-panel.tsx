@@ -9,7 +9,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { Horizontal } from '@/widgets/orientation'
 
 const TopMargin = tw(Horizontal)`
-  min-h-screen
+  h-full
   pt-[64px]
 `
 

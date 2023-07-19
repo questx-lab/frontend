@@ -16,7 +16,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { uploadFileForCommunity } from '@/utils/file'
 import { PositiveButton } from '@/widgets/buttons'
 import { HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
-import { Divider, Gap } from '@/widgets/separator'
+import { Divider } from '@/widgets/separator'
 
 const VerticalFrame = tw(VerticalFullWidth)`
   w-2/3
@@ -25,6 +25,9 @@ const VerticalFrame = tw(VerticalFullWidth)`
   max-md:w-full
   py-4
   px-36
+  gap-3
+  h-full
+  overflow-y-auto
 `
 
 const HorizontalFullWidthEnd = tw(HorizontalFullWidth)`
@@ -80,14 +83,10 @@ const General: FC = () => {
   return (
     <VerticalFrame>
       <DisplayName />
-      <Gap />
       <Description />
-      <Gap />
       <Logo />
       <SocialConnection />
-      <Gap />
       <Divider />
-      <Gap />
       <HorizontalFullWidthEnd>
         <PositiveButton width={SizeEnum.x48} onClick={onSaveClicked} loading={loading}>
           {'Save'}

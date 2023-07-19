@@ -60,7 +60,7 @@ const SocialConnection: FC = () => {
 
   return (
     <VerticalFullWidth>
-      <VerticalFullWidth>
+      <VerticalFullWidth className='gap-3'>
         <HeaderText3>{'WEBSITE URL'}</HeaderText3>
         <TextField value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)}></TextField>
         <Gap height={6} />

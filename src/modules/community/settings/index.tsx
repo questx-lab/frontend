@@ -2,17 +2,18 @@ import { FC, useEffect, useState } from 'react'
 
 import tw from 'twin.macro'
 
+import ChatSetting from '@/modules/community/settings/chat'
 import General from '@/modules/community/settings/general'
 import CommunityStore from '@/store/local/community'
 import NewCommunityStore from '@/store/local/new-community'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
-import { Gap } from '@/widgets/separator'
 import { Tab, TabItem } from '@/widgets/tab-group/focus-white-background'
 import { HeaderText3 } from '@/widgets/text'
 
 enum TabEnum {
   GENERAL,
   API,
+  CHAT,
 }
 
 const HeaderText = tw(HeaderText3)`
@@ -21,6 +22,11 @@ const HeaderText = tw(HeaderText3)`
   max-lg:px-6
   py-4
   px-36
+`
+
+const Frame = tw(VerticalFullWidth)`
+  h-[calc(100vh_-_64px)]
+  
 `
 
 const CommunitySettings: FC = () => {
@@ -37,7 +43,7 @@ const CommunitySettings: FC = () => {
   }, [])
 
   return (
-    <VerticalFullWidth>
+    <Frame>
       <HeaderText>{'Settings'}</HeaderText>
       <HorizontalBetweenCenterFullWidth>
         <Tab>
@@ -48,6 +54,9 @@ const CommunitySettings: FC = () => {
           >
             {'GENERAL'}
           </TabItem>
+          <TabItem tabCount={1} active={tab === TabEnum.CHAT} onClick={() => setTab(TabEnum.CHAT)}>
+            {'CHAT'}
+          </TabItem>
           {
             // TODO: complete API key tab.
             /* <TabItem active={tab === TabEnum.API} onClick={() => setTab(TabEnum.API)}>
@@ -56,9 +65,9 @@ const CommunitySettings: FC = () => {
           }
         </Tab>
       </HorizontalBetweenCenterFullWidth>
-      <Gap height={6} />
       {tab === TabEnum.GENERAL && <General />}
-    </VerticalFullWidth>
+      {tab === TabEnum.CHAT && <ChatSetting />}
+    </Frame>
   )
 }
 

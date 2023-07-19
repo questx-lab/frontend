@@ -1,5 +1,11 @@
 import { UserType } from '@/types'
 
+export enum MemberRole {
+  ADMIN = 'Admin',
+  SUPER_MOD = 'Super Mod',
+  MOD = 'Mod',
+}
+
 export type MessageAttachmentType = {
   id: string
   content_type: string
@@ -33,4 +39,5 @@ export type UserChatType = {
   user: UserType
   status: UserChatStatusType
   shordStatus?: string
+  role?: MemberRole
 }

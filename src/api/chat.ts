@@ -1,6 +1,12 @@
 import StorageConst from '@/constants/storage.const'
 import { Rsp } from '@/types'
-import { ChannelType, ChatMessageType, UserChatStatusType, UserChatType } from '@/types/chat'
+import {
+  ChannelType,
+  ChatMessageType,
+  MemberRole,
+  UserChatStatusType,
+  UserChatType,
+} from '@/types/chat'
 
 export const getChanelsApi = async (): Promise<Rsp<ChannelType[]>> => {
   // TODO: data mock
@@ -119,6 +125,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.ONLINE,
       shordStatus: 'hi fen',
+      role: MemberRole.ADMIN,
     },
     {
       user: {
@@ -127,6 +134,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.ONLINE,
       shordStatus: '',
+      role: MemberRole.SUPER_MOD,
     },
     {
       user: {
@@ -135,6 +143,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.ONLINE,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -143,6 +152,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.ONLINE,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -151,6 +161,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.ONLINE,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -159,6 +170,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.BUSY,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -167,6 +179,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.BUSY,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -175,6 +188,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.BUSY,
       shordStatus: 'hi fen',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -183,6 +197,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.BUSY,
       shordStatus: 'hi fen',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -191,6 +206,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.OFFLINE,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -199,6 +215,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.OFFLINE,
       shordStatus: 'hi fen',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -207,6 +224,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.OFFLINE,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -215,6 +233,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.OFFLINE,
       shordStatus: 'hi fen',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -223,6 +242,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.OFFLINE,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -231,6 +251,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.OFFLINE,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -239,6 +260,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.OFFLINE,
       shordStatus: 'hi fen',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -247,6 +269,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.OFFLINE,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -255,6 +278,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.OFFLINE,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -263,6 +287,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.OFFLINE,
       shordStatus: 'hi fen',
+      role: MemberRole.MOD,
     },
     {
       user: {
@@ -271,6 +296,7 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
       },
       status: UserChatStatusType.OFFLINE,
       shordStatus: '',
+      role: MemberRole.MOD,
     },
   ]
 
