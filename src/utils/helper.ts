@@ -94,12 +94,10 @@ export const clearLocalStorage = () => {
   localStorage.clear()
 }
 
-export const isLogin = (user: UserType): boolean => {
-  if (!user) {
-    return false
-  }
+export const isLogin = (): boolean => {
+  const accessToken = getAccessToken()
 
-  if (!Object.values(user).length) {
+  if (!accessToken) {
     return false
   }
 

@@ -8,14 +8,7 @@ import ActiveQuestStore from '@/store/local/active-quest'
 import CommunityStore from '@/store/local/community'
 import { QuestType } from '@/types/quest'
 import { Image } from '@/widgets/image'
-import {
-  OptionxBox,
-  PopItem,
-  PopoverButton,
-  PopoverPosition,
-  PopoverSize,
-  PopPanel,
-} from '@/widgets/popover'
+import { OptionxBox, PopItem, PopPover } from '@/widgets/popover'
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
 
@@ -31,17 +24,14 @@ const RowOption: FC<{ quest: QuestType }> = ({ quest }) => {
   const onEditClicked = () => {}
 
   return (
-    <PopoverPosition>
-      <PopoverButton className={'outline-0'}>...</PopoverButton>
-      <PopPanel size={PopoverSize.SMALL}>
-        <PopItem>
-          <OptionxBox onClick={onPreviewClicked}>{'Preview'}</OptionxBox>
-        </PopItem>
-        <PopItem>
-          <OptionxBox onClick={onEditClicked}>{'Edit'}</OptionxBox>
-        </PopItem>
-      </PopPanel>
-    </PopoverPosition>
+    <PopPover button={<>...</>} styled='w-[200px] right-0 mt-5'>
+      <PopItem>
+        <OptionxBox onClick={onPreviewClicked}>{'Preview'}</OptionxBox>
+      </PopItem>
+      <PopItem>
+        <OptionxBox onClick={onEditClicked}>{'Edit'}</OptionxBox>
+      </PopItem>
+    </PopPover>
   )
 }
 

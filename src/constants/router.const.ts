@@ -9,6 +9,7 @@ export enum RouterConst {
   USER = '/users/',
   TOWNHALL = '/townhall',
   ACCOUNT_SETTINGS = '/account-settings',
+  MESSAGES = '/messages',
 }
 
 export const communityRoute = (communityHandle: string): string => {

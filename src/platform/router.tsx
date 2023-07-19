@@ -23,6 +23,8 @@ import Communities from '@/platform/routes/communities/route'
 import TrendingCommunitiesIndex from '@/platform/routes/communities/trending'
 import TrendingCommunity from '@/platform/routes/communities/trending/route'
 import HomeIndex from '@/platform/routes/homepage'
+import MessagesIndex from '@/platform/routes/messages/index'
+import Messages from '@/platform/routes/messages/routes'
 import QuestercampIndex from '@/platform/routes/questercamp'
 import Questercamp from '@/platform/routes/questercamp/route'
 import TrendingQuestsIndex from '@/platform/routes/questercamp/trending'
@@ -101,6 +103,11 @@ const PlatformRouter = (): RouteObject[] => {
           path: 'account-settings',
           element: <AccoutSettings />,
           children: [{ index: true, element: <AccountSettingIndex /> }],
+        },
+        {
+          path: 'messages',
+          element: <Messages />,
+          children: [{ index: true, element: <MessagesIndex /> }],
         },
       ],
     },
