@@ -75,7 +75,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
 }
 
 const ChatContent: FC = () => {
-  const currentChannel = ChatStore.useStoreState((state) => state.currentChannel)
+  const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   const messages = useMessages(currentChannel.id)
 

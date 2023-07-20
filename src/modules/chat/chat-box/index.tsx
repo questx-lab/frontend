@@ -15,7 +15,7 @@ const Frame = tw(VerticalFullWidth)`
 `
 
 const ChatBox: FC = () => {
-  const currentChannel = ChatStore.useStoreState((state) => state.currentChannel)
+  const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
 
   const onNewMessagedEntered = (message: string) => {
     sendMessageApi(currentChannel.id, message)

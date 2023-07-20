@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import Channel from '@/modules/chat/popover/channel'
+import Channel from '@/modules/chat/popover/channels'
 import { Vertical } from '@/widgets/orientation'
 import { TextSm } from '@/widgets/text'
 
