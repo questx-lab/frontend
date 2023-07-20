@@ -1,22 +1,17 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 
-import { useStoreState } from 'easy-peasy'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
 import { messageRoute } from '@/constants/router.const'
+import Index from '@/modules/chat'
 import ChatBox from '@/modules/chat/chat-box'
-import useChannels from '@/modules/chat/hooks/use-channels'
-import AskToFollow from '@/modules/chat/popover/ask-to-follow'
 import Channels from '@/modules/chat/popover/channels'
 import Header from '@/modules/chat/popover/header'
-import chatController from '@/modules/chat/services/chat-controller'
 import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
-import { GlobalStoreModel } from '@/store/store'
 import { TabChatType } from '@/types/chat'
-import { FollowCommunityType } from '@/types/community'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { PopPover } from '@/widgets/popover'
 import { TextSm, TextXl } from '@/widgets/text'
@@ -67,23 +62,9 @@ const ContentTab: FC = () => {
 }
 
 const PopPoverContent: FC = () => {
-  // data
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
-  const communitiesFollowing: FollowCommunityType[] = useStoreState<GlobalStoreModel>(
-    (state) => state.communitiesFollowing
-  )
-  const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  const channels = useChannels(community.handle)
-  const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
 
-  // actions
-  const setCurrentChannel = ChatStore.useStoreActions((action) => action.setChannel)
   const setShowChatPopover = ChatStore.useStoreActions((action) => action.setShowChatPopover)
-
-  // Check if user follows this community. If not, ask them to join the community.
-  const didFollowCommunity =
-    communitiesFollowing &&
-    communitiesFollowing.some((follow) => follow.community.handle === community.handle)
 
   const navigate = useNavigate()
   const onNavigate = () => {
@@ -91,37 +72,21 @@ const PopPoverContent: FC = () => {
     navigate(messageRoute(community.handle))
   }
 
-  useEffect(() => {
-    // get Channels
-    if (user && community.handle) {
-      chatController.loadChannels(community.handle)
-    }
-  }, [user, community.handle])
-
-  // Set a default channel if it is not defined
-  useEffect(() => {
-    if (currentChannel.id === BigInt(0) && channels.length > 0) {
-      setCurrentChannel(channels[0])
-    }
-  }, [currentChannel.id, channels, setCurrentChannel])
-
-  if (!community) {
-    return <></>
-  }
-
-  if (!didFollowCommunity) {
-    return <AskToFollow />
-  }
-
   return (
     <>
-      <Header />
-      <Content>
-        <ContentTab />
-      </Content>
-      <FootFrame>
-        <PrimaryText onClick={onNavigate}>{'See all in chat room'}</PrimaryText>
-      </FootFrame>
+      <Index
+        children={
+          <>
+            <Header />
+            <Content>
+              <ContentTab />
+            </Content>
+            <FootFrame>
+              <PrimaryText onClick={onNavigate}>{'See all in chat room'}</PrimaryText>
+            </FootFrame>
+          </>
+        }
+      />
     </>
   )
 }

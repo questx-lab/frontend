@@ -9,7 +9,6 @@ import { CommunityType } from '@/types/community'
 import { isLogin } from '@/utils/helper'
 
 export const Loader = async (args: { params: Params }) => {
-  console.log("args.params['communityHandle']  = ", args.params['communityHandle'])
   const [communityResult] = await Promise.all([
     getCommunityApi(args.params['communityHandle'] || ''),
   ])
