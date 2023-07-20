@@ -1,31 +1,23 @@
 import { FC, useEffect } from 'react'
 
-import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useStoreState } from 'easy-peasy'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
-import { getFollowCommunitiesApi, newFollowCommunityApi } from '@/api/communitiy'
-import { ErrorCodes } from '@/constants/code.const'
 import { RouterConst } from '@/constants/router.const'
 import ChatBox from '@/modules/chat/chat-box'
 import useChannels from '@/modules/chat/hooks/use-channels'
+import AskToFollow from '@/modules/chat/popover/ask-to-follow'
 import Channels from '@/modules/chat/popover/channels'
+import Header from '@/modules/chat/popover/header'
 import chatController from '@/modules/chat/services/chat-controller'
-import { Padding } from '@/modules/create-quest/quest-type/mini-widget'
 import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { TabChatType } from '@/types/chat'
 import { FollowCommunityType } from '@/types/community'
-import { NegativeButton } from '@/widgets/buttons'
-import {
-  HorizontalBetweenCenterFullWidth,
-  HorizontalFullWidth,
-  VerticalFullWidth,
-  VerticalFullWidthCenter,
-} from '@/widgets/orientation'
+import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { PopPover } from '@/widgets/popover'
 import { TextSm, TextXl } from '@/widgets/text'
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -44,14 +36,6 @@ const Padding6 = tw.div`
   p-6
 `
 
-const ChatHeaderFrame = tw(VerticalFullWidth)`
-  pt-2
-  px-6
-  gap-6
-`
-
-const TabFrame = tw(HorizontalFullWidth)`gap-2`
-
 const Content = tw.div`
   h-full
   w-full
@@ -67,53 +51,7 @@ const FootFrame = tw(HorizontalFullWidthCenter)`
   justify-center
 `
 
-const AskToFollowFrame = tw(VerticalFullWidthCenter)`
-  h-full
-`
-
 const PrimaryText = tw(TextSm)`text-primary font-medium`
-
-const Tab = styled.div<{ isActive: boolean }>(({ isActive }) => {
-  const styles = [tw`py-[10px] px-3 text-sm rounded-full`]
-
-  if (isActive) {
-    styles.push(tw`bg-primary text-white font-medium`)
-  } else {
-    styles.push(tw`bg-gray-200 text-gray-900 font-normal`)
-  }
-
-  return styles
-})
-
-const ChatHeader: FC = () => {
-  const tab = ChatStore.useStoreState((state) => state.selectedTab)
-  const setTab = ChatStore.useStoreActions((actions) => actions.setTab)
-  const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
-
-  const onClicked = (activeTab: TabChatType) => {
-    if (tab !== activeTab) {
-      setTab(activeTab)
-    }
-  }
-
-  return (
-    <ChatHeaderFrame>
-      <HorizontalBetweenCenterFullWidth>
-        <TabFrame>
-          <Tab isActive={tab === TabChatType.Chat} onClick={() => onClicked(TabChatType.Chat)}>
-            {'#' + currentChannel.name}
-          </Tab>
-          <Tab
-            isActive={tab === TabChatType.CHANNEL_LIST}
-            onClick={() => onClicked(TabChatType.CHANNEL_LIST)}
-          >
-            {TabChatType.CHANNEL_LIST}
-          </Tab>
-        </TabFrame>
-      </HorizontalBetweenCenterFullWidth>
-    </ChatHeaderFrame>
-  )
-}
 
 const ContentTab: FC = () => {
   const tab = ChatStore.useStoreState((state) => state.selectedTab)
@@ -126,36 +64,6 @@ const ContentTab: FC = () => {
   }
 
   return <ChatBox />
-}
-
-const AskToFollow: FC = () => {
-  // data
-  const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
-  const invitedBy = CommunityStore.useStoreState((state) => state.invitedBy)
-
-  // actions
-  const setCommunitiesFollowing = useStoreActions<GlobalStoreModel>(
-    (action) => action.setCommunitiesFollowing
-  )
-
-  const onJoinClicked = async () => {
-    const data = await newFollowCommunityApi(community.handle, invitedBy)
-    if (data.code === ErrorCodes.NOT_ERROR) {
-      const result = await getFollowCommunitiesApi()
-
-      if (result.code === ErrorCodes.NOT_ERROR) {
-        setCommunitiesFollowing(result.data?.followers)
-      }
-    }
-  }
-
-  return (
-    <AskToFollowFrame>
-      Please, join this community to chat
-      <Padding />
-      <NegativeButton onClick={onJoinClicked}>Join</NegativeButton>
-    </AskToFollowFrame>
-  )
 }
 
 const PopPoverContent: FC = () => {
@@ -207,7 +115,7 @@ const PopPoverContent: FC = () => {
 
   return (
     <>
-      <ChatHeader />
+      <Header />
       <Content>
         <ContentTab />
       </Content>
