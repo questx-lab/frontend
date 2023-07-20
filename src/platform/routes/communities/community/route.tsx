@@ -94,7 +94,8 @@ const Community = () => {
   // load quests
   const loadQuests = async () => {
     if (data.community && data.community.handle) {
-      const result = await listQuestApi(data.community.handle, '', true)
+      const includeUnclaimAble = user ? true : false
+      const result = await listQuestApi(data.community.handle, '', includeUnclaimAble)
       if (result.code === 0) {
         setQuests(result.data?.quests || [])
       } else {
@@ -127,7 +128,7 @@ const Community = () => {
   useEffect(() => {
     // Reload all the quests whenever data community changes or a new quest is deleted.
     loadQuests()
-  }, [deletedQuest.id, data.community, loadQuests])
+  }, [deletedQuest.id, data.community])
 
   if (!community) {
     return <HorizontalCenter>{'Failed to load community data'}</HorizontalCenter>

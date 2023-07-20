@@ -1,9 +1,10 @@
 import { FC } from 'react'
 
-import { useStoreState } from 'easy-peasy'
+import { useStoreActions, useStoreState } from 'easy-peasy'
 import parseHtml from 'html-react-parser'
 import tw from 'twin.macro'
 
+import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
 import { ColorEnum, QuestTypeEnum } from '@/constants/common.const'
 import { QuestDiscord } from '@/modules/quest/view-quest/discord'
 import QuestImage from '@/modules/quest/view-quest/image'
@@ -18,7 +19,14 @@ import QuestUrl from '@/modules/quest/view-quest/url'
 import { QuestVisitLink } from '@/modules/quest/view-quest/vist-link'
 import { GlobalStoreModel } from '@/store/store'
 import { canClaimQuest, QuestType } from '@/types/quest'
-import { Horizontal, HorizontalCenter, Vertical, VerticalFullWidth } from '@/widgets/orientation'
+import { PositiveButton } from '@/widgets/buttons'
+import {
+  Horizontal,
+  HorizontalBetweenCenterFullWidth,
+  HorizontalCenter,
+  Vertical,
+  VerticalFullWidth,
+} from '@/widgets/orientation'
 import { MediumText } from '@/widgets/text'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
@@ -80,11 +88,26 @@ const BlockContent: FC<{ quest: QuestType }> = ({ quest }) => {
 
 const QuestContent: FC<{ quest: QuestType }> = ({ quest }) => {
   const { quizzes } = quest.validation_data || {}
-  // store
+  // data
   const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-
   const canClaim = canClaimQuest(quest, myCommunities, user)
+
+  // action
+  const setShowLoginModal = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
+
+  if (!user) {
+    return (
+      <HorizontalFullWidthCenter>
+        <ColorBox boxColor={ColorEnum.DANGER}>
+          <HorizontalBetweenCenterFullWidth>
+            {'You need login to continue'}
+            <PositiveButton onClick={() => setShowLoginModal(true)}>{'Login'}</PositiveButton>
+          </HorizontalBetweenCenterFullWidth>
+        </ColorBox>
+      </HorizontalFullWidthCenter>
+    )
+  }
 
   switch (quest?.type) {
     case QuestTypeEnum.URL:

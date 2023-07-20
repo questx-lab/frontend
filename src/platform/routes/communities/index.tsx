@@ -1,11 +1,13 @@
 import { FC, useState } from 'react'
 
+import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
 
 import CreateCommunity from '@/modules/create-community'
 import CommunityContent from '@/platform/routes/communities/community-content'
 import NewCommunityStore from '@/store/local/new-community'
+import { GlobalStoreModel } from '@/store/store'
 import { SearchInput } from '@/widgets/input/search-input'
 import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import BaseModal from '@/widgets/modal/base'
@@ -67,6 +69,12 @@ const Padding = tw(VerticalCenter)`
 const NewCommunity: FC<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  console.log('user', user)
+  if (!user) {
+    return <></>
+  }
+
   return (
     <CreateProjectBtn onClick={() => setOpen(true)}>
       <PlusIcon className={'w-5 h-5 text-gray-900'} />

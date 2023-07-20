@@ -1,5 +1,6 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
+import { useStoreActions, useStoreState } from 'easy-peasy'
 import { BrowserView } from 'react-device-detect'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
@@ -11,6 +12,7 @@ import FollowCommunity from '@/modules/community/community-view/guest-or-anonymo
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
 import { BorderBottom, FixedWidth, PaddingHorizontal } from '@/modules/community/mini-widget'
 import CommunityStore from '@/store/local/community'
+import { GlobalStoreModel } from '@/store/store'
 import { onCopy } from '@/utils/helper'
 import { PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
@@ -98,9 +100,10 @@ const DiscordLink: FC<{ discordUrl?: string }> = ({ discordUrl }) => {
 
 const CommunityGuestOrAnonymous: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
-  const navigate = useNavigate()
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
-  const [showCharacterSelectModal, setShowCharacterSelectModal] = useState<boolean>(false)
+  const setShowLoginModal = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
+  const navigate = useNavigate()
 
   if (!community) {
     return <></>
@@ -128,7 +131,13 @@ const CommunityGuestOrAnonymous: FC = () => {
                 <ReponsiveHorizontal>
                   <BrowserView>
                     <PositiveButton
-                      onClick={() => navigate(RouterConst.TOWNHALL + `/${community.handle}`)}
+                      onClick={() => {
+                        if (!user) {
+                          setShowLoginModal(true)
+                        } else {
+                          navigate(RouterConst.TOWNHALL + `/${community.handle}`)
+                        }
+                      }}
                     >
                       {'Join Town Hall'}
                     </PositiveButton>
