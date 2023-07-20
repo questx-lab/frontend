@@ -3,8 +3,8 @@ import { FC } from 'react'
 import tw from 'twin.macro'
 
 import { sendMessageApi } from '@/api/chat'
-import ChatContent from '@/modules/chat/chat-box/chat-content'
 import ChatInput from '@/modules/chat/chat-box/chat-input'
+import MessageList from '@/modules/chat/chat-box/message-list'
 import ChatStore from '@/store/chat/chat'
 import { VerticalFullWidth } from '@/widgets/orientation'
 
@@ -23,7 +23,7 @@ const ChatBox: FC = () => {
 
   return (
     <Frame>
-      <ChatContent />
+      <MessageList />
       <ChatInput onNewMessagedEntered={onNewMessagedEntered} />
     </Frame>
   )

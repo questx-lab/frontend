@@ -69,9 +69,10 @@ const Tab = styled.div<{ isActive: boolean }>(({ isActive }) => {
   return styles
 })
 
-const ChatTab: FC = () => {
+const ChatHeader: FC = () => {
   const tab = ChatStore.useStoreState((state) => state.selectedTab)
   const setTab = ChatStore.useStoreActions((actions) => actions.setTab)
+  const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
 
   const onClicked = (activeTab: TabChatType) => {
     if (tab !== activeTab) {
@@ -82,7 +83,7 @@ const ChatTab: FC = () => {
   return (
     <TabFrame>
       <Tab isActive={tab === TabChatType.Chat} onClick={() => onClicked(TabChatType.Chat)}>
-        {TabChatType.Chat}
+        {'#' + currentChannel.name}
       </Tab>
       <Tab
         isActive={tab === TabChatType.CHANNEL_LIST}
@@ -159,7 +160,7 @@ const ChatPopover: FC = () => {
             <TextXl>{'Chat'}</TextXl>
             <XMarkIcon className='w-6 h-6 text-gray-900' onClick={onChangePoppover} />
           </HorizontalBetweenCenterFullWidth>
-          <ChatTab />
+          <ChatHeader />
         </GapPaddingx>
         <Content>
           <ContentTab />
