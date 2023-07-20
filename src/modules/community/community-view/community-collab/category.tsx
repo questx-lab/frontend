@@ -33,10 +33,6 @@ const Category: FC = () => {
     categories &&
     categories.map((category) => <CategoryBox key={category.id}>{category.name}</CategoryBox>)
 
-  if (!role) {
-    return <></>
-  }
-
   if (
     !role ||
     (role &&
