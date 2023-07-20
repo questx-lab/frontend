@@ -8,8 +8,8 @@ export type MessageAttachmentType = {
 
 export type ChatMessageType = {
   id: string
-  channel_id: string
-  author_id: string
+  channel_id: bigint
+  author: UserType
   content: string
   timestamp?: string
 
@@ -23,7 +23,7 @@ export type ChatMessagesType = {
 }
 
 export type ChannelType = {
-  id: BigInt
+  id: bigint
   community_id: string
   name: string
   last_message_id: number
@@ -56,6 +56,15 @@ export type UserChatType = {
   shordStatus?: string
 }
 
+export enum ChatMessageReceiverEnum {
+  MESSAGE_CREATED = 'message_created',
+}
+
+export type ReadyMessageType = {
+  chat_members: UserType[]
+}
+
 export type ChatMessageReceiver = {
-  o: string
+  o: ChatMessageReceiverEnum
+  d: ChatMessageType | ReadyMessageType
 }

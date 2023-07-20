@@ -194,7 +194,7 @@ export const getMessagesApi = async (
 ): Promise<Rsp<ChatMessagesType>> => {
   const res = await api.get(
     EnvVariables.API_SERVER +
-      `/getMessages?channel_id=${channel_id}&last_message_id=${last_message_id}&limit=50`
+      `/getMessages?channel_id=${channel_id.toString()}&last_message_id=${last_message_id}&limit=50`
   )
 
   return res.data

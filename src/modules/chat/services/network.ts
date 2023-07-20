@@ -1,3 +1,4 @@
+import JSONbig from 'json-bigint'
 import { ICloseEvent, IMessageEvent, w3cwebsocket } from 'websocket'
 
 import { EnvVariables } from '@/constants/env.const'
@@ -63,9 +64,8 @@ class Network {
         try {
           const arr = await event.data.arrayBuffer()
           const s = new TextDecoder().decode(arr)
-          console.log('s = ', s)
 
-          const msg = JSON.parse(s) as ChatMessageReceiver
+          const msg = JSONbig.parse(s) as ChatMessageReceiver
           this.listeners.forEach((listener) => listener.onMessage(msg))
         } catch (error) {
           console.log('json parse error = ', error)
@@ -80,7 +80,7 @@ class Network {
     }
 
     if (this.socket && this.socket.readyState === this.socket.OPEN) {
-      const s = JSON.stringify(message)
+      const s = JSONbig.stringify(message)
       this.socket.send(s)
     }
   }

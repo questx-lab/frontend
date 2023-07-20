@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useRef } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
@@ -47,13 +47,12 @@ const FullSize = tw(HorizontalBetweenCenterFullWidth)`h-full`
 
 const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-
   if (!user) {
     return <></>
   }
 
   // Sender
-  if (message.author_id === user.id) {
+  if (message.author.id === user.id) {
     return (
       <GapHorizontal isOwnser>
         <GapVertical isOwnser>
@@ -66,9 +65,9 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   // Messages from other people
   return (
     <GapHorizontal>
-      <UserAvatar user={{ id: message.author_id, name: '' }} size={32} />
+      <UserAvatar user={message.author} size={32} />
       <GapVertical>
-        <MediumTextSm>{message.author_id}</MediumTextSm>
+        <MediumTextSm>{message.author.name}</MediumTextSm>
         <LightTextBase>{message.content}</LightTextBase>
       </GapVertical>
     </GapHorizontal>
@@ -77,12 +76,22 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
 
 const ChatContent: FC = () => {
   const currentChannel = ChatStore.useStoreState((state) => state.currentChannel)
+  const messagesEndRef = useRef<null | HTMLDivElement>(null)
+  const messages = useMessages(currentChannel.id)
 
   useEffect(() => {
     chatController.loadMessages(currentChannel.id, BigInt(0))
   }, [currentChannel.id])
 
-  const messages = useMessages(currentChannel.id)
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
 
   if (currentChannel.id === BigInt(0)) {
     return <></>
@@ -96,7 +105,11 @@ const ChatContent: FC = () => {
     <MessageItem key={message.id} message={message} />
   ))
 
-  return <Frame>{renderMessages}</Frame>
+  return (
+    <Frame>
+      {renderMessages} <div ref={messagesEndRef} />
+    </Frame>
+  )
 }
 
 export default ChatContent

@@ -1,13 +1,18 @@
 import { getChannelsApi, getMessagesApi } from '@/api/chat'
 import network from '@/modules/chat/services/network'
-import { ChannelType, ChatMessageReceiver, ChatMessageType } from '@/types/chat'
+import {
+  ChannelType,
+  ChatMessageReceiver,
+  ChatMessageReceiverEnum,
+  ChatMessageType,
+} from '@/types/chat'
 
 export interface ChannelsListener {
   onChannelsChanged: (handle: string, newChannels: ChannelType[]) => void
 }
 
 export interface MessagesListener {
-  onMessages: (channelId: BigInt, messages: ChatMessageType[]) => void
+  onMessages: (channelId: bigint, messages: ChatMessageType[]) => void
 }
 
 class ChatController {
@@ -16,7 +21,20 @@ class ChatController {
 
     onDisconnected: async () => {},
 
-    onMessage: (s: ChatMessageReceiver) => {},
+    onMessage: (s: ChatMessageReceiver) => {
+      switch (s.o) {
+        case ChatMessageReceiverEnum.MESSAGE_CREATED:
+          const chatMessage = s.d as ChatMessageType
+          // prepend the message to the list
+          const cache = this.messagesCache.get(chatMessage.channel_id.toString()) || []
+
+          const newArr = cache.slice()
+          newArr.push(chatMessage)
+
+          this.updateAndBroadcastMessages(chatMessage.channel_id, newArr)
+          break
+      }
+    },
   }
 
   // Channels
@@ -25,7 +43,7 @@ class ChatController {
 
   // Messages
   private messagesListener = new Set<MessagesListener>()
-  private messagesCache = new Map<BigInt, ChatMessageType[]>()
+  private messagesCache = new Map<string, ChatMessageType[]>()
 
   // Constructor
   constructor() {
@@ -60,7 +78,6 @@ class ChatController {
    */
   async loadChannels(handle: string) {
     const res = await getChannelsApi(handle)
-    console.log('Loading channel....')
     if (res.code === 0 && res.data) {
       const channels = res.data.channels
 
@@ -76,18 +93,22 @@ class ChatController {
     return this.channelsCache.get(handle) || []
   }
 
-  async loadMessages(channelId: BigInt, lastMessageId: BigInt) {
+  async loadMessages(channelId: bigint, lastMessageId: bigint) {
     const res = await getMessagesApi(channelId, lastMessageId)
     if (res.code === 0 && res.data) {
-      const messages = res.data.messages
+      const messages = [...res.data.messages].reverse()
 
-      this.messagesCache.set(channelId, messages)
-      this.messagesListener.forEach((listener) => listener.onMessages(channelId, messages))
+      this.updateAndBroadcastMessages(channelId, messages)
     }
   }
 
-  getMessages(channelId: BigInt): ChatMessageType[] {
-    return this.messagesCache.get(channelId) || []
+  private updateAndBroadcastMessages(channelId: bigint, messages: ChatMessageType[]) {
+    this.messagesCache.set(channelId.toString(), messages)
+    this.messagesListener.forEach((listener) => listener.onMessages(channelId, messages))
+  }
+
+  getMessages(channelId: bigint): ChatMessageType[] {
+    return this.messagesCache.get(channelId.toString()) || []
   }
 }
 

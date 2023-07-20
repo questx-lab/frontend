@@ -37,13 +37,7 @@ export const ChannelItem: FC<{ channel: ChannelType }> = ({ channel }) => {
 }
 
 const Channel: FC = () => {
-  // const [channels, setChannels] = useState<ChannelType[]>([])
-  // const [loading, setLoading] = useState<boolean>(true)
-
   const channels = ChatStore.useStoreState((state) => state.channels)
-
-  console.log('channels = ', channels)
-
   if (channels.length === 0) {
     return (
       <Frame>

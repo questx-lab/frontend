@@ -105,7 +105,6 @@ const Community = () => {
 
   // hook
   useEffect(() => {
-    console.log('Setting community ', data.community)
     setSelectedCommunity(data.community)
     setCategories(data.categories)
     if (collab) {
@@ -128,7 +127,7 @@ const Community = () => {
   useEffect(() => {
     // Reload all the quests whenever data community changes or a new quest is deleted.
     loadQuests()
-  }, [deletedQuest.id, data.community, loadQuests])
+  }, [deletedQuest.id, data.community])
 
   if (!community) {
     return <HorizontalCenter>{'Failed to load community data'}</HorizontalCenter>
