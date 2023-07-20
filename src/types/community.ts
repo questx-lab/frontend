@@ -3,6 +3,7 @@ import { UserType } from '@/types'
 export enum ControlPanelTab {
   QUESTS,
   REVIEW_SUBMISSION,
+  LEADERBOARD,
   SETTINGS,
 }
 

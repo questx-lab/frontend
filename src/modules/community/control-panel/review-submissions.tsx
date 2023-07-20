@@ -9,7 +9,7 @@ import { Tab } from '@/modules/community/control-panel/mini-widgets'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { ControlPanelTab } from '@/types/community'
-import { ArrowUpOnSquareIcon } from '@heroicons/react/24/outline'
+import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline'
 
 const ReviewSubmissionsTab: FC = () => {
   // data
@@ -38,7 +38,7 @@ const ReviewSubmissionsTab: FC = () => {
       }}
       active={activeControlPanelTab === ControlPanelTab.REVIEW_SUBMISSION}
     >
-      <ArrowUpOnSquareIcon className='w-6 h-6 mr-2' />
+      <ChatBubbleBottomCenterTextIcon className='w-5 h-5' />
       {'REVIEW SUBMISSION'}
     </Tab>
   )
