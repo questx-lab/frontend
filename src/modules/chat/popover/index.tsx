@@ -6,10 +6,11 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
-import { getChannelsApi } from '@/api/chat'
 import { RouterConst } from '@/constants/router.const'
 import ChatBox from '@/modules/chat/chat-box'
+import useChannels from '@/modules/chat/hooks/use-channels'
 import Channel from '@/modules/chat/popover/channel'
+import chatController from '@/modules/chat/services/chat-controller'
 import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
@@ -111,10 +112,12 @@ const ChatPopover: FC = () => {
   // data
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const channels = useChannels(community.handle)
+  const currentChannel = ChatStore.useStoreState((state) => state.currentChannel)
 
   // actions
   const setCommunity = ChatStore.useStoreActions((action) => action.setCommunity)
-  const setChannels = ChatStore.useStoreActions((action) => action.setChannels)
+  const setCurrentChannel = ChatStore.useStoreActions((action) => action.setCurrentChannel)
 
   const [visible, setVisible] = useState<boolean>()
   const [tab, setTab] = useState<TabChatType>(TabChatType.GENERAL)
@@ -137,16 +140,16 @@ const ChatPopover: FC = () => {
     // get Channels
     if (user && community.handle) {
       setCommunity(community)
-      fetchChannels()
+      chatController.loadChannels(community.handle)
     }
   }, [user, community.handle])
 
-  const fetchChannels = async () => {
-    const response = await getChannelsApi(community.handle)
-    if (response.data) {
-      setChannels(response.data.channels)
+  // Set a default channel if it is not defined
+  useEffect(() => {
+    if (currentChannel.id === BigInt(0) && channels.length > 0) {
+      setCurrentChannel(channels[0])
     }
-  }
+  }, [currentChannel.id, channels, setCurrentChannel])
 
   if (!community) {
     return <></>

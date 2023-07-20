@@ -1,11 +1,11 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useStoreState } from 'easy-peasy'
-import { toast } from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { getMessagesApi } from '@/api/chat'
+import useMessages from '@/modules/chat/hooks/use-messages'
+import chatController from '@/modules/chat/services/chat-controller'
 import ChatStore from '@/store/chat/chat'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
@@ -17,7 +17,6 @@ import {
   Vertical,
   VerticalFullWidth,
 } from '@/widgets/orientation'
-import { SmallSpinner } from '@/widgets/spinner'
 import { LightTextBase, MediumTextSm } from '@/widgets/text'
 
 const Frame = tw(VerticalFullWidth)`h-full overflow-y-scroll gap-6`
@@ -79,48 +78,24 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
 const ChatContent: FC = () => {
   const currentChannel = ChatStore.useStoreState((state) => state.currentChannel)
 
-  const [loading, setLoading] = useState<boolean>(true)
-  const [messages, setMessages] = useState<ChatMessageType[]>([])
-
   useEffect(() => {
-    getMessages()
-  }, [])
+    chatController.loadMessages(currentChannel.id, BigInt(0))
+  }, [currentChannel.id])
 
-  const getMessages = async () => {
-    try {
-      const { error, data } = await getMessagesApi(currentChannel.id, BigInt(0))
-      if (error) {
-        toast.error(error)
-        return
-      }
-      if (data) {
-        setMessages(data.messages)
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false)
-    }
-  }
+  const messages = useMessages(currentChannel.id)
 
-  if (loading) {
-    return (
-      <FullSize>
-        <SmallSpinner />
-      </FullSize>
-    )
+  if (currentChannel.id === BigInt(0)) {
+    return <></>
   }
 
   if (messages.length === 0) {
     return <></>
   }
 
-  console.log('messages = ', messages)
-
   const renderMessages = messages.map((message) => (
     <MessageItem key={message.id} message={message} />
   ))
 
-  // TODO: infinite loop here
   return <Frame>{renderMessages}</Frame>
 }
 

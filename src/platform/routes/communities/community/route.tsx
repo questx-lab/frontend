@@ -105,6 +105,7 @@ const Community = () => {
 
   // hook
   useEffect(() => {
+    console.log('Setting community ', data.community)
     setSelectedCommunity(data.community)
     setCategories(data.categories)
     if (collab) {

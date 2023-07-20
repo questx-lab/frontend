@@ -10,6 +10,7 @@ interface ChatModel {
 
   setCommunity: Action<ChatModel, CommunityType>
   setChannels: Action<ChatModel, ChannelType[]>
+  setCurrentChannel: Action<ChatModel, ChannelType>
 }
 
 const ChatStore = createContextStore<ChatModel>({
@@ -26,6 +27,10 @@ const ChatStore = createContextStore<ChatModel>({
     if (channels.length > 0 && state.currentChannel.id === BigInt(0)) {
       state.currentChannel = channels[0]
     }
+  }),
+
+  setCurrentChannel: action((state, newChannel) => {
+    state.currentChannel = newChannel
   }),
 })
 
