@@ -23,3 +23,7 @@ export const newQuestRoute = (communityHandle: string): string => {
 export const editQuestRoute = (communityHandle: string): string => {
   return `${communityRoute(communityHandle)}/edit-quest`
 }
+
+export const messageRoute = (communityHandle: string): string => {
+  return `${RouterConst.MESSAGES}/${communityHandle}`
+}

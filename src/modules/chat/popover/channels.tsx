@@ -45,7 +45,7 @@ export const ChannelItem: FC<{ channel: ChannelType }> = ({ channel }) => {
   )
 }
 
-const Channel: FC = () => {
+const Channels: FC = () => {
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const channels = useChannels(community.handle)
   if (channels.length === 0) {
@@ -63,4 +63,4 @@ const Channel: FC = () => {
   return <Frame>{renderChannels}</Frame>
 }
 
-export default Channel
+export default Channels

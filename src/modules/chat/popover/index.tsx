@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
-import { RouterConst } from '@/constants/router.const'
+import { messageRoute } from '@/constants/router.const'
 import ChatBox from '@/modules/chat/chat-box'
 import useChannels from '@/modules/chat/hooks/use-channels'
 import AskToFollow from '@/modules/chat/popover/ask-to-follow'
@@ -88,7 +88,7 @@ const PopPoverContent: FC = () => {
   const navigate = useNavigate()
   const onNavigate = () => {
     setShowChatPopover(false)
-    navigate(RouterConst.MESSAGES)
+    navigate(messageRoute(community.handle))
   }
 
   useEffect(() => {

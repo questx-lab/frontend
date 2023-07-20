@@ -1,41 +1,17 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
-import tw from 'twin.macro'
+import { useNavigate } from 'react-router-dom'
 
-import ChatBox from '@/modules/chat/chat-box'
-import ChannelSide from '@/modules/chat/message/channel-side'
-import StatusSide from '@/modules/chat/message/status-side'
-import { VerticalCenter } from '@/widgets/orientation'
-
-const MainFrame = tw.div`
-  w-full
-  h-[calc(100vh_-_64px)]
-  mt-[64px]
-`
-
-const ChatFrame = tw(VerticalCenter)`
-  w-full
-  h-[calc(100vh_-_64px)]
-`
-
-const FixedWidth = tw.div`
-  w-[640px]
-  h-full
-`
+import { RouterConst } from '@/constants/router.const'
 
 const Index: FC = () => {
-  return (
-    <MainFrame>
-      <ChannelSide />
-      <StatusSide />
+  const navigate = useNavigate()
 
-      <ChatFrame>
-        <FixedWidth>
-          <ChatBox />
-        </FixedWidth>
-      </ChatFrame>
-    </MainFrame>
-  )
+  useEffect(() => {
+    navigate(RouterConst.COMMUNITIES)
+  }, [])
+
+  return <>This page does not exist</>
 }
 
 export default Index
