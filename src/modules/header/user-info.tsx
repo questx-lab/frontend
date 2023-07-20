@@ -9,6 +9,7 @@ import InviteCommunity from '@/modules/header/invite-community'
 import Login from '@/modules/header/login'
 import UserPopover from '@/modules/header/user-popover'
 import UserProfile from '@/modules/header/user-profile'
+import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import BaseModal from '@/widgets/modal/base'
 import BasicModal from '@/widgets/modal/basic'
@@ -63,6 +64,7 @@ const ModalBox = tw(HorizontalCenter)`
 
 const UserInfoBox: FC = () => {
   // data
+  const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const showLoginModal = useStoreState<GlobalStoreModel>((state) => state.showLoginModal)
   const showUserProfileModal = useStoreState<GlobalStoreModel>(
@@ -89,7 +91,7 @@ const UserInfoBox: FC = () => {
   if (user) {
     return (
       <UserSession>
-        <ChatPopover />
+        {community.handle !== '' && <ChatPopover />}
         <GiftIcon onClick={() => setInvite(true)} className='h-5 w-5' />
         <UserPopover />
         <BasicModal
