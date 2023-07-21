@@ -69,21 +69,23 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
 const MessageList: FC = () => {
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
+  const messageList = useRef<null | HTMLDivElement>(null)
   const channelIdString = currentChannel.id.toString()
   const [messages, setMessages] = useState<ChatMessageType[] | undefined>(
     chatController.getMessages(currentChannel.id, BigInt(0))
   )
 
   useEffect(() => {
-    chatController.loadMessages(currentChannel.id, BigInt(0))
+    if (messageList.current) {
+      let position = chatController.getScrollingPosition(currentChannel.id)
+      if (position < 0) {
+        position = 1000000 // first time open, just scroll to the bottom.
+      }
+      messageList.current.scrollTop = position
+    }
   }, [currentChannel.id])
 
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'instant' })
-    }
-  }, [messages])
-
+  // Listen to any message change propagated by the chat controller.
   useEffect(() => {
     const listener = {
       onMessages: (channelId: bigint, newMessages: ChatMessageType[]) => {
@@ -102,10 +104,16 @@ const MessageList: FC = () => {
     chatController.addMessagesListener(listener)
 
     return () => {
+      if (messagesEndRef.current) {
+        console.log('scroll = ', messagesEndRef.current.scrollTo)
+      } else {
+        console.log('messagesEndRef.current is null')
+      }
       chatController.removeMessagesListener(listener)
     }
   }, [channelIdString])
 
+  // Start of rendering.
   if (currentChannel.id === BigInt(0)) {
     return <Frame />
   }
@@ -118,9 +126,15 @@ const MessageList: FC = () => {
     <MessageItem key={message.id} message={message} />
   ))
 
+  const handleOnScroll = (event: any) => {
+    // console.log('event.currentTarget.scrollTop = ', event.currentTarget.scrollTop)
+    chatController.setScrollingPosition(currentChannel.id, event.currentTarget.scrollTop)
+  }
+
   return (
-    <Frame>
-      {renderMessages} <div ref={messagesEndRef} />
+    <Frame onScroll={handleOnScroll} ref={messageList}>
+      {renderMessages}
+      <div ref={messagesEndRef} />
     </Frame>
   )
 }

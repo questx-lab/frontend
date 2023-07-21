@@ -45,6 +45,9 @@ class ChatController {
   private messagesListener = new Set<MessagesListener>()
   private messagesCache = new Map<string, ChatMessageType[]>()
 
+  // Match between channelid -> last scroll position of that channel
+  private lastScrollPosition = new Map<string, number>()
+
   // Constructor
   constructor() {
     network.addListener(this.networkListener)
@@ -114,6 +117,14 @@ class ChatController {
       this.loadMessages(channelId, lastMessageId)
     }
     return messages
+  }
+
+  setScrollingPosition(channelId: bigint, scrollPosition: number) {
+    this.lastScrollPosition.set(channelId.toString(), scrollPosition)
+  }
+
+  getScrollingPosition(channelId: bigint): number {
+    return this.lastScrollPosition.get(channelId.toString()) || -1
   }
 }
 
