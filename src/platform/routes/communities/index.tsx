@@ -70,7 +70,7 @@ const NewCommunity: FC<{
   setOpen: (value: boolean) => void
 }> = ({ setOpen }) => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  console.log('user', user)
+
   if (!user) {
     return <></>
   }
