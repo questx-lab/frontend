@@ -11,7 +11,6 @@ export const Tab = tw(Horizontal)`
   border-y
   border-solid
   border-gray-200
-  px-36
   max-2xl:px-12
   max-lg:px-6
   justify-center
@@ -20,7 +19,21 @@ export const Tab = tw(Horizontal)`
 
 export const TabItem = styled.div<{ active?: boolean; tabCount?: number }>(
   ({ active = false, tabCount = 2 }) => {
-    const style = []
+    const style = [
+      tw`
+        border-x
+        border-solid
+        border-gray-200
+        cursor-pointer
+        py-4
+        text-sm
+        font-bold
+        flex
+        flex-row
+        justify-center
+        items-center
+      `,
+    ]
 
     switch (tabCount) {
       case 1:
@@ -43,34 +56,13 @@ export const TabItem = styled.div<{ active?: boolean; tabCount?: number }>(
     if (active) {
       style.push(tw`
         bg-white
-        flex
-        flex-row
-        justify-center
-        items-center
-        text-sm
-        font-medium
         text-primary
-        py-4
-        border-x
-        border-solid
-        border-gray-200
-        cursor-pointer
+       
       `)
     } else {
       style.push(tw`
         bg-gray-100
-        flex
-        flex-row
-        justify-center
-        items-center
-        text-sm
-        font-medium
-        text-black
-        py-4
-        border-x
-        border-solid
-        border-gray-200
-        cursor-pointer
+        text-gray-900
       `)
     }
 

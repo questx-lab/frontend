@@ -22,8 +22,11 @@ export const FullWidthCenter = tw(HorizontalBetweenCenter)`
   max-sm:mr-0
   md:px-8
   xl:w-[980px]
+  xl:px-0
   md:w-[780px]
-  mr-[280px]
+  xl:mr-[140px]
+  2xl:mr-[280px]
+  mr-0
   py-5
 `
 
@@ -38,10 +41,12 @@ export const FixedWidth = tw(Vertical)`
   xl:px-0
   md:px-8
   md:w-[780px]
+  sm:mr-0
   w-full
   gap-10
-  mr-[350px]
+  xl:mr-[140px]
   2xl:mr-[280px]
+  mr-0
   max-md:mr-0
   max-md:w-full
 `

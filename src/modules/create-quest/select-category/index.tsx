@@ -93,6 +93,8 @@ const Label = tw(Horizontal)`
   text-gray-900
 `
 
+const GapVertical = tw(VerticalFullWidth)`gap-3`
+
 const activeOption = ({ active }: { active: boolean }) =>
   `relative cursor-default select-none py-2 pl-10 pr-4 cursor-pointer ${
     active ? 'bg-gray-100 text-gray-900' : 'text-gray-900'
@@ -151,7 +153,7 @@ export default function SelectCategory() {
   }, [categories, categories.length, category.id])
 
   return (
-    <VerticalFullWidth>
+    <GapVertical>
       <HorizontalBetweenCenterFullWidth>
         <Label>{'Category'}</Label>
         <AddCategory />
@@ -176,6 +178,6 @@ export default function SelectCategory() {
           </Listbox>
         </FullWidth>
       )}
-    </VerticalFullWidth>
+    </GapVertical>
   )
 }

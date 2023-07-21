@@ -10,6 +10,8 @@ import AccountSettingsStore from '@/store/local/account-settings'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { Image } from '@/widgets/image'
+import { VerticalFullWidthCenter } from '@/widgets/orientation'
+import { LightTextXs } from '@/widgets/text'
 
 const SectionUploadImg = tw.section`
   justify-center
@@ -25,48 +27,73 @@ const UploadInput = tw.input`
   h-full
 `
 
-const Container = styled.div<{ dimension: number }>(({ dimension }) => {
-  return `
-    width: ${dimension}px
-    height: ${dimension}px
-  `
+const ImageFrame = styled(Image)<{ isCircle: boolean }>(({ isCircle }) => {
+  const styles = [
+    tw`
+    object-cover
+    aspect-square
+  `,
+  ]
+
+  if (isCircle) {
+    styles.push(tw`rounded-full`)
+  } else {
+    styles.push(tw`rounded-lg`)
+  }
+
+  return styles
 })
 
-const PlaceHolderImage: FC<{ avatar: File | undefined; imageSize: number }> = ({
+const Container = styled.div<{ dimension: number }>(
+  ({ dimension }) => `
+    width:${dimension}px
+    height:${dimension}px
+  `
+)
+
+const GapVertical = tw(VerticalFullWidthCenter)`gap-3`
+
+const PlaceHolderImage: FC<{ avatar: File | undefined; imageSize: number; isCircle: boolean }> = ({
   avatar,
   imageSize,
+  isCircle,
 }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
   const hasLogoOrFile: boolean = avatar !== undefined || user.avatar_url !== ''
   if (hasLogoOrFile) {
     return (
-      <>
-        <Image
-          width={imageSize}
-          height={imageSize}
-          src={
-            (avatar && (avatar as any).preview) || user.avatar_url || StorageConst.USER_DEFAULT.src
-          }
-          alt={StorageConst.USER_DEFAULT.alt}
-          className=' object-cover rounded-lg'
-        />
-      </>
+      <ImageFrame
+        width={imageSize}
+        height={imageSize}
+        src={
+          (avatar && (avatar as any).preview) || user.avatar_url || StorageConst.USER_DEFAULT.src
+        }
+        alt={StorageConst.USER_DEFAULT.alt}
+        isCircle={isCircle}
+      />
     )
   }
 
   return (
-    <Image
-      width={imageSize}
-      height={imageSize}
-      src={(avatar && (avatar as any).preview) || StorageConst.UPLOAD_IMG.src}
-      alt={StorageConst.UPLOAD_IMG.alt}
-      className=' object-cover '
-    />
+    <GapVertical>
+      <ImageFrame
+        width={imageSize}
+        height={imageSize}
+        src={(avatar && (avatar as any).preview) || StorageConst.UPLOAD_IMG.src}
+        alt={StorageConst.UPLOAD_IMG.alt}
+        isCircle={isCircle}
+        className=' border border-dashed border-gray'
+      />
+      <LightTextXs>{'Upload your image'}</LightTextXs>
+    </GapVertical>
   )
 }
 
-const AvatarUpload: FC<{ imageSize: number }> = ({ imageSize }) => {
+const AvatarUpload: FC<{ imageSize: number; isCircle?: boolean }> = ({
+  imageSize,
+  isCircle = false,
+}) => {
   // data
   const avatar = AccountSettingsStore.useStoreState((state) => state.avatar)
 
@@ -92,7 +119,7 @@ const AvatarUpload: FC<{ imageSize: number }> = ({ imageSize }) => {
             })}
           >
             <UploadInput {...getInputProps()} />
-            <PlaceHolderImage avatar={avatar} imageSize={imageSize} />
+            <PlaceHolderImage isCircle={isCircle} avatar={avatar} imageSize={imageSize} />
           </SectionUploadImg>
         )}
       </Dropzone>

@@ -45,7 +45,6 @@ export default class Game extends Phaser.Scene {
       ...this.input.keyboard.createCursorKeys(),
       ...(this.input.keyboard.addKeys('W,S,A,D') as Keyboard),
     }
-
     // maybe we can have a dedicated method for adding keys if more keys are needed in the future
     this.keyE = this.input.keyboard.addKey('E')
     this.keyX = this.input.keyboard.addKey('X')

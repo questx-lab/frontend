@@ -81,7 +81,7 @@ const BlockContent: FC<{ quest: QuestType }> = ({ quest }) => {
 const QuestContent: FC<{ quest: QuestType }> = ({ quest }) => {
   const { quizzes } = quest.validation_data || {}
   // store
-  const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
+  const myCommunities = useStoreState<GlobalStoreModel>((state) => state.myCommunities)
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
   const canClaim = canClaimQuest(quest, myCommunities, user)
