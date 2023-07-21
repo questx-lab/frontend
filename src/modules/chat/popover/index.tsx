@@ -1,32 +1,21 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 
-import { useStoreState } from 'easy-peasy'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
-import { RouterConst } from '@/constants/router.const'
+import { messageRoute } from '@/constants/router.const'
+import Index from '@/modules/chat'
 import ChatBox from '@/modules/chat/chat-box'
-import useChannels from '@/modules/chat/hooks/use-channels'
-import Channel from '@/modules/chat/popover/channel'
-import chatController from '@/modules/chat/services/chat-controller'
+import Channels from '@/modules/chat/popover/channels'
+import Header from '@/modules/chat/popover/header'
 import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
-import { GlobalStoreModel } from '@/store/store'
-import {
-  HorizontalBetweenCenterFullWidth,
-  HorizontalFullWidth,
-  VerticalFullWidth,
-} from '@/widgets/orientation'
+import { TabChatType } from '@/types/chat'
+import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { PopPover } from '@/widgets/popover'
 import { TextSm, TextXl } from '@/widgets/text'
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
-enum TabChatType {
-  GENERAL = '#General',
-  CHANNELS = '#Channels',
-}
 
 const Frame = tw(VerticalFullWidth)`
   h-[800px]
@@ -41,8 +30,6 @@ const GapPaddingx = tw(VerticalFullWidth)`
 const Padding6 = tw.div`
   p-6
 `
-
-const TabFrame = tw(HorizontalFullWidth)`gap-2`
 
 const Content = tw.div`
   h-full
@@ -61,120 +48,77 @@ const FootFrame = tw(HorizontalFullWidthCenter)`
 
 const PrimaryText = tw(TextSm)`text-primary font-medium`
 
-const Tab = styled.div<{ isActive: boolean }>(({ isActive }) => {
-  const styles = [tw`py-[10px] px-3 text-sm rounded-full`]
-
-  if (isActive) {
-    styles.push(tw`bg-primary text-white font-medium`)
-  } else {
-    styles.push(tw`bg-gray-200 text-gray-900 font-normal`)
-  }
-
-  return styles
-})
-
-const ChatTab: FC<{ tab: TabChatType; onTabChange: (value: TabChatType) => void }> = ({
-  tab,
-  onTabChange,
-}) => {
-  const onClicked = (activeTab: TabChatType) => {
-    if (tab !== activeTab) {
-      onTabChange(activeTab)
-    }
-  }
-
-  return (
-    <TabFrame>
-      <Tab isActive={tab === TabChatType.GENERAL} onClick={() => onClicked(TabChatType.GENERAL)}>
-        {TabChatType.GENERAL}
-      </Tab>
-      <Tab isActive={tab === TabChatType.CHANNELS} onClick={() => onClicked(TabChatType.CHANNELS)}>
-        {TabChatType.CHANNELS}
-      </Tab>
-    </TabFrame>
-  )
-}
-
-const ContentTab: FC<{ tab: TabChatType }> = ({ tab }) => {
-  if (tab === TabChatType.CHANNELS) {
+const ContentTab: FC = () => {
+  const tab = ChatStore.useStoreState((state) => state.selectedTab)
+  if (tab === TabChatType.CHANNEL_LIST) {
     return (
       <Padding6>
-        <Channel />
+        <Channels />
       </Padding6>
     )
   }
 
-  // TODO: Chat view
   return <ChatBox />
+}
+
+const PopPoverContent: FC = () => {
+  const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
+
+  const setShowChatPopover = ChatStore.useStoreActions((action) => action.setShowChatPopover)
+
+  const navigate = useNavigate()
+  const onNavigate = () => {
+    setShowChatPopover(false)
+    navigate(messageRoute(community.handle))
+  }
+
+  return (
+    <>
+      <Index
+        children={
+          <>
+            <Header />
+            <Content>
+              <ContentTab />
+            </Content>
+            <FootFrame>
+              <PrimaryText onClick={onNavigate}>{'See all in chat room'}</PrimaryText>
+            </FootFrame>
+          </>
+        }
+      />
+    </>
+  )
 }
 
 const ChatPopover: FC = () => {
   // data
-  const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
-  const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  const channels = useChannels(community.handle)
-  const currentChannel = ChatStore.useStoreState((state) => state.currentChannel)
+  const showChatPopover = ChatStore.useStoreState((state) => state.showChatPopover)
 
   // actions
-  const setCommunity = ChatStore.useStoreActions((action) => action.setCommunity)
-  const setCurrentChannel = ChatStore.useStoreActions((action) => action.setCurrentChannel)
-
-  const [visible, setVisible] = useState<boolean>()
-  const [tab, setTab] = useState<TabChatType>(TabChatType.GENERAL)
-  const navigate = useNavigate()
-
-  const onTabChange = (tab: TabChatType) => {
-    setTab(tab)
-  }
-
-  const onNavigate = () => {
-    onChangePoppover()
-    navigate(RouterConst.MESSAGES)
-  }
+  const setShowChatPopover = ChatStore.useStoreActions((action) => action.setShowChatPopover)
 
   const onChangePoppover = () => {
-    setVisible(!visible)
-  }
-
-  useEffect(() => {
-    // get Channels
-    if (user && community.handle) {
-      setCommunity(community)
-      chatController.loadChannels(community.handle)
-    }
-  }, [user, community.handle])
-
-  // Set a default channel if it is not defined
-  useEffect(() => {
-    if (currentChannel.id === BigInt(0) && channels.length > 0) {
-      setCurrentChannel(channels[0])
-    }
-  }, [currentChannel.id, channels, setCurrentChannel])
-
-  if (!community) {
-    return <></>
+    setShowChatPopover(!showChatPopover)
   }
 
   return (
     <PopPover
       button={<ChatBubbleLeftIcon onClick={onChangePoppover} className='w-5 h-5 text-gray-900' />}
       styled='w-[480px] mt-3 right-0'
-      visible={visible}
+      visible={showChatPopover}
     >
       <Frame>
         <GapPaddingx>
           <HorizontalBetweenCenterFullWidth>
             <TextXl>{'Chat'}</TextXl>
-            <XMarkIcon className='w-6 h-6 text-gray-900' onClick={onChangePoppover} />
+            <XMarkIcon
+              className='w-6 h-6 text-gray-900'
+              onClick={() => setShowChatPopover(false)}
+            />
           </HorizontalBetweenCenterFullWidth>
-          <ChatTab tab={tab} onTabChange={onTabChange} />
         </GapPaddingx>
-        <Content>
-          <ContentTab tab={tab} />
-        </Content>
-        <FootFrame>
-          <PrimaryText onClick={onNavigate}>{'See all in chat room'}</PrimaryText>
-        </FootFrame>
+        <PopPoverContent />
       </Frame>
     </PopPover>
   )

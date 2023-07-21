@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import Channel from '@/modules/chat/popover/channel'
+import Channels from '@/modules/chat/popover/channels'
 import { Vertical } from '@/widgets/orientation'
 import { TextSm } from '@/widgets/text'
 
@@ -28,10 +28,9 @@ const ChannelFrame = tw(Vertical)`
 const ChannelSide: FC = () => {
   return (
     <Frame>
-      {/* <ChannelItem channel={generalChannel} /> */}
       <ChannelFrame>
         <TextSm>{'CHANNELS'}</TextSm>
-        <Channel />
+        <Channels />
       </ChannelFrame>
     </Frame>
   )

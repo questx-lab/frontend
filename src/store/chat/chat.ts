@@ -1,36 +1,32 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { ChannelType, emptyChannel } from '@/types/chat'
-import { CommunityType, emptyCommunity } from '@/types/community'
+import { ChannelType, emptyChannel, TabChatType } from '@/types/chat'
 
 interface ChatModel {
-  community: CommunityType
-  channels: ChannelType[]
-  currentChannel: ChannelType
+  showChatPopover: boolean
+  selectedTab: TabChatType
+  selectedChannel: ChannelType
 
-  setCommunity: Action<ChatModel, CommunityType>
-  setChannels: Action<ChatModel, ChannelType[]>
-  setCurrentChannel: Action<ChatModel, ChannelType>
+  setTab: Action<ChatModel, TabChatType>
+  setChannel: Action<ChatModel, ChannelType>
+  setShowChatPopover: Action<ChatModel, boolean>
 }
 
 const ChatStore = createContextStore<ChatModel>({
-  community: emptyCommunity(),
-  channels: [],
-  currentChannel: emptyChannel(),
+  showChatPopover: false,
+  selectedTab: TabChatType.Chat,
+  selectedChannel: emptyChannel(),
 
-  setCommunity: action((state, community) => {
-    state.community = community
+  setTab: action((state, newTab) => {
+    state.selectedTab = newTab
   }),
 
-  setChannels: action((state, channels) => {
-    state.channels = channels
-    if (channels.length > 0 && state.currentChannel.id === BigInt(0)) {
-      state.currentChannel = channels[0]
-    }
+  setChannel: action((state, newChannel) => {
+    state.selectedChannel = newChannel
   }),
 
-  setCurrentChannel: action((state, newChannel) => {
-    state.currentChannel = newChannel
+  setShowChatPopover: action((state, visibility) => {
+    state.showChatPopover = visibility
   }),
 })
 

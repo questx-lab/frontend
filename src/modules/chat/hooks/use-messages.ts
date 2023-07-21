@@ -23,7 +23,7 @@ export default function useMessages(targetChannelId: bigint) {
     return () => {
       chatController.removeMessagesListener(listener)
     }
-  }, [])
+  }, [targetChannelId])
 
   return messages
 }

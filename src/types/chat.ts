@@ -1,5 +1,10 @@
 import { UserType } from '@/types'
 
+export enum TabChatType {
+  Chat = '#General',
+  CHANNEL_LIST = '#Channels',
+}
+
 export type MessageAttachmentType = {
   id: string
   content_type: string

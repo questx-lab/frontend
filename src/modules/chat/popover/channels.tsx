@@ -2,9 +2,10 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
+import useChannels from '@/modules/chat/hooks/use-channels'
 import ChatStore from '@/store/chat/chat'
-import { ChannelType } from '@/types/chat'
-import { Image } from '@/widgets/image'
+import CommunityStore from '@/store/local/community'
+import { ChannelType, TabChatType } from '@/types/chat'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { LightTextXs, MediumTextSm, TextSm } from '@/widgets/text'
 
@@ -25,9 +26,17 @@ const GapHorizontal = tw(Horizontal)`
 `
 
 export const ChannelItem: FC<{ channel: ChannelType }> = ({ channel }) => {
+  const setChannel = ChatStore.useStoreActions((actions) => actions.setChannel)
+  const setTab = ChatStore.useStoreActions((actions) => actions.setTab)
+
   return (
-    <GapHorizontal>
-      <Image src={channel.avatar} width={64} height={64} />
+    <GapHorizontal
+      onClick={() => {
+        setChannel(channel)
+        setTab(TabChatType.Chat)
+      }}
+    >
+      {'#'}
       <GapVertical>
         <MediumTextSm>{channel.name}</MediumTextSm>
         <LightTextXs>{channel.description}</LightTextXs>
@@ -36,8 +45,9 @@ export const ChannelItem: FC<{ channel: ChannelType }> = ({ channel }) => {
   )
 }
 
-const Channel: FC = () => {
-  const channels = ChatStore.useStoreState((state) => state.channels)
+const Channels: FC = () => {
+  const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
+  const channels = useChannels(community.handle)
   if (channels.length === 0) {
     return (
       <Frame>
@@ -53,4 +63,4 @@ const Channel: FC = () => {
   return <Frame>{renderChannels}</Frame>
 }
 
-export default Channel
+export default Channels
