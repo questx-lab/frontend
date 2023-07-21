@@ -11,7 +11,7 @@ import { Text2xl } from '@/widgets/text'
 
 const FixedWidth = tw.div`w-[980px]`
 
-const Head = tw(Text2xl)`
+const Header = tw(Text2xl)`
   w-full
   py-5
   font-medium
@@ -31,7 +31,7 @@ const Index: FC = () => {
   return (
     <VerticalFullWidthCenter>
       <FixedWidth>
-        <Head>{'Leaderboard'}</Head>
+        <Header>{'Leaderboard'}</Header>
       </FixedWidth>
       <FixedWidth>
         <Leaderboard type={LeaderboardType.TOWNHALL} community={community} />
