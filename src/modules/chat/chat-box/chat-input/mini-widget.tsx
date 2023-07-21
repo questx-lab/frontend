@@ -4,7 +4,6 @@ import { Horizontal } from '@/widgets/orientation'
 
 export const InputBoxBorder = tw.textarea`
   w-full
-  py-2
   outline-0
   bg-gray-200
   resize-none

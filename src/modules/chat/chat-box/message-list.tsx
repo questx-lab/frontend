@@ -1,11 +1,12 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef } from 'react'
 
 import { useStoreState } from 'easy-peasy'
-import { toast } from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { getMessagesApi } from '@/api/chat'
+import useMessages from '@/modules/chat/hooks/use-messages'
+import chatController from '@/modules/chat/services/chat-controller'
+import ChatStore from '@/store/chat/chat'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { ChatMessageType } from '@/types/chat'
@@ -16,7 +17,6 @@ import {
   Vertical,
   VerticalFullWidth,
 } from '@/widgets/orientation'
-import { SmallSpinner } from '@/widgets/spinner'
 import { LightTextBase, MediumTextSm } from '@/widgets/text'
 
 const Frame = tw(VerticalFullWidth)`h-full overflow-y-scroll gap-6`
@@ -47,7 +47,6 @@ const FullSize = tw(HorizontalBetweenCenterFullWidth)`h-full`
 
 const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-
   if (!user) {
     return <></>
   }
@@ -75,48 +74,42 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   )
 }
 
-const ChatContent: FC = () => {
-  const [loading, setLoading] = useState<boolean>(true)
-  const [messages, setMessages] = useState<ChatMessageType[]>([])
+const MessageList: FC = () => {
+  const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
+  const messagesEndRef = useRef<null | HTMLDivElement>(null)
+  const messages = useMessages(currentChannel.id)
 
   useEffect(() => {
-    getMessages()
-  }, [])
+    chatController.loadMessages(currentChannel.id, BigInt(0))
+  }, [currentChannel.id])
 
-  const getMessages = async () => {
-    try {
-      const { error, data } = await getMessagesApi()
-      if (error) {
-        toast.error(error)
-        return
-      }
-      if (data) {
-        setMessages(data)
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false)
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
-  if (loading) {
-    return (
-      <FullSize>
-        <SmallSpinner />
-      </FullSize>
-    )
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  if (currentChannel.id === BigInt(0)) {
+    return <Frame />
   }
 
   if (messages.length === 0) {
-    return <></>
+    return <Frame />
   }
 
   const renderMessages = messages.map((message) => (
     <MessageItem key={message.id} message={message} />
   ))
 
-  // TODO: infinite loop here
-  return <Frame>{renderMessages}</Frame>
+  return (
+    <Frame>
+      {renderMessages} <div ref={messagesEndRef} />
+    </Frame>
+  )
 }
 
-export default ChatContent
+export default MessageList

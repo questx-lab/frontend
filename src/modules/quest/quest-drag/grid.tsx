@@ -115,7 +115,7 @@ const GridLayout: FC<{
           rowHeight={240}
           style={{ height: height }}
           onDrag={() => {
-            console.log('drag')
+            // Do nothing
           }}
         >
           {item.quests.map((quest) => {

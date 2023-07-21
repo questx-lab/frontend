@@ -5,12 +5,8 @@ import tw from 'twin.macro'
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
 import AudioRecord from '@/modules/chat/chat-box/chat-input/audio-record'
 import Emoji from '@/modules/chat/chat-box/chat-input/emoji'
-import { AdditionBox, InputBoxBorder } from '@/modules/chat/chat-box/chat-input/mini-widget'
-import UploadImage from '@/modules/chat/chat-box/chat-input/upload-image'
+import { InputBoxBorder } from '@/modules/chat/chat-box/chat-input/mini-widget'
 import { HorizontalCenter } from '@/widgets/orientation'
-import { PopPover } from '@/widgets/popover'
-import { TextSm } from '@/widgets/text'
-import { MicrophoneIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
 
 const InputEmojiBox = tw(HorizontalCenter)`
   pl-5
@@ -19,6 +15,7 @@ const InputEmojiBox = tw(HorizontalCenter)`
   rounded-full
   bg-gray-200
   w-full
+  py-2
 `
 
 const Frame = tw(HorizontalFullWidthCenter)`
@@ -55,7 +52,7 @@ const ChatInput: FC<{ onNewMessagedEntered: (s: string) => void }> = ({ onNewMes
 
   return (
     <Frame>
-      <PopPover
+      {/* <PopPover
         styled='w-[200px] mb-10 bottom-0'
         button={<PlusCircleIcon className='w-8 h-8 text-gray-900' />}
       >
@@ -65,7 +62,7 @@ const ChatInput: FC<{ onNewMessagedEntered: (s: string) => void }> = ({ onNewMes
         </AdditionBox>
 
         <UploadImage />
-      </PopPover>
+      </PopPover> */}
       <InputEmojiBox>
         <InputBoxBorder
           rows={1}

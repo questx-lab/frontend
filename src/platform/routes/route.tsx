@@ -9,6 +9,7 @@ import { getMyReferralInfoApi } from '@/api/reward'
 import { getUserApi } from '@/api/user'
 import { Header } from '@/modules/header'
 import { HomePage } from '@/platform/routes'
+import ChatStore from '@/store/chat/chat'
 import ActiveQuestStore from '@/store/local/active-quest'
 import CommunityStore from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest'
@@ -85,10 +86,12 @@ const Root: FC = () => {
       <CommunityStore.Provider>
         <NewQuestStore.Provider>
           <ActiveQuestStore.Provider>
-            <OverscrollY>
-              <HomePage />
-            </OverscrollY>
-            <Header />
+            <ChatStore.Provider>
+              <OverscrollY>
+                <HomePage />
+              </OverscrollY>
+              <Header />
+            </ChatStore.Provider>
           </ActiveQuestStore.Provider>
         </NewQuestStore.Provider>
       </CommunityStore.Provider>
