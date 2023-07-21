@@ -30,7 +30,6 @@ export const Loader = async (args: { params: Params }) => {
 }
 
 const TownhallCommunity: FC = () => {
-  console.log('for deploy')
   let data = useLoaderData() as {
     community: CommunityType
     gameRooms: RoomDataType[]
