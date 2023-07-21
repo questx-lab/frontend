@@ -86,28 +86,34 @@ const BlockContent: FC<{ quest: QuestType }> = ({ quest }) => {
   )
 }
 
-const QuestContent: FC<{ quest: QuestType }> = ({ quest }) => {
-  const { quizzes } = quest.validation_data || {}
-  // data
-  const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
+const RequireLogin: FC = () => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  const canClaim = canClaimQuest(quest, myCommunities, user)
 
   // action
   const setShowLoginModal = useStoreActions<GlobalStoreModel>((action) => action.setShowLoginModal)
 
-  if (!user) {
-    return (
-      <HorizontalFullWidthCenter>
-        <ColorBox boxColor={ColorEnum.DANGER}>
-          <HorizontalBetweenCenterFullWidth>
-            {'You need login to continue'}
-            <PositiveButton onClick={() => setShowLoginModal(true)}>{'Login'}</PositiveButton>
-          </HorizontalBetweenCenterFullWidth>
-        </ColorBox>
-      </HorizontalFullWidthCenter>
-    )
+  if (user) {
+    return <></>
   }
+
+  return (
+    <HorizontalFullWidthCenter>
+      <ColorBox boxColor={ColorEnum.DANGER}>
+        <HorizontalBetweenCenterFullWidth>
+          {'You need login to continue'}
+          <PositiveButton onClick={() => setShowLoginModal(true)}>{'Login'}</PositiveButton>
+        </HorizontalBetweenCenterFullWidth>
+      </ColorBox>
+    </HorizontalFullWidthCenter>
+  )
+}
+
+const QuestContent: FC<{ quest: QuestType }> = ({ quest }) => {
+  const { quizzes } = quest.validation_data || {}
+  // data
+  const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
+  const canClaim = canClaimQuest(quest, myCommunities, user)
 
   switch (quest?.type) {
     case QuestTypeEnum.URL:
@@ -150,11 +156,11 @@ const Index: FC<{
         <ContextFrame>
           <ContentPadding>
             <MediumText>{parseHtml(quest.description ?? '')}</MediumText>
+            <RequireLogin />
             <QuestContent quest={quest} />
           </ContentPadding>
         </ContextFrame>
       </RelativeFrame>
-
       <QuestReward quest={quest} />
     </OuterPadding>
   )
