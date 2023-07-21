@@ -5,7 +5,6 @@ import JSONbig from 'json-bigint'
 import { refreshTokenApi } from '@/api/user'
 import { ErrorCodes } from '@/constants/code.const'
 import { EnvVariables } from '@/constants/env.const'
-import { RouterConst } from '@/constants/router.const'
 import {
   clearLocalStorage,
   delCookies,
@@ -57,7 +56,6 @@ api.interceptors.response.use(
         if (!refreshToken) {
           delCookies()
           clearLocalStorage()
-          window.location.href = RouterConst.HOME
           return response
         }
 
