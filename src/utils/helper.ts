@@ -4,9 +4,9 @@ import toast from 'react-hot-toast'
 
 import { refreshTokenApi } from '@/api/user'
 import { ErrorCodes } from '@/constants/code.const'
+import { ShowedInstructionKey } from '@/constants/common.const'
 import { KeysEnum } from '@/constants/key.const'
 import { UserType } from '@/types'
-import { ShowedInstructionKey } from '@/constants/common.const'
 
 export const getAccessToken = (): string | undefined => {
   const cookie = getCookie(KeysEnum.ACCESS_TOKEN)
@@ -94,12 +94,10 @@ export const clearLocalStorage = () => {
   localStorage.clear()
 }
 
-export const isLogin = (user: UserType): boolean => {
-  if (!user) {
-    return false
-  }
+export const isLogin = (): boolean => {
+  const accessToken = getAccessToken()
 
-  if (!Object.values(user).length) {
+  if (!accessToken) {
     return false
   }
 

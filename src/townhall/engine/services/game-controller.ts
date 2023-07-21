@@ -126,7 +126,6 @@ class GameController extends Phaser.Game {
           await sleep(RECONNECTING_INTERVAL - diff)
         }
 
-        console.log('Reconnecting....')
         this.lastReconnectTime = now
         this.updateState(GameState.RECONNECTING)
         network.connectRoom(this.currentRoomId)
@@ -168,8 +167,6 @@ class GameController extends Phaser.Game {
           phaserEvents.emit(Event.REMOVE_LUCKY_BOXES, message.value as LuckyBoxValue)
           break
         default:
-          console.log('other message type = ', message.type)
-
           break
       }
     },
@@ -335,7 +332,6 @@ class GameController extends Phaser.Game {
       // Do nothing
     } else {
       // TODO: Show error here
-      console.log('Failed to load character list')
       return
     }
 

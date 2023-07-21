@@ -7,6 +7,12 @@ export enum ControlPanelTab {
   SETTINGS,
 }
 
+export type CommunityRoleType = {
+  id: string
+  name: string
+  permission: number
+}
+
 export enum CommunityIndexMode {
   VIEW_COMMUNITY,
   CREATE_QUEST,
@@ -34,6 +40,7 @@ export type CommunityType = {
 export type FollowCommunityType = {
   community: CommunityType
   user: UserType
+  role: CommunityRoleType[]
 }
 
 export const emptyCommunity = (): CommunityType => {

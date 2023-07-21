@@ -5,7 +5,6 @@ import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.co
 import { EnvVariables } from '@/constants/env.const'
 import {
   CategoryType,
-  CollaboratorType,
   LeaderboardType,
   ListCommunitiesType,
   ListDiscordRoleType,
@@ -20,7 +19,7 @@ import { CommunityType, FollowCommunityType, ReferralType } from '@/types/commun
 import { ONE_MINUTE_MILLIS } from '@/utils/time'
 
 class CommunityLoader {
-  myCommunities: CollaboratorType[] | undefined
+  myCommunities: CommunityType[] | undefined
 }
 
 const communityLoader = new CommunityLoader()
@@ -59,18 +58,18 @@ export const listCommunitiesApi = async (
 }
 
 export const getMyCommunitiesApi = async (): Promise<
-  Rsp<{ collaborators: CollaboratorType[] }>
+  Rsp<{ communities: CommunityType[] }>
 > => {
   // Check the cache
   if (communityLoader.myCommunities) {
     return {
       code: 0,
-      collaborators: communityLoader.myCommunities,
-    } as Rsp<{ collaborators: CollaboratorType[] }>
+      communities: communityLoader.myCommunities,
+    } as Rsp<{ communities: CommunityType[] }>
   }
 
   // Load from server
-  const rs = await api.get(EnvVariables.API_SERVER + '/getMyCollaborators')
+  const rs = await api.get(EnvVariables.API_SERVER + '/getMyOwnCommunities')
   return rs.data
 }
 

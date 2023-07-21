@@ -21,7 +21,7 @@ export const base64ToArrayBuffer = (base64: string) => {
   return bytes
 }
 
-const bin2String = (array: Uint8Array) => {
+export const bin2String = (array: Uint8Array) => {
   const byteArray = array
   const bytesString = String.fromCharCode(...byteArray)
   return bytesString
