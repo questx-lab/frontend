@@ -14,7 +14,7 @@ import ActiveQuestStore from '@/store/local/active-quest'
 import CommunityStore from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest'
 import { GlobalStoreModel } from '@/store/store'
-import { CollaboratorType, RefferalType, UserType } from '@/types'
+import { RefferalType, UserType } from '@/types'
 import { CommunityType } from '@/types/community'
 import { getUserLocal } from '@/utils/helper'
 
@@ -30,7 +30,7 @@ export const RootLoader = async () => {
 
     return json(
       {
-        myCommunities: myCommunitiesResult.data?.collaborators || [],
+        myCommunities: myCommunitiesResult.data?.communities || [],
         followingCommunities: followingCommunitiesResult.data?.followers || [],
         referral: referralResult.data || undefined,
         user: userResult.data || undefined,
@@ -55,7 +55,7 @@ const OverscrollY = tw.div`
 const Root: FC = () => {
   // props
   const data = useLoaderData() as {
-    myCommunities: CollaboratorType[]
+    myCommunities: CommunityType[]
     followingCommunities: CommunityType[]
     referral: RefferalType
     user: UserType
@@ -63,9 +63,7 @@ const Root: FC = () => {
 
   // action
   const setReferral = useStoreActions<GlobalStoreModel>((action) => action.setReferral)
-  const setCommunitiesCollab = useStoreActions<GlobalStoreModel>(
-    (action) => action.setCommunitiesCollab
-  )
+  const setMyCommunities = useStoreActions<GlobalStoreModel>((action) => action.setMyCommunities)
   const setCommunitiesFollowing = useStoreActions<GlobalStoreModel>(
     (action) => action.setCommunitiesFollowing
   )
@@ -75,7 +73,7 @@ const Root: FC = () => {
     // set data
     if (data.user) {
       setReferral(data.referral)
-      setCommunitiesCollab(data.myCommunities)
+      setMyCommunities(data.myCommunities)
       setCommunitiesFollowing(data.followingCommunities)
       setUser(data.user)
     }
