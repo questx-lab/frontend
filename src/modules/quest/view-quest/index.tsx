@@ -154,9 +154,9 @@ const Index: FC<{
       <RelativeFrame>
         <BlockContent quest={quest} />
         <ContextFrame>
+          <RequireLogin />
           <ContentPadding>
             <MediumText>{parseHtml(quest.description ?? '')}</MediumText>
-            <RequireLogin />
             <QuestContent quest={quest} />
           </ContentPadding>
         </ContextFrame>
