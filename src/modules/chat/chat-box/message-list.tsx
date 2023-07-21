@@ -1,22 +1,16 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import useMessages from '@/modules/chat/hooks/use-messages'
 import chatController from '@/modules/chat/services/chat-controller'
 import ChatStore from '@/store/chat/chat'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { ChatMessageType } from '@/types/chat'
 import { UserAvatar } from '@/widgets/avatar'
-import {
-  HorizontalBetweenCenterFullWidth,
-  HorizontalFullWidth,
-  Vertical,
-  VerticalFullWidth,
-} from '@/widgets/orientation'
+import { HorizontalFullWidth, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { LightTextBase, MediumTextSm } from '@/widgets/text'
 
 const Frame = tw(VerticalFullWidth)`h-full overflow-y-scroll gap-6`
@@ -42,8 +36,6 @@ const GapVertical = styled(Vertical)<{ isOwnser?: boolean }>(({ isOwnser = false
 
   return styles
 })
-
-const FullSize = tw(HorizontalBetweenCenterFullWidth)`h-full`
 
 const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
@@ -77,27 +69,48 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
 const MessageList: FC = () => {
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
-  const messages = useMessages(currentChannel.id)
+  const channelIdString = currentChannel.id.toString()
+  const [messages, setMessages] = useState<ChatMessageType[] | undefined>(
+    chatController.getMessages(currentChannel.id, BigInt(0))
+  )
 
   useEffect(() => {
     chatController.loadMessages(currentChannel.id, BigInt(0))
   }, [currentChannel.id])
 
-  const scrollToBottom = () => {
+  useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+      messagesEndRef.current.scrollIntoView({ behavior: 'instant' })
     }
-  }
+  }, [messages])
 
   useEffect(() => {
-    scrollToBottom()
-  }, [messages])
+    const listener = {
+      onMessages: (channelId: bigint, newMessages: ChatMessageType[]) => {
+        if (channelIdString !== channelId.toString()) {
+          return
+        }
+
+        if (!messages) {
+          setMessages(newMessages)
+        } else {
+          setMessages(newMessages)
+        }
+      },
+    }
+
+    chatController.addMessagesListener(listener)
+
+    return () => {
+      chatController.removeMessagesListener(listener)
+    }
+  }, [channelIdString])
 
   if (currentChannel.id === BigInt(0)) {
     return <Frame />
   }
 
-  if (messages.length === 0) {
+  if (!messages || messages.length === 0) {
     return <Frame />
   }
 

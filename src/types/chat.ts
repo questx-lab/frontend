@@ -29,7 +29,7 @@ export type ChatMessagesType = {
 
 export type ChannelType = {
   id: bigint
-  community_id: string
+  community_handle: string
   name: string
   last_message_id: number
   description?: string
@@ -39,7 +39,7 @@ export type ChannelType = {
 export const emptyChannel = (): ChannelType => {
   return {
     id: BigInt(0),
-    community_id: '',
+    community_handle: '',
     name: '',
     last_message_id: 0,
   }

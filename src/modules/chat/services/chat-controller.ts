@@ -107,8 +107,13 @@ class ChatController {
     this.messagesListener.forEach((listener) => listener.onMessages(channelId, messages))
   }
 
-  getMessages(channelId: bigint): ChatMessageType[] {
-    return this.messagesCache.get(channelId.toString()) || []
+  getMessages(channelId: bigint, lastMessageId: bigint): ChatMessageType[] | undefined {
+    const messages = this.messagesCache.get(channelId.toString())
+    if (!messages) {
+      // Load this message in the background
+      this.loadMessages(channelId, lastMessageId)
+    }
+    return messages
   }
 }
 

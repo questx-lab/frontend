@@ -37,10 +37,19 @@ const Index: FC<{ children: ReactNode }> = ({ children }) => {
 
   // Set a default channel if it is not defined
   useEffect(() => {
-    if (currentChannel.id === BigInt(0) && channels.length > 0) {
+    if (
+      channels.length > 0 &&
+      (community.handle !== currentChannel.community_handle || currentChannel.id === BigInt(0))
+    ) {
+      console.log(
+        'Changing channels, community.handle = ',
+        community.handle,
+        ' currentChannel.community_id = ',
+        currentChannel.community_handle
+      )
       setCurrentChannel(channels[0])
     }
-  }, [currentChannel.id, channels, setCurrentChannel])
+  }, [community.handle, currentChannel.id, channels, setCurrentChannel])
 
   if (!community) {
     return <></>
