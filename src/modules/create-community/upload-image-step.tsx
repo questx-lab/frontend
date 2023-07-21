@@ -26,9 +26,7 @@ const UploadImageStep: FC = () => {
   )
 
   // action
-  const setCommunitiesCollab = useStoreActions<GlobalStoreModel>(
-    (action) => action.setCommunitiesCollab
-  )
+  const setMyCommunities = useStoreActions<GlobalStoreModel>((action) => action.setMyCommunities)
 
   let buttonText: string = 'Upload Community Profile'
   if (avatar) {
@@ -40,10 +38,11 @@ const UploadImageStep: FC = () => {
       const projects = await getMyCommunitiesApi()
       if (projects.error) {
         // Don't show a toast here as we will navigate to the community.
-      } else {
-        if (projects.data?.collaborators) {
-          setCommunitiesCollab(projects.data?.collaborators)
-        }
+        return
+      }
+
+      if (projects.data) {
+        setMyCommunities(projects.data.communities)
       }
     } catch (error) {
       // Do nothing.

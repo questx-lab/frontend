@@ -31,7 +31,6 @@ export const HorizontalCenter = tw.div`
   flex-row
   justify-center
   items-center
-  gap-2
 `
 
 export const HorizontalEnd = tw.div`

@@ -6,14 +6,13 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
-import StorageConst from '@/constants/storage.const'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
-import { CircularImage } from '@/widgets/circular-image'
+import { UserAvatar } from '@/widgets/avatar'
 import { Image } from '@/widgets/image'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
-import { OptionxBox, PopItem, PopoverButton, PopoverPosition, PopPanel } from '@/widgets/popover'
+import { OptionxBox, PopItem, PopPanel, PopPover } from '@/widgets/popover'
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
 
@@ -24,12 +23,6 @@ const UserBox = tw(Vertical)`
   py-2
   gap-3
 `
-
-const Avatar = styled(Image)(
-  () => tw`
-  rounded-full
-`
-)
 
 const RowBox = tw(HorizontalCenter)`
   gap-1
@@ -72,50 +65,43 @@ const UserPopover: FC = () => {
   }
 
   return (
-    <PopoverPosition>
-      <PopoverButton>
-        <CircularImage
-          width={32}
-          height={32}
-          src={user.avatar_url || StorageConst.USER_DEFAULT.src}
-          alt={StorageConst.USER_DEFAULT.alt}
-        />
-      </PopoverButton>
-      <PopPanel>
-        <PopItem>
-          <UserBox>
-            <Avatar
-              width={80}
-              height={80}
-              src={user.avatar_url || StorageConst.USER_DEFAULT.src}
-              alt={'Avatar'}
-            />
-            <RowBox>
-              <NameText>{user.name}</NameText>
-            </RowBox>
-          </UserBox>
-        </PopItem>
-        <PopItem>
-          <OptionxBox
-            onClick={() => {
-              setShowUserProfileModal(true)
-            }}
-          >
-            {'My Profile'}
-          </OptionxBox>
-          <OptionxBox
-            onClick={() => {
-              navigate(RouterConst.ACCOUNT_SETTINGS)
-            }}
-          >
-            {'Account Settings'}
-          </OptionxBox>
-        </PopItem>
-        <PopItem>
-          <OptionxBox onClick={handleLogout}>{'Sign out'}</OptionxBox>
-        </PopItem>
+    <PopPover custom button={<UserAvatar user={user} size={32} />}>
+      <PopPanel className={'w-[350px] mt-5 !right-0'}>
+        {({ close }) => (
+          <>
+            <PopItem>
+              <UserBox>
+                <UserAvatar user={user} size={80} />
+                <RowBox>
+                  <NameText>{user.name}</NameText>
+                </RowBox>
+              </UserBox>
+            </PopItem>
+            <PopItem>
+              <OptionxBox
+                onClick={() => {
+                  setShowUserProfileModal(true)
+                  close()
+                }}
+              >
+                {'My Profile'}
+              </OptionxBox>
+              <OptionxBox
+                onClick={() => {
+                  navigate(RouterConst.ACCOUNT_SETTINGS)
+                  close()
+                }}
+              >
+                {'Account Settings'}
+              </OptionxBox>
+            </PopItem>
+            <PopItem>
+              <OptionxBox onClick={handleLogout}>{'Sign out'}</OptionxBox>
+            </PopItem>
+          </>
+        )}
       </PopPanel>
-    </PopoverPosition>
+    </PopPover>
   )
 }
 

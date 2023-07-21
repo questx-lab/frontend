@@ -3,8 +3,8 @@ import { FC, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import CommunityCollab from '@/modules/community/community-view/community-collab'
 import CommunityGuestOrAnonymous from '@/modules/community/community-view/guest-or-anonymous'
+import MyCommunities from '@/modules/community/community-view/my-communities'
 import InviteModal from '@/modules/community/invite-modal'
 import CommunityStore from '@/store/local/community'
 import { ControlPanelTab } from '@/types/community'
@@ -20,7 +20,7 @@ const CommunityContent: FC = () => {
   const canEdit = CommunityStore.useStoreState((action) => action.canEdit)
 
   if (canEdit) {
-    return <CommunityCollab />
+    return <MyCommunities />
   }
 
   return <CommunityGuestOrAnonymous />

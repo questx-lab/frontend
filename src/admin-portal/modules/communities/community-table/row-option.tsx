@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 import AdminCommunityStore from '@/store/admin/community'
 import { CommunityType } from '@/types/community'
 import { Image } from '@/widgets/image'
-import { OptionxBox, PopItem, PopoverButton, PopoverSize, PopPanel } from '@/widgets/popover'
+import { OptionxBox, PopItem, PopPover } from '@/widgets/popover'
 import { Popover } from '@headlessui/react'
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
@@ -41,16 +41,13 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
   }
 
   return (
-    <PopoverPosition>
-      <PopoverButton className={'outline-0'}>...</PopoverButton>
+    <PopPover button={<>...</>} styled='w-[200px] right-0 mt-5'>
       <Absolute>
-        <PopPanel size={PopoverSize.SMALL}>
-          <PopItem>
-            <OptionxBox onClick={() => onActionClicked('Active')}>{'Activate'}</OptionxBox>
-          </PopItem>
-        </PopPanel>
+        <PopItem>
+          <OptionxBox onClick={() => onActionClicked('Active')}>{'Activate'}</OptionxBox>
+        </PopItem>
       </Absolute>
-    </PopoverPosition>
+    </PopPover>
   )
 }
 

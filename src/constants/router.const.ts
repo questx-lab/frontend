@@ -9,6 +9,7 @@ export enum RouterConst {
   USER = '/users/',
   TOWNHALL = '/townhall',
   ACCOUNT_SETTINGS = '/account-settings',
+  MESSAGES = '/messages',
 }
 
 export const communityRoute = (communityHandle: string): string => {
@@ -21,4 +22,8 @@ export const newQuestRoute = (communityHandle: string): string => {
 
 export const editQuestRoute = (communityHandle: string): string => {
   return `${communityRoute(communityHandle)}/edit-quest`
+}
+
+export const messageRoute = (communityHandle: string): string => {
+  return `${RouterConst.MESSAGES}/${communityHandle}`
 }
