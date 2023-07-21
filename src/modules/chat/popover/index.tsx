@@ -6,14 +6,14 @@ import tw from 'twin.macro'
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
 import { messageRoute } from '@/constants/router.const'
 import Index from '@/modules/chat'
+import Channels from '@/modules/chat/channel/channels'
 import ChatBox from '@/modules/chat/chat-box'
-import Channels from '@/modules/chat/popover/channels'
 import Header from '@/modules/chat/popover/header'
 import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
 import { TabChatType } from '@/types/chat'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
-import { PopPover } from '@/widgets/popover'
+import { PopPanel, PopPover } from '@/widgets/popover'
 import { TextSm, TextXl } from '@/widgets/text'
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
@@ -62,16 +62,6 @@ const ContentTab: FC = () => {
 }
 
 const PopPoverContent: FC = () => {
-  const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
-
-  const setShowChatPopover = ChatStore.useStoreActions((action) => action.setShowChatPopover)
-
-  const navigate = useNavigate()
-  const onNavigate = () => {
-    setShowChatPopover(false)
-    navigate(messageRoute(community.handle))
-  }
-
   return (
     <>
       <Index
@@ -81,9 +71,6 @@ const PopPoverContent: FC = () => {
             <Content>
               <ContentTab />
             </Content>
-            <FootFrame>
-              <PrimaryText onClick={onNavigate}>{'See all in chat room'}</PrimaryText>
-            </FootFrame>
           </>
         }
       />
@@ -93,33 +80,41 @@ const PopPoverContent: FC = () => {
 
 const ChatPopover: FC = () => {
   // data
-  const showChatPopover = ChatStore.useStoreState((state) => state.showChatPopover)
+  const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
 
   // actions
-  const setShowChatPopover = ChatStore.useStoreActions((action) => action.setShowChatPopover)
 
-  const onChangePoppover = () => {
-    setShowChatPopover(!showChatPopover)
+  const navigate = useNavigate()
+
+  const onNavigate = () => {
+    navigate(messageRoute(community.handle + '?channel=general'))
   }
 
   return (
-    <PopPover
-      button={<ChatBubbleLeftIcon onClick={onChangePoppover} className='w-5 h-5 text-gray-900' />}
-      styled='w-[480px] mt-3 right-0'
-      visible={showChatPopover}
-    >
-      <Frame>
-        <GapPaddingx>
-          <HorizontalBetweenCenterFullWidth>
-            <TextXl>{'Chat'}</TextXl>
-            <XMarkIcon
-              className='w-6 h-6 text-gray-900'
-              onClick={() => setShowChatPopover(false)}
-            />
-          </HorizontalBetweenCenterFullWidth>
-        </GapPaddingx>
-        <PopPoverContent />
-      </Frame>
+    <PopPover button={<ChatBubbleLeftIcon className='w-5 h-5 text-gray-900' />} custom>
+      <PopPanel className={'w-[480px] mt-3 right-0'}>
+        {({ close }) => (
+          <Frame>
+            <GapPaddingx>
+              <HorizontalBetweenCenterFullWidth>
+                <TextXl>{'Chat'}</TextXl>
+                <XMarkIcon className='w-6 h-6 text-gray-900' onClick={() => close()} />
+              </HorizontalBetweenCenterFullWidth>
+            </GapPaddingx>
+            <PopPoverContent />
+            <FootFrame>
+              <PrimaryText
+                onClick={() => {
+                  onNavigate()
+                  close()
+                }}
+              >
+                {'See all in chat room'}
+              </PrimaryText>
+            </FootFrame>
+          </Frame>
+        )}
+      </PopPanel>
     </PopPover>
   )
 }

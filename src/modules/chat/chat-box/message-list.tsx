@@ -94,11 +94,11 @@ const MessageList: FC = () => {
   }, [messages])
 
   if (currentChannel.id === BigInt(0)) {
-    return <></>
+    return <Frame />
   }
 
   if (messages.length === 0) {
-    return <></>
+    return <Frame />
   }
 
   const renderMessages = messages.map((message) => (

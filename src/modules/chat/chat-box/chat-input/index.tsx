@@ -15,6 +15,7 @@ const InputEmojiBox = tw(HorizontalCenter)`
   rounded-full
   bg-gray-200
   w-full
+  py-2
 `
 
 const Frame = tw(HorizontalFullWidthCenter)`

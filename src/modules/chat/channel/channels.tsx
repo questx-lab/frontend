@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import { useSearchParams } from 'react-router-dom'
+import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import useChannels from '@/modules/chat/hooks/use-channels'
@@ -18,16 +20,40 @@ const GapVertical = tw(Vertical)`
   gap-1
 `
 
-const GapHorizontal = tw(Horizontal)`
-  gap-3
-  w-full
-  items-center
-  cursor-pointer
-`
+const GapHorizontal = styled(Horizontal)<{ isActive?: boolean }>(({ isActive }) => {
+  const styles = [
+    tw`
+      gap-3
+      w-full
+      items-center
+      cursor-pointer
+      rounded-lg
+      p-3
+    `,
+  ]
+
+  if (isActive) {
+    styles.push(tw`bg-primary-50`)
+  }
+
+  return styles
+})
+
+const ChannelName = styled(MediumTextSm)<{ isActive?: boolean }>(({ isActive }) => {
+  const styles = []
+  if (isActive) {
+    styles.push(tw`text-primary`)
+  }
+
+  return styles
+})
 
 export const ChannelItem: FC<{ channel: ChannelType }> = ({ channel }) => {
   const setChannel = ChatStore.useStoreActions((actions) => actions.setChannel)
   const setTab = ChatStore.useStoreActions((actions) => actions.setTab)
+  const [searchParams] = useSearchParams()
+  const channelName = searchParams.get('channel')
+  const isActive = channelName === channel.name
 
   return (
     <GapHorizontal
@@ -35,10 +61,11 @@ export const ChannelItem: FC<{ channel: ChannelType }> = ({ channel }) => {
         setChannel(channel)
         setTab(TabChatType.Chat)
       }}
+      isActive={isActive}
     >
-      {'#'}
+      <ChannelName isActive={isActive}>{'#'}</ChannelName>
       <GapVertical>
-        <MediumTextSm>{channel.name}</MediumTextSm>
+        <ChannelName isActive={isActive}>{channel.name}</ChannelName>
         <LightTextXs>{channel.description}</LightTextXs>
       </GapVertical>
     </GapHorizontal>
@@ -48,6 +75,7 @@ export const ChannelItem: FC<{ channel: ChannelType }> = ({ channel }) => {
 const Channels: FC = () => {
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const channels = useChannels(community.handle)
+
   if (channels.length === 0) {
     return (
       <Frame>

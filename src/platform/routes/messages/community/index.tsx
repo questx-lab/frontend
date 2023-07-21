@@ -3,8 +3,8 @@ import { FC } from 'react'
 import tw from 'twin.macro'
 
 import ChatIndex from '@/modules/chat'
+import ChannelSide from '@/modules/chat/channel/channel-side'
 import ChatBox from '@/modules/chat/chat-box'
-import ChannelSide from '@/modules/chat/message/channel-side'
 import { VerticalCenter } from '@/widgets/orientation'
 
 const MainFrame = tw.div`
@@ -19,8 +19,9 @@ const ChatFrame = tw(VerticalCenter)`
 `
 
 const FixedWidth = tw.div`
-  w-[640px]
+  w-full
   h-full
+  pl-[360px]
 `
 
 const Index: FC = () => {
@@ -29,7 +30,6 @@ const Index: FC = () => {
       children={
         <MainFrame>
           <ChannelSide />
-
           <ChatFrame>
             <FixedWidth>
               <ChatBox />

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { Vertical } from '@/widgets/orientation'
-import { Popover, Transition } from '@headlessui/react'
+import { Popover } from '@headlessui/react'
 
 export enum PopoverSize {
   MEDIUM,
@@ -59,22 +59,21 @@ export const PopPover: FC<{
   button: ReactNode
   children: ReactNode
   styled?: string
-  visible?: boolean
-}> = ({ button, children, styled, visible }) => {
+  custom?: boolean
+}> = ({ button, children, styled, custom = false }) => {
+  if (custom) {
+    return (
+      <PopoverPosition>
+        <PopoverButton>{button}</PopoverButton>
+        {children}
+      </PopoverPosition>
+    )
+  }
+
   return (
     <PopoverPosition>
       <PopoverButton>{button}</PopoverButton>
-      <Transition
-        show={visible}
-        enter='transition ease-out duration-200'
-        enterFrom='opacity-0 translate-y-1'
-        enterTo='opacity-100 translate-y-0'
-        leave='transition ease-in duration-150'
-        leaveFrom='opacity-100 translate-y-0'
-        leaveTo='opacity-0 translate-y-1'
-      >
-        <PopPanel className={styled}>{children}</PopPanel>
-      </Transition>
+      <PopPanel className={styled}>{children}</PopPanel>
     </PopoverPosition>
   )
 }
