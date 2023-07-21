@@ -11,7 +11,6 @@ import CommunityStore from '@/store/local/community'
 import NewQuestSearchStore from '@/store/local/quest-search'
 import { QuestType } from '@/types/quest'
 import { Divider, Gap } from '@/widgets/separator'
-import { Label } from '@/widgets/text'
 import { Combobox, Transition } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 
@@ -171,16 +170,14 @@ const Filter: FC<{
   return (
     <>
       <FilterTitleFrame>
-        <Label>Filter</Label>
+        {'Filter'}
         <Gap width={2} />
         <SelectionCount count={selectedQuests.length} />
         <Gap width={2} />
         <ClearAll count={selectedQuests.length} onClick={clearAllClicked} />
       </FilterTitleFrame>
       <Divider />
-      <FilterTitleFrame>
-        <Label>Quests</Label>
-      </FilterTitleFrame>
+      <FilterTitleFrame>{'QUESTS'}</FilterTitleFrame>
       <Combobox value={selectedQuests} onChange={onSelectedChanged} multiple>
         <ComboBoxFrame>
           <InputAndIconBorder>

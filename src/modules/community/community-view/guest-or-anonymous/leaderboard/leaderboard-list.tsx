@@ -18,6 +18,9 @@ const PointerHorizontal = tw(HorizontalBetweenCenter)`
   relative
   py-2
   cursor-pointer
+  border-b
+  border-solid
+  border-gray-200
 `
 
 const GapHorizontalCenter = tw(HorizontalCenter)`
@@ -28,7 +31,7 @@ const UsernameText = tw.span`
   max-w-[120px]
   font-normal
   text-danger
-  text-lg
+  text-lg 
   overflow-hidden
   text-ellipsis
 `

@@ -15,6 +15,8 @@ import CreateQuestIndex from '@/platform/routes/communities/community/create'
 import CreateQuest from '@/platform/routes/communities/community/create/route'
 import EditQuestIndex from '@/platform/routes/communities/community/edit-quest'
 import EditQuest from '@/platform/routes/communities/community/edit-quest/route'
+import CommunityLeaderboardIndex from '@/platform/routes/communities/community/leaderboard'
+import Leaderboard from '@/platform/routes/communities/community/leaderboard/route'
 import ReviewSubmissions from '@/platform/routes/communities/community/review-submissions/route'
 import Community, { Loader as CommunityLoader } from '@/platform/routes/communities/community/route'
 import CommunitySettingsIndex from '@/platform/routes/communities/community/settings'
@@ -65,6 +67,11 @@ const PlatformRouter = (): RouteObject[] => {
                   path: 'settings',
                   element: <Settings />,
                   children: [{ index: true, element: <CommunitySettingsIndex /> }],
+                },
+                {
+                  path: 'leaderboard',
+                  element: <Leaderboard />,
+                  children: [{ index: true, element: <CommunityLeaderboardIndex /> }],
                 },
                 {
                   path: 'create-quest',

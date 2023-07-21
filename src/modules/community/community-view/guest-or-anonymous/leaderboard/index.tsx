@@ -61,10 +61,9 @@ function classNames(...classes: string[]) {
 
 const selectTab = ({ selected }: { selected: boolean }) =>
   classNames(
-    'pb-4 font-bold w-full text-xs leading-5 text-gray-900 outline-0 ring-0',
-    selected
-      ? 'text-primary-500 border-b-2 border-primary-500'
-      : 'text-gray-700  hover:text-black border-b-[1px] border-gray-200'
+    'py-5 font-medium w-full text-xs outline-0 ring-0' +
+      ' border-x border-t border-gray-200 border-solid m-0',
+    selected ? 'text-primary-500 bg-white' : 'text-gray-700 bg-gray-100 border-b'
   )
 
 const Leaderboard: FC<{ community: CommunityType; type?: LeaderboardType }> = ({

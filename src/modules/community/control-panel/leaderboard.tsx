@@ -9,9 +9,9 @@ import { Tab } from '@/modules/community/control-panel/mini-widgets'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { ControlPanelTab } from '@/types/community'
-import { BoltIcon } from '@heroicons/react/24/outline'
+import { TrophyIcon } from '@heroicons/react/24/outline'
 
-const QuestsTab: FC = () => {
+const LeaderboardTab: FC = () => {
   // data
   const activeControlPanelTab = CommunityStore.useStoreState((state) => state.activeControlPanelTab)
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
@@ -31,18 +31,18 @@ const QuestsTab: FC = () => {
           setShowNavigationDrawer(false)
         }
 
-        if (activeControlPanelTab === ControlPanelTab.QUESTS) {
+        if (activeControlPanelTab === ControlPanelTab.LEADERBOARD) {
           return
         }
 
-        navigate(RouterConst.COMMUNITIES + `/${community.handle}`)
+        navigate(RouterConst.COMMUNITIES + `/${community.handle}/leaderboard`)
       }}
-      active={activeControlPanelTab === ControlPanelTab.QUESTS}
+      active={activeControlPanelTab === ControlPanelTab.LEADERBOARD}
     >
-      <BoltIcon className='w-5 h-5' />
-      {'QUESTS'}
+      <TrophyIcon className='w-5 h-5' />
+      {'LEADERBOARD'}
     </Tab>
   )
 }
 
-export default QuestsTab
+export default LeaderboardTab
