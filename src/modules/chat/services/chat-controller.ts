@@ -26,7 +26,7 @@ class ChatController {
         case ChatMessageReceiverEnum.MESSAGE_CREATED:
           const chatMessage = s.d as ChatMessageType
           // prepend the message to the list
-          const cache = this.messagesCache.get(chatMessage.channel_id.toString()) || []
+          const cache = this.localMessages.get(chatMessage.channel_id.toString()) || []
 
           const newArr = cache.slice()
           newArr.push(chatMessage)
@@ -43,7 +43,13 @@ class ChatController {
 
   // Messages
   private messagesListener = new Set<MessagesListener>()
-  private messagesCache = new Map<string, ChatMessageType[]>()
+
+  /**
+   * This is local messages used by the UI components. In most case, it's identical to the list of
+   * server messgaes. However, it might contains some pending messages only on the clientn (i.e. an
+   * image that's still uploading or sent message that is not confirmed by server).
+   */
+  private localMessages = new Map<string, ChatMessageType[]>()
 
   // Match between channelid -> last scroll position of that channel
   private lastScrollPosition = new Map<string, number>()
@@ -96,7 +102,7 @@ class ChatController {
     return this.channelsCache.get(handle) || []
   }
 
-  async loadMessages(channelId: bigint, lastMessageId: bigint) {
+  private async loadMessages(channelId: bigint, lastMessageId: bigint) {
     const res = await getMessagesApi(channelId, lastMessageId)
     if (res.code === 0 && res.data) {
       const messages = [...res.data.messages].reverse()
@@ -105,17 +111,59 @@ class ChatController {
     }
   }
 
-  private updateAndBroadcastMessages(channelId: bigint, messages: ChatMessageType[]) {
-    this.messagesCache.set(channelId.toString(), messages)
-    this.messagesListener.forEach((listener) => listener.onMessages(channelId, messages))
+  private reconcileMessages(
+    messages: ChatMessageType[],
+    serverMessages: ChatMessageType[]
+  ): ChatMessageType[] {
+    let result: ChatMessageType[] = []
+    for (let i = 0, j = 0; i < messages.length && j < serverMessages.length; ) {
+      if (messages[i].id === serverMessages[j].id) {
+        result.push(serverMessages[j])
+        i++
+        j++
+      } else if (messages[i].id < serverMessages[j].id) {
+        result.push(messages[i])
+        i++
+      } else {
+        result.push(serverMessages[j])
+        j++
+      }
+    }
+
+    // Add the rest of the messages to the result.
+    for (let i = 0; i < messages.length; i++) {
+      result.push(messages[i])
+    }
+
+    for (let j = 0; j < serverMessages.length; j++) {
+      result.push(serverMessages[j])
+    }
+
+    return result
+  }
+
+  private updateAndBroadcastMessages(channelId: bigint, serverMessages: ChatMessageType[]) {
+    const channelIdString = channelId.toString()
+    let messages = this.localMessages.get(channelIdString)
+    if (!messages) {
+      this.localMessages.set(channelIdString, serverMessages)
+    } else {
+      // Append the server messages to appropriate position in the list.
+      const reconcile = this.reconcileMessages(messages, serverMessages)
+      this.localMessages.set(channelIdString, reconcile)
+    }
+
+    messages = this.localMessages.get(channelIdString)
+    this.messagesListener.forEach((listener) => listener.onMessages(channelId, messages || []))
   }
 
   getMessages(channelId: bigint, lastMessageId: bigint): ChatMessageType[] | undefined {
-    const messages = this.messagesCache.get(channelId.toString())
+    const messages = this.localMessages.get(channelId.toString())
     if (!messages) {
       // Load this message in the background
       this.loadMessages(channelId, lastMessageId)
     }
+
     return messages
   }
 

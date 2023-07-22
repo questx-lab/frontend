@@ -70,9 +70,7 @@ const MessageList: FC = () => {
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
   const messageListRef = useRef<null | HTMLDivElement>(null)
   const channelIdString = currentChannel.id.toString()
-  const [messages, setMessages] = useState<ChatMessageType[] | undefined>(
-    chatController.getMessages(currentChannel.id, BigInt(0))
-  )
+  const [messages, setMessages] = useState<ChatMessageType[] | undefined>([])
 
   // Set the scroll position
   useEffect(() => {
@@ -121,8 +119,8 @@ const MessageList: FC = () => {
     return <Frame />
   }
 
-  const renderMessages = messages.map((message) => (
-    <MessageItem key={message.id} message={message} />
+  const renderMessages = messages.map((message, index) => (
+    <MessageItem key={index} message={message} />
   ))
 
   const handleOnScroll = (event: any) => {
