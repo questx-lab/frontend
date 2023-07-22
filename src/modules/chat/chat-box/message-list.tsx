@@ -68,21 +68,23 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
 
 const MessageList: FC = () => {
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
-  const messagesEndRef = useRef<null | HTMLDivElement>(null)
-  const messageList = useRef<null | HTMLDivElement>(null)
+  const messageListRef = useRef<null | HTMLDivElement>(null)
   const channelIdString = currentChannel.id.toString()
   const [messages, setMessages] = useState<ChatMessageType[] | undefined>(
     chatController.getMessages(currentChannel.id, BigInt(0))
   )
 
+  // Set the scroll position
   useEffect(() => {
-    if (messageList.current) {
+    if (messageListRef.current) {
       let position = chatController.getScrollingPosition(currentChannel.id)
       if (position < 0) {
         position = 1000000 // first time open, just scroll to the bottom.
       }
-      messageList.current.scrollTop = position
+      messageListRef.current.scrollTop = position
     }
+
+    setMessages(chatController.getMessages(currentChannel.id, BigInt(0)))
   }, [currentChannel.id])
 
   // Listen to any message change propagated by the chat controller.
@@ -93,22 +95,19 @@ const MessageList: FC = () => {
           return
         }
 
-        if (!messages) {
-          setMessages(newMessages)
-        } else {
-          setMessages(newMessages)
-        }
+        setMessages(newMessages)
+
+        setTimeout(() => {
+          if (messageListRef.current) {
+            messageListRef.current.scrollTo({ top: 1000000 })
+          }
+        }, 200)
       },
     }
 
     chatController.addMessagesListener(listener)
 
     return () => {
-      if (messagesEndRef.current) {
-        console.log('scroll = ', messagesEndRef.current.scrollTo)
-      } else {
-        console.log('messagesEndRef.current is null')
-      }
       chatController.removeMessagesListener(listener)
     }
   }, [channelIdString])
@@ -132,9 +131,8 @@ const MessageList: FC = () => {
   }
 
   return (
-    <Frame onScroll={handleOnScroll} ref={messageList}>
+    <Frame onScroll={handleOnScroll} ref={messageListRef}>
       {renderMessages}
-      <div ref={messagesEndRef} />
     </Frame>
   )
 }

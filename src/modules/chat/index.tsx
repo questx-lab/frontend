@@ -41,12 +41,6 @@ const Index: FC<{ children: ReactNode }> = ({ children }) => {
       channels.length > 0 &&
       (community.handle !== currentChannel.community_handle || currentChannel.id === BigInt(0))
     ) {
-      console.log(
-        'Changing channels, community.handle = ',
-        community.handle,
-        ' currentChannel.community_id = ',
-        currentChannel.community_handle
-      )
       setCurrentChannel(channels[0])
     }
   }, [community.handle, currentChannel.id, channels, setCurrentChannel])
