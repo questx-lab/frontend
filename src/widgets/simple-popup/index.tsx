@@ -1,7 +1,8 @@
-import { VerticalFullWidth } from '@/widgets/orientation'
-import { Listbox } from '@headlessui/react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+
+import { VerticalFullWidth } from '@/widgets/orientation'
+import { Listbox } from '@headlessui/react'
 
 export const UpDown = tw.div`
   pointer-events-none
@@ -72,7 +73,7 @@ export const ActiveOption = ({ active }: { active: boolean }) =>
   }`
 
 export const TitleOption = styled.div<{ selected: boolean }>(({ selected }) => {
-  const styles = [tw`block truncate`]
+  const styles = [tw`text-gray-900 block truncate`]
   if (selected) {
     styles.push(tw`font-medium`)
   } else {

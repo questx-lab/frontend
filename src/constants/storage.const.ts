@@ -159,6 +159,10 @@ const StorageConst = {
     src: '/images/icons/keyboard_close.svg',
     alt: 'Keyboard Close',
   },
+  CONGRAT: {
+    src: '/images/icons/congrat.svg',
+    alt: 'Congratulation',
+  },
 }
 
 export default StorageConst

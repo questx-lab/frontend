@@ -103,10 +103,13 @@ export type ReqNewQuestType = {
 }
 
 export type RewardType = {
-  type: string
+  type?: string
   data: {
     points?: number
     role?: string
+    token?: string
+    chains?: string[]
+    amount?: number
   }
 }
 

@@ -294,3 +294,14 @@ export enum LeaderboardType {
 }
 
 export const ShowedInstructionKey = 'showed_instruction'
+
+export enum RewardEnum {
+  DISCORD_ROLE = 'Discord role',
+  COIN = 'coin',
+}
+
+export enum LotteryViewEnum {
+  CONVERT_POINT_TO_TICKET,
+  BUY_TICKET,
+  RESULT,
+}
