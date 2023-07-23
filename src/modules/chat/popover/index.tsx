@@ -61,23 +61,6 @@ const ContentTab: FC = () => {
   return <ChatBox />
 }
 
-const PopPoverContent: FC = () => {
-  return (
-    <>
-      <Index
-        children={
-          <>
-            <Header />
-            <Content>
-              <ContentTab />
-            </Content>
-          </>
-        }
-      />
-    </>
-  )
-}
-
 const ChatPopover: FC = () => {
   // data
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
@@ -101,7 +84,17 @@ const ChatPopover: FC = () => {
                 <XMarkIcon className='w-6 h-6 text-gray-900' onClick={() => close()} />
               </HorizontalBetweenCenterFullWidth>
             </GapPaddingx>
-            <PopPoverContent />
+
+            <Index
+              children={
+                <>
+                  <Header />
+                  <Content>
+                    <ContentTab />
+                  </Content>
+                </>
+              }
+            />
             <FootFrame>
               <PrimaryText
                 onClick={() => {

@@ -190,11 +190,12 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
 
 export const getMessagesApi = async (
   channel_id: BigInt,
-  last_message_id: BigInt
+  last_message_id: BigInt,
+  limit: number
 ): Promise<Rsp<ChatMessagesType>> => {
   const res = await api.get(
     EnvVariables.API_SERVER +
-      `/getMessages?channel_id=${channel_id.toString()}&last_message_id=${last_message_id}&limit=50`
+      `/getMessages?channel_id=${channel_id.toString()}&before=${last_message_id}&limit=${limit}`
   )
 
   return res.data
