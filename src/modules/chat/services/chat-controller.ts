@@ -7,6 +7,8 @@ import {
   ChatMessageType,
 } from '@/types/chat'
 
+const DEFAULT_LIMIT = 10
+
 export enum MessageEventEnum {
   LOAD_PREFIX,
   LOAD_SUFFIX,
@@ -58,6 +60,12 @@ class ChatController {
 
   // Match between channelid -> last scroll position of that channel
   private lastScrollPosition = new Map<string, number>()
+
+  // Indicates if we still has more prefix messages to load for a channel
+  private noMorePrefix = new Map<string, boolean>()
+
+  // A flag to avoid caller to call loading prefix messages multiple times.
+  private isLoadingPrefix = new Map<string, boolean>()
 
   // Constructor
   constructor() {
@@ -112,14 +120,36 @@ class ChatController {
       return
     }
 
-    const res = await getMessagesApi(channelId, lastMessageId)
+    const channelIdString = channelId.toString()
+    if (this.isLoadingPrefix.get(channelIdString)) {
+      // This is being loaded
+      return
+    }
+
+    if (this.noMorePrefix.get(channelIdString)) {
+      // We have loaded all the prefix messages.
+      return
+    }
+
+    this.isLoadingPrefix.set(channelIdString, true)
+
+    const res = await getMessagesApi(channelId, lastMessageId, DEFAULT_LIMIT)
     if (res.code === 0 && res.data) {
+      if (res.data.messages.length < DEFAULT_LIMIT) {
+        this.noMorePrefix.set(channelIdString, true)
+      }
       const messages = [...res.data.messages].reverse()
 
       this.updateAndBroadcastMessages(channelId, messages, eventType)
     }
+
+    this.isLoadingPrefix.set(channelIdString, false)
   }
 
+  /**
+   * Reconciles the local message list and the list returned from server.
+   * @returns
+   */
   private reconcileMessages(
     messages: ChatMessageType[],
     serverMessages: ChatMessageType[]

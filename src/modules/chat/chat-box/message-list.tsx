@@ -72,8 +72,6 @@ const MessageList: FC = () => {
   const channelIdString = currentChannel.id.toString()
   const [messages, setMessages] = useState<ChatMessageType[] | undefined>([])
 
-  const [loadingPrefix, setLoadingPrefix] = useState<boolean>(false)
-
   // Set the scroll position
   useEffect(() => {
     if (messageListRef.current) {
@@ -101,18 +99,11 @@ const MessageList: FC = () => {
 
         setMessages(newMessages)
 
-        switch (eventType) {
-          case MessageEventEnum.LOAD_PREFIX:
-            setLoadingPrefix(false)
-            break
-
-          default:
-            setTimeout(() => {
-              if (messageListRef.current) {
-                messageListRef.current.scrollTo({ top: 1000000 })
-              }
-            }, 200)
-        }
+        setTimeout(() => {
+          if (messageListRef.current) {
+            messageListRef.current.scrollTo({ top: 1000000 })
+          }
+        }, 200)
       },
     }
 
@@ -138,13 +129,11 @@ const MessageList: FC = () => {
 
   const handleOnScroll = (event: any) => {
     chatController.setScrollingPosition(currentChannel.id, event.currentTarget.scrollTop)
-    // Temporarily disable loading prefix messages
-    // if (event.currentTarget.scrollTop < 150 && !loadingPrefix) {
-    //   setLoadingPrefix(true)
-    //   const lastMessageId: bigint =
-    //     messages !== undefined && messages.length > 0 ? messages[0].id : BigInt(0)
-    //   chatController.loadMessages(currentChannel.id, lastMessageId, MessageEventEnum.LOAD_PREFIX)
-    // }
+    if (event.currentTarget.scrollTop < 150) {
+      const lastMessageId: bigint =
+        messages !== undefined && messages.length > 0 ? messages[0].id : BigInt(0)
+      chatController.loadMessages(currentChannel.id, lastMessageId, MessageEventEnum.LOAD_PREFIX)
+    }
   }
 
   return (
