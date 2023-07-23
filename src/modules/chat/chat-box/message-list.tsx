@@ -99,8 +99,6 @@ const MessageList: FC = () => {
 
         setMessages(newMessages)
 
-        console.log('newMessages sizes = ', newMessages.length)
-
         if (eventType === MessageEventEnum.LOAD_PREFIX) {
           // Set the position of the scroll to the last position.
           if (messageListRef.current) {
