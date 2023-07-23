@@ -99,11 +99,27 @@ const MessageList: FC = () => {
 
         setMessages(newMessages)
 
-        setTimeout(() => {
+        console.log('newMessages sizes = ', newMessages.length)
+
+        if (eventType === MessageEventEnum.LOAD_PREFIX) {
+          // Set the position of the scroll to the last position.
           if (messageListRef.current) {
-            messageListRef.current.scrollTo({ top: 1000000 })
+            const oldHeight = messageListRef.current.scrollHeight
+            const oldTop = messageListRef.current.scrollTop
+            setTimeout(() => {
+              if (messageListRef.current) {
+                const newHeight = messageListRef.current.scrollHeight
+                messageListRef.current.scrollTo({ top: oldTop + newHeight - oldHeight })
+              }
+            }, 200)
           }
-        }, 200)
+        } else {
+          setTimeout(() => {
+            if (messageListRef.current) {
+              messageListRef.current.scrollTo({ top: 1000000 })
+            }
+          }, 200)
+        }
       },
     }
 
@@ -129,7 +145,7 @@ const MessageList: FC = () => {
 
   const handleOnScroll = (event: any) => {
     chatController.setScrollingPosition(currentChannel.id, event.currentTarget.scrollTop)
-    if (event.currentTarget.scrollTop < 150) {
+    if (event.currentTarget.scrollTop === 0) {
       const lastMessageId: bigint =
         messages !== undefined && messages.length > 0 ? messages[0].id : BigInt(0)
       chatController.loadMessages(currentChannel.id, lastMessageId, MessageEventEnum.LOAD_PREFIX)

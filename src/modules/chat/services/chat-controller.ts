@@ -7,7 +7,7 @@ import {
   ChatMessageType,
 } from '@/types/chat'
 
-const DEFAULT_LIMIT = 10
+const DEFAULT_LIMIT = 50
 
 export enum MessageEventEnum {
   LOAD_PREFIX,
