@@ -4,7 +4,7 @@ import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import chatController from '@/modules/chat/services/chat-controller'
+import chatController, { MessageEventEnum } from '@/modules/chat/services/chat-controller'
 import ChatStore from '@/store/chat/chat'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
@@ -72,6 +72,8 @@ const MessageList: FC = () => {
   const channelIdString = currentChannel.id.toString()
   const [messages, setMessages] = useState<ChatMessageType[] | undefined>([])
 
+  const [loadingPrefix, setLoadingPrefix] = useState<boolean>(false)
+
   // Set the scroll position
   useEffect(() => {
     if (messageListRef.current) {
@@ -88,18 +90,29 @@ const MessageList: FC = () => {
   // Listen to any message change propagated by the chat controller.
   useEffect(() => {
     const listener = {
-      onMessages: (channelId: bigint, newMessages: ChatMessageType[]) => {
+      onMessages: (
+        channelId: bigint,
+        newMessages: ChatMessageType[],
+        eventType: MessageEventEnum
+      ) => {
         if (channelIdString !== channelId.toString()) {
           return
         }
 
         setMessages(newMessages)
 
-        setTimeout(() => {
-          if (messageListRef.current) {
-            messageListRef.current.scrollTo({ top: 1000000 })
-          }
-        }, 200)
+        switch (eventType) {
+          case MessageEventEnum.LOAD_PREFIX:
+            setLoadingPrefix(false)
+            break
+
+          default:
+            setTimeout(() => {
+              if (messageListRef.current) {
+                messageListRef.current.scrollTo({ top: 1000000 })
+              }
+            }, 200)
+        }
       },
     }
 
@@ -124,8 +137,14 @@ const MessageList: FC = () => {
   ))
 
   const handleOnScroll = (event: any) => {
-    // console.log('event.currentTarget.scrollTop = ', event.currentTarget.scrollTop)
     chatController.setScrollingPosition(currentChannel.id, event.currentTarget.scrollTop)
+    // Temporarily disable loading prefix messages
+    // if (event.currentTarget.scrollTop < 150 && !loadingPrefix) {
+    //   setLoadingPrefix(true)
+    //   const lastMessageId: bigint =
+    //     messages !== undefined && messages.length > 0 ? messages[0].id : BigInt(0)
+    //   chatController.loadMessages(currentChannel.id, lastMessageId, MessageEventEnum.LOAD_PREFIX)
+    // }
   }
 
   return (

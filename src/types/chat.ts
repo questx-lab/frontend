@@ -12,7 +12,7 @@ export type MessageAttachmentType = {
 }
 
 export type ChatMessageType = {
-  id: string
+  id: bigint
   channel_id: bigint
   author: UserType
   content: string

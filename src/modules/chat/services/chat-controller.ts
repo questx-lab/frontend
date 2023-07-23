@@ -7,12 +7,18 @@ import {
   ChatMessageType,
 } from '@/types/chat'
 
+export enum MessageEventEnum {
+  LOAD_PREFIX,
+  LOAD_SUFFIX,
+  NEW_MESSAGES,
+}
+
 export interface ChannelsListener {
   onChannelsChanged: (handle: string, newChannels: ChannelType[]) => void
 }
 
 export interface MessagesListener {
-  onMessages: (channelId: bigint, messages: ChatMessageType[]) => void
+  onMessages: (channelId: bigint, messages: ChatMessageType[], eventType: MessageEventEnum) => void
 }
 
 class ChatController {
@@ -25,13 +31,12 @@ class ChatController {
       switch (s.o) {
         case ChatMessageReceiverEnum.MESSAGE_CREATED:
           const chatMessage = s.d as ChatMessageType
-          // prepend the message to the list
-          const cache = this.localMessages.get(chatMessage.channel_id.toString()) || []
 
-          const newArr = cache.slice()
-          newArr.push(chatMessage)
-
-          this.updateAndBroadcastMessages(chatMessage.channel_id, newArr)
+          this.updateAndBroadcastMessages(
+            chatMessage.channel_id,
+            [chatMessage],
+            MessageEventEnum.NEW_MESSAGES
+          )
           break
       }
     },
@@ -102,12 +107,17 @@ class ChatController {
     return this.channelsCache.get(handle) || []
   }
 
-  private async loadMessages(channelId: bigint, lastMessageId: bigint) {
+  async loadMessages(channelId: bigint, lastMessageId: bigint, eventType: MessageEventEnum) {
+    if (channelId === BigInt(0)) {
+      return
+    }
+
+    console.log('lastMessageId = ', lastMessageId.toString())
     const res = await getMessagesApi(channelId, lastMessageId)
     if (res.code === 0 && res.data) {
       const messages = [...res.data.messages].reverse()
 
-      this.updateAndBroadcastMessages(channelId, messages)
+      this.updateAndBroadcastMessages(channelId, messages, eventType)
     }
   }
 
@@ -116,33 +126,64 @@ class ChatController {
     serverMessages: ChatMessageType[]
   ): ChatMessageType[] {
     let result: ChatMessageType[] = []
-    for (let i = 0, j = 0; i < messages.length && j < serverMessages.length; ) {
+    const usedIds = new Set<string>()
+    let i = 0
+    let j = 0
+    serverMessages.forEach((e) => console.log(e.id.toString()))
+    for (; i < messages.length && j < serverMessages.length; ) {
+      if (usedIds.has(messages[i].id.toString())) {
+        i++
+        continue
+      }
+      if (usedIds.has(serverMessages[j].id.toString())) {
+        j++
+        continue
+      }
+
       if (messages[i].id === serverMessages[j].id) {
         result.push(serverMessages[j])
+        usedIds.add(serverMessages[j].id.toString())
         i++
         j++
       } else if (messages[i].id < serverMessages[j].id) {
         result.push(messages[i])
+        usedIds.add(messages[i].id.toString())
         i++
       } else {
         result.push(serverMessages[j])
+        usedIds.add(serverMessages[j].id.toString())
         j++
       }
     }
 
     // Add the rest of the messages to the result.
-    for (let i = 0; i < messages.length; i++) {
+    for (; i < messages.length; i++) {
+      if (usedIds.has(messages[i].id.toString())) {
+        i++
+        continue
+      }
+
       result.push(messages[i])
+      usedIds.add(messages[i].id.toString())
     }
 
-    for (let j = 0; j < serverMessages.length; j++) {
+    for (; j < serverMessages.length; j++) {
+      if (usedIds.has(serverMessages[j].id.toString())) {
+        j++
+        continue
+      }
+
       result.push(serverMessages[j])
     }
 
     return result
   }
 
-  private updateAndBroadcastMessages(channelId: bigint, serverMessages: ChatMessageType[]) {
+  private updateAndBroadcastMessages(
+    channelId: bigint,
+    serverMessages: ChatMessageType[],
+    eventType: MessageEventEnum
+  ) {
     const channelIdString = channelId.toString()
     let messages = this.localMessages.get(channelIdString)
     if (!messages) {
@@ -154,14 +195,16 @@ class ChatController {
     }
 
     messages = this.localMessages.get(channelIdString)
-    this.messagesListener.forEach((listener) => listener.onMessages(channelId, messages || []))
+    this.messagesListener.forEach((listener) =>
+      listener.onMessages(channelId, messages || [], eventType)
+    )
   }
 
   getMessages(channelId: bigint, lastMessageId: bigint): ChatMessageType[] | undefined {
     const messages = this.localMessages.get(channelId.toString())
     if (!messages) {
       // Load this message in the background
-      this.loadMessages(channelId, lastMessageId)
+      this.loadMessages(channelId, lastMessageId, MessageEventEnum.LOAD_SUFFIX)
     }
 
     return messages
