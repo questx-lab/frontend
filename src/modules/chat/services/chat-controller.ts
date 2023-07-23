@@ -112,7 +112,6 @@ class ChatController {
       return
     }
 
-    console.log('lastMessageId = ', lastMessageId.toString())
     const res = await getMessagesApi(channelId, lastMessageId)
     if (res.code === 0 && res.data) {
       const messages = [...res.data.messages].reverse()
@@ -129,7 +128,6 @@ class ChatController {
     const usedIds = new Set<string>()
     let i = 0
     let j = 0
-    serverMessages.forEach((e) => console.log(e.id.toString()))
     for (; i < messages.length && j < serverMessages.length; ) {
       if (usedIds.has(messages[i].id.toString())) {
         i++
