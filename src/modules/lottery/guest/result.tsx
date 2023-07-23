@@ -28,8 +28,14 @@ const ResultItem: FC<{ result: BuyLotteryTicketsType }> = ({ result }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
-  if (!result.prize.rewards || (result.prize.rewards && result.prize.rewards.length === 0)) {
+  if (!result.prize.rewards) {
     return <></>
+  }
+
+  if (result.prize.rewards && result.prize.rewards.length === 0) {
+    return (
+      <TextSm>{"Unfortunately, you didn't win this time, please try again another time."}</TextSm>
+    )
   }
 
   const onClaim = async () => {
