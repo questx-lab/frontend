@@ -7,7 +7,7 @@ import AudioRecord from '@/modules/chat/chat-box/chat-input/audio-record'
 import Emoji from '@/modules/chat/chat-box/chat-input/emoji'
 import InputBox from '@/modules/chat/chat-box/chat-input/input-box'
 import { InputEmojiBox } from '@/modules/chat/chat-box/chat-input/mini-widget'
-import UploadImage from '@/modules/chat/chat-box/chat-input/upload-image'
+import UploadAssets from '@/modules/chat/chat-box/chat-input/upload-assets'
 import { PopPover } from '@/widgets/popover'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
 
@@ -37,7 +37,7 @@ const ChatInput: FC<{ onNewMessagedEntered: (s: string) => void }> = ({ onNewMes
         styled='w-[200px] mb-10 bottom-0'
         button={<PlusCircleIcon className='w-8 h-8 text-gray-900' />}
       >
-        <UploadImage />
+        <UploadAssets />
       </PopPover>
       <InputEmojiBox>
         <InputBox onNewMessagedEntered={onNewMessagedEntered} />

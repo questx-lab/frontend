@@ -70,6 +70,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
       <UserAvatar user={message.author} size={32} />
       <GapVertical>
         <MediumTextSm>{message.author.name}</MediumTextSm>
+        <Attachments attachments={message.attachments} />
         <LightTextBase>{message.content}</LightTextBase>
       </GapVertical>
     </GapHorizontal>

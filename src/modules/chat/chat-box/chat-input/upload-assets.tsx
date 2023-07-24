@@ -26,7 +26,7 @@ const InputBoxStyle = tw.textarea`
   resize-none
 `
 
-const FileUploadButton: FC = () => {
+const UploadAssets: FC = () => {
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
 
   const [inputMessage, setInputMessage] = useState<string>('')
@@ -105,4 +105,4 @@ const FileUploadButton: FC = () => {
   )
 }
 
-export default FileUploadButton
+export default UploadAssets
