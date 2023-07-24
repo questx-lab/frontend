@@ -4,6 +4,7 @@ export enum ControlPanelTab {
   QUESTS,
   REVIEW_SUBMISSION,
   LEADERBOARD,
+  LOTTERY,
   SETTINGS,
 }
 
@@ -41,6 +42,12 @@ export type FollowCommunityType = {
   community: CommunityType
   user: UserType
   role: CommunityRoleType[]
+  streaks?: number
+  points?: number
+  quests?: number
+  invite_code?: string
+  invited_by?: string
+  invite_count?: number
 }
 
 export const emptyCommunity = (): CommunityType => {

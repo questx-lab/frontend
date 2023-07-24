@@ -45,7 +45,7 @@ const TableHeader: FC<{}> = () => {
       </HeaderTitleFrame>
 
       <HeaderSortFrame>
-        <BarsArrowDownIcon className='w-4 h-4 mr-1' />
+        <BarsArrowDownIcon className='w-5 h-5 mr-1' />
         {'Sort by'}
       </HeaderSortFrame>
     </HeaderFullWidth>

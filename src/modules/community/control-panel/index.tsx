@@ -6,6 +6,7 @@ import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
 import LeaderboardTab from '@/modules/community/control-panel/leaderboard'
+import LotteryTab from '@/modules/community/control-panel/lottery'
 import QuestsTab from '@/modules/community/control-panel/quests'
 import ReviewSubmissionsTab from '@/modules/community/control-panel/review-submissions'
 import SettingsTab from '@/modules/community/control-panel/settings'
@@ -55,6 +56,7 @@ const ControlPanel: FC<{
         <QuestsTab />
         <ReviewSubmissionsTab />
         <LeaderboardTab />
+        <LotteryTab />
         <SettingsTab />
       </Padding>
     </FixedFrame>

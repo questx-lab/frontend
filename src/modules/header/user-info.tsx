@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useParams } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { AuthEnum } from '@/constants/common.const'
@@ -9,12 +10,12 @@ import InviteCommunity from '@/modules/header/invite-community'
 import Login from '@/modules/header/login'
 import UserPopover from '@/modules/header/user-popover'
 import UserProfile from '@/modules/header/user-profile'
-import CommunityStore from '@/store/local/community'
+import LotteryModal from '@/modules/lottery/guest'
 import { GlobalStoreModel } from '@/store/store'
 import BaseModal from '@/widgets/modal/base'
 import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
-import { GiftIcon } from '@heroicons/react/24/outline'
+import { GiftIcon } from '@heroicons/react/20/solid'
 
 const AuthBox = tw(Horizontal)`
   gap-2
@@ -64,7 +65,6 @@ const ModalBox = tw(HorizontalCenter)`
 
 const UserInfoBox: FC = () => {
   // data
-  const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const showLoginModal = useStoreState<GlobalStoreModel>((state) => state.showLoginModal)
   const showUserProfileModal = useStoreState<GlobalStoreModel>(
@@ -80,6 +80,7 @@ const UserInfoBox: FC = () => {
 
   // hook
   const [isInvite, setInvite] = useState<boolean>(false)
+  let { communityHandle } = useParams()
 
   useEffect(() => {
     if (user && user.is_new_user) {
@@ -91,8 +92,9 @@ const UserInfoBox: FC = () => {
   if (user) {
     return (
       <UserSession>
-        {community.handle !== '' && <ChatPopover />}
-        <GiftIcon onClick={() => setInvite(true)} className='h-5 w-5' />
+        {communityHandle && <ChatPopover />}
+        {communityHandle && <LotteryModal />}
+        <GiftIcon onClick={() => setInvite(true)} className='h-5 w-5 text-pink' />
         <UserPopover />
         <BasicModal
           title={`Invite Friend to create project 👋`}

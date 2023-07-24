@@ -62,11 +62,13 @@ const SocialConnection: FC = () => {
     <VerticalFullWidth>
       <VerticalFullWidth>
         <HeaderText3>{'WEBSITE URL'}</HeaderText3>
+        <Gap height={2} />
         <TextField value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)}></TextField>
         <Gap height={6} />
       </VerticalFullWidth>
 
       <HeaderText3>{'SOCIAL CONNECTION'}</HeaderText3>
+      <Gap height={2} />
       <DiscordConnect />
     </VerticalFullWidth>
   )
