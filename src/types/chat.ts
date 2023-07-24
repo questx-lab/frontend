@@ -6,8 +6,7 @@ export enum TabChatType {
 }
 
 export type MessageAttachmentType = {
-  id: string
-  content_type: string
+  // content_type: string
   url: string
 }
 

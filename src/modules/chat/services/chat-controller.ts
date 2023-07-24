@@ -1,4 +1,4 @@
-import { getChannelsApi, getMessagesApi } from '@/api/chat'
+import { getChannelsApi, getMessagesApi, sendMessageApi } from '@/api/chat'
 import network from '@/modules/chat/services/network'
 import {
   ChannelType,
@@ -6,6 +6,7 @@ import {
   ChatMessageReceiverEnum,
   ChatMessageType,
 } from '@/types/chat'
+import { uploadFile } from '@/utils/file'
 
 const DEFAULT_LIMIT = 50
 
@@ -244,6 +245,17 @@ class ChatController {
 
   getScrollingPosition(channelId: bigint): number {
     return this.lastScrollPosition.get(channelId.toString()) || -1
+  }
+
+  async sendMessageWithImage(channelId: bigint, msg: string, files: File[]) {
+    const uploadImageResult = await uploadFile(files)
+    if (!uploadImageResult.error && uploadImageResult.value) {
+      await sendMessageApi(channelId, msg, [
+        {
+          url: uploadImageResult.value,
+        },
+      ])
+    }
   }
 }
 
