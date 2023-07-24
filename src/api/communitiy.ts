@@ -57,9 +57,7 @@ export const listCommunitiesApi = async (
   return rs.data as Rsp<ListCommunitiesType>
 }
 
-export const getMyCommunitiesApi = async (): Promise<
-  Rsp<{ communities: CommunityType[] }>
-> => {
+export const getMyCommunitiesApi = async (): Promise<Rsp<{ communities: CommunityType[] }>> => {
   // Check the cache
   if (communityLoader.myCommunities) {
     return {
@@ -229,5 +227,12 @@ export const getPendingCommunitiesApi = async (): Promise<Rsp<ListCommunitiesTyp
 
 export const getDiscordRolesApi = async (handle: string): Promise<Rsp<ListDiscordRoleType>> => {
   const rs = await api.get(EnvVariables.API_SERVER + `/getDiscordRoles?community_handle=${handle}`)
+  return rs.data
+}
+
+export const getWalletAddressApi = async (
+  handle: string
+): Promise<Rsp<{ wallet_address: string }>> => {
+  const rs = await api.get(EnvVariables.API_SERVER + `/getWalletAddress?community_handle=${handle}`)
   return rs.data
 }

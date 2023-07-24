@@ -50,7 +50,6 @@ const HandleNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onVali
 
   const checkUserUrlValid = async (): Promise<boolean> => {
     try {
-      console.log('urlName', urlName)
       if (!HandleRegex.test(urlName)) {
         return false
       }

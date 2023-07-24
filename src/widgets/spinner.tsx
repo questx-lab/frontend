@@ -4,6 +4,7 @@ import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
 const Wrap = tw.div`
+  w-full
   h-screen
   flex
   justify-center
