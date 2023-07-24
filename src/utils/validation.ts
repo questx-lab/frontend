@@ -1,3 +1,5 @@
+import Web3 from 'web3'
+
 /**
  * Checks if an URL is valid or not.
  */
@@ -11,4 +13,8 @@ export const isValidEmail = (email: string): RegExpMatchArray | null => {
   return email.match(
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   )
+}
+
+export const validateAddressWallet = (address: string): boolean => {
+  return Web3.utils.isAddress(address)
 }
