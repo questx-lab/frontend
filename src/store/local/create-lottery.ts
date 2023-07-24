@@ -9,7 +9,7 @@ export const initPrize: PrizeType = {
       type: 'coin',
       // TODO: currently only support usdt
       data: {
-        chain: 'avaxc-testnet',
+        chain: EnvVariables.CHAIN,
         token_address: EnvVariables.USDT_ADDESS,
         amount: 1,
       },

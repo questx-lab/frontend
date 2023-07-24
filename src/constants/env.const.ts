@@ -12,4 +12,5 @@ export const EnvVariables = {
   TOWNHALL_ASSET_CDN: process.env.REACT_APP_TOWNHALL_ASSET_CDN || '',
   TOWNHALL_STATUS: process.env.REACT_APP_TOWNHALL_STATUS || '',
   USDT_ADDESS: process.env.REACT_APP_USDT_ADDESS || '',
+  CHAIN: process.env.REACT_APP_CHAIN || '',
 }
