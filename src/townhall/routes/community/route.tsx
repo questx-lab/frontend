@@ -39,7 +39,7 @@ const TownhallCommunity: FC = () => {
   const setCommunity = RoomStore.useStoreActions((action) => action.setCommunity)
   const setGameRooms = RoomStore.useStoreActions((action) => action.setGameRooms)
   const location = useLocation()
-
+  console.log('for deploy')
   useEffect(() => {
     if (data.community) {
       setCommunity(data.community)
