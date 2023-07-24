@@ -1,16 +1,16 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { RewardEnum } from '@/constants/common.const'
+import { EnvVariables } from '@/constants/env.const'
 import { PrizeType } from '@/types/lottery'
 
 export const initPrize: PrizeType = {
   rewards: [
     {
-      type: RewardEnum.COIN,
+      type: 'coin',
       // TODO: currently only support usdt
       data: {
-        chains: ['avaxc-testnet'],
-        token: 'usdt',
+        chain: 'avaxc-testnet',
+        token_address: EnvVariables.USDT_ADDESS,
         amount: 1,
       },
     },

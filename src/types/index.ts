@@ -1,4 +1,5 @@
 import { CommunityType } from '@/types/community'
+import { BuyLotteryTicketsType } from '@/types/lottery'
 import { QuestType, ValidationQuest } from '@/types/quest'
 
 export type ReturnTuple<T> = {
@@ -107,8 +108,8 @@ export type RewardType = {
   data: {
     points?: number
     role?: string
-    token?: string
-    chains?: string[]
+    token_address?: string
+    chain?: string
     amount?: number
   }
 }
@@ -162,6 +163,20 @@ export type RefferalType = {
   total_claimable_communities?: number
   total_pending_communities?: number
   reward_amount?: number
+}
+
+export type ClaimableTokenInfoType = {
+  token_id: string
+  token_symbol: string
+  token_address: string
+  chain: string
+  amount: number
+}
+
+export type ClaimableRewardType = {
+  referral_communities: CommunityType[]
+  lottery_winners: BuyLotteryTicketsType[]
+  total_claimable_tokens: ClaimableTokenInfoType[]
 }
 
 export type QuestTwitterActionType = {

@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
+import ClaimReward from '@/modules/header/claim-reward'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
@@ -66,16 +67,17 @@ const UserPopover: FC = () => {
 
   return (
     <PopPover custom button={<UserAvatar user={user} size={32} />}>
-      <PopPanel className={'w-[350px] mt-5 !right-0'}>
+      <PopPanel className={'w-[240px] mt-5 !right-0'}>
         {({ close }) => (
           <>
             <PopItem>
               <UserBox>
-                <UserAvatar user={user} size={80} />
+                <UserAvatar user={user} size={64} />
                 <RowBox>
                   <NameText>{user.name}</NameText>
                 </RowBox>
               </UserBox>
+              <ClaimReward />
             </PopItem>
             <PopItem>
               <OptionxBox

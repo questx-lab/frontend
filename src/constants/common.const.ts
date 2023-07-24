@@ -297,7 +297,7 @@ export const ShowedInstructionKey = 'showed_instruction'
 
 export enum RewardEnum {
   DISCORD_ROLE = 'Discord role',
-  COIN = 'coin',
+  COIN = 'USDT-avaxc-testnet',
 }
 
 export enum LotteryViewEnum {

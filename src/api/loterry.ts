@@ -33,11 +33,11 @@ export const buyLotteryTicketsApi = async (
 }
 
 export const claimLotteryWinnerApi = async (
-  winner_id: string,
+  winner_ids: string[],
   wallet_address: string
 ): Promise<Rsp<{}>> => {
   const { data } = await api.post(EnvVariables.API_SERVER + '/claimLotteryWinner', {
-    winner_id,
+    winner_ids,
     wallet_address,
     chain: '',
   })

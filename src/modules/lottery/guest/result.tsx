@@ -33,9 +33,7 @@ const ResultItem: FC<{ result: BuyLotteryTicketsType }> = ({ result }) => {
   }
 
   if (result.prize.rewards && result.prize.rewards.length === 0) {
-    return (
-      <TextSm>{"Unfortunately, you didn't win this time, please try again another time."}</TextSm>
-    )
+    return <></>
   }
 
   const onClaim = async () => {
@@ -47,13 +45,13 @@ const ResultItem: FC<{ result: BuyLotteryTicketsType }> = ({ result }) => {
           return
         }
 
-        const { error } = await claimLotteryWinnerApi(result.id, user.wallet_address)
+        const { error } = await claimLotteryWinnerApi([result.id], user.wallet_address)
         if (error) {
           toast.error(error)
           return
         }
 
-        toast.success('Claim lottery successfully')
+        toast.success('Claim lottery successfully. Please wait a few minutes!')
       }
     } catch (error) {
     } finally {
@@ -77,9 +75,20 @@ const RenderResults: FC = () => {
     return <></>
   }
 
+  if (lotteryResults.length === 0) {
+    return (
+      <TextSm>{"Unfortunately, you didn't win this time, please try again another time."}</TextSm>
+    )
+  }
+
   const render = lotteryResults.map((result, index) => <ResultItem key={index} result={result} />)
 
-  return <FrameResult>{render}</FrameResult>
+  return (
+    <>
+      <TextSm>{'Your lottery results'}</TextSm>
+      <FrameResult>{render}</FrameResult>
+    </>
+  )
 }
 
 const Result: FC = () => {
@@ -92,7 +101,6 @@ const Result: FC = () => {
         alt={StorageConst.CONGRAT.alt}
       />
       <TextXl>{'Congratulations!'}</TextXl>
-      <TextSm>{'Your lottery results'}</TextSm>
       <RenderResults />
     </Frame>
   )

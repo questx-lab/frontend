@@ -7,7 +7,7 @@ import { LotteryViewEnum } from '@/constants/common.const'
 import { Frame, GapHorizontal } from '@/modules/lottery/guest/mini-widget'
 import CommunityStore from '@/store/local/community'
 import ViewLotteryStore from '@/store/local/view-lottery'
-import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
+import { PositiveButton } from '@/widgets/buttons'
 import { TextBase } from '@/widgets/text'
 
 const BuyTicket: FC = () => {
@@ -55,16 +55,8 @@ const BuyTicket: FC = () => {
     <Frame>
       <TextBase>{`You currently have ${ticketConvert} ticket.`}</TextBase>
       <GapHorizontal>
-        <PositiveButton
-          loading={loading[0]}
-          onClick={() => onClicked(TypesButton.SPIN)}
-          isFull
-          type={ButtonTypeEnum.WARNING}
-        >
-          {'Spin'}
-        </PositiveButton>
         <PositiveButton loading={loading[1]} onClick={() => onClicked(TypesButton.SPINS)} isFull>
-          {`Spin ${ticketConvert} times`}
+          {`Spin`}
         </PositiveButton>
       </GapHorizontal>
     </Frame>

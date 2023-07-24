@@ -46,7 +46,11 @@ const PointToTicket: FC = () => {
   useEffect(() => {
     // TODO: hardcode point per ticket
     if (lotteryEvent) {
-      setTicketConvert(Math.floor(pointConvert / lotteryEvent.point_per_ticket))
+      if (lotteryEvent.point_per_ticket === 0) {
+        setTicketConvert(Math.floor(pointConvert))
+      } else {
+        setTicketConvert(Math.floor(pointConvert / lotteryEvent.point_per_ticket))
+      }
     }
   }, [pointConvert, lotteryEvent])
 
