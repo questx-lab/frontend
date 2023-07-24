@@ -1,10 +1,8 @@
 import { FC, useEffect, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
-import { toast } from 'react-hot-toast'
 
-import { getLotteryEventApi } from '@/api/loterry'
-import { LotteryViewEnum } from '@/constants/common.const'
+import { ColorEnum, LotteryViewEnum } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import {
   BorderBox,
@@ -13,17 +11,28 @@ import {
   GapHorizontal,
   InputForm,
 } from '@/modules/lottery/guest/mini-widget'
+import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import CommunityStore from '@/store/local/community'
 import ViewLotteryStore from '@/store/local/view-lottery'
 import { GlobalStoreModel } from '@/store/store'
 import { FollowCommunityType } from '@/types/community'
-import { LotteryEventType } from '@/types/lottery'
 import { PositiveButton } from '@/widgets/buttons'
 import { Image } from '@/widgets/image'
-import { SmallSpinner } from '@/widgets/spinner'
 import { TextSm } from '@/widgets/text'
 import { TicketIcon } from '@heroicons/react/20/solid'
 import { ArrowsRightLeftIcon } from '@heroicons/react/24/outline'
+
+const WarningBox: FC<{ isWarning: boolean }> = ({ isWarning }) => {
+  if (!isWarning) {
+    return <></>
+  }
+
+  return (
+    <ColorBox boxColor={ColorEnum.DANGER}>
+      {'Current point must greater than or equal to point convert'}
+    </ColorBox>
+  )
+}
 
 const PointToTicket: FC = () => {
   // data
@@ -33,6 +42,7 @@ const PointToTicket: FC = () => {
   )
   const ticketConvert = ViewLotteryStore.useStoreState((state) => state.ticketConvert)
   const pointConvert = ViewLotteryStore.useStoreState((state) => state.pointConvert)
+  const lotteryEvent = ViewLotteryStore.useStoreState((state) => state.lotteryEvent)
 
   // action
   const setView = ViewLotteryStore.useStoreActions((action) => action.setView)
@@ -41,8 +51,7 @@ const PointToTicket: FC = () => {
 
   // hook
   const [currentPoint, setCurrentPoint] = useState<number>(0)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [lotteryEvent, setLotteryEvent] = useState<LotteryEventType>()
+
   useEffect(() => {
     // TODO: hardcode point per ticket
     if (lotteryEvent) {
@@ -66,32 +75,7 @@ const PointToTicket: FC = () => {
       })
   }, [communitiesFollowing])
 
-  useEffect(() => {
-    getLotteryEvent()
-  }, [])
-
-  const getLotteryEvent = async () => {
-    try {
-      const { data, error } = await getLotteryEventApi(community.handle)
-      if (error) {
-        toast.error(error)
-        return
-      }
-
-      if (data) {
-        setLotteryEvent(data.event)
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const Description: FC = () => {
-    if (loading) {
-      return <SmallSpinner />
-    }
-
     if (!lotteryEvent) {
       return <></>
     }
@@ -122,9 +106,12 @@ const PointToTicket: FC = () => {
           <InputForm disabled value={ticketConvert} />
         </BorderBox>
       </GapHorizontal>
-
+      <WarningBox isWarning={pointConvert > currentPoint} />
       <EndHorizontal>
-        <PositiveButton onClick={() => setView(LotteryViewEnum.BUY_TICKET)}>
+        <PositiveButton
+          block={pointConvert > currentPoint}
+          onClick={() => setView(LotteryViewEnum.BUY_TICKET)}
+        >
           {'Play'}
         </PositiveButton>
       </EndHorizontal>

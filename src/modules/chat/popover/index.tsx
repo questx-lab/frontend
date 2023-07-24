@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
@@ -79,6 +79,8 @@ const PopPoverContent: FC = () => {
 }
 
 const ChatPopover: FC = () => {
+  const { communityHandle } = useParams()
+
   // data
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
 
@@ -88,6 +90,10 @@ const ChatPopover: FC = () => {
 
   const onNavigate = () => {
     navigate(messageRoute(community.handle + '?channel=general'))
+  }
+
+  if (!communityHandle) {
+    return <></>
   }
 
   return (

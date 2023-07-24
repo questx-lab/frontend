@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
-import { useParams } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { AuthEnum } from '@/constants/common.const'
@@ -11,6 +10,7 @@ import Login from '@/modules/header/login'
 import UserPopover from '@/modules/header/user-popover'
 import UserProfile from '@/modules/header/user-profile'
 import LotteryModal from '@/modules/lottery/guest'
+import ViewLotteryStore from '@/store/local/view-lottery'
 import { GlobalStoreModel } from '@/store/store'
 import BaseModal from '@/widgets/modal/base'
 import BasicModal from '@/widgets/modal/basic'
@@ -80,7 +80,6 @@ const UserInfoBox: FC = () => {
 
   // hook
   const [isInvite, setInvite] = useState<boolean>(false)
-  let { communityHandle } = useParams()
 
   useEffect(() => {
     if (user && user.is_new_user) {
@@ -92,8 +91,10 @@ const UserInfoBox: FC = () => {
   if (user) {
     return (
       <UserSession>
-        {communityHandle && <ChatPopover />}
-        {communityHandle && <LotteryModal />}
+        <ChatPopover />
+        <ViewLotteryStore.Provider>
+          <LotteryModal />
+        </ViewLotteryStore.Provider>
         <GiftIcon onClick={() => setInvite(true)} className='h-5 w-5 text-pink' />
         <UserPopover />
         <BasicModal

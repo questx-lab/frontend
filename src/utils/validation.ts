@@ -1,3 +1,4 @@
+import moment from 'moment'
 import Web3 from 'web3'
 
 /**
@@ -17,4 +18,12 @@ export const isValidEmail = (email: string): RegExpMatchArray | null => {
 
 export const validateAddressWallet = (address: string): boolean => {
   return Web3.utils.isAddress(address)
+}
+
+export const isExpired = (expirationTime: string): boolean => {
+  const currentTime = moment()
+  const expirationMoment = moment(expirationTime)
+
+  // Compare the expiration time to the current time
+  return expirationMoment.isBefore(currentTime)
 }
