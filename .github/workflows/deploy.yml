@@ -79,3 +79,5 @@ jobs:
           --set=ingress.hosts[0].paths[0].path="/" \
           --set=ingress.hosts[0].paths[0].pathType=Prefix \
           --create-namespace
+
+          echo "deploy"
