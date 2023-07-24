@@ -8,8 +8,9 @@ import chatController, { MessageEventEnum } from '@/modules/chat/services/chat-c
 import ChatStore from '@/store/chat/chat'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
-import { ChatMessageType } from '@/types/chat'
+import { ChatMessageType, MessageAttachmentType } from '@/types/chat'
 import { UserAvatar } from '@/widgets/avatar'
+import { Image } from '@/widgets/image'
 import { HorizontalFullWidth, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { LightTextBase, MediumTextSm } from '@/widgets/text'
 
@@ -37,6 +38,14 @@ const GapVertical = styled(Vertical)<{ isOwnser?: boolean }>(({ isOwnser = false
   return styles
 })
 
+const Attachments: FC<{ attachments: MessageAttachmentType[] | undefined }> = ({ attachments }) => {
+  if (!attachments || attachments.length === 0) {
+    return <></>
+  }
+
+  return <Image src={'https://xquest.xyz/images/logos/app_logo.svg'} width={200} />
+}
+
 const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
   if (!user) {
@@ -48,6 +57,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
     return (
       <GapHorizontal isOwnser>
         <GapVertical isOwnser>
+          <Attachments attachments={message.attachments} />
           <LightTextBase>{message.content}</LightTextBase>
         </GapVertical>
       </GapHorizontal>
