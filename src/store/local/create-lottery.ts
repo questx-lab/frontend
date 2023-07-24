@@ -10,7 +10,7 @@ export const initPrize: PrizeType = {
       // TODO: currently only support usdt
       data: {
         chain: 'avaxc-testnet',
-        token_address: EnvVariables.USDT_ADDESS,
+        token_address: EnvVariables.USDT_ADDRESS,
         amount: 1,
       },
     },

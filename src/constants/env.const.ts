@@ -11,5 +11,5 @@ export const EnvVariables = {
   TELEGRAM_BOT_NAME: process.env.REACT_APP_TELEGRAM_BOT_NAME || '',
   TOWNHALL_ASSET_CDN: process.env.REACT_APP_TOWNHALL_ASSET_CDN || '',
   TOWNHALL_STATUS: process.env.REACT_APP_TOWNHALL_STATUS || '',
-  USDT_ADDESS: process.env.REACT_APP_USDT_ADDESS || '',
+  USDT_ADDRESS: process.env.REACT_APP_USDT_ADDRESS || '',
 }
