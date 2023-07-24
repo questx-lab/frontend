@@ -16,7 +16,7 @@ import { VerticalFullWidthCenter } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { Text2xl } from '@/widgets/text'
 
-const CommunityCollab: FC = () => {
+const MyCommunities: FC = () => {
   // hook
   const [showTemplateModal, setShowTemplateModal] = useState<boolean>(false)
   const navigate = useNavigate()
@@ -78,4 +78,4 @@ const CommunityCollab: FC = () => {
   )
 }
 
-export default CommunityCollab
+export default MyCommunities

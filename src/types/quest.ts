@@ -1,5 +1,5 @@
 import { QuestRecurrence, QuestTypeEnum } from '@/constants/common.const'
-import { CategoryType, CollaboratorType, RewardType, UserType } from '@/types'
+import { CategoryType, RewardType, UserType } from '@/types'
 import { CommunityType, emptyCommunity } from '@/types/community'
 
 export type QuestQuizType = {
@@ -98,7 +98,7 @@ export type ValidationQuest = {
 
 export const canClaimQuest = (
   quest: QuestType,
-  myCommunities: CollaboratorType[],
+  myCommunities: CommunityType[],
   user: UserType
 ): boolean => {
   if (!user) {
@@ -107,8 +107,8 @@ export const canClaimQuest = (
 
   // Check if user is the editor of this community
   if (myCommunities) {
-    for (let communityCollab of myCommunities) {
-      if (communityCollab.community.handle === quest.community.handle) {
+    for (let community of myCommunities) {
+      if (community.handle === quest.community.handle) {
         // Editor cannot claim quest
         return false
       }

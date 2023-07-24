@@ -109,7 +109,7 @@ export const BasicInfo: FC = () => {
         placeholder=''
       />
       <RowBox>
-        <AvatarUpload imageSize={250} />
+        <AvatarUpload imageSize={200} />
         <ColumnBox>
           <SocialConnect
             logoAlt={StorageConst.DISCORD_DIR.src}

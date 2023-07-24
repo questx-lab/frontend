@@ -63,13 +63,6 @@ export type UpdateCommunityResponse = {
   community: CommunityType
 }
 
-export type CollaboratorType = {
-  name: string
-  community: CommunityType
-  user: UserType
-  user_id: string
-}
-
 export type ReqNewCommunity = {
   display_name: string
   handle?: string

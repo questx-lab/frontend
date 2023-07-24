@@ -3,7 +3,14 @@ import { UserType } from '@/types'
 export enum ControlPanelTab {
   QUESTS,
   REVIEW_SUBMISSION,
+  LEADERBOARD,
   SETTINGS,
+}
+
+export type CommunityRoleType = {
+  id: string
+  name: string
+  permission: number
 }
 
 export enum CommunityIndexMode {
@@ -33,6 +40,7 @@ export type CommunityType = {
 export type FollowCommunityType = {
   community: CommunityType
   user: UserType
+  role: CommunityRoleType[]
 }
 
 export const emptyCommunity = (): CommunityType => {

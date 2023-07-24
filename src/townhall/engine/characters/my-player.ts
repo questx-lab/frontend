@@ -4,11 +4,13 @@ import Player from '@/townhall/engine/characters/Player'
 import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
 import Item from '@/townhall/engine/items/Item'
 import phaserGame from '@/townhall/engine/services/game-controller'
+import { JoystickMovement } from '@/townhall/modules/selector/joystick'
 import { ItemType, NavKeys, PlayerBehavior } from '@/types/townhall'
 
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body
   selectedItem?: Item
+  public joystickMovement?: JoystickMovement
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -32,6 +34,10 @@ export default class MyPlayer extends Player {
 
   setCollectLuckyBox(active: boolean) {
     this.luckyBoxCollected.setVisible(active)
+  }
+
+  handleJoystickMovement(movement: JoystickMovement) {
+    this.joystickMovement = movement
   }
 
   updateMyPlayer(name: string, x: number, y: number, id: string) {
@@ -68,6 +74,8 @@ export default class MyPlayer extends Player {
           phaserGame.changePlayerSelectorListeners(ItemType.LEADERBOARD)
           break
       }
+
+      keyX.removeAllListeners()
     }
     if (!this.body) {
       return
@@ -87,6 +95,13 @@ export default class MyPlayer extends Player {
         let joystickRight = false
         let joystickUp = false
         let joystickDown = false
+
+        if (this.joystickMovement?.isMoving) {
+          joystickLeft = this.joystickMovement.direction.left
+          joystickRight = this.joystickMovement.direction.right
+          joystickUp = this.joystickMovement.direction.up
+          joystickDown = this.joystickMovement.direction.down
+        }
 
         if (cursors.left?.isDown || cursors.A?.isDown || joystickLeft) vx -= speed
         if (cursors.right?.isDown || cursors.D?.isDown || joystickRight) vx += speed
@@ -153,6 +168,7 @@ export default class MyPlayer extends Player {
         }
         this.selectedItem.clearDialogBox()
         this.selectedItem = undefined
+        phaserGame.changePlayerSelectorListeners(ItemType.NONE)
       }
     }
   }

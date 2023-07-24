@@ -1,4 +1,5 @@
 import Item from '@/townhall/engine/items/Item'
+import phaserGame from '@/townhall/engine/services/game-controller'
 import { ItemType } from '@/types/townhall'
 
 export default class LeaderboardItem extends Item {
@@ -13,6 +14,7 @@ export default class LeaderboardItem extends Item {
     if (sprite) {
       sprite.setVisible(true)
     }
+    phaserGame.changePlayerSelectorListeners(ItemType.REQUIRE_SHOW_LEADERBOARD)
 
     this.setDialogBox('Press X to show Leaderboard')
   }
