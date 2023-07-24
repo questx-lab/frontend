@@ -43,7 +43,7 @@ const Attachments: FC<{ attachments: MessageAttachmentType[] | undefined }> = ({
     return <></>
   }
 
-  return <Image src={'https://xquest.xyz/images/logos/app_logo.svg'} width={200} />
+  return <Image src={attachments[0].url} width={300} />
 }
 
 const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {

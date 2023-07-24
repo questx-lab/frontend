@@ -72,7 +72,7 @@ const ChatPopover: FC = () => {
   const navigate = useNavigate()
 
   const onNavigate = () => {
-    navigate(messageRoute(community.handle + `?channel=${channels[0].id.toString()}`))
+    navigate(messageRoute(community.handle, channels[0]))
   }
 
   return (
