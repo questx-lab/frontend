@@ -31,7 +31,6 @@ const Index: FC = () => {
   useEffect(() => {
     if (channel) {
       // Setting channel...
-      console.log('Setting channnel.....')
       setChannel(channel)
     }
   }, [channel])
