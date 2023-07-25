@@ -7,6 +7,7 @@ import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
 import ClaimReward from '@/modules/header/claim-reward'
+import Referral from '@/modules/header/referral'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { clearLocalStorage, delCookies } from '@/utils/helper'
@@ -96,6 +97,9 @@ const UserPopover: FC = () => {
               >
                 {'Account Settings'}
               </OptionxBox>
+            </PopItem>
+            <PopItem>
+              <Referral close={close} />
             </PopItem>
             <PopItem>
               <OptionxBox onClick={handleLogout}>{'Sign out'}</OptionxBox>

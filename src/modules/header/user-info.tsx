@@ -1,21 +1,18 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
 import { AuthEnum } from '@/constants/common.const'
 import ChatPopover from '@/modules/chat/popover'
-import InviteCommunity from '@/modules/header/invite-community'
 import Login from '@/modules/header/login'
 import UserPopover from '@/modules/header/user-popover'
 import UserProfile from '@/modules/header/user-profile'
-import LotteryModal from '@/modules/lottery/guest'
-import ViewLotteryStore from '@/store/local/view-lottery'
+import Lottery from '@/modules/lottery/guest'
 import { GlobalStoreModel } from '@/store/store'
 import BaseModal from '@/widgets/modal/base'
 import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
-import { GiftIcon } from '@heroicons/react/20/solid'
 
 const AuthBox = tw(Horizontal)`
   gap-2
@@ -78,9 +75,6 @@ const UserInfoBox: FC = () => {
     (action) => action.setShowUserProfileModal
   )
 
-  // hook
-  const [isInvite, setInvite] = useState<boolean>(false)
-
   useEffect(() => {
     if (user && user.is_new_user) {
       setShowLoginModal(true)
@@ -92,19 +86,9 @@ const UserInfoBox: FC = () => {
     return (
       <UserSession>
         <ChatPopover />
-        <ViewLotteryStore.Provider>
-          <LotteryModal />
-        </ViewLotteryStore.Provider>
-        <GiftIcon onClick={() => setInvite(true)} className='h-5 w-5 text-pink' />
+        <Lottery />
         <UserPopover />
-        <BasicModal
-          title={`Invite Friend to create project 👋`}
-          isOpen={isInvite}
-          onClose={() => setInvite(false)}
-          styled='!w-[780px]'
-        >
-          <InviteCommunity />
-        </BasicModal>
+
         <BaseModal isOpen={showLoginModal}>
           <ModalBox>
             <Login setOpen={setShowLoginModal} />
