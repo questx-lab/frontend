@@ -106,7 +106,7 @@ const Reaction: FC<{ side: SideEnum; children: ReactNode; message: ChatMessageTy
                 <Image
                   width={20}
                   height={20}
-                  src={StorageConst.EMOJI.src}
+                  src={StorageConst.EMOJI_BLANK.src}
                   alt=''
                   className='cursor-pointer'
                 />
