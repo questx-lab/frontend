@@ -27,12 +27,13 @@ import Communities from '@/platform/routes/communities/route'
 import TrendingCommunitiesIndex from '@/platform/routes/communities/trending'
 import TrendingCommunity from '@/platform/routes/communities/trending/route'
 import HomeIndex from '@/platform/routes/homepage'
+import ChannelIndex from '@/platform/routes/messages/community/channel'
+import MessagesCommunityChannel from '@/platform/routes/messages/community/channel/route'
 import MessageCommunityIndex from '@/platform/routes/messages/community/index'
-import MessageCommunity, {
+import MessagesCommunity, {
   Loader as MessageCommunityLoader,
 } from '@/platform/routes/messages/community/route'
-import MessageIndex from '@/platform/routes/messages/index'
-import Messages from '@/platform/routes/messages/routes'
+import Messages from '@/platform/routes/messages/route'
 import QuestercampIndex from '@/platform/routes/questercamp'
 import Questercamp from '@/platform/routes/questercamp/route'
 import TrendingQuestsIndex from '@/platform/routes/questercamp/trending'
@@ -126,12 +127,18 @@ const PlatformRouter = (): RouteObject[] => {
           path: 'messages',
           element: <Messages />,
           children: [
-            { index: true, element: <MessageIndex /> },
             {
               loader: MessageCommunityLoader,
               path: ':communityHandle',
-              element: <MessageCommunity />,
-              children: [{ index: true, element: <MessageCommunityIndex /> }],
+              element: <MessagesCommunity />,
+              children: [
+                { index: true, element: <MessageCommunityIndex /> },
+                {
+                  path: ':channelId',
+                  element: <MessagesCommunityChannel />,
+                  children: [{ index: true, element: <ChannelIndex /> }],
+                },
+              ],
             },
           ],
         },
