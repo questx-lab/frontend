@@ -3,7 +3,7 @@ name: Build and Deploy to GKE for platform
 on:
   pull_request:
     branches: ['staging', 'production', 'develop']
-    types: ['closed']
+    # types: ['closed']
 
 env:
   PROJECT_ID: ${{ vars.PROJECT_ID }} # TODO: update Google Cloud project id
