@@ -7,7 +7,7 @@ const Border = styled.label<{ checked: boolean }>(({ checked }) => {
   const style = [
     tw`
       md:w-12 md:h-7 w-12 h-6 flex items-center bg-gray-200 rounded-full p-1
-      cursor-pointer shadow-md transform duration-300 ease-in-out
+      cursor-pointer shadow-lg transform duration-300 ease-in-out
     `,
   ]
 
@@ -20,7 +20,7 @@ const Border = styled.label<{ checked: boolean }>(({ checked }) => {
 
 const Switch = styled.div<{ checked: boolean }>(({ checked }) => {
   const style = [
-    tw`bg-white md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform duration-300 ease-in-out`,
+    tw`bg-white md:w-6 md:h-6 h-5 w-5 rounded-full shadow-lg transform duration-300 ease-in-out`,
   ]
 
   if (checked) {

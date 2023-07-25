@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { BrowserView, MobileView } from 'react-device-detect'
@@ -8,6 +8,7 @@ import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
+import chatController from '@/modules/chat/services/chat-controller'
 import BrowserNavigation from '@/modules/header/browser-navigate'
 import Drawer from '@/modules/header/drawer'
 import UserInfoBox from '@/modules/header/user-info'
@@ -41,7 +42,7 @@ export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
 ])
 
 const LeftSection = tw(HorizontalStartCenter)`
-  gap-4
+  gap-5
   h-full
   w-full
 `
@@ -49,8 +50,6 @@ const LeftSection = tw(HorizontalStartCenter)`
 const ImageLogoBox = styled(Image)(tw`
   cursor-pointer
   h-full
-  max-sm:w-[100px]
-  max-2xl:w-[120px]
 `)
 
 const RightSection = tw(Horizontal)`
@@ -103,6 +102,12 @@ export const Header: FC<{}> = () => {
 
   const isApp: boolean = user !== undefined
 
+  useEffect(() => {
+    if (isApp) {
+      chatController.connect()
+    }
+  }, [isApp])
+
   return (
     <HeaderBox isApp={isApp}>
       <Body isApp={isApp}>
@@ -113,8 +118,8 @@ export const Header: FC<{}> = () => {
           </MobileView>
 
           <ImageLogoBox
-            width={150}
-            height={100}
+            width={90}
+            height={40}
             onClick={() => {
               navigate(RouterConst.HOME)
             }}

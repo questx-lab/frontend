@@ -41,7 +41,7 @@ const QuestReward: FC<{
       <BorderBox>
         <Label>{'REWARD'}</Label>
         <RewardRow>
-          <Image width={40} height={40} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
+          <Image width={24} height={24} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
           <RewardText>{`${quest.points} Points`}</RewardText>
         </RewardRow>
         {discordRole && (

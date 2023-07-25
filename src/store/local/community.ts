@@ -21,6 +21,7 @@ interface CommunityModel {
   invitedBy: string
   activeControlPanelTab: number
   communityIndexMode: number
+  canJoinTownHall: boolean
 
   setSelectedCommunity: Action<CommunityModel, CommunityType>
   setQuery: Action<CommunityModel, string>
@@ -31,19 +32,21 @@ interface CommunityModel {
   setActiveControlPanelTab: Action<CommunityModel, number>
   setCommunityIndexMode: Action<CommunityModel, number>
   setQuests: Action<CommunityModel, QuestType[]>
+  setCanJoinTownHall: Action<CommunityModel, boolean>
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
   selectedCommunity: emptyCommunity(),
   query: '',
   searchProjects: [],
-  role: CommunityRoleEnum.GUEST,
+  role: CommunityRoleEnum.NOT_LOGIN,
   canEdit: false, // can edit community, add/edit quests.
   categories: [],
   invitedBy: '',
   quests: [],
   activeControlPanelTab: ControlPanelTab.QUESTS,
   communityIndexMode: CommunityIndexMode.VIEW_COMMUNITY,
+  canJoinTownHall: false,
 
   setSelectedCommunity: action((state, newProject) => {
     state.selectedCommunity = newProject
@@ -76,6 +79,9 @@ const CommunityStore = createContextStore<CommunityModel>({
   }),
   setQuests: action((state, quests) => {
     state.quests = quests
+  }),
+  setCanJoinTownHall: action((state, canJoinTownHall) => {
+    state.canJoinTownHall = canJoinTownHall
   }),
 })
 export default CommunityStore

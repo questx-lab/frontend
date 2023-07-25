@@ -8,6 +8,7 @@ const Logo: FC = () => {
   return (
     <>
       <HeaderText3>{'PROJECT IMAGE'}</HeaderText3>
+      <Gap height={2} />
       <AvatarUpload imageSize={250} />
       <Gap height={2} />
       <PrimaryText size='sm'>{'*Max 5.0MB, Size 200x200px'}</PrimaryText>

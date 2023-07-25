@@ -31,7 +31,6 @@ export const HorizontalCenter = tw.div`
   flex-row
   justify-center
   items-center
-  gap-2
 `
 
 export const HorizontalEnd = tw.div`
@@ -76,7 +75,6 @@ export const VerticalFullWidth = tw(Vertical)`
   w-full
   flex
   flex-col
-  gap-2
 `
 
 export const VerticalFullWidthHeight = tw(VerticalFullWidth)`

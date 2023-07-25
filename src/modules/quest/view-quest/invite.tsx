@@ -73,7 +73,7 @@ export const QuestInvites: FC<{ quest: QuestType }> = ({ quest }) => {
     }
   }
 
-  // If user is a collaborator
+  // If user is a owner
   if (
     role &&
     (role === CommunityRoleEnum.OWNER ||
@@ -82,7 +82,7 @@ export const QuestInvites: FC<{ quest: QuestType }> = ({ quest }) => {
   ) {
     return (
       <ColorBox boxColor={ColorEnum.PRIMARY}>
-        {'You are a collaborator, only guest could get invite code'}
+        {'You are a owner, only guest could get invite code'}
       </ColorBox>
     )
   }

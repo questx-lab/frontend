@@ -3,6 +3,14 @@ module.exports = {
   important: true,
   content: ['./src/**/*.{js,ts,jsx,tsx}', './src/**/*.*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: [
+        'Inter',
+        {
+          fontFeatureSettings: '"cv02", "cv03", "cv04", "cv11"',
+        },
+      ],
+    },
     extend: {
       fontSize: {
         xs: [
@@ -48,6 +56,9 @@ module.exports = {
             letterSpacing: '-0.02em',
           },
         ],
+      },
+      boxShadow: {
+        lg: '0 0 12px 0 rgba(0, 0, 0, 0.10)',
       },
     },
     screens: {
@@ -130,6 +141,7 @@ module.exports = {
       warning: {
         50: '#FFFBEB',
         100: '#FEF3C7',
+        200: '#FDE68A',
         300: '#FCD34D',
         500: '#F59E0B',
         700: '#B45309',

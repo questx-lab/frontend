@@ -49,7 +49,7 @@ export const DialogPannel = styled(Dialog.Panel)(
   p-10
   text-left
   align-middle
-  shadow-xl
+  shadow-lg
   transition-all
   flex
   flex-col

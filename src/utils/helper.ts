@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 
 import { refreshTokenApi } from '@/api/user'
 import { ErrorCodes } from '@/constants/code.const'
+import { ShowedInstructionKey } from '@/constants/common.const'
 import { KeysEnum } from '@/constants/key.const'
 import { UserType } from '@/types'
 
@@ -93,12 +94,10 @@ export const clearLocalStorage = () => {
   localStorage.clear()
 }
 
-export const isLogin = (user: UserType): boolean => {
-  if (!user) {
-    return false
-  }
+export const isLogin = (): boolean => {
+  const accessToken = getAccessToken()
 
-  if (!Object.values(user).length) {
+  if (!accessToken) {
     return false
   }
 
@@ -117,4 +116,12 @@ export const onCopy = (url: string) => {
       },
     })
   }
+}
+
+export const getShowedInstruction = () => {
+  return localStorage.getItem(ShowedInstructionKey)
+}
+
+export const markShowedInstruction = () => {
+  localStorage.setItem(ShowedInstructionKey, 'true')
 }

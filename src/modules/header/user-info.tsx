@@ -4,15 +4,18 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
 import { AuthEnum } from '@/constants/common.const'
+import ChatPopover from '@/modules/chat/popover'
 import InviteCommunity from '@/modules/header/invite-community'
 import Login from '@/modules/header/login'
 import UserPopover from '@/modules/header/user-popover'
 import UserProfile from '@/modules/header/user-profile'
+import LotteryModal from '@/modules/lottery/guest'
+import ViewLotteryStore from '@/store/local/view-lottery'
 import { GlobalStoreModel } from '@/store/store'
 import BaseModal from '@/widgets/modal/base'
 import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
-import { GiftIcon } from '@heroicons/react/24/outline'
+import { GiftIcon } from '@heroicons/react/20/solid'
 
 const AuthBox = tw(Horizontal)`
   gap-2
@@ -88,13 +91,17 @@ const UserInfoBox: FC = () => {
   if (user) {
     return (
       <UserSession>
-        <GiftIcon onClick={() => setInvite(true)} className='h-7 w-7' />
+        <ChatPopover />
+        <ViewLotteryStore.Provider>
+          <LotteryModal />
+        </ViewLotteryStore.Provider>
+        <GiftIcon onClick={() => setInvite(true)} className='h-5 w-5 text-pink' />
         <UserPopover />
-
         <BasicModal
           title={`Invite Friend to create project 👋`}
           isOpen={isInvite}
           onClose={() => setInvite(false)}
+          styled='!w-[780px]'
         >
           <InviteCommunity />
         </BasicModal>
@@ -107,6 +114,7 @@ const UserInfoBox: FC = () => {
           isOpen={showUserProfileModal}
           title={'My Profile'}
           onClose={() => setShowUserProfileModal(false)}
+          styled='!w-[780px]'
         >
           <UserProfile user={user} />
         </BasicModal>

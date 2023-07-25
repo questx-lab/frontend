@@ -46,8 +46,8 @@ export const Label = tw.div`
   gap-1
   justify-start
   items-center
-  text-lg
-  font-medium
+  text-xs
+  font-bold
   text-gray-900
 `
 
@@ -72,7 +72,7 @@ export const UnderlinedText = tw.div`
 export const RewardText = tw.span`
   text-[#FF7B05]
   text-lg
-  font-medium
+  font-normal
 `
 
 export const RequiredText = tw.span`
@@ -91,7 +91,7 @@ export const LabelInput = tw.label`
 `
 
 export const HeaderText = tw.h2`
-  text-2xl
+  text-xl
   text-gray-900
   font-medium
   max-md:text-lg
@@ -152,3 +152,10 @@ export const Text4xl = tw.div`
   font-medium
   max-md:text-lg
 `
+
+export const MediumTextSm = tw(TextSm)`font-medium`
+export const MediumTextXs = tw(TextXs)`font-medium`
+export const LightTextXs = tw(TextXs)`text-gray-700`
+export const LightTextSm = tw(TextSm)`text-gray-700`
+export const LightTextBase = tw(TextBase)`text-gray-600`
+export const MediumTextXl = tw(TextXl)`font-medium`

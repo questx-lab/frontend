@@ -5,22 +5,21 @@ import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.co
 import { EnvVariables } from '@/constants/env.const'
 import {
   CategoryType,
-  CollaboratorType,
   LeaderboardType,
   ListCommunitiesType,
+  ListDiscordRoleType,
   OAuth2VerifyResp,
   ReqNewCommunity,
   Rsp,
   UpdateCommunityRequest,
   UpdateCommunityResponse,
   UserType,
-  ListDiscordRoleType,
 } from '@/types'
 import { CommunityType, FollowCommunityType, ReferralType } from '@/types/community'
 import { ONE_MINUTE_MILLIS } from '@/utils/time'
 
 class CommunityLoader {
-  myCommunities: CollaboratorType[] | undefined
+  myCommunities: CommunityType[] | undefined
 }
 
 const communityLoader = new CommunityLoader()
@@ -58,19 +57,17 @@ export const listCommunitiesApi = async (
   return rs.data as Rsp<ListCommunitiesType>
 }
 
-export const getMyCommunitiesApi = async (): Promise<
-  Rsp<{ collaborators: CollaboratorType[] }>
-> => {
+export const getMyCommunitiesApi = async (): Promise<Rsp<{ communities: CommunityType[] }>> => {
   // Check the cache
   if (communityLoader.myCommunities) {
     return {
       code: 0,
-      collaborators: communityLoader.myCommunities,
-    } as Rsp<{ collaborators: CollaboratorType[] }>
+      communities: communityLoader.myCommunities,
+    } as Rsp<{ communities: CommunityType[] }>
   }
 
   // Load from server
-  const rs = await api.get(EnvVariables.API_SERVER + '/getMyCollaborators')
+  const rs = await api.get(EnvVariables.API_SERVER + '/getMyOwnCommunities')
   return rs.data
 }
 
@@ -230,5 +227,12 @@ export const getPendingCommunitiesApi = async (): Promise<Rsp<ListCommunitiesTyp
 
 export const getDiscordRolesApi = async (handle: string): Promise<Rsp<ListDiscordRoleType>> => {
   const rs = await api.get(EnvVariables.API_SERVER + `/getDiscordRoles?community_handle=${handle}`)
+  return rs.data
+}
+
+export const getWalletAddressApi = async (
+  handle: string
+): Promise<Rsp<{ wallet_address: string }>> => {
+  const rs = await api.get(EnvVariables.API_SERVER + `/getWalletAddress?community_handle=${handle}`)
   return rs.data
 }

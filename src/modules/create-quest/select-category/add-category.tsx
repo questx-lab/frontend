@@ -10,9 +10,10 @@ import { InputBox } from '@/widgets/form'
 import { Horizontal } from '@/widgets/orientation'
 import { Menu } from '@headlessui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
+import { Tooltip } from '@material-tailwind/react'
 
 const MenuButton = styled(Menu.Button)(tw`
-  p-3
+  p-2
   text-sm
   font-medium
   text-black
@@ -109,14 +110,17 @@ const AddCategory: FC = () => {
 
   return (
     <Menu as='div' className='relative inline-block bg-gray-100 rounded-lg z-10'>
-      <MenuButton
-        onClick={() => {
-          setShowMenu(true)
-          setName('')
-        }}
-      >
-        <PlusIcon className='w-5 h-5' />
-      </MenuButton>
+      <Tooltip content={'New category'} placement='top'>
+        <MenuButton
+          onClick={() => {
+            setShowMenu(true)
+            setName('')
+          }}
+        >
+          <PlusIcon className='w-5 h-5' />
+        </MenuButton>
+      </Tooltip>
+
       <MenuItem isshow={showMenu}>
         <GapHorizontal>
           <Input

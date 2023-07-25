@@ -6,18 +6,21 @@ import tw from 'twin.macro'
 import { getLeaderboardApi } from '@/api/communitiy'
 import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
-import CommunityStore from '@/store/local/community'
 import { LeaderboardType } from '@/types'
+import { CommunityType } from '@/types/community'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import { HorizontalBetweenCenter, HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
 import { SmallSpinner } from '@/widgets/spinner'
-import { NormalText, RewardText } from '@/widgets/text'
+import { RewardText, TextSm } from '@/widgets/text'
 
 const PointerHorizontal = tw(HorizontalBetweenCenter)`
   relative
   py-2
   cursor-pointer
+  border-b
+  border-solid
+  border-gray-200
 `
 
 const GapHorizontalCenter = tw(HorizontalCenter)`
@@ -28,7 +31,7 @@ const UsernameText = tw.span`
   max-w-[120px]
   font-normal
   text-danger
-  text-lg
+  text-lg 
   overflow-hidden
   text-ellipsis
 `
@@ -38,7 +41,7 @@ const EmptyBox = tw(VerticalCenter)`
   p-3
 `
 
-const CenterNormalText = tw(NormalText)`
+const CenterNormalText = tw(TextSm)`
   text-center
 `
 
@@ -75,8 +78,8 @@ const RenderList: FC<{ data: LeaderboardType[] }> = ({ data }) => {
 
 const RenderLeaderboard: FC<{
   range: LeaderboardRangeEnum
-}> = ({ range }) => {
-  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  community: CommunityType
+}> = ({ range, community }) => {
   const [leaderboard, setLeaderboard] = useState<LeaderboardType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   useEffect(() => {

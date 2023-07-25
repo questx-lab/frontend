@@ -9,6 +9,7 @@ import MyPlayer from '@/townhall/engine/characters/my-player'
 import OtherPlayer from '@/townhall/engine/characters/other-player'
 import GameItem from '@/townhall/engine/items/game'
 import Item from '@/townhall/engine/items/Item'
+import LeaderboardItem from '@/townhall/engine/items/leaderboard'
 import LuckyBox from '@/townhall/engine/items/LuckyBox'
 import phaserGame from '@/townhall/engine/services/game-controller'
 import network from '@/townhall/engine/services/network'
@@ -25,7 +26,7 @@ export default class Game extends Phaser.Scene {
   private map!: Phaser.Tilemaps.Tilemap
   myPlayer!: MyPlayer
   private otherPlayers!: Phaser.Physics.Arcade.Group
-  private otherPlayerMap = new Map<string, OtherPlayer>()
+  otherPlayerMap = new Map<string, OtherPlayer>()
   private cursors!: NavKeys
   private keyE!: Phaser.Input.Keyboard.Key
   private keyX!: Phaser.Input.Keyboard.Key
@@ -44,7 +45,6 @@ export default class Game extends Phaser.Scene {
       ...this.input.keyboard.createCursorKeys(),
       ...(this.input.keyboard.addKeys('W,S,A,D') as Keyboard),
     }
-
     // maybe we can have a dedicated method for adding keys if more keys are needed in the future
     this.keyE = this.input.keyboard.addKey('E')
     this.keyX = this.input.keyboard.addKey('X')
@@ -68,7 +68,13 @@ export default class Game extends Phaser.Scene {
 
   // function to add new player to the otherPlayer group
   private handlePlayerJoined(newPlayer: IPlayer, id: string) {
-    const otherPlayer = this.add.otherPlayer(newPlayer.x, newPlayer.y, 'adam', id, newPlayer.name)
+    const otherPlayer = this.add.otherPlayer(
+      newPlayer.x,
+      newPlayer.y,
+      newPlayer.texture,
+      id,
+      newPlayer.name
+    )
     this.otherPlayers.add(otherPlayer)
     this.otherPlayerMap.set(id, otherPlayer)
   }
@@ -106,9 +112,9 @@ export default class Game extends Phaser.Scene {
     selectionItem.onOverlapDialog()
   }
 
-  create() {
+  async create() {
     this.registerKeys()
-    createCharacterAnims(this.anims)
+    await createCharacterAnims(this.anims)
 
     this.map = this.make.tilemap({ key: 'tilemap' })
     const FloorAndGround = this.map.addTilesetImage('FloorAndGround', 'tiles_wall')
@@ -116,9 +122,11 @@ export default class Game extends Phaser.Scene {
     if (!FloorAndGround) {
       return
     }
+
     this.map.createLayer('Ground', FloorAndGround)
     const wallLayer = this.map.createLayer('Wall', FloorAndGround)
     this.map.createLayer('Float', FloorAndGround)?.setDepth(10000)
+    this.map.createLayer('UnderFloat', FloorAndGround)?.setDepth(9999)
     this.map.createLayer('Object', FloorAndGround)
     this.map.createLayer('Doors', FloorAndGround)
 
@@ -128,9 +136,10 @@ export default class Game extends Phaser.Scene {
     wallLayer.setCollisionByProperty({ collides: true })
 
     // add my player
-    this.myPlayer = this.add.myPlayer(2368, 1792, 'adam', '')
-    this.myPlayer.setPlayerTexture('adam')
+    this.myPlayer = this.add.myPlayer(2368, 1792, 'adam_0', '')
+    this.myPlayer.setPlayerTexture('adam_0')
 
+    // add game interaction
     const games = this.physics.add.staticGroup({ classType: GameItem })
     const gameLayer = this.map.getObjectLayer('Game')
     if (gameLayer) {
@@ -139,6 +148,26 @@ export default class Game extends Phaser.Scene {
         item.setDepth(item.y + item.height * 0.27)
         const id = `${i}`
         item.id = id
+      })
+    }
+
+    // add effective sprite
+    const sprite = this.add.sprite(2465, 1240, 'tiles_effect_leaderboard').setDepth(10000)
+    sprite.setName('effect_leaderboard')
+    sprite.setActive(false)
+    sprite.setVisible(false)
+    // add leaderboard interaction
+    const leaderboards = this.physics.add.staticGroup({ classType: LeaderboardItem })
+    const leaderboardLayer = this.map.getObjectLayer('Leaderboard')
+    if (leaderboardLayer) {
+      leaderboardLayer.objects.forEach((obj, i) => {
+        const item = this.addObjectFromTiled(
+          leaderboards,
+          obj,
+          'leaderboards',
+          'FloorAndGround'
+        ) as LeaderboardItem
+        item.setDepth(item.y + item.height * 0.27)
       })
     }
 
@@ -160,13 +189,13 @@ export default class Game extends Phaser.Scene {
     wallLayer.setCollisionBetween(1, 1000)
 
     // TODO: enable interactive game when it's ready
-    // this.physics.add.overlap(
-    //   this.myPlayer,
-    //   [games],
-    //   this.handleItemSelectorOverlap,
-    //   undefined,
-    //   this
-    // )
+    this.physics.add.overlap(
+      this.myPlayer,
+      [leaderboards],
+      this.handleItemSelectorOverlap,
+      undefined,
+      this
+    )
 
     this.physics.add.overlap(
       this.myPlayer,

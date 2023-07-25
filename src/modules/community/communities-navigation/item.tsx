@@ -9,7 +9,6 @@ import tw from 'twin.macro'
 import { communityRoute } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import { GlobalStoreModel } from '@/store/store'
-import { CollaboratorType } from '@/types'
 import { CommunityType } from '@/types/community'
 import { CircularImage } from '@/widgets/circular-image'
 import { Tooltip } from '@material-tailwind/react'
@@ -27,9 +26,9 @@ const ActiveAvatar = styled.div<{ active?: boolean }>(({ active = false }) => [
 ])
 
 export const Item: FC<{
-  collaboration: CollaboratorType
+  community: CommunityType
   active: boolean
-}> = ({ collaboration, active }) => {
+}> = ({ community, active }) => {
   // hook
   const navigate = useNavigate()
   // action
@@ -39,22 +38,18 @@ export const Item: FC<{
 
   return (
     <>
-      <Tooltip
-        key={collaboration.community.handle}
-        content={collaboration.community.display_name}
-        placement='right'
-      >
+      <Tooltip key={community.handle} content={community.display_name} placement='right'>
         <ActiveAvatar active={active}>
           <CircularImage
             onClick={() => {
               if (isMobile) {
                 setShowNavigationDrawer(false)
               }
-              navigate(communityRoute(collaboration.community.handle))
+              navigate(communityRoute(community.handle))
             }}
             width={40}
             height={40}
-            src={collaboration.community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
+            src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
             alt='community'
           />
         </ActiveAvatar>
@@ -85,8 +80,8 @@ const FollowItem: FC<{
               }
               navigate(communityRoute(community.handle))
             }}
-            width={45}
-            height={45}
+            width={40}
+            height={40}
             src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
             alt='community'
           />

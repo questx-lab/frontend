@@ -287,3 +287,21 @@ export enum QuestColor {
   PINK = 'pink',
   CYAN = 'cyan',
 }
+
+export enum LeaderboardType {
+  TOWNHALL,
+  PLATFORM,
+}
+
+export const ShowedInstructionKey = 'showed_instruction'
+
+export enum RewardEnum {
+  DISCORD_ROLE = 'Discord role',
+  COIN = 'USDT-avaxc-testnet',
+}
+
+export enum LotteryViewEnum {
+  CONVERT_POINT_TO_TICKET,
+  BUY_TICKET,
+  RESULT,
+}

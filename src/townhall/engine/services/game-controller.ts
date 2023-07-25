@@ -1,3 +1,4 @@
+import { getCharactersApi } from '@/api/townhall'
 import { MessageReceiverEnum } from '@/constants/townhall'
 import { Event, phaserEvents } from '@/townhall/engine/events/event-center'
 import Bootstrap, { BootstrapListener } from '@/townhall/engine/scenes/bootstrap'
@@ -18,9 +19,12 @@ import {
   MessageMoveValue,
   MessageReceiver,
 } from '@/types/townhall'
+import { sleep } from '@/utils/sleep'
 
 const BOOTSTRAP_SCENE = 'Bootstrap'
 const GAME_SCENE = 'game'
+
+const RECONNECTING_INTERVAL = 5000
 
 export interface GameStateListener {
   onStateChanged: (state: GameState, data?: any) => void
@@ -58,6 +62,18 @@ class GameController extends Phaser.Game {
   private gamteStateListeners = new Set<GameStateListener>()
   private playerSelectorListeners = new Set<PlayerSelectorListener>()
   private myUser?: UserType
+  private currentState: GameState = GameState.NONE
+
+  /**
+   * Last time we try to reconnect. This is to avoid connecting too many times
+   */
+  private lastReconnectTime: number = 0
+
+  /**
+   * The last time we send position to server. This is to prevent the app from sending too many
+   * messages
+   */
+  private lastSendPosition: number = 0
 
   constructor() {
     super(config)
@@ -65,31 +81,56 @@ class GameController extends Phaser.Game {
     network.addListener(this.networkListener)
   }
 
+  /**
+   * This is a callback from the BOOTSTRAP scene.
+   */
   private bootstrapListener = {
     onLoadComleted: async () => {
-      // We can now connect to the game
-      network.connectRoom(this.currentRoomId)
-
-      this.broadcastState(GameState.CONNECTING)
-    },
-  } as BootstrapListener
-
-  private networkListener = {
-    onConnected: () => {
-      // TODO: handle reconnection after a temporary disconnection. In that case, we should not
-      // launch the game.
       this.scene.remove(BOOTSTRAP_SCENE)
-      this.bootstrapScene = undefined
+      // this.bootstrapScene = undefined
 
+      // Add the main game scene
       this.gameScene = new Game()
       this.scene.add(GAME_SCENE, this.gameScene)
       this.scene.start(this.gameScene)
       this.gameScene.registerKeys()
 
-      this.broadcastState(GameState.JOINED_ROOM)
+      // Connect to server
+      this.updateState(GameState.CONNECTING)
+      network.connectRoom(this.currentRoomId)
+    },
+  } as BootstrapListener
+
+  /**
+   * This listener interface handles callback from network.
+   */
+  private networkListener = {
+    onConnected: () => {
+      // TODO: handle reconnection after a temporary disconnection. In that case, we should not
+      // launch the game.
+      this.updateState(GameState.JOINED_ROOM)
     },
 
-    onDisconnected: () => {},
+    onDisconnected: async () => {
+      // If state is CONNECTING, CONNECTED or JOINED_ROOM, we should try to reconnect since user is
+      // joining/ playing the game. Otherwise, do nothing.
+      if (
+        this.currentState === GameState.CONNECTING ||
+        this.currentState === GameState.CONNECTED ||
+        this.currentState === GameState.JOINED_ROOM ||
+        this.currentState === GameState.RECONNECTING
+      ) {
+        const now = Date.now()
+        const diff = now - this.lastReconnectTime
+        if (diff < RECONNECTING_INTERVAL) {
+          await sleep(RECONNECTING_INTERVAL - diff)
+        }
+
+        this.lastReconnectTime = now
+        this.updateState(GameState.RECONNECTING)
+        network.connectRoom(this.currentRoomId)
+      }
+    },
 
     onMessage: (message: MessageReceiver) => {
       switch (message.type) {
@@ -125,8 +166,15 @@ class GameController extends Phaser.Game {
         case MessageReceiverEnum.STOP_LUCKY_BOX:
           phaserEvents.emit(Event.REMOVE_LUCKY_BOXES, message.value as LuckyBoxValue)
           break
+        default:
+          break
       }
     },
+  }
+
+  updateState(newState: GameState, dataa?: any) {
+    this.currentState = newState
+    this.broadcastState(newState)
   }
 
   setMyPlayerEmoji(emoji: string) {
@@ -139,12 +187,20 @@ class GameController extends Phaser.Game {
 
   quitGame() {
     if (this.gameScene) {
-      this.scene.remove(GAME_SCENE)
+      this.scene.remove(GAME_SCENE.toLowerCase())
       this.gameScene = undefined
     }
 
-    this.pause()
+    if (this.bootstrapScene) {
+      this.scene.remove(BOOTSTRAP_SCENE.toLowerCase())
+      this.bootstrapScene = undefined
+    }
+
+    this.updateState(GameState.QUITTING)
     network.socketDisconnect()
+    this.updateState(GameState.QUITTED)
+
+    this.destroy(true, true)
   }
 
   registerKey() {
@@ -175,13 +231,15 @@ class GameController extends Phaser.Game {
       if (this.myUser?.id === user.user.id) {
         if (game.myPlayer) {
           game.myPlayer.updateMyPlayer(name, x, y, id)
+          game.myPlayer.setPlayerTexture(user.character.name + '_' + user.character.level)
         }
       } else {
         const player: IPlayer = {
           name,
           x,
           y,
-          anim: user.player.name,
+          anim: user.user.name,
+          texture: user.character.name + '_' + user.character.level,
         }
         phaserEvents.emit(Event.PLAYER_JOINED, player, user.user.id)
       }
@@ -199,6 +257,7 @@ class GameController extends Phaser.Game {
         x: value.position.x,
         y: value.position.y,
         anim: value.user.name,
+        texture: value.player.name + '_' + value.player.level,
       }
       phaserEvents.emit(Event.PLAYER_JOINED, player, value.user.id)
     }
@@ -206,9 +265,17 @@ class GameController extends Phaser.Game {
 
   private handleMoveMessage(message: MessageReceiver) {
     // Move
+    const game = this.scene.keys.game as Game
+
     const value = message.value as MessageMoveValue
+    const player = game.otherPlayerMap.get(message.user_id)
     // TODO: hardcode character name
-    phaserEvents.emit(Event.PLAYER_UPDATED, 'anim', `adam_run_${value.direction}`, message.user_id)
+    phaserEvents.emit(
+      Event.PLAYER_UPDATED,
+      'anim',
+      `${player?.playerTexture}_run_${value.direction}`,
+      message.user_id
+    )
     phaserEvents.emit(Event.PLAYER_UPDATED, 'x', value.x, message.user_id)
     phaserEvents.emit(Event.PLAYER_UPDATED, 'y', value.y, message.user_id)
 
@@ -216,11 +283,12 @@ class GameController extends Phaser.Game {
       phaserEvents.emit(
         Event.PLAYER_UPDATED,
         'anim',
-        `adam_idle_${value.direction}`,
+        `${player?.playerTexture}_idle_${value.direction}`,
         message.user_id
       )
     }, 100)
   }
+
   /////////// Add, Remove receive update selector from this game controller.
   addPlayerSelectorListeners(listener: PlayerSelectorListener) {
     this.playerSelectorListeners.add(listener)
@@ -244,29 +312,36 @@ class GameController extends Phaser.Game {
     this.gamteStateListeners.delete(listener)
   }
 
-  broadcastState(state: GameState) {
-    this.gamteStateListeners.forEach((listener) => listener.onStateChanged(state))
+  broadcastState(state: GameState, data?: any) {
+    this.gamteStateListeners.forEach((listener) => listener.onStateChanged(state, data))
   }
 
   /////////// Game Related functions
 
-  bootstrap(roomId: string) {
+  async bootstrap(roomId: string) {
     if (this.currentRoomId === roomId) {
       // We are doing something with this room. No need to have duplicated action
       return
     }
-
     if (this.bootstrapScene) {
       this.scene.remove(BOOTSTRAP_SCENE)
     }
 
+    const resp = await getCharactersApi()
+    if (resp.code === 0 && resp.data) {
+      // Do nothing
+    } else {
+      // TODO: Show error here
+      return
+    }
+
     this.currentRoomId = roomId
 
-    this.bootstrapScene = new Bootstrap(this.bootstrapListener)
+    this.bootstrapScene = new Bootstrap(this.bootstrapListener, resp.data.game_characters)
     this.scene.add(BOOTSTRAP_SCENE, this.bootstrapScene)
     this.scene.start(this.bootstrapScene)
 
-    this.broadcastState(GameState.BOOTSTRAP)
+    this.updateState(GameState.BOOTSTRAP)
   }
 
   // method to register event listener and call back function when a player joined
@@ -311,18 +386,31 @@ class GameController extends Phaser.Game {
     phaserEvents.on(Event.MY_PLAYER_EMOJI_CHANGE, callback, context)
   }
 
+  onLoadMapCompleted(callback: () => void, context?: any) {
+    phaserEvents.on(Event.LOAD_MAP_COMPLETED, callback, context)
+  }
+
+  onConnectRoom(callback: () => void, context?: any) {
+    phaserEvents.on(Event.CONNECT_ROOM, callback, context)
+  }
+
   // method to send player updates to Colyseus server
   updatePlayer(currentX: number, currentY: number, currentAnim: string) {
     const direction = currentAnim.split('_').at(-1)
 
-    network.send({
-      type: MessageReceiverEnum.MOVE,
-      value: {
-        direction: direction,
-        x: parseInt(currentX.toFixed(0), 10),
-        y: parseInt(currentY.toFixed(0), 10),
-      },
-    })
+    const now = Date.now()
+
+    if (now - this.lastSendPosition > 250) {
+      network.send({
+        type: MessageReceiverEnum.MOVE,
+        value: {
+          direction: direction,
+          x: parseInt(currentX.toFixed(0), 10),
+          y: parseInt(currentY.toFixed(0), 10),
+        },
+      })
+      this.lastSendPosition = now
+    }
   }
 }
 

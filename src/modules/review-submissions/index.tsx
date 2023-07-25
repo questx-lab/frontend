@@ -12,29 +12,28 @@ import NewQuestSearchStore from '@/store/local/quest-search'
 import BasicModal from '@/widgets/modal/basic'
 import {
   HorizontalBetweenCenterFullWidth,
+  HorizontalCenter,
   Vertical,
-  VerticalFullWidth,
+  VerticalFullWidthCenter,
 } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { Tab, TabItem } from '@/widgets/tab-group/focus-white-background'
-import { HeaderText3 } from '@/widgets/text'
+import { Text2xl } from '@/widgets/text'
 import { ArrowPathIcon, ClockIcon } from '@heroicons/react/24/outline'
 
-const Head = tw(HeaderText3)`
+const Head = tw(Text2xl)`
   w-full
-  max-2xl:px-12
-  max-lg:px-6
-  py-4
-  px-36
+  py-5
+  font-medium
 `
 
 const ContentPadding = tw(Vertical)`
   gap-6
-  px-36
-  max-2xl:px-12
-  max-lg:px-6
   w-full
 `
+
+const FixedWidth = tw(Vertical)`w-[980px]`
+const FixedWidthHorizontal = tw(HorizontalCenter)`w-[980px]`
 
 const Index: FC = () => {
   // data
@@ -54,49 +53,56 @@ const Index: FC = () => {
   }
 
   return (
-    <VerticalFullWidth>
-      <Head>{'Review Submission'}</Head>
+    <VerticalFullWidthCenter>
+      <FixedWidth>
+        <Head>{'Review Submission'}</Head>
+      </FixedWidth>
       <HorizontalBetweenCenterFullWidth>
         <Tab>
-          <TabItem
-            active={tabReviewState === TabReviewEnum.PENDING}
-            onClick={() => setTabReview(TabReviewEnum.PENDING)}
-          >
-            <ClockIcon className='w-5 h-5 mr-1' />
-            {'PENDING'}
-          </TabItem>
-          <TabItem
-            active={tabReviewState === TabReviewEnum.HISTORY}
-            onClick={() => setTabReview(TabReviewEnum.HISTORY)}
-          >
-            <ArrowPathIcon className='w-5 h-5 mr-1' />
-            {'HISTORY'}
-          </TabItem>
+          <FixedWidthHorizontal>
+            <TabItem
+              tabCount={1}
+              active={tabReviewState === TabReviewEnum.PENDING}
+              onClick={() => setTabReview(TabReviewEnum.PENDING)}
+            >
+              <ClockIcon className='w-5 h-5 mr-1' />
+              {'PENDING'}
+            </TabItem>
+            <TabItem
+              tabCount={1}
+              active={tabReviewState === TabReviewEnum.HISTORY}
+              onClick={() => setTabReview(TabReviewEnum.HISTORY)}
+            >
+              <ArrowPathIcon className='w-5 h-5 mr-1' />
+              {'HISTORY'}
+            </TabItem>
+          </FixedWidthHorizontal>
         </Tab>
       </HorizontalBetweenCenterFullWidth>
       <Gap height={6} />
+      <FixedWidth>
+        <ContentPadding>
+          <NewQuestSearchStore.Provider>
+            {tabReviewState === TabReviewEnum.PENDING && (
+              <PendingTab communityHandle={selectedCommunity.handle} />
+            )}
+          </NewQuestSearchStore.Provider>
+          <NewQuestSearchStore.Provider>
+            {tabReviewState === TabReviewEnum.HISTORY && (
+              <HistoryTab communityHandle={selectedCommunity.handle} />
+            )}
+          </NewQuestSearchStore.Provider>
+        </ContentPadding>
 
-      <ContentPadding>
-        <NewQuestSearchStore.Provider>
-          {tabReviewState === TabReviewEnum.PENDING && (
-            <PendingTab communityHandle={selectedCommunity.handle} />
-          )}
-        </NewQuestSearchStore.Provider>
-        <NewQuestSearchStore.Provider>
-          {tabReviewState === TabReviewEnum.HISTORY && (
-            <HistoryTab communityHandle={selectedCommunity.handle} />
-          )}
-        </NewQuestSearchStore.Provider>
-      </ContentPadding>
-
-      <BasicModal
-        title={claimQuestActive.quest.title}
-        isOpen={submissionModal}
-        onClose={() => setShowClaimDetails(false)}
-      >
-        <ClaimReview />
-      </BasicModal>
-    </VerticalFullWidth>
+        <BasicModal
+          title={claimQuestActive.quest.title}
+          isOpen={submissionModal}
+          onClose={() => setShowClaimDetails(false)}
+        >
+          <ClaimReview />
+        </BasicModal>
+      </FixedWidth>
+    </VerticalFullWidthCenter>
   )
 }
 

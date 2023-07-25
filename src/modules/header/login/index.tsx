@@ -7,6 +7,7 @@ import tw from 'twin.macro'
 import { AuthEnum } from '@/constants/common.const'
 import ChooseUserName from '@/modules/header/login/choose-username'
 import LoginBox from '@/modules/header/login/login-box'
+import AccountSettingsStore from '@/store/local/account-settings'
 import { GlobalStoreModel } from '@/store/store'
 import { Horizontal, HorizontalCenter, Vertical } from '@/widgets/orientation'
 import { Dialog } from '@headlessui/react'
@@ -20,7 +21,7 @@ const Wrap = styled(Dialog.Panel)(
   text-center
   align-middle
   overflow-hidden
-  shadow-xl
+  shadow-lg
   transition-all
   flex
   flex-col
@@ -111,7 +112,11 @@ const Login: FC<{
       case AuthEnum.REGISTER:
         return <LoginBox />
       case AuthEnum.CHOOSE_USERNAME:
-        return <ChooseUserName setOpen={setOpen} />
+        return (
+          <AccountSettingsStore.Provider>
+            <ChooseUserName setOpen={setOpen} />
+          </AccountSettingsStore.Provider>
+        )
       default:
         return <></>
     }
