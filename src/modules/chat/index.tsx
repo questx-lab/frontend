@@ -9,6 +9,7 @@ import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { FollowCommunityType } from '@/types/community'
+import { EqualBigInt } from '@/utils/number'
 
 const Index: FC<{ children: ReactNode }> = ({ children }) => {
   // data
@@ -39,7 +40,8 @@ const Index: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     if (
       channels.length > 0 &&
-      (community.handle !== currentChannel.community_handle || currentChannel.id === BigInt(0))
+      (community.handle !== currentChannel.community_handle ||
+        EqualBigInt(currentChannel.id, BigInt(0)))
     ) {
       setCurrentChannel(channels[0])
     }

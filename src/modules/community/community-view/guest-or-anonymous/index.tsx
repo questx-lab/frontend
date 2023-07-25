@@ -5,7 +5,6 @@ import { BrowserView } from 'react-device-detect'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import CommunityQuests from '@/modules/community/community-view/guest-or-anonymous/community-quests'
 import FollowCommunity from '@/modules/community/community-view/guest-or-anonymous/follow-community'
@@ -14,7 +13,6 @@ import { BorderBottom, FixedWidth, PaddingHorizontal } from '@/modules/community
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { onCopy } from '@/utils/helper'
-import { PositiveButton } from '@/widgets/buttons'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import {
@@ -130,7 +128,7 @@ const CommunityGuestOrAnonymous: FC = () => {
                 </HorizontalStartCenter>
                 <ReponsiveHorizontal>
                   <BrowserView>
-                    <PositiveButton
+                    {/* <PositiveButton
                       onClick={() => {
                         if (!user) {
                           setShowLoginModal(true)
@@ -140,7 +138,7 @@ const CommunityGuestOrAnonymous: FC = () => {
                       }}
                     >
                       {'Join Town Hall'}
-                    </PositiveButton>
+                    </PositiveButton> */}
                   </BrowserView>
                   <CenterEndHorizontal>
                     <FollowCommunity community={community} />

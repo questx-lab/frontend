@@ -27,7 +27,7 @@ export const editQuestRoute = (communityHandle: string): string => {
 }
 
 export const messageRoute = (communityHandle: string, channel: ChannelType): string => {
-  return `${RouterConst.MESSAGES}/${communityHandle}?channel=${channel.id.toString()}`
+  return `${RouterConst.MESSAGES}/${communityHandle}/${channel.id.toString()}`
 }
 
 export const isMessagesRoute = (path: string): boolean => {

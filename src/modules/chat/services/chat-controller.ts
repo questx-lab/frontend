@@ -7,6 +7,7 @@ import {
   ChatMessageType,
 } from '@/types/chat'
 import { uploadFile } from '@/utils/file'
+import { EqualBigInt } from '@/utils/number'
 
 const DEFAULT_LIMIT = 50
 
@@ -114,6 +115,17 @@ class ChatController {
    */
   getChannels(handle: string): ChannelType[] {
     return this.channelsCache.get(handle) || []
+  }
+
+  getChannel(communityHandle: string, channelId: bigint): ChannelType | undefined {
+    const channels = this.getChannels(communityHandle)
+    for (let i = 0; i < channels.length; i++) {
+      if (EqualBigInt(channels[i].id, channelId)) {
+        return channels[i]
+      }
+    }
+
+    return undefined
   }
 
   async loadMessages(channelId: bigint, lastMessageId: bigint, eventType: MessageEventEnum) {
