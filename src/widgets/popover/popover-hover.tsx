@@ -2,9 +2,10 @@ import React, { FC, ReactNode } from 'react'
 
 import { Button, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
 
-export const PopoverHover: FC<{ button: ReactNode; children: ReactNode }> = ({
+export const PopoverHover: FC<{ button: ReactNode; children: ReactNode; placement?: any }> = ({
   button,
   children,
+  placement,
 }) => {
   const [openPopover, setOpenPopover] = React.useState(false)
 
@@ -14,7 +15,7 @@ export const PopoverHover: FC<{ button: ReactNode; children: ReactNode }> = ({
   }
 
   return (
-    <Popover open={openPopover} handler={setOpenPopover}>
+    <Popover placement={placement} open={openPopover} handler={setOpenPopover}>
       <PopoverHandler {...triggers}>
         <Button ripple={false} onClick={() => {}} className='p-0 outline-0 ring-0' variant='text'>
           {button}
@@ -27,12 +28,13 @@ export const PopoverHover: FC<{ button: ReactNode; children: ReactNode }> = ({
   )
 }
 
-export const PopoverClick: FC<{ button: ReactNode; children: ReactNode }> = ({
+export const PopoverClick: FC<{ button: ReactNode; children: ReactNode; placement?: any }> = ({
   button,
   children,
+  placement,
 }) => {
   return (
-    <Popover>
+    <Popover placement={placement}>
       <PopoverHandler>
         <Button ripple={false} onClick={() => {}} className='p-0 outline-0 ring-0' variant='text'>
           {button}

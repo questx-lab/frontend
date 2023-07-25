@@ -46,9 +46,9 @@ const GapVerticalFullWidth = tw(VerticalFullWidth)`gap-1`
 const GapVertical = styled(Vertical)<{ isOwnser?: boolean }>(({ isOwnser = false }) => {
   const styles = [tw`gap-1 justify-center bg-cyan-50 rounded-lg p-3 max-w-[80%]`]
   if (isOwnser) {
-    styles.push(tw`bg-primary-100`)
+    styles.push(tw`bg-primary-100 hover:bg-primary-200`)
   } else {
-    styles.push(tw`bg-cyan-50`)
+    styles.push(tw`bg-cyan-50 hover:bg-cyan-100`)
   }
 
   return styles
@@ -77,7 +77,16 @@ const EmojiReact: FC<{ reactions: ChatReactionType[] | undefined }> = ({ reactio
   return <Gap1Horizontal>{renderReact}</Gap1Horizontal>
 }
 
-const Reaction: FC<{ children: ReactNode; message: ChatMessageType }> = ({ children, message }) => {
+enum SideEnum {
+  LEFT = 'left',
+  RIGHT = 'right',
+}
+
+const Reaction: FC<{ side: SideEnum; children: ReactNode; message: ChatMessageType }> = ({
+  children,
+  message,
+  side,
+}) => {
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
   const handleEmojiClick = (emoji: any) => {
     const emojiData: EmojiType = {
@@ -87,16 +96,17 @@ const Reaction: FC<{ children: ReactNode; message: ChatMessageType }> = ({ child
   }
 
   return (
-    <PopoverHover button={children}>
+    <PopoverHover button={children} placement={side}>
       <Tooltip content='Add reaction'>
         <div>
           <PopoverClick
+            placement={side}
             button={
               <PaddingIcon>
                 <Image
-                  width={32}
-                  height={32}
-                  src={StorageConst.EMOJI_REACT.src}
+                  width={20}
+                  height={20}
+                  src={StorageConst.EMOJI.src}
                   alt=''
                   className='cursor-pointer'
                 />
@@ -122,7 +132,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
     return (
       <GapHorizontal isOwnser>
         <GapVertical isOwnser>
-          <Reaction message={message}>
+          <Reaction side={SideEnum.LEFT} message={message}>
             <GapVerticalFullWidth>
               <Attachments attachments={message.attachments} />
               <LightTextBase>{message.content}</LightTextBase>
@@ -139,7 +149,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
     <GapHorizontal>
       <UserAvatar user={message.author} size={32} />
       <GapVertical>
-        <Reaction message={message}>
+        <Reaction side={SideEnum.RIGHT} message={message}>
           <GapVerticalFullWidth>
             <MediumTextSm>{message.author.name}</MediumTextSm>
             <Attachments attachments={message.attachments} />

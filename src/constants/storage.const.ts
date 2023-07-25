@@ -171,10 +171,6 @@ const StorageConst = {
     src: '/images/icons/emoji-blank.png',
     alt: 'Emoji',
   },
-  EMOJI_REACT: {
-    src: '/images/icons/emoji-react.png',
-    alt: 'Emoji',
-  },
 }
 
 export default StorageConst
