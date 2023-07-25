@@ -5,9 +5,22 @@ export enum TabChatType {
   CHANNEL_LIST = '#Channels',
 }
 
+export type EmojiType = {
+  // content_type: string
+  name: string
+}
+
 export type MessageAttachmentType = {
   // content_type: string
   url: string
+}
+
+export type ChatReactionType = {
+  channel_id: bigint
+  emoji: EmojiType
+  count: number
+  message_id: bigint
+  me: boolean
 }
 
 export type ChatMessageType = {
@@ -20,6 +33,7 @@ export type ChatMessageType = {
   // Optional fields
   attachments?: MessageAttachmentType[]
   mentions?: UserType[]
+  reactions?: ChatReactionType[]
 }
 
 export type ChatMessagesType = {
@@ -62,6 +76,7 @@ export type UserChatType = {
 
 export enum ChatMessageReceiverEnum {
   MESSAGE_CREATED = 'message_created',
+  REACTION_ADDED = 'reaction_added',
 }
 
 export type ReadyMessageType = {
@@ -70,5 +85,5 @@ export type ReadyMessageType = {
 
 export type ChatMessageReceiver = {
   o: ChatMessageReceiverEnum
-  d: ChatMessageType | ReadyMessageType
+  d: ChatMessageType | ReadyMessageType | ChatReactionType
 }

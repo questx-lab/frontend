@@ -1,81 +1,14 @@
 import { FC, useEffect, useRef, useState } from 'react'
 
-import { useStoreState } from 'easy-peasy'
-import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import MessageItem from '@/modules/chat/chat-box/message/message-item'
 import chatController, { MessageEventEnum } from '@/modules/chat/services/chat-controller'
 import ChatStore from '@/store/chat/chat'
-import { GlobalStoreModel } from '@/store/store'
-import { UserType } from '@/types'
-import { ChatMessageType, MessageAttachmentType } from '@/types/chat'
-import { UserAvatar } from '@/widgets/avatar'
-import { Image } from '@/widgets/image'
-import { HorizontalFullWidth, Vertical, VerticalFullWidth } from '@/widgets/orientation'
-import { LightTextBase, MediumTextSm } from '@/widgets/text'
+import { ChatMessageType } from '@/types/chat'
+import { VerticalFullWidth } from '@/widgets/orientation'
 
-const Frame = tw(VerticalFullWidth)`h-full overflow-y-scroll gap-6`
-
-const GapHorizontal = styled(HorizontalFullWidth)<{ isOwnser?: boolean }>(
-  ({ isOwnser = false }) => {
-    const styles = [tw`gap-3  cursor-pointer `]
-    if (isOwnser) {
-      styles.push(tw`flex-row-reverse`)
-    }
-
-    return styles
-  }
-)
-
-const GapVertical = styled(Vertical)<{ isOwnser?: boolean }>(({ isOwnser = false }) => {
-  const styles = [tw`gap-1 justify-center bg-cyan-50 rounded-lg p-3 max-w-[80%]`]
-  if (isOwnser) {
-    styles.push(tw`bg-primary-100`)
-  } else {
-    styles.push(tw`bg-cyan-50`)
-  }
-
-  return styles
-})
-
-const Attachments: FC<{ attachments: MessageAttachmentType[] | undefined }> = ({ attachments }) => {
-  if (!attachments || attachments.length === 0) {
-    return <></>
-  }
-
-  return <Image src={attachments[0].url} width={300} />
-}
-
-const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
-  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-  if (!user) {
-    return <></>
-  }
-
-  // Sender
-  if (message.author.id === user.id) {
-    return (
-      <GapHorizontal isOwnser>
-        <GapVertical isOwnser>
-          <Attachments attachments={message.attachments} />
-          <LightTextBase>{message.content}</LightTextBase>
-        </GapVertical>
-      </GapHorizontal>
-    )
-  }
-
-  // Messages from other people
-  return (
-    <GapHorizontal>
-      <UserAvatar user={message.author} size={32} />
-      <GapVertical>
-        <MediumTextSm>{message.author.name}</MediumTextSm>
-        <Attachments attachments={message.attachments} />
-        <LightTextBase>{message.content}</LightTextBase>
-      </GapVertical>
-    </GapHorizontal>
-  )
-}
+const Frame = tw(VerticalFullWidth)`h-full overflow-y-scroll gap-5`
 
 const MessageList: FC = () => {
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
@@ -110,7 +43,10 @@ const MessageList: FC = () => {
 
         setMessages(newMessages)
 
-        if (eventType === MessageEventEnum.LOAD_PREFIX) {
+        if (
+          eventType === MessageEventEnum.LOAD_PREFIX ||
+          eventType === MessageEventEnum.REACTION_ADDED
+        ) {
           // Set the position of the scroll to the last position.
           if (messageListRef.current) {
             const oldHeight = messageListRef.current.scrollHeight
