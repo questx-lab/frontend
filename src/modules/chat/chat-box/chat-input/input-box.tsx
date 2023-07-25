@@ -9,8 +9,11 @@ const InputBoxBorder = tw.textarea`
   resize-none
 `
 
-const InputBox: FC<{ onNewMessagedEntered: (s: string) => void }> = ({ onNewMessagedEntered }) => {
-  const [inputMessage, setInputMessage] = useState<string>('')
+const InputBox: FC<{
+  onNewMessagedEntered: (s: string) => void
+  inputMessage: string
+  onInputMessage: (s: string) => void
+}> = ({ onNewMessagedEntered, inputMessage, onInputMessage }) => {
   const [enterdTime, setEnterTime] = useState<number>(0)
 
   const handleKeyboardEvent = (event: React.KeyboardEvent) => {
@@ -19,7 +22,7 @@ const InputBox: FC<{ onNewMessagedEntered: (s: string) => void }> = ({ onNewMess
     if (event.key === 'Enter' && now - enterdTime > 300 && !event.shiftKey) {
       event.preventDefault()
       onNewMessagedEntered(inputMessage)
-      setInputMessage('')
+      onInputMessage('')
       setEnterTime(now)
     }
   }
@@ -30,7 +33,7 @@ const InputBox: FC<{ onNewMessagedEntered: (s: string) => void }> = ({ onNewMess
       value={inputMessage}
       onKeyDown={handleKeyboardEvent}
       onChange={(e) => {
-        setInputMessage(e.target.value)
+        onInputMessage(e.target.value)
       }}
     />
   )
