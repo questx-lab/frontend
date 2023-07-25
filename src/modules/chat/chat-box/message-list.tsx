@@ -77,6 +77,10 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   )
 }
 
+// The number of milliseconds since data update till we update scroll position (or do smooth
+// scrolling)
+const DELAY_SCROLL_TIME = 100
+
 const MessageList: FC = () => {
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
   const messageListRef = useRef<null | HTMLDivElement>(null)
@@ -85,13 +89,15 @@ const MessageList: FC = () => {
 
   // Set the scroll position
   useEffect(() => {
-    if (messageListRef.current) {
-      let position = chatController.getScrollingPosition(currentChannel.id)
-      if (position < 0) {
-        position = 1000000 // first time open, just scroll to the bottom.
+    setTimeout(() => {
+      if (messageListRef.current) {
+        let position = chatController.getScrollingPosition(currentChannel.id)
+        if (position < 0) {
+          position = 1000000 // first time open, just scroll to the bottom.
+        }
+        messageListRef.current.scrollTop = position
       }
-      messageListRef.current.scrollTop = position
-    }
+    }, DELAY_SCROLL_TIME)
 
     setMessages(chatController.getMessages(currentChannel.id, BigInt(0)))
   }, [currentChannel.id])
@@ -120,14 +126,14 @@ const MessageList: FC = () => {
                 const newHeight = messageListRef.current.scrollHeight
                 messageListRef.current.scrollTo({ top: oldTop + newHeight - oldHeight })
               }
-            }, 200)
+            }, DELAY_SCROLL_TIME)
           }
         } else {
           setTimeout(() => {
             if (messageListRef.current) {
               messageListRef.current.scrollTo({ top: 1000000 })
             }
-          }, 200)
+          }, DELAY_SCROLL_TIME)
         }
       },
     }
