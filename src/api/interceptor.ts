@@ -30,7 +30,13 @@ export const api = axios.create({
   // use JSONBig to transform int64 number. The default javascript number type fails to parse any
   // number > 2^52
   // https://stackoverflow.com/questions/9643626/does-javascript-support-64-bit-integers
-  transformRequest: (r) => JSONbig.stringify(r),
+  transformRequest: (r) => {
+    if (r instanceof FormData || r === undefined) {
+      return r
+    }
+
+    return JSONbig.stringify(r)
+  },
   transformResponse: (r) => JSONbig.parse(r),
 })
 

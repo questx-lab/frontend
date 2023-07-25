@@ -8,6 +8,7 @@ import { messageRoute } from '@/constants/router.const'
 import Index from '@/modules/chat'
 import Channels from '@/modules/chat/channel/channels'
 import ChatBox from '@/modules/chat/chat-box'
+import useChannels from '@/modules/chat/hooks/use-channels'
 import Header from '@/modules/chat/popover/header'
 import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
@@ -66,13 +67,14 @@ const ChatPopover: FC = () => {
 
   // data
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
+  const channels = useChannels(community.handle)
 
   // actions
 
   const navigate = useNavigate()
 
   const onNavigate = () => {
-    navigate(messageRoute(community.handle + '?channel=general'))
+    navigate(messageRoute(community.handle, channels[0]))
   }
 
   if (!communityHandle) {

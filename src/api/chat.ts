@@ -1,18 +1,28 @@
 import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
 import { Rsp } from '@/types'
-import { ChannelsType, ChatMessagesType, UserChatStatusType, UserChatType } from '@/types/chat'
+import {
+  ChannelsType,
+  ChatMessagesType,
+  MessageAttachmentType,
+  UserChatStatusType,
+  UserChatType,
+} from '@/types/chat'
 
 export const getChannelsApi = async (handle: string): Promise<Rsp<ChannelsType>> => {
   const res = await api.get(EnvVariables.API_SERVER + `/getChannels?community_handle=${handle}`)
   return res.data
 }
 
-export const sendMessageApi = async (channelId: BigInt, msg: string) => {
+export const sendMessageApi = async (
+  channelId: BigInt,
+  msg: string,
+  attachments: MessageAttachmentType[]
+) => {
   await api.post(EnvVariables.API_SERVER + `/createMessage`, {
     channel_id: channelId,
     content: msg,
-    attachments: [],
+    attachments: attachments,
   })
 }
 
