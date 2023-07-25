@@ -27,12 +27,16 @@ const InputBoxStyle = tw.textarea`
 `
 
 const UploadAssets: FC = () => {
+  // data
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
+  const selectedAssetsUri = ChatStore.useStoreState((state) => state.selectedAssetsUri)
+
+  // actions
+  const setSelectedAssetsUri = ChatStore.useStoreActions((actions) => actions.setSelectedAssetsUri)
 
   const [inputMessage, setInputMessage] = useState<string>('')
   const [enterdTime, setEnterTime] = useState<number>(0)
   const fileInput = useRef<HTMLInputElement>(null)
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
 
   const handleClick = () => {
@@ -45,7 +49,7 @@ const UploadAssets: FC = () => {
       const reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = () => {
-        setImageUrl(reader.result as string)
+        setSelectedAssetsUri(reader.result as string)
         setSelectedFiles([file])
       }
     }
@@ -68,6 +72,8 @@ const UploadAssets: FC = () => {
     }
 
     chatController.sendMessageWithImage(currentChannel.id, inputMessage, selectedFiles)
+    // Close the modal
+    setSelectedAssetsUri('')
   }
 
   return (
@@ -78,13 +84,13 @@ const UploadAssets: FC = () => {
       <BasicModal
         title={'Upload Image'}
         styled='!w-[400px]'
-        isOpen={imageUrl !== null}
+        isOpen={selectedAssetsUri !== ''}
         onClose={() => {
-          setImageUrl(null)
+          setSelectedAssetsUri('')
         }}
       >
         <VerticalFullWidth>
-          <Image width={400} src={imageUrl || ''} alt='Uploaded image' />
+          <Image width={400} src={selectedAssetsUri || ''} alt='Uploaded image' />
           <HorizontalFullWidth>
             <InputBoxStyle
               rows={1}
