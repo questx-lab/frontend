@@ -1,18 +1,28 @@
 import { api } from '@/api/interceptor'
 import { EnvVariables } from '@/constants/env.const'
 import { Rsp } from '@/types'
-import { ChannelsType, ChatMessagesType, UserChatStatusType, UserChatType } from '@/types/chat'
+import {
+  ChannelsType,
+  ChatMessagesType,
+  MessageAttachmentType,
+  UserChatStatusType,
+  UserChatType,
+} from '@/types/chat'
 
 export const getChannelsApi = async (handle: string): Promise<Rsp<ChannelsType>> => {
   const res = await api.get(EnvVariables.API_SERVER + `/getChannels?community_handle=${handle}`)
   return res.data
 }
 
-export const sendMessageApi = async (channelId: BigInt, msg: string) => {
+export const sendMessageApi = async (
+  channelId: BigInt,
+  msg: string,
+  attachments: MessageAttachmentType[]
+) => {
   await api.post(EnvVariables.API_SERVER + `/createMessage`, {
     channel_id: channelId,
     content: msg,
-    attachments: [],
+    attachments: attachments,
   })
 }
 
@@ -190,11 +200,12 @@ export const getUsersApi = async (): Promise<Rsp<UserChatType[]>> => {
 
 export const getMessagesApi = async (
   channel_id: BigInt,
-  last_message_id: BigInt
+  last_message_id: BigInt,
+  limit: number
 ): Promise<Rsp<ChatMessagesType>> => {
   const res = await api.get(
     EnvVariables.API_SERVER +
-      `/getMessages?channel_id=${channel_id.toString()}&last_message_id=${last_message_id}&limit=50`
+      `/getMessages?channel_id=${channel_id.toString()}&before=${last_message_id}&limit=${limit}`
   )
 
   return res.data

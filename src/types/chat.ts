@@ -6,13 +6,12 @@ export enum TabChatType {
 }
 
 export type MessageAttachmentType = {
-  id: string
-  content_type: string
+  // content_type: string
   url: string
 }
 
 export type ChatMessageType = {
-  id: string
+  id: bigint
   channel_id: bigint
   author: UserType
   content: string
@@ -29,7 +28,7 @@ export type ChatMessagesType = {
 
 export type ChannelType = {
   id: bigint
-  community_id: string
+  community_handle: string
   name: string
   last_message_id: number
   description?: string
@@ -39,7 +38,7 @@ export type ChannelType = {
 export const emptyChannel = (): ChannelType => {
   return {
     id: BigInt(0),
-    community_id: '',
+    community_handle: '',
     name: '',
     last_message_id: 0,
   }

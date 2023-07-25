@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
@@ -8,6 +8,7 @@ import { messageRoute } from '@/constants/router.const'
 import Index from '@/modules/chat'
 import Channels from '@/modules/chat/channel/channels'
 import ChatBox from '@/modules/chat/chat-box'
+import useChannels from '@/modules/chat/hooks/use-channels'
 import Header from '@/modules/chat/popover/header'
 import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
@@ -61,33 +62,23 @@ const ContentTab: FC = () => {
   return <ChatBox />
 }
 
-const PopPoverContent: FC = () => {
-  return (
-    <>
-      <Index
-        children={
-          <>
-            <Header />
-            <Content>
-              <ContentTab />
-            </Content>
-          </>
-        }
-      />
-    </>
-  )
-}
-
 const ChatPopover: FC = () => {
+  const { communityHandle } = useParams()
+
   // data
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
+  const channels = useChannels(community.handle)
 
   // actions
 
   const navigate = useNavigate()
 
   const onNavigate = () => {
-    navigate(messageRoute(community.handle + '?channel=general'))
+    navigate(messageRoute(community.handle, channels[0]))
+  }
+
+  if (!communityHandle) {
+    return <></>
   }
 
   return (
@@ -101,7 +92,17 @@ const ChatPopover: FC = () => {
                 <XMarkIcon className='w-6 h-6 text-gray-900' onClick={() => close()} />
               </HorizontalBetweenCenterFullWidth>
             </GapPaddingx>
-            <PopPoverContent />
+
+            <Index
+              children={
+                <>
+                  <Header />
+                  <Content>
+                    <ContentTab />
+                  </Content>
+                </>
+              }
+            />
             <FootFrame>
               <PrimaryText
                 onClick={() => {

@@ -1,3 +1,5 @@
+import { ChannelType } from '@/types/chat'
+
 export enum RouterConst {
   HOME = '/',
   QUESTBOARD = '/questercamp',
@@ -24,6 +26,10 @@ export const editQuestRoute = (communityHandle: string): string => {
   return `${communityRoute(communityHandle)}/edit-quest`
 }
 
-export const messageRoute = (communityHandle: string): string => {
-  return `${RouterConst.MESSAGES}/${communityHandle}`
+export const messageRoute = (communityHandle: string, channel: ChannelType): string => {
+  return `${RouterConst.MESSAGES}/${communityHandle}?channel=${channel.id.toString()}`
+}
+
+export const isMessagesRoute = (path: string): boolean => {
+  return path.startsWith(RouterConst.MESSAGES)
 }

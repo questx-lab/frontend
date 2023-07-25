@@ -1,13 +1,6 @@
 import tw from 'twin.macro'
 
-import { Horizontal } from '@/widgets/orientation'
-
-export const InputBoxBorder = tw.textarea`
-  w-full
-  outline-0
-  bg-gray-200
-  resize-none
-`
+import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
 
 export const AdditionBox = tw(Horizontal)`
   gap-2
@@ -16,4 +9,14 @@ export const AdditionBox = tw(Horizontal)`
   cursor-pointer
   items-center
   p-3
+`
+
+export const InputEmojiBox = tw(HorizontalCenter)`
+  pl-5
+  pr-2
+  gap-2
+  rounded-full
+  bg-gray-200
+  w-full
+  py-2
 `

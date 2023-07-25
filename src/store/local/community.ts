@@ -39,7 +39,7 @@ const CommunityStore = createContextStore<CommunityModel>({
   selectedCommunity: emptyCommunity(),
   query: '',
   searchProjects: [],
-  role: CommunityRoleEnum.GUEST,
+  role: CommunityRoleEnum.NOT_LOGIN,
   canEdit: false, // can edit community, add/edit quests.
   categories: [],
   invitedBy: '',

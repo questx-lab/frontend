@@ -33,7 +33,7 @@ export const PopPanel = styled(Popover.Panel)(() => {
 
 export const PopItem = tw(Vertical)`
   w-full
-  py-2
+  py-6
   px-4
 `
 

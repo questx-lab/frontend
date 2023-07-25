@@ -1,22 +1,17 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import useMessages from '@/modules/chat/hooks/use-messages'
-import chatController from '@/modules/chat/services/chat-controller'
+import chatController, { MessageEventEnum } from '@/modules/chat/services/chat-controller'
 import ChatStore from '@/store/chat/chat'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
-import { ChatMessageType } from '@/types/chat'
+import { ChatMessageType, MessageAttachmentType } from '@/types/chat'
 import { UserAvatar } from '@/widgets/avatar'
-import {
-  HorizontalBetweenCenterFullWidth,
-  HorizontalFullWidth,
-  Vertical,
-  VerticalFullWidth,
-} from '@/widgets/orientation'
+import { Image } from '@/widgets/image'
+import { HorizontalFullWidth, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { LightTextBase, MediumTextSm } from '@/widgets/text'
 
 const Frame = tw(VerticalFullWidth)`h-full overflow-y-scroll gap-6`
@@ -43,7 +38,13 @@ const GapVertical = styled(Vertical)<{ isOwnser?: boolean }>(({ isOwnser = false
   return styles
 })
 
-const FullSize = tw(HorizontalBetweenCenterFullWidth)`h-full`
+const Attachments: FC<{ attachments: MessageAttachmentType[] | undefined }> = ({ attachments }) => {
+  if (!attachments || attachments.length === 0) {
+    return <></>
+  }
+
+  return <Image src={attachments[0].url} width={300} />
+}
 
 const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
@@ -56,6 +57,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
     return (
       <GapHorizontal isOwnser>
         <GapVertical isOwnser>
+          <Attachments attachments={message.attachments} />
           <LightTextBase>{message.content}</LightTextBase>
         </GapVertical>
       </GapHorizontal>
@@ -68,6 +70,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
       <UserAvatar user={message.author} size={32} />
       <GapVertical>
         <MediumTextSm>{message.author.name}</MediumTextSm>
+        <Attachments attachments={message.attachments} />
         <LightTextBase>{message.content}</LightTextBase>
       </GapVertical>
     </GapHorizontal>
@@ -76,38 +79,91 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
 
 const MessageList: FC = () => {
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
-  const messagesEndRef = useRef<null | HTMLDivElement>(null)
-  const messages = useMessages(currentChannel.id)
+  const messageListRef = useRef<null | HTMLDivElement>(null)
+  const channelIdString = currentChannel.id.toString()
+  const [messages, setMessages] = useState<ChatMessageType[] | undefined>([])
 
+  // Set the scroll position
   useEffect(() => {
-    chatController.loadMessages(currentChannel.id, BigInt(0))
+    if (messageListRef.current) {
+      let position = chatController.getScrollingPosition(currentChannel.id)
+      if (position < 0) {
+        position = 1000000 // first time open, just scroll to the bottom.
+      }
+      messageListRef.current.scrollTop = position
+    }
+
+    setMessages(chatController.getMessages(currentChannel.id, BigInt(0)))
   }, [currentChannel.id])
 
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
+  // Listen to any message change propagated by the chat controller.
   useEffect(() => {
-    scrollToBottom()
-  }, [messages])
+    const listener = {
+      onMessages: (
+        channelId: bigint,
+        newMessages: ChatMessageType[],
+        eventType: MessageEventEnum
+      ) => {
+        if (channelIdString !== channelId.toString()) {
+          return
+        }
 
+        setMessages(newMessages)
+
+        if (eventType === MessageEventEnum.LOAD_PREFIX) {
+          // Set the position of the scroll to the last position.
+          if (messageListRef.current) {
+            const oldHeight = messageListRef.current.scrollHeight
+            const oldTop = messageListRef.current.scrollTop
+            setTimeout(() => {
+              if (messageListRef.current) {
+                const newHeight = messageListRef.current.scrollHeight
+                messageListRef.current.scrollTo({ top: oldTop + newHeight - oldHeight })
+              }
+            }, 200)
+          }
+        } else {
+          setTimeout(() => {
+            if (messageListRef.current) {
+              messageListRef.current.scrollTo({ top: 1000000 })
+            }
+          }, 200)
+        }
+      },
+    }
+
+    chatController.addMessagesListener(listener)
+
+    return () => {
+      chatController.removeMessagesListener(listener)
+    }
+  }, [channelIdString])
+
+  // Start of rendering.
   if (currentChannel.id === BigInt(0)) {
     return <Frame />
   }
 
-  if (messages.length === 0) {
+  if (!messages || messages.length === 0) {
     return <Frame />
   }
 
-  const renderMessages = messages.map((message) => (
-    <MessageItem key={message.id} message={message} />
+  const renderMessages = messages.map((message, index) => (
+    <MessageItem key={index} message={message} />
   ))
 
+  const handleOnScroll = (event: any) => {
+    chatController.setScrollingPosition(currentChannel.id, event.currentTarget.scrollTop)
+    if (event.currentTarget.scrollTop === 0) {
+      const lastMessageId: bigint =
+        messages !== undefined && messages.length > 0 ? messages[0].id : BigInt(0)
+      chatController.loadMessages(currentChannel.id, lastMessageId, MessageEventEnum.LOAD_PREFIX)
+    }
+  }
+
   return (
-    <Frame>
-      {renderMessages} <div ref={messagesEndRef} />
+    <Frame onScroll={handleOnScroll} ref={messageListRef}>
+      {renderMessages}
     </Frame>
   )
 }

@@ -34,10 +34,11 @@ const Category: FC = () => {
     categories.map((category) => <CategoryBox key={category.id}>{category.name}</CategoryBox>)
 
   if (
-    role &&
-    role !== CommunityRoleEnum.OWNER &&
-    role !== CommunityRoleEnum.REVIEWER &&
-    role !== CommunityRoleEnum.EDITOR
+    !role ||
+    (role &&
+      role !== CommunityRoleEnum.OWNER &&
+      role !== CommunityRoleEnum.REVIEWER &&
+      role !== CommunityRoleEnum.EDITOR)
   ) {
     return <></>
   }
