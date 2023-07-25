@@ -10,7 +10,7 @@ import Result from '@/modules/lottery/guest/result'
 import ViewLotteryStore from '@/store/local/view-lottery'
 import { isExpired } from '@/utils/validation'
 import BasicModal from '@/widgets/modal/basic'
-import { FireIcon } from '@heroicons/react/20/solid'
+import { GiftIcon } from '@heroicons/react/24/outline'
 
 const LotteryContent: FC = () => {
   const view = ViewLotteryStore.useStoreState((state) => state.view)
@@ -66,7 +66,7 @@ const LotteryModal: FC = () => {
 
   return (
     <>
-      <FireIcon onClick={onOpenModal} className='w-6 h-6 cursor-pointer text-danger' />
+      <GiftIcon onClick={onOpenModal} className='w-5 h-5 cursor-pointer text-gray-900' />
       <BasicModal
         styled='!w-[480px]'
         title='Lottery Wheel'
@@ -79,4 +79,12 @@ const LotteryModal: FC = () => {
   )
 }
 
-export default LotteryModal
+const Lottery: FC = () => {
+  return (
+    <ViewLotteryStore.Provider>
+      <LotteryModal />
+    </ViewLotteryStore.Provider>
+  )
+}
+
+export default Lottery

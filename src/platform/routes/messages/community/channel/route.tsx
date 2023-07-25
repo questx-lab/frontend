@@ -2,8 +2,8 @@ import { FC } from 'react'
 
 import { Outlet } from 'react-router-dom'
 
-const Messages: FC = () => {
+const Channel: FC = () => {
   return <Outlet />
 }
 
-export default Messages
+export default Channel
