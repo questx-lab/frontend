@@ -50,9 +50,7 @@ const LotteryModal: FC = () => {
         setLotteryEvent(data.event)
         setHasEvent(true)
       }
-    } catch (error) {
-      console.log('error', error)
-    }
+    } catch (error) {}
   }
 
   useEffect(() => {
