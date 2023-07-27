@@ -11,7 +11,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { CommunityType, FollowCommunityType } from '@/types/community'
 import { Vertical } from '@/widgets/orientation'
 
-const Wrap = styled.div<{ isDrawer: boolean }>(({ isDrawer }) => {
+const Wrap = styled.div<{ isDrawer: boolean; hasEvent: boolean }>(({ isDrawer, hasEvent }) => {
   const style = [
     tw`
     w-20
@@ -28,6 +28,10 @@ const Wrap = styled.div<{ isDrawer: boolean }>(({ isDrawer }) => {
 
   if (!isDrawer) {
     style.push(tw`max-sm:hidden fixed `)
+  }
+
+  if (hasEvent) {
+    style.push(tw`mt-[48px]`)
   }
 
   return style
@@ -82,6 +86,7 @@ const CommunityFollowItems: FC<{
 }
 
 const CommunitiesNavigation: FC<{ isDrawer?: boolean }> = ({ isDrawer = false }) => {
+  const hasEvent = useStoreState<GlobalStoreModel>((state) => state.hasEvent)
   const myCommunities: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.myCommunities
   )
@@ -96,7 +101,7 @@ const CommunitiesNavigation: FC<{ isDrawer?: boolean }> = ({ isDrawer = false })
   }
 
   return (
-    <Wrap isDrawer={isDrawer}>
+    <Wrap isDrawer={isDrawer} hasEvent={hasEvent}>
       <CommunityItems communities={myCommunities} />
       <CommunityFollowItems followCommunities={communitiesFollowing} />
     </Wrap>

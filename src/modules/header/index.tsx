@@ -11,35 +11,52 @@ import StorageConst from '@/constants/storage.const'
 import chatController from '@/modules/chat/services/chat-controller'
 import BrowserNavigation from '@/modules/header/browser-navigate'
 import Drawer from '@/modules/header/drawer'
+import EventNotify from '@/modules/header/event-notify'
 import UserInfoBox from '@/modules/header/user-info'
 import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 
-export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
-  tw`
-  w-full
-  flex
-  flex-row
-  justify-between
-  items-center
-  h-[64px]
-  border-b-[1px]
-  border-gray-200
-  fixed
-  `,
-  isApp && tw`bg-white px-6 3xl:px-6`,
-  !isApp &&
+const FixedWidth = styled.div<{ hasEvent?: boolean }>(({ hasEvent }) => {
+  const styles = [tw`w-full !h-[64px] bg-white fixed flex flex-col justify-end`]
+
+  if (hasEvent) {
+    styles.push(tw`!h-[112px]`)
+  }
+
+  return styles
+})
+
+export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => {
+  const styles = [
     tw`
-    border-0
-    backdrop-blur-lg
-    flex
-    flex-row
-    justify-center
-    items-center
-  `,
-])
+        w-full
+        flex
+        flex-col
+        justify-between
+        items-center
+        h-[64px]
+        border-b-[1px]
+        border-gray-200
+      `,
+  ]
+
+  if (isApp) {
+    styles.push(tw`bg-white px-6 3xl:px-6`)
+  } else {
+    styles.push(tw`
+        border-0
+        backdrop-blur-lg
+        flex
+        flex-row
+        justify-center
+        items-center
+      `)
+  }
+
+  return styles
+})
 
 const LeftSection = tw(HorizontalStartCenter)`
   gap-5
@@ -91,6 +108,7 @@ export const Header: FC<{}> = () => {
 
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const hasEvent = useStoreState<GlobalStoreModel>((state) => state.hasEvent)
 
   // action
   const setShowNavigationDrawer = useStoreActions<GlobalStoreModel>(
@@ -109,34 +127,37 @@ export const Header: FC<{}> = () => {
   }, [isApp])
 
   return (
-    <HeaderBox isApp={isApp}>
-      <Body isApp={isApp}>
-        <LeftSection>
-          <MobileView>
-            <Drawer />
-            <MenuIcon onClick={() => !showNavigationDrawer && setShowNavigationDrawer(true)} />
-          </MobileView>
+    <FixedWidth hasEvent={hasEvent}>
+      <EventNotify />
+      <HeaderBox isApp={isApp}>
+        <Body isApp={isApp}>
+          <LeftSection>
+            <MobileView>
+              <Drawer />
+              <MenuIcon onClick={() => !showNavigationDrawer && setShowNavigationDrawer(true)} />
+            </MobileView>
 
-          <ImageLogoBox
-            width={90}
-            height={40}
-            onClick={() => {
-              navigate(RouterConst.HOME)
-            }}
-            src={StorageConst.APP_LOGO_DIR.src}
-            alt={StorageConst.APP_LOGO_DIR.alt}
-          />
+            <ImageLogoBox
+              width={90}
+              height={40}
+              onClick={() => {
+                navigate(RouterConst.HOME)
+              }}
+              src={StorageConst.APP_LOGO_DIR.src}
+              alt={StorageConst.APP_LOGO_DIR.alt}
+            />
 
-          {/* For browser */}
-          <FullBrowser>
-            <BrowserNavigation />
-          </FullBrowser>
-          {/* ========== */}
-        </LeftSection>
-        <RightSection>
-          <UserInfoBox />
-        </RightSection>
-      </Body>
-    </HeaderBox>
+            {/* For browser */}
+            <FullBrowser>
+              <BrowserNavigation />
+            </FullBrowser>
+            {/* ========== */}
+          </LeftSection>
+          <RightSection>
+            <UserInfoBox />
+          </RightSection>
+        </Body>
+      </HeaderBox>
+    </FixedWidth>
   )
 }
