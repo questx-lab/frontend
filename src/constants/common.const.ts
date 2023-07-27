@@ -349,3 +349,17 @@ export enum CommunitySettingSidebar {
   MEMBERS = 'Members',
   ROLES = 'Roles',
 }
+
+export enum ChatSettingSidebar {
+  CHANNEL = 'Channels',
+}
+
+export enum RolePermissionColor {
+  GREEN = '#22C55E',
+  RED = '#EF4444',
+  YELLOW = '#F59E0B',
+  BLUE = '#3B82F6',
+  ORANGE = '#f97316',
+  PINK = '#ec4899',
+  GRAY = '#d1d5db',
+}

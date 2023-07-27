@@ -13,6 +13,7 @@ export type CommunityRoleType = {
   name: string
   permission: number
   priority: number
+  color: string
 }
 
 export enum CommunityIndexMode {

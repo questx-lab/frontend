@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react'
 
 import tw from 'twin.macro'
 
+import ChatSetting from '@/modules/community/settings/chat'
 import General from '@/modules/community/settings/general'
 import MemberSetting from '@/modules/community/settings/member'
 import CommunityStore from '@/store/local/community'
@@ -62,10 +63,14 @@ const CommunitySettings: FC = () => {
           >
             {'MEMBER'}
           </TabItem>
+          <TabItem tabCount={1} active={tab === TabEnum.CHAT} onClick={() => setTab(TabEnum.CHAT)}>
+            {'CHAT'}
+          </TabItem>
         </Tab>
       </HorizontalBetweenCenterFullWidth>
       {tab === TabEnum.GENERAL && <General />}
       {tab === TabEnum.MEMBER && <MemberSetting />}
+      {tab === TabEnum.CHAT && <ChatSetting />}
     </Frame>
   )
 }

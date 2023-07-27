@@ -3,7 +3,7 @@ import { FC, ReactNode } from 'react'
 import tw from 'twin.macro'
 
 import { PositiveButton } from '@/widgets/buttons'
-import { HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
+import { HorizontalCenter, HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { MediumTextSm } from '@/widgets/text'
 
 const EndHorizontal = tw(HorizontalFullWidth)`justify-end`
@@ -39,6 +39,19 @@ export const FrameContent = tw(VerticalFullWidth)`
   rounded-lg
   divide-y
   divide-gray-200
+`
+
+export const BorderBox = tw(HorizontalCenter)`
+  gap-1
+  py-1
+  px-2
+  text-sm
+  border
+  border-solid
+  border-gray-200
+  rounded-lg
+  cursor-pointer
+  hover:bg-gray-100
 `
 
 export const ButtonAdd: FC<{

@@ -291,3 +291,24 @@ export const deleteRoleApi = async (roleId: string): Promise<Rsp<{}>> => {
   })
   return rs.data
 }
+
+export const assignCommunityRoleApi = async (roleId: string, userId: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/assignCommunityRole', {
+    role_id: roleId,
+    user_id: userId,
+  })
+  return rs.data
+}
+
+export const deleteRoleMemberApi = async (
+  communityHandle: string,
+  userId: string,
+  roleIds: string[]
+): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/deleteUserCommunityRole', {
+    community_handle: communityHandle,
+    user_id: userId,
+    role_ids: roleIds,
+  })
+  return rs.data
+}

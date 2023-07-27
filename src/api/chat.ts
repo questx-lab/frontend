@@ -15,6 +15,18 @@ export const getChannelsApi = async (handle: string): Promise<Rsp<ChannelsType>>
   return res.data
 }
 
+export const createChannelApi = async (
+  communityHandle: string,
+  channelName: string
+): Promise<Rsp<{}>> => {
+  const { data } = await api.post(EnvVariables.API_SERVER + `/createChannel`, {
+    community_handle: communityHandle,
+    channel_name: channelName,
+  })
+
+  return data
+}
+
 export const sendMessageApi = async (
   channelId: BigInt,
   msg: string,
