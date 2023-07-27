@@ -18,7 +18,7 @@ import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 
-const FixedWidth = styled.div<{ hasEvent?: boolean }>(({ hasEvent }) => {
+const FixedHeight = styled.div<{ hasEvent?: boolean }>(({ hasEvent }) => {
   const styles = [tw`w-full !h-[64px] bg-white fixed flex flex-col justify-end`]
 
   if (hasEvent) {
@@ -127,7 +127,7 @@ export const Header: FC<{}> = () => {
   }, [isApp])
 
   return (
-    <FixedWidth hasEvent={hasEvent}>
+    <FixedHeight hasEvent={hasEvent}>
       <EventNotify />
       <HeaderBox isApp={isApp}>
         <Body isApp={isApp}>
@@ -158,6 +158,6 @@ export const Header: FC<{}> = () => {
           </RightSection>
         </Body>
       </HeaderBox>
-    </FixedWidth>
+    </FixedHeight>
   )
 }
