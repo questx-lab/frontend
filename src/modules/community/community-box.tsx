@@ -1,23 +1,17 @@
 import { FC } from 'react'
 
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { communityRoute } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import { CommunityType } from '@/types/community'
 import { CircularImage } from '@/widgets/circular-image'
-import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalCenter, Vertical, VerticalBetween } from '@/widgets/orientation'
 
 const ContentProjectBox = tw(Vertical)`
   justify-between
 `
-
-const ImageProjectBox = styled(Image)(tw`
-  rounded-full
-`)
 
 const Description = tw.div`
   mt-3
