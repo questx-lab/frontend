@@ -5,8 +5,10 @@ import {
   ChatMessageReceiver,
   ChatMessageReceiverEnum,
   ChatMessageType,
+  ChatReactionType,
 } from '@/types/chat'
 import { uploadFile } from '@/utils/file'
+import { EqualBigInt } from '@/utils/number'
 
 const DEFAULT_LIMIT = 50
 
@@ -14,6 +16,7 @@ export enum MessageEventEnum {
   LOAD_PREFIX,
   LOAD_SUFFIX,
   NEW_MESSAGES,
+  REACTION_ADDED,
 }
 
 export interface ChannelsListener {
@@ -39,6 +42,15 @@ class ChatController {
             chatMessage.channel_id,
             [chatMessage],
             MessageEventEnum.NEW_MESSAGES
+          )
+          break
+        case ChatMessageReceiverEnum.REACTION_ADDED:
+          const reaction = s.d as ChatReactionType
+
+          this.updateAndBroadcastEmoji(
+            reaction.channel_id,
+            reaction,
+            MessageEventEnum.REACTION_ADDED
           )
           break
       }
@@ -114,6 +126,17 @@ class ChatController {
    */
   getChannels(handle: string): ChannelType[] {
     return this.channelsCache.get(handle) || []
+  }
+
+  getChannel(communityHandle: string, channelId: bigint): ChannelType | undefined {
+    const channels = this.getChannels(communityHandle)
+    for (let i = 0; i < channels.length; i++) {
+      if (EqualBigInt(channels[i].id, channelId)) {
+        return channels[i]
+      }
+    }
+
+    return undefined
   }
 
   async loadMessages(channelId: bigint, lastMessageId: bigint, eventType: MessageEventEnum) {
@@ -220,6 +243,35 @@ class ChatController {
     } else {
       // Append the server messages to appropriate position in the list.
       const reconcile = this.reconcileMessages(messages, serverMessages)
+      this.localMessages.set(channelIdString, reconcile)
+    }
+
+    messages = this.localMessages.get(channelIdString)
+    this.messagesListener.forEach((listener) =>
+      listener.onMessages(channelId, messages || [], eventType)
+    )
+  }
+
+  private updateAndBroadcastEmoji(
+    channelId: bigint,
+    reaction: ChatReactionType,
+    eventType: MessageEventEnum
+  ) {
+    const channelIdString = channelId.toString()
+    let messages = this.localMessages.get(channelIdString)
+    if (messages) {
+      const newMsgs = messages.map((message) => {
+        if (message.id.toString() === reaction.message_id.toString()) {
+          if (message.reactions) {
+            message.reactions.push(reaction)
+          } else {
+            message.reactions = [reaction]
+          }
+        }
+        return message
+      })
+      // Append the server messages to appropriate position in the list.
+      const reconcile = this.reconcileMessages(messages, newMsgs)
       this.localMessages.set(channelIdString, reconcile)
     }
 

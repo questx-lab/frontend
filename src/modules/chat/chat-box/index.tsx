@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 
 import { sendMessageApi } from '@/api/chat'
 import ChatInput from '@/modules/chat/chat-box/chat-input'
-import MessageList from '@/modules/chat/chat-box/message-list'
+import MessageList from '@/modules/chat/chat-box/message/message-list'
 import ChatStore from '@/store/chat/chat'
 import { VerticalFullWidth } from '@/widgets/orientation'
 

@@ -23,6 +23,10 @@ const ChatInput: FC<{ onNewMessagedEntered: (s: string) => void }> = ({ onNewMes
     setInputMessage(inputMessage + emoji)
   }
 
+  const onInputMessage = (s: string) => {
+    setInputMessage(s)
+  }
+
   const onChangeRecord = (isRecord: boolean) => {
     setIsRecord(isRecord)
   }
@@ -40,7 +44,11 @@ const ChatInput: FC<{ onNewMessagedEntered: (s: string) => void }> = ({ onNewMes
         <UploadAssets />
       </PopPover>
       <InputEmojiBox>
-        <InputBox onNewMessagedEntered={onNewMessagedEntered} />
+        <InputBox
+          onInputMessage={onInputMessage}
+          inputMessage={inputMessage}
+          onNewMessagedEntered={onNewMessagedEntered}
+        />
         <Emoji onEmoji={onEmoji} />
       </InputEmojiBox>
     </Frame>

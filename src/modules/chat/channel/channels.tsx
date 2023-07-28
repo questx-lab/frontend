@@ -1,10 +1,10 @@
 import { FC } from 'react'
 
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { isMessagesRoute } from '@/constants/router.const'
+import { isMessagesRoute, messageRoute } from '@/constants/router.const'
 import useChannels from '@/modules/chat/hooks/use-channels'
 import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
@@ -57,12 +57,9 @@ export const ChannelItem: FC<{
   community: CommunityType
 }> = ({ channel, isActive, community }) => {
   const location = useLocation()
+  const navigate = useNavigate()
   const setChannel = ChatStore.useStoreActions((actions) => actions.setChannel)
-
   const setTab = ChatStore.useStoreActions((actions) => actions.setTab)
-  // const [searchParams] = useSearchParams()
-  // const channelId = searchParams.get('channel')
-  // const isActive = channelId === channel.id.toString()
 
   return (
     <GapHorizontal
@@ -71,7 +68,7 @@ export const ChannelItem: FC<{
         setTab(TabChatType.Chat)
 
         if (isMessagesRoute(location.pathname)) {
-          // history.replace(path)
+          navigate(messageRoute(community.handle, channel))
         }
       }}
       isActive={isActive}

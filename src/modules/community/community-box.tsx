@@ -1,26 +1,17 @@
 import { FC } from 'react'
 
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { communityRoute } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import { CommunityType } from '@/types/community'
-import { Image } from '@/widgets/image'
+import { CircularImage } from '@/widgets/circular-image'
 import { Horizontal, HorizontalCenter, Vertical, VerticalBetween } from '@/widgets/orientation'
 
 const ContentProjectBox = tw(Vertical)`
   justify-between
 `
-
-const ImageProjectBox = styled(Image)(tw`
-  rounded-full
-  3xl:w-[100px]
-  3xl:h-[100px]
-  max-md:w-[40px]
-  max-md:h-[40px]
-`)
 
 const Description = tw.div`
   mt-3
@@ -78,7 +69,7 @@ const CommunityBox: FC<{ community: CommunityType }> = ({ community }) => {
   return (
     <CommunityBoxWrap onClick={() => navigate(communityRoute(community.handle))}>
       <Top>
-        <ImageProjectBox
+        <CircularImage
           width={64}
           height={64}
           src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
