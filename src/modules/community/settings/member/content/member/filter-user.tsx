@@ -123,8 +123,6 @@ const FilterUser: FC = () => {
     }
   }, [members])
 
-  console.log('members', members)
-
   // onChange handles
   const onSearchQueryChanged = (value: string) => {
     if (value === '') {
