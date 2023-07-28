@@ -25,17 +25,23 @@ const TwitterLike: FC<{ action: QuestTwitterActionType }> = ({ action }) => {
   )
 
   return (
-    <Link to={generateLikeLink(action.link.split('/').at(-1) || '')} target='_blank'>
-      <ActionTwitterFrame>
-        <HorizontalStartCenter>
-          <HeartIcon className='h-7 w-7 text-info' />
-          <NormalText>{'Like this post'}</NormalText>
-        </HorizontalStartCenter>
-        <NegativeButton block={!user.services?.twitter} width={SizeEnum.x32}>
-          {action.action}
-        </NegativeButton>
-      </ActionTwitterFrame>
-    </Link>
+    <div
+      onClick={() => {
+        setLikeRetweetReplyClicked(true)
+      }}
+    >
+      <Link to={generateLikeLink(action.link.split('/').at(-1) || '')} target='_blank'>
+        <ActionTwitterFrame>
+          <HorizontalStartCenter>
+            <HeartIcon className='h-7 w-7 text-info' />
+            <NormalText>{'Like this post'}</NormalText>
+          </HorizontalStartCenter>
+          <NegativeButton block={!user.services?.twitter} width={SizeEnum.x32}>
+            {action.action}
+          </NegativeButton>
+        </ActionTwitterFrame>
+      </Link>
+    </div>
   )
 }
 
