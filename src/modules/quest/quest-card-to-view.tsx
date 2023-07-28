@@ -16,10 +16,14 @@ const QuestCardToView: FC<{
 }> = ({ quest, isTemplate = false, showCommunity = false, bgColor = QuestColor.EMERALD }) => {
   // action
   const setActiveQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
+  const setLikeRetweetReplyClicked = ActiveQuestStore.useStoreActions(
+    (action) => action.setLikeRetweetReplyClicked
+  )
 
   const onClick = () => {
     // Set the data in the NewQuest store
     setActiveQuest(quest)
+    setLikeRetweetReplyClicked(false)
   }
 
   return (
