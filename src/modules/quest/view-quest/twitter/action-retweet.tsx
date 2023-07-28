@@ -1,26 +1,31 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import { Link } from 'react-router-dom'
 
-import { ColorEnum, SizeEnum } from '@/constants/common.const'
-import { ActionTwitterFrame, ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
+import { SizeEnum } from '@/constants/common.const'
+import { ActionTwitterFrame } from '@/modules/quest/view-quest/twitter/mini-widgets'
+import ActiveQuestStore from '@/store/local/active-quest'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestTwitterActionType } from '@/types'
 import { NegativeButton } from '@/widgets/buttons'
 import { HorizontalStartCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
-import { ArrowPathRoundedSquareIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { ArrowPathRoundedSquareIcon } from '@heroicons/react/24/outline'
 
 const TwitterRetweet: FC<{ action: QuestTwitterActionType }> = ({ action }) => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-
-  // hook
-  const [warningRetweet, setWarningRetweet] = useState<boolean>(false)
+  const setLikeRetweetReplyClicked = ActiveQuestStore.useStoreActions(
+    (action) => action.setLikeRetweetReplyClicked
+  )
 
   return (
-    <div onClick={() => setWarningRetweet(true)}>
+    <div
+      onClick={() => {
+        setLikeRetweetReplyClicked(true)
+      }}
+    >
       <VerticalFullWidth>
         <Link to={action.link} target='_blank' className='w-full'>
           <ActionTwitterFrame>
@@ -33,15 +38,6 @@ const TwitterRetweet: FC<{ action: QuestTwitterActionType }> = ({ action }) => {
             </NegativeButton>
           </ActionTwitterFrame>
         </Link>
-
-        {warningRetweet && (
-          <ColorBox boxColor={ColorEnum.DANGER}>
-            <ExclamationTriangleIcon className='w-7 h-7 text-danger' />
-            {
-              'Be sure to claim this quest right after your retweet, as we are only looking at your 50 last retweets'
-            }
-          </ColorBox>
-        )}
       </VerticalFullWidth>
     </div>
   )

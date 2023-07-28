@@ -12,3 +12,5 @@ export const RoundedGrayBorderBox = tw(GrayBorderBox)`
   w-full
   py-6
 `
+
+export const PaddingIcon = tw.div`p-1 cursor-pointer`

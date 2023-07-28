@@ -1,5 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 
+import { useStoreActions } from 'easy-peasy'
+import moment from 'moment'
 import { useParams } from 'react-router-dom'
 
 import { getLotteryEventApi } from '@/api/loterry'
@@ -8,9 +10,10 @@ import BuyTicket from '@/modules/lottery/guest/buy-ticket'
 import PointToTicket from '@/modules/lottery/guest/point-to-ticket'
 import Result from '@/modules/lottery/guest/result'
 import ViewLotteryStore from '@/store/local/view-lottery'
+import { GlobalStoreModel } from '@/store/store'
 import { isExpired } from '@/utils/validation'
 import BasicModal from '@/widgets/modal/basic'
-import { FireIcon } from '@heroicons/react/20/solid'
+import { GiftIcon } from '@heroicons/react/24/outline'
 
 const LotteryContent: FC = () => {
   const view = ViewLotteryStore.useStoreState((state) => state.view)
@@ -26,6 +29,7 @@ const LotteryModal: FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const lotteryEvent = ViewLotteryStore.useStoreState((state) => state.lotteryEvent)
   const setLotteryEvent = ViewLotteryStore.useStoreActions((action) => action.setLotteryEvent)
+  const setHasEvent = useStoreActions<GlobalStoreModel>((action) => action.setHasEvent)
 
   const onCloseModal = () => {
     setOpenModal(false)
@@ -39,11 +43,21 @@ const LotteryModal: FC = () => {
     try {
       const { data, error } = await getLotteryEventApi(communityHandle || '')
       if (error) {
+        setHasEvent(false)
         return
       }
 
       if (data) {
+        if (
+          // If event is expired or amount of tickets are sold out
+          moment(new Date(data.event.end_time)).isBefore(Date.now()) ||
+          data.event.max_tickets === data.event.used_tickets
+        ) {
+          setHasEvent(false)
+          return
+        }
         setLotteryEvent(data.event)
+        setHasEvent(true)
       }
     } catch (error) {}
   }
@@ -66,7 +80,7 @@ const LotteryModal: FC = () => {
 
   return (
     <>
-      <FireIcon onClick={onOpenModal} className='w-6 h-6 cursor-pointer text-danger' />
+      <GiftIcon onClick={onOpenModal} className='w-5 h-5 cursor-pointer text-gray-900' />
       <BasicModal
         styled='!w-[480px]'
         title='Lottery Wheel'
@@ -79,4 +93,12 @@ const LotteryModal: FC = () => {
   )
 }
 
-export default LotteryModal
+const Lottery: FC = () => {
+  return (
+    <ViewLotteryStore.Provider>
+      <LotteryModal />
+    </ViewLotteryStore.Provider>
+  )
+}
+
+export default Lottery

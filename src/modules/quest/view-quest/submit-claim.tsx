@@ -35,7 +35,8 @@ const handleSubmit = async (
   textSubmit: string,
   replyUrlSubmit: string,
   quizAnswers: string[],
-  setLoading: (e: boolean) => void
+  setLoading: (e: boolean) => void,
+  likeRetweetReplyClicked: boolean
 ): Promise<boolean> => {
   let submissionData = ''
   switch (quest.type) {
@@ -128,10 +129,13 @@ const SubmitClaim: FC<{
   const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
   const url = ActiveQuestStore.useStoreState((state) => state.url)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
-  const replyUrlSubmit = ActiveQuestStore.useStoreState((state) => state.replyUrlSubmit)
+  // const replyUrlSubmit = ActiveQuestStore.useStoreState((state) => state.replyUrlSubmit)
   const quizAnswers = ActiveQuestStore.useStoreState((state) => state.quizAnswers)
   const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
   const telegramSubmit = ActiveQuestStore.useStoreState((state) => state.telegramSubmit)
+  const likeRetweetReplyClicked = ActiveQuestStore.useStoreState(
+    (state) => state.likeRetweetReplyClicked
+  )
 
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
@@ -148,9 +152,11 @@ const SubmitClaim: FC<{
         fileUpload,
         url,
         textSubmit,
-        replyUrlSubmit,
+        // replyUrlSubmit, // temporarily disable reply submit url
+        '',
         quizAnswers,
-        setLoading
+        setLoading,
+        likeRetweetReplyClicked
       )
 
       if (result) {
@@ -198,6 +204,7 @@ const SubmitClaim: FC<{
           quizAnswers,
           visitLink,
           telegramSubmit,
+          likeRetweetReplyClicked,
         })
 
   switch (role) {

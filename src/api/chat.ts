@@ -4,6 +4,7 @@ import { Rsp } from '@/types'
 import {
   ChannelsType,
   ChatMessagesType,
+  EmojiType,
   MessageAttachmentType,
   UserChatStatusType,
   UserChatType,
@@ -23,6 +24,14 @@ export const sendMessageApi = async (
     channel_id: channelId,
     content: msg,
     attachments: attachments,
+  })
+}
+
+export const addReactionApi = async (channelId: BigInt, messageId: BigInt, emoji: EmojiType) => {
+  await api.post(EnvVariables.API_SERVER + `/addReaction`, {
+    channel_id: channelId,
+    message_id: messageId,
+    emoji: emoji,
   })
 }
 

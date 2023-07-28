@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { SizeEnum } from '@/constants/common.const'
 import InputReplyPost from '@/modules/quest/view-quest/twitter/input-reply-post'
 import { ActionTwitterFrame } from '@/modules/quest/view-quest/twitter/mini-widgets'
+import ActiveQuestStore from '@/store/local/active-quest'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestTwitterActionType } from '@/types'
 import { NegativeButton } from '@/widgets/buttons'
@@ -19,9 +20,18 @@ const TwitterReply: FC<{
   setInputReply: Dispatch<SetStateAction<boolean>>
 }> = ({ action, inputReply, setInputReply }) => {
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const setLikeRetweetReplyClicked = ActiveQuestStore.useStoreActions(
+    (action) => action.setLikeRetweetReplyClicked
+  )
 
   return (
-    <div onClick={() => setInputReply(true)}>
+    <div
+      onClick={() => {
+        setLikeRetweetReplyClicked(true)
+        // setInputReply(true)
+        // Temporarily do not require user to submit input reply
+      }}
+    >
       <VerticalFullWidth>
         <Link to={action.link} target='_blank' className='w-full'>
           <ActionTwitterFrame>
