@@ -59,21 +59,31 @@ const QuestTwitterAction: FC<{
   const renderActions = actions.map((action) => {
     switch (action.action) {
       case TwitterEnum.FOLLOW:
-        return <TwitterFollow action={action} />
+        return <TwitterFollow key={action.action} action={action} />
       case TwitterEnum.TWEET:
         return (
-          <TwitterTweet action={action} inputReply={inputReply} setInputReply={setInputReply} />
+          <TwitterTweet
+            key={action.action}
+            action={action}
+            inputReply={inputReply}
+            setInputReply={setInputReply}
+          />
         )
       case TwitterEnum.LIKE:
-        return <TwitterLike action={action} />
+        return <TwitterLike key={action.action} action={action} />
       case TwitterEnum.REPLY:
         return (
-          <TwitterReply action={action} inputReply={inputReply} setInputReply={setInputReply} />
+          <TwitterReply
+            key={action.action}
+            action={action}
+            inputReply={inputReply}
+            setInputReply={setInputReply}
+          />
         )
       case TwitterEnum.RETWEET:
-        return <TwitterRetweet action={action} />
+        return <TwitterRetweet key={action.action} action={action} />
       case TwitterEnum.JOIN_SPACE:
-        return <TwitterJoinSpace action={action} />
+        return <TwitterJoinSpace key={action.action} action={action} />
       default:
         return <></>
     }

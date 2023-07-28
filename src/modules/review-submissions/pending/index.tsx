@@ -20,7 +20,13 @@ import CommunityStore from '@/store/local/community'
 import { ClaimQuestType, ListClaimQuestType, Rsp } from '@/types'
 import { QuestType } from '@/types/quest'
 
-const PendingContent: FC<{ loading: boolean }> = ({ loading }) => {
+const PendingContent: FC<{ loading: boolean; communityHandle: string }> = ({
+  loading,
+  communityHandle,
+}) => {
+  const [isPageLoading, setIsPageLoading] = useState<boolean>(false)
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true)
+
   // data
   const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)
   const selectedPendings = ClaimReviewStore.useStoreState((state) => state.selectedPendings)
@@ -30,6 +36,7 @@ const PendingContent: FC<{ loading: boolean }> = ({ loading }) => {
   const setSelectedPending = ClaimReviewStore.useStoreActions(
     (actions) => actions.setSelectedPending
   )
+  const setPendingClaims = ClaimReviewStore.useStoreActions((state) => state.setPendingClaims)
 
   if (loading) {
     return (
@@ -50,9 +57,40 @@ const PendingContent: FC<{ loading: boolean }> = ({ loading }) => {
     setSelectedPending(selectedPendings)
   }
 
+  const loadNextPage = async (start: number, end: number) => {
+    if (!loading) {
+      setIsPageLoading(true)
+
+      try {
+        const { error, data }: Rsp<ListClaimQuestType> = await listClaimedQuestsApi(
+          communityHandle,
+          'pending',
+          [],
+          start
+        )
+
+        if (error) {
+          return
+        }
+
+        if (data) {
+          if (data.claimed_quests.length === 0) {
+            setHasNextPage(false)
+          }
+          setPendingClaims([...pendingClaims, ...(data.claimed_quests || [])])
+        }
+      } catch (error) {
+      } finally {
+        setIsPageLoading(false)
+      }
+    }
+  }
+
   return (
     <>
       <SubmissionsList
+        hasNextPage={hasNextPage}
+        isNextPageLoading={isPageLoading}
         list={pendingClaims}
         itemView={(item: ClaimQuestType, index: number) => {
           return (
@@ -64,6 +102,7 @@ const PendingContent: FC<{ loading: boolean }> = ({ loading }) => {
             />
           )
         }}
+        loadNextPage={loadNextPage}
       />
       <ActionButtons communityHandle={selectedCommunity.handle} />
     </>
@@ -83,6 +122,7 @@ const PendingTab: FC<{ communityHandle: string }> = ({ communityHandle }) => {
   // hook
   const [loading, setLoading] = useState<boolean>(true)
   useEffect(() => {
+    setPendingClaims([])
     getInitialClaims()
     setLoading(false)
   }, [])
@@ -133,7 +173,7 @@ const PendingTab: FC<{ communityHandle: string }> = ({ communityHandle }) => {
       <TabContentFrame>
         <SubmissionColumn>
           <TableHeader />
-          <PendingContent loading={loading} />
+          <PendingContent communityHandle={communityHandle} loading={loading} />
         </SubmissionColumn>
         <FilterColumn>
           <Filter onFilterChanged={onFilterChanged} />

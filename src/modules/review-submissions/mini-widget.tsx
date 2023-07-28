@@ -112,7 +112,7 @@ export const ButtonBox = tw(Horizontal)`
 `
 
 export const VerticalItem = styled(Vertical)<{ active: boolean }>(({ active }) => {
-  const styles = []
+  const styles = [tw`h-full w-full`]
   if (active) {
     styles.push(tw`bg-primary-50`)
   }
@@ -140,14 +140,15 @@ export const Details = tw(Vertical)`
 export const Title = tw.p`
   mb-2
   font-medium
-  text-lg
-  text-black
+  text-sm
+  text-gray-900
 `
 
 export const Info = tw(Horizontal)`
   w-full
   gap-3
   h-full
+  items-center
 `
 
 export const VerticalLeftMargin = tw(Vertical)`
