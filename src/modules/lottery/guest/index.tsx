@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 
 import { useStoreActions } from 'easy-peasy'
+import moment from 'moment'
 import { useParams } from 'react-router-dom'
 
 import { getLotteryEventApi } from '@/api/loterry'
@@ -47,6 +48,14 @@ const LotteryModal: FC = () => {
       }
 
       if (data) {
+        if (
+          // If event is expired or amount of tickets are sold out
+          moment(new Date(data.event.end_time)).isBefore(Date.now()) ||
+          data.event.max_tickets === data.event.used_tickets
+        ) {
+          setHasEvent(false)
+          return
+        }
         setLotteryEvent(data.event)
         setHasEvent(true)
       }

@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import moment from 'moment'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -39,6 +40,7 @@ type TimeRemainingType = {
 
 const EventNotify: FC = () => {
   const { communityHandle } = useParams()
+  const [loading, setLoading] = useState<boolean>(true)
   const [timeRemaining, setTimeRemaining] = useState<TimeRemainingType>()
   const [loteryEvent, setLotteryEvent] = useState<LotteryEventType>()
 
@@ -47,8 +49,9 @@ const EventNotify: FC = () => {
   const setHasEvent = useStoreActions<GlobalStoreModel>((action) => action.setHasEvent)
 
   useEffect(() => {
+    setLoading(true)
     getLotteryEvent()
-  }, [])
+  }, [communityHandle])
 
   const getLotteryEvent = async () => {
     try {
@@ -59,27 +62,53 @@ const EventNotify: FC = () => {
       }
 
       if (data) {
+        if (
+          // If event is expired or amount of tickets are sold out
+          moment(new Date(data.event.end_time)).isBefore(Date.now()) ||
+          data.event.max_tickets === data.event.used_tickets
+        ) {
+          setHasEvent(false)
+          setLotteryEvent(undefined)
+          return
+        }
+
         setLotteryEvent(data.event)
         setHasEvent(true)
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setTimeout(() => {
+        // Becase setinterval will delay 1s, so when we change community,
+        //time have not updated as soon as possible, so we can delay 1s to fetch new time
+        setLoading(false)
+      }, 1000)
+    }
   }
 
   useEffect(() => {
     if (loteryEvent) {
+      if (
+        // If event is expired or amount of tickets are sold out
+        moment(new Date(loteryEvent.end_time)).isBefore(Date.now()) ||
+        loteryEvent.max_tickets === loteryEvent.used_tickets
+      ) {
+        return
+      }
       const intervalId = setInterval(() => {
         setTimeRemaining(calculateTimeRemaining(new Date(loteryEvent.end_time)))
       }, 1000)
 
-      return () => clearInterval(intervalId)
+      return () => {
+        clearInterval(intervalId)
+      }
     }
-  }, [loteryEvent])
+  }, [loteryEvent, communityHandle])
 
   if (!hasEvent) {
     return <></>
   }
 
-  if (!timeRemaining) {
+  if (loading || !timeRemaining) {
     return (
       <HorizontalCenter>
         <SmallSpinner />
