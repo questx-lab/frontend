@@ -18,6 +18,7 @@ interface ActiveQuestModel {
   visitLink: boolean
   quizAnswers: string[]
   telegramSubmit: boolean
+  likeRetweetReplyClicked: boolean
 
   setQuest: Action<ActiveQuestModel, QuestType>
   setUrlSubmit: Action<ActiveQuestModel, string>
@@ -27,6 +28,7 @@ interface ActiveQuestModel {
   setVisitLink: Action<ActiveQuestModel, boolean>
   setQuizAnswers: Action<ActiveQuestModel, string[]>
   setTelegramSubmit: Action<ActiveQuestModel, boolean>
+  setLikeRetweetReplyClicked: Action<ActiveQuestModel, boolean>
 }
 
 const ActiveQuestStore = createContextStore<ActiveQuestModel>({
@@ -38,6 +40,7 @@ const ActiveQuestStore = createContextStore<ActiveQuestModel>({
   visitLink: false,
   quizAnswers: [],
   telegramSubmit: false,
+  likeRetweetReplyClicked: false,
 
   setQuest: action((state, quest) => {
     state.quest = quest
@@ -69,6 +72,10 @@ const ActiveQuestStore = createContextStore<ActiveQuestModel>({
 
   setTelegramSubmit: action((state, telegram) => {
     state.telegramSubmit = telegram
+  }),
+
+  setLikeRetweetReplyClicked: action((state, clicked) => {
+    state.likeRetweetReplyClicked = clicked
   }),
 })
 

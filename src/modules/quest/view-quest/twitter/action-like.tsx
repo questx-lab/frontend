@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { SizeEnum } from '@/constants/common.const'
 import { ActionTwitterFrame } from '@/modules/quest/view-quest/twitter/mini-widgets'
+import ActiveQuestStore from '@/store/local/active-quest'
 import { GlobalStoreModel } from '@/store/store'
 import { QuestTwitterActionType } from '@/types'
 import { NegativeButton } from '@/widgets/buttons'
@@ -19,6 +20,9 @@ const generateLikeLink = (tweetId: string) => {
 const TwitterLike: FC<{ action: QuestTwitterActionType }> = ({ action }) => {
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const setLikeRetweetReplyClicked = ActiveQuestStore.useStoreActions(
+    (action) => action.setLikeRetweetReplyClicked
+  )
 
   return (
     <Link to={generateLikeLink(action.link.split('/').at(-1) || '')} target='_blank'>
