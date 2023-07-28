@@ -21,7 +21,12 @@ const TwitterReply: FC<{
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
   return (
-    <div onClick={() => setInputReply(true)}>
+    <div
+      onClick={() => {
+        // setInputReply(true)
+        // Temporarily do not require user to submit input reply
+      }}
+    >
       <VerticalFullWidth>
         <Link to={action.link} target='_blank' className='w-full'>
           <ActionTwitterFrame>

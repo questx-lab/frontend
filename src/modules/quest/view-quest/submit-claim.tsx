@@ -128,7 +128,7 @@ const SubmitClaim: FC<{
   const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
   const url = ActiveQuestStore.useStoreState((state) => state.url)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
-  const replyUrlSubmit = ActiveQuestStore.useStoreState((state) => state.replyUrlSubmit)
+  // const replyUrlSubmit = ActiveQuestStore.useStoreState((state) => state.replyUrlSubmit)
   const quizAnswers = ActiveQuestStore.useStoreState((state) => state.quizAnswers)
   const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
   const telegramSubmit = ActiveQuestStore.useStoreState((state) => state.telegramSubmit)
@@ -148,7 +148,8 @@ const SubmitClaim: FC<{
         fileUpload,
         url,
         textSubmit,
-        replyUrlSubmit,
+        // replyUrlSubmit, // temporarily disable reply submit url
+        '',
         quizAnswers,
         setLoading
       )
