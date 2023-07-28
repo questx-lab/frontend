@@ -32,6 +32,7 @@ export const GapHorizontal = tw(HorizontalFullWidth)`
 export const HorizontalFullWidthCenter = tw(HorizontalFullWidth)`
   items-center
   gap-4
+  justify-center
 `
 
 export const FieldText = tw(TextBase)`

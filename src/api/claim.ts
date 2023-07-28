@@ -8,7 +8,7 @@ export const listClaimedQuestsApi = async (
   status: string = ClaimedQuestStatus.PENDING,
   filterQuestIds: string[],
   offset: number = 0,
-  limit: number = 10
+  limit: number = 4
 ): Promise<Rsp<ListClaimQuestType>> => {
   const questIds = filterQuestIds.join(',')
   const { data } = await api.get(

@@ -130,6 +130,7 @@ export enum ReviewBtnEnum {
   ACCEPT,
   EXPORT,
   PENDING,
+  VIEW_DETAIL,
 }
 
 export enum ClaimedQuestStatus {

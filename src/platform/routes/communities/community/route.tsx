@@ -54,6 +54,15 @@ const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true
   return tw``
 })
 
+const TopEvent = styled.div<{ hasEvent: boolean }>(({ hasEvent }) => {
+  const styles = [tw``]
+  if (hasEvent) {
+    styles.push(tw`mt-[48px]`)
+  }
+
+  return styles
+})
+
 const Community = () => {
   // TODO: handle load failure here.
   // loader data
@@ -69,6 +78,7 @@ const Community = () => {
     (state) => state.myCommunities
   )
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
+  const hasEvent = useStoreState<GlobalStoreModel>((state) => state.hasEvent)
   const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
   const showPanel: boolean = canEdit && user
   const deletedQuest = useDeleteQuest()
@@ -132,14 +142,14 @@ const Community = () => {
   }
 
   return (
-    <>
+    <TopEvent hasEvent={hasEvent}>
       <BrowserView>
         <ControlPanel community={community} show={showPanel} />
       </BrowserView>
       <PaddingLeft hasPanel={showPanel}>
         <Outlet />
       </PaddingLeft>
-    </>
+    </TopEvent>
   )
 }
 
