@@ -204,6 +204,7 @@ const SubmitClaim: FC<{
           quizAnswers,
           visitLink,
           telegramSubmit,
+          likeRetweetReplyClicked,
         })
 
   switch (role) {

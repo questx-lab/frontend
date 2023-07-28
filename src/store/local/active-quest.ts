@@ -92,6 +92,7 @@ export const canClaimQuest = ({
   quizAnswers,
   visitLink,
   telegramSubmit,
+  likeRetweetReplyClicked,
 }: {
   user: UserType
   quest: QuestType
@@ -101,12 +102,17 @@ export const canClaimQuest = ({
   quizAnswers: string[]
   visitLink: boolean
   telegramSubmit: boolean
+  likeRetweetReplyClicked: boolean
 }): boolean => {
   if (!user) {
     return false
   }
 
   let canClaim = false
+
+  if (!likeRetweetReplyClicked) {
+    return false
+  }
 
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
