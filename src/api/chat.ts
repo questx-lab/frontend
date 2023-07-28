@@ -17,12 +17,20 @@ export const getChannelsApi = async (handle: string): Promise<Rsp<ChannelsType>>
 
 export const createChannelApi = async (
   communityHandle: string,
-  channelName: string
+  channelName: string,
+  description: string
 ): Promise<Rsp<{}>> => {
   const { data } = await api.post(EnvVariables.API_SERVER + `/createChannel`, {
     community_handle: communityHandle,
     channel_name: channelName,
+    description,
   })
+
+  return data
+}
+
+export const deleteChannelApi = async (channelId: bigint): Promise<Rsp<{}>> => {
+  const { data } = await api.get(EnvVariables.API_SERVER + `/deleteChannel?channel_id=${channelId}`)
 
   return data
 }

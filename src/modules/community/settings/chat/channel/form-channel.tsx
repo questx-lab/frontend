@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 
 import { createChannelApi } from '@/api/chat'
+import { getChannels } from '@/modules/community/settings/chat/channel'
 import { Element, PaddingVertical } from '@/modules/community/settings/member/content/mini-widget'
 import ChannelSettingStore from '@/store/local/channel-setting'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
@@ -20,10 +21,13 @@ const FormChannel: FC = () => {
   // data
   const showModal = ChannelSettingStore.useStoreState((state) => state.showModal)
   const name = ChannelSettingStore.useStoreState((state) => state.name)
+  const description = ChannelSettingStore.useStoreState((state) => state.description)
 
   // action
   const setShowModal = ChannelSettingStore.useStoreActions((action) => action.setShowModal)
   const setName = ChannelSettingStore.useStoreActions((action) => action.setName)
+  const setDescription = ChannelSettingStore.useStoreActions((action) => action.setDescription)
+  const setChannels = ChannelSettingStore.useStoreActions((action) => action.setChannels)
 
   if (!communityHandle) {
     return <></>
@@ -32,12 +36,13 @@ const FormChannel: FC = () => {
   const onCreated = async () => {
     setLoading(true)
     try {
-      const { error } = await createChannelApi(communityHandle, name)
+      const { error } = await createChannelApi(communityHandle, name, description)
       if (error) {
         toast.error(error)
         return
       }
       toast.success('Created channel successfully')
+      getChannels(communityHandle, setChannels)
       setShowModal(false)
     } catch (error) {
     } finally {
@@ -57,7 +62,11 @@ const FormChannel: FC = () => {
           <InputBox value={name} onChange={(e) => setName(e.target.value)} />
         </Element>
         <Element label='Description'>
-          <MultipleInputBox rows={3} />
+          <MultipleInputBox
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={3}
+          />
         </Element>
         <EndHorizontal>
           <PositiveButton type={ButtonTypeEnum.NEGATIVE} onClick={() => setShowModal(false)}>

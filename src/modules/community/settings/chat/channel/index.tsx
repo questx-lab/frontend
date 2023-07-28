@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
-import { getChannelsApi } from '@/api/chat'
+import { deleteChannelApi, getChannelsApi } from '@/api/chat'
 import FormChannel from '@/modules/community/settings/chat/channel/form-channel'
 import {
   ButtonAdd,
@@ -13,8 +13,11 @@ import {
   FrameContent,
 } from '@/modules/community/settings/member/content/mini-widget'
 import ChannelSettingStore from '@/store/local/channel-setting'
+import { ChannelType } from '@/types/chat'
 import { HorizontalBetweenCenterFullWidth, HorizontalFullWidth } from '@/widgets/orientation'
+import { PopPover } from '@/widgets/popover'
 import { TextSm } from '@/widgets/text'
+import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
 
 const Padding = tw(HorizontalBetweenCenterFullWidth)`
   py-3
@@ -30,6 +33,75 @@ const Width290 = tw(HorizontalFullWidth)`
   gap-1
   flex-wrap
 `
+const PaddingIcon = tw.div`p-3 cursor-pointer`
+const DangerTextSm = tw(TextSm)`text-danger`
+
+export const getChannels = async (
+  communityHandle: string,
+  onChannels: (value: ChannelType[]) => void
+) => {
+  try {
+    const { error, data } = await getChannelsApi(communityHandle)
+    if (error) {
+      toast.error('get channels data failed')
+      return
+    }
+    if (data) {
+      onChannels(data.channels)
+    }
+  } catch (error) {}
+}
+
+const ChannelItem: FC<{ channel: ChannelType }> = ({ channel }) => {
+  const { communityHandle } = useParams()
+  const setChannels = ChannelSettingStore.useStoreActions((action) => action.setChannels)
+
+  if (!communityHandle) {
+    return <></>
+  }
+
+  const onEdit = () => {}
+
+  const onDelete = async () => {
+    try {
+      const { error } = await deleteChannelApi(channel.id)
+
+      if (error) {
+        toast.error(error)
+        return
+      }
+
+      getChannels(communityHandle, setChannels)
+
+      toast.success('Delete channel successfully')
+    } catch (error) {}
+  }
+
+  return (
+    <Padding>
+      <Width290>
+        <TextSm>{'#'}</TextSm>
+        {channel.name}
+      </Width290>
+      <Width290>{channel.description}</Width290>
+      <PopPover
+        styled='right-10 top-0 w-[150px]'
+        button={
+          <PaddingIcon>
+            <EllipsisHorizontalIcon className='w-5 h-5 text-gray-900' />
+          </PaddingIcon>
+        }
+      >
+        <PaddingIcon>
+          <TextSm onClick={onEdit}>{'Edit'}</TextSm>
+        </PaddingIcon>
+        <PaddingIcon>
+          <DangerTextSm onClick={onDelete}>{'Delete'}</DangerTextSm>
+        </PaddingIcon>
+      </PopPover>
+    </Padding>
+  )
+}
 
 const RenderChannels: FC = () => {
   const channels = ChannelSettingStore.useStoreState((state) => state.channels)
@@ -43,13 +115,7 @@ const RenderChannels: FC = () => {
   }
 
   const renderChannels = channels.map((channel, index) => (
-    <Padding key={index}>
-      <Width290>
-        <TextSm>{'#'}</TextSm>
-        {channel.name}
-      </Width290>
-      <Width290>{channel.description}</Width290>
-    </Padding>
+    <ChannelItem channel={channel} key={index} />
   ))
 
   return <FrameContent>{renderChannels}</FrameContent>
@@ -63,22 +129,9 @@ const ChannelContent: FC = () => {
 
   useEffect(() => {
     if (communityHandle) {
-      getChannels(communityHandle)
+      getChannels(communityHandle, setChannels)
     }
   }, [communityHandle])
-
-  const getChannels = async (communityHandle: string) => {
-    try {
-      const { error, data } = await getChannelsApi(communityHandle)
-      if (error) {
-        toast.error('get channels data failed')
-        return
-      }
-      if (data) {
-        setChannels(data.channels)
-      }
-    } catch (error) {}
-  }
 
   return (
     <Frame>
