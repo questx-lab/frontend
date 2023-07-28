@@ -35,10 +35,9 @@ const Width290 = tw(HorizontalFullWidth)`
   h-full
   text-sm
   gap-1
-  flex-wrap
 `
 
-const GapHorizontalFullWidth = tw(HorizontalFullWidth)`gap-1`
+const GapHorizontalFullWidth = tw(HorizontalFullWidth)`gap-1 flex-wrap`
 
 const CircleColor = tw.div`w-4 h-4 rounded-full`
 

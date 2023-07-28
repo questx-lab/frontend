@@ -6,6 +6,7 @@ import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
 import { deleteRoleApi, getRolesApi } from '@/api/communitiy'
+import { RolePermissionColor } from '@/constants/common.const'
 import {
   ButtonAdd,
   Frame,
@@ -30,6 +31,7 @@ const WidthFull = tw(HorizontalFullWidth)`
   w-full
   items-center
   h-full
+  gap-2
 `
 
 const PaddingIcon = tw.div`p-3 cursor-pointer`
@@ -45,6 +47,7 @@ const RoleItem: FC<{ role: CommunityRoleType }> = ({ role }) => {
   const setShowModal = RoleCommunityStore.useStoreActions((action) => action.setShowModal)
   const setRoleAction = RoleCommunityStore.useStoreActions((action) => action.setRoleAction)
   const setRoleId = RoleCommunityStore.useStoreActions((action) => action.setRoleId)
+  const setColor = RoleCommunityStore.useStoreActions((action) => action.setColor)
 
   const onDelete = async () => {
     try {
@@ -64,11 +67,15 @@ const RoleItem: FC<{ role: CommunityRoleType }> = ({ role }) => {
     setPermission(role.permission)
     setShowModal(true)
     setRoleAction(RoleAction.EDIT)
+    setColor(role.color)
   }
 
   return (
     <Padding>
-      <WidthFull>{role.name}</WidthFull>
+      <WidthFull>
+        <div className='w-6 h-6 rounded-full' style={{ backgroundColor: role.color }} />
+        {role.name}
+      </WidthFull>
       <PopPover
         styled='right-10 top-0 w-[150px]'
         button={
@@ -141,12 +148,14 @@ const RoleContent: FC = () => {
   const setRoleName = RoleCommunityStore.useStoreActions((action) => action.setRoleName)
   const setPermission = RoleCommunityStore.useStoreActions((action) => action.setPermission)
   const setRoleAction = RoleCommunityStore.useStoreActions((action) => action.setRoleAction)
+  const setColor = RoleCommunityStore.useStoreActions((action) => action.setColor)
 
   const onAdded = () => {
     setShowModal(true)
     setRoleAction(RoleAction.ADD)
     setRoleName('')
     setPermission(0)
+    setColor(RolePermissionColor.GRAY)
   }
 
   useEffect(() => {

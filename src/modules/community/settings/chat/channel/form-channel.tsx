@@ -3,10 +3,10 @@ import { FC, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 
-import { createChannelApi } from '@/api/chat'
+import { createChannelApi, updateChannelApi } from '@/api/chat'
 import { getChannels } from '@/modules/community/settings/chat/channel'
 import { Element, PaddingVertical } from '@/modules/community/settings/member/content/mini-widget'
-import ChannelSettingStore from '@/store/local/channel-setting'
+import ChannelSettingStore, { ChannelAction } from '@/store/local/channel-setting'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import { InputBox } from '@/widgets/form'
 import MultipleInputBox from '@/widgets/input/multiple-input-box'
@@ -20,8 +20,10 @@ const FormChannel: FC = () => {
 
   // data
   const showModal = ChannelSettingStore.useStoreState((state) => state.showModal)
+  const channelId = ChannelSettingStore.useStoreState((state) => state.channelId)
   const name = ChannelSettingStore.useStoreState((state) => state.name)
   const description = ChannelSettingStore.useStoreState((state) => state.description)
+  const channelAction = ChannelSettingStore.useStoreState((state) => state.channelAction)
 
   // action
   const setShowModal = ChannelSettingStore.useStoreActions((action) => action.setShowModal)
@@ -50,9 +52,44 @@ const FormChannel: FC = () => {
     }
   }
 
+  const onUpdated = async () => {
+    setLoading(true)
+    try {
+      const { error } = await updateChannelApi(channelId, name, description)
+      if (error) {
+        toast.error(error)
+        return
+      }
+      toast.success('Updated channel successfully')
+      getChannels(communityHandle, setChannels)
+      setShowModal(false)
+    } catch (error) {
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const title = channelAction === ChannelAction.ADD ? 'Add new channel' : 'Edit channel'
+
+  const ActionButton: FC = () => {
+    if (channelAction === ChannelAction.EDIT) {
+      return (
+        <PositiveButton loading={loading} onClick={onUpdated}>
+          {'Update'}
+        </PositiveButton>
+      )
+    }
+
+    return (
+      <PositiveButton block={name === ''} loading={loading} onClick={onCreated}>
+        {'Add'}
+      </PositiveButton>
+    )
+  }
+
   return (
     <BasicModal
-      title={'Add new channel'}
+      title={title}
       styled='!w-[480px]'
       isOpen={showModal}
       onClose={() => setShowModal(false)}
@@ -72,9 +109,7 @@ const FormChannel: FC = () => {
           <PositiveButton type={ButtonTypeEnum.NEGATIVE} onClick={() => setShowModal(false)}>
             {'Cancel'}
           </PositiveButton>
-          <PositiveButton block={name === ''} loading={loading} onClick={onCreated}>
-            {'Add'}
-          </PositiveButton>
+          <ActionButton />
         </EndHorizontal>
       </PaddingVertical>
     </BasicModal>

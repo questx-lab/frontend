@@ -41,7 +41,7 @@ const MemberCommunityStore = createContextStore<MemberCommunityModel>({
   }),
 
   setFilterdMembers: action((state, members) => {
-    state.members = members
+    state.filterdMembers = members
   }),
 
   setSelectedMember: action((state, member) => {

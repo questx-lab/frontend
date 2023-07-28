@@ -46,7 +46,7 @@ const FormMember: FC = () => {
       onClose={() => setShowModal(false)}
     >
       <PaddingVertical>
-        <Element label="Role's name">
+        <Element label='Name'>
           <FilterUser />
         </Element>
         <Element label='Role'>

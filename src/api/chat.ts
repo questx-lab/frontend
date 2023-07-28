@@ -29,6 +29,20 @@ export const createChannelApi = async (
   return data
 }
 
+export const updateChannelApi = async (
+  channelId: bigint,
+  channelName: string,
+  description: string
+): Promise<Rsp<{}>> => {
+  const { data } = await api.post(EnvVariables.API_SERVER + `/updateChannel`, {
+    channel_id: channelId,
+    channel_name: channelName,
+    description,
+  })
+
+  return data
+}
+
 export const deleteChannelApi = async (channelId: bigint): Promise<Rsp<{}>> => {
   const { data } = await api.get(EnvVariables.API_SERVER + `/deleteChannel?channel_id=${channelId}`)
 

@@ -12,7 +12,7 @@ import {
   Frame,
   FrameContent,
 } from '@/modules/community/settings/member/content/mini-widget'
-import ChannelSettingStore from '@/store/local/channel-setting'
+import ChannelSettingStore, { ChannelAction } from '@/store/local/channel-setting'
 import { ChannelType } from '@/types/chat'
 import { HorizontalBetweenCenterFullWidth, HorizontalFullWidth } from '@/widgets/orientation'
 import { PopPover } from '@/widgets/popover'
@@ -54,13 +54,25 @@ export const getChannels = async (
 
 const ChannelItem: FC<{ channel: ChannelType }> = ({ channel }) => {
   const { communityHandle } = useParams()
+
   const setChannels = ChannelSettingStore.useStoreActions((action) => action.setChannels)
+  const setChannelAction = ChannelSettingStore.useStoreActions((action) => action.setChannelAction)
+  const setShowModal = ChannelSettingStore.useStoreActions((action) => action.setShowModal)
+  const setName = ChannelSettingStore.useStoreActions((action) => action.setName)
+  const setDescription = ChannelSettingStore.useStoreActions((action) => action.setDescription)
+  const setChannelId = ChannelSettingStore.useStoreActions((action) => action.setChannelId)
 
   if (!communityHandle) {
     return <></>
   }
 
-  const onEdit = () => {}
+  const onEdit = () => {
+    setChannelAction(ChannelAction.EDIT)
+    setShowModal(true)
+    setChannelId(channel.id)
+    setName(channel.name)
+    setDescription(channel.description || '')
+  }
 
   const onDelete = async () => {
     try {
@@ -126,6 +138,9 @@ const ChannelContent: FC = () => {
 
   const setChannels = ChannelSettingStore.useStoreActions((action) => action.setChannels)
   const setShowModal = ChannelSettingStore.useStoreActions((action) => action.setShowModal)
+  const setChannelAction = ChannelSettingStore.useStoreActions((action) => action.setChannelAction)
+  const setName = ChannelSettingStore.useStoreActions((action) => action.setName)
+  const setDescription = ChannelSettingStore.useStoreActions((action) => action.setDescription)
 
   useEffect(() => {
     if (communityHandle) {
@@ -138,6 +153,9 @@ const ChannelContent: FC = () => {
       <ButtonAdd
         onOpenModal={() => {
           setShowModal(true)
+          setChannelAction(ChannelAction.ADD)
+          setDescription('')
+          setName('')
         }}
         buttonName='Add Channel'
       />

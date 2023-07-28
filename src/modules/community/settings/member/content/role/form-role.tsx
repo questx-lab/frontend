@@ -12,6 +12,7 @@ import {
 } from '@/constants/common.const'
 import { Element, PaddingVertical } from '@/modules/community/settings/member/content/mini-widget'
 import { getRoles } from '@/modules/community/settings/member/content/role'
+import RoleColor from '@/modules/community/settings/member/content/role/role-color'
 import RoleCommunityStore, { RoleAction } from '@/store/local/role-community'
 import { separateBits } from '@/utils/helper'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
@@ -66,6 +67,7 @@ const FormRole: FC = () => {
   const showModal = RoleCommunityStore.useStoreState((state) => state.showModal)
   const roleId = RoleCommunityStore.useStoreState((state) => state.roleId)
   const roleName = RoleCommunityStore.useStoreState((state) => state.roleName)
+  const color = RoleCommunityStore.useStoreState((state) => state.color)
   const roleAction = RoleCommunityStore.useStoreState((state) => state.roleAction)
   const permission = RoleCommunityStore.useStoreState((state) => state.permission)
 
@@ -91,7 +93,7 @@ const FormRole: FC = () => {
   const onNewRole = async () => {
     setLoading(true)
     try {
-      const { error } = await createRoleApi(communityHandle, roleName, permission)
+      const { error } = await createRoleApi(communityHandle, roleName, permission, color)
 
       if (error) {
         toast.error(error)
@@ -149,6 +151,9 @@ const FormRole: FC = () => {
       <PaddingVertical>
         <Element label="Role's name">
           <InputBox value={roleName} onChange={(e) => setRoleName(e.target.value)} />
+        </Element>
+        <Element label='Color'>
+          <RoleColor />
         </Element>
         <Element label='Permission'>
           <List className='grid grid-cols-2'>{renderPermission}</List>

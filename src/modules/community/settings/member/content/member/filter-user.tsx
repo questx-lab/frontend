@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from 'react'
+import { FC, Fragment, useEffect } from 'react'
 
 import tw from 'twin.macro'
 
@@ -70,22 +70,36 @@ export const Options = tw(Combobox.Options)`
   sm:text-sm
 `
 
+const NotFoundBox = tw.div`
+  relative
+  cursor-default
+  select-none
+  py-2
+  px-4
+  text-gray-700
+`
+
 const ResultBox: FC<{ filteredMembers: FollowCommunityType[] }> = ({ filteredMembers }) => {
-  const members = MemberCommunityStore.useStoreState((state) => state.members)
+  const filterdMembers = MemberCommunityStore.useStoreState((state) => state.filterdMembers)
+
   const setSelectedMember = MemberCommunityStore.useStoreActions(
     (action) => action.setSelectedMember
   )
 
+  if (!filterdMembers.length) {
+    return <NotFoundBox>No Member matched.</NotFoundBox>
+  }
+
   return (
     <>
-      {members.map((member) => (
+      {filterdMembers.map((member) => (
         <Combobox.Option
           key={member.user.id}
           className='relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900'
           value={member}
           onClick={() => setSelectedMember(member)}
         >
-          <TextSm>{member.user.id}</TextSm>
+          <TextSm>{member.user.name}</TextSm>
         </Combobox.Option>
       ))}
     </>
@@ -93,14 +107,38 @@ const ResultBox: FC<{ filteredMembers: FollowCommunityType[] }> = ({ filteredMem
 }
 
 const FilterUser: FC = () => {
-  const [search, setSearch] = useState<string>('')
-
   const members = MemberCommunityStore.useStoreState((state) => state.members)
   const selectedMember = MemberCommunityStore.useStoreState((state) => state.selectedMember)
+  const setFilterdMembers = MemberCommunityStore.useStoreActions(
+    (action) => action.setFilterdMembers
+  )
 
   const setSelectedMember = MemberCommunityStore.useStoreActions(
     (action) => action.setSelectedMember
   )
+
+  useEffect(() => {
+    if (members) {
+      setFilterdMembers(members)
+    }
+  }, [members])
+
+  console.log('members', members)
+
+  // onChange handles
+  const onSearchQueryChanged = (value: string) => {
+    if (value === '') {
+      setFilterdMembers(members)
+      return
+    }
+    const filtered = members.filter((member) => {
+      const title = member.user.name.toLowerCase() ?? ''
+      return title.includes(value.toLowerCase())
+    })
+
+    // filter all
+    setFilterdMembers(filtered)
+  }
 
   return (
     <HorizontalFullWidth>
@@ -108,8 +146,8 @@ const FilterUser: FC = () => {
         <ComboBoxFrame>
           <InputAndIconBorder>
             <InputFrame
-              displayValue={(member) => (member as FollowCommunityType).user.id}
-              onChange={(event) => setSearch(event.target.value)}
+              displayValue={(member) => (member as FollowCommunityType).user.name}
+              onChange={(event) => onSearchQueryChanged(event.target.value)}
             />
             <InputIconFrame>
               <ChevronUpDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
