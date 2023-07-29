@@ -37,7 +37,13 @@ export const api = axios.create({
 
     return JSONbig.stringify(r)
   },
-  transformResponse: (r) => JSONbig.parse(r),
+  transformResponse: (r) => {
+    if (typeof r === 'string') {
+      return JSONbig.parse(r)
+    }
+
+    return r
+  },
 })
 
 api.interceptors.request.use((config) => {
