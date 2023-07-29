@@ -144,7 +144,7 @@ const Community = () => {
   return (
     <TopEvent hasEvent={hasEvent}>
       <BrowserView>
-        <ControlPanel community={community} show={showPanel} />
+        <ControlPanel show={showPanel} />
       </BrowserView>
       <PaddingLeft hasPanel={showPanel}>
         <Outlet />

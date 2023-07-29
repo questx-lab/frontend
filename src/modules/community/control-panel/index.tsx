@@ -1,15 +1,12 @@
 import { FC } from 'react'
 
-import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
-import { RouterConst } from '@/constants/router.const'
 import LeaderboardTab from '@/modules/community/control-panel/leaderboard'
 import LotteryTab from '@/modules/community/control-panel/lottery'
 import QuestsTab from '@/modules/community/control-panel/quests'
 import ReviewSubmissionsTab from '@/modules/community/control-panel/review-submissions'
 import SettingsTab from '@/modules/community/control-panel/settings'
-import { CommunityType } from '@/types/community'
 
 export const FixedFrame = tw.div`
   w-60
@@ -27,17 +24,10 @@ const Padding = tw.div`
 `
 
 const ControlPanel: FC<{
-  community: CommunityType
   show: boolean
-}> = ({ community, show }) => {
-  const navigate = useNavigate()
-
+}> = ({ show }) => {
   if (!show) {
     return <></>
-  }
-
-  const onNavigation = () => {
-    navigate(RouterConst.TOWNHALL + `/${community.handle}`)
   }
 
   return (
