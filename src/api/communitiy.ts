@@ -260,7 +260,7 @@ export const getRolesApi = async (handle: string): Promise<Rsp<{ roles: Communit
 export const createRoleApi = async (
   communityHandle: string,
   name: string,
-  permissions: number,
+  permissions: bigint,
   color: string
 ): Promise<Rsp<{}>> => {
   const rs = await api.post(EnvVariables.API_SERVER + '/createRole', {
@@ -275,7 +275,7 @@ export const createRoleApi = async (
 export const updateRoleApi = async (
   roleId: string,
   name: string,
-  permissions: number,
+  permissions: bigint,
   priority?: number
 ): Promise<Rsp<{}>> => {
   const rs = await api.post(EnvVariables.API_SERVER + '/updateRole', {

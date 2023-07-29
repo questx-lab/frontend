@@ -125,16 +125,3 @@ export const getShowedInstruction = () => {
 export const markShowedInstruction = () => {
   localStorage.setItem(ShowedInstructionKey, 'true')
 }
-
-export const separateBits = (num: number): number[] => {
-  const result: number[] = []
-  let bit = 1
-  while (num > 0) {
-    if (num & 1) {
-      result.push(bit)
-    }
-    bit <<= 1
-    num >>= 1
-  }
-  return result
-}

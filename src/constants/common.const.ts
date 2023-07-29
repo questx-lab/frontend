@@ -318,6 +318,7 @@ export enum CommunityPermissionFlag {
   BAN_MEMBER,
   TIMEOUT_MEMBER,
   ASSIGN_ROLE,
+  MANAGE_LOTTERY,
 }
 
 export const CommunityPermissionMapNumber = new Map<CommunityPermissionFlag, number>([
@@ -331,6 +332,7 @@ export const CommunityPermissionMapNumber = new Map<CommunityPermissionFlag, num
   [CommunityPermissionFlag.BAN_MEMBER, 1 << 7],
   [CommunityPermissionFlag.TIMEOUT_MEMBER, 1 << 8],
   [CommunityPermissionFlag.ASSIGN_ROLE, 1 << 9],
+  [CommunityPermissionFlag.MANAGE_LOTTERY, 1 << 10],
 ])
 
 export const CommunityPermissionMapString = new Map<CommunityPermissionFlag, string>([
@@ -344,6 +346,7 @@ export const CommunityPermissionMapString = new Map<CommunityPermissionFlag, str
   [CommunityPermissionFlag.BAN_MEMBER, 'Ban member'],
   [CommunityPermissionFlag.TIMEOUT_MEMBER, 'Timeout member'],
   [CommunityPermissionFlag.ASSIGN_ROLE, 'Assign role'],
+  [CommunityPermissionFlag.MANAGE_LOTTERY, 'Manage Lottery'],
 ])
 
 export enum CommunitySettingSidebar {

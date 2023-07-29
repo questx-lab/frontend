@@ -5,16 +5,12 @@ import { useParams } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { createRoleApi, updateRoleApi } from '@/api/communitiy'
-import {
-  CommunityPermissionFlag,
-  CommunityPermissionMapNumber,
-  CommunityPermissionMapString,
-} from '@/constants/common.const'
+import { CommunityPermissionFlag, CommunityPermissionMapString } from '@/constants/common.const'
 import { Element, PaddingVertical } from '@/modules/community/settings/member/content/mini-widget'
 import { getRoles } from '@/modules/community/settings/member/content/role'
 import RoleColor from '@/modules/community/settings/member/content/role/role-color'
 import RoleCommunityStore, { RoleAction } from '@/store/local/role-community'
-import { separateBits } from '@/utils/helper'
+import { hasFlag, togglePermissionFlag } from '@/types/role'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import { InputBox } from '@/widgets/form'
 import BasicModal from '@/widgets/modal/basic'
@@ -38,12 +34,14 @@ const PermissionItem: FC<{
           <Checkbox
             id={label}
             ripple={false}
-            checked={separateBits(permission).includes(CommunityPermissionMapNumber.get(flag) || 0)}
+            checked={hasFlag(permission, flag)}
             onChange={(e) => {
               if (e.target.checked) {
-                setPermission(permission + (CommunityPermissionMapNumber.get(flag) || 0))
+                // setPermission(permission + (CommunityPermissionMapNumber.get(flag) || 0))
+                setPermission(togglePermissionFlag(permission, flag, true))
               } else {
-                setPermission(permission - (CommunityPermissionMapNumber.get(flag) || 0))
+                // setPermission(permission - (CommunityPermissionMapNumber.get(flag) || 0))
+                setPermission(togglePermissionFlag(permission, flag, false))
               }
             }}
             className='hover:before:opacity-0'
@@ -82,7 +80,7 @@ const FormRole: FC = () => {
   }
 
   const onModal = (value: boolean) => {
-    setPermission(0)
+    setPermission(BigInt(0))
     setShowModal(value)
   }
 
