@@ -91,6 +91,12 @@ const FormRole: FC = () => {
   ))
 
   const onNewRole = async () => {
+    // Check if the role name is empty or not
+    if (roleName.trim().length === 0) {
+      toast.error('Role name cannot be empty')
+      return
+    }
+
     setLoading(true)
     try {
       const { error } = await createRoleApi(communityHandle, roleName, permission, color)
