@@ -11,7 +11,7 @@ export enum ControlPanelTab {
 export type CommunityRoleType = {
   id: string
   name: string
-  permission: number
+  permission: bigint
   priority: number
   color: string
 }

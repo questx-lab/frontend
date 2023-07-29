@@ -154,7 +154,7 @@ const RoleContent: FC = () => {
     setShowModal(true)
     setRoleAction(RoleAction.ADD)
     setRoleName('')
-    setPermission(0)
+    setPermission(BigInt(0))
     setColor(RolePermissionColor.GRAY)
   }
 

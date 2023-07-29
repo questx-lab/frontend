@@ -14,13 +14,13 @@ interface RoleCommunityModel {
   roleId: string
   roleName: string
   color: string
-  permission: number
+  permission: bigint
 
   setShowModal: Action<RoleCommunityModel, boolean>
   setRoleId: Action<RoleCommunityModel, string>
   setRoleName: Action<RoleCommunityModel, string>
   setColor: Action<RoleCommunityModel, string>
-  setPermission: Action<RoleCommunityModel, number>
+  setPermission: Action<RoleCommunityModel, bigint>
   setRoles: Action<RoleCommunityModel, CommunityRoleType[]>
   setRoleAction: Action<RoleCommunityModel, RoleAction>
 }
@@ -32,7 +32,7 @@ const RoleCommunityStore = createContextStore<RoleCommunityModel>({
   roleId: '',
   roleName: '',
   color: '',
-  permission: 0,
+  permission: BigInt(0),
 
   setRoleId: action((state, roleId) => {
     state.roleId = roleId
