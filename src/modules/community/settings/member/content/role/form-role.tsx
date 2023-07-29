@@ -36,13 +36,8 @@ const PermissionItem: FC<{
             ripple={false}
             checked={hasFlag(permission, flag)}
             onChange={(e) => {
-              if (e.target.checked) {
-                // setPermission(permission + (CommunityPermissionMapNumber.get(flag) || 0))
-                setPermission(togglePermissionFlag(permission, flag, true))
-              } else {
-                // setPermission(permission - (CommunityPermissionMapNumber.get(flag) || 0))
-                setPermission(togglePermissionFlag(permission, flag, false))
-              }
+              const newPermission = togglePermissionFlag(permission, flag, e.target.checked)
+              setPermission(newPermission)
             }}
             className='hover:before:opacity-0'
             containerProps={{

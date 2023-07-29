@@ -28,16 +28,16 @@ export const togglePermissionFlag = (
 
   const flagBits = flagNumberBit.toString(2)
   const permBits = permission.toString(2)
-  const len = Math.max(flagBits.length, permBits.length)
+
   const res: string[] = []
-  for (let i = 0; i < len; i++) {
+  for (let i = permBits.length - 1, j = flagBits.length - 1; i >= 0 || j >= 0; i--, j--) {
     let s = '0'
-    if (i < permBits.length) {
+    if (i >= 0) {
       s = permBits[i]
     }
 
     // Only change the bit where the flags is 1
-    if (i < flagBits.length && flagBits[i] === '1') {
+    if (j >= 0 && flagBits[j] === '1') {
       if (checked) {
         s = '1'
       } else {
@@ -45,7 +45,7 @@ export const togglePermissionFlag = (
       }
     }
 
-    res.push(s)
+    res.unshift(s)
   }
 
   const num = res.join('')
