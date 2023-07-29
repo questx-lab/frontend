@@ -276,12 +276,14 @@ export const updateRoleApi = async (
   roleId: string,
   name: string,
   permissions: bigint,
+  color: string,
   priority?: number
 ): Promise<Rsp<{}>> => {
   const rs = await api.post(EnvVariables.API_SERVER + '/updateRole', {
     role_id: roleId,
     name,
     permissions,
+    color,
     priority,
   })
   return rs.data

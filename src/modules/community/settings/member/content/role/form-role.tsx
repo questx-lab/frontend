@@ -111,7 +111,7 @@ const FormRole: FC = () => {
   const onUpdateRole = async () => {
     setLoading(true)
     try {
-      const { error } = await updateRoleApi(roleId, roleName, permission)
+      const { error } = await updateRoleApi(roleId, roleName, permission, color)
 
       if (error) {
         toast.error(error)
