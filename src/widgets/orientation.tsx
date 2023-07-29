@@ -112,3 +112,5 @@ export const VerticalStretch = tw(Vertical)`
 export const HorizontalStretch = tw(Horizontal)`
   flex-1
 `
+
+export const EndHorizontal = tw(HorizontalFullWidth)`justify-end gap-2`
