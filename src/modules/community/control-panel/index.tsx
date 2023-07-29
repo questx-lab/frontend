@@ -1,6 +1,5 @@
 import { FC } from 'react'
 
-import { BrowserView } from 'react-device-detect'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
@@ -11,7 +10,6 @@ import QuestsTab from '@/modules/community/control-panel/quests'
 import ReviewSubmissionsTab from '@/modules/community/control-panel/review-submissions'
 import SettingsTab from '@/modules/community/control-panel/settings'
 import { CommunityType } from '@/types/community'
-import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 
 export const FixedFrame = tw.div`
   w-60
@@ -44,14 +42,6 @@ const ControlPanel: FC<{
 
   return (
     <FixedFrame>
-      <BrowserView>
-        <Padding>
-          <PositiveButton onClick={onNavigation} isFull type={ButtonTypeEnum.NEGATIVE}>
-            {'My Townhall'}
-          </PositiveButton>
-        </Padding>
-      </BrowserView>
-
       <Padding>
         <QuestsTab />
         <ReviewSubmissionsTab />
