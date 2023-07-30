@@ -110,10 +110,6 @@ export const canClaimQuest = ({
 
   let canClaim = false
 
-  if (!likeRetweetReplyClicked) {
-    return false
-  }
-
   switch (quest.type) {
     case QuestTypeEnum.IMAGE:
       if (fileUpload.length > 0) {
@@ -153,11 +149,15 @@ export const canClaimQuest = ({
         }
       }
       break
+    case QuestTypeEnum.TWITTER_REACTION:
+      if (user && user.services && user.services.twitter && likeRetweetReplyClicked) {
+        canClaim = true
+      }
 
+      break
     case QuestTypeEnum.TWITTER:
     case QuestTypeEnum.TWITTER_FOLLOW:
     case QuestTypeEnum.TWITTER_JOIN_SPACE:
-    case QuestTypeEnum.TWITTER_REACTION:
     case QuestTypeEnum.TWITTER_TWEET:
       if (user && user.services && user.services.twitter) {
         canClaim = true
