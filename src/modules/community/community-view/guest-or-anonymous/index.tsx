@@ -47,7 +47,6 @@ const CommunityGuestOrAnonymous: FC = () => {
         </VerticalFixedWidth>
         <CommunitySidebar />
       </FixedWidth>
-      {/* <Leaderboard community={community} /> */}
     </Content>
   )
 }
