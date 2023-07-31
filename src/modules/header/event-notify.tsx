@@ -9,8 +9,6 @@ import tw from 'twin.macro'
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
 import { getLotteryEventApi } from '@/api/loterry'
 import { GlobalStoreModel } from '@/store/store'
-import { LotteryEventType } from '@/types/lottery'
-import { calculateTimeRemaining } from '@/utils/time'
 import { PaddingIcon } from '@/widgets/box'
 import { HorizontalBetweenCenterFullWidth, HorizontalCenter } from '@/widgets/orientation'
 import { SmallSpinner } from '@/widgets/spinner'
@@ -31,22 +29,13 @@ const WhiteTextSm = tw(TextSm)`!text-white`
 
 const FrameEvent = tw(HorizontalFullWidthCenter)`h-[48px] w-full bg-primary px-6`
 
-type TimeRemainingType = {
-  days: string
-  hours: string
-  minutes: string
-  seconds: string
-}
-
 const EventNotify: FC = () => {
   const { communityHandle } = useParams()
   const [loading, setLoading] = useState<boolean>(true)
-  const [timeRemaining, setTimeRemaining] = useState<TimeRemainingType>()
-  const [loteryEvent, setLotteryEvent] = useState<LotteryEventType>()
 
-  const hasEvent = useStoreState<GlobalStoreModel>((state) => state.hasEvent)
+  const lotteryEvent = useStoreState<GlobalStoreModel>((state) => state.lotteryEvent)
 
-  const setHasEvent = useStoreActions<GlobalStoreModel>((action) => action.setHasEvent)
+  const setLotteryEvent = useStoreActions<GlobalStoreModel>((action) => action.setLotteryEvent)
 
   useEffect(() => {
     setLoading(true)
@@ -57,7 +46,7 @@ const EventNotify: FC = () => {
     try {
       const { data, error } = await getLotteryEventApi(communityHandle || '')
       if (error) {
-        setHasEvent(false)
+        setLotteryEvent(undefined)
         return
       }
 
@@ -67,13 +56,11 @@ const EventNotify: FC = () => {
           moment(new Date(data.event.end_time)).isBefore(Date.now()) ||
           data.event.max_tickets === data.event.used_tickets
         ) {
-          setHasEvent(false)
           setLotteryEvent(undefined)
           return
         }
 
         setLotteryEvent(data.event)
-        setHasEvent(true)
       }
     } catch (error) {
     } finally {
@@ -85,30 +72,11 @@ const EventNotify: FC = () => {
     }
   }
 
-  useEffect(() => {
-    if (loteryEvent) {
-      if (
-        // If event is expired or amount of tickets are sold out
-        moment(new Date(loteryEvent.end_time)).isBefore(Date.now()) ||
-        loteryEvent.max_tickets === loteryEvent.used_tickets
-      ) {
-        return
-      }
-      const intervalId = setInterval(() => {
-        setTimeRemaining(calculateTimeRemaining(new Date(loteryEvent.end_time)))
-      }, 1000)
-
-      return () => {
-        clearInterval(intervalId)
-      }
-    }
-  }, [loteryEvent, communityHandle])
-
-  if (!hasEvent) {
+  if (!lotteryEvent) {
     return <></>
   }
 
-  if (loading || !timeRemaining) {
+  if (loading) {
     return (
       <HorizontalCenter>
         <SmallSpinner />
@@ -121,11 +89,10 @@ const EventNotify: FC = () => {
       <HorizontalBetweenCenterFullWidth>
         <HorizontalFullWidthCenter>
           <WhiteTextSm>
-            {'Use your points in XQuest to join our lottery to earn free USDT. Hurry up, remaining time to join: ' +
-              `${timeRemaining.days} days, ${timeRemaining.hours} : ${timeRemaining.minutes} : ${timeRemaining.seconds}s`}
+            {'Use your points in XQuest to join our lottery to earn free USDT. Hurry up!'}
           </WhiteTextSm>
         </HorizontalFullWidthCenter>
-        <PaddingIcon onClick={() => setHasEvent(false)}>
+        <PaddingIcon onClick={() => setLotteryEvent(undefined)}>
           <XMarkIcon className='w-5 h-5 text-gray-50' />
         </PaddingIcon>
       </HorizontalBetweenCenterFullWidth>

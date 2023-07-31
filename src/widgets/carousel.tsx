@@ -23,11 +23,11 @@ const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 1921 },
-    items: 4,
+    items: 3,
   },
   desktop: {
     breakpoint: { max: 1920, min: 1440 },
-    items: 4,
+    items: 3,
   },
   mediumDesktop: {
     breakpoint: { max: 1439, min: 1025 },

@@ -66,6 +66,7 @@ const selectTab = ({ selected }: { selected: boolean }) =>
     selected ? 'text-primary-500 bg-white' : 'text-gray-700 bg-gray-100 border-b'
   )
 
+// TODO: UI change, refactor leaderboard after
 const Leaderboard: FC<{ community: CommunityType; type?: LeaderboardType }> = ({
   community,
   type = LeaderboardType.PLATFORM,

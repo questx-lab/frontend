@@ -167,6 +167,8 @@ module.exports = withMT({
         900: '#78350f',
         DEFAULT: '#FF7B05',
       },
+      yellow: '#FFCC00',
+      green: '#30D158',
       emerald: {
         50: '#ECFDF5',
         100: '#d1fae5',

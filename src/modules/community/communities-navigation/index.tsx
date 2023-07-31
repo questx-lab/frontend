@@ -86,7 +86,7 @@ const CommunityFollowItems: FC<{
 }
 
 const CommunitiesNavigation: FC<{ isDrawer?: boolean }> = ({ isDrawer = false }) => {
-  const hasEvent = useStoreState<GlobalStoreModel>((state) => state.hasEvent)
+  const lotteryEvent = useStoreState<GlobalStoreModel>((state) => state.lotteryEvent)
   const myCommunities: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.myCommunities
   )
@@ -101,7 +101,7 @@ const CommunitiesNavigation: FC<{ isDrawer?: boolean }> = ({ isDrawer = false })
   }
 
   return (
-    <Wrap isDrawer={isDrawer} hasEvent={hasEvent}>
+    <Wrap isDrawer={isDrawer} hasEvent={lotteryEvent !== undefined}>
       <CommunityItems communities={myCommunities} />
       <CommunityFollowItems followCommunities={communitiesFollowing} />
     </Wrap>

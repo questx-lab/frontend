@@ -78,7 +78,7 @@ const Community = () => {
     (state) => state.myCommunities
   )
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  const hasEvent = useStoreState<GlobalStoreModel>((state) => state.hasEvent)
+  const lotteryEvent = useStoreState<GlobalStoreModel>((state) => state.lotteryEvent)
   const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
   const showPanel: boolean = canEdit && user
   const deletedQuest = useDeleteQuest()
@@ -142,7 +142,7 @@ const Community = () => {
   }
 
   return (
-    <TopEvent hasEvent={hasEvent}>
+    <TopEvent hasEvent={lotteryEvent !== undefined}>
       <BrowserView>
         <ControlPanel show={showPanel} />
       </BrowserView>

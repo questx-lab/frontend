@@ -108,7 +108,7 @@ export const Header: FC<{}> = () => {
 
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  const hasEvent = useStoreState<GlobalStoreModel>((state) => state.hasEvent)
+  const lotteryEvent = useStoreState<GlobalStoreModel>((state) => state.lotteryEvent)
 
   // action
   const setShowNavigationDrawer = useStoreActions<GlobalStoreModel>(
@@ -127,7 +127,7 @@ export const Header: FC<{}> = () => {
   }, [isApp])
 
   return (
-    <FixedHeight hasEvent={hasEvent}>
+    <FixedHeight hasEvent={lotteryEvent !== undefined}>
       <EventNotify />
       <HeaderBox isApp={isApp}>
         <Body isApp={isApp}>

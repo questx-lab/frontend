@@ -3,6 +3,7 @@ import { action, Action, createStore } from 'easy-peasy'
 import { AuthEnum } from '@/constants/common.const'
 import { RefferalType, UserType } from '@/types'
 import { CommunityType, FollowCommunityType } from '@/types/community'
+import { LotteryEventType } from '@/types/lottery'
 import { QuestType } from '@/types/quest'
 
 export interface GlobalStoreModel {
@@ -15,7 +16,7 @@ export interface GlobalStoreModel {
   showLoginModal: boolean
   showUserProfileModal: boolean
   templates: QuestType[]
-  hasEvent: boolean
+  lotteryEvent: LotteryEventType | undefined
 
   setShowNavigationDrawer: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
@@ -27,7 +28,7 @@ export interface GlobalStoreModel {
   setTemplates: Action<GlobalStoreModel, QuestType[]>
   updateMyCommunities: Action<GlobalStoreModel, CommunityType>
   setShowUserProfileModal: Action<GlobalStoreModel, boolean>
-  setHasEvent: Action<GlobalStoreModel, boolean>
+  setLotteryEvent: Action<GlobalStoreModel, LotteryEventType>
 }
 
 const store = createStore<GlobalStoreModel>({
@@ -40,7 +41,7 @@ const store = createStore<GlobalStoreModel>({
   showLoginModal: false,
   showUserProfileModal: false,
   templates: [],
-  hasEvent: false,
+  lotteryEvent: undefined,
 
   setShowNavigationDrawer: action((state, drawer) => {
     state.showNavigationDrawer = drawer
@@ -74,8 +75,8 @@ const store = createStore<GlobalStoreModel>({
     state.templates = templates
   }),
 
-  setHasEvent: action((state, event) => {
-    state.hasEvent = event
+  setLotteryEvent: action((state, event) => {
+    state.lotteryEvent = event
   }),
 
   updateMyCommunities: action((state, community) => {

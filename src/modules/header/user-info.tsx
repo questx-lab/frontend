@@ -8,7 +8,6 @@ import ChatPopover from '@/modules/chat/popover'
 import Login from '@/modules/header/login'
 import UserPopover from '@/modules/header/user-popover'
 import UserProfile from '@/modules/header/user-profile'
-import Lottery from '@/modules/lottery/guest'
 import { GlobalStoreModel } from '@/store/store'
 import BaseModal from '@/widgets/modal/base'
 import BasicModal from '@/widgets/modal/basic'
@@ -86,7 +85,6 @@ const UserInfoBox: FC = () => {
     return (
       <UserSession>
         <ChatPopover />
-        <Lottery />
         <UserPopover />
 
         <BaseModal isOpen={showLoginModal}>

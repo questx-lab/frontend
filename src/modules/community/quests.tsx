@@ -14,7 +14,7 @@ const Grid = tw.div`
   w-full
   grid
   gap-4
-  xl:grid-cols-3
+  xl:grid-cols-2
   sm:grid-cols-2
   max-sm:grid-cols-1
   justify-between

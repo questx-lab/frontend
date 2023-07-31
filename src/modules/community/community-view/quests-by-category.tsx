@@ -26,7 +26,7 @@ const Gap12 = tw(VerticalFullWidth)`
 
 const PaddingTop = tw.div`
   w-full
-  pt-10
+  pt-6
 `
 
 const PaddingY10 = tw(VerticalFullWidth)`

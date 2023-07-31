@@ -1,19 +1,18 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 
-import { useStoreActions } from 'easy-peasy'
-import moment from 'moment'
+import { useStoreState } from 'easy-peasy'
 import { useParams } from 'react-router-dom'
 
-import { getLotteryEventApi } from '@/api/loterry'
 import { LotteryViewEnum } from '@/constants/common.const'
 import BuyTicket from '@/modules/lottery/guest/buy-ticket'
 import PointToTicket from '@/modules/lottery/guest/point-to-ticket'
 import Result from '@/modules/lottery/guest/result'
 import ViewLotteryStore from '@/store/local/view-lottery'
 import { GlobalStoreModel } from '@/store/store'
+import { LotteryEventType } from '@/types/lottery'
 import { isExpired } from '@/utils/validation'
+import { PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
-import { GiftIcon } from '@heroicons/react/24/outline'
 
 const LotteryContent: FC = () => {
   const view = ViewLotteryStore.useStoreState((state) => state.view)
@@ -27,9 +26,9 @@ const LotteryContent: FC = () => {
 const LotteryModal: FC = () => {
   const { communityHandle } = useParams()
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const lotteryEvent = ViewLotteryStore.useStoreState((state) => state.lotteryEvent)
-  const setLotteryEvent = ViewLotteryStore.useStoreActions((action) => action.setLotteryEvent)
-  const setHasEvent = useStoreActions<GlobalStoreModel>((action) => action.setHasEvent)
+  const lotteryEvent: LotteryEventType = useStoreState<GlobalStoreModel>(
+    (state) => state.lotteryEvent
+  )
 
   const onCloseModal = () => {
     setOpenModal(false)
@@ -38,33 +37,6 @@ const LotteryModal: FC = () => {
   const onOpenModal = () => {
     setOpenModal(true)
   }
-
-  const getLotteryEvent = async () => {
-    try {
-      const { data, error } = await getLotteryEventApi(communityHandle || '')
-      if (error) {
-        setHasEvent(false)
-        return
-      }
-
-      if (data) {
-        if (
-          // If event is expired or amount of tickets are sold out
-          moment(new Date(data.event.end_time)).isBefore(Date.now()) ||
-          data.event.max_tickets === data.event.used_tickets
-        ) {
-          setHasEvent(false)
-          return
-        }
-        setLotteryEvent(data.event)
-        setHasEvent(true)
-      }
-    } catch (error) {}
-  }
-
-  useEffect(() => {
-    getLotteryEvent()
-  }, [communityHandle])
 
   if (!communityHandle) {
     return <></>
@@ -80,7 +52,10 @@ const LotteryModal: FC = () => {
 
   return (
     <>
-      <GiftIcon onClick={onOpenModal} className='w-5 h-5 cursor-pointer text-gray-900' />
+      <PositiveButton onClick={onOpenModal} isFull>
+        {'PLAY NOW'}
+      </PositiveButton>
+
       <BasicModal
         styled='!w-[480px]'
         title='Lottery Wheel'
