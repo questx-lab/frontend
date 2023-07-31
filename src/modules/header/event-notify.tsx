@@ -50,7 +50,9 @@ const EventNotify: FC = () => {
 
   useEffect(() => {
     setLoading(true)
-    getLotteryEvent()
+    if (communityHandle) {
+      getLotteryEvent()
+    }
   }, [communityHandle])
 
   const getLotteryEvent = async () => {
