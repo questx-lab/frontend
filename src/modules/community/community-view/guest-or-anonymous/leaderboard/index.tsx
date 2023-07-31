@@ -18,17 +18,15 @@ const Content = styled.div<{ type: LeaderboardType }>(({ type }) => {
     styles.push(tw`h-full w-full`)
   } else {
     styles.push(tw`
-      w-[350px]
-      max-2xl:w-[280px]
+      w-full
       h-full
       right-0
-      fixed
-      border-l-[1px]
+      border
       border-solid
       bg-white
       border-gray-200
-      overflow-y-scroll
       max-md:hidden
+      rounded-lg
   `)
   }
 
@@ -37,8 +35,6 @@ const Content = styled.div<{ type: LeaderboardType }>(({ type }) => {
 
 const FullWidth = tw.div`
   w-full
-  max-w-md
-  pt-4
   sm:px-0
 `
 
@@ -61,9 +57,8 @@ function classNames(...classes: string[]) {
 
 const selectTab = ({ selected }: { selected: boolean }) =>
   classNames(
-    'py-5 font-medium w-full text-xs outline-0 ring-0' +
-      ' border-x border-t border-gray-200 border-solid m-0',
-    selected ? 'text-primary-500 bg-white' : 'text-gray-700 bg-gray-100 border-b'
+    'py-5 font-medium w-full text-xs outline-0 ring-0',
+    selected ? 'text-primary-500 bg-white' : 'text-gray-700 bg-gray-100 '
   )
 
 // TODO: UI change, refactor leaderboard after
@@ -91,7 +86,7 @@ const Leaderboard: FC<{ community: CommunityType; type?: LeaderboardType }> = ({
               </Tab>
             ))}
           </TabList>
-          <Tab.Panels className='mt-2 '>
+          <Tab.Panels className='mt-2 overflow-y-scroll max-h-[500px]'>
             {Array.from(LeaderboardRangeMap.values()).map((e, idx) => (
               <TabPannel key={idx}>
                 <ul>

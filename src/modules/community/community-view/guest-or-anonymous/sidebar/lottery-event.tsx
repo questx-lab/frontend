@@ -56,7 +56,6 @@ const BorderBox = tw(VerticalFullWidthCenter)`
 const DangerText = tw(TextXl)`text-danger`
 
 type TimeRemainingType = {
-  days: string
   hours: string
   minutes: string
   seconds: string
@@ -109,11 +108,6 @@ const CountDown: FC = () => {
 
   return (
     <Gap2Horizontal>
-      <BorderBox>
-        <DangerText>{timeRemaining.days}</DangerText>
-        <LightTextXs>{'Day'}</LightTextXs>
-      </BorderBox>
-      <MediumText2Xl>{':'}</MediumText2Xl>
       <BorderBox>
         <DangerText>{timeRemaining.hours}</DangerText>
         <LightTextXs>{'Hrs'}</LightTextXs>

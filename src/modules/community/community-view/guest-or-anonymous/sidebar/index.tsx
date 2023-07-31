@@ -2,8 +2,9 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/sidebar/leaderboard'
+import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
 import LotteryEvent from '@/modules/community/community-view/guest-or-anonymous/sidebar/lottery-event'
+import CommunityStore from '@/store/local/community'
 import { Vertical } from '@/widgets/orientation'
 
 const FixedSize = tw(Vertical)`
@@ -19,11 +20,12 @@ const FixedPosition = tw(Vertical)`
 `
 
 const CommunitySidebar: FC = () => {
+  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   return (
     <FixedSize>
       <FixedPosition>
         <LotteryEvent />
-        <Leaderboard />
+        <Leaderboard community={community} />
       </FixedPosition>
     </FixedSize>
   )

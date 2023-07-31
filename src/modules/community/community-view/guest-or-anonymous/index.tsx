@@ -18,14 +18,14 @@ const FixedWidth = tw(Horizontal)`
   w-[1200px]
   max-lg:w-[680px]
   max-sm:w-full
-  gap-12
+  gap-6
   divide-x
   divide-gray-300
 `
 
 const VerticalFixedWidth = tw(Vertical)`
   w-[680px]
-  p-12
+  p-6
   border-r
   border-solid
   border-gray-200
