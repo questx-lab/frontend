@@ -2,17 +2,20 @@ import { FC, useEffect, useState } from 'react'
 
 import tw from 'twin.macro'
 
+import ChatSetting from '@/modules/community/settings/chat'
 import General from '@/modules/community/settings/general'
+import MemberSetting from '@/modules/community/settings/member'
 import CommunityStore from '@/store/local/community'
 import NewCommunityStore from '@/store/local/new-community'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
-import { Gap } from '@/widgets/separator'
 import { Tab, TabItem } from '@/widgets/tab-group/focus-white-background'
 import { HeaderText3 } from '@/widgets/text'
 
 enum TabEnum {
   GENERAL,
   API,
+  MEMBER,
+  CHAT,
 }
 
 const HeaderText = tw(HeaderText3)`
@@ -21,6 +24,11 @@ const HeaderText = tw(HeaderText3)`
   max-lg:px-6
   py-4
   px-36
+`
+
+const Frame = tw(VerticalFullWidth)`
+  h-[calc(100vh_-_64px)]
+  
 `
 
 const CommunitySettings: FC = () => {
@@ -37,7 +45,7 @@ const CommunitySettings: FC = () => {
   }, [])
 
   return (
-    <VerticalFullWidth>
+    <Frame>
       <HeaderText>{'Settings'}</HeaderText>
       <HorizontalBetweenCenterFullWidth>
         <Tab>
@@ -48,17 +56,22 @@ const CommunitySettings: FC = () => {
           >
             {'GENERAL'}
           </TabItem>
-          {
-            // TODO: complete API key tab.
-            /* <TabItem active={tab === TabEnum.API} onClick={() => setTab(TabEnum.API)}>
-            {'API KEY'}
-          </TabItem> */
-          }
+          <TabItem
+            tabCount={1}
+            active={tab === TabEnum.MEMBER}
+            onClick={() => setTab(TabEnum.MEMBER)}
+          >
+            {'MEMBER'}
+          </TabItem>
+          <TabItem tabCount={1} active={tab === TabEnum.CHAT} onClick={() => setTab(TabEnum.CHAT)}>
+            {'CHAT'}
+          </TabItem>
         </Tab>
       </HorizontalBetweenCenterFullWidth>
-      <Gap height={6} />
       {tab === TabEnum.GENERAL && <General />}
-    </VerticalFullWidth>
+      {tab === TabEnum.MEMBER && <MemberSetting />}
+      {tab === TabEnum.CHAT && <ChatSetting />}
+    </Frame>
   )
 }
 

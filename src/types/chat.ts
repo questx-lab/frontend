@@ -1,5 +1,11 @@
 import { UserType } from '@/types'
 
+export enum MemberRole {
+  ADMIN = 'Admin',
+  SUPER_MOD = 'Super Mod',
+  MOD = 'Mod',
+}
+
 export enum TabChatType {
   Chat = '#General',
   CHANNEL_LIST = '#Channels',
