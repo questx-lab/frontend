@@ -22,17 +22,13 @@ const MessageList: FC = () => {
 
   // Set the scroll position
   useEffect(() => {
+    setMessages(chatController.getMessages(currentChannel.id, BigInt(0)))
+
     setTimeout(() => {
       if (messageListRef.current) {
-        let position = chatController.getScrollingPosition(currentChannel.id)
-        if (position < 0) {
-          position = 1000000 // first time open, just scroll to the bottom.
-        }
-        messageListRef.current.scrollTop = position
+        messageListRef.current.scrollTop = 100000
       }
     }, DELAY_SCROLL_TIME)
-
-    setMessages(chatController.getMessages(currentChannel.id, BigInt(0)))
   }, [currentChannel.id])
 
   // Listen to any message change propagated by the chat controller.
@@ -49,27 +45,20 @@ const MessageList: FC = () => {
 
         setMessages(newMessages)
 
-        if (
-          eventType === MessageEventEnum.LOAD_PREFIX ||
-          eventType === MessageEventEnum.REACTION_ADDED
-        ) {
-          // Set the position of the scroll to the last position.
+        if (eventType === MessageEventEnum.LOAD_PREFIX) {
+          // When more items are appended at the front of the list, the scroll position changes. We
+          // want to make sure user still the last scroll item.
           if (messageListRef.current) {
             const oldHeight = messageListRef.current.scrollHeight
             const oldTop = messageListRef.current.scrollTop
-            setTimeout(() => {
+
+            requestAnimationFrame(() => {
               if (messageListRef.current) {
                 const newHeight = messageListRef.current.scrollHeight
                 messageListRef.current.scrollTo({ top: oldTop + newHeight - oldHeight })
               }
-            }, DELAY_SCROLL_TIME)
+            })
           }
-        } else {
-          setTimeout(() => {
-            if (messageListRef.current) {
-              messageListRef.current.scrollTo({ top: 1000000 })
-            }
-          }, DELAY_SCROLL_TIME)
         }
       },
     }
@@ -96,7 +85,7 @@ const MessageList: FC = () => {
 
   const handleOnScroll = (event: any) => {
     chatController.setScrollingPosition(currentChannel.id, event.currentTarget.scrollTop)
-    if (event.currentTarget.scrollTop === 0) {
+    if (event.currentTarget.scrollTop < 300) {
       const lastMessageId: bigint =
         messages !== undefined && messages.length > 0 ? messages[0].id : BigInt(0)
       chatController.loadMessages(currentChannel.id, lastMessageId, MessageEventEnum.LOAD_PREFIX)

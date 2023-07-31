@@ -167,7 +167,10 @@ class ChatController {
       this.updateAndBroadcastMessages(channelId, messages, eventType)
     }
 
-    this.isLoadingPrefix.set(channelIdString, false)
+    setTimeout(() => {
+      // Add some delay to avoid calling this multiple times.
+      this.isLoadingPrefix.set(channelIdString, false)
+    }, 200)
   }
 
   /**
