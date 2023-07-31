@@ -181,6 +181,7 @@ export enum ButtonSocialType {
 export enum LeaderboardRangeEnum {
   WEEK = 'week',
   MONTH = 'month',
+  TOTAL = 'total',
 }
 
 export const LeaderboardRangeMap = new Map<LeaderboardRangeEnum, string>([
