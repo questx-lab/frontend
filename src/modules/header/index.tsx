@@ -11,7 +11,6 @@ import StorageConst from '@/constants/storage.const'
 import chatController from '@/modules/chat/services/chat-controller'
 import BrowserNavigation from '@/modules/header/browser-navigate'
 import Drawer from '@/modules/header/drawer'
-import EventNotify from '@/modules/header/event-notify'
 import UserInfoBox from '@/modules/header/user-info'
 import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
@@ -108,7 +107,6 @@ export const Header: FC<{}> = () => {
 
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  const lotteryEvent = useStoreState<GlobalStoreModel>((state) => state.lotteryEvent)
 
   // action
   const setShowNavigationDrawer = useStoreActions<GlobalStoreModel>(
@@ -127,8 +125,7 @@ export const Header: FC<{}> = () => {
   }, [isApp])
 
   return (
-    <FixedHeight hasEvent={lotteryEvent !== undefined}>
-      <EventNotify />
+    <FixedHeight>
       <HeaderBox isApp={isApp}>
         <Body isApp={isApp}>
           <LeftSection>

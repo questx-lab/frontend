@@ -42,7 +42,7 @@ const PointToTicket: FC = () => {
   )
   const ticketConvert = ViewLotteryStore.useStoreState((state) => state.ticketConvert)
   const pointConvert = ViewLotteryStore.useStoreState((state) => state.pointConvert)
-  const lotteryEvent = useStoreState<GlobalStoreModel>((state) => state.lotteryEvent)
+  const lotteryEvent = CommunityStore.useStoreState((state) => state.lotteryEvent)
 
   // action
   const setView = ViewLotteryStore.useStoreActions((action) => action.setView)

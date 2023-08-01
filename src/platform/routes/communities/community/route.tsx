@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { getCategoriesApi, getCommunityApi } from '@/api/communitiy'
+import { getLotteryEventApi } from '@/api/loterry'
 import { getTemplatesApi, listQuestApi } from '@/api/quest'
 import { CommunityRoleEnum } from '@/constants/common.const'
 import ControlPanel from '@/modules/community/control-panel'
@@ -15,19 +16,23 @@ import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
 import { CategoryType } from '@/types'
 import { CommunityType } from '@/types/community'
+import { LotteryEventType } from '@/types/lottery'
 import { QuestType } from '@/types/quest'
 import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
 
 export const Loader = async (args: { params: Params }) => {
-  const [communityResult, templatesResult, categoriesResult] = await Promise.all([
-    getCommunityApi(args.params['communityHandle'] || ''),
-    getTemplatesApi(),
-    getCategoriesApi(args.params['communityHandle'] || ''),
-  ])
+  const [communityResult, templatesResult, categoriesResult, lotteryEventResult] =
+    await Promise.all([
+      getCommunityApi(args.params['communityHandle'] || ''),
+      getTemplatesApi(),
+      getCategoriesApi(args.params['communityHandle'] || ''),
+      getLotteryEventApi(args.params['communityHandle'] || ''),
+    ])
 
   const community = communityResult.code === 0 ? communityResult.data?.community : undefined
   const templates = templatesResult.code === 0 ? templatesResult.data?.templates : []
   const categories = categoriesResult.code === 0 ? categoriesResult.data?.categories : []
+  const lotteryEvent = lotteryEventResult.code === 0 ? lotteryEventResult.data?.event : undefined
 
   if (communityResult.code === 0) {
     return json(
@@ -35,6 +40,7 @@ export const Loader = async (args: { params: Params }) => {
         community,
         templates,
         categories,
+        lotteryEvent,
       },
       { status: 200 }
     )
@@ -54,15 +60,6 @@ const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true
   return tw``
 })
 
-const TopEvent = styled.div<{ hasEvent: boolean }>(({ hasEvent }) => {
-  const styles = [tw``]
-  if (hasEvent) {
-    styles.push(tw`mt-[48px]`)
-  }
-
-  return styles
-})
-
 const Community = () => {
   // TODO: handle load failure here.
   // loader data
@@ -70,6 +67,7 @@ const Community = () => {
     community: CommunityType
     templates: QuestType[]
     categories: CategoryType[]
+    lotteryEvent: LotteryEventType
   }
 
   // data
@@ -78,7 +76,6 @@ const Community = () => {
     (state) => state.myCommunities
   )
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
-  const lotteryEvent = useStoreState<GlobalStoreModel>((state) => state.lotteryEvent)
   const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
   const showPanel: boolean = canEdit && user
   const deletedQuest = useDeleteQuest()
@@ -102,6 +99,7 @@ const Community = () => {
   const setQuests = CommunityStore.useStoreActions((action) => action.setQuests)
   const setTemplates = useStoreActions<GlobalStoreModel>((action) => action.setTemplates)
   const setCategories = CommunityStore.useStoreActions((action) => action.setCategories)
+  const setLotteryEvent = CommunityStore.useStoreActions((action) => action.setLotteryEvent)
 
   // load quests
   const loadQuests = async () => {
@@ -130,6 +128,7 @@ const Community = () => {
         setRole(CommunityRoleEnum.NOT_LOGIN)
       }
     }
+    setLotteryEvent(data.lotteryEvent)
   }, [collab, data])
 
   useEffect(() => {
@@ -142,14 +141,14 @@ const Community = () => {
   }
 
   return (
-    <TopEvent hasEvent={lotteryEvent !== undefined}>
+    <>
       <BrowserView>
         <ControlPanel show={showPanel} />
       </BrowserView>
       <PaddingLeft hasPanel={showPanel}>
         <Outlet />
       </PaddingLeft>
-    </TopEvent>
+    </>
   )
 }
 

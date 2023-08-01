@@ -45,7 +45,6 @@ const TabList = styled(Tab.List)(tw`
 `)
 
 const TabPannel = styled(Tab.Panel)(tw`
-  rounded-xl
   bg-white
   px-4
   py-2

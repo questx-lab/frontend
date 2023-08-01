@@ -1,28 +1,20 @@
 import { FC, useEffect, useState } from 'react'
 
-import { useStoreState } from 'easy-peasy'
 import moment from 'moment'
 import { useParams } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
-import StorageConst from '@/constants/storage.const'
 import Lottery from '@/modules/lottery/guest'
-import { GlobalStoreModel } from '@/store/store'
-import { LotteryEventType } from '@/types/lottery'
+import CommunityStore from '@/store/local/community'
 import { calculateTimeRemaining } from '@/utils/time'
-import { Image } from '@/widgets/image'
 import { VerticalFullWidthCenter } from '@/widgets/orientation'
 import { SmallSpinner } from '@/widgets/spinner'
 import { LightTextXs, MediumText2Xl, Text2xl, TextSm, TextXl } from '@/widgets/text'
 
-const Relative = tw.div`
-  relative
-  w-full
-`
+const Padding = tw.div`p-5 w-full`
 
 const FizedSize = tw.div`
-  mt-12
   w-full
   border-2
   border-solid
@@ -33,15 +25,11 @@ const FizedSize = tw.div`
   pb-6
 `
 
-const FixedImagePosition = tw.div`absolute ml-[114px]`
-
 const Gap4Vertical = tw(VerticalFullWidthCenter)`
   gap-4
 `
 
 const Gap2Horizontal = tw(HorizontalFullWidthCenter)`!gap-2`
-
-const MarginTop = tw.div`mt-6`
 
 const GreenText2xl = tw(Text2xl)`text-green`
 
@@ -66,7 +54,7 @@ const CountDown: FC = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [timeRemaining, setTimeRemaining] = useState<TimeRemainingType>()
 
-  const lotteryEvent = useStoreState<GlobalStoreModel>((state) => state.lotteryEvent)
+  const lotteryEvent = CommunityStore.useStoreState((state) => state.lotteryEvent)
 
   useEffect(() => {
     if (lotteryEvent) {
@@ -99,7 +87,7 @@ const CountDown: FC = () => {
   }, [communityHandle])
 
   if (!lotteryEvent || !timeRemaining) {
-    return <MarginTop />
+    return <></>
   }
 
   if (loading) {
@@ -127,24 +115,14 @@ const CountDown: FC = () => {
 }
 
 const LotteryEvent: FC = () => {
-  const lotteryEvent: LotteryEventType = useStoreState<GlobalStoreModel>(
-    (state) => state.lotteryEvent
-  )
+  const lotteryEvent = CommunityStore.useStoreState((state) => state.lotteryEvent)
 
   if (!lotteryEvent) {
-    return <MarginTop />
+    return <></>
   }
 
   return (
-    <Relative>
-      <FixedImagePosition>
-        <Image
-          width={96}
-          height={96}
-          src={StorageConst.BOX_TREASURE.src}
-          alt={StorageConst.BOX_TREASURE.alt}
-        />
-      </FixedImagePosition>
+    <Padding>
       <FizedSize>
         <Gap4Vertical>
           <TextXl>{'Lucky Box'}</TextXl>
@@ -158,7 +136,7 @@ const LotteryEvent: FC = () => {
           <Lottery />
         </Gap4Vertical>
       </FizedSize>
-    </Relative>
+    </Padding>
   )
 }
 
