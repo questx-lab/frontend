@@ -1,10 +1,11 @@
 import { FC, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
+import tw from 'twin.macro'
 
 import { newQuestRoute } from '@/constants/router.const'
 import QuestsByCategory from '@/modules/community/community-view/quests-by-category'
-import { BorderBottom, ButtonAlignment, FullWidthCenter } from '@/modules/community/mini-widget'
+import { BorderBottom, ButtonAlignment } from '@/modules/community/mini-widget'
 import Templates from '@/modules/community/templates'
 import { CreateOrEditQuest } from '@/modules/create-quest'
 import CommunityStore from '@/store/local/community'
@@ -12,9 +13,24 @@ import NewQuestStore from '@/store/local/new-quest'
 import { emptyQuest } from '@/types/quest'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import BasicModal from '@/widgets/modal/basic'
-import { VerticalFullWidthCenter } from '@/widgets/orientation'
+import {
+  HorizontalBetweenCenterFullWidth,
+  Vertical,
+  VerticalFullWidthCenter,
+} from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { Text2xl } from '@/widgets/text'
+
+const FixedWidth = tw(Vertical)`
+  w-[980px]
+  max-sm:w-full
+`
+
+const FixedWidthHorizontal = tw(HorizontalBetweenCenterFullWidth)`
+  pt-6
+  w-[980px]
+  max-sm:w-full
+`
 
 const MyCommunities: FC = () => {
   // hook
@@ -32,7 +48,7 @@ const MyCommunities: FC = () => {
     <>
       <VerticalFullWidthCenter>
         <BorderBottom>
-          <FullWidthCenter>
+          <FixedWidthHorizontal>
             <Text2xl>{'Quests'}</Text2xl>
             {canEdit && (
               // Only shown for owner
@@ -55,11 +71,12 @@ const MyCommunities: FC = () => {
                 </PositiveButton>
               </ButtonAlignment>
             )}
-          </FullWidthCenter>
+          </FixedWidthHorizontal>
         </BorderBottom>
-
         {canEdit && <Templates communityHandle={community.handle} />}
-        <QuestsByCategory />
+        <FixedWidth>
+          <QuestsByCategory />
+        </FixedWidth>
       </VerticalFullWidthCenter>
       <BasicModal
         isOpen={showTemplateModal}

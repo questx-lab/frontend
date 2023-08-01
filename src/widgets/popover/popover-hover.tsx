@@ -16,11 +16,7 @@ export const PopoverHover: FC<{ button: ReactNode; children: ReactNode; placemen
 
   return (
     <Popover placement={placement} open={openPopover} handler={setOpenPopover}>
-      <PopoverHandler {...triggers}>
-        <Button ripple={false} onClick={() => {}} className='p-0 outline-0 ring-0' variant='text'>
-          {button}
-        </Button>
-      </PopoverHandler>
+      <PopoverHandler {...triggers}>{button}</PopoverHandler>
       <PopoverContent className='p-0' {...triggers}>
         {children}
       </PopoverContent>
@@ -36,7 +32,12 @@ export const PopoverClick: FC<{ button: ReactNode; children: ReactNode; placemen
   return (
     <Popover placement={placement}>
       <PopoverHandler>
-        <Button ripple={false} onClick={() => {}} className='p-0 outline-0 ring-0' variant='text'>
+        <Button
+          ripple={false}
+          onClick={() => {}}
+          className='p-0 outline-0 ring-0 w-full'
+          variant='text'
+        >
           {button}
         </Button>
       </PopoverHandler>

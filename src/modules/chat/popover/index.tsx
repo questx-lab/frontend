@@ -19,7 +19,7 @@ import { TextSm, TextXl } from '@/widgets/text'
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const Frame = tw(VerticalFullWidth)`
-  h-[800px]
+  h-[calc(100vh_-_100px)]
   py-6
 `
 

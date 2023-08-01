@@ -155,7 +155,7 @@ export type LeaderboardType = {
   user_id?: string
   user?: UserType
   value: number
-  prev_rank: number
+  previous_rank: number
   current_rank: number
 }
 

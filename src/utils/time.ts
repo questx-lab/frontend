@@ -13,17 +13,16 @@ export const calculateTimeRemaining = (targetDate: Date) => {
 
   if (difference <= 0) {
     // target date has passed, stop the countdown
-    return { days: '00', hours: '00', minutes: '00', seconds: '00' }
+    return { days: '000', hours: '00', minutes: '00', seconds: '00' }
   }
 
-  const days = Math.floor(difference / (1000 * 60 * 60 * 24)).toString()
-  const hours = padNumberWithZero(Math.floor((difference / (1000 * 60 * 60)) % 24))
+  const hours = Math.floor(difference / (1000 * 60 * 60)).toString()
   const minutes = padNumberWithZero(Math.floor((difference / 1000 / 60) % 60))
   const seconds = padNumberWithZero(Math.floor((difference / 1000) % 60))
 
-  return { days, hours, minutes, seconds }
+  return { hours, minutes, seconds }
 }
 
-export const padNumberWithZero = (num: number) => {
-  return num.toString().padStart(2, '0')
+export const padNumberWithZero = (num: number, length: number = 2) => {
+  return num.toString().padStart(length, '0')
 }

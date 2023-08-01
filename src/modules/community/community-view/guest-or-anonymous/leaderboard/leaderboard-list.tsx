@@ -8,19 +8,22 @@ import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.co
 import StorageConst from '@/constants/storage.const'
 import { LeaderboardType } from '@/types'
 import { CommunityType } from '@/types/community'
-import { CircularImage } from '@/widgets/circular-image'
+import { UserAvatar } from '@/widgets/avatar'
 import { Image } from '@/widgets/image'
-import { HorizontalBetweenCenter, HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
+import {
+  HorizontalBetweenCenter,
+  HorizontalCenter,
+  VerticalCenter,
+  VerticalFullWidth,
+} from '@/widgets/orientation'
 import { SmallSpinner } from '@/widgets/spinner'
-import { RewardText, TextSm } from '@/widgets/text'
+import { TextSm } from '@/widgets/text'
 
 const PointerHorizontal = tw(HorizontalBetweenCenter)`
   relative
   py-2
   cursor-pointer
-  border-b
-  border-solid
-  border-gray-200
+  w-full
 `
 
 const GapHorizontalCenter = tw(HorizontalCenter)`
@@ -66,14 +69,14 @@ const RenderList: FC<{ data: LeaderboardType[] }> = ({ data }) => {
   const renderItems = data.map((ld, idx) => (
     <PointerHorizontal key={idx}>
       <GapHorizontalCenter>
-        <CircularImage width={40} height={40} src={StorageConst.USER_DEFAULT.src} alt={'logo'} />
+        <UserAvatar size={32} user={ld.user} />
         <UsernameText>{ld.user?.name}</UsernameText>
       </GapHorizontalCenter>
-      <RewardText>{ld.value}</RewardText>
+      <TextSm>{ld.value}</TextSm>
     </PointerHorizontal>
   ))
 
-  return <>{renderItems}</>
+  return <VerticalFullWidth>{renderItems}</VerticalFullWidth>
 }
 
 const RenderLeaderboard: FC<{
