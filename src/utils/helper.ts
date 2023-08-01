@@ -27,6 +27,12 @@ export const getRefreshToken = (): string | undefined => {
 export const delCookies = () => {
   deleteCookie(KeysEnum.AUTH_SESSION)
   deleteCookie(KeysEnum.ACCESS_TOKEN)
+
+  // Remove cookies of socket
+  const domain = window.location.hostname.split('.').slice(-2).join('.')
+  deleteCookie(KeysEnum.ACCESS_TOKEN, {
+    domain: domain,
+  })
   deleteCookie(KeysEnum.REFRESH_TOKEN)
   deleteCookie(KeysEnum.USER)
 }

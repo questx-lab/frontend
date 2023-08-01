@@ -17,6 +17,15 @@ const Header = tw(Text2xl)`
   font-medium
 `
 
+const Frame = tw.div`
+  border
+  border-solid
+  border-gray-200
+  w-full
+  h-full
+  rounded-lg
+`
+
 const Index: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
@@ -34,7 +43,7 @@ const Index: FC = () => {
         <Header>{'Leaderboard'}</Header>
       </FixedWidth>
       <FixedWidth>
-        <Leaderboard type={LeaderboardType.TOWNHALL} community={community} />
+        <Leaderboard type={LeaderboardType.PLATFORM} community={community} />
       </FixedWidth>
     </VerticalFullWidthCenter>
   )

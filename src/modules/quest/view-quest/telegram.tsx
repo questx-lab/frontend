@@ -58,7 +58,7 @@ const TelegramAction: FC<{ link: string }> = ({ link }) => {
   if (user && user.services && !user.services.telegram) {
     return (
       <ColorBox boxColor={ColorEnum.WARNING}>
-        {'You need to connect Twitter '}
+        {'You need to connect Telegram'}
         <TLoginButton
           buttonSize={TLoginButtonSize.Large}
           lang='en'

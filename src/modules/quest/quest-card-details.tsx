@@ -84,6 +84,9 @@ const TitleQuestBox = tw(TextBase)`
   text-gray-900
   font-medium
   max-lg:text-sm
+  overflow-hidden
+  text-ellipsis
+  line-clamp-2
 `
 
 const Description = tw.div`
