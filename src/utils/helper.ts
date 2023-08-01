@@ -56,6 +56,7 @@ export const setCookieSocket = async () => {
 
 export const setAccessToken = (cookie: string, domain?: string) => {
   const jwtToken: any = jwt(cookie)
+  console.log('Expire time = ', jwtToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)))
   setCookie(KeysEnum.ACCESS_TOKEN, cookie, {
     maxAge: jwtToken['exp'] - parseInt((Date.now() / 1000).toFixed(0)),
     domain,

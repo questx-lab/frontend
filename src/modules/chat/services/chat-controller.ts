@@ -6,6 +6,7 @@ import {
   ChatMessageReceiverEnum,
   ChatMessageType,
   ChatReactionType,
+  ReadyMessageType,
 } from '@/types/chat'
 import { uploadFile } from '@/utils/file'
 import { EqualBigInt } from '@/utils/number'
@@ -34,9 +35,12 @@ class ChatController {
     onDisconnected: async () => {},
 
     onMessage: (s: ChatMessageReceiver) => {
+      console.log('s.o = ', s.o)
       switch (s.o) {
         case ChatMessageReceiverEnum.MESSAGE_CREATED:
           const chatMessage = s.d as ChatMessageType
+
+          console.log('chatMessage = ', chatMessage)
 
           this.updateAndBroadcastMessages(
             chatMessage.channel_id,
@@ -52,6 +56,10 @@ class ChatController {
             reaction,
             MessageEventEnum.REACTION_ADDED
           )
+          break
+        case ChatMessageReceiverEnum.READY:
+          const readyMessage = s.d as ReadyMessageType
+          console.log('Ready message = ', readyMessage)
           break
       }
     },
@@ -162,8 +170,8 @@ class ChatController {
       if (res.data.messages.length < DEFAULT_LIMIT) {
         this.noMorePrefix.set(channelIdString, true)
       }
-      const messages = [...res.data.messages].reverse()
 
+      const messages = [...res.data.messages].reverse()
       this.updateAndBroadcastMessages(channelId, messages, eventType)
     }
 

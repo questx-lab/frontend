@@ -83,6 +83,7 @@ export type UserChatType = {
 export enum ChatMessageReceiverEnum {
   MESSAGE_CREATED = 'message_created',
   REACTION_ADDED = 'reaction_added',
+  READY = 'ready',
 }
 
 export type ReadyMessageType = {
