@@ -35,7 +35,7 @@ interface CommunityModel {
   setCommunityIndexMode: Action<CommunityModel, number>
   setQuests: Action<CommunityModel, QuestType[]>
   setCanJoinTownHall: Action<CommunityModel, boolean>
-  setLotteryEvent: Action<CommunityModel, LotteryEventType>
+  setLotteryEvent: Action<CommunityModel, LotteryEventType | undefined>
 }
 
 const CommunityStore = createContextStore<CommunityModel>({

@@ -55,6 +55,7 @@ const CountDown: FC = () => {
   const [timeRemaining, setTimeRemaining] = useState<TimeRemainingType>()
 
   const lotteryEvent = CommunityStore.useStoreState((state) => state.lotteryEvent)
+  const setLotteryEvent = CommunityStore.useStoreActions((action) => action.setLotteryEvent)
 
   useEffect(() => {
     if (lotteryEvent) {
@@ -63,6 +64,7 @@ const CountDown: FC = () => {
         moment(new Date(lotteryEvent.end_time)).isBefore(Date.now()) ||
         lotteryEvent.max_tickets === lotteryEvent.used_tickets
       ) {
+        setLotteryEvent(undefined)
         return
       }
       const intervalId = setInterval(() => {
