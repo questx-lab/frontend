@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
+import tw from 'twin.macro'
 
 import { newQuestRoute } from '@/constants/router.const'
 import QuestsByCategory from '@/modules/community/community-view/quests-by-category'
@@ -15,6 +16,8 @@ import BasicModal from '@/widgets/modal/basic'
 import { VerticalFullWidthCenter } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { Text2xl } from '@/widgets/text'
+
+const FixedWidth = tw.div`w-[1120px]`
 
 const MyCommunities: FC = () => {
   // hook
@@ -57,9 +60,10 @@ const MyCommunities: FC = () => {
             )}
           </FullWidthCenter>
         </BorderBottom>
-
         {canEdit && <Templates communityHandle={community.handle} />}
-        <QuestsByCategory />
+        <FixedWidth>
+          <QuestsByCategory />
+        </FixedWidth>
       </VerticalFullWidthCenter>
       <BasicModal
         isOpen={showTemplateModal}

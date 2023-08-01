@@ -15,7 +15,6 @@ export interface GlobalStoreModel {
   showLoginModal: boolean
   showUserProfileModal: boolean
   templates: QuestType[]
-  hasEvent: boolean
 
   setShowNavigationDrawer: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
@@ -27,7 +26,6 @@ export interface GlobalStoreModel {
   setTemplates: Action<GlobalStoreModel, QuestType[]>
   updateMyCommunities: Action<GlobalStoreModel, CommunityType>
   setShowUserProfileModal: Action<GlobalStoreModel, boolean>
-  setHasEvent: Action<GlobalStoreModel, boolean>
 }
 
 const store = createStore<GlobalStoreModel>({
@@ -40,7 +38,6 @@ const store = createStore<GlobalStoreModel>({
   showLoginModal: false,
   showUserProfileModal: false,
   templates: [],
-  hasEvent: false,
 
   setShowNavigationDrawer: action((state, drawer) => {
     state.showNavigationDrawer = drawer
@@ -72,10 +69,6 @@ const store = createStore<GlobalStoreModel>({
 
   setTemplates: action((state, templates) => {
     state.templates = templates
-  }),
-
-  setHasEvent: action((state, event) => {
-    state.hasEvent = event
   }),
 
   updateMyCommunities: action((state, community) => {

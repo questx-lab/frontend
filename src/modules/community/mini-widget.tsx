@@ -13,6 +13,7 @@ export const BorderBottom = tw(VerticalFullWidthCenter)`
   border-b
   border-solid
   border-gray-200
+  pb-6
 `
 
 export const FullWidthCenter = tw(HorizontalBetweenCenter)`
@@ -25,9 +26,8 @@ export const FullWidthCenter = tw(HorizontalBetweenCenter)`
   xl:px-0
   md:w-[780px]
   xl:mr-[140px]
-  2xl:mr-[280px]
   mr-0
-  py-5
+  pt-6
 `
 
 export const ButtonAlignment = tw(Horizontal)`
@@ -37,23 +37,13 @@ export const ButtonAlignment = tw(Horizontal)`
 
 export const FixedWidth = tw(Vertical)`
   max-sm:px-2
-  xl:w-[980px]
-  xl:px-0
-  md:px-8
-  md:w-[780px]
-  sm:mr-0
   w-full
   gap-10
-  xl:mr-[140px]
-  2xl:mr-[280px]
   mr-0
-  max-md:mr-0
-  max-md:w-full
 `
 
 export const PaddingHorizontal = tw(HorizontalBetweenCenterFullWidth)`
   max-sm:flex-col
-  py-8
   rounded-lg
   gap-6
 `

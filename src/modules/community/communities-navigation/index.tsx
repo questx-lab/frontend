@@ -30,10 +30,6 @@ const Wrap = styled.div<{ isDrawer: boolean; hasEvent: boolean }>(({ isDrawer, h
     style.push(tw`max-sm:hidden fixed `)
   }
 
-  if (hasEvent) {
-    style.push(tw`mt-[48px]`)
-  }
-
   return style
 })
 
@@ -86,7 +82,7 @@ const CommunityFollowItems: FC<{
 }
 
 const CommunitiesNavigation: FC<{ isDrawer?: boolean }> = ({ isDrawer = false }) => {
-  const hasEvent = useStoreState<GlobalStoreModel>((state) => state.hasEvent)
+  const lotteryEvent = CommunityStore.useStoreState((state) => state.lotteryEvent)
   const myCommunities: CommunityType[] = useStoreState<GlobalStoreModel>(
     (state) => state.myCommunities
   )
@@ -101,7 +97,7 @@ const CommunitiesNavigation: FC<{ isDrawer?: boolean }> = ({ isDrawer = false })
   }
 
   return (
-    <Wrap isDrawer={isDrawer} hasEvent={hasEvent}>
+    <Wrap isDrawer={isDrawer} hasEvent={lotteryEvent !== undefined}>
       <CommunityItems communities={myCommunities} />
       <CommunityFollowItems followCommunities={communitiesFollowing} />
     </Wrap>

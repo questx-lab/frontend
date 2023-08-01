@@ -28,7 +28,6 @@ const ModalContent = styled(Dialog.Panel)<{ widthsize: BasicModalWidthSize }>(({
       max-xl:mx-6
       bg-white
       align-middle
-      overflow-y-scroll
       shadow-lg
       transition-all
       flex
@@ -58,9 +57,9 @@ const PaddingHorizontal = tw(Horizontal)`
   justify-between
   items-center
   p-5
-  border
+  border-b
   border-solid
-  border-b-gray-200
+  border-gray-200
 `
 
 const Title = tw(TextXl)`

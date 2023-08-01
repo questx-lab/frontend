@@ -171,6 +171,14 @@ const StorageConst = {
     src: '/images/icons/emoji-blank.png',
     alt: 'Emoji',
   },
+  BOX_TREASURE: {
+    src: '/images/icons/box_treasure.svg',
+    alt: 'Box Treasure',
+  },
+  PODIUM: {
+    src: '/images/icons/podium.svg',
+    alt: 'Podium',
+  },
 }
 
 export default StorageConst
