@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
 import moment from 'moment'
-import { useParams } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
@@ -49,7 +48,6 @@ type TimeRemainingType = {
 }
 
 const CountDown: FC = () => {
-  const { communityHandle } = useParams()
   const [timeRemaining, setTimeRemaining] = useState<TimeRemainingType>()
 
   const lotteryEvent = CommunityStore.useStoreState((state) => state.lotteryEvent)
@@ -70,6 +68,8 @@ const CountDown: FC = () => {
       const intervalId = setInterval(() => {
         if (moment(new Date(lotteryEvent.end_time)).isBefore(Date.now())) {
           // Stop the interval
+          clearInterval(intervalId)
+          setLotteryEvent(undefined)
         } else {
           setTimeRemaining(calculateTimeRemaining(new Date(lotteryEvent.end_time)))
         }
@@ -79,7 +79,7 @@ const CountDown: FC = () => {
         clearInterval(intervalId)
       }
     }
-  }, [communityHandle, lotteryEvent])
+  }, [lotteryEvent])
 
   if (!lotteryEvent || !timeRemaining) {
     return <></>
