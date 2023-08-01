@@ -2,7 +2,6 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import { LeaderboardType } from '@/constants/common.const'
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
 import LotteryEvent from '@/modules/community/community-view/guest-or-anonymous/sidebar/lottery-event'
 import CommunityStore from '@/store/local/community'
@@ -33,7 +32,7 @@ const CommunitySidebar: FC = () => {
     <FixedSize>
       <FixedPosition>
         <LotteryEvent />
-        <Leaderboard community={community} type={LeaderboardType.TOWNHALL} />
+        <Leaderboard community={community} />
       </FixedPosition>
     </FixedSize>
   )
