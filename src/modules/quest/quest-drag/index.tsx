@@ -31,7 +31,15 @@ const GridDrag: FC = () => {
           quests: questFilter,
         }
       })
-      setItems(rs)
+
+      const questNoCategory: QuestType[] = quests.filter((quest) => quest.category.id === '')
+      const OtherQuest = {
+        id: '',
+        name: 'Other Quests',
+        quests: questNoCategory,
+      }
+
+      setItems([...rs, OtherQuest])
     }
   }, [categories, quests])
 
