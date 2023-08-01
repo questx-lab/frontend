@@ -9,7 +9,6 @@ import Lottery from '@/modules/lottery/guest'
 import CommunityStore from '@/store/local/community'
 import { calculateTimeRemaining } from '@/utils/time'
 import { VerticalFullWidthCenter } from '@/widgets/orientation'
-import { SmallSpinner } from '@/widgets/spinner'
 import { LightTextXs, MediumText2Xl, Text2xl, TextSm, TextXl } from '@/widgets/text'
 
 const Padding = tw.div`p-5 w-full`
@@ -51,7 +50,6 @@ type TimeRemainingType = {
 
 const CountDown: FC = () => {
   const { communityHandle } = useParams()
-  const [loading, setLoading] = useState<boolean>(true)
   const [timeRemaining, setTimeRemaining] = useState<TimeRemainingType>()
 
   const lotteryEvent = CommunityStore.useStoreState((state) => state.lotteryEvent)
@@ -67,6 +65,8 @@ const CountDown: FC = () => {
         setLotteryEvent(undefined)
         return
       }
+
+      setTimeRemaining(calculateTimeRemaining(new Date(lotteryEvent.end_time)))
       const intervalId = setInterval(() => {
         setTimeRemaining(calculateTimeRemaining(new Date(lotteryEvent.end_time)))
       }, 1000)
@@ -75,25 +75,10 @@ const CountDown: FC = () => {
         clearInterval(intervalId)
       }
     }
-  }, [lotteryEvent])
-
-  useEffect(() => {
-    setLoading(true)
-    if (communityHandle) {
-      setTimeout(() => {
-        // Becase setinterval will delay 1s, so when we change community,
-        //time have not updated as soon as possible, so we can delay 1s to fetch new time
-        setLoading(false)
-      }, 1000)
-    }
-  }, [communityHandle])
+  }, [communityHandle, lotteryEvent])
 
   if (!lotteryEvent || !timeRemaining) {
     return <></>
-  }
-
-  if (loading) {
-    return <SmallSpinner />
   }
 
   return (
