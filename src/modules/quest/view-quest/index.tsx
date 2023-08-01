@@ -69,6 +69,8 @@ const BlockBox = tw(HorizontalCenter)`
 
 const ContentPadding = tw(VerticalFullWidth)`
   gap-3
+  max-h-[calc(100vh_-_360px)]
+  overflow-y-scroll
 `
 
 const BlockContent: FC<{ quest: QuestType }> = ({ quest }) => {
