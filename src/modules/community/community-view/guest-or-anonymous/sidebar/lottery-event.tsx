@@ -68,7 +68,11 @@ const CountDown: FC = () => {
 
       setTimeRemaining(calculateTimeRemaining(new Date(lotteryEvent.end_time)))
       const intervalId = setInterval(() => {
-        setTimeRemaining(calculateTimeRemaining(new Date(lotteryEvent.end_time)))
+        if (moment(new Date(lotteryEvent.end_time)).isBefore(Date.now())) {
+          // Stop the interval
+        } else {
+          setTimeRemaining(calculateTimeRemaining(new Date(lotteryEvent.end_time)))
+        }
       }, 1000)
 
       return () => {
