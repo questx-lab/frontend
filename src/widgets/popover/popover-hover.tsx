@@ -16,16 +16,7 @@ export const PopoverHover: FC<{ button: ReactNode; children: ReactNode; placemen
 
   return (
     <Popover placement={placement} open={openPopover} handler={setOpenPopover}>
-      <PopoverHandler {...triggers}>
-        <Button
-          ripple={false}
-          onClick={() => {}}
-          className='disable p-0 outline-0 ring-0 w-full hover:bg-white '
-          variant='text'
-        >
-          {button}
-        </Button>
-      </PopoverHandler>
+      <PopoverHandler {...triggers}>{button}</PopoverHandler>
       <PopoverContent className='p-0' {...triggers}>
         {children}
       </PopoverContent>
