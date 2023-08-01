@@ -9,7 +9,6 @@ export enum RouterConst {
   COMMUNITIES_TRENDING = '/communities/trending',
   CREATE_COMMUNITIES = '/communities/new ',
   USER = '/users/',
-  TOWNHALL = '/townhall',
   ACCOUNT_SETTINGS = '/account-settings',
   MESSAGES = '/messages',
 }

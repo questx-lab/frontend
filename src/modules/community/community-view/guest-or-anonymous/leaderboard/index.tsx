@@ -14,21 +14,17 @@ import { Tab } from '@headlessui/react'
 
 const Content = styled.div<{ type: LeaderboardType }>(({ type }) => {
   const styles = []
-  if (type === LeaderboardType.TOWNHALL) {
-    styles.push(tw`h-full w-full`)
-  } else {
-    styles.push(tw`
-      w-full
-      h-full
-      right-0
-      border
-      border-solid
-      bg-white
-      border-gray-200
-      max-md:hidden
-      rounded-lg
-  `)
-  }
+  styles.push(tw`
+    w-full
+    h-full
+    right-0
+    border
+    border-solid
+    bg-white
+    border-gray-200
+    max-md:hidden
+    rounded-lg
+`)
 
   return styles
 })

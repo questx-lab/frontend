@@ -1,6 +1,5 @@
 import { FC } from 'react'
 
-import { BrowserView } from 'react-device-detect'
 import tw from 'twin.macro'
 
 import StorageConst from '@/constants/storage.const'
@@ -107,19 +106,6 @@ const CommunityInformation: FC = () => {
                 <DiscordLink discordUrl={community.discord} />
               </HorizontalStartCenter>
               <ReponsiveHorizontal>
-                <BrowserView>
-                  {/* <PositiveButton
-                      onClick={() => {
-                        if (!user) {
-                          setShowLoginModal(true)
-                        } else {
-                          navigate(RouterConst.TOWNHALL + `/${community.handle}`)
-                        }
-                      }}
-                    >
-                      {'Join Town Hall'}
-                    </PositiveButton> */}
-                </BrowserView>
                 <CenterEndHorizontal>
                   <FollowCommunity community={community} />
                 </CenterEndHorizontal>

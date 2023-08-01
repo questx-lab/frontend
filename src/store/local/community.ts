@@ -22,7 +22,6 @@ interface CommunityModel {
   invitedBy: string
   activeControlPanelTab: number
   communityIndexMode: number
-  canJoinTownHall: boolean
   lotteryEvent: LotteryEventType | undefined
 
   setSelectedCommunity: Action<CommunityModel, CommunityType>
@@ -34,7 +33,6 @@ interface CommunityModel {
   setActiveControlPanelTab: Action<CommunityModel, number>
   setCommunityIndexMode: Action<CommunityModel, number>
   setQuests: Action<CommunityModel, QuestType[]>
-  setCanJoinTownHall: Action<CommunityModel, boolean>
   setLotteryEvent: Action<CommunityModel, LotteryEventType | undefined>
 }
 
@@ -49,7 +47,6 @@ const CommunityStore = createContextStore<CommunityModel>({
   quests: [],
   activeControlPanelTab: ControlPanelTab.QUESTS,
   communityIndexMode: CommunityIndexMode.VIEW_COMMUNITY,
-  canJoinTownHall: false,
   lotteryEvent: undefined,
 
   setSelectedCommunity: action((state, newProject) => {
@@ -83,9 +80,6 @@ const CommunityStore = createContextStore<CommunityModel>({
   }),
   setQuests: action((state, quests) => {
     state.quests = quests
-  }),
-  setCanJoinTownHall: action((state, canJoinTownHall) => {
-    state.canJoinTownHall = canJoinTownHall
   }),
   setLotteryEvent: action((state, event) => {
     state.lotteryEvent = event
