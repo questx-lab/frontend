@@ -54,9 +54,9 @@ const QuestsGrid = tw.div`
 
 const BorderBottom = tw(HorizontalCenter)`
   w-full
-  border
+  border-b
   border-solid
-  border-b-gray-200
+  border-gray-200
 `
 
 const Padding = tw(VerticalCenter)`

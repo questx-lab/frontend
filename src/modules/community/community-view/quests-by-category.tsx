@@ -18,15 +18,11 @@ const BorderBox = tw(VerticalFullWidthCenter)`
   border-gray-200
   pb-10
   gap-0
+  pt-6
 `
 
 const Gap12 = tw(VerticalFullWidth)`
   gap-12
-`
-
-const PaddingTop = tw.div`
-  w-full
-  pt-6
 `
 
 const PaddingY10 = tw(VerticalFullWidth)`
@@ -128,9 +124,7 @@ const QuestsByCategory: FC = () => {
     <>
       <BorderBottom isShow={highlightedQuests.length !== 0}>
         <FixedWidth>
-          <PaddingTop>
-            <HighlightedQuests highlightedQuest={highlightedQuests} loading={false} />
-          </PaddingTop>
+          <HighlightedQuests highlightedQuest={highlightedQuests} loading={false} />
         </FixedWidth>
       </BorderBottom>
       <PaddingY10>

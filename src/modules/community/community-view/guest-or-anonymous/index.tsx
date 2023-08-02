@@ -15,17 +15,21 @@ const Content = tw(VerticalFullWidth)`
 `
 
 const FixedWidth = tw(Horizontal)`
-  w-[1200px]
+  w-[1440px]
+  lg:w-[1200px]
   sm:w-full
   max-sm:w-full
   gap-6
   justify-center
+  p-6
+  divide-x
+  divide-gray-200
 `
 
 const VerticalFixedWidth = tw(Vertical)`
-  w-[680px]  
+  w-[888px]
+  lg:w-[648px]  
   max-sm:w-full
-  p-6
 `
 
 const CommunityGuestOrAnonymous: FC = () => {
