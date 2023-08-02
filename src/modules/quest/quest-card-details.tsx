@@ -158,7 +158,11 @@ const CommunityFrame: FC<{ community?: CommunityType; showCommunity: boolean }> 
 
   return (
     <GapHorizontal>
-      <CircularImage height={32} width={32} src={StorageConst.COMMUNITY_DEFAULT.src} />
+      <CircularImage
+        height={32}
+        width={32}
+        src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
+      />
       <CommunityDisplayname>{community?.display_name}</CommunityDisplayname>
     </GapHorizontal>
   )

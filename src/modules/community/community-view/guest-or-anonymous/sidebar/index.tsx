@@ -2,29 +2,22 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import { LeaderboardType } from '@/constants/common.const'
 import Leaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard'
 import LotteryEvent from '@/modules/community/community-view/guest-or-anonymous/sidebar/lottery-event'
 import CommunityStore from '@/store/local/community'
 import { Vertical } from '@/widgets/orientation'
 
 const FixedSize = tw(Vertical)`
-  w-[324px]
-  max-sm:hidden
+  w-[384px]
+  max-md:hidden
+  max-md:!w-[0px]
 `
 
 const FixedPosition = tw(Vertical)`
   fixed
-  w-[320px]
-  right-0
-  h-full
-  overflow-y-scroll
-  pb-[136px]
-  border-l
-  border-gray-200
-  border-solid
-  divide-y
-  divide-gray-200
+  w-[384px]
+  gap-6
+  h-[calc(100vh_-_64px)]
 `
 
 const CommunitySidebar: FC = () => {
@@ -33,7 +26,7 @@ const CommunitySidebar: FC = () => {
     <FixedSize>
       <FixedPosition>
         <LotteryEvent />
-        <Leaderboard community={community} type={LeaderboardType.TOWNHALL} />
+        <Leaderboard community={community} />
       </FixedPosition>
     </FixedSize>
   )

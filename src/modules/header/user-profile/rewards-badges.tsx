@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
@@ -7,7 +7,14 @@ import ClaimHistory from '@/modules/header/user-profile/claim-history'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { Vertical } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { Tab, TabItem } from '@/widgets/tab-group/focus-light-primary'
+
+enum TabType {
+  HISTORY = 'HISTORY',
+}
+
+const tabList = [TabType.HISTORY]
 
 const BoundingBox = tw(Vertical)`
   w-2/3
@@ -16,12 +23,24 @@ const BoundingBox = tw(Vertical)`
   max-sm:w-full
 `
 
-const ControlTabs: FC = () => {
+const ControlTabs: FC<{ activeTab: TabType; setActiveTab: (activeTab: TabType) => void }> = ({
+  activeTab,
+  setActiveTab,
+}) => {
   return (
     <Tab>
-      <TabItem active={true} tabCount={1} position={0}>
-        {'HISTORY'}
-      </TabItem>
+      {tabList.map((tab, idx) => (
+        <>
+          <TabItem
+            active={tab === activeTab}
+            tabCount={tabList.length}
+            position={idx}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab}
+          </TabItem>
+        </>
+      ))}
     </Tab>
   )
 }
@@ -29,15 +48,27 @@ const ControlTabs: FC = () => {
 const RewardsBadges: FC<{ user: UserType }> = ({ user }) => {
   // TODO: Add badges and ranking
   const me: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+  const [activeTab, setActiveTab] = useState<TabType>(TabType.HISTORY)
+
   if (user.id !== me.id) {
     return <></>
   }
 
+  const Panel = () => {
+    switch (activeTab) {
+      case TabType.HISTORY:
+        return <ClaimHistory user={user} />
+
+      default:
+        return <div className='w-full text-center'> We are developing </div>
+    }
+  }
+
   return (
     <BoundingBox>
-      <ControlTabs />
-
-      <ClaimHistory user={user} />
+      <ControlTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Gap height={5} />
+      <Panel />
     </BoundingBox>
   )
 }

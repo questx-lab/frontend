@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import ChatBox from '@/modules/chat/chat-box'
+import StatusSide from '@/modules/chat/message/status-side'
 import chatController from '@/modules/chat/services/chat-controller'
 import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
@@ -14,10 +15,12 @@ const ChatFrame = tw(VerticalCenter)`
   h-[calc(100vh_-_64px)]
 `
 
+// Right padding is for chat statuses. Left padding is for channel selection
 const FixedWidth = tw.div`
   w-full
   h-full
   pl-[360px]
+  pr-[300px]
 `
 
 const Index: FC = () => {
@@ -46,6 +49,7 @@ const Index: FC = () => {
       <FixedWidth>
         <ChatBox />
       </FixedWidth>
+      <StatusSide />
     </ChatFrame>
   )
 }

@@ -4,8 +4,9 @@ import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { getLeaderboardApi } from '@/api/communitiy'
-import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
+import { ColorEnum, LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
+import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import { LeaderboardType } from '@/types'
 import { CommunityType } from '@/types/community'
 import { UserAvatar } from '@/widgets/avatar'
@@ -48,10 +49,12 @@ const CenterNormalText = tw(TextSm)`
   text-center
 `
 
+const RoundedBox = tw(ColorBox)`rounded-full !p-1 !gap-0 w-8 h-8 flex justify-center items-center`
+
 const Empty: FC = () => {
   return (
     <EmptyBox>
-      <Image width={250} height={250} src={StorageConst.HUSKY.src} alt={StorageConst.HUSKY.alt} />
+      <Image width={200} height={200} src={StorageConst.HUSKY.src} alt={StorageConst.HUSKY.alt} />
       <CenterNormalText>
         {
           'There is no information about the leaderboard yet. Create more quests and connect users to have this leaderboard.'
@@ -59,6 +62,22 @@ const Empty: FC = () => {
       </CenterNormalText>
     </EmptyBox>
   )
+}
+
+const RankBox: FC<{ idx: number }> = ({ idx }) => {
+  if (idx === 1) {
+    return <RoundedBox boxColor={ColorEnum.DANGER}>{idx}</RoundedBox>
+  }
+
+  if (idx === 2) {
+    return <RoundedBox boxColor={ColorEnum.WARNING}>{idx}</RoundedBox>
+  }
+
+  if (idx === 3) {
+    return <RoundedBox boxColor={ColorEnum.PRIMARY}>{idx}</RoundedBox>
+  }
+
+  return <RoundedBox boxColor={ColorEnum.NONE}>{idx}</RoundedBox>
 }
 
 const RenderList: FC<{ data: LeaderboardType[] }> = ({ data }) => {
@@ -69,6 +88,7 @@ const RenderList: FC<{ data: LeaderboardType[] }> = ({ data }) => {
   const renderItems = data.map((ld, idx) => (
     <PointerHorizontal key={idx}>
       <GapHorizontalCenter>
+        <RankBox idx={idx + 1} />
         <UserAvatar size={32} user={ld.user} />
         <UsernameText>{ld.user?.name}</UsernameText>
       </GapHorizontalCenter>
