@@ -276,11 +276,6 @@ export enum CarouselType {
   COMMUNITY,
 }
 
-export enum TownhallStatus {
-  ENABLE = 'enable',
-  DISABLE = 'disable',
-}
-
 export enum QuestColor {
   EMERALD = 'emerald',
   ORANGE = 'orange',
@@ -290,7 +285,6 @@ export enum QuestColor {
 }
 
 export enum LeaderboardType {
-  TOWNHALL,
   PLATFORM,
 }
 

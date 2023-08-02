@@ -1,9 +1,5 @@
-import { lazy, Suspense } from 'react'
-
 import { RouteObject } from 'react-router-dom'
 
-import { TownhallStatus } from '@/constants/common.const'
-import { EnvVariables } from '@/constants/env.const'
 import DiscordCallback from '@/modules/callback/discord'
 import TwitterCallback from '@/modules/callback/twitter'
 import CommunityIndex from '@/modules/community'
@@ -39,14 +35,6 @@ import Questercamp from '@/platform/routes/questercamp/route'
 import TrendingQuestsIndex from '@/platform/routes/questercamp/trending'
 import TrendingQuest from '@/platform/routes/questercamp/trending/route'
 import Root, { RootLoader } from '@/platform/routes/route'
-import TownhallCommunity, {
-  Loader as TownhallCommunityLoader,
-} from '@/townhall/routes/community/route'
-import Townhall from '@/townhall/routes/route'
-import ErrorPage from '@/widgets/error'
-import { SmallSpinner } from '@/widgets/spinner'
-
-const RoomIndex = lazy(() => import('@/townhall/modules/room'))
 
 const PlatformRouter = (): RouteObject[] => {
   const router: RouteObject[] = [
@@ -156,31 +144,6 @@ const PlatformRouter = (): RouteObject[] => {
       element: <DiscordCallback />,
     },
   ]
-
-  if (EnvVariables.TOWNHALL_STATUS === TownhallStatus.ENABLE) {
-    router.push({
-      path: '/townhall',
-      element: <Townhall />,
-      children: [
-        {
-          path: ':communityHandle',
-          loader: TownhallCommunityLoader,
-          errorElement: <ErrorPage />,
-          element: <TownhallCommunity />,
-          children: [
-            {
-              index: true,
-              element: (
-                <Suspense fallback={<SmallSpinner />}>
-                  <RoomIndex />
-                </Suspense>
-              ),
-            },
-          ],
-        },
-      ],
-    })
-  }
 
   return router
 }

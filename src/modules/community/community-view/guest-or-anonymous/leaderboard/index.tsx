@@ -10,11 +10,7 @@ import { CommunityType } from '@/types/community'
 import { HorizontalCenter } from '@/widgets/orientation'
 
 const Content = styled.div<{ type: LeaderboardType }>(({ type }) => {
-  const styles = []
-  if (type === LeaderboardType.TOWNHALL) {
-    styles.push(tw`h-full w-full`)
-  } else {
-    styles.push(tw`
+  const styles = [tw`
       flex
       flex-col
       w-full
@@ -27,9 +23,7 @@ const Content = styled.div<{ type: LeaderboardType }>(({ type }) => {
       max-md:hidden
       rounded-lg
       overflow-y-scroll
-  `)
-  }
-
+  `]
   return styles
 })
 
