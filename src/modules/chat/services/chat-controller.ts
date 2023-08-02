@@ -1,5 +1,6 @@
 import { getChannelsApi, getMessagesApi, sendMessageApi } from '@/api/chat'
 import network from '@/modules/chat/services/network'
+import { UserType } from '@/types'
 import {
   ChannelType,
   ChatMessageReceiver,
@@ -7,6 +8,7 @@ import {
   ChatMessageType,
   ChatReactionType,
   ReadyMessageType,
+  UserChatStatusType,
 } from '@/types/chat'
 import { uploadFile } from '@/utils/file'
 import { EqualBigInt } from '@/utils/number'
@@ -28,6 +30,10 @@ export interface MessagesListener {
   onMessages: (channelId: bigint, messages: ChatMessageType[], eventType: MessageEventEnum) => void
 }
 
+export interface ChatStatusListener {
+  onStatusChanged: (communityHandle: string, onlineUsers: UserType[]) => void
+}
+
 class ChatController {
   private networkListener = {
     onConnected: () => {},
@@ -35,12 +41,9 @@ class ChatController {
     onDisconnected: async () => {},
 
     onMessage: (s: ChatMessageReceiver) => {
-      console.log('s.o = ', s.o)
       switch (s.o) {
         case ChatMessageReceiverEnum.MESSAGE_CREATED:
           const chatMessage = s.d as ChatMessageType
-
-          console.log('chatMessage = ', chatMessage)
 
           this.updateAndBroadcastMessages(
             chatMessage.channel_id,
@@ -59,7 +62,21 @@ class ChatController {
           break
         case ChatMessageReceiverEnum.READY:
           const readyMessage = s.d as ReadyMessageType
-          console.log('Ready message = ', readyMessage)
+
+          readyMessage.communities.forEach((community) => {
+            const onlineUsers: UserType[] = []
+            if (community.chat_members) {
+              community.chat_members.forEach((chatMember) => {
+                if (chatMember.status === UserChatStatusType.ONLINE) {
+                  onlineUsers.push(chatMember)
+                }
+              })
+
+              this.userStatuses.set(community.handle, onlineUsers)
+              this.broadcastStatusChanges(community.handle, onlineUsers)
+            }
+          })
+
           break
       }
     },
@@ -71,6 +88,9 @@ class ChatController {
 
   // Messages
   private messagesListener = new Set<MessagesListener>()
+
+  // User chat statuses
+  private chatStatusListener = new Set<ChatStatusListener>()
 
   /**
    * This is local messages used by the UI components. In most case, it's identical to the list of
@@ -87,6 +107,8 @@ class ChatController {
 
   // A flag to avoid caller to call loading prefix messages multiple times.
   private isLoadingPrefix = new Map<string, boolean>()
+
+  private userStatuses = new Map<string, UserType[]>()
 
   // Constructor
   constructor() {
@@ -108,6 +130,14 @@ class ChatController {
 
   removeMessagesListener(listener: MessagesListener) {
     this.messagesListener.delete(listener)
+  }
+
+  addChatStatusListener(listener: ChatStatusListener) {
+    this.chatStatusListener.add(listener)
+  }
+
+  removeChatStatusListener(listener: ChatStatusListener) {
+    this.chatStatusListener.delete(listener)
   }
 
   ///////// End of Listeners
@@ -319,6 +349,16 @@ class ChatController {
         },
       ])
     }
+  }
+
+  getOnlineUsers(communityHandle: string): UserType[] {
+    return this.userStatuses.get(communityHandle) || []
+  }
+
+  broadcastStatusChanges(communityHandle: string, onlineUsers: UserType[]) {
+    this.chatStatusListener.forEach((listener) =>
+      listener.onStatusChanged(communityHandle, onlineUsers)
+    )
   }
 }
 

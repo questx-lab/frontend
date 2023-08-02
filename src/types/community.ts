@@ -38,6 +38,7 @@ export type CommunityType = {
   status?: string
   referral_status?: string
   dau?: number
+  chat_members?: UserType[]
 }
 
 export type FollowCommunityType = {

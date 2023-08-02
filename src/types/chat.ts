@@ -1,4 +1,5 @@
 import { UserType } from '@/types'
+import { CommunityType } from '@/types/community'
 
 export enum MemberRole {
   ADMIN = 'Admin',
@@ -84,13 +85,16 @@ export enum ChatMessageReceiverEnum {
   MESSAGE_CREATED = 'message_created',
   REACTION_ADDED = 'reaction_added',
   READY = 'ready',
+  CHANGE_STATUS = 'change_status',
 }
 
 export type ReadyMessageType = {
-  chat_members: UserType[]
+  communities: CommunityType[]
 }
+
+export type ChatChangeStatusType = {}
 
 export type ChatMessageReceiver = {
   o: ChatMessageReceiverEnum
-  d: ChatMessageType | ReadyMessageType | ChatReactionType
+  d: ChatMessageType | ReadyMessageType | ChatReactionType | ChatChangeStatusType
 }
