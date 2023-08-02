@@ -49,6 +49,14 @@ const FootFrame = tw(HorizontalFullWidthCenter)`
 
 const PrimaryText = tw(TextSm)`text-primary font-medium`
 
+const FixedWidthPopPanel = tw(PopPanel)`
+  w-[480px]
+  mt-3
+  right-0
+  max-sm:w-[300px]
+  max-sm:right--6
+`
+
 const ContentTab: FC = () => {
   const tab = ChatStore.useStoreState((state) => state.selectedTab)
   if (tab === TabChatType.CHANNEL_LIST) {
@@ -83,7 +91,7 @@ const ChatPopover: FC = () => {
 
   return (
     <PopPover button={<ChatBubbleLeftIcon className='w-5 h-5 text-gray-900' />} custom>
-      <PopPanel className={'w-[480px] mt-3 right-0'}>
+      <FixedWidthPopPanel>
         {({ close }) => (
           <Frame>
             <GapPaddingx>
@@ -115,7 +123,7 @@ const ChatPopover: FC = () => {
             </FootFrame>
           </Frame>
         )}
-      </PopPanel>
+      </FixedWidthPopPanel>
     </PopPover>
   )
 }
