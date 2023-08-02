@@ -22,8 +22,6 @@ const FixedWidth = tw(Horizontal)`
   gap-6
   justify-center
   p-6
-  divide-x
-  divide-gray-200
 `
 
 const VerticalFixedWidth = tw(Vertical)`
