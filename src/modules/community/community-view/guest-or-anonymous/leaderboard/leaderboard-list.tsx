@@ -54,7 +54,7 @@ const RoundedBox = tw(ColorBox)`rounded-full !p-1 !gap-0 w-8 h-8 flex justify-ce
 const Empty: FC = () => {
   return (
     <EmptyBox>
-      <Image width={250} height={250} src={StorageConst.HUSKY.src} alt={StorageConst.HUSKY.alt} />
+      <Image width={200} height={200} src={StorageConst.HUSKY.src} alt={StorageConst.HUSKY.alt} />
       <CenterNormalText>
         {
           'There is no information about the leaderboard yet. Create more quests and connect users to have this leaderboard.'

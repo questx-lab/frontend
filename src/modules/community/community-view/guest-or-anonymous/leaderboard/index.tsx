@@ -4,31 +4,27 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
-import { LeaderboardRangeEnum, LeaderboardType } from '@/constants/common.const'
+import { LeaderboardRangeEnum } from '@/constants/common.const'
 import RenderLeaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard/leaderboard-list'
 import { CommunityType } from '@/types/community'
-import { HorizontalCenter } from '@/widgets/orientation'
+import { HorizontalCenter, Vertical } from '@/widgets/orientation'
 
-const Content = styled.div<{ type: LeaderboardType }>(({ type }) => {
-  const styles = [tw`
-      flex
-      flex-col
-      w-full
-      h-full
-      right-0
-      border
-      border-solid
-      border-gray-200
-      bg-white
-      max-md:hidden
-      rounded-lg
-      overflow-y-scroll
-  `]
-  return styles
-})
+const Content = tw(Vertical)`
+  w-full
+  h-full
+  right-0
+  border
+  border-solid
+  border-gray-200
+  bg-white
+  max-md:hidden
+  rounded-lg
+  overflow-y-scroll
+`
 
 const FixedHeightHorizontal = tw(HorizontalCenter)`
   h-[64px]
+  w-full
 `
 
 const TabBox = styled(HorizontalFullWidthCenter)<{ selected: boolean }>(({ selected }) => {
@@ -49,15 +45,12 @@ const OverflowScroll = tw.div`
   p-4
 `
 // TODO: UI change, refactor leaderboard after
-const Leaderboard: FC<{ community: CommunityType; type?: LeaderboardType }> = ({
-  community,
-  type = LeaderboardType.PLATFORM,
-}) => {
+const Leaderboard: FC<{ community: CommunityType }> = ({ community }) => {
   // hook
   const [tab, setTab] = useState<LeaderboardRangeEnum>(LeaderboardRangeEnum.WEEK)
 
   return (
-    <Content type={type}>
+    <Content>
       <FixedHeightHorizontal>
         <TabBox
           onClick={() => setTab(LeaderboardRangeEnum.WEEK)}
