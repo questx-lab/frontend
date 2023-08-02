@@ -1,5 +1,5 @@
 import { EnvVariables } from '@/constants/env.const'
-import { Rsp, UserType } from '@/types'
+import { BadgeType, Rsp, UserType } from '@/types'
 
 import { api } from './interceptor'
 
@@ -46,6 +46,22 @@ export const getUserByIdApi = async (userId: string): Promise<Rsp<UserType>> => 
     return {
       code: result.data.code,
       data: result.data?.data.user,
+      error: result.data.error,
+    }
+  } catch (err) {
+    return {
+      code: -1,
+    }
+  }
+}
+export const getAllBadgesApi = async (): Promise<Rsp<{ badges: BadgeType[] }>> => {
+  try {
+    const result = await api.get(EnvVariables.API_SERVER + `/getAllBadges`)
+    console.log('result', result.data?.data.badges)
+
+    return {
+      code: result.data.code,
+      data: result.data?.data,
       error: result.data.error,
     }
   } catch (err) {
