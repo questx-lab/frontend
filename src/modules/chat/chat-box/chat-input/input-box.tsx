@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-
+import { MentionsInput, Mention } from 'react-mentions'
 import tw from 'twin.macro'
 
 const InputBoxBorder = tw.textarea`
