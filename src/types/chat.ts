@@ -93,8 +93,7 @@ export type ReadyMessageType = {
 }
 
 export type ChatChangeStatusType = {
-  user_id: string
-  status: string
+  user: UserType
 }
 
 export type ChatMessageReceiver = {

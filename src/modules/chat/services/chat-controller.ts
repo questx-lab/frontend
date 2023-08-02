@@ -12,6 +12,7 @@ import {
   UserChatStatusType,
 } from '@/types/chat'
 import { uploadFile } from '@/utils/file'
+import { getUserLocal } from '@/utils/helper'
 import { EqualBigInt } from '@/utils/number'
 
 const DEFAULT_LIMIT = 50
@@ -42,7 +43,7 @@ class ChatController {
     onDisconnected: async () => {},
 
     onMessage: (s: ChatMessageReceiver) => {
-      console.log('s = ', s)
+      let myUser: UserType | undefined
       switch (s.o) {
         case ChatMessageReceiverEnum.MESSAGE_CREATED:
           const chatMessage = s.d as ChatMessageType
@@ -64,12 +65,19 @@ class ChatController {
           break
         case ChatMessageReceiverEnum.READY:
           const readyMessage = s.d as ReadyMessageType
+          myUser = getUserLocal()
+          if (!myUser) {
+            return
+          }
 
           readyMessage.communities.forEach((community) => {
             const onlineUsers = new Map<string, UserType>()
             if (community.chat_members) {
               community.chat_members.forEach((chatMember) => {
-                if (chatMember.status === UserChatStatusType.ONLINE) {
+                if (
+                  chatMember.status === UserChatStatusType.ONLINE &&
+                  chatMember.id !== myUser?.id
+                ) {
                   onlineUsers.set(chatMember.id, chatMember)
                 }
               })
@@ -80,18 +88,26 @@ class ChatController {
           })
           break
         case ChatMessageReceiverEnum.CHANGE_STATUS:
+          myUser = getUserLocal()
+          if (!myUser) {
+            return
+          }
           const message = s.d as ChatChangeStatusType
 
           // Remove user from online status from all communities
           this.userStatuses.forEach(
             (onlineUsers: Map<string, UserType>, communityHandle: string) => {
-              if (onlineUsers.has(message.user_id)) {
-                if (message.status === UserChatStatusType.OFFLINE) {
-                  onlineUsers.delete(message.user_id)
+              if (onlineUsers.has(message.user.id)) {
+                if (message.user.status === UserChatStatusType.OFFLINE) {
+                  onlineUsers.delete(message.user.id)
                   this.broadcastStatusChanges(communityHandle, onlineUsers)
                 }
-              } else if (message.status === UserChatStatusType.ONLINE) {
-                // onlineUsers.set()
+              } else if (
+                message.user.status === UserChatStatusType.ONLINE &&
+                message.user.id !== myUser?.id
+              ) {
+                onlineUsers.set(message.user.id, message.user)
+                this.broadcastStatusChanges(communityHandle, onlineUsers)
               }
             }
           )
