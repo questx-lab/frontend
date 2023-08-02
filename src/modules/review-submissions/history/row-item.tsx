@@ -26,11 +26,10 @@ export const Status = styled.div<{ claimStatus?: string }>(
   ({ claimStatus = ClaimedQuestStatus.PENDING }) => {
     const styles = [
       tw`
-        text-sm
-        font-medium
-        py-3
+        text-xs
+        py-1
+        px-2
         rounded-lg
-        w-full
         flex
         justify-center
         items-center
