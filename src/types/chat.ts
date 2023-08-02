@@ -92,7 +92,10 @@ export type ReadyMessageType = {
   communities: CommunityType[]
 }
 
-export type ChatChangeStatusType = {}
+export type ChatChangeStatusType = {
+  user_id: string
+  status: string
+}
 
 export type ChatMessageReceiver = {
   o: ChatMessageReceiverEnum

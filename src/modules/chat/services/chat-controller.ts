@@ -3,6 +3,7 @@ import network from '@/modules/chat/services/network'
 import { UserType } from '@/types'
 import {
   ChannelType,
+  ChatChangeStatusType,
   ChatMessageReceiver,
   ChatMessageReceiverEnum,
   ChatMessageType,
@@ -31,7 +32,7 @@ export interface MessagesListener {
 }
 
 export interface ChatStatusListener {
-  onStatusChanged: (communityHandle: string, onlineUsers: UserType[]) => void
+  onStatusChanged: (communityHandle: string, onlineUsers: Map<string, UserType>) => void
 }
 
 class ChatController {
@@ -41,6 +42,7 @@ class ChatController {
     onDisconnected: async () => {},
 
     onMessage: (s: ChatMessageReceiver) => {
+      console.log('s = ', s)
       switch (s.o) {
         case ChatMessageReceiverEnum.MESSAGE_CREATED:
           const chatMessage = s.d as ChatMessageType
@@ -64,11 +66,11 @@ class ChatController {
           const readyMessage = s.d as ReadyMessageType
 
           readyMessage.communities.forEach((community) => {
-            const onlineUsers: UserType[] = []
+            const onlineUsers = new Map<string, UserType>()
             if (community.chat_members) {
               community.chat_members.forEach((chatMember) => {
                 if (chatMember.status === UserChatStatusType.ONLINE) {
-                  onlineUsers.push(chatMember)
+                  onlineUsers.set(chatMember.id, chatMember)
                 }
               })
 
@@ -76,7 +78,23 @@ class ChatController {
               this.broadcastStatusChanges(community.handle, onlineUsers)
             }
           })
+          break
+        case ChatMessageReceiverEnum.CHANGE_STATUS:
+          const message = s.d as ChatChangeStatusType
 
+          // Remove user from online status from all communities
+          this.userStatuses.forEach(
+            (onlineUsers: Map<string, UserType>, communityHandle: string) => {
+              if (onlineUsers.has(message.user_id)) {
+                if (message.status === UserChatStatusType.OFFLINE) {
+                  onlineUsers.delete(message.user_id)
+                  this.broadcastStatusChanges(communityHandle, onlineUsers)
+                }
+              } else if (message.status === UserChatStatusType.ONLINE) {
+                // onlineUsers.set()
+              }
+            }
+          )
           break
       }
     },
@@ -108,7 +126,7 @@ class ChatController {
   // A flag to avoid caller to call loading prefix messages multiple times.
   private isLoadingPrefix = new Map<string, boolean>()
 
-  private userStatuses = new Map<string, UserType[]>()
+  private userStatuses = new Map<string, Map<string, UserType>>()
 
   // Constructor
   constructor() {
@@ -351,11 +369,11 @@ class ChatController {
     }
   }
 
-  getOnlineUsers(communityHandle: string): UserType[] {
-    return this.userStatuses.get(communityHandle) || []
+  getOnlineUsers(communityHandle: string): Map<string, UserType> {
+    return this.userStatuses.get(communityHandle) || new Map<string, UserType>()
   }
 
-  broadcastStatusChanges(communityHandle: string, onlineUsers: UserType[]) {
+  broadcastStatusChanges(communityHandle: string, onlineUsers: Map<string, UserType>) {
     this.chatStatusListener.forEach((listener) =>
       listener.onStatusChanged(communityHandle, onlineUsers)
     )

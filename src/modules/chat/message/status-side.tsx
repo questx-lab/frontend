@@ -70,6 +70,13 @@ const UserItem: FC<{ user: UserType }> = ({ user }) => {
   )
 }
 
+// Convert map to array
+const onlineUsersMapToArray = (onlineUsers: Map<string, UserType>) => {
+  const arr: UserType[] = []
+  onlineUsers.forEach((user) => arr.push(user))
+  return arr
+}
+
 const UsersChat: FC<{ users: UserType[] }> = ({ users }) => {
   if (users.length === 0) {
     return <></>
@@ -82,24 +89,24 @@ const UsersChat: FC<{ users: UserType[] }> = ({ users }) => {
 
 const StatusSide: FC = () => {
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
-  const [usersChat, setUsersChat] = useState<UserType[]>([])
+  const [onlineUsers, setOnlineUsers] = useState<UserType[]>([])
 
   useEffect(() => {
     if (community.handle === '') {
       return
     }
 
-    setUsersChat(chatController.getOnlineUsers(community.handle))
+    setOnlineUsers(onlineUsersMapToArray(chatController.getOnlineUsers(community.handle)))
   }, [community.handle])
 
   useEffect(() => {
     const listener = {
-      onStatusChanged: (communityHandle: string, onlineUsers: UserType[]) => {
+      onStatusChanged: (communityHandle: string, onlineUsers: Map<string, UserType>) => {
         if (community.handle !== communityHandle) {
           return
         }
 
-        setUsersChat(onlineUsers)
+        setOnlineUsers(onlineUsersMapToArray(onlineUsers))
       },
     }
 
@@ -114,7 +121,7 @@ const StatusSide: FC = () => {
     <Frame>
       <StatusFrame>
         <TextSm>{'ONLINE'}</TextSm>
-        <UsersChat users={usersChat} />
+        <UsersChat users={onlineUsers} />
       </StatusFrame>
     </Frame>
   )
