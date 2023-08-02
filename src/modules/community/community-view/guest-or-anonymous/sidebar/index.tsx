@@ -8,22 +8,16 @@ import CommunityStore from '@/store/local/community'
 import { Vertical } from '@/widgets/orientation'
 
 const FixedSize = tw(Vertical)`
-  w-[324px]
-  max-sm:hidden
+  w-[384px]
+  max-md:hidden
+  max-md:!w-[0px]
 `
 
 const FixedPosition = tw(Vertical)`
   fixed
-  w-[320px]
-  right-0
-  h-full
-  overflow-y-scroll
-  pb-[136px]
-  border-l
-  border-gray-200
-  border-solid
-  divide-y
-  divide-gray-200
+  w-[384px]
+  gap-6
+  h-[calc(100vh_-_64px)]
 `
 
 const CommunitySidebar: FC = () => {

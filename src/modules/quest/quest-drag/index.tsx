@@ -31,7 +31,6 @@ const GridDrag: FC = () => {
           quests: questFilter,
         }
       })
-
       const questNoCategory: QuestType[] = quests.filter((quest) => quest.category.id === '')
       const OtherQuest = {
         id: '',
@@ -40,6 +39,14 @@ const GridDrag: FC = () => {
       }
 
       setItems([...rs, OtherQuest])
+    } else {
+      setItems([
+        {
+          id: '',
+          name: 'Other Quests',
+          quests: [],
+        },
+      ])
     }
   }, [categories, quests])
 
@@ -119,7 +126,7 @@ const GridDrag: FC = () => {
     return
   }
 
-  const filteredItems = items.filter((item) => item.quests && item.quests.length > 0)
+  const filteredItems = items.filter((item) => item.quests)
 
   return (
     <GridContextProvider onChange={onChange}>
