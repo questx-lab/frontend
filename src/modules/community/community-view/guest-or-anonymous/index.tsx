@@ -15,16 +15,16 @@ const Content = tw(VerticalFullWidth)`
 `
 
 const FixedWidth = tw(Horizontal)`
-  w-[980px]
-  max-lg:w-[680px]
+  w-[1200px]
+  sm:w-full
   max-sm:w-full
   gap-6
-  divide-x
-  divide-gray-300
+  justify-center
 `
 
 const VerticalFixedWidth = tw(Vertical)`
-  w-full
+  w-[680px]  
+  max-sm:w-full
   p-6
 `
 
