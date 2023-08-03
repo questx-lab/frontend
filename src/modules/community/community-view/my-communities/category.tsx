@@ -1,12 +1,15 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 import { isMobile } from 'react-device-detect'
 import { GridContextProvider, GridDropZone, GridItem, swap } from 'react-grid-dnd'
+import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
+import { deleteCategoryApi, updateCategoryApi } from '@/api/communitiy'
 import { CommunityRoleEnum } from '@/constants/common.const'
 import AddCategory from '@/modules/create-quest/select-category/add-category'
 import CommunityStore from '@/store/local/community'
+import { CategoryType } from '@/types'
 import { HorizontalCenter } from '@/widgets/orientation'
 import { MediumTextSm } from '@/widgets/text'
 import { XMarkIcon } from '@heroicons/react/24/outline'
@@ -42,8 +45,26 @@ const Category: FC = () => {
 
   const setCategories = CommunityStore.useStoreActions((action) => action.setCategories)
 
+  useEffect(() => {
+    if (categories) {
+      categories.sort((a, b) => a.position - b.position)
+    }
+  }, [])
+
   if (!categories) {
     return <></>
+  }
+
+  const onDelete = async (category: CategoryType) => {
+    try {
+      const { error } = await deleteCategoryApi(category.id)
+      if (error) {
+        toast.error(error)
+        return
+      }
+      setCategories([...categories.filter((cat) => cat.id !== category.id)])
+      toast.success('Remove category successfully')
+    } catch (error) {}
   }
 
   // handler
@@ -52,7 +73,7 @@ const Category: FC = () => {
       <Tooltip content={category.name}>
         <CategoryBox>
           <CategoryText>{category.name}</CategoryText>
-          <XMarkIcon className='w-5 h-5 text-gray-900' />
+          <XMarkIcon onClick={() => onDelete(category)} className='w-5 h-5 text-gray-900' />
         </CategoryBox>
       </Tooltip>
     </GridItem>
@@ -79,15 +100,21 @@ const Category: FC = () => {
   const height = Math.ceil((categories.length + 1) / numBox) * rowHeight
 
   // target id will only be set if dragging from one dropzone to another.
-  function onChange(
-    sourceId: string,
-    sourceIndex: number,
-    targetIndex: number,
-    targetId?: string | undefined
-  ) {
+  const onChange = async (sourceId: string, sourceIndex: number, targetIndex: number) => {
     const nextState = swap(categories, sourceIndex, targetIndex)
 
-    setCategories(nextState)
+    try {
+      const { error } = await updateCategoryApi({
+        id: categories[sourceIndex].id,
+        name: categories[sourceIndex].name,
+        position: targetIndex,
+      })
+      if (error) {
+        toast.error(error)
+        return
+      }
+      setCategories(nextState)
+    } catch (error) {}
   }
 
   return (

@@ -193,6 +193,30 @@ export const createCategoryApi = async (
   return rs.data
 }
 
+export const updateCategoryApi = async ({
+  id,
+  name,
+  position,
+}: {
+  id: string
+  name?: string
+  position?: number
+}): Promise<Rsp<{ category: CategoryType }>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/updateCategory', {
+    id,
+    name,
+    position,
+  })
+  return rs.data
+}
+
+export const deleteCategoryApi = async (id: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/deleteCategory', {
+    id,
+  })
+  return rs.data
+}
+
 export const getCategoriesApi = async (
   communityHandle: string
 ): Promise<Rsp<{ categories: CategoryType[] }>> => {

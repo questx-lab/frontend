@@ -68,6 +68,7 @@ export const emptyQuest = (): QuestType => {
       created_at: '',
       updated_at: '',
       created_by: '',
+      position: 0,
     },
     validation_data: {},
   }
