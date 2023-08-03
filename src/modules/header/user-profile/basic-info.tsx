@@ -7,7 +7,7 @@ import { UserAvatar } from '@/widgets/avatar'
 import { GrayBorderBox } from '@/widgets/box'
 import { HorizontalFullWidth, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { Divider, Gap } from '@/widgets/separator'
-import { TextSm, TextXl, TextXs } from '@/widgets/text'
+import { MediumTextSm, TextSm, TextXl } from '@/widgets/text'
 
 const BorderBox = tw(GrayBorderBox)`
   w-1/3
@@ -28,7 +28,7 @@ const StatisticFrame = tw(Vertical)`
   p-4
 `
 
-const StatisticRowTitle = tw(TextXs)`
+const StatisticRowTitle = tw(MediumTextSm)`
   flex
   flex-1
 `

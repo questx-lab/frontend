@@ -17,7 +17,7 @@ const FixedPosition = tw(Vertical)`
   fixed
   w-[384px]
   gap-6
-  h-[calc(100vh_-_64px)]
+  h-[calc(100vh_-_94px)]
 `
 
 const CommunitySidebar: FC = () => {
