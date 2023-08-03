@@ -92,9 +92,9 @@ const InputBox: FC<{
 
   const searchUsers = useDebouncedCallback(
     async (query: string, callback: (data: SuggestionDataItem[]) => void) => {
-      const resp = await getCommunityFollowersApi(community.handle, query)
+      const resp = await getCommunityFollowersApi(community.handle, query, 5)
       if (resp.code === 0 && resp.data) {
-        const followers = resp.data.followers.slice(0, 5)
+        const followers = resp.data.followers
 
         const searchedUsers = followers.map((follower) => {
           return {
