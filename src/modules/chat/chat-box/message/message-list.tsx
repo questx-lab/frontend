@@ -67,9 +67,10 @@ const MessageList: FC = () => {
               const oldHeight = messageListRef.current.scrollHeight
               const oldTop = messageListRef.current.scrollTop
               const distance = oldHeight - oldTop
-              // distance between scroll height and last scroll top
-              const lastTopHeightDistance = 835
-              if (distance >= lastTopHeightDistance - 10 && distance <= lastTopHeightDistance + 10)
+
+              const screenHeight = messageListRef.current.clientHeight
+
+              if (distance >= screenHeight - 10 && distance <= screenHeight + 10)
                 requestAnimationFrame(() => {
                   if (messageListRef.current) {
                     const newHeight = messageListRef.current.scrollHeight
