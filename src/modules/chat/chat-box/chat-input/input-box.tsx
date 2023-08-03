@@ -32,6 +32,10 @@ const defaultStyle = {
       backgroundColor: 'white',
       border: '1px solid #e5e7eb',
       fontSize: 14,
+      maxHeight: 100,
+      overflow: 'auto',
+      position: 'absolute',
+      bottom: 14,
     },
     item: {
       padding: '5px 15px',
@@ -68,7 +72,7 @@ const InputBox: FC<{
     highlightedDisplay: ReactNode,
     index: number,
     focused: boolean
-  ) => {
+  ): JSX.Element => {
     const follower = searchedUsers.find((follower) => follower.user.id === suggestion.id)
 
     return (
@@ -126,7 +130,7 @@ const InputBox: FC<{
         data={searchUsers}
         renderSuggestion={renderSuggestion}
         style={defaultMentionStyle}
-        displayTransform={(id: string, display: string) => `  @${display}  `}
+        displayTransform={(id: string, display: string) => `@${display}`}
       />
     </MentionsInput>
   )

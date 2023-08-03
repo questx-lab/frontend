@@ -56,11 +56,6 @@ const GapVertical = styled(Vertical)<{ isOwnser?: boolean }>(({ isOwnser = false
   return styles
 })
 
-const MentionText = tw.div`
-  text-white
-  bg-[#cee4e5]
-`
-
 const Attachments: FC<{ attachments: MessageAttachmentType[] | undefined }> = ({ attachments }) => {
   if (!attachments || attachments.length === 0) {
     return <></>
@@ -140,7 +135,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
     infos.forEach((info) => {
       result = result.replaceAll(
         info.reg,
-        `<span style="background-color:#cee4e5;color:white;"> @ ${info.display} </span>`
+        `<span style="background-color:#cee4e5;color:white;"> @${info.display} </span>`
       )
     })
     return result
