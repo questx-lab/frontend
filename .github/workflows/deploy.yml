@@ -1,10 +1,16 @@
 name: Build and Deploy to GKE for platform
 
 on:
-  pull_request:
-    branches: ['staging', 'production', 'develop']
-    types: ['closed']
-
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'Environment which you want deploy'
+        required: true
+        options:
+          - develop
+          - staging
+          - production
 env:
   PROJECT_ID: ${{ vars.PROJECT_ID }} # TODO: update Google Cloud project id
   GAR_LOCATION: ${{ vars.GAR_LOCATION }} # TODO: update Artifact Registry location
@@ -18,12 +24,11 @@ env:
 
 jobs:
   deploy:
-    if: ${{ github.event.pull_request.merged }} #! only merged to master
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
       id-token: 'write'
-    environment: ${{ github.base_ref }}
+    environment: ${{ github.event.inputs.environment }}
 
     runs-on: ubuntu-latest
     steps:
