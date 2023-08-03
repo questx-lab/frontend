@@ -28,6 +28,8 @@ const Wrap = styled(Dialog.Panel)(
   justify-start
   items-center
   rounded-lg
+  max-h-full
+  overflow-y-scroll
   `
 )
 

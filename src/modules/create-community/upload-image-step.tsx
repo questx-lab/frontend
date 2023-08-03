@@ -29,7 +29,7 @@ const UploadImageStep: FC = () => {
   const setMyCommunities = useStoreActions<GlobalStoreModel>((action) => action.setMyCommunities)
 
   let buttonText: string = 'Upload Community Profile'
-  if (avatar) {
+  if (!avatar) {
     buttonText = 'Done'
   }
 
