@@ -57,7 +57,7 @@ const GapHorizontal = tw(HorizontalFullWidth)`gap-3 items-center cursor-pointer`
 const GapVertical = tw(VerticalFullWidth)`gap-1 justify-center`
 const CircleGreenBox = tw.div`w-2 h-2 rounded-full bg-success`
 
-const Relative = tw.div`relative pr-[2px] pb-[2px]`
+const Relative = tw.div`relative w-8 h-8 p-0`
 const Absolute = tw.div`absolute right-0 bottom-0 p-[1px] bg-white rounded-full`
 
 const UserItem: FC<{ user: UserType }> = ({ user }) => {

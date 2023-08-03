@@ -19,7 +19,7 @@ export const Image: FC<{
       width={width}
       height={height}
       alt={alt}
-      className={className}
+      className={className + ` !max-w-none`}
       onClick={onClick}
     />
   )
