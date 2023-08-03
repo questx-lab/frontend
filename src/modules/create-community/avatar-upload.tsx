@@ -7,7 +7,6 @@ import tw from 'twin.macro'
 import StorageConst from '@/constants/storage.const'
 import NewCommunityStore from '@/store/local/new-community'
 import { Image } from '@/widgets/image'
-import { NegativeButton } from '@/widgets/buttons'
 import { Gap } from '@/widgets/separator'
 
 const SectionUploadImg = tw.section`
@@ -25,9 +24,12 @@ const UploadInput = tw.input`
   h-full
 `
 
-const RemoveButton = tw(NegativeButton)`
-  border-0
-  text-primary-500
+const RemoveButton = tw.button`
+  bg-white
+  text-primary
+  font-bold
+  text-sm
+  w-full
 `
 const Container = styled.div<{ dimension: number }>(({ dimension }) => {
   return `
