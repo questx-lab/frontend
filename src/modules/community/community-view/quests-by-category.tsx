@@ -1,9 +1,41 @@
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 
+import tw from 'twin.macro'
+
+import { CommunityRoleEnum, QuestColor } from '@/constants/common.const'
 import HighlightedQuests from '@/modules/community/community-view/highlight-quests'
+import Category from '@/modules/community/community-view/my-communities/category'
+import { FixedWidth } from '@/modules/community/mini-widget'
 import Quests from '@/modules/community/quests'
+import GridDrag from '@/modules/quest/quest-drag'
 import CommunityStore from '@/store/local/community'
-import { Divider, Gap } from '@/widgets/separator'
+import { VerticalFullWidth, VerticalFullWidthCenter } from '@/widgets/orientation'
+
+const BorderBox = tw(VerticalFullWidthCenter)`
+  w-full
+  border-b
+  border-solid
+  border-gray-200
+  pb-10
+  gap-0
+  pt-6
+`
+
+const Gap12 = tw(VerticalFullWidth)`
+  gap-12
+`
+
+const PaddingY10 = tw(VerticalFullWidth)`
+  py-10
+`
+
+const BorderBottom: FC<{ isShow: boolean; children: ReactNode }> = ({ isShow, children }) => {
+  if (!isShow) {
+    return <></>
+  }
+
+  return <BorderBox>{children}</BorderBox>
+}
 
 const RenderQuestsByCategory: FC = () => {
   const categories = CommunityStore.useStoreState((state) => state.categories)
@@ -15,9 +47,36 @@ const RenderQuestsByCategory: FC = () => {
 
   const listQuests =
     quests &&
-    categories.map((category) => {
+    categories.map((category, index) => {
       const questsFilter = quests.filter((quest) => quest.category.id === category.id)
-      return <Quests quests={questsFilter} show={true} categoryTitle={category.name} />
+
+      let bgColor = QuestColor.EMERALD
+
+      if (index % 5 === 1) {
+        bgColor = QuestColor.CYAN
+      }
+
+      if (index % 5 === 2) {
+        bgColor = QuestColor.INDIGO
+      }
+
+      if (index % 5 === 3) {
+        bgColor = QuestColor.ORANGE
+      }
+
+      if (index % 5 === 4) {
+        bgColor = QuestColor.PINK
+      }
+
+      return (
+        <Quests
+          bgColor={bgColor}
+          key={category.id}
+          quests={questsFilter}
+          show={true}
+          categoryTitle={category.name}
+        />
+      )
     })
 
   return <>{listQuests}</>
@@ -31,7 +90,29 @@ const RenderQuestsNoCategory: FC = () => {
 
   const questsFilter = quests.filter((quest) => quest.category.id === '')
 
+  if (questsFilter.length === 0) {
+    return <></>
+  }
+
   return <Quests quests={questsFilter} show={true} categoryTitle={'Other Quests'} />
+}
+
+const RenderQuest: FC = () => {
+  const role = CommunityStore.useStoreState((state) => state.role)
+  if (
+    (role && role === CommunityRoleEnum.EDITOR) ||
+    role === CommunityRoleEnum.OWNER ||
+    role === CommunityRoleEnum.REVIEWER
+  ) {
+    return <GridDrag />
+  }
+
+  return (
+    <Gap12>
+      <RenderQuestsByCategory />
+      <RenderQuestsNoCategory />
+    </Gap12>
+  )
 }
 
 const QuestsByCategory: FC = () => {
@@ -41,12 +122,19 @@ const QuestsByCategory: FC = () => {
 
   return (
     <>
-      <HighlightedQuests highlightedQuest={highlightedQuests} loading={false} />
-      <Gap />
-      <Divider />
-      <Gap />
-      <RenderQuestsByCategory />
-      <RenderQuestsNoCategory />
+      <BorderBottom isShow={highlightedQuests.length !== 0}>
+        <FixedWidth>
+          <HighlightedQuests highlightedQuest={highlightedQuests} loading={false} />
+        </FixedWidth>
+      </BorderBottom>
+      <PaddingY10>
+        <VerticalFullWidthCenter>
+          <FixedWidth>
+            <Category />
+            <RenderQuest />
+          </FixedWidth>
+        </VerticalFullWidthCenter>
+      </PaddingY10>
     </>
   )
 }

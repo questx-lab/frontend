@@ -6,7 +6,6 @@ import tw from 'twin.macro'
 
 import { updateClaimedQuestApi } from '@/api/claim'
 import { ClaimedQuestStatus, QuestTypeEnum, ReviewBtnEnum } from '@/constants/common.const'
-import StorageConst from '@/constants/storage.const'
 import { ColumnButtons } from '@/modules/review-submissions/button'
 import {
   Details,
@@ -18,8 +17,10 @@ import {
   VerticalItem,
   VerticalLeftMargin,
 } from '@/modules/review-submissions/mini-widget'
+import ViewDetailModal from '@/modules/review-submissions/view-detail'
 import ClaimReviewStore from '@/store/local/claim-review'
 import { ClaimQuestType } from '@/types'
+import { UserAvatar } from '@/widgets/avatar'
 import { Image } from '@/widgets/image'
 import { CheckBox } from '@/widgets/input'
 import {
@@ -37,6 +38,8 @@ const LoadingPosition = tw(VerticalCenter)`
 const PaddingBottom = tw.div`
   px-4
   pb-3
+  h-full
+  overflow-y-scroll
 `
 
 const PaddingHorizontal = tw.div`
@@ -49,7 +52,7 @@ export const ClaimedSubmit: FC<{ claimQuest: ClaimQuestType }> = ({ claimQuest }
     return (
       <PaddingBottom>
         <Image
-          height={150}
+          height={100}
           width={500}
           alt='image'
           className='rounded-lg'
@@ -72,6 +75,8 @@ const PendingItem: FC<{
   onChange: (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => void
   claimQuest: ClaimQuestType
 }> = ({ active, onChange, claimQuest }) => {
+  const [viewDetailModal, setViewDetailModal] = useState<boolean>(false)
+
   // data
   const pendingClaims = ClaimReviewStore.useStoreState((state) => state.pendingClaims)
 
@@ -93,6 +98,10 @@ const PendingItem: FC<{
 
   // on Button action
   const onActionButtonClicked = (submitType: number) => {
+    if (submitType === ReviewBtnEnum.VIEW_DETAIL) {
+      setViewDetailModal(true)
+      return
+    }
     updateClaimQuest(submitType)
     setLoading(true)
   }
@@ -139,12 +148,7 @@ const PendingItem: FC<{
             <Details onClick={onShowModal}>
               <Title>{claimQuest.quest?.title}</Title>
               <Info>
-                <Image
-                  width={50}
-                  height={50}
-                  src={StorageConst.USER_DEFAULT.src}
-                  alt={StorageConst.USER_DEFAULT.alt}
-                />
+                <UserAvatar user={claimQuest.user} size={35} />
                 <VerticalLeftMargin>
                   <Name>{claimQuest.user.name || ''}</Name>
                   {
@@ -157,6 +161,11 @@ const PendingItem: FC<{
             </Details>
           </FullWidth>
           <ColumnButtons onButtonsAction={onActionButtonClicked} />
+          <ViewDetailModal
+            isOpen={viewDetailModal}
+            onCloseModal={() => setViewDetailModal(false)}
+            claimQuest={claimQuest}
+          />
         </Row>
       </HorizontalBetweenCenterFullWidth>
       <ClaimedSubmit claimQuest={claimQuest} />

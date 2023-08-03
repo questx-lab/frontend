@@ -7,7 +7,14 @@ import {
   QuestTypeMap,
   TwitterEnum,
 } from '@/constants/common.const'
-import { ConditionType, DiscordRoleType, ReqNewQuestType, RewardType } from '@/types'
+import {
+  CategoryType,
+  ConditionType,
+  DiscordRoleType,
+  emptyCategory,
+  ReqNewQuestType,
+  RewardType,
+} from '@/types'
 import { StateToModel } from '@/types/conversion'
 import { QuestQuizType, QuestType, ValidationQuest } from '@/types/quest'
 import { isTwitterType } from '@/types/twitter'
@@ -35,7 +42,7 @@ export interface NewQuestModel {
   activeReward: number
   highlighted: boolean
   includedWords: string[]
-  categoryId: string
+  category: CategoryType
   discordRole: DiscordRoleType
   isOpenDiscordRole: boolean
 
@@ -68,7 +75,7 @@ export interface NewQuestModel {
   setOptions: Action<NewQuestModel, { quizIndex: number; options: string[] }>
   setHighlighted: Action<NewQuestModel, boolean>
   setIncludedWords: Action<NewQuestModel, string[]>
-  setCategoryId: Action<NewQuestModel, string>
+  setCategory: Action<NewQuestModel, CategoryType>
   setDiscordRole: Action<NewQuestModel, DiscordRoleType>
   setIsOpenDiscordRole: Action<NewQuestModel, boolean>
   setConditions: Action<NewQuestModel, ConditionType[]>
@@ -95,7 +102,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   pointReward: 100,
   activeReward: 0,
   spaceUrlTw: '',
-  categoryId: '',
+  category: emptyCategory(),
   quizzes: [
     {
       id: 0,
@@ -122,6 +129,7 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.telegramLink = quest.validation_data.link || ''
     state.discordLink = quest.validation_data.link || ''
     state.quizzes = quest.validation_data.quizzes || []
+    state.category = quest.category
 
     // Twitter
     if (isTwitterType(state.type)) {
@@ -251,8 +259,8 @@ const NewQuestStore = createContextStore<NewQuestModel>({
     state.includedWords = included_words
   }),
 
-  setCategoryId: action((state, id) => {
-    state.categoryId = id
+  setCategory: action((state, id) => {
+    state.category = id
   }),
 
   setDiscordRole: action((state, role) => {
@@ -373,7 +381,7 @@ export const stateToNewQuestRequest = (
     rewards: rewards,
     title: state.title,
     description: state.description,
-    category_id: state.categoryId,
+    category_id: state.category.id,
     recurrence: state.recurrence,
     points: state.pointReward, // Other types of rewards are not supported for now
     validation_data: validations,

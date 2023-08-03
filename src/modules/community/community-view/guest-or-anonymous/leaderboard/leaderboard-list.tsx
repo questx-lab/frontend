@@ -4,20 +4,27 @@ import toast from 'react-hot-toast'
 import tw from 'twin.macro'
 
 import { getLeaderboardApi } from '@/api/communitiy'
-import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
+import { ColorEnum, LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
-import CommunityStore from '@/store/local/community'
+import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import { LeaderboardType } from '@/types'
-import { CircularImage } from '@/widgets/circular-image'
+import { CommunityType } from '@/types/community'
+import { UserAvatar } from '@/widgets/avatar'
 import { Image } from '@/widgets/image'
-import { HorizontalBetweenCenter, HorizontalCenter, VerticalCenter } from '@/widgets/orientation'
+import {
+  HorizontalBetweenCenter,
+  HorizontalCenter,
+  VerticalCenter,
+  VerticalFullWidth,
+} from '@/widgets/orientation'
 import { SmallSpinner } from '@/widgets/spinner'
-import { NormalText, RewardText } from '@/widgets/text'
+import { TextSm } from '@/widgets/text'
 
 const PointerHorizontal = tw(HorizontalBetweenCenter)`
   relative
   py-2
   cursor-pointer
+  w-full
 `
 
 const GapHorizontalCenter = tw(HorizontalCenter)`
@@ -28,7 +35,7 @@ const UsernameText = tw.span`
   max-w-[120px]
   font-normal
   text-danger
-  text-lg
+  text-lg 
   overflow-hidden
   text-ellipsis
 `
@@ -38,14 +45,16 @@ const EmptyBox = tw(VerticalCenter)`
   p-3
 `
 
-const CenterNormalText = tw(NormalText)`
+const CenterNormalText = tw(TextSm)`
   text-center
 `
+
+const RoundedBox = tw(ColorBox)`rounded-full !p-1 !gap-0 w-8 h-8 flex justify-center items-center`
 
 const Empty: FC = () => {
   return (
     <EmptyBox>
-      <Image width={250} height={250} src={StorageConst.HUSKY.src} alt={StorageConst.HUSKY.alt} />
+      <Image width={200} height={200} src={StorageConst.HUSKY.src} alt={StorageConst.HUSKY.alt} />
       <CenterNormalText>
         {
           'There is no information about the leaderboard yet. Create more quests and connect users to have this leaderboard.'
@@ -53,6 +62,22 @@ const Empty: FC = () => {
       </CenterNormalText>
     </EmptyBox>
   )
+}
+
+const RankBox: FC<{ idx: number }> = ({ idx }) => {
+  if (idx === 1) {
+    return <RoundedBox boxColor={ColorEnum.DANGER}>{idx}</RoundedBox>
+  }
+
+  if (idx === 2) {
+    return <RoundedBox boxColor={ColorEnum.WARNING}>{idx}</RoundedBox>
+  }
+
+  if (idx === 3) {
+    return <RoundedBox boxColor={ColorEnum.PRIMARY}>{idx}</RoundedBox>
+  }
+
+  return <RoundedBox boxColor={ColorEnum.NONE}>{idx}</RoundedBox>
 }
 
 const RenderList: FC<{ data: LeaderboardType[] }> = ({ data }) => {
@@ -63,20 +88,21 @@ const RenderList: FC<{ data: LeaderboardType[] }> = ({ data }) => {
   const renderItems = data.map((ld, idx) => (
     <PointerHorizontal key={idx}>
       <GapHorizontalCenter>
-        <CircularImage width={40} height={40} src={StorageConst.USER_DEFAULT.src} alt={'logo'} />
+        <RankBox idx={idx + 1} />
+        <UserAvatar size={32} user={ld.user} />
         <UsernameText>{ld.user?.name}</UsernameText>
       </GapHorizontalCenter>
-      <RewardText>{ld.value}</RewardText>
+      <TextSm>{ld.value}</TextSm>
     </PointerHorizontal>
   ))
 
-  return <>{renderItems}</>
+  return <VerticalFullWidth>{renderItems}</VerticalFullWidth>
 }
 
 const RenderLeaderboard: FC<{
   range: LeaderboardRangeEnum
-}> = ({ range }) => {
-  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  community: CommunityType
+}> = ({ range, community }) => {
   const [leaderboard, setLeaderboard] = useState<LeaderboardType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   useEffect(() => {

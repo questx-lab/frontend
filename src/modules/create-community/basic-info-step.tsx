@@ -11,10 +11,12 @@ import { MultipleTextField, TextField } from '@/widgets/form'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import { LabelInput, RequiredText, SmallText } from '@/widgets/text'
 
-const DisplayNameRegex = /^[a-z ,.'-]+$/i
-const HandleRegex = /^[a-z0-9_]{4,32}$/
+const DisplayNameRegex = /^[^\\/?%*:|"<>.]{4,32}$/
+const HandleRegex = /^$|^[a-z0-9_]{4,32}$/
 
 const StartText = tw(SmallText)`text-start`
+
+const GapVertical = tw(VerticalFullWidth)`gap-2`
 
 const HandleNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onValidChange }) => {
   const [isValid, setValid] = useState<boolean | undefined>(undefined)
@@ -32,11 +34,17 @@ const HandleNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onVali
 
   const onChangeUrlName = (e: string) => {
     setUrlName(e)
-    if (e.length > 4) {
+
+    if (e.length >= 4) {
       debounced(e)
     } else {
       setValid(false)
       onValidChange(false)
+    }
+
+    if (e.length === 0) {
+      setValid(undefined)
+      onValidChange(true)
     }
   }
 
@@ -60,7 +68,7 @@ const HandleNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onVali
   }
 
   return (
-    <VerticalFullWidth>
+    <GapVertical>
       <TextField
         value={urlName}
         onChange={(e) => onChangeUrlName(e.target.value)}
@@ -72,7 +80,7 @@ const HandleNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onVali
         {"Handle should contain only characters from a->z, 0->9, '_' and must " +
           'be between 4 and 32 characters in length'}
       </StartText>
-    </VerticalFullWidth>
+    </GapVertical>
   )
 }
 

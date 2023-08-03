@@ -42,8 +42,8 @@ const General: FC = () => {
   const setSelectedCommunity = CommunityStore.useStoreActions(
     (action) => action.setSelectedCommunity
   )
-  const updateCommunityCollab = useStoreActions<GlobalStoreModel>(
-    (action) => action.updateCommunityCollab
+  const updateMyCommunities = useStoreActions<GlobalStoreModel>(
+    (action) => action.updateMyCommunities
   )
 
   // local state
@@ -70,8 +70,8 @@ const General: FC = () => {
       // update the community store
       setSelectedCommunity(result.data.community)
 
-      // update the project collab so that it updates the navigation logo image
-      updateCommunityCollab(result.data.community)
+      // update the my communities so that it updates the navigation logo image
+      updateMyCommunities(result.data.community)
     }
 
     setLoading(false)

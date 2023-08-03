@@ -5,22 +5,26 @@ import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.co
 import { EnvVariables } from '@/constants/env.const'
 import {
   CategoryType,
-  CollaboratorType,
   LeaderboardType,
   ListCommunitiesType,
+  ListDiscordRoleType,
   OAuth2VerifyResp,
   ReqNewCommunity,
   Rsp,
   UpdateCommunityRequest,
   UpdateCommunityResponse,
   UserType,
-  ListDiscordRoleType,
 } from '@/types'
-import { CommunityType, FollowCommunityType, ReferralType } from '@/types/community'
+import {
+  CommunityRoleType,
+  CommunityType,
+  FollowCommunityType,
+  ReferralType,
+} from '@/types/community'
 import { ONE_MINUTE_MILLIS } from '@/utils/time'
 
 class CommunityLoader {
-  myCommunities: CollaboratorType[] | undefined
+  myCommunities: CommunityType[] | undefined
 }
 
 const communityLoader = new CommunityLoader()
@@ -58,19 +62,17 @@ export const listCommunitiesApi = async (
   return rs.data as Rsp<ListCommunitiesType>
 }
 
-export const getMyCommunitiesApi = async (): Promise<
-  Rsp<{ collaborators: CollaboratorType[] }>
-> => {
+export const getMyCommunitiesApi = async (): Promise<Rsp<{ communities: CommunityType[] }>> => {
   // Check the cache
   if (communityLoader.myCommunities) {
     return {
       code: 0,
-      collaborators: communityLoader.myCommunities,
-    } as Rsp<{ collaborators: CollaboratorType[] }>
+      communities: communityLoader.myCommunities,
+    } as Rsp<{ communities: CommunityType[] }>
   }
 
   // Load from server
-  const rs = await api.get(EnvVariables.API_SERVER + '/getMyCollaborators')
+  const rs = await api.get(EnvVariables.API_SERVER + '/getMyOwnCommunities')
   return rs.data
 }
 
@@ -230,5 +232,87 @@ export const getPendingCommunitiesApi = async (): Promise<Rsp<ListCommunitiesTyp
 
 export const getDiscordRolesApi = async (handle: string): Promise<Rsp<ListDiscordRoleType>> => {
   const rs = await api.get(EnvVariables.API_SERVER + `/getDiscordRoles?community_handle=${handle}`)
+  return rs.data
+}
+
+export const getWalletAddressApi = async (
+  handle: string
+): Promise<Rsp<{ wallet_address: string }>> => {
+  const rs = await api.get(EnvVariables.API_SERVER + `/getWalletAddress?community_handle=${handle}`)
+  return rs.data
+}
+
+export const getCommunityFollowersApi = async (
+  communityHandle: string
+): Promise<Rsp<{ followers: FollowCommunityType[] }>> => {
+  const rs = await api.get(
+    EnvVariables.API_SERVER + `/getCommunityFollowers?community_handle=${communityHandle}`
+  )
+  return rs.data
+}
+
+// ROLE
+export const getRolesApi = async (handle: string): Promise<Rsp<{ roles: CommunityRoleType[] }>> => {
+  const rs = await api.get(EnvVariables.API_SERVER + `/getRoles?community_handle=${handle}`)
+  return rs.data
+}
+
+export const createRoleApi = async (
+  communityHandle: string,
+  name: string,
+  permissions: bigint,
+  color: string
+): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/createRole', {
+    community_handle: communityHandle,
+    name,
+    permissions,
+    color,
+  })
+  return rs.data
+}
+
+export const updateRoleApi = async (
+  roleId: string,
+  name: string,
+  permissions: bigint,
+  color: string,
+  priority?: number
+): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/updateRole', {
+    role_id: roleId,
+    name,
+    permissions,
+    color,
+    priority,
+  })
+  return rs.data
+}
+
+export const deleteRoleApi = async (roleId: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/deleteRole', {
+    role_id: roleId,
+  })
+  return rs.data
+}
+
+export const assignCommunityRoleApi = async (roleId: string, userId: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/assignCommunityRole', {
+    role_id: roleId,
+    user_id: userId,
+  })
+  return rs.data
+}
+
+export const deleteRoleMemberApi = async (
+  communityHandle: string,
+  userId: string,
+  roleIds: string[]
+): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/deleteUserCommunityRole', {
+    community_handle: communityHandle,
+    user_id: userId,
+    role_ids: roleIds,
+  })
   return rs.data
 }

@@ -130,6 +130,7 @@ export enum ReviewBtnEnum {
   ACCEPT,
   EXPORT,
   PENDING,
+  VIEW_DETAIL,
 }
 
 export enum ClaimedQuestStatus {
@@ -275,7 +276,88 @@ export enum CarouselType {
   COMMUNITY,
 }
 
-export enum TownhallStatus {
-  ENABLE = 'enable',
-  DISABLE = 'disable',
+export enum QuestColor {
+  EMERALD = 'emerald',
+  ORANGE = 'orange',
+  INDIGO = 'indigo',
+  PINK = 'pink',
+  CYAN = 'cyan',
+}
+
+export enum LeaderboardType {
+  PLATFORM,
+}
+
+export const ShowedInstructionKey = 'showed_instruction'
+
+export enum RewardEnum {
+  DISCORD_ROLE = 'Discord role',
+  COIN = 'USDT-avaxc-testnet',
+}
+
+export enum LotteryViewEnum {
+  CONVERT_POINT_TO_TICKET,
+  BUY_TICKET,
+  RESULT,
+}
+
+export enum CommunityPermissionFlag {
+  DELETE_COMMUNITY,
+  EDIT_COMMUNITY,
+  MANAGE_QUEST,
+  REVIEW_CLAIMED_QUEST,
+  MANAGE_CHANNEL,
+  MANAGE_ROLE,
+  KICK_MEMBER,
+  BAN_MEMBER,
+  TIMEOUT_MEMBER,
+  ASSIGN_ROLE,
+  MANAGE_LOTTERY,
+}
+
+export const CommunityPermissionMapNumber = new Map<CommunityPermissionFlag, number>([
+  [CommunityPermissionFlag.DELETE_COMMUNITY, 1 << 0],
+  [CommunityPermissionFlag.EDIT_COMMUNITY, 1 << 1],
+  [CommunityPermissionFlag.MANAGE_QUEST, 1 << 2],
+  [CommunityPermissionFlag.REVIEW_CLAIMED_QUEST, 1 << 3],
+  [CommunityPermissionFlag.MANAGE_CHANNEL, 1 << 4],
+  [CommunityPermissionFlag.MANAGE_ROLE, 1 << 5],
+  [CommunityPermissionFlag.KICK_MEMBER, 1 << 6],
+  [CommunityPermissionFlag.BAN_MEMBER, 1 << 7],
+  [CommunityPermissionFlag.TIMEOUT_MEMBER, 1 << 8],
+  [CommunityPermissionFlag.ASSIGN_ROLE, 1 << 9],
+  [CommunityPermissionFlag.MANAGE_LOTTERY, 1 << 10],
+])
+
+export const CommunityPermissionMapString = new Map<CommunityPermissionFlag, string>([
+  [CommunityPermissionFlag.DELETE_COMMUNITY, 'Delete community'],
+  [CommunityPermissionFlag.EDIT_COMMUNITY, 'Edit community'],
+  [CommunityPermissionFlag.MANAGE_QUEST, 'Manage quest'],
+  [CommunityPermissionFlag.REVIEW_CLAIMED_QUEST, 'Review Claim quest'],
+  [CommunityPermissionFlag.MANAGE_CHANNEL, 'Manage channel'],
+  [CommunityPermissionFlag.MANAGE_ROLE, 'Manage role'],
+  [CommunityPermissionFlag.KICK_MEMBER, 'Kick member'],
+  [CommunityPermissionFlag.BAN_MEMBER, 'Ban member'],
+  [CommunityPermissionFlag.TIMEOUT_MEMBER, 'Timeout member'],
+  [CommunityPermissionFlag.ASSIGN_ROLE, 'Assign role'],
+  [CommunityPermissionFlag.MANAGE_LOTTERY, 'Manage Lottery'],
+])
+
+export enum CommunitySettingSidebar {
+  MEMBERS = 'Members',
+  ROLES = 'Roles',
+}
+
+export enum ChatSettingSidebar {
+  CHANNEL = 'Channels',
+}
+
+export enum RolePermissionColor {
+  GREEN = '#22C55E',
+  RED = '#EF4444',
+  YELLOW = '#F59E0B',
+  BLUE = '#3B82F6',
+  ORANGE = '#f97316',
+  PINK = '#ec4899',
+  GRAY = '#d1d5db',
 }

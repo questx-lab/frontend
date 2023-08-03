@@ -3,7 +3,17 @@ import { UserType } from '@/types'
 export enum ControlPanelTab {
   QUESTS,
   REVIEW_SUBMISSION,
+  LEADERBOARD,
+  LOTTERY,
   SETTINGS,
+}
+
+export type CommunityRoleType = {
+  id: string
+  name: string
+  permission: bigint
+  priority: number
+  color: string
 }
 
 export enum CommunityIndexMode {
@@ -28,11 +38,19 @@ export type CommunityType = {
   status?: string
   referral_status?: string
   dau?: number
+  chat_members?: UserType[]
 }
 
 export type FollowCommunityType = {
   community: CommunityType
   user: UserType
+  role: CommunityRoleType[]
+  streaks?: number
+  points?: number
+  quests?: number
+  invite_code?: string
+  invited_by?: string
+  invite_count?: number
 }
 
 export const emptyCommunity = (): CommunityType => {

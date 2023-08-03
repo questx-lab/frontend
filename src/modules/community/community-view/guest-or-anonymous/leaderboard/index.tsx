@@ -3,88 +3,71 @@ import { FC, useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { LeaderboardRangeEnum, LeaderboardRangeMap } from '@/constants/common.const'
+import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
+import { LeaderboardRangeEnum } from '@/constants/common.const'
 import RenderLeaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard/leaderboard-list'
-import { Tab } from '@headlessui/react'
+import { CommunityType } from '@/types/community'
+import { HorizontalCenter, Vertical } from '@/widgets/orientation'
 
-const Content = tw.div`
-  w-[350px]
-  max-2xl:w-[280px]
+const Content = tw(Vertical)`
+  w-full
   h-full
   right-0
-  fixed
-  border-l-[1px]
+  border
   border-solid
-  bg-white
   border-gray-200
-  overflow-y-scroll
+  bg-white
   max-md:hidden
+  rounded-lg
+  overflow-y-scroll
 `
 
-const FullWidth = tw.div`
+const FixedHeightHorizontal = tw(HorizontalCenter)`
+  h-[64px]
   w-full
-  max-w-md
-  pt-4
-  sm:px-0
 `
 
-const TabList = styled(Tab.List)(tw`
-  flex
-  space-x-1
-  bg-white
-`)
+const TabBox = styled(HorizontalFullWidthCenter)<{ selected: boolean }>(({ selected }) => {
+  const styles = [tw`h-full font-medium w-full text-sm outline-0 ring-0 cursor-pointer`]
+  if (selected) {
+    styles.push(tw`text-primary-500 bg-white`)
+  } else {
+    styles.push(tw`text-gray-700 bg-gray-100`)
+  }
 
-const TabPannel = styled(Tab.Panel)(tw`
-  rounded-xl
-  bg-white
-  px-4
-  py-2
-`)
+  return styles
+})
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
-const selectTab = ({ selected }: { selected: boolean }) =>
-  classNames(
-    'pb-4 font-medium w-full text-sm leading-5 text-black outline-0 ring-0',
-    selected
-      ? 'text-primary-500 border-b-2 border-primary-500'
-      : 'text-black  hover:text-black border-b-[1px] border-gray-200'
-  )
-
-const Leaderboard: FC = () => {
+const OverflowScroll = tw.div`
+  w-full
+  h-full
+  overflow-y-scroll
+  p-4
+`
+// TODO: UI change, refactor leaderboard after
+const Leaderboard: FC<{ community: CommunityType }> = ({ community }) => {
   // hook
   const [tab, setTab] = useState<LeaderboardRangeEnum>(LeaderboardRangeEnum.WEEK)
 
   return (
     <Content>
-      <FullWidth>
-        <Tab.Group>
-          <TabList>
-            {Array.from(LeaderboardRangeMap.values()).map((category, i) => (
-              <Tab
-                key={i}
-                onClick={() => {
-                  setTab(Array.from(LeaderboardRangeMap.keys())[i])
-                }}
-                className={selectTab}
-              >
-                {category}
-              </Tab>
-            ))}
-          </TabList>
-          <Tab.Panels className='mt-2 '>
-            {Array.from(LeaderboardRangeMap.values()).map((e, idx) => (
-              <TabPannel key={idx}>
-                <ul>
-                  <RenderLeaderboard range={tab} />
-                </ul>
-              </TabPannel>
-            ))}
-          </Tab.Panels>
-        </Tab.Group>
-      </FullWidth>
+      <FixedHeightHorizontal>
+        <TabBox
+          onClick={() => setTab(LeaderboardRangeEnum.WEEK)}
+          selected={tab === LeaderboardRangeEnum.WEEK}
+        >
+          {LeaderboardRangeEnum.WEEK}
+        </TabBox>
+        <TabBox
+          onClick={() => setTab(LeaderboardRangeEnum.MONTH)}
+          selected={tab === LeaderboardRangeEnum.MONTH}
+        >
+          {LeaderboardRangeEnum.MONTH}
+        </TabBox>
+      </FixedHeightHorizontal>
+      <OverflowScroll>
+        <RenderLeaderboard community={community} range={tab} />
+      </OverflowScroll>
     </Content>
   )
 }

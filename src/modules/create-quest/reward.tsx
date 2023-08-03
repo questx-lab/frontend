@@ -5,11 +5,9 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { getDiscordRolesApi } from '@/api/communitiy'
-import { ColorEnum } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import { handleLoginDiscord } from '@/handler/auth/discord'
 import { SocialBox } from '@/modules/header/login'
-import { ColorBox } from '@/modules/quest/view-quest/twitter/mini-widgets'
 import CommunityStore from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest'
 import { DiscordRoleType } from '@/types'
@@ -17,16 +15,15 @@ import { CommunityType } from '@/types/community'
 import { RoundedGrayBorderBox } from '@/widgets/box'
 import { Image } from '@/widgets/image'
 import { NumberInput } from '@/widgets/input'
-import { HorizontalFullWidth, Vertical } from '@/widgets/orientation'
+import { HorizontalBetweenCenter, Vertical } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
-import { Label } from '@/widgets/text'
+import { LightTextXs, MediumTextSm, MediumTextXs } from '@/widgets/text'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
-import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
 const FrameShape = tw(Vertical)`
   py-8
-  px-8
   w-1/3
   h-full
   justify-start
@@ -41,14 +38,16 @@ const FullWidthInput = tw(NumberInput)`
 
 const BorderBox = tw(RoundedGrayBorderBox)`
   w-full
-  px-6
-  py-6
-  gap-4
+  p-5
+  gap-3
+  flex
+  flex-col
 `
 
 const AddDiscordBtn = tw.div`
-  text-primary-500
-  font-bold
+  text-primary
+  font-medium
+  text-sm
   cursor-pointer	
 `
 
@@ -116,6 +115,7 @@ const CheckIconBox = tw.div`
   pl-3
   text-gray-600
 `
+
 const activeOption = ({ active }: { active: boolean }) =>
   `relative cursor-default select-none py-2 pl-10 pr-4 cursor-pointer ${
     active ? 'bg-gray-100 text-gray-900' : 'text-gray-900'
@@ -171,28 +171,22 @@ const DiscordAction: FC<{ community: CommunityType; roles: DiscordRoleType[] }> 
 
   if (!community.discord) {
     return (
-      <ColorBox boxColor={ColorEnum.WARNING}>
-        <HorizontalFullWidth>
-          <ExclamationTriangleIcon className='w-7 h-7 text-warning' />
-          {'You need to connect Discord'}
-        </HorizontalFullWidth>
-        <SocialBox
-          onClick={() =>
-            handleLoginDiscord({
-              joinCommunity: true,
-              communityHandle: community.handle,
-            })
-          }
-        >
-          <Image
-            width={30}
-            height={30}
-            src={StorageConst.DISCORD_DIR.src}
-            alt={StorageConst.DISCORD_DIR.alt}
-          />
-          {'Connect Discord'}
-        </SocialBox>
-      </ColorBox>
+      <SocialBox
+        onClick={() =>
+          handleLoginDiscord({
+            joinCommunity: true,
+            communityHandle: community.handle,
+          })
+        }
+      >
+        <Image
+          width={30}
+          height={30}
+          src={StorageConst.DISCORD_DIR.src}
+          alt={StorageConst.DISCORD_DIR.alt}
+        />
+        {'Connect Discord'}
+      </SocialBox>
     )
   }
 
@@ -258,12 +252,8 @@ const QuestReward: FC = () => {
   return (
     <FrameShape>
       <BorderBox>
-        <Label>{'REWARD'}</Label>
-        <Gap height={2} />
-
-        <Label>{'Gem'}</Label>
-        <Gap height={6} />
-
+        <MediumTextXs>{'REWARD'}</MediumTextXs>
+        <MediumTextSm>{'Gem'}</MediumTextSm>
         <FullWidthInput
           full
           onChange={(e) => setPointReward(parseFloat(e.target.value ?? '0'))}
@@ -276,22 +266,25 @@ const QuestReward: FC = () => {
           min={0}
           defaultValue={pointReward}
         />
-
-        <Gap height={6} />
+        <LightTextXs>{'Learn more here about how the levels are calculated.'}</LightTextXs>
         {!isOpenDiscordRole && (
           <AddDiscordBtn onClick={openDiscordRole}> + Add Discord role</AddDiscordBtn>
         )}
         {isOpenDiscordRole && (
           <>
-            <div className='justify-between flex'>
-              <Label>{'Discord role'}</Label>
+            <HorizontalBetweenCenter>
+              <MediumTextSm>{'Discord role'}</MediumTextSm>
               <XMarkIcon
                 onClick={closeDiscordRole}
                 className='h-5 w-5 cursor-pointer	text-[#EF4444]'
               />
-            </div>
-            <Gap height={6} />
+            </HorizontalBetweenCenter>
             <DiscordAction community={community} roles={roles} />
+            <LightTextXs>
+              {
+                'If some roles are not show, the XQuest bot needs to be moved above them in the roles settings.'
+              }
+            </LightTextXs>
           </>
         )}
       </BorderBox>

@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
 import { AuthEnum } from '@/constants/common.const'
-import InviteCommunity from '@/modules/header/invite-community'
+import ChatPopover from '@/modules/chat/popover'
 import Login from '@/modules/header/login'
 import UserPopover from '@/modules/header/user-popover'
 import UserProfile from '@/modules/header/user-profile'
@@ -12,7 +12,6 @@ import { GlobalStoreModel } from '@/store/store'
 import BaseModal from '@/widgets/modal/base'
 import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
-import { GiftIcon } from '@heroicons/react/24/outline'
 
 const AuthBox = tw(Horizontal)`
   gap-2
@@ -75,9 +74,6 @@ const UserInfoBox: FC = () => {
     (action) => action.setShowUserProfileModal
   )
 
-  // hook
-  const [isInvite, setInvite] = useState<boolean>(false)
-
   useEffect(() => {
     if (user && user.is_new_user) {
       setShowLoginModal(true)
@@ -88,16 +84,9 @@ const UserInfoBox: FC = () => {
   if (user) {
     return (
       <UserSession>
-        <GiftIcon onClick={() => setInvite(true)} className='h-7 w-7' />
+        <ChatPopover />
         <UserPopover />
 
-        <BasicModal
-          title={`Invite Friend to create project 👋`}
-          isOpen={isInvite}
-          onClose={() => setInvite(false)}
-        >
-          <InviteCommunity />
-        </BasicModal>
         <BaseModal isOpen={showLoginModal}>
           <ModalBox>
             <Login setOpen={setShowLoginModal} />
@@ -107,6 +96,7 @@ const UserInfoBox: FC = () => {
           isOpen={showUserProfileModal}
           title={'My Profile'}
           onClose={() => setShowUserProfileModal(false)}
+          styled='!w-[780px]'
         >
           <UserProfile user={user} />
         </BasicModal>

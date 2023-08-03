@@ -1,4 +1,6 @@
+import { UserChatStatusType } from '@/types/chat'
 import { CommunityType } from '@/types/community'
+import { BuyLotteryTicketsType } from '@/types/lottery'
 import { QuestType, ValidationQuest } from '@/types/quest'
 
 export type ReturnTuple<T> = {
@@ -47,6 +49,7 @@ export type UserType = {
   avatar_url?: string
   total_communities?: number
   total_claimed_quests?: number
+  status?: UserChatStatusType
 }
 
 export type UpdateCommunityRequest = {
@@ -61,13 +64,6 @@ export type UpdateCommunityRequest = {
 
 export type UpdateCommunityResponse = {
   community: CommunityType
-}
-
-export type CollaboratorType = {
-  name: string
-  community: CommunityType
-  user: UserType
-  user_id: string
 }
 
 export type ReqNewCommunity = {
@@ -110,10 +106,13 @@ export type ReqNewQuestType = {
 }
 
 export type RewardType = {
-  type: string
+  type?: string
   data: {
     points?: number
     role?: string
+    token_address?: string
+    chain?: string
+    amount?: number
   }
 }
 
@@ -142,16 +141,23 @@ export type ListClaimQuestType = {
 export type CategoryType = {
   id: string
   name: string
-  created_by: string
-  created_at: string
-  updated_at: string
+  created_by?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export const emptyCategory = () => {
+  return {
+    id: '',
+    name: '',
+  }
 }
 
 export type LeaderboardType = {
   user_id?: string
   user?: UserType
   value: number
-  prev_rank: number
+  previous_rank: number
   current_rank: number
 }
 
@@ -159,6 +165,20 @@ export type RefferalType = {
   total_claimable_communities?: number
   total_pending_communities?: number
   reward_amount?: number
+}
+
+export type ClaimableTokenInfoType = {
+  token_id: string
+  token_symbol: string
+  token_address: string
+  chain: string
+  amount: number
+}
+
+export type ClaimableRewardType = {
+  referral_communities: CommunityType[]
+  lottery_winners: BuyLotteryTicketsType[]
+  total_claimable_tokens: ClaimableTokenInfoType[]
 }
 
 export type QuestTwitterActionType = {
@@ -242,4 +262,34 @@ export type ConditionType = {
 export type OpType = {
   id: string
   name: string
+}
+export type BadgeType = {
+  name: string
+  description: string
+  icon_url: string
+  level: number
+}
+
+export type BadgeDetailType = {
+  // community: CommunityType
+  // user: UserType
+  badge: BadgeType
+  // was_notified: boolean
+}
+
+export type CharacterType = {
+  id: string
+  name: string
+  level: number
+  config_url: string
+  image_url: string
+  thumbnail_url: string
+  sprite_width_ratio: number
+  sprite_height_ratio: number
+}
+
+export type RenderCategoryType = {
+  id: string
+  name: string
+  quests: QuestType[]
 }

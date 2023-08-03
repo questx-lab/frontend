@@ -1,8 +1,18 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const withMT = require('@material-tailwind/react/utils/withMT')
+
+module.exports = withMT({
   important: true,
   content: ['./src/**/*.{js,ts,jsx,tsx}', './src/**/*.*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: [
+        'Inter',
+        {
+          fontFeatureSettings: '"cv02", "cv03", "cv04", "cv11"',
+        },
+      ],
+    },
     extend: {
       fontSize: {
         xs: [
@@ -48,6 +58,9 @@ module.exports = {
             letterSpacing: '-0.02em',
           },
         ],
+      },
+      boxShadow: {
+        lg: '0 0 12px 0 rgba(0, 0, 0, 0.10)',
       },
     },
     screens: {
@@ -130,6 +143,7 @@ module.exports = {
       warning: {
         50: '#FFFBEB',
         100: '#FEF3C7',
+        200: '#FDE68A',
         300: '#FCD34D',
         500: '#F59E0B',
         700: '#B45309',
@@ -146,8 +160,46 @@ module.exports = {
         DEFAULT: '#14B8A6',
       },
       orange: {
-        100: '#FFF0DE',
+        50: '#fff7ed',
+        100: '#ffedd5',
+        200: '#fed7aa',
+        500: '#f97316',
+        900: '#78350f',
         DEFAULT: '#FF7B05',
+      },
+      yellow: '#FFCC00',
+      green: '#30D158',
+      emerald: {
+        50: '#ECFDF5',
+        100: '#d1fae5',
+        200: '#A7F3D0',
+        500: '#10b981',
+        900: '#064E3B',
+        DEFAULT: '#10b981',
+      },
+      cyan: {
+        50: '#ecfeff',
+        100: '#cffafe',
+        200: '#a5f3fc',
+        500: '#06b6d4',
+        900: '#0C4A6E',
+        DEFAULT: '#06b6d4',
+      },
+      pink: {
+        50: '#FDF2F8',
+        100: '#fce7f3',
+        200: '#FBCFE8',
+        500: '#ec4899',
+        900: '#831843',
+        DEFAULT: '#ec4899',
+      },
+      indigo: {
+        50: '#EEF2FF',
+        100: '#e0e7ff',
+        200: '#C7D2FE',
+        500: '#6366f1',
+        900: '#312e81',
+        DEFAULT: '#6366f1',
       },
     },
     fontWeight: {
@@ -158,4 +210,4 @@ module.exports = {
     },
   },
   plugins: ['babel-plugin-twin', 'babel-plugin-macros', require('@tailwindcss/line-clamp')],
-}
+})

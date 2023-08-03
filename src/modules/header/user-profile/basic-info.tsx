@@ -2,10 +2,9 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import StorageConst from '@/constants/storage.const'
 import { UserType } from '@/types'
+import { UserAvatar } from '@/widgets/avatar'
 import { GrayBorderBox } from '@/widgets/box'
-import { CircularImage } from '@/widgets/circular-image'
 import { HorizontalFullWidth, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { Divider, Gap } from '@/widgets/separator'
 import { TextSm, TextXl, TextXs } from '@/widgets/text'
@@ -47,12 +46,7 @@ const BasicInfo: FC<{ user: UserType }> = ({ user }) => {
   return (
     <BorderBox>
       <PersonVertical>
-        <CircularImage
-          width={120}
-          height={120}
-          src={user.avatar_url || StorageConst.USER_DEFAULT.src}
-          alt={'Avatar'}
-        />
+        <UserAvatar size={120} user={user} />
         <TextXl>{user.name}</TextXl>
         <Gap height={4} />
         <Divider />

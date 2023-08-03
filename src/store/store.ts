@@ -1,7 +1,7 @@
 import { action, Action, createStore } from 'easy-peasy'
 
 import { AuthEnum } from '@/constants/common.const'
-import { CollaboratorType, RefferalType, UserType } from '@/types'
+import { RefferalType, UserType } from '@/types'
 import { CommunityType, FollowCommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
 
@@ -9,10 +9,9 @@ export interface GlobalStoreModel {
   showNavigationDrawer: boolean
   user: UserType | undefined
   communitiesFollowing: FollowCommunityType[]
-  communitiesCollab: CollaboratorType[]
+  myCommunities: CommunityType[]
   referral: RefferalType
   authBox: number
-  username: string
   showLoginModal: boolean
   showUserProfileModal: boolean
   templates: QuestType[]
@@ -20,13 +19,12 @@ export interface GlobalStoreModel {
   setShowNavigationDrawer: Action<GlobalStoreModel, boolean>
   setUser: Action<GlobalStoreModel, UserType>
   setCommunitiesFollowing: Action<GlobalStoreModel, FollowCommunityType[]>
-  setCommunitiesCollab: Action<GlobalStoreModel, CollaboratorType[]>
+  setMyCommunities: Action<GlobalStoreModel, CommunityType[]>
   setReferral: Action<GlobalStoreModel, RefferalType>
   setAuthBox: Action<GlobalStoreModel, number>
-  setUserName: Action<GlobalStoreModel, string>
   setShowLoginModal: Action<GlobalStoreModel, boolean>
   setTemplates: Action<GlobalStoreModel, QuestType[]>
-  updateCommunityCollab: Action<GlobalStoreModel, CommunityType>
+  updateMyCommunities: Action<GlobalStoreModel, CommunityType>
   setShowUserProfileModal: Action<GlobalStoreModel, boolean>
 }
 
@@ -34,10 +32,9 @@ const store = createStore<GlobalStoreModel>({
   showNavigationDrawer: false,
   user: undefined,
   communitiesFollowing: [],
-  communitiesCollab: [],
+  myCommunities: [],
   referral: {},
   authBox: AuthEnum.LOGIN,
-  username: '',
   showLoginModal: false,
   showUserProfileModal: false,
   templates: [],
@@ -54,8 +51,8 @@ const store = createStore<GlobalStoreModel>({
     state.communitiesFollowing = communities
   }),
 
-  setCommunitiesCollab: action((state, collabs) => {
-    state.communitiesCollab = collabs
+  setMyCommunities: action((state, communities) => {
+    state.myCommunities = communities
   }),
 
   setReferral: action((state, referral) => {
@@ -66,10 +63,6 @@ const store = createStore<GlobalStoreModel>({
     state.authBox = auth
   }),
 
-  setUserName: action((state, username) => {
-    state.username = username
-  }),
-
   setShowLoginModal: action((state, require) => {
     state.showLoginModal = require
   }),
@@ -78,18 +71,18 @@ const store = createStore<GlobalStoreModel>({
     state.templates = templates
   }),
 
-  updateCommunityCollab: action((state, community) => {
-    const clone = [...state.communitiesCollab]
+  updateMyCommunities: action((state, community) => {
+    const clone = [...state.myCommunities]
     let found = false
     for (var collab of clone) {
-      if (collab.community.handle === community.handle) {
+      if (collab.handle === community.handle) {
         found = true
-        collab.community = community
+        collab = community
       }
     }
 
     if (found) {
-      state.communitiesCollab = clone
+      state.myCommunities = clone
     }
   }),
 

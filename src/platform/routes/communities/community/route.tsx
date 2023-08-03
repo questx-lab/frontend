@@ -7,27 +7,32 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { getCategoriesApi, getCommunityApi } from '@/api/communitiy'
+import { getLotteryEventApi } from '@/api/loterry'
 import { getTemplatesApi, listQuestApi } from '@/api/quest'
 import { CommunityRoleEnum } from '@/constants/common.const'
 import ControlPanel from '@/modules/community/control-panel'
-import ActiveQuestStore from '@/store/local/active-quest'
+import useDeleteQuest from '@/platform/hooks/use-delete-quest'
 import CommunityStore from '@/store/local/community'
 import { GlobalStoreModel } from '@/store/store'
-import { CategoryType, CollaboratorType } from '@/types'
+import { CategoryType } from '@/types'
 import { CommunityType } from '@/types/community'
+import { LotteryEventType } from '@/types/lottery'
 import { QuestType } from '@/types/quest'
 import { Horizontal, HorizontalCenter } from '@/widgets/orientation'
 
 export const Loader = async (args: { params: Params }) => {
-  const [communityResult, templatesResult, categoriesResult] = await Promise.all([
-    getCommunityApi(args.params['communityHandle'] || ''),
-    getTemplatesApi(),
-    getCategoriesApi(args.params['communityHandle'] || ''),
-  ])
+  const [communityResult, templatesResult, categoriesResult, lotteryEventResult] =
+    await Promise.all([
+      getCommunityApi(args.params['communityHandle'] || ''),
+      getTemplatesApi(),
+      getCategoriesApi(args.params['communityHandle'] || ''),
+      getLotteryEventApi(args.params['communityHandle'] || ''),
+    ])
 
   const community = communityResult.code === 0 ? communityResult.data?.community : undefined
   const templates = templatesResult.code === 0 ? templatesResult.data?.templates : []
   const categories = categoriesResult.code === 0 ? categoriesResult.data?.categories : []
+  const lotteryEvent = lotteryEventResult.code === 0 ? lotteryEventResult.data?.event : undefined
 
   if (communityResult.code === 0) {
     return json(
@@ -35,6 +40,7 @@ export const Loader = async (args: { params: Params }) => {
         community,
         templates,
         categories,
+        lotteryEvent,
       },
       { status: 200 }
     )
@@ -46,7 +52,7 @@ export const Loader = async (args: { params: Params }) => {
 const PaddingLeft = styled(Horizontal)<{ hasPanel: boolean }>(({ hasPanel = true }) => {
   if (hasPanel) {
     return tw`
-      pl-80
+      pl-60
       max-md:pl-0
     `
   }
@@ -61,21 +67,24 @@ const Community = () => {
     community: CommunityType
     templates: QuestType[]
     categories: CategoryType[]
+    lotteryEvent: LotteryEventType
   }
 
   // data
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
-  const myCommunities = useStoreState<GlobalStoreModel>((state) => state.communitiesCollab)
-  const deletedQuestId = ActiveQuestStore.useStoreState((state) => state.deletedQuestId)
+  const myCommunities: CommunityType[] = useStoreState<GlobalStoreModel>(
+    (state) => state.myCommunities
+  )
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
   const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
   const showPanel: boolean = canEdit && user
+  const deletedQuest = useDeleteQuest()
 
   // Check if user is the editor of this community
-  let collab: CollaboratorType | undefined = undefined
+  let collab: CommunityType | undefined = undefined
   if (myCommunities) {
     for (let communityCollab of myCommunities) {
-      if (community && communityCollab.community.handle === community.handle) {
+      if (community && communityCollab.handle === community.handle) {
         collab = communityCollab
         break
       }
@@ -90,11 +99,13 @@ const Community = () => {
   const setQuests = CommunityStore.useStoreActions((action) => action.setQuests)
   const setTemplates = useStoreActions<GlobalStoreModel>((action) => action.setTemplates)
   const setCategories = CommunityStore.useStoreActions((action) => action.setCategories)
+  const setLotteryEvent = CommunityStore.useStoreActions((action) => action.setLotteryEvent)
 
   // load quests
   const loadQuests = async () => {
     if (data.community && data.community.handle) {
-      const result = await listQuestApi(data.community.handle, '', true)
+      const includeUnclaimAble = user ? true : false
+      const result = await listQuestApi(data.community.handle, '', includeUnclaimAble)
       if (result.code === 0) {
         setQuests(result.data?.quests || [])
       } else {
@@ -108,13 +119,8 @@ const Community = () => {
     setSelectedCommunity(data.community)
     setCategories(data.categories)
     if (collab) {
-      switch (collab.name) {
-        case CommunityRoleEnum.OWNER:
-        case CommunityRoleEnum.EDITOR:
-          setRole(collab.name)
-          setTemplates(data.templates)
-          break
-      }
+      setRole(CommunityRoleEnum.OWNER)
+      setTemplates(data.templates)
     } else {
       if (user) {
         setRole(CommunityRoleEnum.GUEST)
@@ -122,12 +128,13 @@ const Community = () => {
         setRole(CommunityRoleEnum.NOT_LOGIN)
       }
     }
-  }, [data.community, collab, data])
+    setLotteryEvent(data.lotteryEvent)
+  }, [collab, data])
 
   useEffect(() => {
     // Reload all the quests whenever data community changes or a new quest is deleted.
     loadQuests()
-  }, [deletedQuestId, data.community])
+  }, [deletedQuest.id, data.community])
 
   if (!community) {
     return <HorizontalCenter>{'Failed to load community data'}</HorizontalCenter>
@@ -136,7 +143,7 @@ const Community = () => {
   return (
     <>
       <BrowserView>
-        <ControlPanel community={community} show={showPanel} />
+        <ControlPanel show={showPanel} />
       </BrowserView>
       <PaddingLeft hasPanel={showPanel}>
         <Outlet />

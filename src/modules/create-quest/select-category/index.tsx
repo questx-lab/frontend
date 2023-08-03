@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect, useState } from 'react'
+import { FC, Fragment, useEffect } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
@@ -16,7 +16,7 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 const FullWidth = tw.div`
-  w-full z-20
+  w-full
 `
 
 const Relative = tw.div`
@@ -93,6 +93,8 @@ const Label = tw(Horizontal)`
   text-gray-900
 `
 
+const GapVertical = tw(VerticalFullWidth)`gap-3`
+
 const activeOption = ({ active }: { active: boolean }) =>
   `relative cursor-default select-none py-2 pl-10 pr-4 cursor-pointer ${
     active ? 'bg-gray-100 text-gray-900' : 'text-gray-900'
@@ -139,47 +141,43 @@ const ListOptionRender: FC<{ categories: CategoryType[] }> = ({ categories }) =>
 }
 
 export default function SelectCategory() {
-  const [selected, setSelected] = useState<CategoryType>()
-
   const categories = CommunityStore.useStoreState((state) => state.categories)
-  const setCategoryId = NewQuestStore.useStoreActions((action) => action.setCategoryId)
+  const category = NewQuestStore.useStoreState((state) => state.category)
+
+  const setCategory = NewQuestStore.useStoreActions((action) => action.setCategory)
 
   useEffect(() => {
-    if (categories && categories.length > 0) {
-      setSelected(categories[0])
-      setCategoryId(categories[0].id)
+    if (categories && categories.length > 0 && category.id === '') {
+      setCategory(categories[0])
     }
-  }, [categories])
-
-  if (!selected) {
-    return <></>
-  }
+  }, [categories, categories.length, category.id])
 
   return (
-    <VerticalFullWidth>
+    <GapVertical>
       <HorizontalBetweenCenterFullWidth>
         <Label>{'Category'}</Label>
         <AddCategory />
       </HorizontalBetweenCenterFullWidth>
-      <FullWidth>
-        <Listbox
-          value={selected}
-          onChange={(e) => {
-            setSelected(e)
-            setCategoryId(e.id)
-          }}
-        >
-          <Relative>
-            <ListButton>
-              <Title>{selected.name}</Title>
-              <UpDown>
-                <ChevronUpDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
-              </UpDown>
-            </ListButton>
-            <ListOptionRender categories={categories} />
-          </Relative>
-        </Listbox>
-      </FullWidth>
-    </VerticalFullWidth>
+      {category.id !== '' && (
+        <FullWidth>
+          <Listbox
+            value={category}
+            onChange={(e) => {
+              setCategory(e)
+            }}
+          >
+            <Relative>
+              <ListButton>
+                <Title>{category.name}</Title>
+                <UpDown>
+                  <ChevronUpDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
+                </UpDown>
+              </ListButton>
+              <ListOptionRender categories={categories} />
+            </Relative>
+          </Listbox>
+        </FullWidth>
+      )}
+    </GapVertical>
   )
 }

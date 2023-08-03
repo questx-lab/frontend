@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 
 import { refreshTokenApi } from '@/api/user'
 import { ErrorCodes } from '@/constants/code.const'
+import { ShowedInstructionKey } from '@/constants/common.const'
 import { KeysEnum } from '@/constants/key.const'
 import { UserType } from '@/types'
 
@@ -26,6 +27,12 @@ export const getRefreshToken = (): string | undefined => {
 export const delCookies = () => {
   deleteCookie(KeysEnum.AUTH_SESSION)
   deleteCookie(KeysEnum.ACCESS_TOKEN)
+
+  // Remove cookies of socket
+  const domain = window.location.hostname.split('.').slice(-2).join('.')
+  deleteCookie(KeysEnum.ACCESS_TOKEN, {
+    domain: domain,
+  })
   deleteCookie(KeysEnum.REFRESH_TOKEN)
   deleteCookie(KeysEnum.USER)
 }
@@ -93,12 +100,10 @@ export const clearLocalStorage = () => {
   localStorage.clear()
 }
 
-export const isLogin = (user: UserType): boolean => {
-  if (!user) {
-    return false
-  }
+export const isLogin = (): boolean => {
+  const accessToken = getAccessToken()
 
-  if (!Object.values(user).length) {
+  if (!accessToken) {
     return false
   }
 
@@ -117,4 +122,12 @@ export const onCopy = (url: string) => {
       },
     })
   }
+}
+
+export const getShowedInstruction = () => {
+  return localStorage.getItem(ShowedInstructionKey)
+}
+
+export const markShowedInstruction = () => {
+  localStorage.setItem(ShowedInstructionKey, 'true')
 }

@@ -2,18 +2,19 @@ import { FC } from 'react'
 
 import tw from 'twin.macro'
 
+import { QuestColor } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import QuestCardToView from '@/modules/quest/quest-card-to-view'
 import { QuestType } from '@/types/quest'
 import { Image } from '@/widgets/image'
 import { VerticalCenter, VerticalFullWidth } from '@/widgets/orientation'
-import { HeaderText, NormalText } from '@/widgets/text'
+import { NormalText, TextXl } from '@/widgets/text'
 
 const Grid = tw.div`
   w-full
   grid
   gap-4
-  xl:grid-cols-3
+  lg:grid-cols-3
   sm:grid-cols-2
   max-sm:grid-cols-1
   justify-between
@@ -21,8 +22,7 @@ const Grid = tw.div`
 `
 
 const PaddingVertical = tw(VerticalFullWidth)`
-  py-3
-  gap-6
+  gap-4
 `
 
 const EmptyBox = tw(VerticalCenter)`
@@ -34,19 +34,11 @@ const CenterNormalText = tw(NormalText)`
   text-center
 `
 
-export const QuestListView: FC<{
-  quests: QuestType[]
-}> = ({ quests }) => {
+const RenderQuest: FC<{ quests: QuestType[]; bgColor: string }> = ({ quests, bgColor }) => {
   if (!quests) {
-    return <div>{'There are currently no quests'}</div>
+    return <></>
   }
 
-  const questListView = quests.map((quest, index) => <QuestCardToView quest={quest} key={index} />)
-
-  return <>{questListView}</>
-}
-
-const RenderQuest: FC<{ quests: QuestType[] }> = ({ quests }) => {
   if (quests.length === 0) {
     return (
       <EmptyBox>
@@ -55,9 +47,16 @@ const RenderQuest: FC<{ quests: QuestType[] }> = ({ quests }) => {
       </EmptyBox>
     )
   }
+
+  const questListView = quests.map((quest, index) => (
+    <div key={index}>
+      <QuestCardToView bgColor={bgColor} quest={quest} />
+    </div>
+  ))
+
   return (
     <Grid>
-      <QuestListView quests={quests} />
+      <>{questListView}</>
     </Grid>
   )
 }
@@ -66,7 +65,8 @@ const Quests: FC<{
   quests: QuestType[]
   show: boolean
   categoryTitle?: string
-}> = ({ show, categoryTitle, quests }) => {
+  bgColor?: string
+}> = ({ show, categoryTitle, quests, bgColor = QuestColor.EMERALD }) => {
   if (!show || !quests) {
     return <></>
   }
@@ -74,8 +74,8 @@ const Quests: FC<{
   return (
     <>
       <PaddingVertical>
-        {categoryTitle && <HeaderText>{categoryTitle}</HeaderText>}
-        <RenderQuest quests={quests} />
+        {categoryTitle && <TextXl>{categoryTitle}</TextXl>}
+        <RenderQuest bgColor={bgColor} quests={quests} />
       </PaddingVertical>
     </>
   )

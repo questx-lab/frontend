@@ -6,6 +6,7 @@ import { RoundedGrayBorderBox } from '@/widgets/box'
 import {
   Horizontal,
   HorizontalBetweenCenterFullWidth,
+  HorizontalCenter,
   Vertical,
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
@@ -16,30 +17,32 @@ export const HeaderFullWidth = tw(Horizontal)`
   border-solid
   border-gray-200
   border-b
+  h-[60px]
 `
 
 export const HeaderTitleFrame = tw(Horizontal)`
   w-full
+  h-full
   justify-start
   items-center
   text-lg
   font-medium
-  text-black
-  py-3
-  px-4
+  text-gray-900
+  px-5
 `
 
-export const HeaderSortFrame = tw(Horizontal)`
-  w-48
+export const HeaderSortFrame = tw(HorizontalCenter)`
+  w-[117px]
+  h-full
   border-l
   border-solid
   border-gray-200
   justify-center
   items-center
-  text-lg
-  font-normal
-  text-black
-  py-3
+  text-sm
+  font-medium
+  text-gray-900
+  px-3
   cursor-pointer
 `
 
@@ -48,20 +51,24 @@ export const TableLoadingFrame = tw(VerticalFullWidthCenter)`
 `
 
 /////// Filter
-export const FilterColumn = tw(RoundedGrayBorderBox)`
-  flex
-  flex-col
+export const FilterColumn = tw(Vertical)`
+  border
+  border-solid
+  border-gray-200
   w-1/3
   max-md:w-full
+  rounded-lg
 `
 
 export const FilterTitleFrame = tw(Horizontal)`
   w-full
   text-lg
   font-medium
-  text-black
+  text-gray-600
   py-3
   px-4
+  h-[60px]
+  items-center
 `
 
 export const TabContentFrame = tw(Horizontal)`
@@ -105,7 +112,7 @@ export const ButtonBox = tw(Horizontal)`
 `
 
 export const VerticalItem = styled(Vertical)<{ active: boolean }>(({ active }) => {
-  const styles = []
+  const styles = [tw`h-full w-full`]
   if (active) {
     styles.push(tw`bg-primary-50`)
   }
@@ -133,14 +140,15 @@ export const Details = tw(Vertical)`
 export const Title = tw.p`
   mb-2
   font-medium
-  text-lg
-  text-black
+  text-sm
+  text-gray-900
 `
 
 export const Info = tw(Horizontal)`
   w-full
   gap-3
   h-full
+  items-center
 `
 
 export const VerticalLeftMargin = tw(Vertical)`

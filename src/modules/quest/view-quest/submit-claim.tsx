@@ -14,6 +14,7 @@ import CommunityStore from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
+import broadcast, { BroadcastEventType } from '@/types/broadcast'
 import { emptyQuest, QuestType } from '@/types/quest'
 import { hasDiscord } from '@/types/user'
 import { uploadFile } from '@/utils/file'
@@ -34,7 +35,8 @@ const handleSubmit = async (
   textSubmit: string,
   replyUrlSubmit: string,
   quizAnswers: string[],
-  setLoading: (e: boolean) => void
+  setLoading: (e: boolean) => void,
+  likeRetweetReplyClicked: boolean
 ): Promise<boolean> => {
   let submissionData = ''
   switch (quest.type) {
@@ -127,16 +129,18 @@ const SubmitClaim: FC<{
   const fileUpload = ActiveQuestStore.useStoreState((state) => state.fileUpload)
   const url = ActiveQuestStore.useStoreState((state) => state.url)
   const textSubmit = ActiveQuestStore.useStoreState((state) => state.textSubmit)
-  const replyUrlSubmit = ActiveQuestStore.useStoreState((state) => state.replyUrlSubmit)
+  // const replyUrlSubmit = ActiveQuestStore.useStoreState((state) => state.replyUrlSubmit)
   const quizAnswers = ActiveQuestStore.useStoreState((state) => state.quizAnswers)
   const visitLink = ActiveQuestStore.useStoreState((state) => state.visitLink)
   const telegramSubmit = ActiveQuestStore.useStoreState((state) => state.telegramSubmit)
+  const likeRetweetReplyClicked = ActiveQuestStore.useStoreState(
+    (state) => state.likeRetweetReplyClicked
+  )
 
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
   // action
   const setEditQuest = NewQuestStore.useStoreActions((action) => action.setQuest)
-  const setDeletedQuestId = ActiveQuestStore.useStoreActions((action) => action.setDeletedQuestId)
   const setActiveQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
 
   // handler
@@ -148,9 +152,11 @@ const SubmitClaim: FC<{
         fileUpload,
         url,
         textSubmit,
-        replyUrlSubmit,
+        // replyUrlSubmit, // temporarily disable reply submit url
+        '',
         quizAnswers,
-        setLoading
+        setLoading,
+        likeRetweetReplyClicked
       )
 
       if (result) {
@@ -178,7 +184,8 @@ const SubmitClaim: FC<{
       // Make a request to delete the quest
       const result = await deleteQuest(quest.id)
       if (result.code === 0) {
-        setDeletedQuestId(quest.id)
+        setActiveQuest(emptyQuest())
+        broadcast.publish(BroadcastEventType.DELETE_QUEST, quest)
       }
     } finally {
       setShowDeleteConfirmation(false)
@@ -197,6 +204,7 @@ const SubmitClaim: FC<{
           quizAnswers,
           visitLink,
           telegramSubmit,
+          likeRetweetReplyClicked,
         })
 
   switch (role) {

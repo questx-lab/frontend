@@ -8,13 +8,14 @@ import { RequiredText } from '@/widgets/text'
 
 const Padding = tw(VerticalFullWidth)`
   px-6
+  gap-3
 `
 
 const Label = tw(Horizontal)`
   gap-1
   items-center
-  text-lg
-  font-medium
+  text-xs
+  font-bold
   text-gray-900
 `
 
@@ -38,9 +39,13 @@ export const QuestFieldsBox: FC<{
 }
 
 export const FieldTitle: FC<{ title?: string; required?: boolean }> = ({ title, required }) => {
+  if (!title) {
+    return <></>
+  }
+
   return (
     <Label>
-      {title}
+      {title.toUpperCase()}
       {required && <RequiredText>{'*'}</RequiredText>}
     </Label>
   )

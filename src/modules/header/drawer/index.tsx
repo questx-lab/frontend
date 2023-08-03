@@ -65,7 +65,6 @@ const NoGapHorizontal = tw(Horizontal)`
 
 const CanSettingCommunityOrDefault: FC = () => {
   const location = useLocation()
-  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const canEdit = CommunityStore.useStoreState((state) => state.canEdit)
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
 
@@ -74,7 +73,7 @@ const CanSettingCommunityOrDefault: FC = () => {
   if (location.pathname.includes(RouterConst.COMMUNITIES + '/') && showPanel) {
     return (
       <div>
-        <CommunityControlPanel community={community} show={showPanel} />
+        <CommunityControlPanel show={showPanel} />
       </div>
     )
   }
@@ -103,8 +102,8 @@ const RenderContent: FC = () => {
     <>
       <PaddingHorizontal>
         <Image
-          width={100}
-          height={60}
+          width={90}
+          height={40}
           onClick={() => {
             navigate(RouterConst.HOME)
             setShowNavigationDrawer(false)

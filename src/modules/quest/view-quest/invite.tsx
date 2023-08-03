@@ -73,6 +73,20 @@ export const QuestInvites: FC<{ quest: QuestType }> = ({ quest }) => {
     }
   }
 
+  // If user is a owner
+  if (
+    role &&
+    (role === CommunityRoleEnum.OWNER ||
+      role === CommunityRoleEnum.EDITOR ||
+      role === CommunityRoleEnum.REVIEWER)
+  ) {
+    return (
+      <ColorBox boxColor={ColorEnum.PRIMARY}>
+        {'You are a owner, only guest could get invite code'}
+      </ColorBox>
+    )
+  }
+
   if (loading) {
     return (
       <HorizontalFullWidthCenter>

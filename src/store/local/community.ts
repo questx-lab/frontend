@@ -8,6 +8,7 @@ import {
   ControlPanelTab,
   emptyCommunity,
 } from '@/types/community'
+import { LotteryEventType } from '@/types/lottery'
 import { QuestType } from '@/types/quest'
 
 interface CommunityModel {
@@ -21,6 +22,7 @@ interface CommunityModel {
   invitedBy: string
   activeControlPanelTab: number
   communityIndexMode: number
+  lotteryEvent: LotteryEventType | undefined
 
   setSelectedCommunity: Action<CommunityModel, CommunityType>
   setQuery: Action<CommunityModel, string>
@@ -31,19 +33,21 @@ interface CommunityModel {
   setActiveControlPanelTab: Action<CommunityModel, number>
   setCommunityIndexMode: Action<CommunityModel, number>
   setQuests: Action<CommunityModel, QuestType[]>
+  setLotteryEvent: Action<CommunityModel, LotteryEventType | undefined>
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
   selectedCommunity: emptyCommunity(),
   query: '',
   searchProjects: [],
-  role: CommunityRoleEnum.GUEST,
+  role: CommunityRoleEnum.NOT_LOGIN,
   canEdit: false, // can edit community, add/edit quests.
   categories: [],
   invitedBy: '',
   quests: [],
   activeControlPanelTab: ControlPanelTab.QUESTS,
   communityIndexMode: CommunityIndexMode.VIEW_COMMUNITY,
+  lotteryEvent: undefined,
 
   setSelectedCommunity: action((state, newProject) => {
     state.selectedCommunity = newProject
@@ -76,6 +80,9 @@ const CommunityStore = createContextStore<CommunityModel>({
   }),
   setQuests: action((state, quests) => {
     state.quests = quests
+  }),
+  setLotteryEvent: action((state, event) => {
+    state.lotteryEvent = event
   }),
 })
 export default CommunityStore

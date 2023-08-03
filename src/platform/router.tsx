@@ -1,9 +1,5 @@
-import { lazy, Suspense } from 'react'
-
 import { RouteObject } from 'react-router-dom'
 
-import { TownhallStatus } from '@/constants/common.const'
-import { EnvVariables } from '@/constants/env.const'
 import DiscordCallback from '@/modules/callback/discord'
 import TwitterCallback from '@/modules/callback/twitter'
 import CommunityIndex from '@/modules/community'
@@ -15,6 +11,10 @@ import CreateQuestIndex from '@/platform/routes/communities/community/create'
 import CreateQuest from '@/platform/routes/communities/community/create/route'
 import EditQuestIndex from '@/platform/routes/communities/community/edit-quest'
 import EditQuest from '@/platform/routes/communities/community/edit-quest/route'
+import CommunityLeaderboardIndex from '@/platform/routes/communities/community/leaderboard'
+import Leaderboard from '@/platform/routes/communities/community/leaderboard/route'
+import LotteryIndex from '@/platform/routes/communities/community/lottery'
+import Lottery from '@/platform/routes/communities/community/lottery/route'
 import ReviewSubmissions from '@/platform/routes/communities/community/review-submissions/route'
 import Community, { Loader as CommunityLoader } from '@/platform/routes/communities/community/route'
 import CommunitySettingsIndex from '@/platform/routes/communities/community/settings'
@@ -23,19 +23,18 @@ import Communities from '@/platform/routes/communities/route'
 import TrendingCommunitiesIndex from '@/platform/routes/communities/trending'
 import TrendingCommunity from '@/platform/routes/communities/trending/route'
 import HomeIndex from '@/platform/routes/homepage'
+import ChannelIndex from '@/platform/routes/messages/community/channel'
+import MessagesCommunityChannel from '@/platform/routes/messages/community/channel/route'
+import MessageCommunityIndex from '@/platform/routes/messages/community/index'
+import MessagesCommunity, {
+  Loader as MessageCommunityLoader,
+} from '@/platform/routes/messages/community/route'
+import Messages from '@/platform/routes/messages/route'
 import QuestercampIndex from '@/platform/routes/questercamp'
 import Questercamp from '@/platform/routes/questercamp/route'
 import TrendingQuestsIndex from '@/platform/routes/questercamp/trending'
 import TrendingQuest from '@/platform/routes/questercamp/trending/route'
 import Root, { RootLoader } from '@/platform/routes/route'
-import TownhallCommunity, {
-  Loader as TownhallCommunityLoader,
-} from '@/townhall/routes/community/route'
-import Townhall from '@/townhall/routes/route'
-import ErrorPage from '@/widgets/error'
-import { SmallSpinner } from '@/widgets/spinner'
-
-const RoomIndex = lazy(() => import('@/townhall/modules/room'))
 
 const PlatformRouter = (): RouteObject[] => {
   const router: RouteObject[] = [
@@ -65,6 +64,16 @@ const PlatformRouter = (): RouteObject[] => {
                   path: 'settings',
                   element: <Settings />,
                   children: [{ index: true, element: <CommunitySettingsIndex /> }],
+                },
+                {
+                  path: 'leaderboard',
+                  element: <Leaderboard />,
+                  children: [{ index: true, element: <CommunityLeaderboardIndex /> }],
+                },
+                {
+                  path: 'lottery',
+                  element: <Lottery />,
+                  children: [{ index: true, element: <LotteryIndex /> }],
                 },
                 {
                   path: 'create-quest',
@@ -102,6 +111,25 @@ const PlatformRouter = (): RouteObject[] => {
           element: <AccoutSettings />,
           children: [{ index: true, element: <AccountSettingIndex /> }],
         },
+        {
+          path: 'messages',
+          element: <Messages />,
+          children: [
+            {
+              loader: MessageCommunityLoader,
+              path: ':communityHandle',
+              element: <MessagesCommunity />,
+              children: [
+                { index: true, element: <MessageCommunityIndex /> },
+                {
+                  path: ':channelId',
+                  element: <MessagesCommunityChannel />,
+                  children: [{ index: true, element: <ChannelIndex /> }],
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
 
@@ -116,31 +144,6 @@ const PlatformRouter = (): RouteObject[] => {
       element: <DiscordCallback />,
     },
   ]
-
-  if (EnvVariables.TOWNHALL_STATUS === TownhallStatus.ENABLE) {
-    router.push({
-      path: '/townhall',
-      element: <Townhall />,
-      children: [
-        {
-          path: ':communityHandle',
-          loader: TownhallCommunityLoader,
-          errorElement: <ErrorPage />,
-          element: <TownhallCommunity />,
-          children: [
-            {
-              index: true,
-              element: (
-                <Suspense fallback={<SmallSpinner />}>
-                  <RoomIndex />
-                </Suspense>
-              ),
-            },
-          ],
-        },
-      ],
-    })
-  }
 
   return router
 }

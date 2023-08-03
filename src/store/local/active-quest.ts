@@ -18,9 +18,7 @@ interface ActiveQuestModel {
   visitLink: boolean
   quizAnswers: string[]
   telegramSubmit: boolean
-  // id of the quest that has been recently deleted. Setting this variable to a new value will
-  // trigger data load in multiple view components.
-  deletedQuestId: string
+  likeRetweetReplyClicked: boolean
 
   setQuest: Action<ActiveQuestModel, QuestType>
   setUrlSubmit: Action<ActiveQuestModel, string>
@@ -30,7 +28,7 @@ interface ActiveQuestModel {
   setVisitLink: Action<ActiveQuestModel, boolean>
   setQuizAnswers: Action<ActiveQuestModel, string[]>
   setTelegramSubmit: Action<ActiveQuestModel, boolean>
-  setDeletedQuestId: Action<ActiveQuestModel, string>
+  setLikeRetweetReplyClicked: Action<ActiveQuestModel, boolean>
 }
 
 const ActiveQuestStore = createContextStore<ActiveQuestModel>({
@@ -42,7 +40,7 @@ const ActiveQuestStore = createContextStore<ActiveQuestModel>({
   visitLink: false,
   quizAnswers: [],
   telegramSubmit: false,
-  deletedQuestId: '',
+  likeRetweetReplyClicked: false,
 
   setQuest: action((state, quest) => {
     state.quest = quest
@@ -76,8 +74,8 @@ const ActiveQuestStore = createContextStore<ActiveQuestModel>({
     state.telegramSubmit = telegram
   }),
 
-  setDeletedQuestId: action((state, deletedQuestId) => {
-    state.deletedQuestId = deletedQuestId
+  setLikeRetweetReplyClicked: action((state, clicked) => {
+    state.likeRetweetReplyClicked = clicked
   }),
 })
 
@@ -94,6 +92,7 @@ export const canClaimQuest = ({
   quizAnswers,
   visitLink,
   telegramSubmit,
+  likeRetweetReplyClicked,
 }: {
   user: UserType
   quest: QuestType
@@ -103,6 +102,7 @@ export const canClaimQuest = ({
   quizAnswers: string[]
   visitLink: boolean
   telegramSubmit: boolean
+  likeRetweetReplyClicked: boolean
 }): boolean => {
   if (!user) {
     return false
@@ -149,11 +149,15 @@ export const canClaimQuest = ({
         }
       }
       break
+    case QuestTypeEnum.TWITTER_REACTION:
+      if (user && user.services && user.services.twitter && likeRetweetReplyClicked) {
+        canClaim = true
+      }
 
+      break
     case QuestTypeEnum.TWITTER:
     case QuestTypeEnum.TWITTER_FOLLOW:
     case QuestTypeEnum.TWITTER_JOIN_SPACE:
-    case QuestTypeEnum.TWITTER_REACTION:
     case QuestTypeEnum.TWITTER_TWEET:
       if (user && user.services && user.services.twitter) {
         canClaim = true

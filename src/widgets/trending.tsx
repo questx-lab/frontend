@@ -12,13 +12,12 @@ import { Text2xl } from '@/widgets/text'
 import { SmallSpinner } from './spinner'
 
 const TitleBox = tw(HorizontalStartCenter)`
-  py-6
   w-full
   gap-3
 `
 
 const Content = tw(MainContent)`
-  gap-6
+  gap-5
   flex
   flex-col
   py-6

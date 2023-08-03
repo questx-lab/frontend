@@ -3,6 +3,7 @@ import { FC } from 'react'
 import { SizeEnum } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import { handleLoginDiscord } from '@/handler/auth/discord'
+import AddressWallet from '@/modules/community/settings/general/address-wallet'
 import CommunityStore from '@/store/local/community'
 import NewCommunityStore from '@/store/local/new-community'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
@@ -62,11 +63,13 @@ const SocialConnection: FC = () => {
     <VerticalFullWidth>
       <VerticalFullWidth>
         <HeaderText3>{'WEBSITE URL'}</HeaderText3>
+        <Gap height={2} />
         <TextField value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)}></TextField>
         <Gap height={6} />
       </VerticalFullWidth>
-
+      <AddressWallet />
       <HeaderText3>{'SOCIAL CONNECTION'}</HeaderText3>
+      <Gap height={2} />
       <DiscordConnect />
     </VerticalFullWidth>
   )

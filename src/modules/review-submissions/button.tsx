@@ -55,6 +55,12 @@ export const ColumnButtons: FC<{
       >
         {'Reject'}
       </RowActionButton>
+      <RowActionButton
+        onClick={() => onButtonsAction(ReviewBtnEnum.VIEW_DETAIL)}
+        btnType={ReviewBtnEnum.PENDING}
+      >
+        {'View Detail'}
+      </RowActionButton>
     </ColumnButtonsFrame>
   )
 }

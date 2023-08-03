@@ -1,5 +1,6 @@
 import { Mutex } from 'async-mutex'
 import axios, { AxiosError } from 'axios'
+import JSONbig from 'json-bigint'
 
 import { refreshTokenApi } from '@/api/user'
 import { ErrorCodes } from '@/constants/code.const'
@@ -16,14 +17,34 @@ import {
 
 const mutex = new Mutex()
 const baseURL = EnvVariables.API_SERVER
+const headers = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  Authorization: '',
+}
 
 export const api = axios.create({
   baseURL,
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-  },
+  headers,
   withCredentials: true, // to send cookie
+
+  // use JSONBig to transform int64 number. The default javascript number type fails to parse any
+  // number > 2^52
+  // https://stackoverflow.com/questions/9643626/does-javascript-support-64-bit-integers
+  transformRequest: (r) => {
+    if (r instanceof FormData || r === undefined) {
+      return r
+    }
+
+    return JSONbig.stringify(r)
+  },
+  transformResponse: (r) => {
+    if (typeof r === 'string') {
+      return JSONbig.parse(r)
+    }
+
+    return r
+  },
 })
 
 api.interceptors.request.use((config) => {
@@ -49,6 +70,7 @@ api.interceptors.response.use(
           delCookies()
           clearLocalStorage()
           window.location.href = RouterConst.HOME
+
           return response
         }
 
@@ -62,7 +84,6 @@ api.interceptors.response.use(
               originalRequest.headers['Authorization'] = 'Bearer ' + data.data.access_token
               setAccessToken(data.data.access_token)
               setRefreshToken(data.data.refresh_token)
-
               // 6. Recall request
               return await axios.request(originalRequest)
             }

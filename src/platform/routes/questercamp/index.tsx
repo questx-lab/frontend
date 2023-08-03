@@ -9,7 +9,7 @@ import { listQuestApi } from '@/api/quest'
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import QuestCardToView from '@/modules/quest/quest-card-to-view'
-import ActiveQuestStore from '@/store/local/active-quest'
+import useDeleteQuest from '@/platform/hooks/use-delete-quest'
 import { QuestType } from '@/types/quest'
 import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
@@ -19,35 +19,32 @@ import { MainContent } from '@/widgets/layout/layout-with-left-panel'
 import {
   Horizontal,
   HorizontalBetweenCenterFullWidth,
+  HorizontalCenter,
+  VerticalCenter,
   VerticalFullWidth,
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
 import SearchResult from '@/widgets/search-result'
-import { Divider } from '@/widgets/separator'
-import { Text2xl } from '@/widgets/text'
+import { Text2xl, TextXl } from '@/widgets/text'
 
 const SearchPadding = tw(Horizontal)`
-  w-full gap-3 py-3
-`
-const PaddingVertical = tw(VerticalFullWidthCenter)`
-  py-6
-  gap-6
+  w-full gap-3
 `
 
 const GapVertical = tw(VerticalFullWidthCenter)`
-  gap-8
+  gap-5
 `
 
 const StartVertical = tw(VerticalFullWidth)`
   justify-center
   items-start
   gap-6
+  mt-5
 `
 
 const QuestsGrid = tw.div`
   w-full
   grid
-  xl:grid-cols-4
   gap-4
   lg:grid-cols-3
   md:grid-cols-2
@@ -55,7 +52,19 @@ const QuestsGrid = tw.div`
   max-sm:grid-cols-1
 `
 
-const MarginTop = tw.div`mt-4`
+const BorderBottom = tw(HorizontalCenter)`
+  w-full
+  border-b
+  border-solid
+  border-gray-200
+`
+
+const Padding = tw(VerticalCenter)`
+  pt-5
+  w-full
+`
+
+const Margin = tw.div`my-5`
 
 export const OtherQuests: FC<{ quests: QuestType[]; showCommunity?: boolean }> = ({
   quests,
@@ -85,7 +94,7 @@ const QuestContent: FC<{ query: string }> = ({ query }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [quests, setQuests] = useState<QuestType[]>([])
   const [intQuests, setInitQuests] = useState<QuestType[]>([])
-  const deletedQuestId = ActiveQuestStore.useStoreState((state) => state.deletedQuestId)
+  const deletedQuest = useDeleteQuest()
   const navigate = useNavigate()
 
   const onShowAllClicked = () => {
@@ -114,12 +123,12 @@ const QuestContent: FC<{ query: string }> = ({ query }) => {
     if (query.length > 2) {
       fetchListQuests(query)
     }
-  }, [query, deletedQuestId])
+  }, [query, deletedQuest.id])
 
   // First fetch quests
   useEffect(() => {
     fetchListQuests('')
-  }, [deletedQuestId])
+  }, [deletedQuest.id])
 
   return (
     <SearchResult
@@ -128,21 +137,19 @@ const QuestContent: FC<{ query: string }> = ({ query }) => {
       data={quests}
       renderResult={<OtherQuests quests={quests} />}
     >
-      <CategoryBox title='🔥 Trending Quests' onClick={onShowAllClicked}>
-        <CarouselList
-          data={intQuests}
-          renderItemFunc={(quyest: QuestType) => {
-            return (
-              <MarginTop>
-                <QuestCardToView showCommunity quest={quyest} />
-              </MarginTop>
-            )
-          }}
-        />
-      </CategoryBox>
+      <Padding>
+        <CategoryBox title='🔥 Trending Quests' onClick={onShowAllClicked}>
+          <CarouselList
+            data={intQuests}
+            renderItemFunc={(quest: QuestType) => {
+              return <QuestCardToView showCommunity quest={quest} />
+            }}
+          />
+        </CategoryBox>
+      </Padding>
 
       <StartVertical>
-        <Text2xl>{'🕑 New Quests'}</Text2xl>
+        <TextXl>{'🕑 New Quests'}</TextXl>
         <OtherQuests showCommunity quests={intQuests} />
       </StartVertical>
     </SearchResult>
@@ -159,22 +166,26 @@ const Index: FC = () => {
   }, 300)
 
   return (
-    <PaddingVertical>
-      <MainContent>
-        <HorizontalBetweenCenterFullWidth>
-          <Text2xl>{'⚡ QuesterCamp'}</Text2xl>
-        </HorizontalBetweenCenterFullWidth>
-      </MainContent>
-      <Divider />
-      <MainContent>
-        <GapVertical>
-          <SearchPadding>
-            <SearchInput hint={'Search Quest'} onChanged={(value) => debounced(value)} />
-          </SearchPadding>
-          <QuestContent query={query} />
-        </GapVertical>
-      </MainContent>
-    </PaddingVertical>
+    <VerticalFullWidthCenter>
+      <BorderBottom>
+        <MainContent>
+          <HorizontalBetweenCenterFullWidth>
+            <Text2xl>{'⚡ QuesterCamp'}</Text2xl>
+          </HorizontalBetweenCenterFullWidth>
+        </MainContent>
+      </BorderBottom>
+
+      <Padding>
+        <MainContent>
+          <GapVertical>
+            <SearchPadding>
+              <SearchInput hint={'Search Quest'} onChanged={(value) => debounced(value)} />
+            </SearchPadding>
+            <QuestContent query={query} />
+          </GapVertical>
+        </MainContent>
+      </Padding>
+    </VerticalFullWidthCenter>
   )
 }
 

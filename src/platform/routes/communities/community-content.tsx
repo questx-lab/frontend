@@ -13,11 +13,19 @@ import CarouselList from '@/widgets/carousel'
 import CategoryBox from '@/widgets/category-box'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import SearchResult from '@/widgets/search-result'
-import { Text2xl } from '@/widgets/text'
+import { TextXl } from '@/widgets/text'
 
 const StartVertical = tw(VerticalFullWidth)`
   justify-center
   items-start
+  gap-0
+  gap-5
+  mt-5
+`
+
+const Padding = tw.div`
+  pt-5
+  w-full
 `
 
 const CommunityContent: FC<{ query: string }> = ({ query }) => {
@@ -68,17 +76,19 @@ const CommunityContent: FC<{ query: string }> = ({ query }) => {
       data={communities}
       renderResult={<OtherCommunities communities={communities} />}
     >
-      <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked} loading={false}>
-        <CarouselList
-          data={initCommunities}
-          renderItemFunc={(community: CommunityType) => {
-            return <CommunityBox community={community} />
-          }}
-        />
-      </CategoryBox>
+      <Padding>
+        <CategoryBox title='🔥 Trending Communities' onClick={onShowAllClicked} loading={false}>
+          <CarouselList
+            data={initCommunities}
+            renderItemFunc={(community: CommunityType) => {
+              return <CommunityBox key={community.handle} community={community} />
+            }}
+          />
+        </CategoryBox>
+      </Padding>
 
       <StartVertical>
-        <Text2xl>{'🕑 New Communities'}</Text2xl>
+        <TextXl>{'🕑 New Communities'}</TextXl>
         <OtherCommunities communities={initCommunities} />
       </StartVertical>
     </SearchResult>

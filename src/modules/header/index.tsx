@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { BrowserView, MobileView } from 'react-device-detect'
@@ -8,6 +8,7 @@ import tw from 'twin.macro'
 
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
+import chatController from '@/modules/chat/services/chat-controller'
 import BrowserNavigation from '@/modules/header/browser-navigate'
 import Drawer from '@/modules/header/drawer'
 import UserInfoBox from '@/modules/header/user-info'
@@ -16,32 +17,48 @@ import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 
-export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => [
-  tw`
-  w-full
-  flex
-  flex-row
-  justify-between
-  items-center
-  h-[64px]
-  border-b-[1px]
-  border-gray-200
-  fixed
-  `,
-  isApp && tw`bg-white px-6 3xl:px-6`,
-  !isApp &&
+const FixedHeight = styled.div<{ hasEvent?: boolean }>(({ hasEvent }) => {
+  const styles = [tw`w-full !h-[64px] bg-white fixed flex flex-col justify-end`]
+
+  if (hasEvent) {
+    styles.push(tw`!h-[112px]`)
+  }
+
+  return styles
+})
+
+export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => {
+  const styles = [
     tw`
-    border-0
-    backdrop-blur-lg
-    flex
-    flex-row
-    justify-center
-    items-center
-  `,
-])
+        w-full
+        flex
+        flex-col
+        justify-between
+        items-center
+        h-[64px]
+        border-b-[1px]
+        border-gray-200
+      `,
+  ]
+
+  if (isApp) {
+    styles.push(tw`bg-white px-6 3xl:px-6`)
+  } else {
+    styles.push(tw`
+        border-0
+        backdrop-blur-lg
+        flex
+        flex-row
+        justify-center
+        items-center
+      `)
+  }
+
+  return styles
+})
 
 const LeftSection = tw(HorizontalStartCenter)`
-  gap-4
+  gap-5
   h-full
   w-full
 `
@@ -49,8 +66,6 @@ const LeftSection = tw(HorizontalStartCenter)`
 const ImageLogoBox = styled(Image)(tw`
   cursor-pointer
   h-full
-  max-sm:w-[100px]
-  max-2xl:w-[120px]
 `)
 
 const RightSection = tw(Horizontal)`
@@ -103,35 +118,43 @@ export const Header: FC<{}> = () => {
 
   const isApp: boolean = user !== undefined
 
+  useEffect(() => {
+    if (isApp) {
+      chatController.connect()
+    }
+  }, [isApp])
+
   return (
-    <HeaderBox isApp={isApp}>
-      <Body isApp={isApp}>
-        <LeftSection>
-          <MobileView>
-            <Drawer />
-            <MenuIcon onClick={() => !showNavigationDrawer && setShowNavigationDrawer(true)} />
-          </MobileView>
+    <FixedHeight>
+      <HeaderBox isApp={isApp}>
+        <Body isApp={isApp}>
+          <LeftSection>
+            <MobileView>
+              <Drawer />
+              <MenuIcon onClick={() => !showNavigationDrawer && setShowNavigationDrawer(true)} />
+            </MobileView>
 
-          <ImageLogoBox
-            width={150}
-            height={100}
-            onClick={() => {
-              navigate(RouterConst.HOME)
-            }}
-            src={StorageConst.APP_LOGO_DIR.src}
-            alt={StorageConst.APP_LOGO_DIR.alt}
-          />
+            <ImageLogoBox
+              width={90}
+              height={40}
+              onClick={() => {
+                navigate(RouterConst.HOME)
+              }}
+              src={StorageConst.APP_LOGO_DIR.src}
+              alt={StorageConst.APP_LOGO_DIR.alt}
+            />
 
-          {/* For browser */}
-          <FullBrowser>
-            <BrowserNavigation />
-          </FullBrowser>
-          {/* ========== */}
-        </LeftSection>
-        <RightSection>
-          <UserInfoBox />
-        </RightSection>
-      </Body>
-    </HeaderBox>
+            {/* For browser */}
+            <FullBrowser>
+              <BrowserNavigation />
+            </FullBrowser>
+            {/* ========== */}
+          </LeftSection>
+          <RightSection>
+            <UserInfoBox />
+          </RightSection>
+        </Body>
+      </HeaderBox>
+    </FixedHeight>
   )
 }

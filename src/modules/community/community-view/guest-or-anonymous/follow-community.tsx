@@ -16,6 +16,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { CommunityType, FollowCommunityType } from '@/types/community'
 import { onCopy } from '@/utils/helper'
 import { ButtonTypeEnum, NegativeButton, PositiveButton } from '@/widgets/buttons'
+import { HorizontalCenter } from '@/widgets/orientation'
 import { CheckIcon, ShareIcon } from '@heroicons/react/24/outline'
 
 const BorderShare = tw.div`
@@ -26,6 +27,9 @@ const BorderShare = tw.div`
   rounded-lg
   cursor-pointer
 `
+
+const GapHorizontal = tw(HorizontalCenter)`gap-2`
+
 const FollowCommunity: FC<{
   community: CommunityType
 }> = ({ community }) => {
@@ -88,7 +92,7 @@ const FollowCommunity: FC<{
 
   if (communityExist && communityExist.length) {
     return (
-      <>
+      <GapHorizontal>
         <PositiveButton type={ButtonTypeEnum.SUCCESS_BORDER}>
           <CheckIcon className='w-6 h-6 text-success' />
           {'Following'}
@@ -96,7 +100,7 @@ const FollowCommunity: FC<{
         <BorderShare onClick={fetchMyFollowerInfo}>
           <ShareIcon className='w-6 h-6 text-gray-900' />
         </BorderShare>
-      </>
+      </GapHorizontal>
     )
   }
 

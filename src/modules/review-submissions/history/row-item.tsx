@@ -1,10 +1,9 @@
-import { ChangeEvent, FC } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
 
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { ClaimedQuestMap, ClaimedQuestStatus } from '@/constants/common.const'
-import StorageConst from '@/constants/storage.const'
 import {
   Details,
   FullWidth,
@@ -12,23 +11,28 @@ import {
   Name,
   Row,
   Title,
+  VerticalItem,
   VerticalLeftMargin,
 } from '@/modules/review-submissions/mini-widget'
 import { ClaimedSubmit } from '@/modules/review-submissions/pending/row-item'
+import ViewDetailModal from '@/modules/review-submissions/view-detail'
 import ClaimReviewStore from '@/store/local/claim-review'
 import { ClaimQuestType } from '@/types'
-import { Image } from '@/widgets/image'
+import { UserAvatar } from '@/widgets/avatar'
+import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
 import { HorizontalBetweenCenterFullWidth, Vertical } from '@/widgets/orientation'
 
 export const Status = styled.div<{ claimStatus?: string }>(
   ({ claimStatus = ClaimedQuestStatus.PENDING }) => {
     const styles = [
       tw`
-        text-sm
-        font-medium
-        py-2
-        px-3
+        text-xs
+        py-1
+        px-2
         rounded-lg
+        flex
+        justify-center
+        items-center
     `,
     ]
 
@@ -59,18 +63,21 @@ export const Status = styled.div<{ claimStatus?: string }>(
   }
 )
 
+const GapVertical = tw(Vertical)`w-[150px] gap-2`
+
 const RowItem: FC<{
   active: boolean
   onChange: (e: ChangeEvent<HTMLInputElement>, value: ClaimQuestType) => void
   claim: ClaimQuestType
 }> = ({ active, onChange, claim }) => {
+  const [viewDetailModal, setViewDetailModal] = useState<boolean>(false)
   const onSubmissionModalChanged = ClaimReviewStore.useStoreActions(
     (actions) => actions.setShowClaimDetails
   )
   const setClaimActive = ClaimReviewStore.useStoreActions((actions) => actions.setClaimActive)
 
   return (
-    <Vertical>
+    <VerticalItem active={false}>
       <HorizontalBetweenCenterFullWidth>
         <Row>
           <FullWidth>
@@ -82,12 +89,7 @@ const RowItem: FC<{
             >
               <Title>{claim.quest?.title}</Title>
               <Info>
-                <Image
-                  width={40}
-                  height={40}
-                  src={StorageConst.USER_DEFAULT.src}
-                  alt={StorageConst.USER_DEFAULT.alt}
-                />
+                <UserAvatar user={claim.user} size={35} />
                 <VerticalLeftMargin>
                   <Name>{claim.user.name || ''}</Name>
                   {
@@ -99,13 +101,23 @@ const RowItem: FC<{
             </Details>
           </FullWidth>
 
-          <Status claimStatus={claim.status!}>
-            {ClaimedQuestMap.get(claim.status! as ClaimedQuestStatus)}
-          </Status>
+          <GapVertical>
+            <Status claimStatus={claim.status!}>
+              {ClaimedQuestMap.get(claim.status! as ClaimedQuestStatus)}
+            </Status>
+            <PositiveButton onClick={() => setViewDetailModal(true)} type={ButtonTypeEnum.WARNING}>
+              {'View Detail'}
+            </PositiveButton>
+          </GapVertical>
+          <ViewDetailModal
+            isOpen={viewDetailModal}
+            onCloseModal={() => setViewDetailModal(false)}
+            claimQuest={claim}
+          />
         </Row>
       </HorizontalBetweenCenterFullWidth>
       <ClaimedSubmit claimQuest={claim} />
-    </Vertical>
+    </VerticalItem>
   )
 }
 

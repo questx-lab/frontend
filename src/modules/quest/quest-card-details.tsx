@@ -4,24 +4,26 @@ import parseHtml from 'html-react-parser'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { QuestColor, QuestRecurrencesStringMap } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import { CommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import {
-  Horizontal,
   HorizontalBetweenCenterFullWidth,
+  HorizontalCenter,
   HorizontalStartCenter,
   VerticalFullWidth,
 } from '@/widgets/orientation'
-import { Gap } from '@/widgets/separator'
-import { MediumText, RewardText } from '@/widgets/text'
+import { RewardText, TextBase, TextSm } from '@/widgets/text'
 import { LockClosedIcon } from '@heroicons/react/24/outline'
 
 const BorderBox = styled.div<{
   isTemplate: boolean
-}>(({ isTemplate }) => {
+  bgColor: string
+  showCommunity: boolean
+}>(({ showCommunity, isTemplate, bgColor }) => {
   const style = [
     tw`
     cursor-pointer
@@ -29,14 +31,15 @@ const BorderBox = styled.div<{
     border-solid
     border-gray-200
     border-[1px]
-    h-[300px]
-    max-lg:h-[300px]
+    h-[220px]
     w-full
     flex
     flex-col
     hover:shadow-lg
     justify-center
     items-center
+    p-5
+    gap-3
   `,
   ]
 
@@ -44,65 +47,106 @@ const BorderBox = styled.div<{
     style.push(tw`bg-white border-gray-200`)
   }
 
+  if (showCommunity) {
+    style.push(tw`!h-[252px]`)
+  }
+
+  switch (bgColor) {
+    case QuestColor.EMERALD:
+      style.push(tw`bg-emerald-50 border-emerald-200`)
+      break
+    case QuestColor.ORANGE:
+      style.push(tw`bg-orange-50 border-orange-200`)
+      break
+    case QuestColor.INDIGO:
+      style.push(tw`bg-indigo-50 border-indigo-200`)
+      break
+    case QuestColor.PINK:
+      style.push(tw`bg-pink-50 border-pink-200`)
+      break
+    case QuestColor.CYAN:
+      style.push(tw`bg-cyan-50 border-cyan-200`)
+      break
+    default:
+      style.push(tw`bg-white border-gray-200`)
+      break
+  }
+
   return style
 })
 
 const BasicInfoFrame = tw(VerticalFullWidth)`
-  h-full
-  px-5
-  pt-5
+  h-[144px]
+  gap-3
 `
 
-const TitleQuestBox = tw(MediumText)`
-  px-4
-  text-black
+const TitleQuestBox = tw(TextBase)`
+  text-gray-900
+  font-medium
   max-lg:text-sm
+  overflow-hidden
+  text-ellipsis
+  line-clamp-2
 `
 
-const Description = styled.div<{ showCommunity: boolean }>(({ showCommunity }) => {
+const Description = tw.div`
+  w-full
+  text-gray-700
+  font-normal
+  text-lg
+  max-lg:text-sm
+  overflow-hidden
+  text-ellipsis
+  line-clamp-2
+`
+
+const Footer = tw(HorizontalBetweenCenterFullWidth)`
+  w-full
+`
+
+const CommunityDisplayname = tw(TextSm)`
+  overflow-auto
+  text-ellipsis
+  line-clamp-1
+  font-medium
+`
+
+const RecurrenceBox = styled.div<{ bgColor: string }>(({ bgColor }) => {
   const styles = [
     tw`
-    w-full
-    px-4
-    text-gray-700
+    px-2
+    py-[6px]
+    rounded-lg
+    text-xs
     font-normal
-    text-lg
-    max-lg:text-sm
-    overflow-hidden
-    text-ellipsis
-    line-clamp-6
+    text-gray-500
   `,
   ]
 
-  if (showCommunity) {
-    styles.push(tw`!line-clamp-4`)
+  switch (bgColor) {
+    case QuestColor.EMERALD:
+      styles.push(tw`bg-emerald-100`)
+      break
+    case QuestColor.ORANGE:
+      styles.push(tw`bg-orange-100`)
+      break
+    case QuestColor.INDIGO:
+      styles.push(tw`bg-indigo-100`)
+      break
+    case QuestColor.PINK:
+      styles.push(tw`bg-pink-100`)
+      break
+    case QuestColor.CYAN:
+      styles.push(tw`bg-cyan-100`)
+      break
+    default:
+      styles.push(tw`bg-gray-100`)
   }
 
   return styles
 })
 
-const Body = tw(Horizontal)`
-  w-full
-  h-16
-  justify-between
-  items-center
-  border-t-[1px]
-  border-gray-200
-`
-
-const HeaderBox = tw(Horizontal)`
-  px-4
-  justify-start
-  items-center
-`
-
-const CommunityDisplayname = tw(MediumText)`
-  overflow-auto
-  text-ellipsis
-  line-clamp-1
-`
-
-const GapHorizontal = tw(HorizontalStartCenter)`px-5 pt-5 w-full`
+const GapHorizontal = tw(HorizontalStartCenter)`w-full`
 
 const CommunityFrame: FC<{ community?: CommunityType; showCommunity: boolean }> = ({
   community,
@@ -114,7 +158,11 @@ const CommunityFrame: FC<{ community?: CommunityType; showCommunity: boolean }> 
 
   return (
     <GapHorizontal>
-      <CircularImage height={50} width={50} src={StorageConst.COMMUNITY_DEFAULT.src} />
+      <CircularImage
+        height={32}
+        width={32}
+        src={community.logo_url || StorageConst.COMMUNITY_DEFAULT.src}
+      />
       <CommunityDisplayname>{community?.display_name}</CommunityDisplayname>
     </GapHorizontal>
   )
@@ -133,28 +181,38 @@ const QuestCardDetails: FC<{
   isTemplate?: boolean
   onClick: (e: QuestType) => void
   showCommunity?: boolean
-}> = ({ quest, isTemplate = false, onClick = () => {}, showCommunity = false }) => {
+  bgColor?: string
+}> = ({
+  quest,
+  isTemplate = false,
+  onClick = () => {},
+  showCommunity = false,
+  bgColor = QuestColor.EMERALD,
+}) => {
   return (
-    <BorderBox isTemplate={isTemplate} onClick={() => onClick(quest)}>
+    <BorderBox
+      showCommunity={showCommunity}
+      bgColor={bgColor}
+      isTemplate={isTemplate}
+      onClick={() => onClick(quest)}
+    >
       <CommunityFrame showCommunity={showCommunity} community={quest.community} />
       <BasicInfoFrame>
         <HorizontalBetweenCenterFullWidth>
           <TitleQuestBox>{quest.title}</TitleQuestBox>
           <LockIcon quest={quest} />
         </HorizontalBetweenCenterFullWidth>
-        <Gap height={4} />
-        <Description showCommunity={showCommunity}>
-          {parseHtml(quest.description ?? '')}
-        </Description>
+        <Description>{parseHtml(quest.description ?? '')}</Description>
       </BasicInfoFrame>
-
-      <Body>
-        <HeaderBox>
+      <Footer>
+        <HorizontalCenter>
           <Image width={25} height={25} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
-          <Gap width={2} />
           <RewardText>{quest.points}</RewardText>
-        </HeaderBox>
-      </Body>
+        </HorizontalCenter>
+        <RecurrenceBox bgColor={bgColor}>
+          {QuestRecurrencesStringMap.get(quest.recurrence)?.toUpperCase()}
+        </RecurrenceBox>
+      </Footer>
     </BorderBox>
   )
 }

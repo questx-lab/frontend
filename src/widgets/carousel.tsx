@@ -9,10 +9,10 @@ import StorageConst from '@/constants/storage.const'
 import { Image } from '@/widgets/image'
 import { VerticalCenter } from '@/widgets/orientation'
 import { NormalText } from '@/widgets/text'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 
 const Card = tw.div`
-  mx-2
+  mr-4
 `
 
 const EmptyBox = tw(VerticalCenter)`
@@ -34,7 +34,7 @@ const responsive = {
     items: 3,
   },
   tablet: {
-    breakpoint: { max: 1025, min: 769 },
+    breakpoint: { max: 1024, min: 769 },
     items: 3,
   },
   mobile: {
@@ -45,9 +45,9 @@ const responsive = {
 
 const ArrowBtn = styled.button<{ isLeft?: boolean }>(({ isLeft = false }) => [
   tw`
-    hover:bg-gray-100
+    hover:border-gray-300
     bg-white border
-    border-gray-500
+    border-gray-200
     p-2
     border-solid
     rounded-full
@@ -55,7 +55,8 @@ const ArrowBtn = styled.button<{ isLeft?: boolean }>(({ isLeft = false }) => [
     h-10
     absolute
     right-0
-    text-gray-500
+    text-gray-700
+    shadow-lg
   `,
   isLeft && tw`left-0`,
 ])
@@ -63,7 +64,7 @@ const ArrowBtn = styled.button<{ isLeft?: boolean }>(({ isLeft = false }) => [
 const CustomRightArrow = ({ onClick }: ArrowProps) => {
   return (
     <ArrowBtn onClick={onClick}>
-      <ChevronRightIcon />
+      <ChevronRightIcon className='w-5 h-5 text-gray-700 hover:text-gray-900' />
     </ArrowBtn>
   )
 }
@@ -71,7 +72,7 @@ const CustomRightArrow = ({ onClick }: ArrowProps) => {
 const CustomLeftArrow = ({ onClick }: ArrowProps) => {
   return (
     <ArrowBtn onClick={onClick} isLeft>
-      <ChevronLeftIcon />
+      <ChevronLeftIcon className='w-5 h-5 text-gray-700 hover:text-gray-900' />
     </ArrowBtn>
   )
 }

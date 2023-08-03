@@ -35,12 +35,12 @@ export const Main = tw(Vertical)`
 const CommunityGrid = tw.div`
   w-full
   grid
-  xl:grid-cols-4
   gap-4
   lg:grid-cols-3
   md:grid-cols-2
   sm:grid-cols-1
   max-sm:grid-cols-1
+  max-sm:gap-0
 `
 
 const Title: FC = () => {

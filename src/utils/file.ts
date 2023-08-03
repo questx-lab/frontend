@@ -63,6 +63,7 @@ export async function uploadFileForUser(file: File): Promise<Rsp<UploadCommunity
   }
 
   formData.append('image', file || '')
+
   try {
     const result = await uploadAvatarUserApi(formData)
     return result
