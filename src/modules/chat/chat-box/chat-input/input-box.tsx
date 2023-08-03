@@ -1,4 +1,5 @@
 import { FC, ReactNode, useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions'
 import { getCommunityFollowersApi } from '@/api/communitiy'
 import CommunityStore from '@/store/local/community'
@@ -32,10 +33,10 @@ const defaultStyle = {
       backgroundColor: 'white',
       border: '1px solid #e5e7eb',
       fontSize: 14,
-      maxHeight: 100,
       overflow: 'auto',
       position: 'absolute',
       bottom: 14,
+      width: '200px',
     },
     item: {
       padding: '5px 15px',
@@ -89,20 +90,24 @@ const InputBox: FC<{
     )
   }
 
-  const searchUsers = async (query: string, callback: (data: SuggestionDataItem[]) => void) => {
-    const resp = await getCommunityFollowersApi(community.handle, query)
-    if (resp.code === 0 && resp.data) {
-      const followers = resp.data.followers.slice(0, 5)
-      const searchedUsers = followers.map((follower) => {
-        return {
-          id: follower.user.id,
-          display: follower.user.name,
-        }
-      })
-      setSearchedUsers(followers)
-      callback(searchedUsers)
-    }
-  }
+  const searchUsers = useDebouncedCallback(
+    async (query: string, callback: (data: SuggestionDataItem[]) => void) => {
+      const resp = await getCommunityFollowersApi(community.handle, query)
+      if (resp.code === 0 && resp.data) {
+        const followers = resp.data.followers.slice(0, 5)
+
+        const searchedUsers = followers.map((follower) => {
+          return {
+            id: follower.user.id,
+            display: follower.user.name,
+          }
+        })
+        setSearchedUsers(followers)
+        callback(searchedUsers)
+      }
+    },
+    1000
+  )
 
   const handleKeyboardEvent = (event: React.KeyboardEvent) => {
     const now = Date.now()

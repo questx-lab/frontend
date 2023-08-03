@@ -138,7 +138,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
         `<span style="background-color:#cee4e5;color:white;"> @${info.display} </span>`
       )
     })
-    return result
+    return parseHtml(result)
   }
 
   // Sender
@@ -149,7 +149,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
           <Reaction side={SideEnum.LEFT} message={message}>
             <GapVerticalFullWidth>
               <Attachments attachments={message.attachments} />
-              <LightTextBase>{parseHtml(convertMessage(message.content))}</LightTextBase>
+              <LightTextBase>{convertMessage(message.content)}</LightTextBase>
               <EmojiReact reactions={message.reactions} />
             </GapVerticalFullWidth>
           </Reaction>
@@ -167,7 +167,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
           <GapVerticalFullWidth>
             <MediumTextSm>{message.author.name}</MediumTextSm>
             <Attachments attachments={message.attachments} />
-            <LightTextBase>{message.content}</LightTextBase>
+            <LightTextBase>{convertMessage(message.content)}</LightTextBase>
             <EmojiReact reactions={message.reactions} />
           </GapVerticalFullWidth>
         </Reaction>
