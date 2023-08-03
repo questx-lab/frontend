@@ -55,10 +55,10 @@ const StatusDescriptionUser = styled.div<{ status: UserChatStatusType }>(({ stat
 
 const GapHorizontal = tw(HorizontalFullWidth)`gap-3 items-center cursor-pointer`
 const GapVertical = tw(VerticalFullWidth)`gap-1 justify-center`
-const CircleGreenBox = tw.div`w-2 h-2 rounded-full bg-success`
+const CircleGreenBox = tw.div`w-2.5 h-2.5 rounded-full bg-success`
 
-const Relative = tw.div`relative w-8 h-8 p-0`
-const Absolute = tw.div`absolute right-0 bottom-0 p-[1px] bg-white rounded-full`
+const Relative = tw.div`relative w-10 h-10 p-0`
+const Absolute = tw.div`absolute right-0 bottom-1 p-[1px] bg-white rounded-full`
 
 const UserItem: FC<{ user: UserType }> = ({ user }) => {
   return (
