@@ -26,7 +26,7 @@ const MessageList: FC = () => {
 
     setTimeout(() => {
       if (messageListRef.current) {
-        messageListRef.current.scrollTop = 100000
+        messageListRef.current.scrollTop = messageListRef.current.scrollHeight
       }
     }, DELAY_SCROLL_TIME)
   }, [currentChannel.id])
@@ -44,21 +44,43 @@ const MessageList: FC = () => {
         }
 
         setMessages(newMessages)
+        switch (eventType) {
+          case MessageEventEnum.LOAD_PREFIX:
+            // When more items are appended at the front of the list, the scroll position changes. We
+            // want to make sure user still the last scroll item.
+            if (messageListRef.current) {
+              const oldHeight = messageListRef.current.scrollHeight
+              const oldTop = messageListRef.current.scrollTop
+              requestAnimationFrame(() => {
+                if (messageListRef.current) {
+                  const newHeight = messageListRef.current.scrollHeight
+                  messageListRef.current.scrollTo({ top: oldTop + newHeight - oldHeight })
+                }
+              })
+            }
+            break
+          case MessageEventEnum.LOAD_SUFFIX:
+          case MessageEventEnum.NEW_MESSAGES:
+            // When scroll position is the last. We should scroll to the last if we have new messages.
+            // If position is not the last. We still stay in current scroll position
+            if (messageListRef.current) {
+              const oldHeight = messageListRef.current.scrollHeight
+              const oldTop = messageListRef.current.scrollTop
+              const distance = oldHeight - oldTop
+              // distance between scroll height and last scroll top
+              const lastTopHeightDistance = 835
+              if (distance >= lastTopHeightDistance - 10 && distance <= lastTopHeightDistance + 10)
+                requestAnimationFrame(() => {
+                  if (messageListRef.current) {
+                    const newHeight = messageListRef.current.scrollHeight
+                    messageListRef.current.scrollTo({ top: oldTop + newHeight - oldHeight })
+                  }
+                })
+            }
+            break
 
-        if (eventType === MessageEventEnum.LOAD_PREFIX) {
-          // When more items are appended at the front of the list, the scroll position changes. We
-          // want to make sure user still the last scroll item.
-          if (messageListRef.current) {
-            const oldHeight = messageListRef.current.scrollHeight
-            const oldTop = messageListRef.current.scrollTop
-
-            requestAnimationFrame(() => {
-              if (messageListRef.current) {
-                const newHeight = messageListRef.current.scrollHeight
-                messageListRef.current.scrollTo({ top: oldTop + newHeight - oldHeight })
-              }
-            })
-          }
+          default:
+            break
         }
       },
     }
