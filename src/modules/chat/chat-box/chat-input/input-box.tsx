@@ -65,7 +65,7 @@ const InputBox: FC<{
 }> = ({ onNewMessagedEntered, inputMessage, onInputMessage }) => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const [enterdTime, setEnterTime] = useState<number>(0)
-  const [searchedUsers, setSearchedUsers] = useState<FollowCommunityType[]>([])
+  const [searchedFollowers, setSearchedFollowers] = useState<FollowCommunityType[]>([])
 
   const renderSuggestion = (
     suggestion: SuggestionDataItem,
@@ -74,7 +74,7 @@ const InputBox: FC<{
     index: number,
     focused: boolean
   ): JSX.Element => {
-    const follower = searchedUsers.find((follower) => follower.user.id === suggestion.id)
+    const follower = searchedFollowers.find((follower) => follower.user.id === suggestion.id)
 
     return (
       <Horizontal>
@@ -95,14 +95,13 @@ const InputBox: FC<{
       const resp = await getCommunityFollowersApi(community.handle, query, 5)
       if (resp.code === 0 && resp.data) {
         const followers = resp.data.followers
-
         const searchedUsers = followers.map((follower) => {
           return {
             id: follower.user.id,
             display: follower.user.name,
           }
         })
-        setSearchedUsers(followers)
+        setSearchedFollowers(followers)
         callback(searchedUsers)
       }
     },
