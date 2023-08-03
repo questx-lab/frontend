@@ -16,7 +16,6 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
-    "@types/react-mentions": "^4.1.8",
     "async-mutex": "^0.4.0",
     "axios": "^1.4.0",
     "babel-plugin-styled-components": "^2.1.3",
@@ -42,6 +41,7 @@
     "react-grid-dnd": "^2.1.2",
     "react-hot-toast": "^2.4.1",
     "react-media-recorder-2": "^1.6.23",
+    "react-mentions": "^4.4.10",
     "react-multi-carousel": "^2.8.4",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.11.2",
@@ -108,6 +108,7 @@
     "@types/styled-components": "^5.1.26",
     "@types/websocket": "^1.0.5",
     "@types/ws": "^8.5.4",
+    "@types/react-mentions": "^4.1.8",
     "babel-plugin-module-resolver": "^5.0.0"
   }
 }
