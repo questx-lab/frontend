@@ -28,6 +28,7 @@ const UserBox = tw(Vertical)`
 
 const RowBox = tw(HorizontalCenter)`
   gap-1
+  max-w-full
 `
 
 const NameText = tw.p`
@@ -35,11 +36,11 @@ const NameText = tw.p`
   font-medium
   text-black
   text-center
-  max-w-lg
   text-ellipsis
   overflow-hidden
-  max-w-[150px]
 `
+
+const Poppanel = tw(PopPanel)`w-[240px] mt-5 !right-0 max-h-[calc(100vh_-_70px)] overflow-y-scroll`
 
 const UserPopover: FC = () => {
   const navigate = useNavigate()
@@ -68,7 +69,7 @@ const UserPopover: FC = () => {
 
   return (
     <PopPover custom button={<UserAvatar user={user} size={32} />}>
-      <PopPanel className={'w-[240px] mt-5 !right-0'}>
+      <Poppanel>
         {({ close }) => (
           <>
             <PopItem>
@@ -106,7 +107,7 @@ const UserPopover: FC = () => {
             </PopItem>
           </>
         )}
-      </PopPanel>
+      </Poppanel>
     </PopPover>
   )
 }
