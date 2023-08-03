@@ -9,7 +9,7 @@ import { Horizontal } from '@/widgets/orientation'
 import StorageConst from '@/constants/storage.const'
 import { Gap } from '@/widgets/separator'
 
-const defaultStyle = {
+const MentionInputStyle = {
   control: {
     fontSize: 14,
     fontWeight: 'normal',
@@ -49,7 +49,7 @@ const defaultStyle = {
   },
 }
 
-const defaultMentionStyle = {
+const MentionStyle = {
   position: 'relative',
   zIndex: 1,
   backgroundColor: '#cee4e5',
@@ -127,14 +127,14 @@ const InputBox: FC<{
       onChange={(e) => {
         onInputMessage(e.target.value)
       }}
-      style={defaultStyle}
+      style={MentionInputStyle}
       onKeyDown={handleKeyboardEvent}
     >
       <Mention
         trigger='@'
         data={searchUsers}
         renderSuggestion={renderSuggestion}
-        style={defaultMentionStyle}
+        style={MentionStyle}
         displayTransform={(id: string, display: string) => `@${display}`}
       />
     </MentionsInput>
