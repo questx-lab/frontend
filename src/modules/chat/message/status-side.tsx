@@ -1,25 +1,21 @@
 import { FC, useEffect, useState } from 'react'
 
-import { toast } from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import { getUsersApi } from '@/api/chat'
-import { UserChatStatusType, UserChatType } from '@/types/chat'
+import chatController from '@/modules/chat/services/chat-controller'
+import CommunityStore from '@/store/local/community'
+import { UserType } from '@/types'
+import { UserChatStatusType } from '@/types/chat'
 import { UserAvatar } from '@/widgets/avatar'
-import {
-  HorizontalBetweenCenterFullWidth,
-  HorizontalFullWidth,
-  Vertical,
-  VerticalFullWidth,
-} from '@/widgets/orientation'
-import { SmallSpinner } from '@/widgets/spinner'
+import { HorizontalFullWidth, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { TextSm } from '@/widgets/text'
 
 const Frame = tw(Vertical)`
-  w-[230px]
+  w-[300px]
   fixed
   p-6
+  mt-[64px]
   border-l
   border-gray-200
   border-solid
@@ -60,28 +56,28 @@ const StatusDescriptionUser = styled.div<{ status: UserChatStatusType }>(({ stat
 const GapHorizontal = tw(HorizontalFullWidth)`gap-3 items-center cursor-pointer`
 const GapVertical = tw(VerticalFullWidth)`gap-1 justify-center`
 
-const FullSize = tw(HorizontalBetweenCenterFullWidth)`h-full`
-
-const UserItem: FC<{ user: UserChatType }> = ({ user }) => {
+const UserItem: FC<{ user: UserType }> = ({ user }) => {
   return (
     <GapHorizontal>
-      <UserAvatar user={user.user} size={32} />
+      <UserAvatar user={user} size={32} />
       <GapVertical>
-        <NameUser status={user.status}>{user.user.name}</NameUser>
-        <StatusDescriptionUser status={user.status}>{user.shordStatus}</StatusDescriptionUser>
+        <NameUser status={user.status || UserChatStatusType.OFFLINE}>{user.name}</NameUser>
+        <StatusDescriptionUser status={user.status || UserChatStatusType.OFFLINE}>
+          {''}
+        </StatusDescriptionUser>
       </GapVertical>
     </GapHorizontal>
   )
 }
 
-const UsersChat: FC<{ users: UserChatType[]; loading: boolean }> = ({ users, loading }) => {
-  if (loading) {
-    return (
-      <FullSize>
-        <SmallSpinner />
-      </FullSize>
-    )
-  }
+// Convert map to array
+const onlineUsersMapToArray = (onlineUsers: Map<string, UserType>) => {
+  const arr: UserType[] = []
+  onlineUsers.forEach((user) => arr.push(user))
+  return arr
+}
+
+const UsersChat: FC<{ users: UserType[] }> = ({ users }) => {
   if (users.length === 0) {
     return <></>
   }
@@ -92,41 +88,40 @@ const UsersChat: FC<{ users: UserChatType[]; loading: boolean }> = ({ users, loa
 }
 
 const StatusSide: FC = () => {
-  const [loading, setLoading] = useState<boolean>(true)
-  const [usersChat, setUsersChat] = useState<UserChatType[]>([])
+  const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
+  const [onlineUsers, setOnlineUsers] = useState<UserType[]>([])
 
   useEffect(() => {
-    getUsersChat()
-  }, [])
-
-  const getUsersChat = async () => {
-    try {
-      const { error, data } = await getUsersApi()
-      if (error) {
-        toast.error(error)
-      }
-
-      if (data) {
-        setUsersChat(data)
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false)
+    if (community.handle === '') {
+      return
     }
-  }
 
-  const onlineUsers = usersChat.filter((user) => user.status !== UserChatStatusType.OFFLINE)
-  const offlineUsers = usersChat.filter((user) => user.status === UserChatStatusType.OFFLINE)
+    setOnlineUsers(onlineUsersMapToArray(chatController.getOnlineUsers(community.handle)))
+  }, [community.handle])
+
+  useEffect(() => {
+    const listener = {
+      onStatusChanged: (communityHandle: string, onlineUsers: Map<string, UserType>) => {
+        if (community.handle !== communityHandle) {
+          return
+        }
+
+        setOnlineUsers(onlineUsersMapToArray(onlineUsers))
+      },
+    }
+
+    chatController.addChatStatusListener(listener)
+
+    return () => {
+      chatController.removeChatStatusListener(listener)
+    }
+  }, [community.handle])
 
   return (
     <Frame>
       <StatusFrame>
         <TextSm>{'ONLINE'}</TextSm>
-        <UsersChat users={onlineUsers} loading={loading} />
-      </StatusFrame>
-      <StatusFrame>
-        <TextSm>{'OFFINE'}</TextSm>
-        <UsersChat users={offlineUsers} loading={loading} />
+        <UsersChat users={onlineUsers} />
       </StatusFrame>
     </Frame>
   )

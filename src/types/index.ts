@@ -1,3 +1,4 @@
+import { UserChatStatusType } from '@/types/chat'
 import { CommunityType } from '@/types/community'
 import { BuyLotteryTicketsType } from '@/types/lottery'
 import { QuestType, ValidationQuest } from '@/types/quest'
@@ -48,6 +49,7 @@ export type UserType = {
   avatar_url?: string
   total_communities?: number
   total_claimed_quests?: number
+  status?: UserChatStatusType
 }
 
 export type UpdateCommunityRequest = {
