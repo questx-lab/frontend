@@ -1,9 +1,10 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useStoreActions } from 'easy-peasy'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
+import { getTotalUserCount } from '@/admin-portal/api/admin'
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import { HeaderBox } from '@/modules/header'
@@ -25,6 +26,8 @@ const Header: FC = () => {
   // action
   const setUser = useStoreActions<GlobalStoreModel>((action) => action.setUser)
 
+  const [totalUser, setTotalUser] = useState<number>(0)
+
   // handler
   const handleLogout = () => {
     setUser(undefined)
@@ -34,9 +37,21 @@ const Header: FC = () => {
     navigate(RouterConst.HOME)
   }
 
+  useEffect(() => {
+    getTotalUser()
+  }, [])
+
+  const getTotalUser = async () => {
+    const res = await getTotalUserCount()
+    if (res.code === 0 && res.data) {
+      setTotalUser(res.data.total)
+    }
+  }
+
   return (
     <HeaderBox>
       <RightSection>
+        Total User: {totalUser}
         <PopoverPosition>
           <Popover.Button className={'outline-0'}>
             <AvatarBox
