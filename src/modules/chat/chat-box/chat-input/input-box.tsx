@@ -54,10 +54,12 @@ const MentionInputStyle = {
 const MentionStyle = {
   position: 'relative',
   zIndex: 1,
-  backgroundColor: '#cee4e5',
+  backgroundColor: '#F1F5F9',
   textDecoration: 'none',
   textShadow: 'none',
-  color: 'white',
+  padding: '2px 6px',
+  borderRadius: 8,
+  color: 'info',
 }
 
 const HorizontaStartCenter = tw(Horizontal)`items-center`
@@ -129,10 +131,10 @@ const InputBox: FC<{
       onKeyDown={handleKeyboardEvent}
     >
       <Mention
+        className={`bg-success-300 `}
         trigger='@'
         data={searchUsers}
         renderSuggestion={renderSuggestion}
-        style={MentionStyle}
         displayTransform={(id: string, display: string) => `@${display}`}
       />
     </MentionsInput>
