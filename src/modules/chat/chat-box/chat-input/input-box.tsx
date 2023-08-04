@@ -44,22 +44,11 @@ const MentionInputStyle = {
       padding: '5px 15px',
       borderRadius: '16px solid #e5e7eb',
       '&focused': {
-        backgroundColor: '#F1F5F9',
+        backgroundColor: '#FFE07D',
         color: '#000000',
       },
     },
   },
-}
-
-const MentionStyle = {
-  position: 'relative',
-  zIndex: 1,
-  backgroundColor: '#F1F5F9',
-  textDecoration: 'none',
-  textShadow: 'none',
-  padding: '2px 6px',
-  borderRadius: 8,
-  color: 'info',
 }
 
 const HorizontaStartCenter = tw(Horizontal)`items-center`
