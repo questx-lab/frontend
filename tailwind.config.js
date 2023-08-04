@@ -157,6 +157,7 @@ module.exports = withMT({
       },
       info: {
         100: '#DBEAFE',
+        200: '#C6DAF5',
         500: '#3B82F6',
         700: '#1D4ED8',
         DEFAULT: '#3B82F6',
