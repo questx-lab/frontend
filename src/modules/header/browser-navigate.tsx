@@ -1,13 +1,16 @@
 import { FC, useEffect, useState } from 'react'
 
+import { useStoreState } from 'easy-peasy'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { NavigationEnum } from '@/constants/key.const'
 import { RouterConst } from '@/constants/router.const'
+import { GlobalStoreModel } from '@/store/store'
+import { UserType } from '@/types'
 import { Horizontal } from '@/widgets/orientation'
-import { TextSm } from '@/widgets/text'
+import { TextBase } from '@/widgets/text'
 
 export const BoxLink = tw(Horizontal)`
   h-full
@@ -41,14 +44,22 @@ export const Underline = tw.div`
   bottom-0
 `
 
-const MediumTextSm = tw(TextSm)`
-  font-medium
-`
+const MediumTextSm = styled(TextBase)<{ isDark: boolean }>(({ isDark }) => {
+  const styles = [tw``]
+  if (isDark) {
+    styles.push(tw`!text-white`)
+  }
+
+  return styles
+})
 
 const BrowserNavigation: FC = () => {
-  const [navActive, setNavActive] = useState<string>('')
   // hook
+  const [navActive, setNavActive] = useState<string>('')
   const location = useLocation()
+  console.log('location.pathname.', location.pathname)
+  const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+
   useEffect(() => {
     if (location.pathname.includes(NavigationEnum.COMMUNITY)) {
       setNavActive(NavigationEnum.COMMUNITY)
@@ -62,11 +73,15 @@ const BrowserNavigation: FC = () => {
   return (
     <BoxLink>
       <Route to={RouterConst.COMMUNITIES}>
-        <MediumTextSm>{'Communities'}</MediumTextSm>
+        <MediumTextSm isDark={location.pathname === '/' && user === undefined}>
+          {'Communities'}
+        </MediumTextSm>
         {navActive === NavigationEnum.COMMUNITY && <Underline />}
       </Route>
       <Route to={RouterConst.QUESTBOARD}>
-        <MediumTextSm>{'QuesterCamp'}</MediumTextSm>
+        <MediumTextSm isDark={location.pathname === '/' && user === undefined}>
+          {'QuesterCamp'}
+        </MediumTextSm>
         {navActive === NavigationEnum.QUESTCARD && <Underline />}
       </Route>
     </BoxLink>

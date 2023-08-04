@@ -17,16 +17,7 @@ import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 
-const FixedHeight = styled.div<{ hasEvent?: boolean }>(({ hasEvent }) => {
-  const styles = [tw`w-full !h-[64px] bg-white fixed flex flex-col justify-end`]
-
-  if (hasEvent) {
-    styles.push(tw`!h-[112px]`)
-  }
-
-  return styles
-})
-
+const FixedHeight = tw.div`w-full !h-[64px] fixed flex flex-col justify-end`
 export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => {
   const styles = [
     tw`

@@ -17,6 +17,7 @@ export enum ButtonTypeEnum {
   SUCCESS,
   SUCCESS_BORDER,
   POSITVE_BORDER,
+  INFO,
 }
 
 const BaseStyle = styled.button<{
@@ -30,8 +31,8 @@ const BaseStyle = styled.button<{
       text-sm
       text-white
       font-medium
-      py-[10px]
-      px-5
+      py-[6px]
+      px-3
       rounded-lg
       flex
       justify-center
@@ -107,6 +108,14 @@ const BaseStyle = styled.button<{
                   border-solid
                   border-primary
                 `)
+        break
+      case ButtonTypeEnum.INFO:
+        style.push(tw`
+                    bg-info
+                    hover:bg-info-700
+                    text-white
+                  
+                  `)
         break
     }
   }

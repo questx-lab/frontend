@@ -23,13 +23,13 @@ const UserSession = tw(HorizontalCenter)`
 `
 
 const LoginBtn = tw.button`
-  bg-white
-  hover:bg-gray-100
+  bg-white-rgb5
+  hover:bg-white-rgb10
   text-sm
-  text-black
-  font-medium
-  py-3
-  px-6
+  text-white
+  font-bold
+  py-[6px]
+  px-3
   rounded-lg
   border
   border-gray-300
@@ -38,13 +38,13 @@ const LoginBtn = tw.button`
 `
 
 const SignUpBtn = tw.button`
-  bg-primary
-  hover:bg-primary-300
+  bg-info
+  hover:bg-info-700
   text-sm
   text-white
-  font-medium
-  py-3
-  px-6
+  font-bold
+  py-[6px]
+  px-3
   rounded-lg
   max-md:hidden
   3xl:text-xl

@@ -8,78 +8,62 @@ import tw from 'twin.macro'
 import { listCommunitiesApi } from '@/api/communitiy'
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
-import CommunityBox from '@/modules/community/community-box'
 import { CommunityType } from '@/types/community'
-import { NegativeButton } from '@/widgets/buttons'
-import CarouselList from '@/widgets/carousel'
-import CategoryBox from '@/widgets/category-box'
 import { Image } from '@/widgets/image'
 import {
   HorizontalBetweenCenter,
   HorizontalCenter,
-  Vertical,
   VerticalCenter,
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
-import { NormalText, TextXl } from '@/widgets/text'
+import { TextBase, TextXl } from '@/widgets/text'
+import { Button, IconButton } from '@material-tailwind/react'
 
-const Wrap = tw(Vertical)`
-  min-h-screen
-`
-
-const Head = tw.div`
+const Wrap = tw(VerticalCenter)`
   relative
-  bg-white
-  w-full
-  min-h-screen
+  h-screen
+  bg-gradient-to-r from-[#020617] to-[#1E293B]
 `
 
-const HeadWrap = tw(VerticalFullWidthCenter)`
+const Frame = tw(VerticalFullWidthCenter)`
+  pb-12
+  px-12
   absolute
-  w-full
-  gap-6
+  w-[1264px]
   h-full
+  overflow-y-scroll
 `
 
-const HeadBody = tw(Vertical)`
-  max-sm:px-2
-  md:px-8
+const Header = tw(VerticalCenter)`
+  py-[192px]
   w-full
-  xl:w-[1180px]
-  h-full
-`
-
-const HeadBox = tw(HorizontalBetweenCenter)`
-  w-full
-  max-md:pt-[64px]
-  max-md:flex-col-reverse
 `
 
 const Bg = styled(Image)(tw`
   w-full
+  h-full
+  
 `)
 
-const InfoBox = tw(VerticalCenter)`
-  h-full
-  items-start
-  w-2/5
-  gap-4
-  max-md:w-full
-  3xl:gap-8
-  max-md:items-center
+const Gap9Vertical = tw(VerticalFullWidthCenter)`
+  gap-9
 `
 
-const Title = tw.span`
+const Gap2Vertical = tw(VerticalFullWidthCenter)`
+  gap-2
+`
+
+const Title = tw.div`
   text-8xl
   font-medium
-  text-gray-900
+  text-white
   max-md:text-4xl
 `
 
-const Description = tw(TextXl)`
-  text-gray-700
+const Description = tw.div`
+  text-4xl
+  text-white
   font-normal
-  3xl:text-3xl
   max-md:text-center
 `
 
@@ -88,31 +72,24 @@ const RewardSession = tw(HorizontalBetweenCenter)`
   max-md:flex-col
 `
 
-const RewardTextText = tw(NormalText)`
-  text-gray-500
+const WhiteTextBase = tw(TextBase)`
+  text-white
   text-center
 `
 
 const RewardBox = tw(VerticalCenter)`
   w-full
-  bg-white
+  bg-white-rgb5
   rounded-lg
-  p-6
+  p-12
   h-full
-  gap-4
   shadow-lg
-  3xl:rounded-2xl
 `
 
-const Main = tw(Vertical)`
+const FooterBox = tw(VerticalCenter)`
   w-full
-  gap-6
-  mt-16
-`
-
-const FooterBox = tw(HorizontalBetweenCenter)`
-  w-full
-  py-8
+  gap-4
+  py-6
 `
 
 const FooterText = tw.span`
@@ -125,6 +102,10 @@ const FooterText = tw.span`
 const SocialBox = tw(HorizontalCenter)`
   gap-2
 `
+
+const WhiteTextXl = tw(TextXl)`text-white`
+
+const IconBtn = tw(IconButton)`!bg-white-rgb5 shadow-none`
 
 const SocialLogin = styled(Image)(tw`
   3xl:w-[40px]
@@ -164,7 +145,7 @@ const RewardMapData = new Map<RewardBoxEnum, RewardDataType>([
     RewardBoxEnum.EARN_REWARD,
     {
       name: 'Earn Reward',
-      des: 'Unlock exciting incentives and reap the rewards of your accomplishments. Embrace the journey and earn your well-deserved recognition. Claim your rewards now!',
+      des: 'Claim rewards, embrace the journey, earn recognition, and enjoy exciting incentives for your accomplishments.!',
       image: StorageConst.EARN_REWARD.src,
     },
   ],
@@ -172,14 +153,12 @@ const RewardMapData = new Map<RewardBoxEnum, RewardDataType>([
 
 const RewardView: FC<{
   name: string
-  imgSrc: string
   des: string
-}> = ({ name, imgSrc, des }) => {
+}> = ({ name, des }) => {
   return (
     <RewardBox>
-      <Image width={600} height={600} src={imgSrc} alt={'logo'} />
-      <TextXl>{name}</TextXl>
-      <RewardTextText>{des}</RewardTextText>
+      <WhiteTextXl>{name}</WhiteTextXl>
+      <WhiteTextBase>{des}</WhiteTextBase>
     </RewardBox>
   )
 }
@@ -189,18 +168,22 @@ const Footer: FC = () => {
     <FooterBox>
       <FooterText>{'Copyright © 2023 XQuest.'}</FooterText>
       <SocialBox>
-        <SocialLogin
-          width={25}
-          height={25}
-          src={StorageConst.TWITTER_BLACK_DIR.src}
-          alt={StorageConst.TWITTER_BLACK_DIR.alt}
-        />
-        <SocialLogin
-          width={25}
-          height={25}
-          src={StorageConst.DISCORD_BLACK_DIR.src}
-          alt={StorageConst.DISCORD_BLACK_DIR.alt}
-        />
+        <IconBtn variant='text'>
+          <SocialLogin
+            width={25}
+            height={25}
+            src={StorageConst.TWITTER_BLACK_DIR.src}
+            alt={StorageConst.TWITTER_BLACK_DIR.alt}
+          />
+        </IconBtn>
+        <IconBtn variant='text'>
+          <SocialLogin
+            width={25}
+            height={25}
+            src={StorageConst.DISCORD_BLACK_DIR.src}
+            alt={StorageConst.DISCORD_BLACK_DIR.alt}
+          />
+        </IconBtn>
       </SocialBox>
     </FooterBox>
   )
@@ -238,64 +221,43 @@ const Content: FC = () => {
 
   return (
     <Wrap>
-      <Head>
-        <HeadWrap>
-          <HeadBody>
-            <HeadBox>
-              <InfoBox>
-                <Title>{'X a Quests,'}</Title>
-                <Title>{'Earn Rewards'}</Title>
-                <Description>
-                  {
-                    'XQuest is the best way to help community projects while earning incredible rewards.'
-                  }
-                </Description>
-                <NegativeButton
-                  onClick={() => {
-                    navigate(RouterConst.COMMUNITIES)
-                  }}
-                >
-                  {'Explore'}
-                </NegativeButton>
-              </InfoBox>
-              <Image width={680} height={680} src={'/images/logos/cat.svg'} alt={'background'} />
-            </HeadBox>
-            <RewardSession>
-              <RewardView
-                name={RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.name ?? ''}
-                des={RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.des ?? ''}
-                imgSrc={RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.image ?? ''}
-              />
-              <RewardView
-                name={RewardMapData.get(RewardBoxEnum.X_A_QUEST)?.name ?? ''}
-                des={RewardMapData.get(RewardBoxEnum.X_A_QUEST)?.des ?? ''}
-                imgSrc={RewardMapData.get(RewardBoxEnum.X_A_QUEST)?.image ?? ''}
-              />
-              <RewardView
-                name={RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.name ?? ''}
-                des={RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.des ?? ''}
-                imgSrc={RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.image ?? ''}
-              />
-            </RewardSession>
-            <Main>
-              <CategoryBox
-                title='🔥 Trending Communities'
-                onClick={onShowAllClicked}
-                loading={loading}
-              >
-                <CarouselList
-                  data={communities}
-                  renderItemFunc={(community: CommunityType) => {
-                    return <CommunityBox community={community} />
-                  }}
-                />
-              </CategoryBox>
-            </Main>
-            <Footer />
-          </HeadBody>
-        </HeadWrap>
-        <Bg width={1600} height={1200} src={StorageConst.BACKGROUND.src} alt={'background'} />
-      </Head>
+      <Bg src={StorageConst.BACKGROUND.src} alt={'background'} />
+      <Frame>
+        <Header>
+          <Gap9Vertical>
+            <Gap2Vertical>
+              <Title>{'X a Quests,'}</Title>
+              <Title>{'Earn Rewards'}</Title>
+              <VerticalFullWidthCenter>
+                <Description>{`XQuest is the best way to help community projects`}</Description>
+                <Description>{`while earning incredible rewards.`}</Description>
+              </VerticalFullWidthCenter>
+            </Gap2Vertical>
+            <Button
+              onClick={() => {
+                navigate(RouterConst.COMMUNITIES)
+              }}
+            >
+              {'EXPLORE ALL COMMUNITIES'}
+            </Button>
+          </Gap9Vertical>
+        </Header>
+        <RewardSession>
+          <RewardView
+            name={RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.name ?? ''}
+            des={RewardMapData.get(RewardBoxEnum.JOIN_COMMUNITY)?.des ?? ''}
+          />
+          <RewardView
+            name={RewardMapData.get(RewardBoxEnum.X_A_QUEST)?.name ?? ''}
+            des={RewardMapData.get(RewardBoxEnum.X_A_QUEST)?.des ?? ''}
+          />
+          <RewardView
+            name={RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.name ?? ''}
+            des={RewardMapData.get(RewardBoxEnum.EARN_REWARD)?.des ?? ''}
+          />
+        </RewardSession>
+        <Footer />
+      </Frame>
     </Wrap>
   )
 }
