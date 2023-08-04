@@ -89,10 +89,10 @@ const Category: FC = () => {
     return <></>
   }
 
-  let numBox = 12
+  let numBox = 6
 
   if (isMobile) {
-    numBox = 6
+    numBox = 4
   }
 
   const rowHeight = 44
