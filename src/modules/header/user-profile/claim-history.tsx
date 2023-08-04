@@ -16,6 +16,12 @@ const LoadingPosition = tw(VerticalCenter)`
   mt-8
 `
 
+const OverflowScroll = tw(VerticalFullWidth)`
+  w-full
+  overflow-y-scroll
+  max-h-[calc(100vh_-_360px)]
+`
+
 const ClaimHistory: FC<{ user: UserType }> = ({ user }) => {
   const [claims, setClaims] = useState<ClaimQuestType[] | undefined>(undefined)
 
@@ -53,12 +59,12 @@ const ClaimHistory: FC<{ user: UserType }> = ({ user }) => {
 
   // TODO: support infinite loading here.
   return (
-    <VerticalFullWidth>
+    <OverflowScroll>
       <Gap />
       {claims.map((claim: ClaimQuestType, index: number) => {
         return <ClaimItem key={index} claim={claim} />
       })}
-    </VerticalFullWidth>
+    </OverflowScroll>
   )
 }
 

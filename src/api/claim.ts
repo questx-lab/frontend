@@ -24,7 +24,8 @@ export const getMyClaims = async (
   limit: number = 10
 ): Promise<Rsp<ListClaimQuestType>> => {
   const { data } = await api.get(
-    EnvVariables.API_SERVER + `/getClaimedQuests?user_id=${userId}&offset=${offset}&limit=${limit}`
+    EnvVariables.API_SERVER +
+      `/getClaimedQuests?user_id=${userId}&offset=${offset}&limit=${limit}&reverse_time=true`
   )
   return data
 }

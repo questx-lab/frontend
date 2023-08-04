@@ -3,6 +3,7 @@ import { FC, ReactNode } from 'react'
 import { useStoreState } from 'easy-peasy'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import parseHtml from 'html-react-parser'
 
 import { addReactionApi } from '@/api/chat'
 import StorageConst from '@/constants/storage.const'
@@ -23,6 +24,7 @@ import { PopoverClick, PopoverHover } from '@/widgets/popover/popover-hover'
 import { LightTextBase, LightTextXs, MediumTextSm } from '@/widgets/text'
 import Picker from '@emoji-mart/react'
 import { Tooltip } from '@material-tailwind/react'
+import { getInfoFromMarkup } from '@/utils/convert'
 
 const PaddingIcon = tw.div`p-2 rounded-lg bg-white cursor-pointer`
 
@@ -127,6 +129,18 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
     return <></>
   }
 
+  const convertMessage = (str: string) => {
+    const infos = getInfoFromMarkup(str)
+    let result = str
+    infos.forEach((info) => {
+      result = result.replaceAll(
+        info.reg,
+        `<span style="background-color:#cee4e5;color:white;"> @${info.display} </span>`
+      )
+    })
+    return parseHtml(result)
+  }
+
   // Sender
   if (message.author.id === user.id) {
     return (
@@ -135,7 +149,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
           <Reaction side={SideEnum.LEFT} message={message}>
             <GapVerticalFullWidth>
               <Attachments attachments={message.attachments} />
-              <LightTextBase>{message.content}</LightTextBase>
+              <LightTextBase>{convertMessage(message.content)}</LightTextBase>
               <EmojiReact reactions={message.reactions} />
             </GapVerticalFullWidth>
           </Reaction>
@@ -153,7 +167,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
           <GapVerticalFullWidth>
             <MediumTextSm>{message.author.name}</MediumTextSm>
             <Attachments attachments={message.attachments} />
-            <LightTextBase>{message.content}</LightTextBase>
+            <LightTextBase>{convertMessage(message.content)}</LightTextBase>
             <EmojiReact reactions={message.reactions} />
           </GapVerticalFullWidth>
         </Reaction>
