@@ -8,8 +8,9 @@ import tw from 'twin.macro'
 import { QuestColor } from '@/constants/common.const'
 import QuestCardDetails from '@/modules/quest/quest-card-details'
 import ActiveQuestStore from '@/store/local/active-quest'
+import NewQuestStore from '@/store/local/new-quest'
 import { RenderCategoryType } from '@/types'
-import { QuestType } from '@/types/quest'
+import { emptyQuest, QuestType } from '@/types/quest'
 import { HorizontalCenter } from '@/widgets/orientation'
 import { TextXl } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
@@ -42,8 +43,11 @@ const Padding = tw.div`
 
 const NewQuest: FC = () => {
   const navigate = useNavigate()
+  const setQuest = NewQuestStore.useStoreActions((actions) => actions.setQuest)
+
   const onNavigate = () => {
     navigate('./create-quest')
+    setQuest(emptyQuest())
   }
   return (
     <CreateQuest onClick={onNavigate}>
