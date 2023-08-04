@@ -131,7 +131,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
     infos.forEach((info) => {
       result = result.replaceAll(
         info.reg,
-        `<span style="background-color:#FFE07D;color:black;padding:1px;border-radius:3px;margin-right:2px"> @${info.display} </span>`
+        `<span style="background-color:#FFEEB9;color:black;padding:1px;border-radius:3px;margin-right:2px"> @${info.display} </span>`
       )
     })
 

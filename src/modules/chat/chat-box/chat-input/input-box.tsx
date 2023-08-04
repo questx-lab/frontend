@@ -44,7 +44,7 @@ const MentionInputStyle = {
       padding: '5px 15px',
       borderRadius: '16px solid #e5e7eb',
       '&focused': {
-        backgroundColor: '#FFE07D',
+        backgroundColor: '#FFEEB9',
         color: '#000000',
       },
     },
@@ -120,7 +120,7 @@ const InputBox: FC<{
       onKeyDown={handleKeyboardEvent}
     >
       <Mention
-        style={{ backgroundColor: '#FFE07D' }}
+        style={{ backgroundColor: '#FFEEB9' }}
         trigger='@'
         data={searchUsers}
         renderSuggestion={renderSuggestion}
