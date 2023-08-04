@@ -1,12 +1,14 @@
 import { FC, ReactNode, useState } from 'react'
+
+import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions'
+import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
-import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions'
+
 import { getCommunityFollowersApi } from '@/api/communitiy'
 import CommunityStore from '@/store/local/community'
 import { FollowCommunityType } from '@/types/community'
-import { Image } from '@/widgets/image'
+import { UserAvatar } from '@/widgets/avatar'
 import { Horizontal } from '@/widgets/orientation'
-import StorageConst from '@/constants/storage.const'
 import { Gap } from '@/widgets/separator'
 
 const MentionInputStyle = {
@@ -40,10 +42,10 @@ const MentionInputStyle = {
     },
     item: {
       padding: '5px 15px',
-      borderBottom: '1px solid #e5e7eb',
+      borderRadius: '16px solid #e5e7eb',
       '&focused': {
-        backgroundColor: '#cee4e5',
-        color: 'white',
+        backgroundColor: '#F1F5F9',
+        color: '#000000',
       },
     },
   },
@@ -57,6 +59,8 @@ const MentionStyle = {
   textShadow: 'none',
   color: 'white',
 }
+
+const HorizontaStartCenter = tw(Horizontal)`items-center`
 
 const InputBox: FC<{
   onNewMessagedEntered: (s: string) => void
@@ -77,16 +81,11 @@ const InputBox: FC<{
     const follower = searchedFollowers.find((follower) => follower.user.id === suggestion.id)
 
     return (
-      <Horizontal>
-        <Image
-          width={30}
-          height={30}
-          src={follower?.user.avatar_url || StorageConst.USER_DEFAULT.src}
-          alt={'user Avatar'}
-        />
+      <HorizontaStartCenter>
+        <UserAvatar user={follower?.user} size={32} />
         <Gap width={2} />
         <div>{suggestion.display} </div>
-      </Horizontal>
+      </HorizontaStartCenter>
     )
   }
 
