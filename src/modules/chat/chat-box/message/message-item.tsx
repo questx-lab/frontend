@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useMemo } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import parseHtml from 'html-react-parser'
@@ -125,20 +125,20 @@ const Reaction: FC<{ side: SideEnum; children: ReactNode; message: ChatMessageTy
 
 const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
-  if (!user) {
-    return <></>
-  }
-
-  const convertMessage = (str: string) => {
-    const infos = getInfoFromMarkup(str)
-    let result = str
+  const cachedMessageContent = useMemo(() => {
+    const infos = getInfoFromMarkup(message.content)
+    let result = message.content
     infos.forEach((info) => {
       result = result.replaceAll(
         info.reg,
-        `<span style="background-color:#86EFAC;color:black;padding:1px;border-radius:3px;margin-right:2px"> @${info.display} </span>`
+        `<span style="background-color:#FFE07D;color:black;padding:1px;border-radius:3px;margin-right:2px"> @${info.display} </span>`
       )
     })
-    return parseHtml(result)
+
+    return result
+  }, [message.content])
+  if (!user) {
+    return <></>
   }
 
   // Sender
@@ -149,7 +149,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
           <Reaction side={SideEnum.LEFT} message={message}>
             <GapVerticalFullWidth>
               <Attachments attachments={message.attachments} />
-              <LightTextBase>{convertMessage(message.content)}</LightTextBase>
+              <LightTextBase>{parseHtml(cachedMessageContent)}</LightTextBase>
               <EmojiReact reactions={message.reactions} />
             </GapVerticalFullWidth>
           </Reaction>
@@ -167,7 +167,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
           <GapVerticalFullWidth>
             <MediumTextSm>{message.author.name}</MediumTextSm>
             <Attachments attachments={message.attachments} />
-            <LightTextBase>{convertMessage(message.content)}</LightTextBase>
+            <LightTextBase>{parseHtml(cachedMessageContent)}</LightTextBase>
             <EmojiReact reactions={message.reactions} />
           </GapVerticalFullWidth>
         </Reaction>
