@@ -4,12 +4,13 @@ import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions'
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
 
-import { getCommunityFollowersApi } from '@/api/communitiy'
+import { getCommunityFollowersApi, searchUserByCommunityHandleApi } from '@/api/communitiy'
 import CommunityStore from '@/store/local/community'
 import { FollowCommunityType } from '@/types/community'
 import { UserAvatar } from '@/widgets/avatar'
 import { Horizontal } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
+import { UserType } from '@/types'
 
 const MentionInputStyle = {
   control: {
@@ -60,7 +61,7 @@ const InputBox: FC<{
 }> = ({ onNewMessagedEntered, inputMessage, onInputMessage }) => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const [enterdTime, setEnterTime] = useState<number>(0)
-  const [searchedFollowers, setSearchedFollowers] = useState<FollowCommunityType[]>([])
+  const [searchedUsers, setSearchedUsers] = useState<UserType[]>([])
 
   const renderSuggestion = (
     suggestion: SuggestionDataItem,
@@ -69,11 +70,11 @@ const InputBox: FC<{
     index: number,
     focused: boolean
   ): JSX.Element => {
-    const follower = searchedFollowers.find((follower) => follower.user.id === suggestion.id)
+    const user = searchedUsers.find((user) => user.id === suggestion.id)
 
     return (
       <HorizontaStartCenter>
-        <UserAvatar user={follower?.user} size={32} />
+        <UserAvatar user={user} size={32} />
         <Gap width={2} />
         <div>{suggestion.display} </div>
       </HorizontaStartCenter>
@@ -82,16 +83,16 @@ const InputBox: FC<{
 
   const searchUsers = useDebouncedCallback(
     async (query: string, callback: (data: SuggestionDataItem[]) => void) => {
-      const resp = await getCommunityFollowersApi(community.handle, query, 5)
+      const resp = await searchUserByCommunityHandleApi(community.handle, query)
       if (resp.code === 0 && resp.data) {
-        const followers = resp.data.followers
-        const searchedUsers = followers.map((follower) => {
+        const users = resp.data.users
+        const searchedUsers = users.map((user) => {
           return {
-            id: follower.user.id,
-            display: follower.user.name,
+            id: user.id,
+            display: user.name,
           }
         })
-        setSearchedFollowers(followers)
+        setSearchedUsers(users)
         callback(searchedUsers)
       }
     },
