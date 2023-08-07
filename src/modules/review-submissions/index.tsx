@@ -98,6 +98,7 @@ const Index: FC = () => {
           title={claimQuestActive.quest.title}
           isOpen={submissionModal}
           onClose={() => setShowClaimDetails(false)}
+          styled='!w-[780px]'
         >
           <ClaimReview />
         </BasicModal>
