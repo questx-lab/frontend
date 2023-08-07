@@ -48,7 +48,7 @@ export function getCache<T>(key: string): T | undefined {
 }
 
 /**
- * Gets an item from cache. Returns undefined if the item is not found.
+ * remove(invalidate) an item from cache.
  */
 export function invalidateCache(key: string) {
   cache.delete(key)
