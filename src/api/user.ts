@@ -5,8 +5,8 @@ import { api } from './interceptor'
 import { getCache, invalidateCache, setCacheWithExpiration } from '@/cache'
 import { KeysEnum } from '@/constants/key.const'
 
-export const getUserApi = async (isUseCache: boolean): Promise<Rsp<UserType>> => {
-  if (isUseCache) {
+export const getUserApi = async (isNotUseCache?: boolean): Promise<Rsp<UserType>> => {
+  if (!isNotUseCache) {
     const result = getCache(KeysEnum.USER) as UserType
     return {
       code: 0,
