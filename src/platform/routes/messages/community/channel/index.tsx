@@ -21,6 +21,8 @@ const FixedWidth = tw.div`
   h-full
   pl-[360px]
   pr-[300px]
+  max-md:pl-0
+  max-md:pr-0
 `
 
 const Index: FC = () => {
