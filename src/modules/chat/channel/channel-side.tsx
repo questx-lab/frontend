@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { BrowserView } from 'react-device-detect'
 import tw from 'twin.macro'
 
 import Channels from '@/modules/chat/channel/channels'
@@ -25,15 +26,23 @@ const ChannelFrame = tw(Vertical)`
   gap-3
 `
 
-const ChannelSide: FC = () => {
+export const ChannelSide: FC = () => {
   return (
-    <Frame>
-      <ChannelFrame>
-        <MediumTextXl>{'CHAT'}</MediumTextXl>
-        <Channels />
-      </ChannelFrame>
-    </Frame>
+    <ChannelFrame>
+      <MediumTextXl>{'CHAT'}</MediumTextXl>
+      <Channels />
+    </ChannelFrame>
   )
 }
 
-export default ChannelSide
+const FixChannelSide: FC = () => {
+  return (
+    <BrowserView>
+      <Frame>
+        <ChannelSide />
+      </Frame>
+    </BrowserView>
+  )
+}
+
+export default FixChannelSide
