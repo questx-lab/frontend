@@ -4,7 +4,7 @@ import { MoonLoader } from 'react-spinners'
 import tw from 'twin.macro'
 
 import { getMyClaims } from '@/api/claim'
-import ClaimItem from '@/modules/header/user-profile/claim-history-item'
+import ClaimItem from '@/modules/header/user-profile/claim-history/item'
 import { ClaimQuestType, UserType } from '@/types'
 import { Vertical, VerticalCenter, VerticalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
@@ -21,6 +21,18 @@ const OverflowScroll = tw(VerticalFullWidth)`
   overflow-y-scroll
   max-h-[calc(100vh_-_360px)]
 `
+
+const RenderClaim: FC<{ claims: ClaimQuestType[] | undefined }> = ({ claims }) => {
+  if (!claims) {
+    return <></>
+  }
+
+  const renderClaims = claims.map((claim: ClaimQuestType, index: number) => {
+    return <ClaimItem key={index} claim={claim} />
+  })
+
+  return <>{renderClaims}</>
+}
 
 const ClaimHistory: FC<{ user: UserType }> = ({ user }) => {
   const [claims, setClaims] = useState<ClaimQuestType[] | undefined>(undefined)
@@ -61,9 +73,7 @@ const ClaimHistory: FC<{ user: UserType }> = ({ user }) => {
   return (
     <OverflowScroll>
       <Gap />
-      {claims.map((claim: ClaimQuestType, index: number) => {
-        return <ClaimItem key={index} claim={claim} />
-      })}
+      <RenderClaim claims={claims} />
     </OverflowScroll>
   )
 }

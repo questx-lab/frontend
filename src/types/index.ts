@@ -141,6 +141,7 @@ export type ListClaimQuestType = {
 export type CategoryType = {
   id: string
   name: string
+  position: number
   created_by?: string
   created_at?: string
   updated_at?: string
@@ -150,6 +151,7 @@ export const emptyCategory = () => {
   return {
     id: '',
     name: '',
+    position: 0,
   }
 }
 

@@ -9,6 +9,7 @@ import InputBox from '@/modules/chat/chat-box/chat-input/input-box'
 import { InputEmojiBox } from '@/modules/chat/chat-box/chat-input/mini-widget'
 import UploadAssets from '@/modules/chat/chat-box/chat-input/upload-assets'
 import { PopPover } from '@/widgets/popover'
+import { PaperAirplaneIcon } from '@heroicons/react/20/solid'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
 
 const Frame = tw(HorizontalFullWidthCenter)`
@@ -35,6 +36,11 @@ const ChatInput: FC<{ onNewMessagedEntered: (s: string) => void }> = ({ onNewMes
     return <AudioRecord onChangeRecord={onChangeRecord} />
   }
 
+  const onSend = () => {
+    onNewMessagedEntered(inputMessage)
+    onInputMessage('')
+  }
+
   return (
     <Frame>
       <PopPover
@@ -49,8 +55,12 @@ const ChatInput: FC<{ onNewMessagedEntered: (s: string) => void }> = ({ onNewMes
           inputMessage={inputMessage}
           onNewMessagedEntered={onNewMessagedEntered}
         />
-        <Emoji onEmoji={onEmoji} />
+        <PaperAirplaneIcon
+          onClick={onSend}
+          className='select-none cursor-pointer w-6 h-6 text-info'
+        />
       </InputEmojiBox>
+      <Emoji onEmoji={onEmoji} />
     </Frame>
   )
 }

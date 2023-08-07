@@ -40,7 +40,7 @@ const CommunityGrid = tw.div`
   md:grid-cols-2
   sm:grid-cols-1
   max-sm:grid-cols-1
-  max-sm:gap-0
+  max-sm:gap-3
 `
 
 const Title: FC = () => {

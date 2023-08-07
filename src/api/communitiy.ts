@@ -133,6 +133,13 @@ export const newFollowCommunityApi = async (
   return rs.data
 }
 
+export const unFollowCommunityApi = async (communityHandle: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/unfollow', {
+    community_handle: communityHandle,
+  })
+  return rs.data
+}
+
 export const getLeaderboardApi = async (
   communityHandle: string,
   range: LeaderboardRangeEnum,
@@ -193,6 +200,30 @@ export const createCategoryApi = async (
   return rs.data
 }
 
+export const updateCategoryApi = async ({
+  id,
+  name,
+  position,
+}: {
+  id: string
+  name?: string
+  position?: number
+}): Promise<Rsp<{ category: CategoryType }>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/updateCategory', {
+    id,
+    name,
+    position,
+  })
+  return rs.data
+}
+
+export const deleteCategoryApi = async (id: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/deleteCategory', {
+    id,
+  })
+  return rs.data
+}
+
 export const getCategoriesApi = async (
   communityHandle: string
 ): Promise<Rsp<{ categories: CategoryType[] }>> => {
@@ -245,7 +276,7 @@ export const getWalletAddressApi = async (
 export const getCommunityFollowersApi = async (
   communityHandle: string,
   search?: string,
-  limit?: number
+  limit: number = 50
 ): Promise<Rsp<{ followers: FollowCommunityType[] }>> => {
   const rs = await api.get(
     EnvVariables.API_SERVER +
