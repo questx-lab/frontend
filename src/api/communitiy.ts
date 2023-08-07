@@ -269,7 +269,7 @@ export const getWalletAddressApi = async (
 export const getCommunityFollowersApi = async (
   communityHandle: string,
   search?: string,
-  limit?: number
+  limit: number = 50
 ): Promise<Rsp<{ followers: FollowCommunityType[] }>> => {
   const rs = await api.get(
     EnvVariables.API_SERVER +
