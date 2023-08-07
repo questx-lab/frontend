@@ -37,6 +37,11 @@ const Width290 = tw(HorizontalFullWidth)`
   gap-1
 `
 
+const FixedNameWidth = tw(HorizontalFullWidth)`
+  line-clamp-1
+  max-w-[200px]
+`
+
 const GapHorizontalFullWidth = tw(HorizontalFullWidth)`gap-1 flex-wrap`
 
 const CircleColor = tw.div`w-4 h-4 rounded-full`
@@ -53,7 +58,7 @@ const MemberItem: FC<{ member: FollowCommunityType }> = ({ member }) => {
     <Padding>
       <Width290>
         <UserAvatar size={32} user={member.user} />
-        <HorizontalFullWidthCenter>{member.user.name}</HorizontalFullWidthCenter>
+        <FixedNameWidth>{member.user.name}</FixedNameWidth>
       </Width290>
       <GapHorizontalFullWidth>
         {renderRole}
