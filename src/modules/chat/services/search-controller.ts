@@ -76,6 +76,7 @@ class SearchController {
     const cachedUsers = this.getFromCache(query, community_handle)
     callback(query, community_handle, cachedUsers)
     const apiUsers = await this.getFromApi(query, community_handle)
+    this.setToCache(query, community_handle, apiUsers)
     callback(query, community_handle, apiUsers)
   }
 }
