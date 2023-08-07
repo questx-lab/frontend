@@ -47,8 +47,6 @@ const OverscrollY = tw(VerticalFullWidth)`
 `
 
 export const QuestDetail: FC<{ quest: QuestType }> = ({ quest }) => {
-  console.log('quest', quest)
-
   return (
     <QuestColumn>
       <BorderBox>
