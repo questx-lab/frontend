@@ -1,14 +1,16 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import tw from 'twin.macro'
 
 import { ClaimedQuestMap, ClaimedQuestStatus } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
+import ClaimHistoryDetail from '@/modules/header/user-profile/claim-history/item-detail'
 import { Status } from '@/modules/review-submissions/history/row-item'
 import { ClaimQuestType } from '@/types'
 import { GrayBorderBox } from '@/widgets/box'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
+import BasicModal from '@/widgets/modal/basic'
 import { Horizontal, Vertical } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { TextBase, TextSm } from '@/widgets/text'
@@ -18,6 +20,9 @@ const BorderBox = tw(GrayBorderBox)`
   rounded-lg
   p-4
   mb-2
+  cursor-pointer
+  hover:bg-gray-100
+ 
 `
 
 const InfoBox = tw(Vertical)`
@@ -30,8 +35,14 @@ const GemBox = tw.div`
 `
 
 const ClaimItem: FC<{ claim: ClaimQuestType }> = ({ claim }) => {
+  const [showModal, setShowModal] = useState<boolean>(false)
+
+  const onClose = () => {
+    setShowModal(false)
+  }
+
   return (
-    <BorderBox>
+    <BorderBox onClick={() => setShowModal(true)}>
       <Horizontal>
         <CircularImage
           width={64}
@@ -54,6 +65,14 @@ const ClaimItem: FC<{ claim: ClaimQuestType }> = ({ claim }) => {
           <TextSm>{claim.quest.points}</TextSm>
         </Horizontal>
       </Horizontal>
+      <BasicModal
+        title={claim.quest.title}
+        isOpen={showModal}
+        onClose={onClose}
+        styled='!w-[780px]'
+      >
+        <ClaimHistoryDetail claim={claim} />
+      </BasicModal>
     </BorderBox>
   )
 }

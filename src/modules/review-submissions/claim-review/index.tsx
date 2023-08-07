@@ -7,6 +7,7 @@ import StorageConst from '@/constants/storage.const'
 import { BorderBox, RewardRow } from '@/modules/quest/view-quest/mini-widget'
 import ClaimInfo from '@/modules/review-submissions/claim-review/claim-info'
 import ClaimReviewStore from '@/store/local/claim-review'
+import { QuestType } from '@/types/quest'
 import { Image } from '@/widgets/image'
 import { Horizontal, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
@@ -15,6 +16,9 @@ import { Label, RewardText } from '@/widgets/text'
 const OuterFrame = tw(Horizontal)`
   w-full
   h-full
+  max-h-[calc(100vh_-_160px)]
+  overflow-y-scroll
+  max-sm:flex-col
 `
 
 const ClaimColumn = tw(Vertical)`
@@ -23,6 +27,8 @@ const ClaimColumn = tw(Vertical)`
   pt-8
   px-8
   gap-4
+  overflow-y-scroll
+  max-sm:w-full
 `
 
 const QuestColumn = tw(Vertical)`
@@ -32,34 +38,36 @@ const QuestColumn = tw(Vertical)`
   pr-8
   pl-2
   gap-4
+  max-sm:w-full
 `
 
-const QuestDetail: FC = () => {
-  const claimQuestActive = ClaimReviewStore.useStoreState((state) => state.claimQuestActive)
+const OverscrollY = tw(VerticalFullWidth)`
+  max-h-[360px]
+  overflow-y-scroll
+`
+
+export const QuestDetail: FC<{ quest: QuestType }> = ({ quest }) => {
   return (
     <QuestColumn>
       <BorderBox>
         <Label>{'REWARD'}</Label>
         <RewardRow>
           <Image width={40} height={40} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
-          <RewardText>
-            {`${
-              claimQuestActive.quest.rewards?.length &&
-              claimQuestActive.quest.rewards[0].data.points
-            } Points`}
-          </RewardText>
+          <RewardText>{`${quest.points} Points`}</RewardText>
         </RewardRow>
       </BorderBox>
       <BorderBox>
         <Label>{'MISSION'}</Label>
         <Gap />
-        <VerticalFullWidth>{parseHtml(claimQuestActive.quest.description ?? '')}</VerticalFullWidth>
+        <OverscrollY>{parseHtml(quest.description ?? '')}</OverscrollY>
       </BorderBox>
     </QuestColumn>
   )
 }
 
 const ClaimReview: FC = () => {
+  const claimQuestActive = ClaimReviewStore.useStoreState((state) => state.claimQuestActive)
+
   return (
     <OuterFrame>
       <ClaimColumn>
@@ -67,7 +75,7 @@ const ClaimReview: FC = () => {
           <ClaimInfo />
         </BorderBox>
       </ClaimColumn>
-      <QuestDetail />
+      <QuestDetail quest={claimQuestActive.quest} />
     </OuterFrame>
   )
 }
