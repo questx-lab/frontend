@@ -1,7 +1,6 @@
 import { api } from '@/api/interceptor'
 import { getCache, setCacheWithExpiration } from '@/cache'
 import { leaderboardCacheKey } from '@/cache/keys'
-import { getQuery, setQuery } from '@/cache/search_user'
 import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import {
@@ -342,39 +341,5 @@ export const deleteRoleMemberApi = async (
     user_id: userId,
     role_ids: roleIds,
   })
-  return rs.data
-}
-
-export const searchUserByCommunityHandleApi = async (
-  communityHandle: string,
-  search: string
-): Promise<Rsp<{ users: UserType[] }>> => {
-  const result = getQuery(search, communityHandle)
-  if (result) {
-    return {
-      code: 0,
-      data: {
-        users: result,
-      },
-    }
-  }
-  const rs = await api.get(
-    EnvVariables.API_SERVER +
-      `/getCommunityFollowers?community_handle=${communityHandle}&limit=${10}&q=${search}`
-  )
-  console.log('rs.data.data', rs.data.data)
-
-  if (rs.data && rs.data.data) {
-    const followers = rs.data.data.followers as FollowCommunityType[]
-    const users = followers.map((follower) => follower.user)
-    setQuery(search, communityHandle, users)
-    return {
-      code: 0,
-      data: {
-        users: users,
-      },
-    }
-  }
-
   return rs.data
 }

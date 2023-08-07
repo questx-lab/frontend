@@ -4,12 +4,11 @@ import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions'
 import tw from 'twin.macro'
 import { useDebouncedCallback } from 'use-debounce'
 
-import { getCommunityFollowersApi, searchUserByCommunityHandleApi } from '@/api/communitiy'
 import CommunityStore from '@/store/local/community'
-import { FollowCommunityType } from '@/types/community'
 import { UserAvatar } from '@/widgets/avatar'
 import { Horizontal } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
+import searchController from '@/modules/chat/services/search-controller'
 import { UserType } from '@/types'
 
 const MentionInputStyle = {
@@ -82,19 +81,25 @@ const InputBox: FC<{
   }
 
   const searchUsers = useDebouncedCallback(
-    async (query: string, callback: (data: SuggestionDataItem[]) => void) => {
-      const resp = await searchUserByCommunityHandleApi(community.handle, query)
-      if (resp.code === 0 && resp.data) {
-        const users = resp.data.users
-        const searchedUsers = users.map((user) => {
-          return {
-            id: user.id,
-            display: user.name,
+    (query: string, callback: (data: SuggestionDataItem[]) => void) => {
+      searchController.get(
+        query,
+        community.handle,
+        (q: string, community_handle: string, users: UserType[]) => {
+          console.log('q', q)
+
+          if (query === q && community_handle === community.handle) {
+            const searchedUsers = users.map((user) => {
+              return {
+                id: user.id,
+                display: user.name,
+              }
+            })
+            setSearchedUsers(users)
+            callback(searchedUsers)
           }
-        })
-        setSearchedUsers(users)
-        callback(searchedUsers)
-      }
+        }
+      )
     },
     1000
   )
