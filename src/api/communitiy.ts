@@ -133,6 +133,13 @@ export const newFollowCommunityApi = async (
   return rs.data
 }
 
+export const unFollowCommunityApi = async (communityHandle: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/unfollow', {
+    community_handle: communityHandle,
+  })
+  return rs.data
+}
+
 export const getLeaderboardApi = async (
   communityHandle: string,
   range: LeaderboardRangeEnum,
