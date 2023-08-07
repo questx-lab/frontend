@@ -23,6 +23,7 @@ interface CommunityModel {
   activeControlPanelTab: number
   communityIndexMode: number
   lotteryEvent: LotteryEventType | undefined
+  showUnfollowConfirmation: boolean
 
   setSelectedCommunity: Action<CommunityModel, CommunityType>
   setQuery: Action<CommunityModel, string>
@@ -34,6 +35,7 @@ interface CommunityModel {
   setCommunityIndexMode: Action<CommunityModel, number>
   setQuests: Action<CommunityModel, QuestType[]>
   setLotteryEvent: Action<CommunityModel, LotteryEventType | undefined>
+  setShowUnfollowConfirmation: Action<CommunityModel, boolean>
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
@@ -48,6 +50,7 @@ const CommunityStore = createContextStore<CommunityModel>({
   activeControlPanelTab: ControlPanelTab.QUESTS,
   communityIndexMode: CommunityIndexMode.VIEW_COMMUNITY,
   lotteryEvent: undefined,
+  showUnfollowConfirmation: false,
 
   setSelectedCommunity: action((state, newProject) => {
     state.selectedCommunity = newProject
@@ -83,6 +86,9 @@ const CommunityStore = createContextStore<CommunityModel>({
   }),
   setLotteryEvent: action((state, event) => {
     state.lotteryEvent = event
+  }),
+  setShowUnfollowConfirmation: action((state, showUnfollowConfirmation) => {
+    state.showUnfollowConfirmation = showUnfollowConfirmation
   }),
 })
 export default CommunityStore
