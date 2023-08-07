@@ -102,7 +102,6 @@ const InputBox: FC<{
     const now = Date.now()
     // Prevent unikey from triggering enter twice.
     if (event.key === 'Enter' && now - enterdTime > 300 && !event.shiftKey) {
-      event.preventDefault()
       onNewMessagedEntered(inputMessage)
       onInputMessage('')
       setEnterTime(now)
