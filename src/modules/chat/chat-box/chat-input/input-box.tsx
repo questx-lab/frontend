@@ -86,8 +86,6 @@ const InputBox: FC<{
         query,
         community.handle,
         (q: string, community_handle: string, users: UserType[]) => {
-          console.log('q', q)
-
           if (query === q && community_handle === community.handle) {
             const searchedUsers = users.map((user) => {
               return {
