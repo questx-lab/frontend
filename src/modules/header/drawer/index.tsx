@@ -10,6 +10,7 @@ import tw from 'twin.macro'
 import { RouterConst } from '@/constants/router.const'
 import StorageConst from '@/constants/storage.const'
 import AccountControlPanel from '@/modules/account-setting/control-panel'
+import { ChannelSide } from '@/modules/chat/channel/channel-side'
 import CommunitiesNavigation from '@/modules/community/communities-navigation'
 import CommunityControlPanel from '@/modules/community/control-panel'
 import DefaultDrawer from '@/modules/header/drawer/default'
@@ -80,6 +81,29 @@ const CanSettingCommunityOrDefault: FC = () => {
   return <DefaultDrawer />
 }
 
+const Header: FC = () => {
+  const navigate = useNavigate()
+  const setShowNavigationDrawer = useStoreActions<GlobalStoreModel>(
+    (action) => action.setShowNavigationDrawer
+  )
+
+  return (
+    <PaddingHorizontal>
+      <Image
+        width={90}
+        height={40}
+        onClick={() => {
+          navigate(RouterConst.HOME)
+          setShowNavigationDrawer(false)
+        }}
+        src={StorageConst.APP_LOGO_DIR.src}
+        alt={StorageConst.APP_LOGO_DIR.alt}
+      />
+      <CloseIcon onClick={() => setShowNavigationDrawer(false)} />
+    </PaddingHorizontal>
+  )
+}
+
 const RenderContent: FC = () => {
   // hook
   const navigate = useNavigate()
@@ -98,21 +122,20 @@ const RenderContent: FC = () => {
     )
   }
 
+  if (location.pathname.includes(RouterConst.MESSAGES)) {
+    return (
+      <>
+        <Header />
+        <PaddingHorizontal>
+          <ChannelSide />
+        </PaddingHorizontal>
+      </>
+    )
+  }
+
   return (
     <>
-      <PaddingHorizontal>
-        <Image
-          width={90}
-          height={40}
-          onClick={() => {
-            navigate(RouterConst.HOME)
-            setShowNavigationDrawer(false)
-          }}
-          src={StorageConst.APP_LOGO_DIR.src}
-          alt={StorageConst.APP_LOGO_DIR.alt}
-        />
-        <CloseIcon onClick={() => setShowNavigationDrawer(false)} />
-      </PaddingHorizontal>
+      <Header />
       <NoPaddingDivider />
       <NoGapHorizontal>
         <CommunitiesNavigation isDrawer />

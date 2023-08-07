@@ -27,6 +27,8 @@ const Wrap = tw(VerticalCenter)`
   gap-6
   p-6
   w-full
+  max-h-[calc(100vh_-_160px)]
+  overflow-y-scroll
 `
 
 const Main = tw(Horizontal)`
