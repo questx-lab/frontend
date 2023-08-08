@@ -22,8 +22,9 @@ code {
 /* Firefox */
 
 * {
-  scrollbar-width: 5px;
-  scrollbar-color: #1f2937;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  overflow: -moz-scrollbars-none; /* For Firefox */
 }
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
