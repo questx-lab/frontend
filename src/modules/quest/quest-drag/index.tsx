@@ -32,6 +32,9 @@ const GridDrag: FC = () => {
         }
       })
       const questNoCategory: QuestType[] = quests.filter((quest) => quest.category.id === '')
+
+      questNoCategory.sort((a, b) => a.position - b.position)
+
       const OtherQuest = {
         id: '',
         name: 'Other Quests',

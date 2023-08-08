@@ -34,6 +34,9 @@ const FollowCommunity: FC<{
   community: CommunityType
 }> = ({ community }) => {
   const [loading, setLoading] = useState<boolean>(false)
+  const setShowUnfollowConfirmation = CommunityStore.useStoreActions(
+    (action) => action.setShowUnfollowConfirmation
+  )
 
   // data
   const invitedBy = CommunityStore.useStoreState((state) => state.invitedBy)
@@ -93,7 +96,10 @@ const FollowCommunity: FC<{
   if (communityExist && communityExist.length) {
     return (
       <GapHorizontal>
-        <PositiveButton type={ButtonTypeEnum.SUCCESS_BORDER}>
+        <PositiveButton
+          type={ButtonTypeEnum.SUCCESS_BORDER}
+          onClick={() => setShowUnfollowConfirmation(true)}
+        >
           <CheckIcon className='w-6 h-6 text-success' />
           {'Following'}
         </PositiveButton>

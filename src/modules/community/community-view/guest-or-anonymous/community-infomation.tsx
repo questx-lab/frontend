@@ -15,6 +15,12 @@ import {
   VerticalFullWidth,
 } from '@/widgets/orientation'
 import { Text2xl } from '@/widgets/text'
+import ConfirmationModal from '@/widgets/modal/confirmation'
+import { getFollowCommunitiesApi, unFollowCommunityApi } from '@/api/communitiy'
+import toast from 'react-hot-toast'
+import { ErrorCodes } from '@/constants/code.const'
+import { useStoreActions } from 'easy-peasy'
+import { GlobalStoreModel } from '@/store/store'
 
 const VerticalCenter = tw(VerticalFullWidth)`
   h-full
@@ -85,7 +91,31 @@ const DiscordLink: FC<{ discordUrl?: string }> = ({ discordUrl }) => {
 
 const CommunityInformation: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
+  const showUnfollowConfirmation = CommunityStore.useStoreState(
+    (state) => state.showUnfollowConfirmation
+  )
+  const setShowUnfollowConfirmation = CommunityStore.useStoreActions(
+    (action) => action.setShowUnfollowConfirmation
+  )
 
+  const setCommunitiesFollowing = useStoreActions<GlobalStoreModel>(
+    (action) => action.setCommunitiesFollowing
+  )
+
+  const unfollowCommunity = async () => {
+    const resp = await unFollowCommunityApi(community.handle)
+    if (resp.code === ErrorCodes.NOT_ERROR && resp.data) toast.success('Unfollow successful')
+    if (resp.error) {
+      toast.error(resp.error)
+    }
+
+    setShowUnfollowConfirmation(false)
+    const result = await getFollowCommunitiesApi()
+
+    if (result.code === ErrorCodes.NOT_ERROR) {
+      setCommunitiesFollowing(result.data?.followers)
+    }
+  }
   return (
     <BorderBottom>
       <FixedWidth>
@@ -108,6 +138,12 @@ const CommunityInformation: FC = () => {
               <ReponsiveHorizontal>
                 <CenterEndHorizontal>
                   <FollowCommunity community={community} />
+                  <ConfirmationModal
+                    title={'Are you sure you want to unfollow this community?'}
+                    isOpen={showUnfollowConfirmation}
+                    onClose={() => setShowUnfollowConfirmation(false)}
+                    onPositiveClicked={() => unfollowCommunity()}
+                  />
                 </CenterEndHorizontal>
               </ReponsiveHorizontal>
             </VerticalCenter>

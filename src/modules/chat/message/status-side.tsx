@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
+import { BrowserView } from 'react-device-detect'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -11,7 +12,9 @@ import { UserAvatar } from '@/widgets/avatar'
 import { HorizontalFullWidth, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { TextSm } from '@/widgets/text'
 
-const Frame = tw(Vertical)`
+const Frame = tw(BrowserView)`
+  flex
+  flex-col
   w-[300px]
   fixed
   p-6

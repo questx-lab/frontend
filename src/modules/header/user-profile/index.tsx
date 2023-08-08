@@ -15,15 +15,20 @@ const ContentFrame = tw(HorizontalFullWidth)`
   gap-4
 `
 
+const FixedHeight = tw(VerticalFullWidthHeight)`
+  max-h-[calc(100vh_-_160px)]
+  overflow-y-scroll
+`
+
 const UserProfile: FC<{ user: UserType }> = ({ user }) => {
   return (
-    <VerticalFullWidthHeight>
+    <FixedHeight>
       <Divider />
       <ContentFrame>
         <BasicInfo user={user} />
         <RewardsBadges user={user} />
       </ContentFrame>
-    </VerticalFullWidthHeight>
+    </FixedHeight>
   )
 }
 
