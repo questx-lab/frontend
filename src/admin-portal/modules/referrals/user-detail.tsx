@@ -20,7 +20,6 @@ const UserDetailModal: FC<{
   onCloseModel: () => void
   owner?: UserType | undefined
 }> = ({ openModal, onCloseModel, owner }) => {
-  console.log('Owner is empty')
   if (!owner) {
     return <></>
   }

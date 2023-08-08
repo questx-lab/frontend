@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { ActionModal } from '@/admin-portal/modules/communities/action-modal'
+import CommunityDetailModal from '@/admin-portal/modules/communities/community-detail'
 import RowOption from '@/admin-portal/modules/communities/community-table/row-option'
 import UserDetailModal from '@/admin-portal/modules/referrals/user-detail'
 import { getUserByIdApi } from '@/api/user'
@@ -115,9 +116,9 @@ const StatusTd: FC<{ status: string }> = ({ status }) => {
 const CommunityRow: FC<{
   community: CommunityType
   index: number
-  onClickCommunity: (community: CommunityType) => void
-}> = ({ community, index, onClickCommunity }) => {
+}> = ({ community, index }) => {
   const [openUserModal, setOpenUserModal] = useState<boolean>(false)
+  const [openCommunityModal, setOpenCommunityModal] = useState<boolean>(false)
 
   const onCloseUserModel = () => {
     setOpenUserModal(false)
@@ -125,7 +126,7 @@ const CommunityRow: FC<{
 
   return (
     <Tr key={`${community.handle}`} index={index}>
-      <CommunityTd community={community} onClickCommunity={onClickCommunity} />
+      <CommunityTd community={community} onClickCommunity={() => setOpenCommunityModal(true)} />
       <StatusTd status={community.status || ''} />
       <UserTd userId={community.created_by || ''} onClickUser={() => setOpenUserModal(true)} />
       <Td>{community.created_at}</Td>
@@ -138,13 +139,16 @@ const CommunityRow: FC<{
         openModal={openUserModal}
         onCloseModel={onCloseUserModel}
       />
+      <CommunityDetailModal
+        community={community}
+        openModal={openCommunityModal}
+        onCloseModel={() => setOpenCommunityModal(false)}
+      />
     </Tr>
   )
 }
 
-const CommunityBody: FC<{
-  onClickCommunity: (community: CommunityType) => void
-}> = ({ onClickCommunity }) => {
+const CommunityBody: FC = () => {
   //data
   const communities = AdminCommunityStore.useStoreState((state) => state.communities)
 
@@ -156,7 +160,7 @@ const CommunityBody: FC<{
     <>
       <tbody>
         {communities.map((community, index) => (
-          <CommunityRow community={community} index={index} onClickCommunity={onClickCommunity} />
+          <CommunityRow community={community} index={index} />
         ))}
       </tbody>
       <ActionModal />

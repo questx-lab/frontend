@@ -1,11 +1,8 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
 import tw from 'twin.macro'
 
-import CommunityDetailModal from '@/admin-portal/modules/communities/community-detail'
 import CommunityBody from '@/admin-portal/modules/communities/community-table/community-body'
-import AdminCommunityStore from '@/store/admin/community'
-import { CommunityType } from '@/types/community'
 import SimpleTable from '@/widgets/table/simple-table'
 
 const Th = tw.th`
@@ -24,20 +21,6 @@ const TABLE_HEAD = [
 ]
 
 const CommunityContent: FC = () => {
-  const [openCommunityModal, setOpenCommunityModal] = useState<boolean>(false)
-
-  const community = AdminCommunityStore.useStoreState((state) => state.community)
-  const setCommunity = AdminCommunityStore.useStoreActions((action) => action.setCommunity)
-
-  const onClickCommunity = (community: CommunityType) => {
-    setOpenCommunityModal(true)
-    setCommunity(community)
-  }
-
-  const onCloseCommunityModel = () => {
-    setOpenCommunityModal(false)
-  }
-
   return (
     <>
       <SimpleTable>
@@ -48,14 +31,8 @@ const CommunityContent: FC = () => {
             ))}
           </tr>
         </thead>
-        <CommunityBody onClickCommunity={onClickCommunity} />
+        <CommunityBody />
       </SimpleTable>
-
-      <CommunityDetailModal
-        community={community}
-        openModal={openCommunityModal}
-        onCloseModel={onCloseCommunityModel}
-      />
     </>
   )
 }
