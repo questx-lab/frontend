@@ -28,7 +28,7 @@ const UserDetailModal: FC<{
     <BasicModal
       isOpen={openModal}
       onClose={onCloseModel}
-      styled={'flex flex-col !justify-start !items-start !w-[500px] !h-[600px]'}
+      styled={'flex flex-col !justify-start !items-start !w-[800px] !h-[600px]'}
     >
       <Content>
         <TextXl>{'From User'}</TextXl>
