@@ -59,7 +59,7 @@ export const InputBox = styled.input<{
           rounded-lg
     `,
   ]
-  if (danger) {
+  if (danger || isValid === false) {
     styles.push(tw`!border-danger-700`)
   }
 
@@ -67,7 +67,7 @@ export const InputBox = styled.input<{
     styles.push(tw`!border-gray-300`)
   }
 
-  if (isValid) {
+  if (isValid === true) {
     styles.push(tw`!border-success`)
   }
 
