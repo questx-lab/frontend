@@ -2,21 +2,10 @@ import { EnvVariables } from '@/constants/env.const'
 import { Rsp, UserType } from '@/types'
 
 import { api } from './interceptor'
-import { getCache, invalidateCache, setCacheWithExpiration } from '@/cache'
-import { KeysEnum } from '@/constants/key.const'
 
-export const getUserApi = async (isNotUseCache?: boolean): Promise<Rsp<UserType>> => {
-  if (!isNotUseCache) {
-    const result = getCache(KeysEnum.USER) as UserType
-    return {
-      code: 0,
-      data: result,
-    }
-  }
+export const getUserApi = async (): Promise<Rsp<UserType>> => {
   try {
     const result = await api.get(EnvVariables.API_SERVER + '/getMe')
-    if (result.data.code === 0 && result.data.data)
-      setCacheWithExpiration(KeysEnum.USER, result.data.data.user, 10 * 60 * 1000) // set cache user for 10 minutes
     return {
       code: result.data.code,
       data: result.data?.data.user,
@@ -33,7 +22,6 @@ export const updateUserApi = async (name: string): Promise<Rsp<{}>> => {
   const result = await api.post(EnvVariables.API_SERVER + '/updateUser', {
     name,
   })
-  if (result.data && result.data.code === 0 && result.data.data) invalidateCache(KeysEnum.USER)
   return result.data
 }
 

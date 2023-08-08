@@ -4,10 +4,6 @@ import { UserType } from '@/types'
 
 const QUERY_CACHE_EXPIRED = 24 * 60 * 60 * 1000 // cache for 1 day
 
-export interface SearchListener {
-  onLoaded: (query: string, community_handle: string, users: UserType[]) => void
-}
-
 type CacheEntry = {
   community_handle: string
   query: string
@@ -16,16 +12,7 @@ type CacheEntry = {
 }
 
 class SearchController {
-  private searchListeners = new Set<SearchListener>()
   private queryUsers = new Map<string, CacheEntry>()
-
-  addListener(listener: SearchListener) {
-    this.searchListeners.add(listener)
-  }
-
-  removeListener(listener: SearchListener) {
-    this.searchListeners.delete(listener)
-  }
 
   getKey(query: string, community_handle: string) {
     return `${query}|${community_handle}`
@@ -68,16 +55,12 @@ class SearchController {
     return []
   }
 
-  async get(
-    query: string,
-    community_handle: string,
-    callback: (query: string, community_handle: string, users: UserType[]) => void
-  ) {
+  async get(query: string, community_handle: string, callback: (users: UserType[]) => void) {
     const cachedUsers = this.getFromCache(query, community_handle)
-    callback(query, community_handle, cachedUsers)
+    callback(cachedUsers)
     const apiUsers = await this.getFromApi(query, community_handle)
     this.setToCache(query, community_handle, apiUsers)
-    callback(query, community_handle, apiUsers)
+    callback(apiUsers)
   }
 }
 

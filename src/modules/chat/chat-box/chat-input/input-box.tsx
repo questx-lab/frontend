@@ -82,22 +82,16 @@ const InputBox: FC<{
 
   const searchUsers = useDebouncedCallback(
     (query: string, callback: (data: SuggestionDataItem[]) => void) => {
-      searchController.get(
-        query,
-        community.handle,
-        (q: string, community_handle: string, users: UserType[]) => {
-          if (query === q && community_handle === community.handle) {
-            const searchedUsers = users.map((user) => {
-              return {
-                id: user.id,
-                display: user.name,
-              }
-            })
-            setSearchedUsers(users)
-            callback(searchedUsers)
+      searchController.get(query, community.handle, (users: UserType[]) => {
+        const searchedUsers = users.map((user) => {
+          return {
+            id: user.id,
+            display: user.name,
           }
-        }
-      )
+        })
+        setSearchedUsers(users)
+        callback(searchedUsers)
+      })
     },
     1000
   )
