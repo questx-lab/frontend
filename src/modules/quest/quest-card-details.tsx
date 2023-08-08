@@ -8,15 +8,18 @@ import { QuestColor, QuestRecurrencesStringMap } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import { CommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
+import { calculateTimeRemaining } from '@/utils/time'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import {
+  HorizontalBetween,
   HorizontalBetweenCenterFullWidth,
   HorizontalCenter,
   HorizontalStartCenter,
+  Vertical,
   VerticalFullWidth,
 } from '@/widgets/orientation'
-import { RewardText, TextBase, TextSm } from '@/widgets/text'
+import { RewardText, TextBase, TextSm, TextXs } from '@/widgets/text'
 import { LockClosedIcon } from '@heroicons/react/24/outline'
 
 const BorderBox = styled.div<{
@@ -100,9 +103,14 @@ const Description = tw.div`
   line-clamp-2
 `
 
-const Footer = tw(HorizontalBetweenCenterFullWidth)`
+const Footer = tw(Vertical)`
   w-full
+  gap-1
 `
+
+const RemainingTime = tw(TextXs)`text-success`
+
+const Title = tw(HorizontalBetween)`w-full`
 
 const CommunityDisplayname = tw(TextSm)`
   overflow-auto
@@ -146,6 +154,8 @@ const RecurrenceBox = styled.div<{ bgColor: string }>(({ bgColor }) => {
   return styles
 })
 
+const FixedIconSize = tw.div`w-4 h-4`
+
 const GapHorizontal = tw(HorizontalStartCenter)`w-full`
 
 const CommunityFrame: FC<{ community?: CommunityType; showCommunity: boolean }> = ({
@@ -173,7 +183,21 @@ const LockIcon: FC<{ quest: QuestType }> = ({ quest }) => {
     return <></>
   }
 
-  return <LockClosedIcon className='w-6 h-6 text-gray mr-2' />
+  return (
+    <FixedIconSize>
+      <LockClosedIcon className='w-4 h-4 text-gray mr-2' />
+    </FixedIconSize>
+  )
+}
+
+const RemainingTiming: FC<{ time: string | undefined }> = ({ time }) => {
+  if (!time) {
+    return <></>
+  }
+
+  const date = calculateTimeRemaining(new Date(time))
+
+  return <RemainingTime>{`on in ${date.hours}hrs:${date.minutes}mins`}</RemainingTime>
 }
 
 const QuestCardDetails: FC<{
@@ -198,20 +222,23 @@ const QuestCardDetails: FC<{
     >
       <CommunityFrame showCommunity={showCommunity} community={quest.community} />
       <BasicInfoFrame>
-        <HorizontalBetweenCenterFullWidth>
+        <Title>
           <TitleQuestBox>{quest.title}</TitleQuestBox>
           <LockIcon quest={quest} />
-        </HorizontalBetweenCenterFullWidth>
+        </Title>
         <Description>{parseHtml(quest.description ?? '')}</Description>
       </BasicInfoFrame>
       <Footer>
-        <HorizontalCenter>
-          <Image width={25} height={25} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
-          <RewardText>{quest.points}</RewardText>
-        </HorizontalCenter>
-        <RecurrenceBox bgColor={bgColor}>
-          {QuestRecurrencesStringMap.get(quest.recurrence)?.toUpperCase()}
-        </RecurrenceBox>
+        <RemainingTiming time={quest.unclaimable_reason_metadata?.next_claim} />
+        <HorizontalBetweenCenterFullWidth>
+          <HorizontalCenter>
+            <Image width={25} height={25} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
+            <RewardText>{quest.points}</RewardText>
+          </HorizontalCenter>
+          <RecurrenceBox bgColor={bgColor}>
+            {QuestRecurrencesStringMap.get(quest.recurrence)?.toUpperCase()}
+          </RecurrenceBox>
+        </HorizontalBetweenCenterFullWidth>
       </Footer>
     </BorderBox>
   )

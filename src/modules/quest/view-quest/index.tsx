@@ -27,7 +27,7 @@ import {
   Vertical,
   VerticalFullWidth,
 } from '@/widgets/orientation'
-import { MediumText } from '@/widgets/text'
+import { TextBase } from '@/widgets/text'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 const OuterPadding = tw(Horizontal)`
@@ -158,7 +158,9 @@ const Index: FC<{
         <ContextFrame>
           <RequireLogin />
           <ContentPadding>
-            <MediumText>{parseHtml(quest.description ?? '')}</MediumText>
+            <TextBase>
+              {quest.description === '' ? 'Not description' : parseHtml(quest.description)}
+            </TextBase>
             <QuestContent quest={quest} />
           </ContentPadding>
         </ContextFrame>
