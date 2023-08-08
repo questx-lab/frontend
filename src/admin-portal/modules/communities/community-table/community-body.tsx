@@ -6,6 +6,7 @@ import tw from 'twin.macro'
 
 import { ActionModal } from '@/admin-portal/modules/communities/action-modal'
 import RowOption from '@/admin-portal/modules/communities/community-table/row-option'
+import UserDetailModal from '@/admin-portal/modules/referrals/user-detail'
 import { getUserByIdApi } from '@/api/user'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
@@ -111,10 +112,39 @@ const StatusTd: FC<{ status: string }> = ({ status }) => {
   )
 }
 
-const CommunityBody: FC<{
-  onClickUser: (userId: UserType) => void
+const CommunityRow: FC<{
+  community: CommunityType
+  index: number
   onClickCommunity: (community: CommunityType) => void
-}> = ({ onClickUser, onClickCommunity }) => {
+}> = ({ community, index, onClickCommunity }) => {
+  const [openUserModal, setOpenUserModal] = useState<boolean>(false)
+
+  const onCloseUserModel = () => {
+    setOpenUserModal(false)
+  }
+
+  return (
+    <Tr key={`${community.handle}`} index={index}>
+      <CommunityTd community={community} onClickCommunity={onClickCommunity} />
+      <StatusTd status={community.status || ''} />
+      <UserTd userId={community.created_by || ''} onClickUser={() => setOpenUserModal(true)} />
+      <Td>{community.created_at}</Td>
+      <Td>{community.number_of_quests || 0}</Td>
+      <Td>{community.followers || 0}</Td>
+      <Td>{community.dau || 0}</Td>
+      <RowOption community={community} />
+      <UserDetailModal
+        owner={community?.owner}
+        openModal={openUserModal}
+        onCloseModel={onCloseUserModel}
+      />
+    </Tr>
+  )
+}
+
+const CommunityBody: FC<{
+  onClickCommunity: (community: CommunityType) => void
+}> = ({ onClickCommunity }) => {
   //data
   const communities = AdminCommunityStore.useStoreState((state) => state.communities)
 
@@ -126,16 +156,7 @@ const CommunityBody: FC<{
     <>
       <tbody>
         {communities.map((community, index) => (
-          <Tr key={`${community.handle}`} index={index}>
-            <CommunityTd community={community} onClickCommunity={onClickCommunity} />
-            <StatusTd status={community.status || ''} />
-            <UserTd userId={community.created_by || ''} onClickUser={onClickUser} />
-            <Td>{community.created_at}</Td>
-            <Td>{community.number_of_quests || 0}</Td>
-            <Td>{community.followers || 0}</Td>
-            <Td>{community.dau || 0}</Td>
-            <RowOption community={community} />
-          </Tr>
+          <CommunityRow community={community} index={index} onClickCommunity={onClickCommunity} />
         ))}
       </tbody>
       <ActionModal />

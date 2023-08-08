@@ -40,6 +40,7 @@ export type CommunityType = {
   dau?: number
   discord_invite_link?: string
   chat_members?: UserType[]
+  owner?: UserType
 }
 
 export type FollowCommunityType = {
