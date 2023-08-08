@@ -54,7 +54,7 @@ const ReferralContent: FC = () => {
         </thead>
         <ReferralBody onClickUser={onClickUser} onClickCommunity={onClickCommunity} />
       </SimpleTable>
-      <UserDetailModal user={user} openModal={openUserModal} onCloseModel={onCloseUserModel} />
+      <UserDetailModal owner={user} openModal={openUserModal} onCloseModel={onCloseUserModel} />
       <CommunityDetailModal
         community={community}
         openModal={openCommunityModal}
