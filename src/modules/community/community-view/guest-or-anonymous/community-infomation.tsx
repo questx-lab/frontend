@@ -1,13 +1,20 @@
 import { FC } from 'react'
 
+import { useStoreActions } from 'easy-peasy'
+import toast from 'react-hot-toast'
+import { Link } from 'react-router-dom'
 import tw from 'twin.macro'
 
+import { getFollowCommunitiesApi, unFollowCommunityApi } from '@/api/communitiy'
+import { ErrorCodes } from '@/constants/code.const'
 import StorageConst from '@/constants/storage.const'
 import FollowCommunity from '@/modules/community/community-view/guest-or-anonymous/follow-community'
 import { BorderBottom, FixedWidth, PaddingHorizontal } from '@/modules/community/mini-widget'
 import CommunityStore from '@/store/local/community'
+import { GlobalStoreModel } from '@/store/store'
 import { onCopy } from '@/utils/helper'
 import { Image } from '@/widgets/image'
+import ConfirmationModal from '@/widgets/modal/confirmation'
 import {
   HorizontalBetweenCenterFullWidth,
   HorizontalCenter,
@@ -15,12 +22,6 @@ import {
   VerticalFullWidth,
 } from '@/widgets/orientation'
 import { Text2xl } from '@/widgets/text'
-import ConfirmationModal from '@/widgets/modal/confirmation'
-import { getFollowCommunitiesApi, unFollowCommunityApi } from '@/api/communitiy'
-import toast from 'react-hot-toast'
-import { ErrorCodes } from '@/constants/code.const'
-import { useStoreActions } from 'easy-peasy'
-import { GlobalStoreModel } from '@/store/store'
 
 const VerticalCenter = tw(VerticalFullWidth)`
   h-full
@@ -79,13 +80,14 @@ const DiscordLink: FC<{ discordUrl?: string }> = ({ discordUrl }) => {
   }
 
   return (
-    <PointerImage
-      onClick={() => onCopy(discordUrl)}
-      width={30}
-      height={30}
-      src={StorageConst.DISCORD_BLACK_DIR.src}
-      alt={StorageConst.DISCORD_BLACK_DIR.alt}
-    />
+    <Link to={discordUrl} target='_blank'>
+      <PointerImage
+        width={30}
+        height={30}
+        src={StorageConst.DISCORD_BLACK_DIR.src}
+        alt={StorageConst.DISCORD_BLACK_DIR.alt}
+      />
+    </Link>
   )
 }
 
@@ -133,7 +135,7 @@ const CommunityInformation: FC = () => {
               <Introduce>{community.introduction}</Introduce>
               <HorizontalStartCenter>
                 <TwitterLink twitterUrl={community.twitter} />
-                <DiscordLink discordUrl={community.discord} />
+                <DiscordLink discordUrl={community.discord_invite_link} />
               </HorizontalStartCenter>
               <ReponsiveHorizontal>
                 <CenterEndHorizontal>
