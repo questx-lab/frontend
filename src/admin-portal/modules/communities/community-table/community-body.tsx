@@ -1,6 +1,5 @@
-import { FC, ReactNode, useEffect, useState } from 'react'
+import { FC, ReactNode, useState } from 'react'
 
-import { toast } from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -8,7 +7,6 @@ import { ActionModal } from '@/admin-portal/modules/communities/action-modal'
 import CommunityDetailModal from '@/admin-portal/modules/communities/community-detail'
 import RowOption from '@/admin-portal/modules/communities/community-table/row-option'
 import UserDetailModal from '@/admin-portal/modules/referrals/user-detail'
-import { getUserByIdApi } from '@/api/user'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import { Status } from '@/modules/review-submissions/history/row-item'
@@ -66,33 +64,23 @@ const CommunityTd: FC<{
   )
 }
 
-const UserTd: FC<{ userId: string; onClickUser: (userId: UserType) => void }> = ({
-  userId,
+const OwnerTd: FC<{ owner?: UserType; onClickUser: (owner: UserType) => void }> = ({
+  owner,
   onClickUser,
 }) => {
-  const [user, setUser] = useState<UserType>({} as UserType)
-  const fetchUser = async () => {
-    try {
-      const result = await getUserByIdApi(userId)
-
-      if (result.error) {
-        toast.error(result.error)
-      }
-      if (result.code === 0 && result.data) setUser(result.data)
-    } catch (error) {}
+  if (!owner) {
+    return <>Cannot find owner</>
   }
-  useEffect(() => {
-    fetchUser()
-  }, [])
+
   return (
     <Td>
-      <PointerHorizontal onClick={() => onClickUser(user)}>
+      <PointerHorizontal onClick={() => onClickUser(owner)}>
         <CircularImage
           width={40}
           height={40}
-          src={user.avatar_url || StorageConst.USER_DEFAULT.src}
+          src={owner.avatar_url || StorageConst.USER_DEFAULT.src}
         />
-        <MediumTextBase>{user.name}</MediumTextBase>
+        <MediumTextBase>{owner.name}</MediumTextBase>
       </PointerHorizontal>
     </Td>
   )
@@ -128,7 +116,7 @@ const CommunityRow: FC<{
     <Tr key={`${community.handle}`} index={index}>
       <CommunityTd community={community} onClickCommunity={() => setOpenCommunityModal(true)} />
       <StatusTd status={community.status || ''} />
-      <UserTd userId={community.created_by || ''} onClickUser={() => setOpenUserModal(true)} />
+      <OwnerTd owner={community.owner} onClickUser={() => setOpenUserModal(true)} />
       <Td>{community.created_at}</Td>
       <Td>{community.number_of_quests || 0}</Td>
       <Td>{community.followers || 0}</Td>
