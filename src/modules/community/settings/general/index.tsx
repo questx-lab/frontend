@@ -64,9 +64,8 @@ const General: FC = () => {
     const state = store.getState()
 
     const payload = stateToUpdateCommunityRequest(state, community.handle)
-    console.log('payload', payload)
-    const { error, data } = await updateCommunityApi(payload)
 
+    const { error, data } = await updateCommunityApi(payload)
     if (error) {
       toast.error(error)
       setLoading(false)
