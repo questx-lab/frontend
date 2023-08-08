@@ -118,7 +118,7 @@ const CommunityRow: FC<{
       <StatusTd status={community.status || ''} />
       <OwnerTd owner={community.owner} onClickUser={() => setOpenUserModal(true)} />
       <Td>{community.created_at}</Td>
-      <Td>{community.number_of_quests || 0}</Td>
+      <Td>{community.owner_email || ''}</Td>
       <Td>{community.followers || 0}</Td>
       <Td>{community.dau || 0}</Td>
       <RowOption community={community} />

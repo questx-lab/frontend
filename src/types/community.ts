@@ -41,6 +41,7 @@ export type CommunityType = {
   discord_invite_link?: string
   chat_members?: UserType[]
   owner?: UserType
+  owner_email?: string
 }
 
 export type FollowCommunityType = {

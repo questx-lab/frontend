@@ -14,7 +14,7 @@ const TABLE_HEAD = [
   'Status',
   'Created By',
   'Date Created',
-  'Quests',
+  'Contact Email',
   'Members',
   'DAU',
   'Action',
