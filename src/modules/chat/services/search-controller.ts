@@ -56,8 +56,11 @@ class SearchController {
   }
 
   async get(query: string, community_handle: string, callback: (users: UserType[]) => void) {
+    // Get data from local cache.
     const cachedUsers = this.getFromCache(query, community_handle)
     callback(cachedUsers)
+
+    // Get data from server
     const apiUsers = await this.getFromApi(query, community_handle)
     this.setToCache(query, community_handle, apiUsers)
     callback(apiUsers)
