@@ -122,6 +122,7 @@ export const updateCommunityApi = async (
   return rs.data
 }
 
+
 export const newFollowCommunityApi = async (
   communityHandle: string,
   invitedBy: string

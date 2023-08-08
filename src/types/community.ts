@@ -38,6 +38,7 @@ export type CommunityType = {
   status?: string
   referral_status?: string
   dau?: number
+  discord_invite_link?: string
   chat_members?: UserType[]
 }
 
