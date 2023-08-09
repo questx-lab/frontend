@@ -44,6 +44,7 @@ const handleSubmit = async (
       const tuple = await uploadFile(fileUpload)
       if (tuple.error) {
         toast.error(tuple.error)
+        return false
       } else {
         submissionData = tuple.value || ''
       }
