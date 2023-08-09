@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react'
 
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { BrowserView, MobileView } from 'react-device-detect'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -17,10 +17,11 @@ import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 
-const FixedHeight = tw.div`w-full !h-[64px] fixed flex flex-col justify-end`
-export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => {
-  const styles = [
-    tw`
+const FixedHeight = tw.div` z-20 w-full !h-[64px] fixed flex flex-col justify-end`
+export const HeaderBox = styled.nav<{ isApp?: boolean; isLandingPage?: boolean }>(
+  ({ isApp = true, isLandingPage = false }) => {
+    const styles = [
+      tw`
         w-full
         flex
         flex-col
@@ -30,23 +31,30 @@ export const HeaderBox = styled.nav<{ isApp?: boolean }>(({ isApp = true }) => {
         border-b-[1px]
         border-gray-200
       `,
-  ]
+    ]
 
-  if (isApp) {
-    styles.push(tw`bg-white px-6 3xl:px-6`)
-  } else {
-    styles.push(tw`
+    if (isApp) {
+      styles.push(tw`bg-white px-6 3xl:px-6`)
+    } else {
+      styles.push(tw`
         border-0
-        backdrop-blur-lg
         flex
         flex-row
         justify-center
         items-center
+        bg-white
+        border-b-[1px]
+        border-gray-200
       `)
-  }
+    }
 
-  return styles
-})
+    if (isLandingPage) {
+      styles.push(tw`!bg-transparent border-none`)
+    }
+
+    return styles
+  }
+)
 
 const LeftSection = tw(HorizontalStartCenter)`
   gap-5
@@ -70,9 +78,8 @@ const Body = styled(HorizontalBetweenCenter)<{ isApp?: boolean }>(({ isApp = tru
     tw`
         h-full
         max-sm:px-2
-        md:px-8
+        md:px-6
         w-full
-        xl:w-[1180px]
       `,
   isApp &&
     tw`
@@ -95,6 +102,7 @@ export const MenuIcon = styled(Bars3Icon)(() => [
 
 export const Header: FC<{}> = () => {
   const navigate = useNavigate()
+  const location = useLocation()
 
   // data
   const user = useStoreState<GlobalStoreModel>((state) => state.user)
@@ -115,9 +123,14 @@ export const Header: FC<{}> = () => {
     }
   }, [isApp])
 
+  const isLandingPage = location.pathname === RouterConst.HOME && user === undefined
+
   return (
     <FixedHeight>
-      <HeaderBox isApp={isApp}>
+      <HeaderBox
+        isApp={isApp}
+        isLandingPage={location.pathname === RouterConst.HOME && user === undefined}
+      >
         <Body isApp={isApp}>
           <LeftSection>
             <MobileView>
@@ -131,7 +144,11 @@ export const Header: FC<{}> = () => {
               onClick={() => {
                 navigate(RouterConst.HOME)
               }}
-              src={StorageConst.APP_LOGO_DIR.src}
+              src={
+                isLandingPage
+                  ? StorageConst.APP_LOGO_LANDING_PAGE_DIR.src
+                  : StorageConst.APP_LOGO_DIR.src
+              }
               alt={StorageConst.APP_LOGO_DIR.alt}
             />
 

@@ -12,6 +12,12 @@ module.exports = withMT({
           fontFeatureSettings: '"cv02", "cv03", "cv04", "cv11"',
         },
       ],
+      rubik: [
+        'Rubik',
+        {
+          fontFeatureSettings: '"cv11", "cv04", "cv03", "cv02"',
+        },
+      ],
     },
     extend: {
       fontSize: {
@@ -46,21 +52,72 @@ module.exports = withMT({
           },
         ],
         '4xl': [
-          '18px',
+          '2.25rem',
           {
-            lineHeight: '28px',
+            lineHeight: '2.5rem',
           },
         ],
         '8xl': [
-          '4.5rem',
+          '3rem',
           {
-            lineHeight: '79.2px',
-            letterSpacing: '-1.44px',
+            lineHeight: '2.25rem',
+            letterSpacing: '-0.02em',
+          },
+        ],
+        216: [
+          '216px',
+          {
+            fontWeight: '900',
+            lineHeight: '172.8px',
+            letterSpacing: '-10.8px',
+          },
+        ],
+        218: [
+          '218px',
+          {
+            fontWeight: '900',
+            lineHeight: '174.4px',
+            letterSpacing: '-10.9px',
+          },
+        ],
+        400: [
+          '400px',
+          {
+            fontWeight: '900',
+            lineHeight: '320px',
+            letterSpacing: '-20px',
           },
         ],
       },
       boxShadow: {
         lg: '0 0 12px 0 rgba(0, 0, 0, 0.10)',
+      },
+      animation: {
+        blueToGreen: 'blueToGreen 7s ease-in-out infinite',
+        greenToRed: 'greenToRed 7s ease-in-out infinite',
+        orangeToYellow: 'orangeToYellow 7s ease-in-out infinite',
+        slideBg: 'slideBg 7s ease-in-out infinite',
+      },
+      keyframes: {
+        blueToGreen: {
+          '0%, 100%': { color: '#0DA8FF' },
+          '50%': { color: '#14CA74' },
+        },
+        greenToRed: {
+          '0%, 100%': { color: '#14CA74' },
+          '50%': { color: '#FF4755' },
+        },
+        orangeToYellow: {
+          '0%, 100%': { color: '#FF9E45' },
+          '50%': { color: '#FFCA28' },
+        },
+        slideBg: {
+          '0%, 100%': {
+            transform: 'translateY(-100px)',
+            'animation-timing-function': 'cubic-bezier()',
+          },
+          '50%': { transform: 'translateY(0px)', 'animation-timing-function': 'cubic-bezier()' },
+        },
       },
     },
     screens: {
@@ -107,17 +164,15 @@ module.exports = withMT({
         900: '#342d7b',
         DEFAULT: '#565add',
       },
-      black: {
-        DEFAULT: '#000000',
-      },
+      black: '#000000',
       white: {
-        rgb5: 'rgba(255, 255, 255, 0.05)',
-        rgb10: 'rgba(255, 255, 255, 0.1)',
+        rgb5: 'rgba(255, 255, 255, 0.10)',
+        rgb10: 'rgba(255, 255, 255, 0.20)',
         DEFAULT: '#ffffff',
       },
       gray: {
         50: '#f9fafb',
-        100: '#F1F5F9',
+        100: '#f3f4f6',
         200: '#e5e7eb',
         300: '#d1d5db',
         400: '#9ca3af',

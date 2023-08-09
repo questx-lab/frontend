@@ -57,7 +57,6 @@ const BrowserNavigation: FC = () => {
   // hook
   const [navActive, setNavActive] = useState<string>('')
   const location = useLocation()
-  console.log('location.pathname.', location.pathname)
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
   useEffect(() => {
@@ -69,6 +68,10 @@ const BrowserNavigation: FC = () => {
       setNavActive(NavigationEnum.HOME)
     }
   }, [location])
+
+  if (location.pathname === RouterConst.HOME && user === undefined) {
+    return <></>
+  }
 
   return (
     <BoxLink>
