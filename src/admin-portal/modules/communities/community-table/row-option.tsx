@@ -5,22 +5,13 @@ import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
 import AdminCommunityStore from '@/store/admin/community'
-import { CommunityType } from '@/types/community'
+import { ActionReviewCommunityEnum, CommunityType } from '@/types/community'
 import { Image } from '@/widgets/image'
 import { OptionxBox, PopItem } from '@/widgets/popover'
 import { PopoverClick } from '@/widgets/popover/popover-hover'
-import { Popover } from '@headlessui/react'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
-
-const PopoverPosition = styled(Popover)(tw`
-  relative
-  flex
-  flex-row
-  justify-center
-  mt-4
-`)
 
 const Content = tw.div`
   bg-white
@@ -40,7 +31,7 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
 
   const setAction = AdminCommunityStore.useStoreActions((action) => action.setAction)
 
-  const onActionClicked = (action: string) => {
+  const onActionClicked = (action: ActionReviewCommunityEnum) => {
     setCommunity(community)
     setAction(action)
     setShowActiveModal(true)
@@ -55,7 +46,12 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
         >
           <Content>
             <PopItem>
-              <OptionxBox onClick={() => onActionClicked('Active')}>{'Activate'}</OptionxBox>
+              <OptionxBox onClick={() => onActionClicked(ActionReviewCommunityEnum.ACTIVE)}>
+                {'Active'}
+              </OptionxBox>
+              <OptionxBox onClick={() => onActionClicked(ActionReviewCommunityEnum.REJECT)}>
+                {'Reject'}
+              </OptionxBox>
             </PopItem>
           </Content>
         </PopoverClick>
