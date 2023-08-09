@@ -69,7 +69,7 @@ const OwnerTd: FC<{ owner?: UserType; onClickUser: (owner: UserType) => void }> 
   onClickUser,
 }) => {
   if (!owner) {
-    return <>Cannot find owner</>
+    return <Td>Cannot find owner</Td>
   }
 
   return (

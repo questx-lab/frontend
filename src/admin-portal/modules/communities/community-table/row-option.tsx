@@ -3,11 +3,15 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
+import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
 import AdminCommunityStore from '@/store/admin/community'
 import { CommunityType } from '@/types/community'
 import { Image } from '@/widgets/image'
-import { OptionxBox, PopItem, PopPover } from '@/widgets/popover'
+import { OptionxBox, PopItem } from '@/widgets/popover'
+import { PopoverClick } from '@/widgets/popover/popover-hover'
 import { Popover } from '@headlessui/react'
+import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
+import { IconButton } from '@material-tailwind/react'
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
 
@@ -19,9 +23,12 @@ const PopoverPosition = styled(Popover)(tw`
   mt-4
 `)
 
-const Absolute = tw.div`
-  absolute
-  z-50
+const Content = tw.div`
+  bg-white
+  border
+  border-solid
+  border-gray-200
+  rounded-lg
 `
 
 const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
@@ -41,13 +48,24 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
   }
 
   return (
-    <PopPover button={<>...</>} styled='w-[200px] right-0 mt-5'>
-      <Absolute>
-        <PopItem>
-          <OptionxBox onClick={() => onActionClicked('Active')}>{'Activate'}</OptionxBox>
-        </PopItem>
-      </Absolute>
-    </PopPover>
+    <td>
+      <HorizontalFullWidthCenter>
+        <PopoverClick
+          button={
+            <IconButton className='!bg-gray-100 !shadow-none hover:!shadow-none hover:!bg-gray-200'>
+              <EllipsisHorizontalIcon className='w-6 h-6 text-gray-900' />
+            </IconButton>
+          }
+          placement={'left'}
+        >
+          <Content>
+            <PopItem>
+              <OptionxBox onClick={() => onActionClicked('Active')}>{'Activate'}</OptionxBox>
+            </PopItem>
+          </Content>
+        </PopoverClick>
+      </HorizontalFullWidthCenter>
+    </td>
   )
 }
 
