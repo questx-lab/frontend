@@ -2,21 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  h1 {
-    @apply text-2xl;
-    @apply font-medium;
-  }
-  h2 {
-    @apply text-xl;
-    @apply font-medium;
-  }
-  h3 {
-    @apply text-lg;
-    @apply font-medium;
-  }
-}
-
 body {
   margin: 0;
   font-family: 'Inter';
@@ -88,4 +73,13 @@ a {
 
 .react-datepicker-wrapper {
   width: 100%;
+}
+
+@layer base {
+  .font-outline-2 {
+    -webkit-text-stroke: 2px black;
+  }
+  .font-outline-4 {
+    -webkit-text-stroke: 4px black;
+  }
 }
