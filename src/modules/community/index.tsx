@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react'
 
-import { useLocation } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import CommunityGuestOrAnonymous from '@/modules/community/community-view/guest-or-anonymous'
@@ -49,6 +49,7 @@ const Index: FC = () => {
     <OuterBoxPadding>
       <CommunityContent />
       <InviteModal community={community} inviteCode={query.get('invitation') || ''} />
+      <Outlet />
     </OuterBoxPadding>
   )
 }

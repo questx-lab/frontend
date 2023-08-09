@@ -55,9 +55,14 @@ const DiscordConnect: FC = () => {
 const SocialConnection: FC = () => {
   // data
   const websiteUrl = NewCommunityStore.useStoreState((state) => state.websiteUrl)
+  const discordInviteLink = NewCommunityStore.useStoreState((state) => state.discordInviteLink)
+  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
 
   // action
   const setWebsiteUrl = NewCommunityStore.useStoreActions((action) => action.setWebsiteUrl)
+  const setDiscordInviteLink = NewCommunityStore.useStoreActions(
+    (action) => action.setDiscordInviteLink
+  )
 
   return (
     <VerticalFullWidth>
@@ -67,6 +72,17 @@ const SocialConnection: FC = () => {
         <TextField value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)}></TextField>
         <Gap height={6} />
       </VerticalFullWidth>
+      {community.discord !== '' && (
+        <VerticalFullWidth>
+          <HeaderText3>{'DISCORD INVITE JOIN COMMUNITY URL'}</HeaderText3>
+          <Gap height={2} />
+          <TextField
+            value={discordInviteLink}
+            onChange={(e) => setDiscordInviteLink(e.target.value)}
+          />
+          <Gap height={6} />
+        </VerticalFullWidth>
+      )}
       <AddressWallet />
       <HeaderText3>{'SOCIAL CONNECTION'}</HeaderText3>
       <Gap height={2} />

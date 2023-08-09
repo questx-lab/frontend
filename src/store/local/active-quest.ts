@@ -29,6 +29,7 @@ interface ActiveQuestModel {
   setQuizAnswers: Action<ActiveQuestModel, string[]>
   setTelegramSubmit: Action<ActiveQuestModel, boolean>
   setLikeRetweetReplyClicked: Action<ActiveQuestModel, boolean>
+  setEmptySubmit: Action<ActiveQuestModel>
 }
 
 const ActiveQuestStore = createContextStore<ActiveQuestModel>({
@@ -76,6 +77,16 @@ const ActiveQuestStore = createContextStore<ActiveQuestModel>({
 
   setLikeRetweetReplyClicked: action((state, clicked) => {
     state.likeRetweetReplyClicked = clicked
+  }),
+
+  setEmptySubmit: action((state) => {
+    state.textSubmit = ''
+    state.replyUrlSubmit = ''
+    state.telegramSubmit = false
+    state.url = ''
+    state.fileUpload = []
+    state.quizAnswers = []
+    state.likeRetweetReplyClicked = false
   }),
 })
 
