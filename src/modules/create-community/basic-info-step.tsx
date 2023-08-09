@@ -11,7 +11,7 @@ import { MultipleTextField, TextField } from '@/widgets/form'
 import { VerticalFullWidth } from '@/widgets/orientation'
 import { LabelInput, RequiredText, SmallText } from '@/widgets/text'
 
-const DisplayNameRegex = /^[^\\/?%*:|"<>.]{4,32}$/
+const DisplayNameRegex = /^[^\\/?%*:|"<>.]{4,}$/
 const HandleRegex = /^$|^[a-z0-9_]{4,32}$/
 
 const StartText = tw(SmallText)`text-start`
