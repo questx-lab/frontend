@@ -12,7 +12,8 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { getBalanceApi, getBlockchainApi } from '@/api/wallet'
 import { ErrorCodes } from '@/constants/code.const'
-import { getUserLocal } from '@/utils/helper'
+import { getWalletAddressApi } from '@/api/communitiy'
+import CommunityStore from '@/store/local/community'
 
 const Border = tw(VerticalFullWidth)`
   border
@@ -104,7 +105,7 @@ const ListOptionRender: FC<{ rewards: RewardEnum[] }> = ({ rewards }) => {
 }
 
 const PrizeItem: FC<{ index: number }> = ({ index }) => {
-  const localUser = getUserLocal()
+  const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const prizes = CreateLotteryStore.useStoreState((state) => state.prizes)
   const setPrizes = CreateLotteryStore.useStoreActions((action) => action.setPrizes)
 
@@ -129,23 +130,22 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
   }
 
   const fetchBalance = async () => {
-    const resp = await getBlockchainApi()
+    const walletResp = await getWalletAddressApi(community.handle)
+    if (walletResp.code === ErrorCodes.NOT_ERROR && walletResp.data) {
+      const resp = await getBlockchainApi()
+      if (
+        resp.code === ErrorCodes.NOT_ERROR &&
+        resp.data &&
+        resp.data.chain.length > 0 &&
+        resp.data.chain[0].blockchain_connections.length > 0
+      ) {
+        const provider = resp.data.chain[0].blockchain_connections[0]
+        const walletAddress = walletResp.data.wallet_address
+        const balanceResp = await getBalanceApi(walletAddress, `https://${provider.url}`)
 
-    if (
-      resp.code === ErrorCodes.NOT_ERROR &&
-      resp.data &&
-      resp.data.chain.length > 0 &&
-      resp.data.chain[0].blockchain_connections.length > 0
-    ) {
-      const provider = resp.data.chain[0].blockchain_connections[0]
-
-      const balanceResp = await getBalanceApi(
-        localUser?.wallet_address || '',
-        `https://${provider.url}`
-      )
-
-      if (balanceResp.code === ErrorCodes.NOT_ERROR && balanceResp.data)
-        setBalance(balanceResp.data.balance)
+        if (balanceResp.code === ErrorCodes.NOT_ERROR && balanceResp.data)
+          setBalance(balanceResp.data.balance)
+      }
     }
   }
 
