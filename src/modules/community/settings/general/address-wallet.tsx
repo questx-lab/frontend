@@ -49,7 +49,7 @@ const AddressWallet: FC = () => {
 
   return (
     <GapVertical>
-      <HeaderText3>{'COMMUNITY ADDRESS WALLET'}</HeaderText3>
+      <HeaderText3>{'COMMUNITY WALLET ADDRESS'}</HeaderText3>
       <AddressBox />
     </GapVertical>
   )

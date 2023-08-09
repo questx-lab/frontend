@@ -21,7 +21,7 @@ const UrlBox = tw(Horizontal)`
 const QuestUrl: FC = () => {
   // data
   const role = CommunityStore.useStoreState((state) => state.role)
-  const urlSutmit = ActiveQuestStore.useStoreState((state) => state.url)
+  const urlSubmit = ActiveQuestStore.useStoreState((state) => state.url)
 
   // action
   const setUrlSubmit = ActiveQuestStore.useStoreActions((action) => action.setUrlSubmit)
@@ -33,7 +33,7 @@ const QuestUrl: FC = () => {
         placeholder='Input url'
         required
         onChange={(e) => setUrlSubmit(e.target.value)}
-        value={urlSutmit}
+        value={urlSubmit}
       />
     )
   }
