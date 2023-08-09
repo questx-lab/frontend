@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { claimRewardApi } from '@/api/claim'
-import { deleteQuest } from '@/api/quest'
+import { deleteQuest, listQuestApi } from '@/api/quest'
 import { ClaimedQuestStatus, CommunityRoleEnum, QuestTypeEnum } from '@/constants/common.const'
 import { editQuestRoute } from '@/constants/router.const'
 import ActiveQuestStore, { canClaimQuest } from '@/store/local/active-quest'
@@ -44,6 +44,7 @@ const handleSubmit = async (
       const tuple = await uploadFile(fileUpload)
       if (tuple.error) {
         toast.error(tuple.error)
+        return false
       } else {
         submissionData = tuple.value || ''
       }
@@ -142,6 +143,8 @@ const SubmitClaim: FC<{
   // action
   const setEditQuest = NewQuestStore.useStoreActions((action) => action.setQuest)
   const setActiveQuest = ActiveQuestStore.useStoreActions((action) => action.setQuest)
+  const setQuests = CommunityStore.useStoreActions((action) => action.setQuests)
+  const setEmptySubmit = ActiveQuestStore.useStoreActions((action) => action.setEmptySubmit)
 
   // handler
   const onSubmit = async () => {
@@ -160,10 +163,23 @@ const SubmitClaim: FC<{
       )
 
       if (result) {
-        // Reload page after done claim
-        navigate(0)
+        setActiveQuest(emptyQuest())
+        setEmptySubmit()
+
+        //fetch quests
+        await fetchQuests(quest.community.handle)
       }
     } catch (error) {}
+  }
+
+  const fetchQuests = async (communityHandle: string) => {
+    const resp = await listQuestApi(communityHandle, '', true)
+    if (resp.error) {
+      toast.error(resp.error)
+      return
+    }
+
+    if (resp.code === 0 && resp.data) setQuests(resp.data?.quests || [])
   }
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)

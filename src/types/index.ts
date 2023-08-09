@@ -60,6 +60,7 @@ export type UpdateCommunityRequest = {
   discord?: string
   telegram?: string
   website_url?: string
+  discord_invite_link?: string
 }
 
 export type UpdateCommunityResponse = {

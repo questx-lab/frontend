@@ -8,29 +8,33 @@ import { QuestColor, QuestRecurrencesStringMap } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import { CommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
+import { calculateDayRemaining } from '@/utils/time'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import {
+  HorizontalBetween,
   HorizontalBetweenCenterFullWidth,
   HorizontalCenter,
   HorizontalStartCenter,
+  Vertical,
   VerticalFullWidth,
 } from '@/widgets/orientation'
-import { RewardText, TextBase, TextSm } from '@/widgets/text'
+import { RewardText, TextBase, TextSm, TextXs } from '@/widgets/text'
 import { LockClosedIcon } from '@heroicons/react/24/outline'
 
 const BorderBox = styled.div<{
   isTemplate: boolean
   bgColor: string
   showCommunity: boolean
-}>(({ showCommunity, isTemplate, bgColor }) => {
+  isBlock?: boolean
+}>(({ showCommunity, isTemplate, bgColor, isBlock = false }) => {
   const style = [
     tw`
     cursor-pointer
     rounded-lg
     border-solid
     border-gray-200
-    border-[1px]
+    border-[2px]
     h-[220px]
     w-full
     flex
@@ -51,25 +55,29 @@ const BorderBox = styled.div<{
     style.push(tw`!h-[252px]`)
   }
 
-  switch (bgColor) {
-    case QuestColor.EMERALD:
-      style.push(tw`bg-emerald-50 border-emerald-200`)
-      break
-    case QuestColor.ORANGE:
-      style.push(tw`bg-orange-50 border-orange-200`)
-      break
-    case QuestColor.INDIGO:
-      style.push(tw`bg-indigo-50 border-indigo-200`)
-      break
-    case QuestColor.PINK:
-      style.push(tw`bg-pink-50 border-pink-200`)
-      break
-    case QuestColor.CYAN:
-      style.push(tw`bg-cyan-50 border-cyan-200`)
-      break
-    default:
-      style.push(tw`bg-white border-gray-200`)
-      break
+  if (isBlock) {
+    style.push(tw`bg-gray-50`)
+  } else {
+    switch (bgColor) {
+      case QuestColor.EMERALD:
+        style.push(tw`bg-emerald-50 border-emerald-200`)
+        break
+      case QuestColor.ORANGE:
+        style.push(tw`bg-orange-50 border-orange-200`)
+        break
+      case QuestColor.INDIGO:
+        style.push(tw`bg-indigo-50 border-indigo-200`)
+        break
+      case QuestColor.PINK:
+        style.push(tw`bg-pink-50 border-pink-200`)
+        break
+      case QuestColor.CYAN:
+        style.push(tw`bg-cyan-50 border-cyan-200`)
+        break
+      default:
+        style.push(tw`bg-white border-gray-200`)
+        break
+    }
   }
 
   return style
@@ -100,9 +108,14 @@ const Description = tw.div`
   line-clamp-2
 `
 
-const Footer = tw(HorizontalBetweenCenterFullWidth)`
+const Footer = tw(Vertical)`
   w-full
+  gap-1
 `
+
+const RemainingTime = tw(TextXs)`text-success`
+
+const Title = tw(HorizontalBetween)`w-full`
 
 const CommunityDisplayname = tw(TextSm)`
   overflow-auto
@@ -111,9 +124,10 @@ const CommunityDisplayname = tw(TextSm)`
   font-medium
 `
 
-const RecurrenceBox = styled.div<{ bgColor: string }>(({ bgColor }) => {
-  const styles = [
-    tw`
+const RecurrenceBox = styled.div<{ bgColor: string; isBlock?: boolean }>(
+  ({ bgColor, isBlock = false }) => {
+    const styles = [
+      tw`
     px-2
     py-[6px]
     rounded-lg
@@ -121,30 +135,37 @@ const RecurrenceBox = styled.div<{ bgColor: string }>(({ bgColor }) => {
     font-normal
     text-gray-500
   `,
-  ]
+    ]
 
-  switch (bgColor) {
-    case QuestColor.EMERALD:
-      styles.push(tw`bg-emerald-100`)
-      break
-    case QuestColor.ORANGE:
-      styles.push(tw`bg-orange-100`)
-      break
-    case QuestColor.INDIGO:
-      styles.push(tw`bg-indigo-100`)
-      break
-    case QuestColor.PINK:
-      styles.push(tw`bg-pink-100`)
-      break
-    case QuestColor.CYAN:
-      styles.push(tw`bg-cyan-100`)
-      break
-    default:
+    if (isBlock) {
       styles.push(tw`bg-gray-100`)
-  }
+    } else {
+      switch (bgColor) {
+        case QuestColor.EMERALD:
+          styles.push(tw`bg-emerald-100`)
+          break
+        case QuestColor.ORANGE:
+          styles.push(tw`bg-orange-100`)
+          break
+        case QuestColor.INDIGO:
+          styles.push(tw`bg-indigo-100`)
+          break
+        case QuestColor.PINK:
+          styles.push(tw`bg-pink-100`)
+          break
+        case QuestColor.CYAN:
+          styles.push(tw`bg-cyan-100`)
+          break
+        default:
+          styles.push(tw`bg-gray-100`)
+      }
+    }
 
-  return styles
-})
+    return styles
+  }
+)
+
+const FixedIconSize = tw.div`w-4 h-4`
 
 const GapHorizontal = tw(HorizontalStartCenter)`w-full`
 
@@ -173,7 +194,23 @@ const LockIcon: FC<{ quest: QuestType }> = ({ quest }) => {
     return <></>
   }
 
-  return <LockClosedIcon className='w-6 h-6 text-gray mr-2' />
+  return (
+    <FixedIconSize>
+      <LockClosedIcon className='w-4 h-4 text-gray mr-2' />
+    </FixedIconSize>
+  )
+}
+
+const RemainingTiming: FC<{ time: string | undefined }> = ({ time }) => {
+  if (!time) {
+    return <></>
+  }
+
+  const date = calculateDayRemaining(new Date(time))
+
+  return (
+    <RemainingTime>{`on in ${date.days}days:${date.hours}hrs:${date.minutes}mins`}</RemainingTime>
+  )
 }
 
 const QuestCardDetails: FC<{
@@ -195,23 +232,27 @@ const QuestCardDetails: FC<{
       bgColor={bgColor}
       isTemplate={isTemplate}
       onClick={() => onClick(quest)}
+      isBlock={quest.unclaimable_reason !== ''}
     >
       <CommunityFrame showCommunity={showCommunity} community={quest.community} />
       <BasicInfoFrame>
-        <HorizontalBetweenCenterFullWidth>
+        <Title>
           <TitleQuestBox>{quest.title}</TitleQuestBox>
           <LockIcon quest={quest} />
-        </HorizontalBetweenCenterFullWidth>
+        </Title>
         <Description>{parseHtml(quest.description ?? '')}</Description>
       </BasicInfoFrame>
       <Footer>
-        <HorizontalCenter>
-          <Image width={25} height={25} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
-          <RewardText>{quest.points}</RewardText>
-        </HorizontalCenter>
-        <RecurrenceBox bgColor={bgColor}>
-          {QuestRecurrencesStringMap.get(quest.recurrence)?.toUpperCase()}
-        </RecurrenceBox>
+        <RemainingTiming time={quest.unclaimable_reason_metadata?.next_claim} />
+        <HorizontalBetweenCenterFullWidth>
+          <HorizontalCenter>
+            <Image width={25} height={25} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
+            <RewardText>{quest.points}</RewardText>
+          </HorizontalCenter>
+          <RecurrenceBox bgColor={bgColor} isBlock={quest.unclaimable_reason !== ''}>
+            {QuestRecurrencesStringMap.get(quest.recurrence)?.toUpperCase()}
+          </RecurrenceBox>
+        </HorizontalBetweenCenterFullWidth>
       </Footer>
     </BorderBox>
   )

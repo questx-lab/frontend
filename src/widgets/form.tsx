@@ -45,62 +45,34 @@ export const InputBox = styled.input<{
   danger?: boolean
   block?: boolean
   isValid?: boolean
-}>(({ danger = false, block = false, isValid }) => [
-  danger
-    ? tw`
-        w-full
-        border
-        border-[1px]
-        border-solid
-        border-danger-700
-        p-3
-        rounded-lg
-        focus:border-danger-500
-        focus:outline-danger-500
-        focus:outline
-        focus:ring-danger-500
-      `
-    : tw`
-        w-full
-        border
-        border-[1px]
-        border-solid
-        border-primary
-        p-3
-        rounded-lg
-        focus:border-primary
-        focus:outline-primary
-        focus:ring-primary
-        font-normal
-      `,
-  block &&
+}>(({ danger = false, block = false, isValid }) => {
+  const styles = [
     tw`
-        border-gray-300
-      `,
-  isValid &&
-    tw`
-        border-success
-        rounded-lg
-        focus:border-success-500
-        focus:outline-success-500
-        focus:outline
-        focus:ring-success-500
-      `,
-  isValid === false &&
-    tw`
-    w-full
-    border
-    border-[1px]
-    border-solid
-    border-danger-700
-    p-3
-    rounded-lg
-    focus:border-danger-500
-    focus:outline-danger-500
-    focus:outline
-    focus:ring-danger-500
-  `,
-])
+          w-full
+          border
+          border-[1px]
+          border-solid
+          ring-0
+          outline-none
+          border-primary
+          p-3
+          rounded-lg
+    `,
+  ]
+  if (danger || isValid === false) {
+    styles.push(tw`!border-danger-700`)
+  }
+
+  if (block) {
+    styles.push(tw`!border-gray-300`)
+  }
+
+  if (isValid === true) {
+    styles.push(tw`!border-success`)
+  }
+
+  return styles
+})
 
 const ErrorMsg = styled.span<{ danger: boolean; isValid?: boolean }>(({ danger, isValid }) => [
   tw`

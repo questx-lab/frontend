@@ -18,9 +18,9 @@ import { TextXl } from '@/widgets/text'
 const UserDetailModal: FC<{
   openModal: boolean
   onCloseModel: () => void
-  user: UserType | undefined
-}> = ({ openModal, onCloseModel, user }) => {
-  if (!user) {
+  owner?: UserType | undefined
+}> = ({ openModal, onCloseModel, owner }) => {
+  if (!owner) {
     return <></>
   }
 
@@ -28,7 +28,7 @@ const UserDetailModal: FC<{
     <BasicModal
       isOpen={openModal}
       onClose={onCloseModel}
-      styled={'flex flex-col !justify-start !items-start !w-[500px] !h-[600px]'}
+      styled={'flex flex-col !justify-start !items-start !w-[800px] !h-[600px]'}
     >
       <Content>
         <TextXl>{'From User'}</TextXl>
@@ -37,10 +37,10 @@ const UserDetailModal: FC<{
             <CircularImage
               width={80}
               height={80}
-              src={user.avatar_url || StorageConst.USER_DEFAULT.src}
+              src={owner.avatar_url || StorageConst.USER_DEFAULT.src}
             />
             <Vertical>
-              <TextXl>{user.name}</TextXl>
+              <TextXl>{owner.name}</TextXl>
             </Vertical>
           </HorizontalFullWidthCenter>
           <Divider />
@@ -48,31 +48,31 @@ const UserDetailModal: FC<{
             <HorizontalFullWidthCenter>
               <FieldText>{'Email:'}</FieldText>
               <InfoText
-                highlight={user.services?.google !== undefined && user.services?.google !== ''}
+                highlight={owner.services?.google !== undefined && owner.services?.google !== ''}
               >
-                {user.services?.google || 'not connect'}
+                {owner.services?.google || 'not connect'}
               </InfoText>
             </HorizontalFullWidthCenter>
             <HorizontalFullWidthCenter>
               <FieldText>{'Discord:'}</FieldText>
               <InfoText
-                highlight={user.services?.discord !== undefined && user.services?.discord !== ''}
+                highlight={owner.services?.discord !== undefined && owner.services?.discord !== ''}
               >
-                {user.services?.discord || 'not connect'}
+                {owner.services?.discord || 'not connect'}
               </InfoText>
             </HorizontalFullWidthCenter>
             <HorizontalFullWidthCenter>
               <FieldText>{'Twitter:'}</FieldText>
               <InfoText
-                highlight={user.services?.twitter !== undefined && user.services?.twitter !== ''}
+                highlight={owner.services?.twitter !== undefined && owner.services?.twitter !== ''}
               >
-                {user.services?.twitter || 'not connect'}
+                {owner.services?.twitter || 'not connect'}
               </InfoText>
             </HorizontalFullWidthCenter>
             <HorizontalFullWidthCenter>
               <FieldText>{'Metamask:'}</FieldText>
-              <InfoText highlight={user.wallet_address !== ''}>
-                {user.wallet_address || 'not connect'}
+              <InfoText highlight={owner.wallet_address !== ''}>
+                {owner.wallet_address || 'not connect'}
               </InfoText>
             </HorizontalFullWidthCenter>
           </VerticalFullWidth>

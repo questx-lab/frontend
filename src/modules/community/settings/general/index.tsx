@@ -52,6 +52,7 @@ const General: FC = () => {
   const onSaveClicked = async () => {
     setLoading(true)
 
+    // upload avatar
     if (avatar) {
       const result = await uploadFileForCommunity(avatar, community.handle)
       if (result.error) {
@@ -63,15 +64,21 @@ const General: FC = () => {
     const state = store.getState()
 
     const payload = stateToUpdateCommunityRequest(state, community.handle)
-    const result = await updateCommunityApi(payload)
-    if (result.code === 0 && result.data) {
-      toast.success('Community is updated successfully')
 
+    const { error, data } = await updateCommunityApi(payload)
+    if (error) {
+      toast.error(error)
+      setLoading(false)
+      return
+    }
+
+    if (data) {
       // update the community store
-      setSelectedCommunity(result.data.community)
+      setSelectedCommunity(data.community)
 
       // update the my communities so that it updates the navigation logo image
-      updateMyCommunities(result.data.community)
+      updateMyCommunities(data.community)
+      toast.success('Community is updated successfully')
     }
 
     setLoading(false)

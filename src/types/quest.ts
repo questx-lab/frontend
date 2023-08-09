@@ -26,6 +26,9 @@ export interface QuestType {
   category: CategoryType
   is_highlight?: boolean
   unclaimable_reason?: string
+  unclaimable_reason_metadata?: {
+    next_claim?: string
+  }
   position: number
   validation_data: {
     tweet_url?: string

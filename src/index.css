@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h1 {
+    @apply text-2xl;
+    @apply font-medium;
+  }
+  h2 {
+    @apply text-xl;
+    @apply font-medium;
+  }
+  h3 {
+    @apply text-lg;
+    @apply font-medium;
+  }
+}
+
 body {
   margin: 0;
   font-family: 'Inter';
@@ -22,8 +37,9 @@ code {
 /* Firefox */
 
 * {
-  scrollbar-width: 5px;
-  scrollbar-color: #1f2937;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  overflow: -moz-scrollbars-none; /* For Firefox */
 }
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
