@@ -8,7 +8,7 @@ import { QuestColor, QuestRecurrencesStringMap } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import { CommunityType } from '@/types/community'
 import { QuestType } from '@/types/quest'
-import { calculateTimeRemaining } from '@/utils/time'
+import { calculateDayRemaining } from '@/utils/time'
 import { CircularImage } from '@/widgets/circular-image'
 import { Image } from '@/widgets/image'
 import {
@@ -195,9 +195,11 @@ const RemainingTiming: FC<{ time: string | undefined }> = ({ time }) => {
     return <></>
   }
 
-  const date = calculateTimeRemaining(new Date(time))
+  const date = calculateDayRemaining(new Date(time))
 
-  return <RemainingTime>{`on in ${date.hours}hrs:${date.minutes}mins`}</RemainingTime>
+  return (
+    <RemainingTime>{`on in ${date.days}days:${date.hours}hrs:${date.minutes}mins`}</RemainingTime>
+  )
 }
 
 const QuestCardDetails: FC<{
