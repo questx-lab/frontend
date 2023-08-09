@@ -24,7 +24,6 @@ interface CommunityModel {
   communityIndexMode: number
   lotteryEvent: LotteryEventType | undefined
   showUnfollowConfirmation: boolean
-  showNewMessage: boolean
 
   setSelectedCommunity: Action<CommunityModel, CommunityType>
   setQuery: Action<CommunityModel, string>
@@ -37,7 +36,6 @@ interface CommunityModel {
   setQuests: Action<CommunityModel, QuestType[]>
   setLotteryEvent: Action<CommunityModel, LotteryEventType | undefined>
   setShowUnfollowConfirmation: Action<CommunityModel, boolean>
-  setShowNewMessage: Action<CommunityModel, boolean>
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
@@ -53,7 +51,6 @@ const CommunityStore = createContextStore<CommunityModel>({
   communityIndexMode: CommunityIndexMode.VIEW_COMMUNITY,
   lotteryEvent: undefined,
   showUnfollowConfirmation: false,
-  showNewMessage: false,
 
   setSelectedCommunity: action((state, newProject) => {
     state.selectedCommunity = newProject
@@ -92,9 +89,6 @@ const CommunityStore = createContextStore<CommunityModel>({
   }),
   setShowUnfollowConfirmation: action((state, showUnfollowConfirmation) => {
     state.showUnfollowConfirmation = showUnfollowConfirmation
-  }),
-  setShowNewMessage: action((state, showNewMessage) => {
-    state.showNewMessage = showNewMessage
   }),
 })
 export default CommunityStore

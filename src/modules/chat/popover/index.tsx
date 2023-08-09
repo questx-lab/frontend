@@ -19,7 +19,6 @@ import { TextSm, TextXl } from '@/widgets/text'
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Relative } from '@/widgets/simple-popup'
 import chatController from '@/modules/chat/services/chat-controller'
-import { EqualBigInt } from '@/utils/number'
 
 const Frame = tw(VerticalFullWidth)`
   h-[calc(100vh_-_100px)]
@@ -98,8 +97,10 @@ const ChatPopover: FC = () => {
   // data
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const channels = useChannels(community.handle)
-  const showNewMessage = CommunityStore.useStoreState((action) => action.showNewMessage)
-  const setShowNewMessage = CommunityStore.useStoreActions((action) => action.setShowNewMessage)
+  const channelNewMessageStatus = ChatStore.useStoreState((state) => state.channelNewMessageStatus)
+  const setChannelNewMessageStatus = ChatStore.useStoreActions(
+    (action) => action.setChannelNewMessageStatus
+  )
 
   // actions
 
@@ -112,12 +113,10 @@ const ChatPopover: FC = () => {
   useEffect(() => {
     const listener = {
       onNewMessages: (channelId: bigint, messages: ChatMessageType[]) => {
-        if (
-          EqualBigInt(currentChannel.id, channelId) ||
-          EqualBigInt(currentChannel.id, BigInt(0))
-        ) {
-          setShowNewMessage(true)
-        }
+        setChannelNewMessageStatus({
+          channelId: channelId,
+          status: true,
+        })
       },
     }
 
@@ -131,6 +130,8 @@ const ChatPopover: FC = () => {
   if (!communityHandle) {
     return <></>
   }
+
+  const showNewMessage = channelNewMessageStatus.some((status) => status.status === true)
 
   return (
     <PopPover button={<ChatBubbleIcon hasDot={showNewMessage} />} custom>

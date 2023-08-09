@@ -7,7 +7,6 @@ import chatController, { MessageEventEnum } from '@/modules/chat/services/chat-c
 import ChatStore from '@/store/chat/chat'
 import { ChatMessageType } from '@/types/chat'
 import { VerticalFullWidth } from '@/widgets/orientation'
-import CommunityStore from '@/store/local/community'
 
 const Frame = tw(VerticalFullWidth)`h-full overflow-y-scroll gap-5`
 
@@ -16,19 +15,18 @@ const Frame = tw(VerticalFullWidth)`h-full overflow-y-scroll gap-5`
 const DELAY_SCROLL_TIME = 100
 
 const MessageList: FC = () => {
-  const setShowNewMessage = CommunityStore.useStoreActions((action) => action.setShowNewMessage)
+  const setChannelNewMessageStatus = ChatStore.useStoreActions(
+    (action) => action.setChannelNewMessageStatus
+  )
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
   const messageListRef = useRef<null | HTMLDivElement>(null)
   const channelIdString = currentChannel.id.toString()
   const [messages, setMessages] = useState<ChatMessageType[] | undefined>([])
 
-  useEffect(() => {
-    setShowNewMessage(false)
-  }, [])
   // Set the scroll position
   useEffect(() => {
     setMessages(chatController.getMessages(currentChannel.id, BigInt(0)))
-
+    setChannelNewMessageStatus({ channelId: currentChannel.id, status: false })
     setTimeout(() => {
       if (messageListRef.current) {
         messageListRef.current.scrollTop = messageListRef.current.scrollHeight
@@ -125,7 +123,7 @@ const MessageList: FC = () => {
 
     const containerHeight = event.currentTarget.clientHeight
     if (distance >= containerHeight - 10 && distance <= containerHeight + 10) {
-      setShowNewMessage(false)
+      setChannelNewMessageStatus({ channelId: currentChannel.id, status: false })
     }
   }
 
