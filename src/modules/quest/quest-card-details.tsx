@@ -26,14 +26,15 @@ const BorderBox = styled.div<{
   isTemplate: boolean
   bgColor: string
   showCommunity: boolean
-}>(({ showCommunity, isTemplate, bgColor }) => {
+  isBlock?: boolean
+}>(({ showCommunity, isTemplate, bgColor, isBlock = false }) => {
   const style = [
     tw`
     cursor-pointer
     rounded-lg
     border-solid
     border-gray-200
-    border-[1px]
+    border-[2px]
     h-[220px]
     w-full
     flex
@@ -54,25 +55,29 @@ const BorderBox = styled.div<{
     style.push(tw`!h-[252px]`)
   }
 
-  switch (bgColor) {
-    case QuestColor.EMERALD:
-      style.push(tw`bg-emerald-50 border-emerald-200`)
-      break
-    case QuestColor.ORANGE:
-      style.push(tw`bg-orange-50 border-orange-200`)
-      break
-    case QuestColor.INDIGO:
-      style.push(tw`bg-indigo-50 border-indigo-200`)
-      break
-    case QuestColor.PINK:
-      style.push(tw`bg-pink-50 border-pink-200`)
-      break
-    case QuestColor.CYAN:
-      style.push(tw`bg-cyan-50 border-cyan-200`)
-      break
-    default:
-      style.push(tw`bg-white border-gray-200`)
-      break
+  if (isBlock) {
+    style.push(tw`bg-gray-50`)
+  } else {
+    switch (bgColor) {
+      case QuestColor.EMERALD:
+        style.push(tw`bg-emerald-50 border-emerald-200`)
+        break
+      case QuestColor.ORANGE:
+        style.push(tw`bg-orange-50 border-orange-200`)
+        break
+      case QuestColor.INDIGO:
+        style.push(tw`bg-indigo-50 border-indigo-200`)
+        break
+      case QuestColor.PINK:
+        style.push(tw`bg-pink-50 border-pink-200`)
+        break
+      case QuestColor.CYAN:
+        style.push(tw`bg-cyan-50 border-cyan-200`)
+        break
+      default:
+        style.push(tw`bg-white border-gray-200`)
+        break
+    }
   }
 
   return style
@@ -119,9 +124,10 @@ const CommunityDisplayname = tw(TextSm)`
   font-medium
 `
 
-const RecurrenceBox = styled.div<{ bgColor: string }>(({ bgColor }) => {
-  const styles = [
-    tw`
+const RecurrenceBox = styled.div<{ bgColor: string; isBlock?: boolean }>(
+  ({ bgColor, isBlock = false }) => {
+    const styles = [
+      tw`
     px-2
     py-[6px]
     rounded-lg
@@ -129,30 +135,35 @@ const RecurrenceBox = styled.div<{ bgColor: string }>(({ bgColor }) => {
     font-normal
     text-gray-500
   `,
-  ]
+    ]
 
-  switch (bgColor) {
-    case QuestColor.EMERALD:
-      styles.push(tw`bg-emerald-100`)
-      break
-    case QuestColor.ORANGE:
-      styles.push(tw`bg-orange-100`)
-      break
-    case QuestColor.INDIGO:
-      styles.push(tw`bg-indigo-100`)
-      break
-    case QuestColor.PINK:
-      styles.push(tw`bg-pink-100`)
-      break
-    case QuestColor.CYAN:
-      styles.push(tw`bg-cyan-100`)
-      break
-    default:
+    if (isBlock) {
       styles.push(tw`bg-gray-100`)
-  }
+    } else {
+      switch (bgColor) {
+        case QuestColor.EMERALD:
+          styles.push(tw`bg-emerald-100`)
+          break
+        case QuestColor.ORANGE:
+          styles.push(tw`bg-orange-100`)
+          break
+        case QuestColor.INDIGO:
+          styles.push(tw`bg-indigo-100`)
+          break
+        case QuestColor.PINK:
+          styles.push(tw`bg-pink-100`)
+          break
+        case QuestColor.CYAN:
+          styles.push(tw`bg-cyan-100`)
+          break
+        default:
+          styles.push(tw`bg-gray-100`)
+      }
+    }
 
-  return styles
-})
+    return styles
+  }
+)
 
 const FixedIconSize = tw.div`w-4 h-4`
 
@@ -221,6 +232,7 @@ const QuestCardDetails: FC<{
       bgColor={bgColor}
       isTemplate={isTemplate}
       onClick={() => onClick(quest)}
+      isBlock={quest.unclaimable_reason !== ''}
     >
       <CommunityFrame showCommunity={showCommunity} community={quest.community} />
       <BasicInfoFrame>
@@ -237,7 +249,7 @@ const QuestCardDetails: FC<{
             <Image width={25} height={25} src={StorageConst.GEM.src} alt={StorageConst.GEM.alt} />
             <RewardText>{quest.points}</RewardText>
           </HorizontalCenter>
-          <RecurrenceBox bgColor={bgColor}>
+          <RecurrenceBox bgColor={bgColor} isBlock={quest.unclaimable_reason !== ''}>
             {QuestRecurrencesStringMap.get(quest.recurrence)?.toUpperCase()}
           </RecurrenceBox>
         </HorizontalBetweenCenterFullWidth>
