@@ -1,15 +1,18 @@
-import { FC, Fragment, useState } from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
 
 import tw from 'twin.macro'
 
 import { RewardEnum } from '@/constants/common.const'
 import CreateLotteryStore from '@/store/local/create-lottery'
 import { InputBox } from '@/widgets/form'
-import { HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
+import { HorizontalFullWidth, VerticalFullWidth, Horizontal } from '@/widgets/orientation'
 import { CheckIconBox, ListOption, TitleOption, UpDown } from '@/widgets/simple-popup'
 import { MediumTextSm, TextSm } from '@/widgets/text'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { getBalanceApi, getBlockchainApi } from '@/api/wallet'
+import { ErrorCodes } from '@/constants/code.const'
+import { getUserLocal } from '@/utils/helper'
 
 const Border = tw(VerticalFullWidth)`
   border
@@ -49,6 +52,23 @@ const Relative = tw.div`
   relative mt-1
 `
 
+const BalanceBox = tw.div`  
+  flex
+  w-full
+  justify-between
+`
+
+const BalanceValue = tw(TextSm)`
+  text-success-500
+  font-bold
+`
+
+const AddMoreValue = tw(TextSm)`
+  text-info-500
+  font-bold
+  cursor-pointer
+`
+
 const activeOption = ({ active }: { active: boolean }) =>
   `relative cursor-default select-none py-2 pl-10 pr-4 cursor-pointer ${
     active ? 'bg-gray-100 text-gray-900' : 'text-gray-900'
@@ -84,10 +104,12 @@ const ListOptionRender: FC<{ rewards: RewardEnum[] }> = ({ rewards }) => {
 }
 
 const PrizeItem: FC<{ index: number }> = ({ index }) => {
+  const localUser = getUserLocal()
   const prizes = CreateLotteryStore.useStoreState((state) => state.prizes)
   const setPrizes = CreateLotteryStore.useStoreActions((action) => action.setPrizes)
 
   const [reward, setReward] = useState<RewardEnum>(RewardEnum.COIN)
+  const [balance, setBalance] = useState<number>(0)
 
   const onRemove = () => {
     const newPrizes = [...prizes.slice(0, index), ...prizes.slice(index + 1)]
@@ -105,6 +127,31 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
     cpyPrizes[index].rewards[0].data.amount = amount
     setPrizes([...cpyPrizes])
   }
+
+  const fetchBalance = async () => {
+    const resp = await getBlockchainApi()
+
+    if (
+      resp.code === ErrorCodes.NOT_ERROR &&
+      resp.data &&
+      resp.data.chain.length > 0 &&
+      resp.data.chain[0].blockchain_connections.length > 0
+    ) {
+      const provider = resp.data.chain[0].blockchain_connections[0]
+
+      const balanceResp = await getBalanceApi(
+        localUser?.wallet_address || '',
+        `https://${provider.url}`
+      )
+
+      if (balanceResp.code === ErrorCodes.NOT_ERROR && balanceResp.data)
+        setBalance(balanceResp.data.balance)
+    }
+  }
+
+  useEffect(() => {
+    fetchBalance()
+  }, [])
 
   return (
     <Border>
@@ -133,20 +180,27 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
         </FullWidth>
       </GapVertical>
       <GapVertical>
-        <MediumTextSm>{'Amount Per Reward'}</MediumTextSm>
-        <InputBox
-          value={prizes[index].rewards[0].data.amount}
-          onChange={(e) => {
-            onChangeAmountPerReward(parseInt(e.target.value || '0', 10))
-          }}
-        />
-      </GapVertical>
-      <GapVertical>
         <MediumTextSm>{'Amount Rewards'}</MediumTextSm>
         <InputBox
           value={prizes[index].available_rewards}
           onChange={(e) => {
             onChangeAmount(parseInt(e.target.value || '0', 10))
+          }}
+        />
+        <BalanceBox>
+          <Horizontal>
+            <TextSm> Balance: </TextSm>
+            <BalanceValue> &nbsp;{`${balance} USDT`} </BalanceValue>
+          </Horizontal>
+          <AddMoreValue> Add more USDT ? </AddMoreValue>
+        </BalanceBox>
+      </GapVertical>
+      <GapVertical>
+        <MediumTextSm>{'Amount Per Reward'}</MediumTextSm>
+        <InputBox
+          value={prizes[index].rewards[0].data.amount}
+          onChange={(e) => {
+            onChangeAmountPerReward(parseInt(e.target.value || '0', 10))
           }}
         />
       </GapVertical>
