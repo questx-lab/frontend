@@ -11,7 +11,6 @@ import { OptionxBox, PopItem } from '@/widgets/popover'
 import { PopoverClick } from '@/widgets/popover/popover-hover'
 import { Popover } from '@headlessui/react'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
-import { IconButton } from '@material-tailwind/react'
 
 export const AvatarBox = styled(Image)(tw`ml-4`)
 
@@ -51,11 +50,7 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
     <td>
       <HorizontalFullWidthCenter>
         <PopoverClick
-          button={
-            <IconButton className='!bg-gray-100 !shadow-none hover:!shadow-none hover:!bg-gray-200'>
-              <EllipsisHorizontalIcon className='w-6 h-6 text-gray-900' />
-            </IconButton>
-          }
+          button={<EllipsisHorizontalIcon className='w-6 h-6 text-gray-900 cursor-pointer' />}
           placement={'left'}
         >
           <Content>
