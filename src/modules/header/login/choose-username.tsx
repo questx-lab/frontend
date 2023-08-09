@@ -277,7 +277,7 @@ const ChooseUserName: FC<{
           placeholder=''
         />
         {showUserNameError && (
-          <ErrorText>{`Username should contain only characters from a->z, 0->9, '_' and must be between 4 and 32 characters in length.`}</ErrorText>
+          <ErrorText>{`Username should contain only characters from A-Z, a-z, 0-9, '_' and must be between 4 and 32 characters in length.`}</ErrorText>
         )}
         <Label>{'TWITTER'}</Label>
         <SocialBoxInput>
