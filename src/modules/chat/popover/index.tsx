@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 import { useNavigate, useParams } from 'react-router-dom'
 import tw from 'twin.macro'
@@ -12,11 +12,14 @@ import useChannels from '@/modules/chat/hooks/use-channels'
 import Header from '@/modules/chat/popover/header'
 import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
-import { TabChatType } from '@/types/chat'
+import { ChatMessageType, TabChatType } from '@/types/chat'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { PopPanel, PopPover } from '@/widgets/popover'
 import { TextSm, TextXl } from '@/widgets/text'
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Relative } from '@/widgets/simple-popup'
+import chatController from '@/modules/chat/services/chat-controller'
+import { EqualBigInt } from '@/utils/number'
 
 const Frame = tw(VerticalFullWidth)`
   h-[calc(100vh_-_100px)]
@@ -57,6 +60,10 @@ const FixedWidthPopPanel = tw(PopPanel)`
   max-sm:right--6
 `
 
+const Absolute = tw.div`absolute right-0 bottom-0 bg-white rounded-full`
+
+const CircleRedBox = tw.div`w-2.5 h-2.5 rounded-full bg-danger`
+
 const ContentTab: FC = () => {
   const tab = ChatStore.useStoreState((state) => state.selectedTab)
   if (tab === TabChatType.CHANNEL_LIST) {
@@ -70,12 +77,29 @@ const ContentTab: FC = () => {
   return <ChatBox />
 }
 
+const ChatBubbleIcon: FC<{ hasDot: boolean }> = ({ hasDot }) => {
+  if (hasDot)
+    return (
+      <Relative>
+        <ChatBubbleLeftIcon className='w-5 h-5 text-gray-900' />
+        <Absolute>
+          <CircleRedBox />
+        </Absolute>
+      </Relative>
+    )
+  return <ChatBubbleLeftIcon className='w-5 h-5 text-gray-900' />
+}
+
 const ChatPopover: FC = () => {
   const { communityHandle } = useParams()
+
+  const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
 
   // data
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const channels = useChannels(community.handle)
+  const showNewMessage = CommunityStore.useStoreState((action) => action.showNewMessage)
+  const setShowNewMessage = CommunityStore.useStoreActions((action) => action.setShowNewMessage)
 
   // actions
 
@@ -85,12 +109,31 @@ const ChatPopover: FC = () => {
     navigate(messageRoute(community.handle, channels[0]))
   }
 
+  useEffect(() => {
+    const listener = {
+      onNewMessages: (channelId: bigint, messages: ChatMessageType[]) => {
+        if (
+          EqualBigInt(currentChannel.id, channelId) ||
+          EqualBigInt(currentChannel.id, BigInt(0))
+        ) {
+          setShowNewMessage(true)
+        }
+      },
+    }
+
+    chatController.addNewMessageListener(listener)
+
+    return () => {
+      chatController.removeNewMessageListener(listener)
+    }
+  }, [currentChannel])
+
   if (!communityHandle) {
     return <></>
   }
 
   return (
-    <PopPover button={<ChatBubbleLeftIcon className='w-5 h-5 text-gray-900' />} custom>
+    <PopPover button={<ChatBubbleIcon hasDot={showNewMessage} />} custom>
       <FixedWidthPopPanel>
         {({ close }) => (
           <Frame>

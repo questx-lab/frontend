@@ -24,6 +24,10 @@ export enum MessageEventEnum {
   REACTION_ADDED,
 }
 
+export interface NewMessageListener {
+  onNewMessages: (channelId: bigint, messages: ChatMessageType[]) => void
+}
+
 export interface ChannelsListener {
   onChannelsChanged: (handle: string, newChannels: ChannelType[]) => void
 }
@@ -53,6 +57,7 @@ class ChatController {
             [chatMessage],
             MessageEventEnum.NEW_MESSAGES
           )
+
           break
         case ChatMessageReceiverEnum.REACTION_ADDED:
           const reaction = s.d as ChatReactionType
@@ -122,6 +127,7 @@ class ChatController {
 
   // Messages
   private messagesListener = new Set<MessagesListener>()
+  private newMessageListeners = new Set<NewMessageListener>()
 
   // User chat statuses
   private chatStatusListener = new Set<ChatStatusListener>()
@@ -164,6 +170,14 @@ class ChatController {
 
   removeMessagesListener(listener: MessagesListener) {
     this.messagesListener.delete(listener)
+  }
+
+  addNewMessageListener(listener: NewMessageListener) {
+    this.newMessageListeners.add(listener)
+  }
+
+  removeNewMessageListener(listener: NewMessageListener) {
+    this.newMessageListeners.delete(listener)
   }
 
   addChatStatusListener(listener: ChatStatusListener) {
@@ -324,6 +338,10 @@ class ChatController {
     messages = this.localMessages.get(channelIdString)
     this.messagesListener.forEach((listener) =>
       listener.onMessages(channelId, messages || [], eventType)
+    )
+
+    this.newMessageListeners.forEach((listener) =>
+      listener.onNewMessages(channelId, messages || [])
     )
   }
 
