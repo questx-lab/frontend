@@ -69,6 +69,11 @@ const AddMoreValue = tw(TextSm)`
   font-bold
   cursor-pointer
 `
+const RemoveReward = tw(TextSm)`
+  text-danger-500
+  font-bold
+  cursor-pointer
+`
 
 const activeOption = ({ active }: { active: boolean }) =>
   `relative cursor-default select-none py-2 pl-10 pr-4 cursor-pointer ${
@@ -155,11 +160,8 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
 
   return (
     <Border>
-      <EndHorizontal>
-        <XMarkIcon onClick={onRemove} className='w-5 h-5 text-gray-900 cursor-pointer' />
-      </EndHorizontal>
       <GapVertical>
-        <MediumTextSm>{'Rewards'}</MediumTextSm>
+        <MediumTextSm>{'Type'}</MediumTextSm>
         <FullWidth>
           <Listbox
             value={reward}
@@ -203,6 +205,15 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
             onChangeAmountPerReward(parseInt(e.target.value || '0', 10))
           }}
         />
+      </GapVertical>
+      <GapVertical>
+        <EndHorizontal>
+          <RemoveReward onClick={onRemove}>
+            <Horizontal>
+              <XMarkIcon className='w-5 h-5' /> Remove reward
+            </Horizontal>
+          </RemoveReward>
+        </EndHorizontal>
       </GapVertical>
     </Border>
   )
