@@ -28,6 +28,17 @@ export const listQuestApi = async (
   return data
 }
 
+export const getQuestApi = async (
+  questId: string,
+  includeUnclaimableReason: boolean = false
+): Promise<Rsp<QuestType>> => {
+  const { data } = await api.get(
+    EnvVariables.API_SERVER +
+      `/getQuest?id=${questId}&include_unclaimable_reason=${includeUnclaimableReason}`
+  )
+  return data
+}
+
 export const updateAllClaimedQuestApi = async (
   action: string,
   community_handle: string,
