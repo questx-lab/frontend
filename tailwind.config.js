@@ -52,16 +52,40 @@ module.exports = withMT({
           },
         ],
         '4xl': [
-          '18px',
+          '2.25rem',
           {
-            lineHeight: '28px',
+            lineHeight: '2.5rem',
           },
         ],
         '8xl': [
-          '4.5rem',
+          '3rem',
           {
-            lineHeight: '79.2px',
-            letterSpacing: '-1.44px',
+            lineHeight: '2.25rem',
+            letterSpacing: '-0.02em',
+          },
+        ],
+        216: [
+          '216px',
+          {
+            fontWeight: '900',
+            lineHeight: '172.8px',
+            letterSpacing: '-10.8px',
+          },
+        ],
+        218: [
+          '218px',
+          {
+            fontWeight: '900',
+            lineHeight: '174.4px',
+            letterSpacing: '-10.9px',
+          },
+        ],
+        400: [
+          '400px',
+          {
+            fontWeight: '900',
+            lineHeight: '320px',
+            letterSpacing: '-20px',
           },
         ],
         216: [
@@ -164,12 +188,10 @@ module.exports = withMT({
         900: '#342d7b',
         DEFAULT: '#565add',
       },
-      black: {
-        DEFAULT: '#000000',
-      },
+      black: '#000000',
       white: {
-        rgb5: 'rgba(255, 255, 255, 0.05)',
-        rgb10: 'rgba(255, 255, 255, 0.1)',
+        rgb5: 'rgba(255, 255, 255, 0.10)',
+        rgb10: 'rgba(255, 255, 255, 0.20)',
         DEFAULT: '#ffffff',
       },
       gray: {
