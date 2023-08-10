@@ -58,6 +58,9 @@ class ChatController {
             MessageEventEnum.NEW_MESSAGES
           )
 
+          this.newMessageListeners.forEach((listener) =>
+            listener.onNewMessages(chatMessage.channel_id, [chatMessage])
+          )
           break
         case ChatMessageReceiverEnum.REACTION_ADDED:
           const reaction = s.d as ChatReactionType
@@ -338,10 +341,6 @@ class ChatController {
     messages = this.localMessages.get(channelIdString)
     this.messagesListener.forEach((listener) =>
       listener.onMessages(channelId, messages || [], eventType)
-    )
-
-    this.newMessageListeners.forEach((listener) =>
-      listener.onNewMessages(channelId, messages || [])
     )
   }
 

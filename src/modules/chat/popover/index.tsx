@@ -19,6 +19,7 @@ import { TextSm, TextXl } from '@/widgets/text'
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Relative } from '@/widgets/simple-popup'
 import chatController from '@/modules/chat/services/chat-controller'
+import { getUserLocal } from '@/utils/helper'
 
 const Frame = tw(VerticalFullWidth)`
   h-[calc(100vh_-_100px)]
@@ -91,6 +92,7 @@ const ChatBubbleIcon: FC<{ hasDot: boolean }> = ({ hasDot }) => {
 
 const ChatPopover: FC = () => {
   const { communityHandle } = useParams()
+  const userLocal = getUserLocal()
 
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
 
@@ -113,10 +115,12 @@ const ChatPopover: FC = () => {
   useEffect(() => {
     const listener = {
       onNewMessages: (channelId: bigint, messages: ChatMessageType[]) => {
-        setChannelNewMessageStatus({
-          channelId: channelId,
-          status: true,
-        })
+        const isNewMessage = messages.every((message) => message.author.id !== userLocal?.id)
+        if (isNewMessage)
+          setChannelNewMessageStatus({
+            channelId: channelId,
+            status: true,
+          })
       },
     }
 
