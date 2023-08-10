@@ -10,16 +10,16 @@ import Channels from '@/modules/chat/channel/channels'
 import ChatBox from '@/modules/chat/chat-box'
 import useChannels from '@/modules/chat/hooks/use-channels'
 import Header from '@/modules/chat/popover/header'
+import chatController, { MessageEventEnum } from '@/modules/chat/services/chat-controller'
 import ChatStore from '@/store/chat/chat'
 import CommunityStore from '@/store/local/community'
 import { ChatMessageType, TabChatType } from '@/types/chat'
+import { getUserLocal } from '@/utils/helper'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { PopPanel, PopPover } from '@/widgets/popover'
+import { Relative } from '@/widgets/simple-popup'
 import { TextSm, TextXl } from '@/widgets/text'
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Relative } from '@/widgets/simple-popup'
-import chatController from '@/modules/chat/services/chat-controller'
-import { getUserLocal } from '@/utils/helper'
 
 const Frame = tw(VerticalFullWidth)`
   h-[calc(100vh_-_100px)]
@@ -94,9 +94,8 @@ const ChatPopover: FC = () => {
   const { communityHandle } = useParams()
   const userLocal = getUserLocal()
 
-  const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
-
   // data
+  const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const channels = useChannels(community.handle)
   const channelNewMessageStatus = ChatStore.useStoreState((state) => state.channelNewMessageStatus)
@@ -105,16 +104,15 @@ const ChatPopover: FC = () => {
   )
 
   // actions
-
   const navigate = useNavigate()
-
   const onNavigate = () => {
     navigate(messageRoute(community.handle, channels[0]))
   }
 
+  // Listen to new messages to show red dot notification.
   useEffect(() => {
     const listener = {
-      onNewMessages: (channelId: bigint, messages: ChatMessageType[]) => {
+      onMessages: (channelId: bigint, messages: ChatMessageType[], eventType: MessageEventEnum) => {
         const isNewMessage = messages.every((message) => message.author.id !== userLocal?.id)
         if (isNewMessage)
           setChannelNewMessageStatus({
@@ -124,10 +122,10 @@ const ChatPopover: FC = () => {
       },
     }
 
-    chatController.addNewMessageListener(listener)
+    chatController.addMessagesListener(listener)
 
     return () => {
-      chatController.removeNewMessageListener(listener)
+      chatController.removeMessagesListener(listener)
     }
   }, [currentChannel])
 
