@@ -13,6 +13,7 @@ import { Status } from '@/modules/review-submissions/history/row-item'
 import AdminCommunityStore from '@/store/admin/community'
 import { UserType } from '@/types'
 import { CommunityType } from '@/types/community'
+import { convertTimeToShow } from '@/utils/time'
 import { CircularImage } from '@/widgets/circular-image'
 import { Horizontal, HorizontalStartCenter } from '@/widgets/orientation'
 import { TextBase } from '@/widgets/text'
@@ -69,7 +70,7 @@ const OwnerTd: FC<{ owner?: UserType; onClickUser: (owner: UserType) => void }> 
   onClickUser,
 }) => {
   if (!owner) {
-    return <>Cannot find owner</>
+    return <Td>Cannot find owner</Td>
   }
 
   return (
@@ -117,7 +118,7 @@ const CommunityRow: FC<{
       <CommunityTd community={community} onClickCommunity={() => setOpenCommunityModal(true)} />
       <StatusTd status={community.status || ''} />
       <OwnerTd owner={community.owner} onClickUser={() => setOpenUserModal(true)} />
-      <Td>{community.created_at}</Td>
+      <Td>{convertTimeToShow(community.created_at)}</Td>
       <Td>{community.owner_email || ''}</Td>
       <Td>{community.followers || 0}</Td>
       <Td>{community.dau || 0}</Td>
