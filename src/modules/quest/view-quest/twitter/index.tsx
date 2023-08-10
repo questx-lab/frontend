@@ -34,9 +34,7 @@ const generateRetweetLink = (status_link: string): string => {
 
 const generateReplyLink = (status_link: string, default_reply: string): string => {
   const status_id = getTweetIdFromUrl(status_link)
-  const urlEncode = new URLSearchParams(default_reply)
-
-  return `https://twitter.com/intent/tweet?in_reply_to=${status_id}&text=${urlEncode}`
+  return `https://twitter.com/intent/tweet?in_reply_to=${status_id}&text=${default_reply}`
 }
 
 const getActions = (quest: QuestType): QuestTwitterActionType[] => {
