@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import tw from 'twin.macro'
 
+import { FAQs } from '@/types/faq'
 import { Accordion, AccordionBody, AccordionHeader } from '@material-tailwind/react'
 
 const Frame = tw.div`
@@ -21,16 +22,16 @@ const AccordionBox = () => {
 
   const handleOpen = (value: number) => setOpen(open === value ? 0 : value)
 
-  const render = [1, 2, 3, 4, 5].map((item, index) => (
+  const render = FAQs.map((item, index) => (
     <AccordionFrame open={open === index} key={index}>
       <AccordionHeader
         className='hover:text-white border-b-0  text-xl text-white font-rubik font-normal'
         onClick={() => handleOpen(index)}
       >
-        {`What is XQuest?`}
+        {item.question}
       </AccordionHeader>
       <AccordionBody className='pt-0 text-sm text-white font-normal font-rubik'>
-        {`XQuest: Empowering small projects on a limited budget to boost community engagement. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac leo dui. Sed porttitor augue erat, a hendrerit neque viverra et. Nulla ut nibh a metus sollicitudin fermentum. Mauris in sollicitudin nisl, eget semper justo.`}
+        {item.answer}
       </AccordionBody>
     </AccordionFrame>
   ))
