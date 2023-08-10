@@ -30,7 +30,7 @@ const Header = tw(HorizontalBetweenCenterFullWidth)`
   gap-3
 `
 
-const FlexWrap = tw.div`flex flex-wrap justify-between`
+const FlexWrap = tw.div`flex flex-wrap justify-between gap-3`
 
 const Gap3Vertical = tw(VerticalFullWidthCenter)`gap-3`
 
@@ -42,7 +42,7 @@ const ButtonIcon = tw(
 
 const DateBox = styled.div<{ isActiveDate: boolean; isCurrentDate: boolean }>(
   ({ isActiveDate, isCurrentDate }) => {
-    const styles = [tw`flex h-10 w-10 items-center justify-center rounded-lg`]
+    const styles = [tw`flex h-8 w-8 items-center justify-center rounded-lg`]
 
     if (isActiveDate) {
       styles.push(tw`bg-orange text-white`)
@@ -92,7 +92,7 @@ const hasElementWithStartTime = (array: StreakType[], startTime: string): boolea
 
 const RenderDate: FC = () => {
   return (
-    <HorizontalFullWidthCenter className='!gap-1'>
+    <HorizontalFullWidthCenter className='!gap-2'>
       {['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'].map((day, i) => {
         return <DateFixedSize key={i}>{day}</DateFixedSize>
       })}
