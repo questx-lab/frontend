@@ -8,7 +8,7 @@ import { getStreakApi } from '@/api/communitiy'
 import CalendarFrame from '@/modules/community/streak/calendar'
 import { HorizontalCenter, Vertical, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { PopPover } from '@/widgets/popover'
-import { TextSm, TextXl, TextXs } from '@/widgets/text'
+import { MediumTextSm, TextSm, TextXl } from '@/widgets/text'
 import { FireIcon } from '@heroicons/react/24/outline'
 
 const Frame = tw(Vertical)`
@@ -19,7 +19,7 @@ const Frame = tw(Vertical)`
 `
 
 const IconBtn = tw(HorizontalCenter)`
-  gap-2
+  gap-1
   cursor-pointer
   bg-primary-50
   rounded-lg
@@ -69,7 +69,7 @@ const StreakPopover = () => {
       button={
         <IconBtn>
           <FireIcon className='h-5 w-5 text-orange' />
-          <TextXs>{amount}</TextXs>
+          <MediumTextSm>{amount}</MediumTextSm>
         </IconBtn>
       }
       styled='right-0'
