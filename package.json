@@ -6,6 +6,7 @@
     "@craco/craco": "^7.1.0",
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
+    "@hassanmojab/react-modern-calendar-datepicker": "^3.1.7",
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.0.1",
@@ -22,6 +23,7 @@
     "base64-arraybuffer": "^1.0.2",
     "buffer": "^6.0.3",
     "cookies-next": "^2.1.1",
+    "dayjs": "^1.11.9",
     "deflate-js": "^0.2.3",
     "easy-peasy": "^6.0.0",
     "emoji-mart": "^5.5.2",
@@ -33,7 +35,7 @@
     "moment": "^2.29.4",
     "randomstring": "^1.2.3",
     "react": "^18.2.0",
-    "react-datepicker": "^4.14.1",
+    "react-datepicker": "^4.16.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
@@ -103,12 +105,12 @@
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-datepicker": "^4.11.2",
     "@types/react-dom": "^18.0.11",
+    "@types/react-mentions": "^4.1.8",
     "@types/react-window": "^1.8.5",
     "@types/react-window-infinite-loader": "^1.0.6",
     "@types/styled-components": "^5.1.26",
     "@types/websocket": "^1.0.5",
     "@types/ws": "^8.5.4",
-    "@types/react-mentions": "^4.1.8",
     "babel-plugin-module-resolver": "^5.0.0"
   }
 }
