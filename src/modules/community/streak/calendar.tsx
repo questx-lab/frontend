@@ -117,7 +117,7 @@ const Calendar: FC = () => {
     if (communityHandle) {
       getStreak(formattedMonthYear)
     }
-  }, [])
+  }, [communityHandle])
 
   const getStreak = async (date: string) => {
     if (communityHandle) {
