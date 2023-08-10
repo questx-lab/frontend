@@ -10,10 +10,10 @@ import { CheckIconBox, ListOption, TitleOption, UpDown } from '@/widgets/simple-
 import { MediumTextSm, TextSm } from '@/widgets/text'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { getBalanceApi, getBlockchainApi } from '@/api/wallet'
 import { ErrorCodes } from '@/constants/code.const'
 import { getWalletAddressApi } from '@/api/communitiy'
 import CommunityStore from '@/store/local/community'
+import walletController from '@/modules/wallet/services/wallet-controller'
 
 const Border = tw(VerticalFullWidth)`
   border
@@ -113,7 +113,7 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const prizes = CreateLotteryStore.useStoreState((state) => state.prizes)
   const setPrizes = CreateLotteryStore.useStoreActions((action) => action.setPrizes)
-
+  const [walletAddress, setWalletAddress] = useState<string>('')
   const [reward, setReward] = useState<RewardEnum>(RewardEnum.COIN)
   const [balance, setBalance] = useState<number>(0)
 
@@ -135,23 +135,16 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
   }
 
   const fetchBalance = async () => {
-    const walletResp = await getWalletAddressApi(community.handle)
-    if (walletResp.code === ErrorCodes.NOT_ERROR && walletResp.data) {
-      const resp = await getBlockchainApi()
-      if (
-        resp.code === ErrorCodes.NOT_ERROR &&
-        resp.data &&
-        resp.data.chain.length > 0 &&
-        resp.data.chain[0].blockchain_connections.length > 0
-      ) {
-        const provider = resp.data.chain[0].blockchain_connections[0]
-        const walletAddress = walletResp.data.wallet_address
-        const balanceResp = await getBalanceApi(walletAddress, `https://${provider.url}`)
-
-        if (balanceResp.code === ErrorCodes.NOT_ERROR && balanceResp.data)
-          setBalance(balanceResp.data.balance)
-      }
+    const resp = await getWalletAddressApi(community.handle)
+    if (resp.code === ErrorCodes.NOT_ERROR && resp.data) {
+      setWalletAddress(resp.data.wallet_address)
+      const balance = await walletController.getBalance(resp.data.wallet_address)
+      if (balance) setBalance(balance)
     }
+  }
+
+  const addMoreBalance = async () => {
+    await walletController.deposit(walletAddress)
   }
 
   useEffect(() => {
@@ -194,7 +187,7 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
             <TextSm> Balance: </TextSm>
             <BalanceValue> &nbsp;{`${balance} USDT`} </BalanceValue>
           </Horizontal>
-          <AddMoreValue> Add more USDT ? </AddMoreValue>
+          <AddMoreValue onClick={addMoreBalance}> Add more USDT ? </AddMoreValue>
         </BalanceBox>
       </GapVertical>
       <GapVertical>

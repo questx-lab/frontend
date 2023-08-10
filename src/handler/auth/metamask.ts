@@ -92,7 +92,7 @@ const connectWallet = async (ethereum: MetaMaskInpageProvider) => {
   } catch (err) {}
 }
 
-const getConnectedAccounts = async (ethereum: MetaMaskInpageProvider): Promise<unknown> => {
+export const getConnectedAccounts = async (ethereum: MetaMaskInpageProvider): Promise<unknown> => {
   try {
     const accounts = await ethereum.request({
       method: 'eth_accounts',

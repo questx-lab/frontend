@@ -1,6 +1,5 @@
 import { EnvVariables } from '@/constants/env.const'
 import { Rsp, WalletLoginRes, WalletVerifyRes } from '@/types'
-import Web3 from 'web3'
 
 import { api } from './interceptor'
 import { balanceOfABI } from '@/constants/contract'
@@ -27,35 +26,7 @@ export const linkWalletApi = async (signature: string): Promise<Rsp<{}>> => {
   return result.data
 }
 
-export const getBlockchainApi = async (): Promise<Rsp<{ chain: ChainType[] }>> => {
-  const result = await api.get(
-    EnvVariables.API_SERVER + `/getBlockchain?chain=${EnvVariables.CHAIN}`
-  )
+export const getBlockchainApi = async (chain: string): Promise<Rsp<{ chain: ChainType[] }>> => {
+  const result = await api.get(EnvVariables.API_SERVER + `/getBlockchain?chain=${chain}`)
   return result.data
-}
-
-export const getBalanceApi = async (
-  address: string,
-  provider: string
-): Promise<Rsp<{ balance: number }>> => {
-  const tokenAddress = EnvVariables.USDT_ADDESS
-  console.log('tokenAddress', tokenAddress)
-
-  const web3 = new Web3(new Web3.providers.HttpProvider(provider))
-  const contract = new web3.eth.Contract(balanceOfABI, tokenAddress)
-  try {
-    const result = await contract.methods.balanceOf(address).call()
-    console.log('result', result)
-
-    return {
-      code: ErrorCodes.NOT_ERROR,
-      data: {
-        balance: result,
-      },
-    }
-  } catch (error) {
-    return {
-      code: ErrorCodes.REQUEST_FAILED,
-    }
-  }
 }
