@@ -68,8 +68,6 @@ const Wallet: FC = () => {
   }
 
   const addMoreBalance = async () => {
-    console.log('walletAddress', walletAddress)
-
     await walletController.deposit(walletAddress)
   }
 
