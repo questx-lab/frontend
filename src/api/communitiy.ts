@@ -17,6 +17,7 @@ import {
 } from '@/types'
 import {
   CommunityRoleType,
+  CommunityStatsType,
   CommunityType,
   FollowCommunityType,
   ReferralType,
@@ -349,4 +350,17 @@ export const deleteRoleMemberApi = async (
     role_ids: roleIds,
   })
   return rs.data
+}
+
+// STATS
+export const getCommunityStatsApi = async (
+  handle: string,
+  begin: string,
+  end: string
+): Promise<Rsp<{ stats: CommunityStatsType[] }>> => {
+  const { data } = await api.get(
+    EnvVariables.API_SERVER +
+      `/getCommunityStats?community_handle=${handle}&begin=${begin}&end=${end}`
+  )
+  return data
 }

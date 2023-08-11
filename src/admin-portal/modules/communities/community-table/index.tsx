@@ -20,9 +20,11 @@ const TABLE_HEAD = [
   'Action',
 ]
 
+const FullWidth = tw.div`w-full h-full`
+
 const CommunityContent: FC = () => {
   return (
-    <>
+    <FullWidth>
       <SimpleTable>
         <thead>
           <tr>
@@ -33,7 +35,7 @@ const CommunityContent: FC = () => {
         </thead>
         <CommunityBody />
       </SimpleTable>
-    </>
+    </FullWidth>
   )
 }
 

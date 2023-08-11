@@ -1,6 +1,7 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { ActionReviewCommunityEnum, CommunityType } from '@/types/community'
+import { ActionReviewCommunityEnum } from '@/admin-portal/types/control-panel-tab'
+import { CommunityType } from '@/types/community'
 
 interface AdminCommunitylModel {
   communities: CommunityType[]
