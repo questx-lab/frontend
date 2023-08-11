@@ -8,6 +8,7 @@ import tw from 'twin.macro'
 import { AuthEnum } from '@/constants/common.const'
 import { RouterConst } from '@/constants/router.const'
 import ChatPopover from '@/modules/chat/popover'
+import StreakPopover from '@/modules/community/streak'
 import Login from '@/modules/header/login'
 import UserPopover from '@/modules/header/user-popover'
 import UserProfile from '@/modules/header/user-profile'
@@ -32,7 +33,7 @@ const LoginBtn = styled.button<{ isLandingPage: boolean }>(({ isLandingPage }) =
       hover:bg-white-rgb10
       text-sm
       text-white
-      font-bold
+      font-medium
       py-[6px]
       px-3
       rounded-lg
@@ -55,7 +56,7 @@ const SignUpBtn = tw.button`
   hover:bg-info-700
   text-sm
   text-white
-  font-bold
+  font-medium
   py-[6px]
   px-3
   rounded-lg
@@ -100,8 +101,8 @@ const UserInfoBox: FC = () => {
     return (
       <UserSession>
         <ChatPopover />
+        <StreakPopover />
         <UserPopover />
-
         <BaseModal isOpen={showLoginModal}>
           <ModalBox>
             <Login setOpen={setShowLoginModal} />

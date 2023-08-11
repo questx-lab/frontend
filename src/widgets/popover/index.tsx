@@ -25,7 +25,7 @@ export const PopPanel = styled(Popover.Panel)(() => {
   shadow-lg
   border
   border-solid
-  border-gray-300
+  border-gray-200
   flex
   flex-col
   `
