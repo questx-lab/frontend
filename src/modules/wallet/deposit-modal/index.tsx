@@ -3,9 +3,14 @@ import { FC, useState } from 'react'
 import tw from 'twin.macro'
 
 import styled from 'styled-components'
-import { EndHorizontal, HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
+import {
+  EndHorizontal,
+  HorizontalBetween,
+  HorizontalFullWidth,
+  VerticalFullWidth,
+} from '@/widgets/orientation'
 import Step1 from '@/modules/wallet/deposit-modal/step1'
-import { PositiveButton } from '@/widgets/buttons'
+import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import walletController from '@/modules/wallet/services/wallet-controller'
 import CommunityStore from '@/store/local/community'
 import Step2 from '@/modules/wallet/deposit-modal/step2'
@@ -105,6 +110,10 @@ const DepositModal: FC<{
     else await walletController.deposit(walletAddress, selectedAccount, amount)
   }
 
+  const prev = async () => {
+    if (currentStep > 1) setCurrentStep(currentStep - 1)
+  }
+
   const renderContent = () => {
     switch (currentStep) {
       case 1:
@@ -128,7 +137,7 @@ const DepositModal: FC<{
       <StepListContainer>
         <StepListBox>
           {[1, 2, 3].map((step) => (
-            <StepBox active={currentStep >= step} isLast={step === 3}>
+            <StepBox active={currentStep - 1 >= step} isLast={step === 3}>
               <StepContent active={currentStep >= step}>{step}</StepContent>
             </StepBox>
           ))}
@@ -142,11 +151,15 @@ const DepositModal: FC<{
       <ContentBox>
         <Border>{renderContent()}</Border>
       </ContentBox>
-      <EndHorizontal className='pr-6'>
+      <HorizontalBetween className='px-6'>
+        <NegativeButton onClick={() => prev()} block={currentStep === 1}>
+          Prev
+        </NegativeButton>
+
         <PositiveButton onClick={() => next()}>
           {currentStep === 3 ? 'Done' : 'Next'}
         </PositiveButton>
-      </EndHorizontal>
+      </HorizontalBetween>
     </BasicModal>
   )
 }
