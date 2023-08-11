@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import dayjs from 'dayjs'
+import moment from 'moment'
 import { useParams } from 'react-router-dom'
 import tw from 'twin.macro'
 
@@ -49,7 +49,7 @@ const StreakPopover = () => {
   const getStreak = async () => {
     if (communityHandle) {
       try {
-        const { error, data } = await getStreakApi(communityHandle, dayjs().format('MM-YYYY'))
+        const { error, data } = await getStreakApi(communityHandle, moment().format('MM-YYYY'))
         if (error) {
           return
         }
