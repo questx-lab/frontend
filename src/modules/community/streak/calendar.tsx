@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
-import dayjs from 'dayjs'
+import moment, { Moment } from 'moment'
 import { toast } from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -64,7 +64,7 @@ const range = (lo: number, hi: number): number[] => {
   return result
 }
 
-const getCalendarDays = (now: dayjs.Dayjs): (number | null)[][] => {
+const getCalendarDays = (now: Moment): (number | null)[][] => {
   const startOfMonth = now.startOf('month')
   const calendarDays: (number | null)[][] = []
   const firstWeekEndDate = 8 - startOfMonth.day()
@@ -103,14 +103,14 @@ const RenderDate: FC = () => {
 const Calendar: FC = () => {
   const { communityHandle } = useParams()
 
-  const [now, setNow] = useState(dayjs())
+  const [now, setNow] = useState(moment())
   const [dayStreaks, setDayStreaks] = useState<StreakType[]>([])
 
   const formattedNowMonth = now.format('MMMM YYYY')
   const formattedMonthYear = now.format('MM-YYYY')
   const formattedYearMonth = now.format('YYYY-MM')
 
-  const staticNow = dayjs()
+  const staticNow = moment()
   const calendarDays = getCalendarDays(now)
 
   useEffect(() => {
@@ -134,7 +134,7 @@ const Calendar: FC = () => {
     }
   }
 
-  const updateTime = (newNow: dayjs.Dayjs) => {
+  const updateTime = (newNow: Moment) => {
     if (newNow.diff(staticNow, 'day') <= 0) {
       getStreak(newNow.format('MM-YYYY'))
     } else {
