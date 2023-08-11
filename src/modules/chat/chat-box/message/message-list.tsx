@@ -15,6 +15,9 @@ const Frame = tw(VerticalFullWidth)`h-full overflow-y-scroll gap-5`
 const DELAY_SCROLL_TIME = 100
 
 const MessageList: FC = () => {
+  const setChannelNewMessageStatus = ChatStore.useStoreActions(
+    (action) => action.setChannelNewMessageStatus
+  )
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
   const messageListRef = useRef<null | HTMLDivElement>(null)
   const channelIdString = currentChannel.id.toString()
@@ -23,7 +26,7 @@ const MessageList: FC = () => {
   // Set the scroll position
   useEffect(() => {
     setMessages(chatController.getMessages(currentChannel.id, BigInt(0)))
-
+    setChannelNewMessageStatus({ channelId: currentChannel.id, status: false })
     setTimeout(() => {
       if (messageListRef.current) {
         messageListRef.current.scrollTop = messageListRef.current.scrollHeight
@@ -70,13 +73,14 @@ const MessageList: FC = () => {
 
               const containerHeight = messageListRef.current.clientHeight
 
-              if (distance >= containerHeight - 10 && distance <= containerHeight + 10)
+              if (distance >= containerHeight - 10 && distance <= containerHeight + 10) {
                 requestAnimationFrame(() => {
                   if (messageListRef.current) {
                     const newHeight = messageListRef.current.scrollHeight
                     messageListRef.current.scrollTo({ top: oldTop + newHeight - oldHeight })
                   }
                 })
+              }
             }
             break
 
@@ -112,6 +116,14 @@ const MessageList: FC = () => {
       const lastMessageId: bigint =
         messages !== undefined && messages.length > 0 ? messages[0].id : BigInt(0)
       chatController.loadMessages(currentChannel.id, lastMessageId, MessageEventEnum.LOAD_PREFIX)
+    }
+    const scrollHeight = event.currentTarget.scrollHeight
+    const scrollTop = event.currentTarget.scrollTop
+    const distance = scrollHeight - scrollTop
+
+    const containerHeight = event.currentTarget.clientHeight
+    if (distance >= containerHeight - 10 && distance <= containerHeight + 10) {
+      setChannelNewMessageStatus({ channelId: currentChannel.id, status: false })
     }
   }
 

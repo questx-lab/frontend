@@ -69,3 +69,8 @@ export type ReferralType = {
   referred_by: UserType
   communities: CommunityType[]
 }
+
+export enum ActionReviewCommunityEnum {
+  ACTIVE = 'active',
+  REJECT = 'rejected',
+}
