@@ -13,6 +13,7 @@ import CommunityStore from '@/store/local/community'
 import { ErrorCodes } from '@/constants/code.const'
 import walletController from '@/modules/wallet/services/wallet-controller'
 import { getShortAddress } from '@/utils/convert'
+import DepositModal from '@/modules/wallet/deposit-modal'
 
 const VerticalFrame = tw(VerticalFullWidth)`
   w-2/3
@@ -57,6 +58,7 @@ const Wallet: FC = () => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const [walletAddress, setWalletAddress] = useState<string>('')
   const [balance, setBalance] = useState<number>(0)
+  const [showDepositModal, setShowDepositModal] = useState<boolean>(false)
 
   const fetchBalance = async () => {
     const resp = await getWalletAddressApi(community.handle)
@@ -67,8 +69,8 @@ const Wallet: FC = () => {
     }
   }
 
-  const addMoreBalance = async () => {
-    await walletController.deposit(walletAddress)
+  const addMoreBalance = () => {
+    setShowDepositModal(true)
   }
 
   useEffect(() => {
@@ -122,6 +124,7 @@ const Wallet: FC = () => {
           </VerticalFullWidth>
         </Border>
       </VerticalFrame>
+      <DepositModal open={showDepositModal} onClose={() => setShowDepositModal(false)} />
     </HorizontalFullWidthCenter>
   )
 }

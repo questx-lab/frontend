@@ -1,6 +1,6 @@
 import { getBlockchainApi } from '@/api/wallet'
 import { ErrorCodes } from '@/constants/code.const'
-import { balanceOfABI } from '@/constants/contract'
+import { balanceOfABI, transferABI } from '@/constants/contract'
 import { EnvVariables } from '@/constants/env.const'
 import { getConnectedAccounts } from '@/handler/auth/metamask'
 import { ChainType } from '@/types/blockchain'
@@ -12,9 +12,10 @@ import { provider } from 'web3-core'
 class WalletController {
   private chain: ChainType
   private web3?: Web3
+  private etherWeb3: Web3
 
   getProvider() {
-    if (this.chain.blockchain_connections.length > 0) return this.chain.blockchain_connections[0]
+    if (this.chain.connections.length > 0) return this.chain.connections[0]
     return undefined
   }
 
@@ -30,9 +31,13 @@ class WalletController {
 
   constructor() {
     this.chain = {
-      blockchain_connections: [],
+      connections: [],
+      name: '',
+      id: 0,
     }
     this.fetchChain()
+    const ethereum = window.ethereum
+    this.etherWeb3 = new Web3(ethereum as provider)
   }
 
   getBalance = async (wallet_address: string) => {
@@ -43,25 +48,91 @@ class WalletController {
     return result
   }
 
-  async deposit(wallet_address: string) {
+  async getAccounts() {
+    const ethereum = window.ethereum
+    if (ethereum) {
+      const resp = await getConnectedAccounts(ethereum)
+      return resp as string[]
+    }
+    return []
+  }
+
+  async deposit(wallet_address: string, account: string, amount: number) {
     const provider = await detectEthereumProvider()
 
-    if (provider && window && window.ethereum) {
-      const ethereum = window.ethereum
-      const resp = await getConnectedAccounts(ethereum)
-      const accounts = resp as string[]
+    if (provider) {
+      const contract = new this.etherWeb3.eth.Contract(transferABI, EnvVariables.USDT_ADDESS, {
+        from: account,
+      })
+      const abi = contract.methods
+        .transfer(wallet_address, this.etherWeb3.utils.toHex(amount * 1e6))
+        .encodeABI()
+      try {
+        await this.etherWeb3.eth.sendTransaction({
+          from: account,
+          to: EnvVariables.USDT_ADDESS,
+          gasPrice: this.etherWeb3.utils.toHex(20 * 1e9),
+          gas: this.etherWeb3.utils.toHex(210000),
+          data: abi,
+        })
+      } catch (error) {
+        toast.error('Cannot deposit')
+      }
+    } else {
+      toast.error('You should install metamask wallet before')
+      window.open('https://metamask.io/download/', '_blank')
+    }
+  }
 
-      if (accounts && accounts.length > 0) {
-        const connectedAccount = accounts[0]
-        const w3 = new Web3(ethereum as provider)
-        try {
-          await w3.eth.sendTransaction({
-            from: connectedAccount,
-            to: EnvVariables.USDT_ADDESS,
-            // data: JSON.stringify({}),
-          })
-        } catch (error) {
-          toast.error('Cannot deposit')
+  async changeAccount(account: string) {
+    const ethereum = window.ethereum
+    if (ethereum)
+      await ethereum.request({
+        method: 'wallet_requestPermissions',
+        params: [
+          {
+            eth_accounts: {
+              method: 'eth_sendTransaction',
+            },
+          },
+        ],
+      })
+  }
+
+  async changeChain() {
+    const chainId = `${this.chain.id}`
+
+    const connections = this.chain.connections.map(
+      (blockchain_connection) => blockchain_connection.url
+    )
+
+    const ethereum = window.ethereum
+    if (ethereum && ethereum.networkVersion !== chainId) {
+      try {
+        await ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: this.etherWeb3.utils.toHex(chainId) }],
+        })
+      } catch (err: any) {
+        // This error code indicates that the chain has not been added to MetaMask
+        if (err.code === 4902) {
+          try {
+            await ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainName: this.chain.name,
+                  chainId: this.etherWeb3.utils.toHex(chainId),
+                  nativeCurrency: { name: 'AVAX', decimals: 18, symbol: 'AVAX' },
+                  rpcUrls: connections,
+                },
+              ],
+            })
+          } catch (error) {
+            throw new Error('Can not switch chain')
+          }
+        } else {
+          throw new Error('Can not switch chain')
         }
       }
     }

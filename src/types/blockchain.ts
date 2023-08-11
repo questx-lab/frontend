@@ -3,6 +3,16 @@ export type BlockchainConnectionType = {
   url: string
 }
 
+export type BlockChainToken = {
+  id: string
+  name: string
+  chain: string
+  symbol: string
+  address: string
+}
+
 export type ChainType = {
-  blockchain_connections: BlockchainConnectionType[]
+  name: string
+  id: number
+  connections: BlockchainConnectionType[]
 }

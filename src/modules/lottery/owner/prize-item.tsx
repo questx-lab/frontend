@@ -14,6 +14,8 @@ import { ErrorCodes } from '@/constants/code.const'
 import { getWalletAddressApi } from '@/api/communitiy'
 import CommunityStore from '@/store/local/community'
 import walletController from '@/modules/wallet/services/wallet-controller'
+import BaseModal from '@/widgets/modal/base'
+import DepositModal from '@/modules/wallet/deposit-modal'
 
 const Border = tw(VerticalFullWidth)`
   border
@@ -113,9 +115,9 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
   const prizes = CreateLotteryStore.useStoreState((state) => state.prizes)
   const setPrizes = CreateLotteryStore.useStoreActions((action) => action.setPrizes)
-  const [walletAddress, setWalletAddress] = useState<string>('')
   const [reward, setReward] = useState<RewardEnum>(RewardEnum.COIN)
   const [balance, setBalance] = useState<number>(0)
+  const [showDepositModal, setShowDepositModal] = useState<boolean>(false)
 
   const onRemove = () => {
     const newPrizes = [...prizes.slice(0, index), ...prizes.slice(index + 1)]
@@ -137,14 +139,14 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
   const fetchBalance = async () => {
     const resp = await getWalletAddressApi(community.handle)
     if (resp.code === ErrorCodes.NOT_ERROR && resp.data) {
-      setWalletAddress(resp.data.wallet_address)
       const balance = await walletController.getBalance(resp.data.wallet_address)
       if (balance) setBalance(balance)
     }
   }
 
   const addMoreBalance = async () => {
-    await walletController.deposit(walletAddress)
+    setShowDepositModal(true)
+    // await walletController.deposit(walletAddress)
   }
 
   useEffect(() => {
@@ -208,6 +210,7 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
           </RemoveReward>
         </EndHorizontal>
       </GapVertical>
+      <DepositModal open={showDepositModal} onClose={() => setShowDepositModal(false)} />
     </Border>
   )
 }
