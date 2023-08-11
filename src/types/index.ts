@@ -296,3 +296,8 @@ export type RenderCategoryType = {
   name: string
   quests: QuestType[]
 }
+
+export type StreakType = {
+  start_time: string
+  streaks: number
+}
