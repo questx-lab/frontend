@@ -6,7 +6,6 @@
     "@craco/craco": "^7.1.0",
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
-    "@hassanmojab/react-modern-calendar-datepicker": "^3.1.7",
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.0.1",
