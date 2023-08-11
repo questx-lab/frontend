@@ -84,21 +84,6 @@ class WalletController {
     }
   }
 
-  async changeAccount(account: string) {
-    const ethereum = window.ethereum
-    if (ethereum)
-      await ethereum.request({
-        method: 'wallet_requestPermissions',
-        params: [
-          {
-            eth_accounts: {
-              method: 'eth_sendTransaction',
-            },
-          },
-        ],
-      })
-  }
-
   async changeChain() {
     const chainId = `${this.chain.id}`
 
