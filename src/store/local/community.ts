@@ -27,6 +27,7 @@ interface CommunityModel {
   selectedAccount: string
   walletAddress: string
   depositAmount: number
+  switchedChain: boolean
 
   setSelectedCommunity: Action<CommunityModel, CommunityType>
   setQuery: Action<CommunityModel, string>
@@ -42,6 +43,7 @@ interface CommunityModel {
   setSelectedAccount: Action<CommunityModel, string>
   setWalletAddress: Action<CommunityModel, string>
   setDepositAmount: Action<CommunityModel, number>
+  setSwitchedChain: Action<CommunityModel, boolean>
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
@@ -60,6 +62,7 @@ const CommunityStore = createContextStore<CommunityModel>({
   selectedAccount: '',
   walletAddress: '',
   depositAmount: 0,
+  switchedChain: false,
 
   setSelectedCommunity: action((state, newProject) => {
     state.selectedCommunity = newProject
@@ -107,6 +110,9 @@ const CommunityStore = createContextStore<CommunityModel>({
   }),
   setDepositAmount: action((state, depositAmount) => {
     state.depositAmount = depositAmount
+  }),
+  setSwitchedChain: action((state, switchedChain) => {
+    state.switchedChain = switchedChain
   }),
 })
 export default CommunityStore

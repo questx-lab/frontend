@@ -3,12 +3,7 @@ import { FC, useState } from 'react'
 import tw from 'twin.macro'
 
 import styled from 'styled-components'
-import {
-  EndHorizontal,
-  HorizontalBetween,
-  HorizontalFullWidth,
-  VerticalFullWidth,
-} from '@/widgets/orientation'
+import { HorizontalBetween, HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import Step1 from '@/modules/wallet/deposit-modal/step1'
 import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import walletController from '@/modules/wallet/services/wallet-controller'
@@ -105,8 +100,25 @@ const DepositModal: FC<{
   const selectedAccount = CommunityStore.useStoreState((state) => state.selectedAccount)
   const walletAddress = CommunityStore.useStoreState((state) => state.walletAddress)
   const amount = CommunityStore.useStoreState((state) => state.depositAmount)
+  const switchedChain = CommunityStore.useStoreState((state) => state.switchedChain)
 
+  const checkCanNext = () => {
+    switch (currentStep) {
+      case 1:
+        if (selectedAccount) return true
+        return false
+      case 2:
+        if (switchedChain) return true
+        return false
+      case 3:
+        if (amount !== 0) return true
+        return false
+      default:
+        return false
+    }
+  }
   const next = async () => {
+    if (!checkCanNext()) return
     if (currentStep < 3) setCurrentStep(currentStep + 1)
     else await walletController.deposit(walletAddress, selectedAccount, amount)
   }
@@ -152,14 +164,14 @@ const DepositModal: FC<{
         <TextSm> Choose Amount </TextSm>
       </TextStepList>
       <ContentBox>
-        <Border>{renderContent()}</Border>
+        <Border className='h-[132px]'>{renderContent()}</Border>
       </ContentBox>
       <HorizontalBetween className='px-6'>
         <NegativeButton onClick={() => prev()} block={currentStep === 1}>
           Prev
         </NegativeButton>
 
-        <PositiveButton onClick={() => next()}>
+        <PositiveButton onClick={() => next()} block={!checkCanNext()}>
           {currentStep === 3 ? 'Done' : 'Next'}
         </PositiveButton>
       </HorizontalBetween>

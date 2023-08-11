@@ -1,26 +1,43 @@
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
 import walletController from '@/modules/wallet/services/wallet-controller'
 import { PositiveButton } from '@/widgets/buttons'
-import { VerticalFullWidth } from '@/widgets/orientation'
+import { VerticalFullWidth, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { TextSm, TextXl } from '@/widgets/text'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import toast from 'react-hot-toast'
 import { CheckIcon } from '@heroicons/react/20/solid'
+import CommunityStore from '@/store/local/community'
+import tw from 'twin.macro'
+
+const SuccessIcon = tw.div`
+  flex
+  items-center
+  justify-center 
+  w-10
+  h-10 
+  rounded-full 
+  lg:h-12
+  lg:w-12 
+  shrink-0
+  bg-success-500
+  text-white
+`
 
 const Step2: FC = () => {
-  const [switched, setSwitched] = useState<boolean>(false)
+  const switchedChain = CommunityStore.useStoreState((state) => state.switchedChain)
+  const setSwitchedChain = CommunityStore.useStoreActions((action) => action.setSwitchedChain)
   const switchChain = async () => {
     try {
       await walletController.changeChain()
-      setSwitched(true)
+      setSwitchedChain(true)
     } catch (error) {
       toast.error('Can not switch chain to AVAXC')
     }
   }
   return (
     <VerticalFullWidth>
-      {!switched && (
+      {!switchedChain && (
         <div>
           <HorizontalFullWidthCenter>
             <TextSm>
@@ -34,11 +51,14 @@ const Step2: FC = () => {
           </HorizontalFullWidthCenter>
         </div>
       )}
-      {switched && (
-        <HorizontalFullWidthCenter>
-          <CheckIcon className='w-7 h-7 text-success' />
+      {switchedChain && (
+        <VerticalFullWidthCenter>
+          <SuccessIcon>
+            <CheckIcon className='w-7 h-7 text-while' />
+          </SuccessIcon>
+          <Gap height={3} />
           <TextXl> Switch chain successful </TextXl>
-        </HorizontalFullWidthCenter>
+        </VerticalFullWidthCenter>
       )}
     </VerticalFullWidth>
   )
