@@ -46,3 +46,19 @@ export function getCache<T>(key: string): T | undefined {
 
   return undefined
 }
+
+/**
+ * Removes an item from the cache.
+ * @param key The key of the item to remove.
+ */
+export function removeCache(key: string) {
+  cache.delete(key)
+}
+
+/**
+ * Removes an item from the cache.
+ * @param key The key of the item to remove.
+ */
+export function cleanCache() {
+  cache.clear()
+}

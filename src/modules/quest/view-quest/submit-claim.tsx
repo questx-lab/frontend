@@ -1,12 +1,15 @@
 import { FC, useState } from 'react'
 
 import { useStoreState } from 'easy-peasy'
+import moment from 'moment'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import tw from 'twin.macro'
 
 import { claimRewardApi } from '@/api/claim'
 import { deleteQuest, listQuestApi } from '@/api/quest'
+import { getCache, removeCache } from '@/cache'
+import { streaksCacheKey } from '@/cache/keys'
 import { ClaimedQuestStatus, CommunityRoleEnum, QuestTypeEnum } from '@/constants/common.const'
 import { editQuestRoute } from '@/constants/router.const'
 import ActiveQuestStore, { canClaimQuest } from '@/store/local/active-quest'
@@ -165,6 +168,13 @@ const SubmitClaim: FC<{
       if (result) {
         setActiveQuest(emptyQuest())
         setEmptySubmit()
+
+        // Remove streak cache after claim quest
+        const cacheKey = streaksCacheKey(quest.community.handle, moment().format('MM-YYYY'))
+        const streakCache = getCache(cacheKey)
+        if (streakCache) {
+          removeCache(cacheKey)
+        }
 
         //fetch quests
         await fetchQuests(quest.community.handle)
