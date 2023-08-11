@@ -134,24 +134,33 @@ const Calendar: FC = () => {
     }
   }
 
+  const updateTime = (newNow: dayjs.Dayjs) => {
+    if (newNow.diff(staticNow, 'day') <= 0) {
+      getStreak(newNow.format('MM-YYYY'))
+    } else {
+      setDayStreaks([])
+    }
+    setNow(newNow)
+  }
+
+  const onPrevMonth = () => {
+    const newNow = now.add(-1, 'month')
+    updateTime(newNow)
+  }
+
+  const onNextMonth = () => {
+    const newNow = now.add(1, 'month')
+    updateTime(newNow)
+  }
+
   return (
     <Frame>
       <Header>
-        <ButtonIcon
-          onClick={() => {
-            setNow((now) => now.add(-1, 'month'))
-            getStreak(now.add(-1, 'month').format('MM-YYYY'))
-          }}
-        >
+        <ButtonIcon onClick={onPrevMonth}>
           <ChevronLeftIcon className='w-4 h-4 text-gray-800' />
         </ButtonIcon>
         <MediumTextSm>{formattedNowMonth.toUpperCase()}</MediumTextSm>
-        <ButtonIcon
-          onClick={() => {
-            setNow((now) => now.add(1, 'month'))
-            getStreak(now.add(1, 'month').format('MM-YYYY'))
-          }}
-        >
+        <ButtonIcon onClick={onNextMonth}>
           <ChevronRightIcon className='w-4 h-4 text-gray-800' />
         </ButtonIcon>
       </Header>
