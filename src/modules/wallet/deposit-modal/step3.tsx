@@ -2,7 +2,6 @@ import { getWalletAddressApi } from '@/api/communitiy'
 import { ErrorCodes } from '@/constants/code.const'
 import StorageConst from '@/constants/storage.const'
 import CommunityStore from '@/store/local/community'
-import { Gap } from '@/widgets/separator'
 import { Relative, Padding } from '@/widgets/simple-popup'
 import { Label } from '@/widgets/text'
 import { FC, useEffect } from 'react'
@@ -54,7 +53,6 @@ const Step3: FC = () => {
           <Image width={30} height={30} src={StorageConst.USDT.src} alt={StorageConst.USDT.alt} />
         </Absolute>
       </Relative>
-      <Gap height={1} />
     </Padding>
   )
 }

@@ -16,6 +16,7 @@ import CommunityStore from '@/store/local/community'
 import Step2 from '@/modules/wallet/deposit-modal/step2'
 import Step3 from '@/modules/wallet/deposit-modal/step3'
 import { TextSm } from '@/widgets/text'
+import { CheckIcon } from '@heroicons/react/24/outline'
 
 const Border = tw(VerticalFullWidth)`
   border
@@ -138,7 +139,9 @@ const DepositModal: FC<{
         <StepListBox>
           {[1, 2, 3].map((step) => (
             <StepBox active={currentStep - 1 >= step} isLast={step === 3}>
-              <StepContent active={currentStep >= step}>{step}</StepContent>
+              <StepContent active={currentStep >= step}>
+                {step < currentStep ? <CheckIcon className='w-7 h-7' /> : step}
+              </StepContent>
             </StepBox>
           ))}
         </StepListBox>
