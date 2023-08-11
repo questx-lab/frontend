@@ -44,6 +44,7 @@ const HandleNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onVali
 
     if (e.length === 0) {
       setValid(undefined)
+      setMsg('')
       onValidChange(true)
     }
   }
@@ -51,6 +52,7 @@ const HandleNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onVali
   const checkUserUrlValid = async (): Promise<boolean> => {
     try {
       if (!HandleRegex.test(urlName)) {
+        setMsg('Url name is not valid')
         return false
       }
 
@@ -87,16 +89,19 @@ const HandleNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onVali
 const DisplayNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onValidChange }) => {
   const title = NewCommunityStore.useStoreState((state) => state.displayName)
   const setTitle = NewCommunityStore.useStoreActions((action) => action.setDisplayName)
+  const [msg, setMsg] = useState<string>('')
 
-  const [valid, setValid] = useState<boolean>(false)
+  const [isValid, setValid] = useState<boolean>(false)
 
   useEffect(() => {
     if (DisplayNameRegex.test(title)) {
       setValid(true)
       onValidChange(true)
+      setMsg('Display name is valid')
     } else {
       setValid(false)
       onValidChange(false)
+      setMsg('Display name is not valid')
     }
   }, [title])
 
@@ -107,8 +112,10 @@ const DisplayNameInput: FC<{ onValidChange: (val: boolean) => void }> = ({ onVal
         required
         onChange={(e) => setTitle(e.target.value)}
         placeholder='The name of the quest is written here.'
-        isValid={valid}
+        isValid={isValid}
+        msg={msg}
       />
+      <StartText>{'Display name should be larger than 4 in length'}</StartText>
     </VerticalFullWidth>
   )
 }

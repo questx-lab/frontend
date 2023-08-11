@@ -11,7 +11,7 @@ import CommunityStore from '@/store/local/community'
 import { ChannelType, TabChatType } from '@/types/chat'
 import { CommunityType } from '@/types/community'
 import { EqualBigInt } from '@/utils/number'
-import { Horizontal, Vertical } from '@/widgets/orientation'
+import { Horizontal, HorizontalBetween, Vertical, VerticalCenter } from '@/widgets/orientation'
 import { LightTextXs, MediumTextSm, TextSm } from '@/widgets/text'
 
 const Frame = tw.div`w-full h-full`
@@ -42,6 +42,8 @@ const GapHorizontal = styled(Horizontal)<{ isActive?: boolean }>(({ isActive }) 
   return styles
 })
 
+const CircleRedBox = tw.div`w-2.5 h-2.5 rounded-full bg-danger`
+
 const ChannelName = styled(MediumTextSm)<{ isActive?: boolean }>(({ isActive }) => {
   const styles = []
   if (isActive) {
@@ -60,6 +62,12 @@ export const ChannelItem: FC<{
   const navigate = useNavigate()
   const setChannel = ChatStore.useStoreActions((actions) => actions.setChannel)
   const setTab = ChatStore.useStoreActions((actions) => actions.setTab)
+  const channelNewMessageStatus = ChatStore.useStoreState((state) => state.channelNewMessageStatus)
+  const isNewMessageStatus = channelNewMessageStatus.find((status) =>
+    EqualBigInt(status.channelId, channel.id)
+  )
+
+  const isNewMessage = isNewMessageStatus && isNewMessageStatus.status
 
   return (
     <GapHorizontal
@@ -75,7 +83,15 @@ export const ChannelItem: FC<{
     >
       <ChannelName isActive={isActive}>{'#'}</ChannelName>
       <GapVertical>
-        <ChannelName isActive={isActive}>{channel.name}</ChannelName>
+        <HorizontalBetween>
+          <ChannelName isActive={isActive}>{channel.name}</ChannelName>
+          {isNewMessage && (
+            <VerticalCenter>
+              <CircleRedBox />
+            </VerticalCenter>
+          )}
+        </HorizontalBetween>
+
         <LightTextXs>{channel.description}</LightTextXs>
       </GapVertical>
     </GapHorizontal>
@@ -85,6 +101,7 @@ export const ChannelItem: FC<{
 const Channels: FC = () => {
   const community = CommunityStore.useStoreState((action) => action.selectedCommunity)
   const currentChannel = ChatStore.useStoreState((state) => state.selectedChannel)
+
   const channels = useChannels(community.handle)
 
   if (channels.length === 0) {

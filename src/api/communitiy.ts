@@ -122,7 +122,6 @@ export const updateCommunityApi = async (
   return rs.data
 }
 
-
 export const newFollowCommunityApi = async (
   communityHandle: string,
   invitedBy: string
@@ -247,10 +246,10 @@ export const approveReferralApi = async (handle: string, action: string): Promis
   return rs.data
 }
 
-// /approvePendingCommunity
-export const approvePendingCommunityApi = async (handle: string): Promise<Rsp<{}>> => {
-  const rs = await api.post(EnvVariables.API_SERVER + '/approvePendingCommunity', {
+export const reviewPendingCommunity = async (handle: string, status: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/reviewPendingCommunity', {
     community_handle: handle,
+    status,
   })
   return rs.data
 }

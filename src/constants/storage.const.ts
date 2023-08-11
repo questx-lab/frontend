@@ -3,6 +3,10 @@ const StorageConst = {
     src: '/images/logos/app_logo.svg',
     alt: 'Logo',
   },
+  APP_LOGO_LANDING_PAGE_DIR: {
+    src: '/images/logos/app_logo_landing_page.svg',
+    alt: 'Logo',
+  },
   GOOGLE_DIR: {
     src: '/images/logos/google.svg',
     alt: 'Google',
@@ -23,8 +27,16 @@ const StorageConst = {
     src: '/images/logos/discord_black.svg',
     alt: 'Discord',
   },
+  DISCORD_WHITE_DIR: {
+    src: '/images/logos/discord_white.svg',
+    alt: 'Discord',
+  },
   TWITTER_BLACK_DIR: {
     src: '/images/logos/twitter_black.svg',
+    alt: 'Twitter',
+  },
+  TWITTER_WHITE_DIR: {
+    src: '/images/logos/twitter_white.svg',
     alt: 'Twitter',
   },
   METAMASK_DIR: {
@@ -178,6 +190,10 @@ const StorageConst = {
   PODIUM: {
     src: '/images/icons/podium.svg',
     alt: 'Podium',
+  },
+  ARROW: {
+    src: '/images/logos/arrow.svg',
+    alt: 'Arrow',
   },
 }
 

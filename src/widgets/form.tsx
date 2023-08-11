@@ -105,6 +105,12 @@ const MsgBox: FC<{
         {msg}
       </ErrorMsg>
     )
+  } else if (msg) {
+    return (
+      <ErrorMsg danger={true} isValid={isValid}>
+        {msg}
+      </ErrorMsg>
+    )
   }
   return <></>
 }
