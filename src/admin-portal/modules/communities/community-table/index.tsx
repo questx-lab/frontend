@@ -1,8 +1,10 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 import tw from 'twin.macro'
 
 import CommunityBody from '@/admin-portal/modules/communities/community-table/community-body'
+import { getPendingCommunitiesApi } from '@/api/communitiy'
+import AdminCommunityStore from '@/store/admin/community'
 import SimpleTable from '@/widgets/table/simple-table'
 
 const Th = tw.th`
@@ -23,6 +25,22 @@ const TABLE_HEAD = [
 const FullWidth = tw.div`w-full h-full`
 
 const CommunityContent: FC = () => {
+  const setCommunities = AdminCommunityStore.useStoreActions((action) => action.setCommunities)
+
+  useEffect(() => {
+    getPendingCommunities()
+  })
+
+  const getPendingCommunities = async () => {
+    try {
+      const { error, data } = await getPendingCommunitiesApi()
+      if (error) return
+      if (data) {
+        setCommunities(data.communities)
+      }
+    } catch (error) {}
+  }
+
   return (
     <FullWidth>
       <SimpleTable>

@@ -385,14 +385,21 @@ export const getStreakApi = async (
 }
 
 // STATS
-export const getCommunityStatsApi = async (
-  handle: string,
-  begin: string,
+export const getCommunityStatsApi = async ({
+  handle,
+  begin,
+  end,
+}: {
+  handle?: string
+  begin: string
   end: string
-): Promise<Rsp<{ stats: CommunityStatsType[] }>> => {
-  const { data } = await api.get(
-    EnvVariables.API_SERVER +
-      `/getCommunityStats?community_handle=${handle}&begin=${begin}&end=${end}`
-  )
+}): Promise<Rsp<{ stats: CommunityStatsType[] }>> => {
+  let url = EnvVariables.API_SERVER + `/getCommunityStats?begin=${begin}&end=${end}`
+
+  if (handle) {
+    url += `&community_handle=${handle}`
+  }
+
+  const { data } = await api.get(url)
   return data
 }

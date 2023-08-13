@@ -72,5 +72,5 @@ export type ReferralType = {
 
 export type CommunityStatsType = {
   date: string
-  followers: number
+  follower_count: number
 }

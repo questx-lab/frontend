@@ -1,52 +1,65 @@
-import { FC, Fragment, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
+import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import CommunityContent from '@/admin-portal/modules/communities/community-table'
-import { getPendingCommunitiesApi, listCommunitiesApi } from '@/api/communitiy'
-import AdminCommunityStore from '@/store/admin/community'
+import {
+  CommunityStats,
+  PlatformStats,
+} from '@/admin-portal/modules/communities/community-table/stats'
+import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
+import { listCommunitiesApi } from '@/api/communitiy'
+import { CommunityType } from '@/types/community'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
-import { Text2xl } from '@/widgets/text'
-import { Listbox, Transition } from '@headlessui/react'
+import { MediumTextSm, Text2xl, TextSm } from '@/widgets/text'
 
 const GapVertical = tw(VerticalFullWidth)`
     gap-6
     p-6
+    w-[1120px]
   `
 
-const Relavite = tw.div`relative`
+const TabFrame = tw(
+  HorizontalFullWidthCenter
+)`h-[64px] bg-gray-100 rounded-lg  !gap-0 border border-solid border-gray-200`
 
-const FixedWidth = tw.div`w-32 border border-solid border-gray-200 rounded-lg`
-
-const ButtonSelect = tw(
-  Listbox.Button
-)`cursor-pointer relative w-full cursor-default rounded-lg bg-white py-2`
-
-const OptionSelect = tw(
-  Listbox.Option
-)`hover:bg-gray-100 relative cursor-pointer select-none py-2 pl-10 pr-4`
+const TabItem = styled(HorizontalFullWidthCenter)<{ selected: boolean }>(({ selected }) => {
+  const styles = [tw`hover:bg-gray-300 cursor-pointer h-full rounded-lg`]
+  if (selected) {
+    styles.push(tw`bg-white`)
+  }
+  return styles
+})
 
 enum FilterEnum {
-  ACTIVE = 'Active',
+  STATS = 'Stats',
   PENDING = 'Pending',
 }
 
-const Filter: FC = () => {
-  const [callFirst, setCallFirst] = useState<boolean>(true)
-  const [selected, setSelected] = useState<FilterEnum>(FilterEnum.ACTIVE)
-  const setCommunities = AdminCommunityStore.useStoreActions((action) => action.setCommunities)
+const CommunityItem = tw(HorizontalBetweenCenterFullWidth)`
+  p-2
+  hover:bg-gray-100
+  cursor-pointer
+  rounded-lg
+`
+
+const BorderVertical = tw(VerticalFullWidth)`
+  rounded-lg
+  p-4
+  border
+  border-solid
+  border-gray-200
+`
+
+const StatsTab: FC = () => {
+  const [communities, setCommunities] = useState<CommunityType[]>([])
+  const [community, setCommunity] = useState<CommunityType>()
+  const [isOpenStats, setOpenStats] = useState<boolean>(false)
 
   useEffect(() => {
-    // Prevent call first time because active community was called in loader
-    setCallFirst(false)
-    if (!callFirst) {
-      if (selected === FilterEnum.ACTIVE) {
-        getCommunities()
-      } else {
-        getPendingCommunities()
-      }
-    }
-  }, [selected])
+    getCommunities()
+  }, [])
 
   const getCommunities = async () => {
     try {
@@ -58,35 +71,64 @@ const Filter: FC = () => {
     } catch (error) {}
   }
 
-  const getPendingCommunities = async () => {
-    try {
-      const { error, data } = await getPendingCommunitiesApi()
-      if (error) return
-      if (data) {
-        setCommunities(data.communities)
-      }
-    } catch (error) {}
+  const onCloseStats = () => {
+    setOpenStats(false)
+  }
+
+  const renderCommunities = communities.map((community) => (
+    <CommunityItem
+      onClick={() => {
+        setOpenStats(true)
+        setCommunity(community)
+      }}
+      key={community.handle}
+    >
+      <TextSm>{community.display_name}</TextSm>
+      <TextSm>{community.followers}</TextSm>
+    </CommunityItem>
+  ))
+
+  return (
+    <BorderVertical>
+      <HorizontalBetweenCenterFullWidth className='p-2'>
+        <MediumTextSm>{'Name'}</MediumTextSm>
+        <MediumTextSm>{'Followers'}</MediumTextSm>
+      </HorizontalBetweenCenterFullWidth>
+      {renderCommunities}
+      <CommunityStats isOpen={isOpenStats} onClose={onCloseStats} comunity={community} />
+    </BorderVertical>
+  )
+}
+
+const Tab: FC = () => {
+  const [tabActive, setTabActive] = useState<FilterEnum>(FilterEnum.STATS)
+
+  const RenderTab: FC = () => {
+    if (tabActive === FilterEnum.STATS) {
+      return <StatsTab />
+    }
+
+    return <CommunityContent />
   }
 
   return (
-    <FixedWidth>
-      <Listbox value={selected} onChange={setSelected}>
-        <Relavite>
-          <ButtonSelect>{selected}</ButtonSelect>
-          <Transition
-            as={Fragment}
-            leave='transition ease-in duration-100'
-            leaveFrom='opacity-100'
-            leaveTo='opacity-0'
-          >
-            <Listbox.Options className='z-10 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
-              <OptionSelect value={FilterEnum.ACTIVE}>{FilterEnum.ACTIVE}</OptionSelect>
-              <OptionSelect value={FilterEnum.PENDING}>{FilterEnum.PENDING}</OptionSelect>
-            </Listbox.Options>
-          </Transition>
-        </Relavite>
-      </Listbox>
-    </FixedWidth>
+    <>
+      <TabFrame>
+        <TabItem
+          selected={tabActive === FilterEnum.STATS}
+          onClick={() => setTabActive(FilterEnum.STATS)}
+        >
+          {FilterEnum.STATS}
+        </TabItem>
+        <TabItem
+          selected={tabActive === FilterEnum.PENDING}
+          onClick={() => setTabActive(FilterEnum.PENDING)}
+        >
+          {FilterEnum.PENDING}
+        </TabItem>
+      </TabFrame>
+      <RenderTab />
+    </>
   )
 }
 
@@ -95,9 +137,9 @@ const Community: FC = () => {
     <GapVertical>
       <HorizontalBetweenCenterFullWidth>
         <Text2xl>{'Communities'}</Text2xl>
-        <Filter />
+        <PlatformStats />
       </HorizontalBetweenCenterFullWidth>
-      <CommunityContent />
+      <Tab />
     </GapVertical>
   )
 }

@@ -3,12 +3,8 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-import CommunityStats from '@/admin-portal/modules/communities/community-table/stats'
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
-import {
-  ActionReviewCommunityEnum,
-  CommunityStatusEnum,
-} from '@/admin-portal/types/control-panel-tab'
+import { ActionReviewCommunityEnum } from '@/admin-portal/types/control-panel-tab'
 import AdminCommunityStore from '@/store/admin/community'
 import { CommunityType } from '@/types/community'
 import { Image } from '@/widgets/image'
@@ -44,26 +40,22 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
   }
 
   const RenderOption: FC = () => {
-    if (community.status === CommunityStatusEnum.PENDING) {
-      return (
-        <>
-          <OptionxBox
-            className='!py-1'
-            onClick={() => onActionClicked(ActionReviewCommunityEnum.ACTIVE)}
-          >
-            {'Active'}
-          </OptionxBox>
-          <OptionxBox
-            className='!py-1'
-            onClick={() => onActionClicked(ActionReviewCommunityEnum.REJECT)}
-          >
-            {'Reject'}
-          </OptionxBox>
-        </>
-      )
-    }
-
-    return <CommunityStats comunity={community} />
+    return (
+      <>
+        <OptionxBox
+          className='!py-1'
+          onClick={() => onActionClicked(ActionReviewCommunityEnum.ACTIVE)}
+        >
+          {'Active'}
+        </OptionxBox>
+        <OptionxBox
+          className='!py-1'
+          onClick={() => onActionClicked(ActionReviewCommunityEnum.REJECT)}
+        >
+          {'Reject'}
+        </OptionxBox>
+      </>
+    )
   }
 
   return (
