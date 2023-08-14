@@ -2,21 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  h1 {
-    @apply text-2xl;
-    @apply font-medium;
-  }
-  h2 {
-    @apply text-xl;
-    @apply font-medium;
-  }
-  h3 {
-    @apply text-lg;
-    @apply font-medium;
-  }
-}
-
 body {
   margin: 0;
   font-family: 'Inter';
@@ -88,4 +73,33 @@ a {
 
 .react-datepicker-wrapper {
   width: 100%;
+}
+
+@layer base {
+  .font-outline-2 {
+    -webkit-text-stroke: 2px black;
+  }
+  .font-outline-4 {
+    -webkit-text-stroke: 4px black;
+  }
+}
+
+.Calendar{
+  width: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  height: 100% !important;
+  box-shadow: none !important;
+}
+
+.Calendar__sectionWrapper{
+  min-height: 14rem !important;
+}
+
+.Calendar__weekDays{
+  color: #1f2937 !important;
+}
+
+.Calendar__day{
+  border-radius: 12px !important;
 }

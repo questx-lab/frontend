@@ -208,9 +208,11 @@ const RemainingTiming: FC<{ time: string | undefined }> = ({ time }) => {
 
   const date = calculateDayRemaining(new Date(time))
 
-  return (
-    <RemainingTime>{`on in ${date.days}days:${date.hours}hrs:${date.minutes}mins`}</RemainingTime>
-  )
+  const day = parseInt(date.days, 10) === 0 ? '' : `${date.days}days:`
+  const hour = parseInt(date.hours, 10) === 0 ? '' : `${date.hours}hrs:`
+  const min = parseInt(date.minutes, 10) === 0 ? '' : `${date.minutes}mins`
+
+  return <RemainingTime>{`on in ${day}${hour}${min}`}</RemainingTime>
 }
 
 const QuestCardDetails: FC<{

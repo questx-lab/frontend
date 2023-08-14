@@ -42,3 +42,10 @@ export const calculateDayRemaining = (targetDate: Date) => {
 export const padNumberWithZero = (num: number, length: number = 2) => {
   return num.toString().padStart(length, '0')
 }
+
+export const convertTimeToShow = (time: string | undefined): string => {
+  if (!time) {
+    return ''
+  }
+  return moment(new Date(time)).format('YYYY-MM-DD HH:mm:ss')
+}

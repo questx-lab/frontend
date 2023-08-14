@@ -1,6 +1,6 @@
 import { api } from '@/api/interceptor'
 import { getCache, setCacheWithExpiration } from '@/cache'
-import { leaderboardCacheKey } from '@/cache/keys'
+import { leaderboardCacheKey, streaksCacheKey } from '@/cache/keys'
 import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import {
@@ -11,6 +11,7 @@ import {
   OAuth2VerifyResp,
   ReqNewCommunity,
   Rsp,
+  StreakType,
   UpdateCommunityRequest,
   UpdateCommunityResponse,
   UserType,
@@ -121,7 +122,6 @@ export const updateCommunityApi = async (
   const rs = await api.post(EnvVariables.API_SERVER + '/updateCommunity', data)
   return rs.data
 }
-
 
 export const newFollowCommunityApi = async (
   communityHandle: string,
@@ -247,10 +247,10 @@ export const approveReferralApi = async (handle: string, action: string): Promis
   return rs.data
 }
 
-// /approvePendingCommunity
-export const approvePendingCommunityApi = async (handle: string): Promise<Rsp<{}>> => {
-  const rs = await api.post(EnvVariables.API_SERVER + '/approvePendingCommunity', {
+export const reviewPendingCommunity = async (handle: string, status: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/reviewPendingCommunity', {
     community_handle: handle,
+    status,
   })
   return rs.data
 }
@@ -350,4 +350,35 @@ export const deleteRoleMemberApi = async (
     role_ids: roleIds,
   })
   return rs.data
+}
+
+export const getStreakApi = async (
+  communityHandle: string,
+  month: string
+): Promise<
+  Rsp<{
+    records: StreakType[]
+  }>
+> => {
+  const cacheKey = streaksCacheKey(communityHandle, month)
+  // try getting from cache.
+  const cachedValue = getCache<StreakType[]>(cacheKey)
+  if (cachedValue) {
+    return {
+      code: 0,
+      data: { records: cachedValue },
+    }
+  }
+
+  const { data } = await api.get(
+    EnvVariables.API_SERVER + `/getStreaks?community_handle=${communityHandle}&month=${month}`
+  )
+
+  if (data) {
+    const result = data as Rsp<{ records: StreakType[] }>
+    if (result.data) {
+      setCacheWithExpiration(cacheKey, result.data.records, Date.now() + 5 * ONE_MINUTE_MILLIS)
+    }
+  }
+  return data
 }

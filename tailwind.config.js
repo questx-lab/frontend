@@ -12,6 +12,12 @@ module.exports = withMT({
           fontFeatureSettings: '"cv02", "cv03", "cv04", "cv11"',
         },
       ],
+      rubik: [
+        'Rubik',
+        {
+          fontFeatureSettings: '"cv11", "cv04", "cv03", "cv02"',
+        },
+      ],
     },
     extend: {
       fontSize: {
@@ -58,9 +64,108 @@ module.exports = withMT({
             letterSpacing: '-0.02em',
           },
         ],
+        54: [
+          '54px',
+          {
+            fontWeight: '900',
+            lineHeight: '43.6px',
+            letterSpacing: '-2.725px',
+          },
+        ],
+        100: [
+          '100px',
+          {
+            fontWeight: '900',
+            lineHeight: '80px',
+            letterSpacing: '-5px',
+          },
+        ],
+        109: [
+          '109px',
+          {
+            fontWeight: '900',
+            lineHeight: '87.2px',
+            letterSpacing: '-5.45px',
+          },
+        ],
+        163: [
+          '163.5px',
+          {
+            fontWeight: '900',
+            lineHeight: '130.8px',
+            letterSpacing: '-8.175px',
+          },
+        ],
+        216: [
+          '216px',
+          {
+            fontWeight: '900',
+            lineHeight: '172.8px',
+            letterSpacing: '-10.8px',
+          },
+        ],
+        218: [
+          '218px',
+          {
+            fontWeight: '900',
+            lineHeight: '174.4px',
+            letterSpacing: '-10.9px',
+          },
+        ],
+        200: [
+          '200px',
+          {
+            fontWeight: '900',
+            lineHeight: '160px',
+            letterSpacing: '-10px',
+          },
+        ],
+        300: [
+          '300px',
+          {
+            fontWeight: '900',
+            lineHeight: '240px',
+            letterSpacing: '-15px',
+          },
+        ],
+        400: [
+          '400px',
+          {
+            fontWeight: '900',
+            lineHeight: '320px',
+            letterSpacing: '-20px',
+          },
+        ],
       },
       boxShadow: {
         lg: '0 0 12px 0 rgba(0, 0, 0, 0.10)',
+      },
+      animation: {
+        blueToGreen: 'blueToGreen 7s ease-in-out infinite',
+        greenToRed: 'greenToRed 7s ease-in-out infinite',
+        orangeToYellow: 'orangeToYellow 7s ease-in-out infinite',
+        slideBg: 'slideBg 7s ease-in-out infinite',
+      },
+      keyframes: {
+        blueToGreen: {
+          '0%, 100%': { color: '#0DA8FF' },
+          '50%': { color: '#14CA74' },
+        },
+        greenToRed: {
+          '0%, 100%': { color: '#14CA74' },
+          '50%': { color: '#FF4755' },
+        },
+        orangeToYellow: {
+          '0%, 100%': { color: '#FF9E45' },
+          '50%': { color: '#FFCA28' },
+        },
+        slideBg: {
+          '0%, 100%': {
+            transform: 'translateY(-100px)',
+            'animation-timing-function': 'cubic-bezier()',
+          },
+          '50%': { transform: 'translateY(0px)', 'animation-timing-function': 'cubic-bezier()' },
+        },
       },
     },
     screens: {
@@ -108,7 +213,24 @@ module.exports = withMT({
         DEFAULT: '#565add',
       },
       black: '#000000',
-      white: '#ffffff',
+      white: {
+        rgb5: 'rgba(255, 255, 255, 0.10)',
+        rgb10: 'rgba(255, 255, 255, 0.20)',
+        DEFAULT: '#ffffff',
+      },
+      slate: {
+        50: '#f8fafc',
+        100: '#f1f5f9',
+        200: '#e2e8f0',
+        300: '#cbd5e1',
+        400: '#94a3b8',
+        500: '#64748b',
+        600: '#475569',
+        700: '#334155',
+        800: '#1e293b',
+        900: '#0f172a',
+        DEFAULT: '#64748b',
+      },
       gray: {
         50: '#f9fafb',
         100: '#f3f4f6',

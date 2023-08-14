@@ -100,3 +100,8 @@ export type ChatMessageReceiver = {
   o: ChatMessageReceiverEnum
   d: ChatMessageType | ReadyMessageType | ChatReactionType | ChatChangeStatusType
 }
+
+export type NewMessageStatusType = {
+  channelId: bigint
+  status: boolean
+}
