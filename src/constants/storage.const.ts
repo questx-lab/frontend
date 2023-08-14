@@ -179,6 +179,10 @@ const StorageConst = {
     src: '/images/icons/podium.svg',
     alt: 'Podium',
   },
+  AVALANCHE: {
+    src: '/images/icons/avalanche.svg',
+    alt: 'Avalanche',
+  },
 }
 
 export default StorageConst

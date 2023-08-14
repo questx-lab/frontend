@@ -49,8 +49,8 @@ const Step3: FC = () => {
           onChange={(e: any) => setAmount(parseInt(e.target.value ?? '0'))}
           defaultValue={amount}
         />
-        <Absolute className='top-1.5 left-2'>
-          <Image width={30} height={30} src={StorageConst.USDT.src} alt={StorageConst.USDT.alt} />
+        <Absolute className='top-2 left-2'>
+          <Image width={25} height={25} src={StorageConst.USDT.src} alt={StorageConst.USDT.alt} />
         </Absolute>
       </Relative>
     </Padding>

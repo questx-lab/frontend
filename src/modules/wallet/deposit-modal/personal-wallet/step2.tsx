@@ -46,7 +46,7 @@ const ListWalletOption: FC<{ accounts: string[] }> = ({ accounts }) => {
   )
 }
 
-const Step1: FC = () => {
+const Step2: FC = () => {
   const [accounts, setAccounts] = useState<string[]>([])
   const selectedAccount = CommunityStore.useStoreState((state) => state.selectedAccount)
   const setSelectedAccount = CommunityStore.useStoreActions((action) => action.setSelectedAccount)
@@ -85,4 +85,4 @@ const Step1: FC = () => {
   )
 }
 
-export default Step1
+export default Step2

@@ -83,7 +83,7 @@ const connectToServer = async (account: string, ethereum: MetaMaskInpageProvider
   }
 }
 
-const connectWallet = async (ethereum: MetaMaskInpageProvider) => {
+export const connectWallet = async (ethereum: MetaMaskInpageProvider) => {
   try {
     const accounts = await ethereum.request({
       method: 'eth_requestAccounts',

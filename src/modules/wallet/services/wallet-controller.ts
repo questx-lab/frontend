@@ -2,7 +2,7 @@ import { getBlockchainApi } from '@/api/wallet'
 import { ErrorCodes } from '@/constants/code.const'
 import { balanceOfABI, transferABI } from '@/constants/contract'
 import { EnvVariables } from '@/constants/env.const'
-import { getConnectedAccounts } from '@/handler/auth/metamask'
+import { getConnectedAccounts, connectWallet } from '@/handler/auth/metamask'
 import { ChainType } from '@/types/blockchain'
 import detectEthereumProvider from '@metamask/detect-provider'
 import toast from 'react-hot-toast'
@@ -35,7 +35,6 @@ class WalletController {
       name: '',
       id: 0,
     }
-    this.fetchChain()
     const ethereum = window.ethereum
     this.etherWeb3 = new Web3(ethereum as provider)
   }
@@ -71,10 +70,11 @@ class WalletController {
         await this.etherWeb3.eth.sendTransaction({
           from: account,
           to: EnvVariables.USDT_ADDESS,
-          gasPrice: this.etherWeb3.utils.toHex(20 * 1e9),
+          gasPrice: this.etherWeb3.utils.toHex(30 * 1e9),
           gas: this.etherWeb3.utils.toHex(210000),
           data: abi,
         })
+        toast.success('Deposit successful')
       } catch (error) {
         toast.error('Cannot deposit')
       }
@@ -86,9 +86,10 @@ class WalletController {
 
   async changeChain() {
     const chainId = `${this.chain.id}`
+    console.log('this.chain', this.chain)
 
     const connections = this.chain.connections.map(
-      (blockchain_connection) => blockchain_connection.url
+      (blockchain_connection) => `https://${blockchain_connection.url}`
     )
 
     const ethereum = window.ethereum
@@ -100,25 +101,42 @@ class WalletController {
         })
       } catch (err: any) {
         // This error code indicates that the chain has not been added to MetaMask
-        if (err.code === 4902) {
-          try {
-            await ethereum.request({
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainName: this.chain.name,
-                  chainId: this.etherWeb3.utils.toHex(chainId),
-                  nativeCurrency: { name: 'AVAX', decimals: 18, symbol: 'AVAX' },
-                  rpcUrls: connections,
-                },
-              ],
-            })
-          } catch (error) {
-            throw new Error('Can not switch chain')
-          }
-        } else {
+
+        try {
+          await ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {
+                chainName: this.chain.name,
+                chainId: this.etherWeb3.utils.toHex(chainId),
+                nativeCurrency: { name: 'AVAX', decimals: 18, symbol: 'AVAX' },
+                rpcUrls: connections,
+              },
+            ],
+          })
+        } catch (error) {
           throw new Error('Can not switch chain')
         }
+      }
+    }
+  }
+
+  async checkMetamaskConnected() {
+    const provider = await detectEthereumProvider()
+    const accounts = await this.getAccounts()
+    if (provider && accounts && accounts.length > 0) return true
+    return false
+  }
+
+  async connectAccounts() {
+    const ethereum = window.ethereum
+    if (ethereum) {
+      try {
+        await ethereum.request({
+          method: 'eth_requestAccounts',
+        })
+      } catch (error: any) {
+        toast.error('Cannot connect metamask wallet')
       }
     }
   }

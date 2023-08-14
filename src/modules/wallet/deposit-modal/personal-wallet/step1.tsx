@@ -1,6 +1,7 @@
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
 import walletController from '@/modules/wallet/services/wallet-controller'
-import { PositiveButton } from '@/widgets/buttons'
+import { NegativeButton } from '@/widgets/buttons'
+import { Image } from '@/widgets/image'
 import { VerticalFullWidth, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { TextSm, TextXl } from '@/widgets/text'
@@ -9,6 +10,7 @@ import toast from 'react-hot-toast'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import CommunityStore from '@/store/local/community'
 import tw from 'twin.macro'
+import StorageConst from '@/constants/storage.const'
 
 const SuccessIcon = tw.div`
   flex
@@ -24,7 +26,7 @@ const SuccessIcon = tw.div`
   text-white
 `
 
-const Step2: FC = () => {
+const Step1: FC = () => {
   const switchedChain = CommunityStore.useStoreState((state) => state.switchedChain)
   const setSwitchedChain = CommunityStore.useStoreActions((action) => action.setSwitchedChain)
   const switchChain = async () => {
@@ -47,7 +49,15 @@ const Step2: FC = () => {
           </HorizontalFullWidthCenter>
           <Gap height={3} />
           <HorizontalFullWidthCenter>
-            <PositiveButton onClick={() => switchChain()}> SWITCH CHAIN</PositiveButton>
+            <NegativeButton onClick={() => switchChain()}>
+              <Image
+                width={20}
+                height={20}
+                src={StorageConst.AVALANCHE.src}
+                alt={StorageConst.AVALANCHE.alt}
+              />
+              SWITCH TO AVALANCHE
+            </NegativeButton>
           </HorizontalFullWidthCenter>
         </div>
       )}
@@ -64,4 +74,4 @@ const Step2: FC = () => {
   )
 }
 
-export default Step2
+export default Step1

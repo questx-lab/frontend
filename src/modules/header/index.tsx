@@ -16,6 +16,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { Image } from '@/widgets/image'
 import { Horizontal, HorizontalBetweenCenter, HorizontalStartCenter } from '@/widgets/orientation'
 import { Bars3Icon } from '@heroicons/react/24/outline'
+import walletController from '@/modules/wallet/services/wallet-controller'
 
 const FixedHeight = styled.div<{ hasEvent?: boolean }>(({ hasEvent }) => {
   const styles = [tw`w-full !h-[64px] bg-white fixed flex flex-col justify-end`]
@@ -121,6 +122,7 @@ export const Header: FC<{}> = () => {
   useEffect(() => {
     if (isApp) {
       chatController.connect()
+      walletController.fetchChain()
     }
   }, [isApp])
 
