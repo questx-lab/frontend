@@ -146,7 +146,6 @@ const PrizeItem: FC<{ index: number }> = ({ index }) => {
 
   const addMoreBalance = async () => {
     setShowDepositModal(true)
-    // await walletController.deposit(walletAddress)
   }
 
   useEffect(() => {
