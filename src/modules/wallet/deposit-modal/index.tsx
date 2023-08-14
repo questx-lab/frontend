@@ -1,12 +1,13 @@
-import BasicModal from '@/widgets/modal/basic'
 import { FC, useState } from 'react'
-import tw from 'twin.macro'
 
 import styled from 'styled-components'
+import tw from 'twin.macro'
+
+import Exchange from '@/modules/wallet/deposit-modal/exchange'
+import PersonalWallet from '@/modules/wallet/deposit-modal/personal-wallet'
+import BasicModal from '@/widgets/modal/basic'
 import { HorizontalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
-import PersonalWallet from '@/modules/wallet/deposit-modal/personal-wallet'
-import Exchange from '@/modules/wallet/deposit-modal/exchange'
 
 const Tab = styled.div<{
   active: boolean
@@ -19,8 +20,12 @@ const Tab = styled.div<{
       cursor-pointer
     `,
   ]
-  if (active) style.push(tw`text-info-500 bg-info-100`)
-  else style.push(tw`text-gray-500 bg-gray-100`)
+
+  if (active) {
+    style.push(tw`text-info-500 bg-info-100`)
+  } else {
+    style.push(tw`text-gray-500 bg-gray-100`)
+  }
 
   return style
 })
@@ -50,12 +55,13 @@ const DepositModal: FC<{
         return <Exchange />
     }
   }
+
   return (
     <BasicModal
       title={`Add USDT`}
       isOpen={open}
       onClose={onClose}
-      styled={`flex flex-col !justify-start !items-start !w-[600px] !h-[500px]`}
+      styled={`flex flex-col !justify-start !items-start !w-[600px] !h-[600px]`}
     >
       <TabList>
         {depositTabs.map((tab) => (
