@@ -46,6 +46,7 @@ export async function uploadFileForCommunity(
     const result = await uploadCommunityLogo(formData)
     return result
   } catch (error) {
+    console.log('error', error)
     return {
       code: -1,
       error: 'Error while upload file',
