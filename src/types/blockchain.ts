@@ -15,4 +15,5 @@ export type ChainType = {
   name: string
   id: number
   connections: BlockchainConnectionType[]
+  currency_symbol: string
 }

@@ -2,7 +2,7 @@ import { getBlockchainApi } from '@/api/wallet'
 import { ErrorCodes } from '@/constants/code.const'
 import { balanceOfABI, transferABI } from '@/constants/contract'
 import { EnvVariables } from '@/constants/env.const'
-import { getConnectedAccounts, connectWallet } from '@/handler/auth/metamask'
+import { getConnectedAccounts } from '@/handler/auth/metamask'
 import { ChainType } from '@/types/blockchain'
 import detectEthereumProvider from '@metamask/detect-provider'
 import toast from 'react-hot-toast'
@@ -34,6 +34,7 @@ class WalletController {
       connections: [],
       name: '',
       id: 0,
+      currency_symbol: 'AVAX',
     }
     const ethereum = window.ethereum
     this.etherWeb3 = new Web3(ethereum as provider)
@@ -109,7 +110,11 @@ class WalletController {
               {
                 chainName: this.chain.name,
                 chainId: this.etherWeb3.utils.toHex(chainId),
-                nativeCurrency: { name: 'AVAX', decimals: 18, symbol: 'AVAX' },
+                nativeCurrency: {
+                  name: this.chain.currency_symbol,
+                  decimals: 18,
+                  symbol: this.chain.currency_symbol,
+                },
                 rpcUrls: connections,
               },
             ],
