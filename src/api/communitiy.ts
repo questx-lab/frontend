@@ -18,6 +18,7 @@ import {
 } from '@/types'
 import {
   CommunityRoleType,
+  CommunityStatsType,
   CommunityType,
   FollowCommunityType,
   ReferralType,
@@ -380,5 +381,25 @@ export const getStreakApi = async (
       setCacheWithExpiration(cacheKey, result.data.records, Date.now() + 5 * ONE_MINUTE_MILLIS)
     }
   }
+  return data
+}
+
+// STATS
+export const getCommunityStatsApi = async ({
+  handle,
+  begin,
+  end,
+}: {
+  handle?: string
+  begin: string
+  end: string
+}): Promise<Rsp<{ stats: CommunityStatsType[] }>> => {
+  let url = EnvVariables.API_SERVER + `/getCommunityStats?begin=${begin}&end=${end}`
+
+  if (handle) {
+    url += `&community_handle=${handle}`
+  }
+
+  const { data } = await api.get(url)
   return data
 }

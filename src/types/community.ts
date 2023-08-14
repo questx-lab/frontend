@@ -70,7 +70,7 @@ export type ReferralType = {
   communities: CommunityType[]
 }
 
-export enum ActionReviewCommunityEnum {
-  ACTIVE = 'active',
-  REJECT = 'rejected',
+export type CommunityStatsType = {
+  date: string
+  follower_count: number
 }
