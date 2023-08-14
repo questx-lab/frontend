@@ -159,7 +159,7 @@ const Index: FC<{
           <RequireLogin />
           <ContentPadding>
             <TextBase>
-              {quest.description === '' ? 'Not description' : parseHtml(quest.description)}
+              {quest.description === '' ? 'No description' : parseHtml(quest.description)}
             </TextBase>
             <QuestContent quest={quest} />
           </ContentPadding>
