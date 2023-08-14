@@ -10,12 +10,14 @@ import NewCommunityStore from '@/store/local/new-community'
 import { HorizontalBetweenCenterFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { Tab, TabItem } from '@/widgets/tab-group/focus-white-background'
 import { HeaderText3 } from '@/widgets/text'
+import Wallet from '@/modules/community/settings/wallet'
 
 enum TabEnum {
   GENERAL,
   API,
   MEMBER,
   CHAT,
+  WALLET,
 }
 
 const HeaderText = tw(HeaderText3)`
@@ -57,6 +59,13 @@ const CommunitySettings: FC = () => {
             {'GENERAL'}
           </TabItem>
           <TabItem
+            active={tab === TabEnum.WALLET}
+            onClick={() => setTab(TabEnum.WALLET)}
+            tabCount={1}
+          >
+            {'WALLET'}
+          </TabItem>
+          <TabItem
             tabCount={1}
             active={tab === TabEnum.MEMBER}
             onClick={() => setTab(TabEnum.MEMBER)}
@@ -71,6 +80,7 @@ const CommunitySettings: FC = () => {
       {tab === TabEnum.GENERAL && <General />}
       {tab === TabEnum.MEMBER && <MemberSetting />}
       {tab === TabEnum.CHAT && <ChatSetting />}
+      {tab === TabEnum.WALLET && <Wallet />}
     </Frame>
   )
 }
