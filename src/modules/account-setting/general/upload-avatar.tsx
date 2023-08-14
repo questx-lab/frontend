@@ -2,6 +2,7 @@ import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import Dropzone from 'react-dropzone'
+import toast from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -110,6 +111,11 @@ const AvatarUpload: FC<{ imageSize: number; isCircle?: boolean }> = ({
               preview: URL.createObjectURL(upFile),
             })
           )
+        }}
+        maxFiles={1}
+        maxSize={2 * 1024 * 1024}
+        onError={(error) => {
+          toast.error('File size exceeds the limit of 2MB')
         }}
       >
         {({ getRootProps, getInputProps }) => (
