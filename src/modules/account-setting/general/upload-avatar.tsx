@@ -2,6 +2,7 @@ import { FC } from 'react'
 
 import { useStoreState } from 'easy-peasy'
 import Dropzone from 'react-dropzone'
+import toast from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -104,12 +105,21 @@ const AvatarUpload: FC<{ imageSize: number; isCircle?: boolean }> = ({
     <Container dimension={imageSize}>
       <Dropzone
         onDrop={(acceptedFiles) => {
-          const upFile = acceptedFiles[0]
-          setAvatar(
-            Object.assign(upFile, {
-              preview: URL.createObjectURL(upFile),
-            })
-          )
+          if (acceptedFiles.length) {
+            const upFile = acceptedFiles[0]
+            setAvatar(
+              Object.assign(upFile, {
+                preview: URL.createObjectURL(upFile),
+              })
+            )
+          }
+        }}
+        maxFiles={1}
+        maxSize={2 * 1024 * 1024}
+        onDropRejected={(e) => {
+          if (e.length && e[0].errors.length) {
+            toast.error(e[0].errors[0].message)
+          }
         }}
       >
         {({ getRootProps, getInputProps }) => (
