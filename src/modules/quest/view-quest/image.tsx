@@ -83,6 +83,9 @@ const ShowImage: FC = () => {
 
   return (
     <Dropzone
+      accept={{
+        'image/png': ['.png', '.jpg'],
+      }}
       onDrop={(acceptedFiles) => {
         setFileUpload(
           acceptedFiles.map((upFile) =>
@@ -92,11 +95,13 @@ const ShowImage: FC = () => {
           )
         )
       }}
+      onDropRejected={(e) => {
+        if (e.length && e[0].errors.length) {
+          toast.error(e[0].errors[0].message)
+        }
+      }}
       maxFiles={1}
       maxSize={2 * 1024 * 1024}
-      onError={(error) => {
-        toast.error('File size exceeds the limit of 2MB')
-      }}
     >
       {({ getRootProps, getInputProps }) => (
         <SectionUploadImg
