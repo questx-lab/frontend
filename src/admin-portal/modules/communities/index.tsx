@@ -101,7 +101,7 @@ const StatsTab: FC = () => {
 }
 
 const Tab: FC = () => {
-  const [tabActive, setTabActive] = useState<FilterEnum>(FilterEnum.STATS)
+  const [tabActive, setTabActive] = useState<FilterEnum>(FilterEnum.PENDING)
 
   const RenderTab: FC = () => {
     if (tabActive === FilterEnum.STATS) {
@@ -115,16 +115,16 @@ const Tab: FC = () => {
     <>
       <TabFrame>
         <TabItem
-          selected={tabActive === FilterEnum.STATS}
-          onClick={() => setTabActive(FilterEnum.STATS)}
-        >
-          {FilterEnum.STATS}
-        </TabItem>
-        <TabItem
           selected={tabActive === FilterEnum.PENDING}
           onClick={() => setTabActive(FilterEnum.PENDING)}
         >
           {FilterEnum.PENDING}
+        </TabItem>
+        <TabItem
+          selected={tabActive === FilterEnum.STATS}
+          onClick={() => setTabActive(FilterEnum.STATS)}
+        >
+          {FilterEnum.STATS}
         </TabItem>
       </TabFrame>
       <RenderTab />
