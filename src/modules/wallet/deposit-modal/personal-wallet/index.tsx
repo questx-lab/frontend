@@ -96,6 +96,7 @@ const PersonalWallet: FC<{
   onClose: () => void
 }> = ({ onClose }) => {
   const [currentStep, setCurrentStep] = useState<number>(0)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const selectedAccount = CommunityStore.useStoreState((state) => state.selectedAccount)
   const walletAddress = CommunityStore.useStoreState((state) => state.walletAddress)
@@ -130,7 +131,9 @@ const PersonalWallet: FC<{
     if (!checkCanNext()) return
     if (currentStep < 3) setCurrentStep(currentStep + 1)
     else {
+      setLoading(true)
       await walletController.deposit(walletAddress, selectedAccount, amount)
+      setLoading(false)
       onClose()
     }
   }
@@ -186,7 +189,7 @@ const PersonalWallet: FC<{
             Prev
           </NegativeButton>
 
-          <PositiveButton onClick={() => next()} block={!checkCanNext()}>
+          <PositiveButton onClick={() => next()} block={!checkCanNext()} loading={loading}>
             {currentStep === 3 ? 'Done' : 'Next'}
           </PositiveButton>
         </HorizontalBetween>

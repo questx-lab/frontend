@@ -14,7 +14,6 @@ import { ErrorCodes } from '@/constants/code.const'
 import { getWalletAddressApi } from '@/api/communitiy'
 import CommunityStore from '@/store/local/community'
 import walletController from '@/modules/wallet/services/wallet-controller'
-import BaseModal from '@/widgets/modal/base'
 import DepositModal from '@/modules/wallet/deposit-modal'
 
 const Border = tw(VerticalFullWidth)`

@@ -55,9 +55,7 @@ const DepositModal: FC<{
       title={`Add USDT`}
       isOpen={open}
       onClose={onClose}
-      styled={`flex flex-col !justify-start !items-start !w-[600px] !h-[${
-        currentTab === DepositTab.PERSONAL_WALLET ? 470 : 500
-      }px]`}
+      styled={`flex flex-col !justify-start !items-start !w-[600px] !h-[500px]`}
     >
       <TabList>
         {depositTabs.map((tab) => (
