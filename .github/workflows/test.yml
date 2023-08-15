@@ -40,8 +40,3 @@ jobs:
       - name: Logging
         run: |-
           gcloud compute forwarding-rules list --filter=\"name=( 'frontend-staging-https' )\"
-          gcloud dns record-sets update dev-jpo.xquest.xyz \
-          --rrdatas=34.134.11.152 \
-          --ttl=300 \
-          --type=A \
-          --zone=xquest-xyz
