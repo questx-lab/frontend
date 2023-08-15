@@ -6,13 +6,7 @@ on:
     # types: ['closed']
 
 env:
-  PROJECT_ID: ${{ vars.PROJECT_ID }} # TODO: update Google Cloud project id
-  GAR_LOCATION: ${{ vars.GAR_LOCATION }} # TODO: update Artifact Registry location
-  SERVICE: ${{ vars.SERVICE_NAME }} # TODO: update Cloud Run service name
-  APP_NAME: ${{ vars.APP_NAME }}
-  GKE_CLUSTER_NAME: ${{ vars.GKE_CLUSTER_NAME }}
-  CLUSTER_REGION: ${{ vars.CLUSTER_REGION }}
-  ENV_FILE: ${{ vars.ENV_FILE }}
+  GCP_STAGING_CREDENTIALS: ${{ secrets.GCP_STAGING_CREDENTIALS }}
   GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
   DOMAIN: ${{ vars.DOMAIN }}
 
@@ -36,7 +30,10 @@ jobs:
         with:
           token_format: 'access_token'
           credentials_json: '${{ env.GCP_CREDENTIALS }}'
+          credentials_staging_json: '${{ env.GCP_STAGING_CREDENTIALS }}'
 
       - name: Logging
         run: |-
-          gcloud compute forwarding-rules list
+          ips=$(gcloud compute forwarding-rules list)
+
+          echo $ips
