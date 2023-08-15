@@ -1,6 +1,6 @@
 import { api } from '@/api/interceptor'
 import { getCache, setCacheWithExpiration } from '@/cache'
-import { leaderboardCacheKey } from '@/cache/keys'
+import { leaderboardCacheKey, streaksCacheKey } from '@/cache/keys'
 import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import {
@@ -11,12 +11,14 @@ import {
   OAuth2VerifyResp,
   ReqNewCommunity,
   Rsp,
+  StreakType,
   UpdateCommunityRequest,
   UpdateCommunityResponse,
   UserType,
 } from '@/types'
 import {
   CommunityRoleType,
+  CommunityStatsType,
   CommunityType,
   FollowCommunityType,
   ReferralType,
@@ -349,4 +351,55 @@ export const deleteRoleMemberApi = async (
     role_ids: roleIds,
   })
   return rs.data
+}
+
+export const getStreakApi = async (
+  communityHandle: string,
+  month: string
+): Promise<
+  Rsp<{
+    records: StreakType[]
+  }>
+> => {
+  const cacheKey = streaksCacheKey(communityHandle, month)
+  // try getting from cache.
+  const cachedValue = getCache<StreakType[]>(cacheKey)
+  if (cachedValue) {
+    return {
+      code: 0,
+      data: { records: cachedValue },
+    }
+  }
+
+  const { data } = await api.get(
+    EnvVariables.API_SERVER + `/getStreaks?community_handle=${communityHandle}&month=${month}`
+  )
+
+  if (data) {
+    const result = data as Rsp<{ records: StreakType[] }>
+    if (result.data) {
+      setCacheWithExpiration(cacheKey, result.data.records, Date.now() + 5 * ONE_MINUTE_MILLIS)
+    }
+  }
+  return data
+}
+
+// STATS
+export const getCommunityStatsApi = async ({
+  handle,
+  begin,
+  end,
+}: {
+  handle?: string
+  begin: string
+  end: string
+}): Promise<Rsp<{ stats: CommunityStatsType[] }>> => {
+  let url = EnvVariables.API_SERVER + `/getCommunityStats?begin=${begin}&end=${end}`
+
+  if (handle) {
+    url += `&community_handle=${handle}`
+  }
+
+  const { data } = await api.get(url)
+  return data
 }

@@ -75,6 +75,6 @@ jobs:
           helm upgrade --install maintenance-page ./deploy/maintenance-page \
           --namespace frontend \
           --set=ingress.hosts[0].host=${{ env.DOMAIN }} \
-          --set=ingress.hosts[0].paths[0].path="/" \
+          --set=ingress.hosts[0].paths[0].path="/(.*)" \
           --set=ingress.hosts[0].paths[0].pathType=Prefix \
           --create-namespace

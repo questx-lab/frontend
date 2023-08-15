@@ -33,7 +33,7 @@
     "moment": "^2.29.4",
     "randomstring": "^1.2.3",
     "react": "^18.2.0",
-    "react-datepicker": "^4.14.1",
+    "react-datepicker": "^4.16.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
@@ -103,12 +103,12 @@
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-datepicker": "^4.11.2",
     "@types/react-dom": "^18.0.11",
+    "@types/react-mentions": "^4.1.8",
     "@types/react-window": "^1.8.5",
     "@types/react-window-infinite-loader": "^1.0.6",
     "@types/styled-components": "^5.1.26",
     "@types/websocket": "^1.0.5",
     "@types/ws": "^8.5.4",
-    "@types/react-mentions": "^4.1.8",
     "babel-plugin-module-resolver": "^5.0.0"
   }
 }

@@ -7,6 +7,7 @@ import { ActionModal } from '@/admin-portal/modules/communities/action-modal'
 import CommunityDetailModal from '@/admin-portal/modules/communities/community-detail'
 import RowOption from '@/admin-portal/modules/communities/community-table/row-option'
 import UserDetailModal from '@/admin-portal/modules/referrals/user-detail'
+import { CommunityStatusEnum } from '@/admin-portal/types/control-panel-tab'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import { Status } from '@/modules/review-submissions/history/row-item'
@@ -14,6 +15,7 @@ import AdminCommunityStore from '@/store/admin/community'
 import { UserType } from '@/types'
 import { CommunityType } from '@/types/community'
 import { convertTimeToShow } from '@/utils/time'
+import { UserAvatar } from '@/widgets/avatar'
 import { CircularImage } from '@/widgets/circular-image'
 import { Horizontal, HorizontalStartCenter } from '@/widgets/orientation'
 import { TextBase } from '@/widgets/text'
@@ -35,7 +37,7 @@ const Td = styled.td<{ highlight?: boolean }>(({ highlight = false }) => {
 })
 
 const Tr = styled.tr<{ index: number }>(({ index }) => {
-  const styles = [tw`py-3`]
+  const styles = [tw`py-3 cursor-pointer hover:bg-gray-100`]
   if (index === 0) {
     styles.push(tw`border-t border-solid border-gray-300`)
   }
@@ -76,11 +78,7 @@ const OwnerTd: FC<{ owner?: UserType; onClickUser: (owner: UserType) => void }> 
   return (
     <Td>
       <PointerHorizontal onClick={() => onClickUser(owner)}>
-        <CircularImage
-          width={40}
-          height={40}
-          src={owner.avatar_url || StorageConst.USER_DEFAULT.src}
-        />
+        <UserAvatar size={40} user={owner} />
         <MediumTextBase>{owner.name}</MediumTextBase>
       </PointerHorizontal>
     </Td>
@@ -90,8 +88,15 @@ const OwnerTd: FC<{ owner?: UserType; onClickUser: (owner: UserType) => void }> 
 const StatusTd: FC<{ status: string }> = ({ status }) => {
   let inner: ReactNode = status
   switch (status) {
-    case 'pending':
-      inner = <Status claimStatus={ClaimedQuestStatus.PENDING}>Pending</Status>
+    case CommunityStatusEnum.PENDING:
+      inner = (
+        <Status claimStatus={ClaimedQuestStatus.PENDING}>{CommunityStatusEnum.PENDING}</Status>
+      )
+      break
+    case CommunityStatusEnum.ACTIVE:
+      inner = (
+        <Status claimStatus={ClaimedQuestStatus.ACCEPTED}>{CommunityStatusEnum.ACTIVE}</Status>
+      )
       break
   }
 
@@ -140,7 +145,6 @@ const CommunityRow: FC<{
 const CommunityBody: FC = () => {
   //data
   const communities = AdminCommunityStore.useStoreState((state) => state.communities)
-
   if (!communities) {
     return <></>
   }

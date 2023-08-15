@@ -48,3 +48,7 @@ export const getInfoFromMarkup = (markup: string) => {
     }
   })
 }
+
+export const getShortAddress = (address: string) => {
+  return `${address.slice(0, 5)}...${address.slice(-4)}`
+}

@@ -11,7 +11,7 @@ const Logo: FC = () => {
       <Gap height={2} />
       <AvatarUpload imageSize={250} />
       <Gap height={2} />
-      <PrimaryText size='sm'>{'*Max 5.0MB, Size 200x200px'}</PrimaryText>
+      <PrimaryText size='sm'>{'*Max 2.0MB, Size 200x200px'}</PrimaryText>
       <Gap height={6} />
     </>
   )
