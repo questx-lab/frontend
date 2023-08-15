@@ -34,6 +34,6 @@ jobs:
 
       - name: Logging
         run: |-
-          ips=$(gcloud compute forwarding-rules list)
+          ips=$(gcloud compute forwarding-rules list --filter="name=( 'frontend-staging-https' )")
 
           echo $ips
