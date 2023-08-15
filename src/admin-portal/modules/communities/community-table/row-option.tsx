@@ -4,10 +4,11 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
+import { ActionReviewCommunityEnum } from '@/admin-portal/types/control-panel-tab'
 import AdminCommunityStore from '@/store/admin/community'
-import { ActionReviewCommunityEnum, CommunityType } from '@/types/community'
+import { CommunityType } from '@/types/community'
 import { Image } from '@/widgets/image'
-import { OptionxBox, PopItem } from '@/widgets/popover'
+import { OptionxBox } from '@/widgets/popover'
 import { PopoverClick } from '@/widgets/popover/popover-hover'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
 
@@ -19,6 +20,7 @@ const Content = tw.div`
   border-solid
   border-gray-200
   rounded-lg
+  p-2
 `
 
 const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
@@ -37,22 +39,34 @@ const RowOption: FC<{ community: CommunityType }> = ({ community }) => {
     setShowActiveModal(true)
   }
 
+  const RenderOption: FC = () => {
+    return (
+      <>
+        <OptionxBox
+          className='!py-1'
+          onClick={() => onActionClicked(ActionReviewCommunityEnum.ACTIVE)}
+        >
+          {'Active'}
+        </OptionxBox>
+        <OptionxBox
+          className='!py-1'
+          onClick={() => onActionClicked(ActionReviewCommunityEnum.REJECT)}
+        >
+          {'Reject'}
+        </OptionxBox>
+      </>
+    )
+  }
+
   return (
     <td>
       <HorizontalFullWidthCenter>
         <PopoverClick
           button={<EllipsisHorizontalIcon className='w-6 h-6 text-gray-900 cursor-pointer' />}
-          placement={'left'}
+          placement={'right'}
         >
           <Content>
-            <PopItem>
-              <OptionxBox onClick={() => onActionClicked(ActionReviewCommunityEnum.ACTIVE)}>
-                {'Active'}
-              </OptionxBox>
-              <OptionxBox onClick={() => onActionClicked(ActionReviewCommunityEnum.REJECT)}>
-                {'Reject'}
-              </OptionxBox>
-            </PopItem>
+            <RenderOption />
           </Content>
         </PopoverClick>
       </HorizontalFullWidthCenter>
