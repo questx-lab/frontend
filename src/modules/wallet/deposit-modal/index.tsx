@@ -20,6 +20,7 @@ const Tab = styled.div<{
       cursor-pointer
     `,
   ]
+
   if (active) {
     style.push(tw`text-info-500 bg-info-100`)
   } else {
