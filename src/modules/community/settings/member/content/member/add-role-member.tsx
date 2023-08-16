@@ -107,9 +107,10 @@ const AddRoleMember: FC<{ userRoles: CommunityRoleType[]; userId: string }> = ({
   userId,
 }) => {
   const roles = RoleCommunityStore.useStoreState((state) => state.roles)
-  const renderRoles = roles.map((role) => (
-    <RoleItem userRoles={userRoles} key={role.id} role={role} userId={userId} />
-  ))
+
+  const renderRoles = roles
+    .filter((role) => role.id !== 'owner' && role.id !== 'user')
+    .map((role) => <RoleItem userRoles={userRoles} key={role.id} role={role} userId={userId} />)
 
   return (
     <PopoverClick

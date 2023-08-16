@@ -38,7 +38,10 @@ export type CommunityType = {
   status?: string
   referral_status?: string
   dau?: number
+  discord_invite_link?: string
   chat_members?: UserType[]
+  owner?: UserType
+  owner_email?: string
 }
 
 export type FollowCommunityType = {
@@ -65,4 +68,9 @@ export const emptyCommunity = (): CommunityType => {
 export type ReferralType = {
   referred_by: UserType
   communities: CommunityType[]
+}
+
+export type CommunityStatsType = {
+  date: string
+  follower_count: number
 }

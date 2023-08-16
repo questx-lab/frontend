@@ -28,7 +28,7 @@ const TwitterReply: FC<{
     <div
       onClick={() => {
         setLikeRetweetReplyClicked(true)
-        // setInputReply(true)
+        setInputReply(true)
         // Temporarily do not require user to submit input reply
       }}
     >

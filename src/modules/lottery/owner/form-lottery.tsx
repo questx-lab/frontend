@@ -13,13 +13,15 @@ import { FormatTime } from '@/utils/time'
 import { PositiveButton } from '@/widgets/buttons'
 import { InputBox } from '@/widgets/form'
 import {
+  HorizontalBetween,
   HorizontalBetweenCenterFullWidth,
   HorizontalFullWidth,
   VerticalFullWidth,
 } from '@/widgets/orientation'
-import { MediumTextSm, MediumTextXl } from '@/widgets/text'
+import { MediumTextSm, MediumTextXl, TextSm } from '@/widgets/text'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@material-tailwind/react'
+import { Gap } from '@/widgets/separator'
 
 const Border = tw(VerticalFullWidth)`
   border
@@ -45,7 +47,11 @@ const GapVertical = tw(VerticalFullWidth)`gap-2`
 
 const Gap6Vertical = tw(VerticalFullWidth)`gap-6`
 
-const PaddingIcon = tw.div`cursor-pointer p-2 rounded-lg border border-solid border-gray-200`
+const AddReward = tw(TextSm)`
+  text-info-500
+  font-bold
+  cursor-pointer
+`
 
 const EndHorizontal = tw(HorizontalFullWidth)`justify-end`
 
@@ -101,68 +107,72 @@ const FormLottery: FC = () => {
   return (
     <Gap6Vertical>
       <Border>
-        <GapVertical>
-          <MediumTextSm>{'Max Tickets'}</MediumTextSm>
-          <InputBox
-            value={maxTickets}
-            onChange={(e) => setMaxTickets(parseInt(e.target.value || '0', 10))}
-          />
-        </GapVertical>
-        <GapVertical>
-          <MediumTextSm>{'Point Per Ticket'}</MediumTextSm>
-          <InputBox
-            value={poinPerTicket}
-            onChange={(e) => setPointPerTicket(parseInt(e.target.value || '0', 10))}
-          />
-        </GapVertical>
-        <GapVertical>
-          <MediumTextSm>{'Start Time'}</MediumTextSm>
-          <Picker
-            locale='en'
-            selected={startTime}
-            onChange={(date) => {
-              if (date) {
-                setStartTime(date)
-              }
-            }}
-            minDate={new Date()}
-            showTimeSelect
-            timeFormat='HH:mm'
-            timeIntervals={5}
-            timeCaption='time'
-            dateFormat='MMMM d, yyyy h:mm aa'
-          />
-        </GapVertical>
-        <GapVertical>
-          <MediumTextSm>{'End Time'}</MediumTextSm>
-          <Picker
-            locale='en'
-            selected={endTime}
-            onChange={(date) => {
-              if (date) {
-                setEndTime(date)
-              }
-            }}
-            minDate={new Date()}
-            showTimeSelect
-            timeFormat='HH:mm'
-            timeIntervals={5}
-            timeCaption='time'
-            dateFormat='MMMM d, yyyy h:mm aa'
-          />
-        </GapVertical>
+        <MediumTextXl>{'Ticket'}</MediumTextXl>
+        <Border>
+          <GapVertical>
+            <MediumTextSm>{'Max Ticket'}</MediumTextSm>
+            <InputBox
+              value={maxTickets}
+              onChange={(e) => setMaxTickets(parseInt(e.target.value || '0', 10))}
+            />
+          </GapVertical>
+          <GapVertical>
+            <MediumTextSm>{'Point Per Ticket'}</MediumTextSm>
+            <InputBox
+              value={poinPerTicket}
+              onChange={(e) => setPointPerTicket(parseInt(e.target.value || '0', 10))}
+            />
+          </GapVertical>
+          <HorizontalBetween>
+            <GapVertical>
+              <MediumTextSm>{'Start Time'}</MediumTextSm>
+              <Picker
+                locale='en'
+                selected={startTime}
+                onChange={(date) => {
+                  if (date) {
+                    setStartTime(date)
+                  }
+                }}
+                minDate={new Date()}
+                showTimeSelect
+                timeFormat='HH:mm'
+                timeIntervals={5}
+                timeCaption='time'
+                dateFormat='MMMM d, yyyy h:mm aa'
+              />
+            </GapVertical>
+            <Gap width={10} />
+            <GapVertical>
+              <MediumTextSm>{'End Time'}</MediumTextSm>
+              <Picker
+                locale='en'
+                selected={endTime}
+                onChange={(date) => {
+                  if (date) {
+                    setEndTime(date)
+                  }
+                }}
+                minDate={new Date()}
+                showTimeSelect
+                timeFormat='HH:mm'
+                timeIntervals={5}
+                timeCaption='time'
+                dateFormat='MMMM d, yyyy h:mm aa'
+              />
+            </GapVertical>
+          </HorizontalBetween>
+        </Border>
       </Border>
       <GapVertical>
-        <HorizontalBetweenCenterFullWidth>
-          <MediumTextXl>{'Prizes'}</MediumTextXl>
-          <Tooltip content={'Add new prize'} placement='left'>
-            <PaddingIcon onClick={addPrize}>
-              <PlusIcon className='w-5 h-5 text-gray-900' />
-            </PaddingIcon>
-          </Tooltip>
-        </HorizontalBetweenCenterFullWidth>
-        {renderPrizes}
+        <Border>
+          <HorizontalBetweenCenterFullWidth>
+            <MediumTextXl>{'Reward'}</MediumTextXl>
+          </HorizontalBetweenCenterFullWidth>
+          {renderPrizes}
+        </Border>
       </GapVertical>
+      <AddReward onClick={addPrize}> Add Rewards + </AddReward>
       <EndHorizontal>
         <PositiveButton onClick={onCreateLottery} loading={loading}>
           {'Create Lottery'}

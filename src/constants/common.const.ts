@@ -181,7 +181,7 @@ export enum ButtonSocialType {
 export enum LeaderboardRangeEnum {
   WEEK = 'week',
   MONTH = 'month',
-  TOTAL = 'total',
+  ALL = 'all',
 }
 
 export const LeaderboardRangeMap = new Map<LeaderboardRangeEnum, string>([
@@ -226,6 +226,12 @@ export enum NewCommunityStep {
   THIRD,
   FOURTH,
   FIFTH,
+}
+
+export enum DepositStep {
+  BEGIN,
+  FIRST,
+  SECOND,
 }
 
 export enum ConnectSocialPlatformEnum {

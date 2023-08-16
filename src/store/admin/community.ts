@@ -1,16 +1,17 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
+import { ActionReviewCommunityEnum } from '@/admin-portal/types/control-panel-tab'
 import { CommunityType } from '@/types/community'
 
 interface AdminCommunitylModel {
   communities: CommunityType[]
   community: CommunityType | undefined
   showActiveModal: boolean
-  action: string
+  action: ActionReviewCommunityEnum
 
   setCommunity: Action<AdminCommunitylModel, CommunityType>
   setShowActiveModal: Action<AdminCommunitylModel, boolean>
-  setAction: Action<AdminCommunitylModel, string>
+  setAction: Action<AdminCommunitylModel, ActionReviewCommunityEnum>
   setCommunities: Action<AdminCommunitylModel, CommunityType[]>
   removeCommunity: Action<AdminCommunitylModel, CommunityType>
 }
@@ -19,7 +20,7 @@ const AdminCommunityStore = createContextStore<AdminCommunitylModel>({
   community: undefined,
   communities: [],
   showActiveModal: false,
-  action: '',
+  action: ActionReviewCommunityEnum.ACTIVE,
 
   setCommunity: action((state, community) => {
     state.community = community

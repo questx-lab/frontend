@@ -1,18 +1,21 @@
-import { FC, ReactNode, useEffect, useState } from 'react'
+import { FC, ReactNode, useState } from 'react'
 
-import { toast } from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { ActionModal } from '@/admin-portal/modules/communities/action-modal'
+import CommunityDetailModal from '@/admin-portal/modules/communities/community-detail'
 import RowOption from '@/admin-portal/modules/communities/community-table/row-option'
-import { getUserByIdApi } from '@/api/user'
+import UserDetailModal from '@/admin-portal/modules/referrals/user-detail'
+import { CommunityStatusEnum } from '@/admin-portal/types/control-panel-tab'
 import { ClaimedQuestStatus } from '@/constants/common.const'
 import StorageConst from '@/constants/storage.const'
 import { Status } from '@/modules/review-submissions/history/row-item'
 import AdminCommunityStore from '@/store/admin/community'
 import { UserType } from '@/types'
 import { CommunityType } from '@/types/community'
+import { convertTimeToShow } from '@/utils/time'
+import { UserAvatar } from '@/widgets/avatar'
 import { CircularImage } from '@/widgets/circular-image'
 import { Horizontal, HorizontalStartCenter } from '@/widgets/orientation'
 import { TextBase } from '@/widgets/text'
@@ -34,7 +37,7 @@ const Td = styled.td<{ highlight?: boolean }>(({ highlight = false }) => {
 })
 
 const Tr = styled.tr<{ index: number }>(({ index }) => {
-  const styles = [tw`py-3`]
+  const styles = [tw`py-3 cursor-pointer hover:bg-gray-100`]
   if (index === 0) {
     styles.push(tw`border-t border-solid border-gray-300`)
   }
@@ -64,33 +67,19 @@ const CommunityTd: FC<{
   )
 }
 
-const UserTd: FC<{ userId: string; onClickUser: (userId: UserType) => void }> = ({
-  userId,
+const OwnerTd: FC<{ owner?: UserType; onClickUser: (owner: UserType) => void }> = ({
+  owner,
   onClickUser,
 }) => {
-  const [user, setUser] = useState<UserType>({} as UserType)
-  const fetchUser = async () => {
-    try {
-      const result = await getUserByIdApi(userId)
-
-      if (result.error) {
-        toast.error(result.error)
-      }
-      if (result.code === 0 && result.data) setUser(result.data)
-    } catch (error) {}
+  if (!owner) {
+    return <Td>Cannot find owner</Td>
   }
-  useEffect(() => {
-    fetchUser()
-  }, [])
+
   return (
     <Td>
-      <PointerHorizontal onClick={() => onClickUser(user)}>
-        <CircularImage
-          width={40}
-          height={40}
-          src={user.avatar_url || StorageConst.USER_DEFAULT.src}
-        />
-        <MediumTextBase>{user.name}</MediumTextBase>
+      <PointerHorizontal onClick={() => onClickUser(owner)}>
+        <UserAvatar size={40} user={owner} />
+        <MediumTextBase>{owner.name}</MediumTextBase>
       </PointerHorizontal>
     </Td>
   )
@@ -99,8 +88,15 @@ const UserTd: FC<{ userId: string; onClickUser: (userId: UserType) => void }> = 
 const StatusTd: FC<{ status: string }> = ({ status }) => {
   let inner: ReactNode = status
   switch (status) {
-    case 'pending':
-      inner = <Status claimStatus={ClaimedQuestStatus.PENDING}>Pending</Status>
+    case CommunityStatusEnum.PENDING:
+      inner = (
+        <Status claimStatus={ClaimedQuestStatus.PENDING}>{CommunityStatusEnum.PENDING}</Status>
+      )
+      break
+    case CommunityStatusEnum.ACTIVE:
+      inner = (
+        <Status claimStatus={ClaimedQuestStatus.ACCEPTED}>{CommunityStatusEnum.ACTIVE}</Status>
+      )
       break
   }
 
@@ -111,13 +107,44 @@ const StatusTd: FC<{ status: string }> = ({ status }) => {
   )
 }
 
-const CommunityBody: FC<{
-  onClickUser: (userId: UserType) => void
-  onClickCommunity: (community: CommunityType) => void
-}> = ({ onClickUser, onClickCommunity }) => {
+const CommunityRow: FC<{
+  community: CommunityType
+  index: number
+}> = ({ community, index }) => {
+  const [openUserModal, setOpenUserModal] = useState<boolean>(false)
+  const [openCommunityModal, setOpenCommunityModal] = useState<boolean>(false)
+
+  const onCloseUserModel = () => {
+    setOpenUserModal(false)
+  }
+
+  return (
+    <Tr key={`${community.handle}`} index={index}>
+      <CommunityTd community={community} onClickCommunity={() => setOpenCommunityModal(true)} />
+      <StatusTd status={community.status || ''} />
+      <OwnerTd owner={community.owner} onClickUser={() => setOpenUserModal(true)} />
+      <Td>{convertTimeToShow(community.created_at)}</Td>
+      <Td>{community.owner_email || ''}</Td>
+      <Td>{community.followers || 0}</Td>
+      <Td>{community.dau || 0}</Td>
+      <RowOption community={community} />
+      <UserDetailModal
+        owner={community?.owner}
+        openModal={openUserModal}
+        onCloseModel={onCloseUserModel}
+      />
+      <CommunityDetailModal
+        community={community}
+        openModal={openCommunityModal}
+        onCloseModel={() => setOpenCommunityModal(false)}
+      />
+    </Tr>
+  )
+}
+
+const CommunityBody: FC = () => {
   //data
   const communities = AdminCommunityStore.useStoreState((state) => state.communities)
-
   if (!communities) {
     return <></>
   }
@@ -126,16 +153,7 @@ const CommunityBody: FC<{
     <>
       <tbody>
         {communities.map((community, index) => (
-          <Tr key={`${community.handle}`} index={index}>
-            <CommunityTd community={community} onClickCommunity={onClickCommunity} />
-            <StatusTd status={community.status || ''} />
-            <UserTd userId={community.created_by || ''} onClickUser={onClickUser} />
-            <Td>{community.created_at}</Td>
-            <Td>{community.number_of_quests || 0}</Td>
-            <Td>{community.followers || 0}</Td>
-            <Td>{community.dau || 0}</Td>
-            <RowOption community={community} />
-          </Tr>
+          <CommunityRow community={community} index={index} />
         ))}
       </tbody>
       <ActionModal />

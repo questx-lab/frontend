@@ -22,8 +22,7 @@ const GapVertical = tw(VerticalFullWidth)`gap-6`
 const PointerWord = tw(HorizontalStartCenter)`cursor-pointer`
 
 const generateTweetLink = (defaultTweet: string): string => {
-  const urlEncode = new URLSearchParams(defaultTweet)
-  return `https://twitter.com/intent/tweet?text=${urlEncode}`
+  return `https://twitter.com/intent/tweet?text=${defaultTweet}`
 }
 
 const IncludedWords: FC<{ includedWords: string[] }> = ({ includedWords }) => {

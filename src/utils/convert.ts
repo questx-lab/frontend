@@ -38,3 +38,17 @@ export const encode = (s: string) => {
   const buffer = Buffer.from(compress)
   return buffer.toString('base64')
 }
+
+export const getInfoFromMarkup = (markup: string) => {
+  return [...markup.matchAll(/@\[(.*?)]\((.*?)\)/g)].map((list: string[]) => {
+    return {
+      reg: list[0],
+      display: list[1],
+      id: list[2],
+    }
+  })
+}
+
+export const getShortAddress = (address: string) => {
+  return `${address.slice(0, 5)}...${address.slice(-4)}`
+}

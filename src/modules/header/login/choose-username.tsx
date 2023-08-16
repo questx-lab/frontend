@@ -24,7 +24,7 @@ import {
   Vertical,
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
-import { Label } from '@/widgets/text'
+import { Label, TextSm } from '@/widgets/text'
 
 const FormBox = tw(Vertical)`
   w-full
@@ -138,6 +138,11 @@ const Button = styled.button<{ block?: boolean }>(({ block = false }) => [
   `,
 ])
 
+const ErrorText = tw(TextSm)`
+  text-start
+  text-danger-700
+`
+
 const RenderLogoSocial: FC = () => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
 
@@ -206,6 +211,7 @@ const ChooseUserName: FC<{
 }> = ({ setOpen }) => {
   // hook
   const [loading, setLoading] = useState<boolean>(false)
+  const [showUserNameError, setShowUserNameError] = useState<boolean>(false)
 
   // data
   const username = AccountSettingsStore.useStoreState((state) => state.username)
@@ -219,6 +225,12 @@ const ChooseUserName: FC<{
   const handleSubmit = async () => {
     setLoading(true)
     try {
+      const reg = /^[a-zA-Z0-9_]{4,32}$/g
+      if (!username.match(reg)) {
+        setShowUserNameError(true)
+        return
+      }
+
       // Upload user avatar
       if (avatar) {
         const resultUpload = await uploadFileForUser(avatar)
@@ -264,6 +276,9 @@ const ChooseUserName: FC<{
           onChange={(e) => setUsername(e.target.value)}
           placeholder=''
         />
+        {showUserNameError && (
+          <ErrorText>{`Username should contain only characters from A-Z, a-z, 0-9, '_' and must be between 4 and 32 characters in length.`}</ErrorText>
+        )}
         <Label>{'TWITTER'}</Label>
         <SocialBoxInput>
           <EmptyBox>{'@'}</EmptyBox>

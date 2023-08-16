@@ -7,3 +7,7 @@ export const leaderboardCacheKey = (
 ): string => {
   return `leaderboard###${communityHandle}###${range}###${type}`
 }
+
+export const streaksCacheKey = (communityHandle: string, date: string): string => {
+  return `streak###${communityHandle}###${date}`
+}

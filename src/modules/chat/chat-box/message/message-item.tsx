@@ -1,6 +1,7 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useMemo } from 'react'
 
 import { useStoreState } from 'easy-peasy'
+import parseHtml from 'html-react-parser'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -10,6 +11,7 @@ import ChatStore from '@/store/chat/chat'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { ChatMessageType, ChatReactionType, EmojiType, MessageAttachmentType } from '@/types/chat'
+import { getInfoFromMarkup } from '@/utils/convert'
 import { UserAvatar } from '@/widgets/avatar'
 import { Image } from '@/widgets/image'
 import {
@@ -45,10 +47,10 @@ const GapVerticalFullWidth = tw(VerticalFullWidth)`gap-1`
 
 const GapVertical = styled(Vertical)<{ isOwnser?: boolean }>(({ isOwnser = false }) => {
   const styles = [tw`gap-1 justify-center bg-cyan-50 rounded-lg p-3 max-w-[80%]`]
-  if (isOwnser) {
-    styles.push(tw`bg-primary-100 hover:bg-primary-200`)
+  if (!isOwnser) {
+    styles.push(tw`bg-info-100 hover:bg-info-200`)
   } else {
-    styles.push(tw`bg-cyan-50 hover:bg-cyan-100`)
+    styles.push(tw`bg-gray-100 hover:bg-gray-200`)
   }
 
   return styles
@@ -123,6 +125,18 @@ const Reaction: FC<{ side: SideEnum; children: ReactNode; message: ChatMessageTy
 
 const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+  const cachedMessageContent = useMemo(() => {
+    const infos = getInfoFromMarkup(message.content)
+    let result = message.content
+    infos.forEach((info) => {
+      result = result.replaceAll(
+        info.reg,
+        `<span style="background-color:#FFEEB9;color:black;padding:1px;border-radius:3px;margin-right:2px"> @${info.display} </span>`
+      )
+    })
+
+    return result
+  }, [message.content])
   if (!user) {
     return <></>
   }
@@ -135,7 +149,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
           <Reaction side={SideEnum.LEFT} message={message}>
             <GapVerticalFullWidth>
               <Attachments attachments={message.attachments} />
-              <LightTextBase>{message.content}</LightTextBase>
+              <LightTextBase>{parseHtml(cachedMessageContent)}</LightTextBase>
               <EmojiReact reactions={message.reactions} />
             </GapVerticalFullWidth>
           </Reaction>
@@ -153,7 +167,7 @@ const MessageItem: FC<{ message: ChatMessageType }> = ({ message }) => {
           <GapVerticalFullWidth>
             <MediumTextSm>{message.author.name}</MediumTextSm>
             <Attachments attachments={message.attachments} />
-            <LightTextBase>{message.content}</LightTextBase>
+            <LightTextBase>{parseHtml(cachedMessageContent)}</LightTextBase>
             <EmojiReact reactions={message.reactions} />
           </GapVerticalFullWidth>
         </Reaction>

@@ -25,7 +25,7 @@ export const PopPanel = styled(Popover.Panel)(() => {
   shadow-lg
   border
   border-solid
-  border-gray-300
+  border-gray-200
   flex
   flex-col
   `
@@ -46,6 +46,7 @@ export const OptionxBox = tw.div`
   px-3
   rounded-lg
   hover:bg-primary-100
+  cursor-pointer
 `
 
 export const PopoverButton = tw(Popover.Button)`

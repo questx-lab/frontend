@@ -1,13 +1,10 @@
-import { FC, useState } from 'react'
+import { FC, useEffect } from 'react'
 
 import tw from 'twin.macro'
 
-import CommunityDetailModal from '@/admin-portal/modules/communities/community-detail'
 import CommunityBody from '@/admin-portal/modules/communities/community-table/community-body'
-import UserDetailModal from '@/admin-portal/modules/referrals/user-detail'
+import { getPendingCommunitiesApi } from '@/api/communitiy'
 import AdminCommunityStore from '@/store/admin/community'
-import { UserType } from '@/types'
-import { CommunityType } from '@/types/community'
 import SimpleTable from '@/widgets/table/simple-table'
 
 const Th = tw.th`
@@ -19,40 +16,33 @@ const TABLE_HEAD = [
   'Status',
   'Created By',
   'Date Created',
-  'Quests',
+  'Contact Email',
   'Members',
   'DAU',
   'Action',
 ]
 
+const FullWidth = tw.div`w-full h-full`
+
 const CommunityContent: FC = () => {
-  const [openUserModal, setOpenUserModal] = useState<boolean>(false)
-  const [openCommunityModal, setOpenCommunityModal] = useState<boolean>(false)
-  const [user, setUser] = useState<UserType>()
+  const setCommunities = AdminCommunityStore.useStoreActions((action) => action.setCommunities)
 
-  const community = AdminCommunityStore.useStoreState((state) => state.community)
-  const setCommunity = AdminCommunityStore.useStoreActions((action) => action.setCommunity)
+  useEffect(() => {
+    getPendingCommunities()
+  })
 
-  const onClickUser = (user: UserType) => {
-    setOpenUserModal(true)
-    setUser(user)
-  }
-
-  const onClickCommunity = (community: CommunityType) => {
-    setOpenCommunityModal(true)
-    setCommunity(community)
-  }
-
-  const onCloseUserModel = () => {
-    setOpenUserModal(false)
-  }
-
-  const onCloseCommunityModel = () => {
-    setOpenCommunityModal(false)
+  const getPendingCommunities = async () => {
+    try {
+      const { error, data } = await getPendingCommunitiesApi()
+      if (error) return
+      if (data) {
+        setCommunities(data.communities)
+      }
+    } catch (error) {}
   }
 
   return (
-    <>
+    <FullWidth>
       <SimpleTable>
         <thead>
           <tr>
@@ -61,15 +51,9 @@ const CommunityContent: FC = () => {
             ))}
           </tr>
         </thead>
-        <CommunityBody onClickUser={onClickUser} onClickCommunity={onClickCommunity} />
+        <CommunityBody />
       </SimpleTable>
-      <UserDetailModal user={user} openModal={openUserModal} onCloseModel={onCloseUserModel} />
-      <CommunityDetailModal
-        community={community}
-        openModal={openCommunityModal}
-        onCloseModel={onCloseCommunityModel}
-      />
-    </>
+    </FullWidth>
   )
 }
 

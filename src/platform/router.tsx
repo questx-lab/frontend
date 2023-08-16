@@ -3,6 +3,7 @@ import { RouteObject } from 'react-router-dom'
 import DiscordCallback from '@/modules/callback/discord'
 import TwitterCallback from '@/modules/callback/twitter'
 import CommunityIndex from '@/modules/community'
+import QuestDetailIndex from '@/modules/community/quests/quest'
 import ReviewSubmissionIndex from '@/modules/review-submissions'
 import AccountSettingIndex from '@/platform/routes/account-setting/index'
 import AccoutSettings from '@/platform/routes/account-setting/route'
@@ -55,6 +56,11 @@ const PlatformRouter = (): RouteObject[] => {
               element: <Community />,
               children: [
                 { index: true, element: <CommunityIndex /> },
+                {
+                  path: 'quests/:questId',
+                  element: <CommunityIndex />,
+                  children: [{ index: true, element: <QuestDetailIndex /> }],
+                },
                 {
                   path: 'review',
                   element: <ReviewSubmissions />,

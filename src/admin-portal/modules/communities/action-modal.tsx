@@ -3,7 +3,8 @@ import { FC, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { Content, GapHorizontal } from '@/admin-portal/modules/referrals/mini-widget'
-import { approvePendingCommunityApi } from '@/api/communitiy'
+import { ActionReviewCommunityEnum } from '@/admin-portal/types/control-panel-tab'
+import { reviewPendingCommunity } from '@/api/communitiy'
 import AdminCommunityStore from '@/store/admin/community'
 import { Rsp } from '@/types'
 import { ButtonTypeEnum, PositiveButton } from '@/widgets/buttons'
@@ -34,8 +35,11 @@ export const ActionModal: FC<{}> = () => {
     try {
       let result: Rsp<{}>
       switch (action) {
-        case 'Active':
-          result = await approvePendingCommunityApi(community.handle)
+        case ActionReviewCommunityEnum.ACTIVE:
+          result = await reviewPendingCommunity(community.handle, ActionReviewCommunityEnum.ACTIVE)
+          break
+        case ActionReviewCommunityEnum.REJECT:
+          result = await reviewPendingCommunity(community.handle, ActionReviewCommunityEnum.REJECT)
           break
 
         default:

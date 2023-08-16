@@ -16,6 +16,7 @@ interface NewCommunityModel {
   createdCommunityHandle: string
   logoUrl: string
   email: string
+  discordInviteLink: string
 
   setCommunity: Action<NewCommunityModel, CommunityType>
   setCurrentStep: Action<NewCommunityModel, number>
@@ -28,6 +29,7 @@ interface NewCommunityModel {
   setCreatedCommunityHandle: Action<NewCommunityModel, string>
   setHandle: Action<NewCommunityModel, string>
   setEmail: Action<NewCommunityModel, string>
+  setDiscordInviteLink: Action<NewCommunityModel, string>
 }
 
 const NewCommunityStore = createContextStore<NewCommunityModel>({
@@ -41,12 +43,14 @@ const NewCommunityStore = createContextStore<NewCommunityModel>({
   websiteUrl: '',
   createdCommunityHandle: '',
   email: '',
+  discordInviteLink: '',
 
   setCommunity: action((state, community) => {
     state.displayName = community.display_name
     state.introduction = community.introduction
     state.websiteUrl = community.website_url || ''
     state.logoUrl = community.logo_url
+    state.discordInviteLink = community.discord_invite_link || ''
   }),
   setCurrentStep: action((state, step) => {
     state.currentStep = step
@@ -81,6 +85,10 @@ const NewCommunityStore = createContextStore<NewCommunityModel>({
   setEmail: action((state, email) => {
     state.email = email
   }),
+
+  setDiscordInviteLink: action((state, discordInviteLink) => {
+    state.discordInviteLink = discordInviteLink
+  }),
 })
 
 export const stateToUpdateCommunityRequest = (
@@ -92,6 +100,7 @@ export const stateToUpdateCommunityRequest = (
     display_name: state.displayName,
     introduction: state.introduction,
     website_url: state.websiteUrl,
+    discord_invite_link: state.discordInviteLink,
   }
 }
 

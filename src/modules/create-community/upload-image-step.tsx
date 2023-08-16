@@ -29,7 +29,7 @@ const UploadImageStep: FC = () => {
   const setMyCommunities = useStoreActions<GlobalStoreModel>((action) => action.setMyCommunities)
 
   let buttonText: string = 'Upload Community Profile'
-  if (avatar) {
+  if (!avatar) {
     buttonText = 'Done'
   }
 
@@ -51,18 +51,21 @@ const UploadImageStep: FC = () => {
 
   const onUploadFile = async () => {
     setLoading(true)
-
-    if (avatar) {
-      const tuple = await uploadFileForCommunity(avatar, createdCommunityHandle)
-      if (tuple.error) {
-        toast.error(tuple.error)
-        return
+    try {
+      if (avatar) {
+        const tuple = await uploadFileForCommunity(avatar, createdCommunityHandle)
+        if (tuple.error) {
+          toast.error(tuple.error)
+          return
+        }
       }
-    }
 
-    getMyProjects()
-    setLoading(false)
-    navigator(RouterConst.COMMUNITIES + `/${createdCommunityHandle}`)
+      getMyProjects()
+      navigator(RouterConst.COMMUNITIES + `/${createdCommunityHandle}`)
+    } catch (error) {
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

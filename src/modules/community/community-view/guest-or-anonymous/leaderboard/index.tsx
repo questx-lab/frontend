@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
 import { LeaderboardRangeEnum } from '@/constants/common.const'
-import RenderLeaderboard from '@/modules/community/community-view/guest-or-anonymous/leaderboard/leaderboard-list'
+import LeaderboardList from '@/modules/community/community-view/guest-or-anonymous/leaderboard/leaderboard-list'
 import { CommunityType } from '@/types/community'
 import { HorizontalCenter, Vertical } from '@/widgets/orientation'
 
@@ -25,6 +25,12 @@ const Content = tw(Vertical)`
 const FixedHeightHorizontal = tw(HorizontalCenter)`
   h-[64px]
   w-full
+`
+
+const TabDivider = tw.div`
+  bg-gray-200
+  w-[3px]
+  h-full
 `
 
 const TabBox = styled(HorizontalFullWidthCenter)<{ selected: boolean }>(({ selected }) => {
@@ -58,15 +64,23 @@ const Leaderboard: FC<{ community: CommunityType }> = ({ community }) => {
         >
           {LeaderboardRangeEnum.WEEK}
         </TabBox>
+        <TabDivider />
         <TabBox
           onClick={() => setTab(LeaderboardRangeEnum.MONTH)}
           selected={tab === LeaderboardRangeEnum.MONTH}
         >
           {LeaderboardRangeEnum.MONTH}
         </TabBox>
+        <TabDivider />
+        <TabBox
+          onClick={() => setTab(LeaderboardRangeEnum.ALL)}
+          selected={tab === LeaderboardRangeEnum.ALL}
+        >
+          {LeaderboardRangeEnum.ALL}
+        </TabBox>
       </FixedHeightHorizontal>
       <OverflowScroll>
-        <RenderLeaderboard community={community} range={tab} />
+        <LeaderboardList community={community} range={tab} />
       </OverflowScroll>
     </Content>
   )

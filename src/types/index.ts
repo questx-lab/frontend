@@ -60,6 +60,7 @@ export type UpdateCommunityRequest = {
   discord?: string
   telegram?: string
   website_url?: string
+  discord_invite_link?: string
 }
 
 export type UpdateCommunityResponse = {
@@ -141,6 +142,7 @@ export type ListClaimQuestType = {
 export type CategoryType = {
   id: string
   name: string
+  position: number
   created_by?: string
   created_at?: string
   updated_at?: string
@@ -150,6 +152,7 @@ export const emptyCategory = () => {
   return {
     id: '',
     name: '',
+    position: 0,
   }
 }
 
@@ -292,4 +295,9 @@ export type RenderCategoryType = {
   id: string
   name: string
   quests: QuestType[]
+}
+
+export type StreakType = {
+  start_time: string
+  streaks: number
 }

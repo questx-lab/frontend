@@ -1,6 +1,6 @@
 import { api } from '@/api/interceptor'
 import { getCache, setCacheWithExpiration } from '@/cache'
-import { leaderboardCacheKey } from '@/cache/keys'
+import { leaderboardCacheKey, streaksCacheKey } from '@/cache/keys'
 import { LeaderboardRangeEnum, LeaderboardSortType } from '@/constants/common.const'
 import { EnvVariables } from '@/constants/env.const'
 import {
@@ -11,12 +11,14 @@ import {
   OAuth2VerifyResp,
   ReqNewCommunity,
   Rsp,
+  StreakType,
   UpdateCommunityRequest,
   UpdateCommunityResponse,
   UserType,
 } from '@/types'
 import {
   CommunityRoleType,
+  CommunityStatsType,
   CommunityType,
   FollowCommunityType,
   ReferralType,
@@ -133,6 +135,13 @@ export const newFollowCommunityApi = async (
   return rs.data
 }
 
+export const unFollowCommunityApi = async (communityHandle: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/unfollow', {
+    community_handle: communityHandle,
+  })
+  return rs.data
+}
+
 export const getLeaderboardApi = async (
   communityHandle: string,
   range: LeaderboardRangeEnum,
@@ -193,6 +202,30 @@ export const createCategoryApi = async (
   return rs.data
 }
 
+export const updateCategoryApi = async ({
+  id,
+  name,
+  position,
+}: {
+  id: string
+  name?: string
+  position?: number
+}): Promise<Rsp<{ category: CategoryType }>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/updateCategory', {
+    id,
+    name,
+    position,
+  })
+  return rs.data
+}
+
+export const deleteCategoryApi = async (id: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/deleteCategory', {
+    id,
+  })
+  return rs.data
+}
+
 export const getCategoriesApi = async (
   communityHandle: string
 ): Promise<Rsp<{ categories: CategoryType[] }>> => {
@@ -215,10 +248,10 @@ export const approveReferralApi = async (handle: string, action: string): Promis
   return rs.data
 }
 
-// /approvePendingCommunity
-export const approvePendingCommunityApi = async (handle: string): Promise<Rsp<{}>> => {
-  const rs = await api.post(EnvVariables.API_SERVER + '/approvePendingCommunity', {
+export const reviewPendingCommunity = async (handle: string, status: string): Promise<Rsp<{}>> => {
+  const rs = await api.post(EnvVariables.API_SERVER + '/reviewPendingCommunity', {
     community_handle: handle,
+    status,
   })
   return rs.data
 }
@@ -243,10 +276,13 @@ export const getWalletAddressApi = async (
 }
 
 export const getCommunityFollowersApi = async (
-  communityHandle: string
+  communityHandle: string,
+  search?: string,
+  limit: number = 50
 ): Promise<Rsp<{ followers: FollowCommunityType[] }>> => {
   const rs = await api.get(
-    EnvVariables.API_SERVER + `/getCommunityFollowers?community_handle=${communityHandle}`
+    EnvVariables.API_SERVER +
+      `/getCommunityFollowers?community_handle=${communityHandle}&limit=${limit}&q=${search || ''}`
   )
   return rs.data
 }
@@ -315,4 +351,55 @@ export const deleteRoleMemberApi = async (
     role_ids: roleIds,
   })
   return rs.data
+}
+
+export const getStreakApi = async (
+  communityHandle: string,
+  month: string
+): Promise<
+  Rsp<{
+    records: StreakType[]
+  }>
+> => {
+  const cacheKey = streaksCacheKey(communityHandle, month)
+  // try getting from cache.
+  const cachedValue = getCache<StreakType[]>(cacheKey)
+  if (cachedValue) {
+    return {
+      code: 0,
+      data: { records: cachedValue },
+    }
+  }
+
+  const { data } = await api.get(
+    EnvVariables.API_SERVER + `/getStreaks?community_handle=${communityHandle}&month=${month}`
+  )
+
+  if (data) {
+    const result = data as Rsp<{ records: StreakType[] }>
+    if (result.data) {
+      setCacheWithExpiration(cacheKey, result.data.records, Date.now() + 5 * ONE_MINUTE_MILLIS)
+    }
+  }
+  return data
+}
+
+// STATS
+export const getCommunityStatsApi = async ({
+  handle,
+  begin,
+  end,
+}: {
+  handle?: string
+  begin: string
+  end: string
+}): Promise<Rsp<{ stats: CommunityStatsType[] }>> => {
+  let url = EnvVariables.API_SERVER + `/getCommunityStats?begin=${begin}&end=${end}`
+
+  if (handle) {
+    url += `&community_handle=${handle}`
+  }
+
+  const { data } = await api.get(url)
+  return data
 }

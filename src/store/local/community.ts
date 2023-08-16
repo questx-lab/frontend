@@ -23,6 +23,11 @@ interface CommunityModel {
   activeControlPanelTab: number
   communityIndexMode: number
   lotteryEvent: LotteryEventType | undefined
+  showUnfollowConfirmation: boolean
+  selectedAccount: string
+  walletAddress: string
+  depositAmount: number
+  switchedChain: boolean
 
   setSelectedCommunity: Action<CommunityModel, CommunityType>
   setQuery: Action<CommunityModel, string>
@@ -34,6 +39,11 @@ interface CommunityModel {
   setCommunityIndexMode: Action<CommunityModel, number>
   setQuests: Action<CommunityModel, QuestType[]>
   setLotteryEvent: Action<CommunityModel, LotteryEventType | undefined>
+  setShowUnfollowConfirmation: Action<CommunityModel, boolean>
+  setSelectedAccount: Action<CommunityModel, string>
+  setWalletAddress: Action<CommunityModel, string>
+  setDepositAmount: Action<CommunityModel, number>
+  setSwitchedChain: Action<CommunityModel, boolean>
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
@@ -48,6 +58,11 @@ const CommunityStore = createContextStore<CommunityModel>({
   activeControlPanelTab: ControlPanelTab.QUESTS,
   communityIndexMode: CommunityIndexMode.VIEW_COMMUNITY,
   lotteryEvent: undefined,
+  showUnfollowConfirmation: false,
+  selectedAccount: '',
+  walletAddress: '',
+  depositAmount: 0,
+  switchedChain: false,
 
   setSelectedCommunity: action((state, newProject) => {
     state.selectedCommunity = newProject
@@ -83,6 +98,21 @@ const CommunityStore = createContextStore<CommunityModel>({
   }),
   setLotteryEvent: action((state, event) => {
     state.lotteryEvent = event
+  }),
+  setShowUnfollowConfirmation: action((state, showUnfollowConfirmation) => {
+    state.showUnfollowConfirmation = showUnfollowConfirmation
+  }),
+  setSelectedAccount: action((state, selectedAccount) => {
+    state.selectedAccount = selectedAccount
+  }),
+  setWalletAddress: action((state, walletAddress) => {
+    state.walletAddress = walletAddress
+  }),
+  setDepositAmount: action((state, depositAmount) => {
+    state.depositAmount = depositAmount
+  }),
+  setSwitchedChain: action((state, switchedChain) => {
+    state.switchedChain = switchedChain
   }),
 })
 export default CommunityStore

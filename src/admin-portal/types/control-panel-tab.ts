@@ -18,3 +18,14 @@ export enum ReferralStatusEnum {
   CLAIMABLE = 'claimable',
   REJECTED = 'rejected',
 }
+
+export enum ActionReviewCommunityEnum {
+  ACTIVE = 'active',
+  REJECT = 'rejected',
+}
+
+export enum CommunityStatusEnum {
+  ACTIVE = 'active',
+  REJECT = 'rejected',
+  PENDING = 'pending',
+}

@@ -52,29 +52,39 @@ const General: FC = () => {
   const onSaveClicked = async () => {
     setLoading(true)
 
-    if (avatar) {
-      const result = await uploadFileForCommunity(avatar, community.handle)
-      if (result.error) {
-        toast.error(result.error)
+    try {
+      // upload avatar
+      if (avatar) {
+        const result = await uploadFileForCommunity(avatar, community.handle)
+        if (result.error) {
+          toast.error(result.error)
+          return
+        }
+      }
+
+      const state = store.getState()
+
+      const payload = stateToUpdateCommunityRequest(state, community.handle)
+
+      const { error, data } = await updateCommunityApi(payload)
+      if (error) {
+        toast.error(error)
+        setLoading(false)
         return
       }
+
+      if (data) {
+        // update the community store
+        setSelectedCommunity(data.community)
+
+        // update the my communities so that it updates the navigation logo image
+        updateMyCommunities(data.community)
+        toast.success('Community is updated successfully')
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false)
     }
-
-    const state = store.getState()
-
-    const payload = stateToUpdateCommunityRequest(state, community.handle)
-    const result = await updateCommunityApi(payload)
-    if (result.code === 0 && result.data) {
-      toast.success('Community is updated successfully')
-
-      // update the community store
-      setSelectedCommunity(result.data.community)
-
-      // update the my communities so that it updates the navigation logo image
-      updateMyCommunities(result.data.community)
-    }
-
-    setLoading(false)
   }
 
   return (

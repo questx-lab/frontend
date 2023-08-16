@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
+import { BrowserView } from 'react-device-detect'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -11,7 +12,9 @@ import { UserAvatar } from '@/widgets/avatar'
 import { HorizontalFullWidth, Vertical, VerticalFullWidth } from '@/widgets/orientation'
 import { TextSm } from '@/widgets/text'
 
-const Frame = tw(Vertical)`
+const Frame = tw(BrowserView)`
+  flex
+  flex-col
   w-[300px]
   fixed
   p-6
@@ -55,11 +58,20 @@ const StatusDescriptionUser = styled.div<{ status: UserChatStatusType }>(({ stat
 
 const GapHorizontal = tw(HorizontalFullWidth)`gap-3 items-center cursor-pointer`
 const GapVertical = tw(VerticalFullWidth)`gap-1 justify-center`
+const CircleGreenBox = tw.div`w-2.5 h-2.5 rounded-full bg-success`
+
+const Relative = tw.div`relative w-10 h-10 p-0`
+const Absolute = tw.div`absolute right-0 bottom-1 p-[1px] bg-white rounded-full`
 
 const UserItem: FC<{ user: UserType }> = ({ user }) => {
   return (
     <GapHorizontal>
-      <UserAvatar user={user} size={32} />
+      <Relative>
+        <UserAvatar user={user} size={32} />
+        <Absolute>
+          <CircleGreenBox />
+        </Absolute>
+      </Relative>
       <GapVertical>
         <NameUser status={user.status || UserChatStatusType.OFFLINE}>{user.name}</NameUser>
         <StatusDescriptionUser status={user.status || UserChatStatusType.OFFLINE}>

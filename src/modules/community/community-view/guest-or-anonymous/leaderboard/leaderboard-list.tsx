@@ -35,7 +35,7 @@ const UsernameText = tw.span`
   max-w-[120px]
   font-normal
   text-danger
-  text-lg 
+  text-lg
   overflow-hidden
   text-ellipsis
 `
@@ -99,7 +99,7 @@ const RenderList: FC<{ data: LeaderboardType[] }> = ({ data }) => {
   return <VerticalFullWidth>{renderItems}</VerticalFullWidth>
 }
 
-const RenderLeaderboard: FC<{
+const LeaderboardList: FC<{
   range: LeaderboardRangeEnum
   community: CommunityType
 }> = ({ range, community }) => {
@@ -136,4 +136,4 @@ const RenderLeaderboard: FC<{
   return <RenderList data={leaderboard} />
 }
 
-export default RenderLeaderboard
+export default LeaderboardList
