@@ -20,8 +20,8 @@ const NotFound: FC = () => {
       <Image width={256} height={256} src={StorageConst.HUSKY.src} alt='' />
       <MediumText2Xl>{'Page not found'}</MediumText2Xl>
       <CenterTextSm>{`
-    The page you are looking for might have been
-    removed had its name changed or is temporarily unavailable.
+    The page you are looking for might have been removed, had its name changed or is temporarily
+    unavailable.
     `}</CenterTextSm>
       <Link to={RouterConst.HOME}>
         <Button>{'GO TO HOMEPAGE'}</Button>
