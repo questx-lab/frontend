@@ -3,13 +3,13 @@ import { FC, useEffect } from 'react'
 import { json, Outlet, useLoaderData } from 'react-router-dom'
 
 import { ControlPanelTab } from '@/admin-portal/types/control-panel-tab'
-import { getPendingCommunitiesApi } from '@/api/communitiy'
+import { listCommunitiesApi } from '@/api/communitiy'
 import AdminCommunityStore from '@/store/admin/community'
 import AdminPortalStore from '@/store/admin/portal'
 import { CommunityType } from '@/types/community'
 
 export const Loader = async () => {
-  const communityResult = await getPendingCommunitiesApi()
+  const communityResult = await listCommunitiesApi()
   if (communityResult.code === 0 && communityResult.data) {
     return json(
       {

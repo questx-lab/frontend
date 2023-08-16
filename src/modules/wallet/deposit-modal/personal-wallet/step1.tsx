@@ -1,16 +1,18 @@
+import { FC } from 'react'
+
+import toast from 'react-hot-toast'
+import tw from 'twin.macro'
+
 import { HorizontalFullWidthCenter } from '@/admin-portal/modules/referrals/mini-widget'
+import StorageConst from '@/constants/storage.const'
 import walletController from '@/modules/wallet/services/wallet-controller'
+import CommunityStore from '@/store/local/community'
 import { NegativeButton } from '@/widgets/buttons'
 import { Image } from '@/widgets/image'
 import { VerticalFullWidth, VerticalFullWidthCenter } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
 import { TextSm, TextXl } from '@/widgets/text'
-import { FC } from 'react'
-import toast from 'react-hot-toast'
 import { CheckIcon } from '@heroicons/react/20/solid'
-import CommunityStore from '@/store/local/community'
-import tw from 'twin.macro'
-import StorageConst from '@/constants/storage.const'
 
 const SuccessIcon = tw.div`
   flex

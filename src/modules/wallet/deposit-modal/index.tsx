@@ -1,12 +1,13 @@
-import BasicModal from '@/widgets/modal/basic'
 import { FC, useState } from 'react'
-import tw from 'twin.macro'
 
 import styled from 'styled-components'
+import tw from 'twin.macro'
+
+import Exchange from '@/modules/wallet/deposit-modal/exchange'
+import PersonalWallet from '@/modules/wallet/deposit-modal/personal-wallet'
+import BasicModal from '@/widgets/modal/basic'
 import { HorizontalFullWidth } from '@/widgets/orientation'
 import { Gap } from '@/widgets/separator'
-import PersonalWallet from '@/modules/wallet/deposit-modal/personal-wallet'
-import Exchange from '@/modules/wallet/deposit-modal/exchange'
 
 const Tab = styled.div<{
   active: boolean

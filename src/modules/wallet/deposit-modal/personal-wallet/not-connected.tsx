@@ -1,7 +1,9 @@
+import { FC } from 'react'
+
+import tw from 'twin.macro'
+
 import walletController from '@/modules/wallet/services/wallet-controller'
 import { Gap } from '@/widgets/separator'
-import { FC } from 'react'
-import tw from 'twin.macro'
 
 const WarningBox = tw.span`
 `

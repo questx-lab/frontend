@@ -58,6 +58,9 @@ const EditInfoFrame = tw(Vertical)`
 
 const GapHorizontal = tw(Horizontal)`
   gap-3
+  w-full
+  h-full
+  overflow-y-scroll
 `
 
 const Padding = tw(VerticalFullWidth)`

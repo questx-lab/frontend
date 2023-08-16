@@ -39,7 +39,7 @@ root.render(
   <StoreProvider store={store}>
     <Content>
       <RouterComponent />
-      <Toaster position='top-center' reverseOrder={false} />
+      <Toaster containerClassName='z-50' position='top-center' reverseOrder={false} />
     </Content>
   </StoreProvider>
 )

@@ -1,3 +1,8 @@
+import { FC, useEffect, useState } from 'react'
+
+import styled from 'styled-components'
+import tw from 'twin.macro'
+
 import NotConnected from '@/modules/wallet/deposit-modal/personal-wallet/not-connected'
 import Step1 from '@/modules/wallet/deposit-modal/personal-wallet/step1'
 import Step2 from '@/modules/wallet/deposit-modal/personal-wallet/step2'
@@ -8,9 +13,6 @@ import { NegativeButton, PositiveButton } from '@/widgets/buttons'
 import { HorizontalBetween, HorizontalFullWidth, VerticalFullWidth } from '@/widgets/orientation'
 import { TextSm } from '@/widgets/text'
 import { CheckIcon } from '@heroicons/react/24/outline'
-import { FC, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 
 const Border = tw(VerticalFullWidth)`
   border
