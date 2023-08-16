@@ -19,10 +19,11 @@ import {
   VerticalFullWidth,
   VerticalFullWidthCenter,
 } from '@/widgets/orientation'
-import { MediumTextSm, MediumTextXl, Text2xl } from '@/widgets/text'
+import { MediumTextSm, MediumTextXl, Text2xl, TextSm } from '@/widgets/text'
 import { Listbox } from '@headlessui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@material-tailwind/react'
+import { Gap } from '@/widgets/separator'
 
 const FixedWidth = tw.div`w-[840px]`
 
@@ -220,6 +221,11 @@ const Index: FC = () => {
     <Frame>
       <FixedWidth>
         <Header>{'Lottery'}</Header>
+        <TextSm>
+          The lottery feature introduces an engaging way to convert accumulated points into USDT
+          through the utilization of a "lucky box" mechanism.
+        </TextSm>
+        <Gap height={10} />
       </FixedWidth>
       <OwnerLottery />
     </Frame>

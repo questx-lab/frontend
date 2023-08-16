@@ -191,6 +191,10 @@ const StorageConst = {
     src: '/images/icons/podium.svg',
     alt: 'Podium',
   },
+  AVALANCHE: {
+    src: '/images/icons/avalanche.svg',
+    alt: 'Avalanche',
+  },
   ARROW: {
     src: '/images/logos/arrow.svg',
     alt: 'Arrow',

@@ -228,6 +228,12 @@ export enum NewCommunityStep {
   FIFTH,
 }
 
+export enum DepositStep {
+  BEGIN,
+  FIRST,
+  SECOND,
+}
+
 export enum ConnectSocialPlatformEnum {
   NONE = 'None',
   DISCORD = 'Discord',

@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
 import Dropzone from 'react-dropzone'
+import toast from 'react-hot-toast'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
@@ -82,6 +83,9 @@ const ShowImage: FC = () => {
 
   return (
     <Dropzone
+      accept={{
+        'image/png': ['.png', '.jpg'],
+      }}
       onDrop={(acceptedFiles) => {
         setFileUpload(
           acceptedFiles.map((upFile) =>
@@ -91,6 +95,13 @@ const ShowImage: FC = () => {
           )
         )
       }}
+      onDropRejected={(e) => {
+        if (e.length && e[0].errors.length) {
+          toast.error(e[0].errors[0].message)
+        }
+      }}
+      maxFiles={1}
+      maxSize={2 * 1024 * 1024}
     >
       {({ getRootProps, getInputProps }) => (
         <SectionUploadImg

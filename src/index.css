@@ -83,3 +83,23 @@ a {
     -webkit-text-stroke: 4px black;
   }
 }
+
+.Calendar{
+  width: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  height: 100% !important;
+  box-shadow: none !important;
+}
+
+.Calendar__sectionWrapper{
+  min-height: 14rem !important;
+}
+
+.Calendar__weekDays{
+  color: #1f2937 !important;
+}
+
+.Calendar__day{
+  border-radius: 12px !important;
+}
