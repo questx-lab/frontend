@@ -37,7 +37,7 @@ jobs:
         id: retrieve_ip
         run: |-
           ip_pattern="[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}"
-          ip=$(gcloud compute forwarding-rules list --filter="name=( 'frontend-staging-https' )") | grep -o $ip_pattern
+          ip=$(gcloud compute forwarding-rules list --filter="name=( 'frontend-staging-https' )" | grep -o $ip_pattern)
 
           echo "test=$ip" >> "$GITHUB_OUTPUT"
 
