@@ -26,7 +26,11 @@ const FrameResult = tw(VerticalFullWidth)`
 
 const ResultItem: FC<{ result: BuyLotteryTicketsType }> = ({ result }) => {
   const [loading, setLoading] = useState<boolean>(false)
+
   const user: UserType = useStoreState<GlobalStoreModel>((state) => state.user)
+  const lotteryResults = ViewLotteryStore.useStoreState((state) => state.lotteryResults)
+
+  const setLotteryResults = ViewLotteryStore.useStoreActions((action) => action.setLotteryResults)
 
   if (!result.prize.rewards) {
     return <></>
@@ -51,6 +55,7 @@ const ResultItem: FC<{ result: BuyLotteryTicketsType }> = ({ result }) => {
           return
         }
 
+        setLotteryResults([...lotteryResults.filter((lottery) => lottery.id !== result.id)])
         toast.success('Claim lottery successfully. Please wait a few minutes!')
       }
     } catch (error) {
