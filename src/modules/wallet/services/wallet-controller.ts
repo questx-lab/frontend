@@ -1,3 +1,7 @@
+import toast from 'react-hot-toast'
+import Web3 from 'web3'
+import { provider } from 'web3-core'
+
 import { getBlockchainApi } from '@/api/wallet'
 import { ErrorCodes } from '@/constants/code.const'
 import { balanceOfABI, transferABI } from '@/constants/contract'
@@ -5,9 +9,6 @@ import { EnvVariables } from '@/constants/env.const'
 import { getConnectedAccounts } from '@/handler/auth/metamask'
 import { ChainType } from '@/types/blockchain'
 import detectEthereumProvider from '@metamask/detect-provider'
-import toast from 'react-hot-toast'
-import Web3 from 'web3'
-import { provider } from 'web3-core'
 
 class WalletController {
   private chain: ChainType
@@ -35,17 +36,24 @@ class WalletController {
       name: '',
       id: 0,
       currency_symbol: 'AVAX',
+      tokens: [],
     }
     const ethereum = window.ethereum
     this.etherWeb3 = new Web3(ethereum as provider)
   }
 
+  getToken() {
+    return this.chain.tokens.find((token) => token.address === EnvVariables.USDT_ADDESS)
+  }
+
   getBalance = async (wallet_address: string) => {
-    if (!this.web3) return undefined
+    const token = this.getToken()
+    if (!this.web3 || !token) return undefined
     const tokenAddress = EnvVariables.USDT_ADDESS
     const contract = new this.web3.eth.Contract(balanceOfABI, tokenAddress)
     const result = await contract.methods.balanceOf(wallet_address).call()
-    return result
+
+    return result / Math.pow(10, token.decimals)
   }
 
   async getAccounts() {
@@ -59,13 +67,14 @@ class WalletController {
 
   async deposit(wallet_address: string, account: string, amount: number) {
     const provider = await detectEthereumProvider()
+    const token = this.getToken()
 
-    if (provider) {
+    if (provider && token) {
       const contract = new this.etherWeb3.eth.Contract(transferABI, EnvVariables.USDT_ADDESS, {
         from: account,
       })
       const abi = contract.methods
-        .transfer(wallet_address, this.etherWeb3.utils.toHex(amount * 1e6))
+        .transfer(wallet_address, this.etherWeb3.utils.toHex(amount * Math.pow(10, token.decimals)))
         .encodeABI()
       try {
         await this.etherWeb3.eth.sendTransaction({
