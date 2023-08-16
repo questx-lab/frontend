@@ -36,7 +36,9 @@ jobs:
       - name: Retrieve IP
         id: retrieve_ip
         run: |-
-          ip=$(gcloud compute forwarding-rules list --filter="name=( 'frontend-staging-https' )" | tr -s ' ' | cut -d ' ' -f 3)
+          info=$(gcloud compute forwarding-rules list --filter="name=( 'frontend-staging-https' )")
+          ip_pattern=^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$
+          ip=$(grep -o $ip_pattern $info)
           echo "test=$ip" >> "$GITHUB_OUTPUT"
 
           echo "ip=$ip"
