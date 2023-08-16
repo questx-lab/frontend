@@ -16,6 +16,7 @@ env:
   GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
   DOMAIN: ${{ vars.DOMAIN }}
   MAINTENANCE_IP: ${{ vars.MAINTENANCE_IP }}
+  GCP_STAGING_CREDENTIALS: ${{ vars.GCP_STAGING_CREDENTIALS }}
 
 jobs:
   deploy:
