@@ -3,7 +3,7 @@ name: Build and Deploy to GKE for platform
 on:
   pull_request:
     branches: ['staging', 'production', 'develop']
-    types: ['closed']
+    # types: ['closed']
 
 env:
   PROJECT_ID: ${{ vars.PROJECT_ID }} # TODO: update Google Cloud project id
@@ -19,7 +19,7 @@ env:
 
 jobs:
   deploy:
-    if: ${{ github.event.pull_request.merged }}
+    # if: ${{ github.event.pull_request.merged }}
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
