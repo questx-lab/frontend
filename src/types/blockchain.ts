@@ -9,6 +9,7 @@ export type BlockChainToken = {
   chain: string
   symbol: string
   address: string
+  decimals: number
 }
 
 export type ChainType = {
@@ -16,4 +17,5 @@ export type ChainType = {
   id: number
   connections: BlockchainConnectionType[]
   currency_symbol: string
+  tokens: BlockChainToken[]
 }
