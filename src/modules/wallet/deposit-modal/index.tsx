@@ -20,8 +20,11 @@ const Tab = styled.div<{
       cursor-pointer
     `,
   ]
-  if (active) style.push(tw`text-info-500 bg-info-100`)
-  else style.push(tw`text-gray-500 bg-gray-100`)
+  if (active) {
+    style.push(tw`text-info-500 bg-info-100`)
+  } else {
+    style.push(tw`text-gray-500 bg-gray-100`)
+  }
 
   return style
 })
@@ -51,12 +54,13 @@ const DepositModal: FC<{
         return <Exchange />
     }
   }
+
   return (
     <BasicModal
       title={`Add USDT`}
       isOpen={open}
       onClose={onClose}
-      styled={`flex flex-col !justify-start !items-start !w-[600px] !h-[500px]`}
+      styled={`flex flex-col !justify-start !items-start !w-[600px] !h-[600px]`}
     >
       <TabList>
         {depositTabs.map((tab) => (

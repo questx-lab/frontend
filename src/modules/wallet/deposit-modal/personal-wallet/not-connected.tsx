@@ -26,8 +26,12 @@ const NotConnected: FC = () => {
       <Link onClick={() => install()}>please install </Link>
       it and create an account.
       <Gap height={2} />
-      If you already have a Metamask wallet, please &nbsp;
+      If you already have a Metamask wallet, please&nbsp;
       <Link onClick={() => connectWallet()}>connect your wallet</Link> to utilize this feature.
+      <br />
+      <br />
+      If you don't want to use Metamask, you can transfer USDT token directly to the community
+      wallet. The wallet and USDT addresses are in the Exchange tab.
     </WarningBox>
   )
 }

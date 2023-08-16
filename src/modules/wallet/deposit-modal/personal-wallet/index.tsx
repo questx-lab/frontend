@@ -19,12 +19,14 @@ const Border = tw(VerticalFullWidth)`
   border-solid
   border-gray-200
   rounded-lg
-  h-[135px]
+  justify-start
+  items-center
+  h-[235px]
   p-5
 `
 
 const StepListBox = tw.ol`
-  flex 
+  flex
   items-center
   w-full
 `
@@ -42,12 +44,12 @@ const StepContent = styled.span<{
     tw`
       flex
       items-center
-      justify-center 
+      justify-center
       w-10
-      h-10 
-      rounded-full 
+      h-10
+      rounded-full
       lg:h-12
-      lg:w-12 
+      lg:w-12
       shrink-0
     `,
   ]
@@ -63,20 +65,20 @@ const StepBox = styled.li<{
 }>(({ active, isLast }) => {
   const style = [
     tw`
-      flex 
-      w-full 
-      items-center 
+      flex
+      w-full
+      items-center
     `,
   ]
   if (active) style.push(tw`after:border-success-500`)
   else style.push(tw`after:border-gray-100`)
   if (!isLast)
     style.push(tw`
-      after:content-[''] 
-      after:w-full 
-      after:h-1 
+      after:content-['']
+      after:w-full
+      after:h-1
       after:border-b
-      after:border-4 
+      after:border-4
       after:inline-block
   `)
 

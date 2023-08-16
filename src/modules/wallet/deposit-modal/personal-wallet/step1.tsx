@@ -17,12 +17,12 @@ import { CheckIcon } from '@heroicons/react/20/solid'
 const SuccessIcon = tw.div`
   flex
   items-center
-  justify-center 
+  justify-center
   w-10
-  h-10 
-  rounded-full 
+  h-10
+  rounded-full
   lg:h-12
-  lg:w-12 
+  lg:w-12
   shrink-0
   bg-success-500
   text-white
