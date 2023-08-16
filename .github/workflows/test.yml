@@ -39,6 +39,8 @@ jobs:
           ip=$(gcloud compute forwarding-rules list --filter="name=( 'frontend-staging-https' )" | tr -s ' ' | cut -d ' ' -f 3)
           echo "test=$ip" >> "$GITHUB_OUTPUT"
 
+          echo "ip=$ip"
+
       - name: Google Auth for staging
         id: auth_staging
         uses: 'google-github-actions/auth@v0'
