@@ -39,6 +39,7 @@ const NewCommunityStore = createContextStore<NewCommunityModel>({
   introduction: '',
   inviteCode: '',
   avatar: undefined,
+
   twitterUrl: '',
   websiteUrl: '',
   createdCommunityHandle: '',

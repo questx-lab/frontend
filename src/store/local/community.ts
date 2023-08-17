@@ -1,6 +1,6 @@
 import { action, Action, createContextStore } from 'easy-peasy'
 
-import { CommunityRoleEnum } from '@/constants/common.const'
+import { CommunityRoleEnum, NFTsTab } from '@/constants/common.const'
 import { CategoryType } from '@/types'
 import {
   CommunityIndexMode,
@@ -28,6 +28,8 @@ interface CommunityModel {
   walletAddress: string
   depositAmount: number
   switchedChain: boolean
+  nftTab: NFTsTab
+  nftImage: File | undefined
 
   setSelectedCommunity: Action<CommunityModel, CommunityType>
   setQuery: Action<CommunityModel, string>
@@ -44,6 +46,8 @@ interface CommunityModel {
   setWalletAddress: Action<CommunityModel, string>
   setDepositAmount: Action<CommunityModel, number>
   setSwitchedChain: Action<CommunityModel, boolean>
+  setNftTab: Action<CommunityModel, NFTsTab>
+  setNftImage: Action<CommunityModel, File | undefined>
 }
 
 const CommunityStore = createContextStore<CommunityModel>({
@@ -63,6 +67,8 @@ const CommunityStore = createContextStore<CommunityModel>({
   walletAddress: '',
   depositAmount: 0,
   switchedChain: false,
+  nftTab: NFTsTab.ListNFT,
+  nftImage: undefined,
 
   setSelectedCommunity: action((state, newProject) => {
     state.selectedCommunity = newProject
@@ -113,6 +119,12 @@ const CommunityStore = createContextStore<CommunityModel>({
   }),
   setSwitchedChain: action((state, switchedChain) => {
     state.switchedChain = switchedChain
+  }),
+  setNftTab: action((state, nftTab) => {
+    state.nftTab = nftTab
+  }),
+  setNftImage: action((state, nftImage) => {
+    state.nftImage = nftImage
   }),
 })
 export default CommunityStore
