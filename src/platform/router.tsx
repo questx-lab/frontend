@@ -4,6 +4,7 @@ import DiscordCallback from '@/modules/callback/discord'
 import TwitterCallback from '@/modules/callback/twitter'
 import CommunityIndex from '@/modules/community'
 import QuestDetailIndex from '@/modules/community/quests/quest'
+import NotFound from '@/modules/not-found'
 import ReviewSubmissionIndex from '@/modules/review-submissions'
 import AccountSettingIndex from '@/platform/routes/account-setting/index'
 import AccoutSettings from '@/platform/routes/account-setting/route'
@@ -135,6 +136,10 @@ const PlatformRouter = (): RouteObject[] => {
               ],
             },
           ],
+        },
+        {
+          path: '*',
+          element: <NotFound />,
         },
       ],
     },
