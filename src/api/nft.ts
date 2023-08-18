@@ -29,3 +29,8 @@ export const getNFTsApi = async (nft_ids: bigint[]): Promise<Rsp<{ nfts: NftType
   })
   return data
 }
+
+export const getNFTsByMeApi = async (): Promise<Rsp<{ nfts: NftType[] }>> => {
+  const { data } = await api.get(EnvVariables.API_SERVER + `/getNFTsByMe`)
+  return data
+}

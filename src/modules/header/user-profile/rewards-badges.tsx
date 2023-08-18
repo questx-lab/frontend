@@ -4,6 +4,7 @@ import { useStoreState } from 'easy-peasy'
 import tw from 'twin.macro'
 
 import ClaimHistory from '@/modules/header/user-profile/claim-history'
+import NFT from '@/modules/header/user-profile/nft'
 import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import { Vertical } from '@/widgets/orientation'
@@ -12,9 +13,10 @@ import { Tab, TabItem } from '@/widgets/tab-group/focus-light-primary'
 
 enum TabType {
   HISTORY = 'HISTORY',
+  NFT = 'NFT',
 }
 
-const tabList = [TabType.HISTORY]
+const tabList = [TabType.NFT, TabType.HISTORY]
 
 const BoundingBox = tw(Vertical)`
   w-2/3
@@ -58,7 +60,8 @@ const RewardsBadges: FC<{ user: UserType }> = ({ user }) => {
     switch (activeTab) {
       case TabType.HISTORY:
         return <ClaimHistory user={user} />
-
+      case TabType.NFT:
+        return <NFT user={user} />
       default:
         return <div className='w-full text-center'> We are developing </div>
     }
