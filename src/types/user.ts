@@ -7,3 +7,11 @@ export const hasDiscord = (user: UserType): boolean => {
 
   return false
 }
+
+export const hasWalletAddress = (user: UserType): boolean => {
+  if (user.wallet_address) {
+    return true
+  }
+
+  return false
+}

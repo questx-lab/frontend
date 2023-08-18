@@ -62,7 +62,7 @@ const FormNFT: FC = () => {
             community_handle: community.handle,
             title: title,
             description: description,
-            quantity: quantity,
+            amount: quantity,
             image_url: resp.value || '',
             chain: EnvVariables.CHAIN,
           }
@@ -73,6 +73,7 @@ const FormNFT: FC = () => {
             toast.error(error)
           } else {
             toast.success('Create NFT successfully')
+            setTab(NFTsTab.ListNFT)
           }
         }
       } else {

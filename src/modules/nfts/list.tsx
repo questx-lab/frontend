@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 
 import tw from 'twin.macro'
 
-import { getNFTsApi } from '@/api/nft'
+import { getNFTsByCommunityApi } from '@/api/nft'
 import { ErrorCodes } from '@/constants/code.const'
 import CommunityStore from '@/store/local/community'
 import { NftType } from '@/types/community'
@@ -43,7 +43,7 @@ const ListNFT: FC = () => {
   const [nfts, setNfts] = useState<NftType[]>([])
 
   const fetchNfts = async () => {
-    const resp = await getNFTsApi(community.handle)
+    const resp = await getNFTsByCommunityApi(community.handle)
     if (resp.code === ErrorCodes.NOT_ERROR && resp.data) {
       setNfts(resp.data.nfts)
     }
@@ -65,14 +65,16 @@ const ListNFT: FC = () => {
               <Gap height={2} />
               <HorizontalFullWidth>
                 <Vertical className='w-1/2'>
-                  <TextSm>Pending Amount: </TextSm>
-                  <TextSm>Active Amount: </TextSm>
-                  <TextSm>Failure Amount: </TextSm>
+                  <TextSm>Total balance: </TextSm>
+                  <TextSm>Current balance: </TextSm>
+                  <TextSm>Number of claimed: </TextSm>
                 </Vertical>
                 <Vertical>
-                  <TextSm className='text-info-500'>{nft.pending_amount}</TextSm>
-                  <TextSm className='text-success-500'>{nft.active_amount}</TextSm>
-                  <TextSm className='text-danger-500'>{nft.failure_amount}</TextSm>
+                  <TextSm className='text-info-500'>{nft.total_balance}</TextSm>
+                  <TextSm className='text-success-500'>
+                    {nft.total_balance - nft.number_of_claimed}
+                  </TextSm>
+                  <TextSm className='text-danger-500'>{nft.number_of_claimed}</TextSm>
                 </Vertical>
               </HorizontalFullWidth>
             </InfoBox>

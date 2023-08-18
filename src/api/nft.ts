@@ -9,9 +9,21 @@ export const createNFTApi = async (body: CreateNFTReq): Promise<Rsp<{}>> => {
   return data
 }
 
-export const getNFTsApi = async (communityHandle: string): Promise<Rsp<{ nfts: NftType[] }>> => {
+export const getNFTsByCommunityApi = async (
+  communityHandle: string
+): Promise<Rsp<{ nfts: NftType[] }>> => {
   const { data } = await api.get(
     EnvVariables.API_SERVER + `/getNFTsByCommunity?community_handle=${communityHandle}`
   )
+  return data
+}
+
+export const getNFTApi = async (nft_id: bigint): Promise<Rsp<{ nft: NftType }>> => {
+  const { data } = await api.get(EnvVariables.API_SERVER + `/getNFT?nft_id=${nft_id}`)
+  return data
+}
+
+export const getNFTsApi = async (nft_ids: bigint[]): Promise<Rsp<{ nfts: NftType[] }>> => {
+  const { data } = await api.get(EnvVariables.API_SERVER + `/getNFT?nft_ids=${nft_ids}`)
   return data
 }

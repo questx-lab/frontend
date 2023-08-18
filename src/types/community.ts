@@ -77,6 +77,7 @@ export type CommunityStatsType = {
 }
 
 export type NftType = {
+  id: bigint
   title: string
   quantity: number
   description: string
@@ -84,7 +85,6 @@ export type NftType = {
   community_handle: string
   chain: string
 
-  pending_amount: number
-  active_amount: number
-  failure_amount: number
+  number_of_claimed: number
+  total_balance: number
 }
