@@ -11,6 +11,7 @@ import { NftType } from '@/types/community'
 import { QuestType } from '@/types/quest'
 import { Image } from '@/widgets/image'
 import { Vertical } from '@/widgets/orientation'
+import { Gap } from '@/widgets/separator'
 import { Label, RewardText } from '@/widgets/text'
 
 const FrameShape = tw(Vertical)`
@@ -95,6 +96,7 @@ const QuestReward: FC<{
           nfts.map((nft) => (
             <RewardRow>
               <Image width={40} height={40} src={nft.image_url} alt={''} />
+              <Gap width={2} />
               <RewardNftReward> {`${nft.title} NFT`} </RewardNftReward>
             </RewardRow>
           ))}
