@@ -61,7 +61,7 @@ const RewardsBadges: FC<{ user: UserType }> = ({ user }) => {
       case TabType.HISTORY:
         return <ClaimHistory user={user} />
       case TabType.NFT:
-        return <NFT user={user} />
+        return <NFT />
       default:
         return <div className='w-full text-center'> We are developing </div>
     }

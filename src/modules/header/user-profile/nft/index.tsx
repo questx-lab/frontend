@@ -5,7 +5,6 @@ import tw from 'twin.macro'
 import { getNFTsByMeApi } from '@/api/nft'
 import { ErrorCodes } from '@/constants/code.const'
 import { FullWidth } from '@/modules/review-submissions/mini-widget'
-import { UserType } from '@/types'
 import { NftType } from '@/types/community'
 import { Image } from '@/widgets/image'
 import { Vertical } from '@/widgets/orientation'
@@ -30,7 +29,7 @@ const ItemBox = tw(Vertical)`
   py-3
 `
 
-const NFT: FC<{ user: UserType }> = ({ user }) => {
+const NFT: FC = () => {
   const [nfts, setNfts] = useState<NftType[]>([])
 
   const fetchNfts = async () => {
