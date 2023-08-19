@@ -36,7 +36,7 @@ const AnnouncementBox = tw.div`
   border-gray-200
   rounded-lg
   p-4
-  bg-[ #0EA5E90D]
+  bg-[#0EA5E90D]
 `
 
 const FormNFT: FC = () => {
@@ -60,10 +60,10 @@ const FormNFT: FC = () => {
         } else {
           const payload: CreateNFTReq = {
             community_handle: community.handle,
-            title: title,
+            name: title,
             description: description,
             amount: quantity,
-            image_url: resp.value || '',
+            image: resp.value || '',
             chain: EnvVariables.CHAIN,
           }
 
@@ -108,7 +108,7 @@ const FormNFT: FC = () => {
           />
         </GapVertical>
         <GapVertical>
-          <HeaderText3>{'PROJECT IMAGE'}</HeaderText3>
+          <HeaderText3>{'NFT IMAGE'}</HeaderText3>
           <Gap height={2} />
           <NftUpload imageSize={250} />
           <Gap height={2} />

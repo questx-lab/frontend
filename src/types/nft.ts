@@ -1,8 +1,8 @@
 export type CreateNFTReq = {
-  title: string
+  name: string
   amount: number
   description: string
-  image_url: string
+  image: string
   community_handle: string
   chain: string
 }
