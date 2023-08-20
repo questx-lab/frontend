@@ -34,7 +34,7 @@ const ListOptionRender: FC<{ nfts: NftType[] }> = ({ nfts }) => {
             <Listbox.Option key={nft.id.toString()} className={activeOption} value={nft}>
               {({ selected }) => (
                 <>
-                  <TitleOption selected={selected}>{nft.title}</TitleOption>
+                  <TitleOption selected={selected}>{nft.content.name}</TitleOption>
                   <TextSm className='text-info-500'>
                     {`Current balance: ${nft.total_balance - nft.number_of_claimed}`}
                   </TextSm>
@@ -67,7 +67,7 @@ const NftAction: FC<{ community: CommunityType; nfts: NftType[] }> = ({ communit
       >
         <Relative>
           <ListButton>
-            <Title>{selectedNft?.title || 'Choose a NFT'}</Title>
+            <Title>{selectedNft?.content.name || 'Choose a NFT'}</Title>
             <UpDown>
               <ChevronDownIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
             </UpDown>
