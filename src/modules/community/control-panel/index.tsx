@@ -4,6 +4,7 @@ import tw from 'twin.macro'
 
 import LeaderboardTab from '@/modules/community/control-panel/leaderboard'
 import LotteryTab from '@/modules/community/control-panel/lottery'
+import NFTTab from '@/modules/community/control-panel/nfts'
 import QuestsTab from '@/modules/community/control-panel/quests'
 import ReviewSubmissionsTab from '@/modules/community/control-panel/review-submissions'
 import SettingsTab from '@/modules/community/control-panel/settings'
@@ -37,6 +38,7 @@ const ControlPanel: FC<{
         <ReviewSubmissionsTab />
         <LeaderboardTab />
         <LotteryTab />
+        <NFTTab />
         <SettingsTab />
       </Padding>
     </FixedFrame>

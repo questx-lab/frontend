@@ -114,6 +114,7 @@ export type RewardType = {
     token_address?: string
     chain?: string
     amount?: number
+    token_id?: bigint
   }
 }
 
