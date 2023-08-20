@@ -95,7 +95,7 @@ const QuestReward: FC<{
         {nfts &&
           nfts.map((nft) => (
             <RewardRow>
-              <Image width={40} height={40} src={nft.image_url} alt={''} />
+              <Image width={40} height={40} src={nft.content.image} alt={''} />
               <Gap width={2} />
               <RewardNftReward> {`${nft.title} NFT`} </RewardNftReward>
             </RewardRow>
