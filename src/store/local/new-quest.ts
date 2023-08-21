@@ -7,6 +7,7 @@ import {
   QuestTypeMap,
   TwitterEnum,
 } from '@/constants/common.const'
+import { EnvVariables } from '@/constants/env.const'
 import {
   CategoryType,
   ConditionType,
@@ -15,6 +16,7 @@ import {
   ReqNewQuestType,
   RewardType,
 } from '@/types'
+import { NftType } from '@/types/community'
 import { StateToModel } from '@/types/conversion'
 import { QuestQuizType, QuestType, ValidationQuest } from '@/types/quest'
 import { isTwitterType } from '@/types/twitter'
@@ -45,6 +47,8 @@ export interface NewQuestModel {
   category: CategoryType
   discordRole: DiscordRoleType
   isOpenDiscordRole: boolean
+  isOpenNftReward: boolean
+  selectedNft: NftType | undefined
 
   quizzes: QuestQuizType[]
   conditions: ConditionType[]
@@ -79,6 +83,8 @@ export interface NewQuestModel {
   setDiscordRole: Action<NewQuestModel, DiscordRoleType>
   setIsOpenDiscordRole: Action<NewQuestModel, boolean>
   setConditions: Action<NewQuestModel, ConditionType[]>
+  setSelectedNft: Action<NewQuestModel, NftType>
+  setIsOpenNftReward: Action<NewQuestModel, boolean>
 }
 
 const NewQuestStore = createContextStore<NewQuestModel>({
@@ -115,7 +121,9 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   includedWords: [],
   discordRole: {} as DiscordRoleType,
   isOpenDiscordRole: false,
+  isOpenNftReward: false,
   conditions: [],
+  selectedNft: undefined,
 
   // Set all the fields for the state
   setQuest: action((state, quest) => {
@@ -269,8 +277,14 @@ const NewQuestStore = createContextStore<NewQuestModel>({
   setIsOpenDiscordRole: action((state, isOpenDiscordRole) => {
     state.isOpenDiscordRole = isOpenDiscordRole
   }),
+  setIsOpenNftReward: action((state, isOpenNftReward) => {
+    state.isOpenNftReward = isOpenNftReward
+  }),
   setConditions: action((state, conditions) => {
     state.conditions = conditions
+  }),
+  setSelectedNft: action((state, selectedNft) => {
+    state.selectedNft = selectedNft
   }),
 })
 
@@ -371,6 +385,16 @@ export const stateToNewQuestRequest = (
       type: 'discord_role',
       data: {
         role: state.discordRole.name,
+      },
+    })
+  }
+  if (state.isOpenNftReward && state.selectedNft) {
+    rewards.push({
+      type: 'nft',
+      data: {
+        token_id: state.selectedNft.id,
+        amount: 1,
+        chain: EnvVariables.CHAIN,
       },
     })
   }

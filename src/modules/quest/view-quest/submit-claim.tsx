@@ -16,7 +16,7 @@ import { GlobalStoreModel } from '@/store/store'
 import { UserType } from '@/types'
 import broadcast, { BroadcastEventType } from '@/types/broadcast'
 import { emptyQuest, QuestType } from '@/types/quest'
-import { hasDiscord } from '@/types/user'
+import { hasDiscord, hasWalletAddress } from '@/types/user'
 import { uploadFile } from '@/utils/file'
 import { DangerButton, NegativeButton, PositiveButton } from '@/widgets/buttons'
 import ConfirmationModal from '@/widgets/modal/confirmation'
@@ -75,11 +75,21 @@ const handleSubmit = async (
 
   // If quest has discord role reward & user has not link Discord yet, we need to ask user to
   // link their discord in the settings.
-  if (quest.rewards && !hasDiscord(user)) {
+  if (quest.rewards) {
     for (let reward of quest.rewards) {
-      if (reward.type === 'discord_role') {
-        toast.error('You need to link your discord account to receive Discord Role reward')
-        return false
+      switch (reward.type) {
+        case 'discord_role':
+          if (!hasDiscord(user)) {
+            toast.error('You need to link your discord account to receive Discord Role reward')
+            return false
+          }
+          break
+        case 'nft':
+          if (!hasWalletAddress(user)) {
+            toast.error('You need to link your wallet address to receive NFT reward')
+            return false
+          }
+          break
       }
     }
   }

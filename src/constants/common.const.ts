@@ -367,3 +367,8 @@ export enum RolePermissionColor {
   PINK = '#ec4899',
   GRAY = '#d1d5db',
 }
+
+export enum NFTsTab {
+  CreateNFT = 'create_nft',
+  ListNFT = 'list_NFT',
+}

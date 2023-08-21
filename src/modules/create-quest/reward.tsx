@@ -5,13 +5,15 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import { getDiscordRolesApi } from '@/api/communitiy'
+import { getNFTsByCommunityApi } from '@/api/nft'
 import StorageConst from '@/constants/storage.const'
 import { handleLoginDiscord } from '@/handler/auth/discord'
+import NftAction from '@/modules/create-quest/nft-reward'
 import { SocialBox } from '@/modules/header/login'
 import CommunityStore from '@/store/local/community'
 import NewQuestStore from '@/store/local/new-quest'
 import { DiscordRoleType } from '@/types'
-import { CommunityType } from '@/types/community'
+import { CommunityType, NftType } from '@/types/community'
 import { RoundedGrayBorderBox } from '@/widgets/box'
 import { Image } from '@/widgets/image'
 import { NumberInput } from '@/widgets/input'
@@ -46,6 +48,13 @@ const BorderBox = tw(RoundedGrayBorderBox)`
 
 const AddDiscordBtn = tw.div`
   text-primary
+  font-medium
+  text-sm
+  cursor-pointer	
+`
+
+const AddNftBtn = tw.div`
+  text-info
   font-medium
   text-sm
   cursor-pointer	
@@ -215,12 +224,13 @@ const DiscordAction: FC<{ community: CommunityType; roles: DiscordRoleType[] }> 
 const QuestReward: FC = () => {
   // Data
   const pointReward = NewQuestStore.useStoreState((state) => state.pointReward)
-
   const community = CommunityStore.useStoreState((state) => state.selectedCommunity)
-
   const isOpenDiscordRole = NewQuestStore.useStoreState((state) => state.isOpenDiscordRole)
 
   const [roles, setRoles] = useState<DiscordRoleType[]>([])
+  const isOpenNftReward = NewQuestStore.useStoreState((state) => state.isOpenNftReward)
+  const setIsOpenNftReward = NewQuestStore.useStoreActions((actions) => actions.setIsOpenNftReward)
+  const [nfts, setNfts] = useState<NftType[]>([])
 
   // Actions
   const setPointReward = NewQuestStore.useStoreActions((actions) => actions.setPointReward)
@@ -236,6 +246,14 @@ const QuestReward: FC = () => {
     setIsOpenDiscordRole(false)
   }
 
+  const openNFTReward = () => {
+    setIsOpenNftReward(true)
+  }
+
+  const closeNFTReward = () => {
+    setIsOpenNftReward(false)
+  }
+
   const fetchRoles = async () => {
     const resp = await getDiscordRolesApi(community.handle)
     if (resp.error) {
@@ -245,9 +263,25 @@ const QuestReward: FC = () => {
     if (resp.code === 0 && resp.data) setRoles(resp.data?.roles || [])
   }
 
+  const fetchNfts = async () => {
+    const resp = await getNFTsByCommunityApi(community.handle)
+    if (resp.error) {
+      toast.error(resp.error)
+      return
+    }
+    if (resp.code === 0 && resp.data) {
+      const nfts = resp.data.nfts.filter((nft) => nft.total_balance - nft.number_of_claimed > 0)
+      setNfts(nfts)
+    }
+  }
+
   useEffect(() => {
     if (isOpenDiscordRole) fetchRoles()
   }, [isOpenDiscordRole])
+
+  useEffect(() => {
+    if (isOpenNftReward) fetchNfts()
+  }, [isOpenNftReward])
 
   return (
     <FrameShape>
@@ -285,6 +319,20 @@ const QuestReward: FC = () => {
                 'If some roles are not show, the XQuest bot needs to be moved above them in the roles settings.'
               }
             </LightTextXs>
+          </>
+        )}
+
+        {!isOpenNftReward && <AddNftBtn onClick={openNFTReward}> + Add NFT reward</AddNftBtn>}
+        {isOpenNftReward && (
+          <>
+            <HorizontalBetweenCenter>
+              <MediumTextSm>{'NFT reward'}</MediumTextSm>
+              <XMarkIcon
+                onClick={closeNFTReward}
+                className='h-5 w-5 cursor-pointer	text-[#EF4444]'
+              />
+            </HorizontalBetweenCenter>
+            <NftAction community={community} nfts={nfts} />
           </>
         )}
       </BorderBox>
