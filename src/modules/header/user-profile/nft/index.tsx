@@ -46,7 +46,7 @@ const NFT: FC = () => {
         <ItemBox>
           <Image width={100} height={100} src={nft.content.image} />
           <Gap height={1} />
-          <Label> {nft.title}</Label>
+          <Label> {nft.content.name}</Label>
         </ItemBox>
       ))}
     </ItemListBox>
