@@ -97,7 +97,7 @@ const QuestReward: FC<{
             <RewardRow>
               <Image width={40} height={40} src={nft.content.image} alt={''} />
               <Gap width={2} />
-              <RewardNftReward> {`${nft.title} NFT`} </RewardNftReward>
+              <RewardNftReward> {`${nft.content.name} NFT`} </RewardNftReward>
             </RewardRow>
           ))}
       </BorderBox>
