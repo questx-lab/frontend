@@ -6,6 +6,7 @@ export enum ControlPanelTab {
   LEADERBOARD,
   LOTTERY,
   SETTINGS,
+  NFTS,
 }
 
 export type CommunityRoleType = {
@@ -73,4 +74,23 @@ export type ReferralType = {
 export type CommunityStatsType = {
   date: string
   follower_count: number
+}
+
+export type NftContent = {
+  description: string
+  image: string
+  name: string
+}
+
+export type NftType = {
+  id: bigint
+  title: string
+  quantity: number
+  description: string
+  community_handle: string
+  chain: string
+  content: NftContent
+
+  number_of_claimed: number
+  total_balance: number
 }

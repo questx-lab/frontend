@@ -18,10 +18,8 @@ import {
   HorizontalFullWidth,
   VerticalFullWidth,
 } from '@/widgets/orientation'
-import { MediumTextSm, MediumTextXl, TextSm } from '@/widgets/text'
-import { PlusIcon } from '@heroicons/react/24/outline'
-import { Tooltip } from '@material-tailwind/react'
 import { Gap } from '@/widgets/separator'
+import { MediumTextSm, MediumTextXl, TextSm } from '@/widgets/text'
 
 const Border = tw(VerticalFullWidth)`
   border

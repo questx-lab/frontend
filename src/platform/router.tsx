@@ -17,6 +17,8 @@ import CommunityLeaderboardIndex from '@/platform/routes/communities/community/l
 import Leaderboard from '@/platform/routes/communities/community/leaderboard/route'
 import LotteryIndex from '@/platform/routes/communities/community/lottery'
 import Lottery from '@/platform/routes/communities/community/lottery/route'
+import NFTsIndex from '@/platform/routes/communities/community/nfts'
+import NFTs from '@/platform/routes/communities/community/nfts/route'
 import ReviewSubmissions from '@/platform/routes/communities/community/review-submissions/route'
 import Community, { Loader as CommunityLoader } from '@/platform/routes/communities/community/route'
 import CommunitySettingsIndex from '@/platform/routes/communities/community/settings'
@@ -81,6 +83,11 @@ const PlatformRouter = (): RouteObject[] => {
                   path: 'lottery',
                   element: <Lottery />,
                   children: [{ index: true, element: <LotteryIndex /> }],
+                },
+                {
+                  path: 'nfts',
+                  element: <NFTs />,
+                  children: [{ index: true, element: <NFTsIndex /> }],
                 },
                 {
                   path: 'create-quest',

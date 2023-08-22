@@ -39,11 +39,11 @@ const Container = styled.div<{ dimension: number }>(({ dimension }) => {
   `
 })
 
-const PlaceHolderImage: FC<{ avatar: File | undefined; logoUrl: string; imageSize: number }> = ({
-  avatar,
-  logoUrl,
-  imageSize,
-}) => {
+export const PlaceHolderImage: FC<{
+  avatar: File | undefined
+  logoUrl: string
+  imageSize: number
+}> = ({ avatar, logoUrl, imageSize }) => {
   const hasLogoOrFile: boolean = avatar !== undefined || logoUrl !== ''
   if (hasLogoOrFile) {
     return (

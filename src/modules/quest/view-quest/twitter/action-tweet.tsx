@@ -22,7 +22,8 @@ const GapVertical = tw(VerticalFullWidth)`gap-6`
 const PointerWord = tw(HorizontalStartCenter)`cursor-pointer`
 
 const generateTweetLink = (defaultTweet: string): string => {
-  return `https://twitter.com/intent/tweet?text=${defaultTweet}`
+  const urlEncode = encodeURIComponent(defaultTweet)
+  return `https://twitter.com/intent/tweet?text=${urlEncode}`
 }
 
 const IncludedWords: FC<{ includedWords: string[] }> = ({ includedWords }) => {
@@ -32,12 +33,12 @@ const IncludedWords: FC<{ includedWords: string[] }> = ({ includedWords }) => {
 
   const renderWords = includedWords.map((word) => (
     <ColorBox onClick={() => {}} boxColor={ColorEnum.SUCCESS} width={SizeEnum.NONE}>
-      #{word}
+      {word}
     </ColorBox>
   ))
 
   return (
-    <VerticalFullWidthStartCenter>
+    <VerticalFullWidthStartCenter className='gap-4'>
       <NormalText>{'Be sure to include the following words :'}</NormalText>
       <PointerWord>{renderWords}</PointerWord>
     </VerticalFullWidthStartCenter>
