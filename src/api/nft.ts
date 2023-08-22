@@ -24,13 +24,12 @@ export const getNFTApi = async (nft_id: bigint): Promise<Rsp<{ nft: NftType }>> 
 }
 
 export const getNFTsApi = async (nft_ids: bigint[]): Promise<Rsp<{ nfts: NftType[] }>> => {
-  const { data } = await api.post(EnvVariables.API_SERVER + `/getNFTs`, {
-    nft_ids: nft_ids,
-  })
+  const ids = nft_ids.map((id) => id.toString())
+  const { data } = await api.get(EnvVariables.API_SERVER + `/getNFTs?nft_ids=${ids.join(',')}`)
   return data
 }
 
 export const getNFTsByMeApi = async (): Promise<Rsp<{ nfts: NftType[] }>> => {
-  const { data } = await api.get(EnvVariables.API_SERVER + `/getNFTsByMe`)
+  const { data } = await api.get(EnvVariables.API_SERVER + `/getMyNFTs`)
   return data
 }
