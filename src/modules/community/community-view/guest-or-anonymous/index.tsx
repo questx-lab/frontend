@@ -25,8 +25,8 @@ const FixedWidth = tw(Horizontal)`
 `
 
 const VerticalFixedWidth = tw(Vertical)`
-  w-[888px]
-  lg:w-[648px]  
+  lg:w-[784px]
+  sm:w-full
   max-sm:w-full
 `
 

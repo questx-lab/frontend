@@ -15,7 +15,7 @@ const FixedSize = tw(Vertical)`
 
 const FixedPosition = tw(Vertical)`
   fixed
-  w-[384px]
+  w-[360px]
   gap-6
   h-[calc(100vh_-_94px)]
 `
